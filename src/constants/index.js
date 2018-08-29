@@ -1,0 +1,9 @@
+export const API_VERSION = 'kubevirt.io/v1alpha2';
+export const VM_KIND = 'VirtualMachine';
+export const OS_LABEL = 'kubevirt.io/os';
+export const FLAVOR_LABEL = 'kubevirt.io/flavor';
+export const CLOUDINIT_VOLUME = 'cloudinitvolume';
+export const CLOUDINIT_DISK = 'cloudinitdisk';
+export const REGISTRY_VOLUME = 'registryvolume';
+export const REGISTRY_DISK = 'registrydisk';
+export const VIRTIO_BUS = 'virtio';

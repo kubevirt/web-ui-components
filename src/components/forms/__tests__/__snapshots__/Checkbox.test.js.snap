@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CheckboxControl /> renders correctly 1`] = `
+<Checkbox
+  bsClass="checkbox"
+  checked={true}
+  disabled={false}
+  inline={false}
+  onChange={[Function]}
+  title=""
+>
+  title
+</Checkbox>
+`;

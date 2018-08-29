@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DropdownControl /> renders correctly 1`] = `
+<ButtonGroup
+  block={false}
+  bsClass="btn-group"
+  justified={true}
+  vertical={false}
+>
+  <DropdownButton
+    bsStyle="default"
+    className="form-dropdown"
+    id="dropdown-key"
+    onSelect={[Function]}
+    title="val"
+  >
+    <MenuItem
+      bsClass="dropdown"
+      disabled={false}
+      divider={false}
+      eventKey="value1"
+      header={false}
+      key="value1"
+    >
+      value1
+    </MenuItem>
+    <MenuItem
+      bsClass="dropdown"
+      disabled={false}
+      divider={false}
+      eventKey="value2"
+      header={false}
+      key="value2"
+    >
+      value2
+    </MenuItem>
+  </DropdownButton>
+</ButtonGroup>
+`;

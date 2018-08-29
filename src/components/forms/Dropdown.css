@@ -1,0 +1,13 @@
+.form-dropdown {
+  text-align: left;
+}
+
+.form-dropdown .caret {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.dropdown-menu {
+  width: 100%;
+}

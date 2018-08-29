@@ -51,6 +51,7 @@
     "jest": "20.0.4",
     "lodash": "^4.17.11",
     "object-assign": "4.1.1",
+    "patternfly": "^3.54.2",
     "patternfly-react": "^2.14.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
