@@ -17,6 +17,14 @@ module.exports = {
         include: paths.src,
         loader: 'babel-loader',
         options: babelOptions
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|gif|jpg|png)$/,
+        loader: 'url-loader'
       }
     ]
   }

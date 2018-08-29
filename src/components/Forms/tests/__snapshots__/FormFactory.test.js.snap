@@ -1,0 +1,623 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FormFactory /> renders correctly 1`] = `
+<FormFactory
+  fields={
+    Object {
+      "checkboxField": Object {
+        "title": "checkboxFieldTitle",
+        "type": "checkbox",
+      },
+      "dropdownField": Object {
+        "default": "default",
+        "title": "dropdownField",
+        "type": "dropdown",
+        "values": Array [
+          "value1",
+          "value2",
+        ],
+      },
+      "invisibleField": Object {
+        "isVisible": [MockFunction] {
+          "calls": Array [
+            Array [
+              Object {
+                "checkboxField": Object {
+                  "value": true,
+                },
+                "dropdownField": Object {
+                  "value": "dropdownField",
+                },
+                "invisibleField": Object {
+                  "value": "invisibleField",
+                },
+                "requiredField": Object {
+                  "tivaluetle": "requiredField",
+                },
+                "textAreaField": Object {
+                  "value": "textarea",
+                },
+                "textField": Object {
+                  "value": "textField",
+                },
+              },
+            ],
+          ],
+          "results": Array [
+            Object {
+              "isThrow": false,
+              "value": false,
+            },
+          ],
+        },
+        "title": "invisibleField",
+      },
+      "requiredField": Object {
+        "required": true,
+        "title": "requiredField",
+      },
+      "textAreaField": Object {
+        "type": "textarea",
+      },
+      "textField": Object {
+        "title": "textField",
+      },
+    }
+  }
+  fieldsValues={
+    Object {
+      "checkboxField": Object {
+        "value": true,
+      },
+      "dropdownField": Object {
+        "value": "dropdownField",
+      },
+      "invisibleField": Object {
+        "value": "invisibleField",
+      },
+      "requiredField": Object {
+        "tivaluetle": "requiredField",
+      },
+      "textAreaField": Object {
+        "value": "textarea",
+      },
+      "textField": Object {
+        "value": "textField",
+      },
+    }
+  }
+  onFormChange={[MockFunction]}
+>
+  <Form
+    bsClass="form"
+    componentClass="form"
+    horizontal={true}
+    inline={false}
+  >
+    <form
+      className="form-horizontal"
+    >
+      <FormGroup
+        bsClass="form-group"
+        key="textField"
+        validationState={null}
+      >
+        <div
+          className="form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <ControlLabel
+                bsClass="control-label"
+                className={null}
+                srOnly={false}
+              >
+                <label
+                  className="control-label"
+                >
+                  textField
+                </label>
+              </ControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                fieldKey="textField"
+                onChange={[MockFunction]}
+                value="textField"
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  onChange={[Function]}
+                  type="text"
+                  value="textField"
+                >
+                  <input
+                    className="form-control"
+                    onChange={[Function]}
+                    type="text"
+                    value="textField"
+                  />
+                </FormControl>
+              </Text>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+      <FormGroup
+        bsClass="form-group"
+        key="requiredField"
+        validationState={null}
+      >
+        <div
+          className="form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <ControlLabel
+                bsClass="control-label"
+                className="required-pf"
+                srOnly={false}
+              >
+                <label
+                  className="required-pf control-label"
+                >
+                  requiredField
+                </label>
+              </ControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                fieldKey="requiredField"
+                onChange={[MockFunction]}
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    onChange={[Function]}
+                    type="text"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+      <FormGroup
+        bsClass="form-group"
+        key="dropdownField"
+        validationState={null}
+      >
+        <div
+          className="form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <ControlLabel
+                bsClass="control-label"
+                className={null}
+                srOnly={false}
+              >
+                <label
+                  className="control-label"
+                >
+                  dropdownField
+                </label>
+              </ControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Dropdown
+                choices={
+                  Array [
+                    "value1",
+                    "value2",
+                  ]
+                }
+                fieldKey="dropdownField"
+                onChange={[MockFunction]}
+                value="dropdownField"
+              >
+                <ButtonGroup
+                  block={false}
+                  bsClass="btn-group"
+                  justified={true}
+                  vertical={false}
+                >
+                  <div
+                    className="btn-group btn-group-justified"
+                  >
+                    <DropdownButton
+                      bsStyle="default"
+                      className="form-dropdown"
+                      id="dropdown-dropdownField"
+                      onSelect={[Function]}
+                      title="dropdownField"
+                    >
+                      <DropdownButton
+                        bsStyle="default"
+                        className="form-dropdown"
+                        id="dropdown-dropdownField"
+                        onSelect={[Function]}
+                        title="dropdownField"
+                      >
+                        <Uncontrolled(Dropdown)
+                          bsStyle="default"
+                          id="dropdown-dropdownField"
+                          onSelect={[Function]}
+                        >
+                          <Dropdown
+                            bsClass="dropdown"
+                            bsStyle="default"
+                            componentClass={[Function]}
+                            id="dropdown-dropdownField"
+                            onSelect={[Function]}
+                            onToggle={[Function]}
+                          >
+                            <ButtonGroup
+                              block={false}
+                              bsClass="btn-group"
+                              bsStyle="default"
+                              className="dropdown"
+                              justified={false}
+                              vertical={false}
+                            >
+                              <div
+                                className="dropdown btn-group btn-group-default"
+                              >
+                                <DropdownToggle
+                                  bsClass="dropdown-toggle"
+                                  bsRole="toggle"
+                                  bsStyle="default"
+                                  className="form-dropdown"
+                                  id="dropdown-dropdownField"
+                                  key=".0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  open={false}
+                                  useAnchor={false}
+                                >
+                                  <Button
+                                    active={false}
+                                    aria-expanded={false}
+                                    aria-haspopup={true}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="default"
+                                    className="form-dropdown dropdown-toggle"
+                                    disabled={false}
+                                    id="dropdown-dropdownField"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    role="button"
+                                  >
+                                    <button
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="form-dropdown dropdown-toggle btn btn-default"
+                                      disabled={false}
+                                      id="dropdown-dropdownField"
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
+                                      role="button"
+                                      type="button"
+                                    >
+                                      dropdownField
+                                       
+                                      <span
+                                        className="caret"
+                                      />
+                                    </button>
+                                  </Button>
+                                </DropdownToggle>
+                                <DropdownMenu
+                                  bsClass="dropdown-menu"
+                                  bsRole="menu"
+                                  key=".1"
+                                  labelledBy="dropdown-dropdownField"
+                                  onClose={[Function]}
+                                  onSelect={[Function]}
+                                  pullRight={false}
+                                >
+                                  <RootCloseWrapper
+                                    disabled={true}
+                                    event="click"
+                                    onRootClose={[Function]}
+                                  >
+                                    <ul
+                                      aria-labelledby="dropdown-dropdownField"
+                                      className="dropdown-menu"
+                                      role="menu"
+                                    >
+                                      <MenuItem
+                                        bsClass="dropdown"
+                                        disabled={false}
+                                        divider={false}
+                                        eventKey="value1"
+                                        header={false}
+                                        key=".$value1"
+                                        onKeyDown={[Function]}
+                                        onSelect={[Function]}
+                                      >
+                                        <li
+                                          className=""
+                                          role="presentation"
+                                        >
+                                          <SafeAnchor
+                                            componentClass="a"
+                                            onClick={[Function]}
+                                            onKeyDown={[Function]}
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                          >
+                                            <a
+                                              href="#"
+                                              onClick={[Function]}
+                                              onKeyDown={[Function]}
+                                              role="menuitem"
+                                              tabIndex="-1"
+                                            >
+                                              value1
+                                            </a>
+                                          </SafeAnchor>
+                                        </li>
+                                      </MenuItem>
+                                      <MenuItem
+                                        bsClass="dropdown"
+                                        disabled={false}
+                                        divider={false}
+                                        eventKey="value2"
+                                        header={false}
+                                        key=".$value2"
+                                        onKeyDown={[Function]}
+                                        onSelect={[Function]}
+                                      >
+                                        <li
+                                          className=""
+                                          role="presentation"
+                                        >
+                                          <SafeAnchor
+                                            componentClass="a"
+                                            onClick={[Function]}
+                                            onKeyDown={[Function]}
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                          >
+                                            <a
+                                              href="#"
+                                              onClick={[Function]}
+                                              onKeyDown={[Function]}
+                                              role="menuitem"
+                                              tabIndex="-1"
+                                            >
+                                              value2
+                                            </a>
+                                          </SafeAnchor>
+                                        </li>
+                                      </MenuItem>
+                                    </ul>
+                                  </RootCloseWrapper>
+                                </DropdownMenu>
+                              </div>
+                            </ButtonGroup>
+                          </Dropdown>
+                        </Uncontrolled(Dropdown)>
+                      </DropdownButton>
+                    </DropdownButton>
+                  </div>
+                </ButtonGroup>
+              </Dropdown>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+      <FormGroup
+        bsClass="form-group"
+        key="textAreaField"
+        validationState={null}
+      >
+        <div
+          className="form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <ControlLabel
+                bsClass="control-label"
+                className={null}
+                srOnly={false}
+              >
+                <label
+                  className="control-label"
+                />
+              </ControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <TextArea
+                fieldKey="textAreaField"
+                onChange={[MockFunction]}
+                value="textarea"
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="textarea"
+                  onChange={[Function]}
+                  value="textarea"
+                >
+                  <textarea
+                    className="form-control"
+                    onChange={[Function]}
+                    value="textarea"
+                  />
+                </FormControl>
+              </TextArea>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+      <FormGroup
+        bsClass="form-group"
+        key="checkboxField"
+        validationState={null}
+      >
+        <div
+          className="form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            />
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Checkbox
+                checked={true}
+                fieldKey="checkboxField"
+                onChange={[MockFunction]}
+                title="checkboxFieldTitle"
+              >
+                <Checkbox
+                  bsClass="checkbox"
+                  checked={true}
+                  disabled={false}
+                  inline={false}
+                  onChange={[Function]}
+                  title=""
+                >
+                  <div
+                    className="checkbox"
+                  >
+                    <label
+                      title=""
+                    >
+                      <input
+                        checked={true}
+                        disabled={false}
+                        onChange={[Function]}
+                        type="checkbox"
+                      />
+                      checkboxFieldTitle
+                    </label>
+                  </div>
+                </Checkbox>
+              </Checkbox>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </form>
+  </Form>
+</FormFactory>
+`;
