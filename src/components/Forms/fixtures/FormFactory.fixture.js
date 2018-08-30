@@ -16,10 +16,18 @@ export default {
         isVisible: () => false
       },
       dropdownField: {
+        id: 'dropdown',
         title: 'dropdownField',
         type: 'dropdown',
-        default: 'default',
-        values: ['value1', 'value2']
+        defaultValue: 'default',
+        choices: [
+          {
+            name: 'value1'
+          },
+          {
+            name: 'value2'
+          }
+        ]
       },
       textAreaField: {
         type: 'textarea'
@@ -34,7 +42,7 @@ export default {
         value: 'textField'
       },
       requiredField: {
-        tivaluetle: 'requiredField'
+        value: 'requiredField'
       },
       invisibleField: {
         value: 'invisibleField'

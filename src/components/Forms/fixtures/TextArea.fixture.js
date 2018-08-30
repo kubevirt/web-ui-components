@@ -3,7 +3,7 @@ import { TextArea } from '..';
 export default {
   component: TextArea,
   props: {
-    fieldKey: 'fieldKey',
+    id: '1',
     value: 'some text',
     onChange: () => {}
   }

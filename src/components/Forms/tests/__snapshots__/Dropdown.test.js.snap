@@ -4,11 +4,16 @@ exports[`<DropdownControl /> renders correctly 1`] = `
 <Dropdown
   choices={
     Array [
-      "choice1",
-      "choice2",
+      Object {
+        "name": "choice1",
+      },
+      Object {
+        "name": "choice2",
+      },
     ]
   }
-  fieldKey="fieldKey"
+  id="1"
+  onBlur={null}
   onChange={[MockFunction]}
   value="This is dropdown button"
 >
@@ -16,6 +21,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
     block={false}
     bsClass="btn-group"
     justified={true}
+    key="1"
     vertical={false}
   >
     <div
@@ -24,27 +30,29 @@ exports[`<DropdownControl /> renders correctly 1`] = `
       <DropdownButton
         bsStyle="default"
         className="form-dropdown"
-        id="dropdown-fieldKey"
+        id="1"
+        onBlur={null}
         onSelect={[Function]}
         title="This is dropdown button"
       >
         <DropdownButton
           bsStyle="default"
           className="form-dropdown"
-          id="dropdown-fieldKey"
+          id="1"
+          onBlur={null}
           onSelect={[Function]}
           title="This is dropdown button"
         >
           <Uncontrolled(Dropdown)
             bsStyle="default"
-            id="dropdown-fieldKey"
+            id="1"
             onSelect={[Function]}
           >
             <Dropdown
               bsClass="dropdown"
               bsStyle="default"
               componentClass={[Function]}
-              id="dropdown-fieldKey"
+              id="1"
               onSelect={[Function]}
               onToggle={[Function]}
             >
@@ -64,8 +72,9 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                     bsRole="toggle"
                     bsStyle="default"
                     className="form-dropdown"
-                    id="dropdown-fieldKey"
+                    id="1"
                     key=".0"
+                    onBlur={null}
                     onClick={[Function]}
                     onKeyDown={[Function]}
                     open={false}
@@ -80,7 +89,8 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                       bsStyle="default"
                       className="form-dropdown dropdown-toggle"
                       disabled={false}
-                      id="dropdown-fieldKey"
+                      id="1"
+                      onBlur={null}
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       role="button"
@@ -90,7 +100,8 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                         aria-haspopup={true}
                         className="form-dropdown dropdown-toggle btn btn-default"
                         disabled={false}
-                        id="dropdown-fieldKey"
+                        id="1"
+                        onBlur={null}
                         onClick={[Function]}
                         onKeyDown={[Function]}
                         role="button"
@@ -108,7 +119,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                     bsClass="dropdown-menu"
                     bsRole="menu"
                     key=".1"
-                    labelledBy="dropdown-fieldKey"
+                    labelledBy="1"
                     onClose={[Function]}
                     onSelect={[Function]}
                     pullRight={false}
@@ -119,7 +130,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                       onRootClose={[Function]}
                     >
                       <ul
-                        aria-labelledby="dropdown-fieldKey"
+                        aria-labelledby="1"
                         className="dropdown-menu"
                         role="menu"
                       >

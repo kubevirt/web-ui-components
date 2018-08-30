@@ -167,17 +167,21 @@ export class CreateVmWizard extends React.Component {
       type: 'textarea'
     },
     namespace: {
+      id: 'namespace-dropdown',
       title: 'Namespace',
       type: 'dropdown',
-      default: '--- Select Namespace ---',
-      values: () => this.props.namespaces.map(namespace => this.getName(namespace)),
+      defaultValue: '--- Select Namespace ---',
+      choices:this.props.namespaces.map(namespace => ({ name: this.getName(namespace) })),
       required: true
     },
     imageSourceType: {
+      id: 'image-source-type-dropdown',
       title: 'Provision Source',
       type: 'dropdown',
-      default: '--- Select Provision Source ---',
-      values: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE],
+      defaultValue: '--- Select Provision Source ---',
+      choices: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE].map(source => ({
+        name: source
+      })),
       required: true
     },
     registryImage: {
@@ -199,18 +203,20 @@ export class CreateVmWizard extends React.Component {
       required: true
     },
     operatingSystem: {
+      id: 'operating-system-dropdown',
       title: 'Operating System',
       type: 'dropdown',
-      default: '--- Select Operating System ---',
-      values: this.getOperatingSystems,
+      defaultValue: '--- Select Operating System ---',
+      choices: this.getOperatingSystems().map(os => ({ name: os })),
       required: true,
       isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
     flavor: {
+      id: 'flavor-dropdown',
       title: 'Flavor',
       type: 'dropdown',
-      default: '--- Select Flavor ---',
-      values: this.getFlavors,
+      defaultValue: '--- Select Flavor ---',
+      choices: this.getFlavors().map(flavor => ({ name: flavor })),
       required: true,
       isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
@@ -231,10 +237,11 @@ export class CreateVmWizard extends React.Component {
       validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
     },
     workloadProfile: {
+      id: 'workload-profile-dropdown',
       title: 'Workload Profile',
       type: 'dropdown',
-      default: '--- Select Workload Profile ---',
-      values: this.getWorkloadProfiles,
+      defaultValue: '--- Select Workload Profile ---',
+      choices: this.getWorkloadProfiles().map(profile => ({ name: profile })),
       required: true,
       isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       help: () =>

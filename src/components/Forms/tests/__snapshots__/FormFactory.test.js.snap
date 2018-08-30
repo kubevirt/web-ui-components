@@ -9,13 +9,18 @@ exports[`<FormFactory /> renders correctly 1`] = `
         "type": "checkbox",
       },
       "dropdownField": Object {
-        "default": "default",
+        "choices": Array [
+          Object {
+            "name": "value1",
+          },
+          Object {
+            "name": "value2",
+          },
+        ],
+        "defaultValue": "default",
+        "id": "dropdown",
         "title": "dropdownField",
         "type": "dropdown",
-        "values": Array [
-          "value1",
-          "value2",
-        ],
       },
       "invisibleField": Object {
         "isVisible": [MockFunction] {
@@ -32,7 +37,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   "value": "invisibleField",
                 },
                 "requiredField": Object {
-                  "tivaluetle": "requiredField",
+                  "value": "requiredField",
                 },
                 "textAreaField": Object {
                   "value": "textarea",
@@ -76,7 +81,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
         "value": "invisibleField",
       },
       "requiredField": Object {
-        "tivaluetle": "requiredField",
+        "value": "requiredField",
       },
       "textAreaField": Object {
         "value": "textarea",
@@ -136,19 +141,20 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
-                fieldKey="textField"
-                onChange={[MockFunction]}
+                onChange={[Function]}
                 value="textField"
               >
                 <FormControl
                   bsClass="form-control"
                   componentClass="input"
+                  onBlur={null}
                   onChange={[Function]}
                   type="text"
                   value="textField"
                 >
                   <input
                     className="form-control"
+                    onBlur={null}
                     onChange={[Function]}
                     type="text"
                     value="textField"
@@ -205,22 +211,23 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
-                fieldKey="requiredField"
-                onChange={[MockFunction]}
-                value=""
+                onChange={[Function]}
+                value="requiredField"
               >
                 <FormControl
                   bsClass="form-control"
                   componentClass="input"
+                  onBlur={null}
                   onChange={[Function]}
                   type="text"
-                  value=""
+                  value="requiredField"
                 >
                   <input
                     className="form-control"
+                    onBlur={null}
                     onChange={[Function]}
                     type="text"
-                    value=""
+                    value="requiredField"
                   />
                 </FormControl>
               </Text>
@@ -276,18 +283,24 @@ exports[`<FormFactory /> renders correctly 1`] = `
               <Dropdown
                 choices={
                   Array [
-                    "value1",
-                    "value2",
+                    Object {
+                      "name": "value1",
+                    },
+                    Object {
+                      "name": "value2",
+                    },
                   ]
                 }
-                fieldKey="dropdownField"
-                onChange={[MockFunction]}
+                id="dropdown"
+                onBlur={null}
+                onChange={[Function]}
                 value="dropdownField"
               >
                 <ButtonGroup
                   block={false}
                   bsClass="btn-group"
                   justified={true}
+                  key="dropdown"
                   vertical={false}
                 >
                   <div
@@ -296,27 +309,29 @@ exports[`<FormFactory /> renders correctly 1`] = `
                     <DropdownButton
                       bsStyle="default"
                       className="form-dropdown"
-                      id="dropdown-dropdownField"
+                      id="dropdown"
+                      onBlur={null}
                       onSelect={[Function]}
                       title="dropdownField"
                     >
                       <DropdownButton
                         bsStyle="default"
                         className="form-dropdown"
-                        id="dropdown-dropdownField"
+                        id="dropdown"
+                        onBlur={null}
                         onSelect={[Function]}
                         title="dropdownField"
                       >
                         <Uncontrolled(Dropdown)
                           bsStyle="default"
-                          id="dropdown-dropdownField"
+                          id="dropdown"
                           onSelect={[Function]}
                         >
                           <Dropdown
                             bsClass="dropdown"
                             bsStyle="default"
                             componentClass={[Function]}
-                            id="dropdown-dropdownField"
+                            id="dropdown"
                             onSelect={[Function]}
                             onToggle={[Function]}
                           >
@@ -336,8 +351,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                   bsRole="toggle"
                                   bsStyle="default"
                                   className="form-dropdown"
-                                  id="dropdown-dropdownField"
+                                  id="dropdown"
                                   key=".0"
+                                  onBlur={null}
                                   onClick={[Function]}
                                   onKeyDown={[Function]}
                                   open={false}
@@ -352,7 +368,8 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                     bsStyle="default"
                                     className="form-dropdown dropdown-toggle"
                                     disabled={false}
-                                    id="dropdown-dropdownField"
+                                    id="dropdown"
+                                    onBlur={null}
                                     onClick={[Function]}
                                     onKeyDown={[Function]}
                                     role="button"
@@ -362,7 +379,8 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                       aria-haspopup={true}
                                       className="form-dropdown dropdown-toggle btn btn-default"
                                       disabled={false}
-                                      id="dropdown-dropdownField"
+                                      id="dropdown"
+                                      onBlur={null}
                                       onClick={[Function]}
                                       onKeyDown={[Function]}
                                       role="button"
@@ -380,7 +398,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                   bsClass="dropdown-menu"
                                   bsRole="menu"
                                   key=".1"
-                                  labelledBy="dropdown-dropdownField"
+                                  labelledBy="dropdown"
                                   onClose={[Function]}
                                   onSelect={[Function]}
                                   pullRight={false}
@@ -391,7 +409,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                     onRootClose={[Function]}
                                   >
                                     <ul
-                                      aria-labelledby="dropdown-dropdownField"
+                                      aria-labelledby="dropdown"
                                       className="dropdown-menu"
                                       role="menu"
                                     >
@@ -521,18 +539,19 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <TextArea
-                fieldKey="textAreaField"
-                onChange={[MockFunction]}
+                onChange={[Function]}
                 value="textarea"
               >
                 <FormControl
                   bsClass="form-control"
                   componentClass="textarea"
+                  onBlur={null}
                   onChange={[Function]}
                   value="textarea"
                 >
                   <textarea
                     className="form-control"
+                    onBlur={null}
                     onChange={[Function]}
                     value="textarea"
                   />
@@ -577,8 +596,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
             >
               <Checkbox
                 checked={true}
-                fieldKey="checkboxField"
-                onChange={[MockFunction]}
+                onChange={[Function]}
                 title="checkboxFieldTitle"
               >
                 <Checkbox
@@ -586,6 +604,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   checked={true}
                   disabled={false}
                   inline={false}
+                  onBlur={null}
                   onChange={[Function]}
                   title=""
                 >
@@ -598,6 +617,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                       <input
                         checked={true}
                         disabled={false}
+                        onBlur={null}
                         onChange={[Function]}
                         type="checkbox"
                       />
