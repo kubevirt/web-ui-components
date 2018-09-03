@@ -73,7 +73,7 @@
     "lint:fix": "yarn lint:js --fix && yarn lint:styles --fix",
     "lint:js": "eslint --max-warnings 0 src storybook",
     "lint:styles": "yarn stylelint",
-    "prettier": "prettier --write src/**/*.js'"
+    "prettier": "prettier --write 'src/**/*.js'"
   },
   "jest": {
     "collectCoverageFrom": [
