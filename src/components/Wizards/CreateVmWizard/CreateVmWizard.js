@@ -1,341 +1,96 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Wizard } from 'patternfly-react';
-import { get, has, cloneDeep } from 'lodash';
+
+import BasicSettingsTab from './BasicSettingsTab';
+import ResultTab from './ResultTab';
+
 import { createVM } from '../../../k8s/request';
-import { FormFactory } from '../../Forms/FormFactory';
-import { isPositiveNumber } from '../../../utils/validation';
-import {
-  CUSTOM_FLAVOR,
-  TEMPLATE_FLAVOR_LABEL,
-  TEMPLATE_OS_LABEL,
-  TEMPLATE_WORKLOAD_LABEL,
-  TEMPLATE_TYPE_LABEL,
-  TEMPLATE_TYPE_BASE,
-  TEMPLATE_TYPE_VM,
-  PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_REGISTRY,
-  PROVISION_SOURCE_TEMPLATE,
-  baseTemplates as predefinedTemplates
-} from '../../../constants';
-import { getTemplatesWithLabels, getTemplatesLabelValues } from '../../../utils/template';
 
 export class CreateVmWizard extends React.Component {
   state = {
     activeStepIndex: 0,
-    basicVmSettings: {},
-    wizardValid: false
+    stepData: [
+      {
+        value: {}, // Basic Settings
+        valid: false
+      },
+      {
+        value: '',
+        valid: null // result of the request
+      }
+    ]
   };
 
-  getTemplate = type => {
-    if (type === TEMPLATE_TYPE_BASE) {
-      return predefinedTemplates;
-    }
-    return this.props.templates.filter(template => {
-      const labels = get(template, 'metadata.labels', {});
-      return labels[TEMPLATE_TYPE_LABEL] === type;
+  getLastStepIndex = () => this.state.stepData.length - 1;
+
+  lastStepReached = () => this.state.activeStepIndex === this.getLastStepIndex();
+
+  onStepDataChanged = (value, valid) => {
+    this.setState(state => {
+      const stepData = [...state.stepData];
+      stepData[state.activeStepIndex] = {
+        value,
+        valid
+      };
+
+      return { stepData };
     });
   };
 
-  onFormChange = (newValue, target) => {
-    let validMsg;
+  finish() {
+    const stepValuesWithoutResult = this.state.stepData
+      .slice(0, this.state.stepData.length - 1)
+      .map(stepData => stepData.value);
 
-    if (this.basicFormFields[target].validate) {
-      validMsg = this.basicFormFields[target].validate(newValue);
-    }
-    if (this.basicFormFields[target].required && newValue.trim().length === 0) {
-      validMsg = 'is required';
-    }
+    createVM(this.props.k8sCreate, this.props.templates, ...stepValuesWithoutResult)
+      .then(result => this.onStepDataChanged(JSON.stringify(result, null, 1), true))
+      .catch(error => this.onStepDataChanged(error.message, false));
+  }
 
-    if (validMsg) {
-      validMsg = `${this.basicFormFields[target].title} ${validMsg}`;
-    }
-
-    const basicVmSettings = {
-      ...this.state.basicVmSettings,
-      [target]: {
-        value: newValue,
-        validMsg
-      }
-    };
-
-    this.setState(state => ({
-      basicVmSettings: {
-        ...state.basicVmSettings,
-        [target]: {
-          value: newValue,
-          validMsg
-        }
-      }
-    }));
-    this.validateWizard(basicVmSettings);
-  };
-
-  validateWizard = values => {
-    let wizardValid = true;
-
-    // check if all required fields are defined
-    const requiredKeys = Object.keys(this.basicFormFields).filter(key => this.isFieldRequired(key, values));
-    const requiredKeysInValues = Object.keys(values).filter(key => this.isFieldRequired(key, values));
-    if (requiredKeys.length !== requiredKeysInValues.length) {
-      wizardValid = false;
+  onStepChanged = newActiveStepIndex => {
+    // create Vm only once last step is reached
+    if (!this.lastStepReached() && newActiveStepIndex === this.getLastStepIndex()) {
+      this.finish();
     }
 
-    // check if all fields are valid
-    for (const key in values) {
+    this.setState(state => {
       if (
-        values[key].validMsg &&
-        (this.basicFormFields[key].isVisible ? this.basicFormFields[key].isVisible(values) : true)
+        state.activeStepIndex !== state.stepData.length - 1 && // do not allow going back once last step is reached
+        (newActiveStepIndex < state.activeStepIndex || // allow going back to past steps
+          state.stepData.slice(0, newActiveStepIndex).reduce((validity, item) => validity && item.valid, true))
       ) {
-        wizardValid = false;
-        break;
+        return { activeStepIndex: newActiveStepIndex };
       }
-    }
-
-    this.setState({
-      wizardValid
+      return null;
     });
-  };
-
-  isImageSourceType = (basicVmSettings, type) => get(basicVmSettings, 'imageSourceType.value') === type;
-
-  isFlavorType = (basicVmSettings, type) => get(basicVmSettings, 'flavor.value') === type;
-
-  isFieldRequired = (key, basicVmSettings) => {
-    const field = this.basicFormFields[key];
-    if (field.required) {
-      return field.isVisible ? field.isVisible(basicVmSettings) : true;
-    }
-    return false;
-  };
-
-  getFlavorLabel = () => {
-    if (has(this.state.basicVmSettings, 'flavor.value')) {
-      const flavorValue = this.state.basicVmSettings.flavor.value;
-      if (flavorValue !== CUSTOM_FLAVOR) {
-        return `${TEMPLATE_FLAVOR_LABEL}/${this.state.basicVmSettings.flavor.value}`;
-      }
-    }
-    return undefined;
-  };
-
-  getWorkloadLabel = () => this.getLabel(TEMPLATE_WORKLOAD_LABEL, 'workloadProfile');
-
-  getOsLabel = () => this.getLabel(TEMPLATE_OS_LABEL, 'operatingSystem');
-
-  getLabel = (labelPrefix, value) =>
-    has(this.state.basicVmSettings, value)
-      ? `${labelPrefix}/${get(this.state.basicVmSettings, [value, 'value'])}`
-      : undefined;
-
-  getOperatingSystems = () => {
-    const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
-      this.getWorkloadLabel(),
-      this.getFlavorLabel()
-    ]);
-    return getTemplatesLabelValues(templates, TEMPLATE_OS_LABEL);
-  };
-
-  getWorkloadProfiles = () => {
-    const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
-      this.getOsLabel(),
-      this.getFlavorLabel()
-    ]);
-    return getTemplatesLabelValues(templates, TEMPLATE_WORKLOAD_LABEL);
-  };
-
-  getFlavors = () => {
-    const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
-      this.getWorkloadLabel(),
-      this.getOsLabel()
-    ]);
-    const flavors = getTemplatesLabelValues(templates, TEMPLATE_FLAVOR_LABEL);
-    flavors.push(CUSTOM_FLAVOR);
-    return flavors;
-  };
-
-  getName = resource => resource.metadata.name;
-
-  basicFormFields = {
-    name: {
-      title: 'Name',
-      required: true
-    },
-    description: {
-      title: 'Description',
-      type: 'textarea'
-    },
-    namespace: {
-      id: 'namespace-dropdown',
-      title: 'Namespace',
-      type: 'dropdown',
-      defaultValue: '--- Select Namespace ---',
-      choices:this.props.namespaces.map(namespace => ({ name: this.getName(namespace) })),
-      required: true
-    },
-    imageSourceType: {
-      id: 'image-source-type-dropdown',
-      title: 'Provision Source',
-      type: 'dropdown',
-      defaultValue: '--- Select Provision Source ---',
-      choices: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE].map(source => ({
-        name: source
-      })),
-      required: true
-    },
-    registryImage: {
-      title: 'Registry Image',
-      required: true,
-      isVisible: basicVmSettings => this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY)
-    },
-    imageURL: {
-      title: 'URL',
-      required: true,
-      isVisible: basicVmSettings => this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL)
-    },
-    userTemplate: {
-      title: 'Template',
-      type: 'dropdown',
-      default: '--- Select Template ---',
-      values: () => this.getTemplate(TEMPLATE_TYPE_VM).map(template => this.getName(template)),
-      isVisible: basicVmSettings => this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      required: true
-    },
-    operatingSystem: {
-      id: 'operating-system-dropdown',
-      title: 'Operating System',
-      type: 'dropdown',
-      defaultValue: '--- Select Operating System ---',
-      choices: this.getOperatingSystems().map(os => ({ name: os })),
-      required: true,
-      isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
-    },
-    flavor: {
-      id: 'flavor-dropdown',
-      title: 'Flavor',
-      type: 'dropdown',
-      defaultValue: '--- Select Flavor ---',
-      choices: this.getFlavors().map(flavor => ({ name: flavor })),
-      required: true,
-      isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
-    },
-    memory: {
-      title: 'Memory (GB)',
-      required: true,
-      isVisible: basicVmSettings =>
-        this.isFlavorType(basicVmSettings, CUSTOM_FLAVOR) ||
-        this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
-    },
-    cpu: {
-      title: 'CPUs',
-      required: true,
-      isVisible: basicVmSettings =>
-        this.isFlavorType(basicVmSettings, CUSTOM_FLAVOR) ||
-        this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
-    },
-    workloadProfile: {
-      id: 'workload-profile-dropdown',
-      title: 'Workload Profile',
-      type: 'dropdown',
-      defaultValue: '--- Select Workload Profile ---',
-      choices: this.getWorkloadProfiles().map(profile => ({ name: profile })),
-      required: true,
-      isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      help: () =>
-        this.getWorkloadProfiles().map(profile => (
-          <p key={profile}>
-            <b>{profile}</b>: {profile}
-          </p>
-        ))
-    },
-    startVM: {
-      title: 'Start virtual machine on creation',
-      type: 'checkbox',
-      noBottom: true
-    },
-    /*
-    createTemplate: {
-      title: 'Create new template from configuration',
-      type: 'checkbox',
-      noBottom: true
-    },
-    */
-    cloudInit: {
-      title: 'Use cloud-init',
-      type: 'checkbox'
-    },
-    hostname: {
-      title: 'Hostname',
-      isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
-      required: true
-    },
-    authKeys: {
-      title: 'Authenticated SSH Keys',
-      type: 'textarea',
-      isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
-      required: true
-    }
   };
 
   wizardStepsNewVM = [
     {
       title: 'Basic Settings',
       render: () => (
-        <FormFactory
-          fields={this.basicFormFields}
-          fieldsValues={this.state.basicVmSettings}
-          onFormChange={this.onFormChange}
+        <BasicSettingsTab
+          key="1"
+          namespaces={this.props.namespaces}
+          templates={this.props.templates}
+          basicSettings={this.state.stepData[0].value}
+          onChange={this.onStepDataChanged}
         />
       )
     },
     {
       title: 'Result',
       render: () => {
-        const result = this.state.result ? this.state.result : 'creating VM...';
-        return <p>{result}</p>;
+        const stepData = this.state.stepData[this.getLastStepIndex()];
+        return <ResultTab result={stepData.value} success={stepData.valid} />;
       }
     }
   ];
 
-  onStepChanged = index => {
-    this.setState({ activeStepIndex: index });
-    if (index === 1) {
-      const basicSettings = {
-        ...this.state.basicVmSettings
-      };
-      const availableTemplates = [];
-      if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
-        const userTemplate = this.props.templates.find(
-          template => template.metadata.name === basicSettings.userTemplate.value
-        );
-        availableTemplates.push(userTemplate);
-      } else {
-        const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
-          this.getOsLabel(),
-          this.getWorkloadLabel(),
-          this.getFlavorLabel()
-        ]);
-        availableTemplates.push(...templates);
-      }
-      basicSettings.chosenTemplate = cloneDeep(availableTemplates[0]);
-      createVM(this.props.k8sCreate, basicSettings, this.state.network, this.state.storage)
-        .then(result =>
-          this.setState({
-            result: `VM ${result.metadata.name} created`
-          })
-        )
-        .catch(error =>
-          this.setState({
-            result: error.message
-          })
-        );
-    }
-  };
-
   render() {
+    const beforeLastStepReached = this.state.activeStepIndex === this.state.stepData.length - 2;
+
     return (
       <Wizard.Pattern
         show
@@ -343,8 +98,10 @@ export class CreateVmWizard extends React.Component {
         steps={this.wizardStepsNewVM}
         activeStepIndex={this.state.activeStepIndex}
         onStepChanged={index => this.onStepChanged(index)}
-        nextStepDisabled={!this.state.wizardValid}
-        nextText={this.state.activeStepIndex === 0 ? 'Create Virtual Machine' : 'Next'}
+        previousStepDisabled={this.lastStepReached()}
+        stepButtonsDisabled={this.lastStepReached()}
+        nextStepDisabled={!this.state.stepData[this.state.activeStepIndex].valid}
+        nextText={beforeLastStepReached ? 'Create Virtual Machine' : 'Next'}
       />
     );
   }

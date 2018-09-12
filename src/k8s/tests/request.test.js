@@ -10,6 +10,8 @@ import {
   PARAM_VM_NAME
 } from '../../constants';
 
+import { templates } from '../../components/Wizards/NewVmWizard/fixtures/NewVmWizard.fixture';
+
 const basicSettings = {
   name: {
     value: 'name'
@@ -168,7 +170,7 @@ export const k8sCreate = (model, resource) => {
 
 describe('request.js', () => {
   it('registryImage', () =>
-    createVM(k8sCreate, basicSettings).then(vm => {
+    createVM(k8sCreate, templates, basicSettings).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
@@ -179,7 +181,7 @@ describe('request.js', () => {
       return vm;
     }));
   it('from URL', () =>
-    createVM(k8sCreate, vmFromURL).then(vm => {
+    createVM(k8sCreate, templates, vmFromURL).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
@@ -194,7 +196,7 @@ describe('request.js', () => {
       return vm;
     }));
   it('from PXE', () =>
-    createVM(k8sCreate, vmPXE).then(vm => {
+    createVM(k8sCreate, templates, vmPXE).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBe(1);
@@ -209,7 +211,7 @@ describe('request.js', () => {
       return vm;
     }));
   it('with CloudInit', () =>
-    createVM(k8sCreate, basicSettingsCloudInit).then(vm => {
+    createVM(k8sCreate, templates, basicSettingsCloudInit).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.disks[1].name).toBe('cloudinitdisk');

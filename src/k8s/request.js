@@ -1,4 +1,4 @@
-import { get, remove } from 'lodash';
+import { cloneDeep, get, remove } from 'lodash';
 import { safeDump } from 'js-yaml';
 import {
   CLOUDINIT_DISK,
@@ -10,11 +10,29 @@ import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_TEMPLATE
+  PROVISION_SOURCE_TEMPLATE,
+  TEMPLATE_TYPE_BASE
 } from '../constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
+import { getTemplatesWithLabels } from '../utils/template';
+import { getOsLabel, getWorkloadLabel, getFlavorLabel, getTemplate } from './selectors';
 
-export const createVM = (k8sCreate, basicSettings, network, storage) => {
+export const createVM = (k8sCreate, templates, basicSettings) => {
+  const availableTemplates = [];
+  if (get(basicSettings, 'imageSourceType.value') === PROVISION_SOURCE_TEMPLATE) {
+    const userTemplate = templates.find(template => template.metadata.name === basicSettings.userTemplate.value);
+    availableTemplates.push(userTemplate);
+  } else {
+    const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
+      getOsLabel(basicSettings),
+      getWorkloadLabel(basicSettings),
+      getFlavorLabel(basicSettings)
+    ]);
+    availableTemplates.push(...baseTemplates);
+  }
+
+  basicSettings.chosenTemplate = availableTemplates.length > 0 ? cloneDeep(availableTemplates[0]) : null;
+
   setParameterValue(basicSettings.chosenTemplate, PARAM_VM_NAME, basicSettings.name.value);
 
   // no more required parameters
@@ -32,7 +50,7 @@ export const createVM = (k8sCreate, basicSettings, network, storage) => {
 
   return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
     const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
-    modifyVmObject(vm, basicSettings, network, storage);
+    modifyVmObject(vm, basicSettings);
 
     if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
       const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
@@ -60,7 +78,7 @@ const setParameterValue = (template, paramName, paramValue) => {
   parameter.value = paramValue;
 };
 
-const modifyVmObject = (vm, basicSettings, network, storage) => {
+const modifyVmObject = (vm, basicSettings) => {
   setFlavor(vm, basicSettings);
   setSourceType(vm, basicSettings);
 
@@ -90,12 +108,12 @@ const setSourceType = (vm, basicSettings) => {
   const defaultDisk = getDefaultDevice(vm, 'disks', defaultDiskName);
   let defaultNetwork = getDefaultDevice(vm, 'interfaces', defaultNetworkName);
 
-  remove(vm.spec.template.spec.volumes, volume => volume.name === defaultDisk.volumeName);
+  remove(vm.spec.template.spec.volumes, volume => defaultDisk && volume.name === defaultDisk.volumeName);
 
   switch (get(basicSettings.imageSourceType, 'value')) {
     case PROVISION_SOURCE_REGISTRY: {
       const volume = {
-        name: defaultDisk.volumeName,
+        name: defaultDisk && defaultDisk.volumeName,
         registryDisk: {
           image: basicSettings.registryImage.value
         }
@@ -106,12 +124,12 @@ const setSourceType = (vm, basicSettings) => {
     case PROVISION_SOURCE_URL: {
       const dataVolumeName = `datavolume-${basicSettings.name.value}`;
       const volume = {
-        name: defaultDisk.volumeName,
+        name: defaultDisk && defaultDisk.volumeName,
         dataVolume: {
           name: dataVolumeName
         }
       };
-      const dataVolume = {
+      const dataVolumeTemplate = {
         metadata: {
           name: dataVolumeName
         },
@@ -131,7 +149,7 @@ const setSourceType = (vm, basicSettings) => {
           }
         }
       };
-      addDataVolume(vm, dataVolume);
+      addDataVolumeTemplate(vm, dataVolumeTemplate);
       addVolume(vm, volume);
       break;
     }
@@ -211,7 +229,7 @@ const addVolume = (vm, volumeSpec) => {
   vm.spec.template.spec.volumes = volumes;
 };
 
-const addDataVolume = (vm, dataVolumeSpec) => {
+const addDataVolumeTemplate = (vm, dataVolumeSpec) => {
   const dataVolumes = get(vm.spec, 'dataVolumeTemplates', []);
   dataVolumes.push(dataVolumeSpec);
   vm.spec.dataVolumeTemplates = dataVolumes;

@@ -44,22 +44,22 @@ describe('<CreateVmWizard />', () => {
     const nameValue = 'someName';
     const component = shallow(testCreateVmWizard());
     component.instance().onFormChange(nameValue, 'name');
-    expect(component.state().basicVmSettings.name).toEqual({ value: nameValue });
+    expect(component.state().basicSettings.name).toEqual({ value: nameValue });
   });
   it('required property is validated', () => {
     const component = shallow(testCreateVmWizard());
     component.instance().onFormChange('', 'name');
-    expect(component.state().basicVmSettings.name).toEqual({ value: '', validMsg: 'Name is required' });
+    expect(component.state().basicSettings.name).toEqual({ value: '', validMsg: 'Name is required' });
   });
   it('cpu field validation is triggered', () => {
     const component = shallow(testCreateVmWizard());
     component.instance().onFormChange('someCpu', 'cpu');
-    expect(component.state().basicVmSettings.cpu).toEqual({ value: 'someCpu', validMsg: 'CPUs must be a number' });
+    expect(component.state().basicSettings.cpu).toEqual({ value: 'someCpu', validMsg: 'CPUs must be a number' });
   });
   it('memory field validation is triggered', () => {
     const component = shallow(testCreateVmWizard());
     component.instance().onFormChange('someMemory', 'memory');
-    expect(component.state().basicVmSettings.memory).toEqual({
+    expect(component.state().basicSettings.memory).toEqual({
       value: 'someMemory',
       validMsg: 'Memory (GB) must be a number'
     });

@@ -13,11 +13,17 @@ export const Dropdown = ({ id, value, onChange, onBlur, choices }) => (
       onSelect={valueHandler(onChange)}
       onBlur={valueHandler(onBlur)}
     >
-      {choices.map(choice => (
-        <MenuItem key={choice.id || choice.name} eventKey={choice.id || choice.name}>
-          {choice.name}
-        </MenuItem>
-      ))}
+      {choices.map(choice => {
+        const isObject = typeof choice === 'object';
+        const key = isObject ? choice.id || choice.name : choice;
+        const val = isObject ? choice.name : choice;
+
+        return (
+          <MenuItem key={key} eventKey={key}>
+            {val}
+          </MenuItem>
+        );
+      })}
     </DropdownButton>
   </ButtonGroup>
 );

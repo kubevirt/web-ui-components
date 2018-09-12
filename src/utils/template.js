@@ -19,12 +19,14 @@ export const getTemplatesWithLabels = (templates, labels) => {
 export const getTemplatesLabelValues = (templates, label) => {
   const labelValues = [];
   templates.forEach(t => {
-    const labels = Object.keys(t.metadata.labels).filter(l => l.startsWith(label));
+    const labels = Object.keys(t.metadata.labels || []).filter(l => l.startsWith(label));
     labels.forEach(l => {
-      const lArray = l.split('/');
-      const lName = lArray[lArray.length - 1];
-      if (labelValues.indexOf(lName) === -1) {
-        labelValues.push(lName);
+      const labelParts = l.split('/');
+      if (labelParts.length > 1) {
+        const labelName = labelParts[labelParts.length - 1];
+        if (labelValues.indexOf(labelName) === -1) {
+          labelValues.push(labelName);
+        }
       }
     });
   });
