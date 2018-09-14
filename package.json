@@ -1,7 +1,13 @@
 {
-  "name": "kubevirt-web-ui",
+  "name": "kubevirt-web-ui-components",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": "https://github.com/kubevirt/web-ui-components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kubevirt/web-ui-components.git"
+  },
+  "main": "dist/index.js",
   "dependencies": {
     "@storybook/addon-actions": "^3.4.10",
     "@storybook/addon-options": "^3.4.10",
@@ -63,8 +69,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "dist": "rm -rf dist; yarn lint && CI=nowatch yarn test && node scripts/dist.js",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "node scripts/test.js --env=jsdom",
     "storybook": "start-storybook -p 9001 -c storybook",
@@ -82,7 +87,9 @@
       "src/**/*.{js,jsx,mjs}",
       "!src/**/*.stories.js"
     ],
-    "coverageReporters": ["lcov"],
+    "coverageReporters": [
+      "lcov"
+    ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js",
       "<rootDir>/config/enzyme.js"
