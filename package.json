@@ -1,6 +1,6 @@
 {
   "name": "kubevirt-web-ui-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "homepage": "https://github.com/kubevirt/web-ui-components",
   "repository": {
@@ -14,6 +14,7 @@
     "@storybook/addons": "^3.4.10",
     "@storybook/react": "^3.4.10",
     "@storybook/storybook-deployer": "^2.1.0",
+    "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
@@ -80,7 +81,10 @@
   },
   "dependencies": {},
   "scripts": {
-    "dist": "rm -rf dist; yarn lint && CI=nowatch yarn test && node scripts/dist.js",
+    "babel": "yarn clean && BABEL_ENV=development babel src --ignore __tests__,stories.js --out-dir dist",
+    "clean": "rm -rf dist || true",
+    "dist": "yarn lint && CI=nowatch yarn test && yarn babel && yarn dist:css",
+    "dist:css": "cd src && find . -name '*.css' -exec cp {} ../dist/{} \\;",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "node scripts/test.js --env=jsdom",
     "storybook": "start-storybook -p 9001 -c storybook",
