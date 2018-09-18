@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<HelloWorld /> shallow render matches snapshot 1`] = `
-<div>
-  Hello World!
-</div>
-`;

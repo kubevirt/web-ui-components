@@ -1,9 +1,7 @@
 language: node_js
 node_js:
-  - '10'
+  - 'lts/*'
 cache: yarn
 script:
-- yarn test
+- yarn build
 - yarn coveralls
-- yarn dist
-

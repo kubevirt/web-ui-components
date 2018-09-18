@@ -3,4 +3,3 @@
 
 # web-ui-components
 Set of reusable components identified during [kubevirt/web-ui](https://github.com/kubevirt/web-ui) development.
-
