@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FormFactory /> renders correctly 1`] = `
+<Form
+  bsClass="form"
+  componentClass="form"
+  horizontal={true}
+  inline={false}
+>
+  <FormGroup
+    bsClass="form-group"
+    key="textField"
+    validationState="error"
+  >
+    <Col
+      bsClass="col"
+      className="text-right"
+      componentClass="div"
+      sm={3}
+    >
+      <ControlLabel
+        bsClass="control-label"
+        className={null}
+        srOnly={false}
+      >
+        textField
+      </ControlLabel>
+    </Col>
+    <Col
+      bsClass="col"
+      componentClass="div"
+      sm={5}
+    >
+      <Component
+        fieldKey="textField"
+        onChange={[Function]}
+        value="textFieldValue"
+      />
+      <HelpBlock
+        bsClass="help-block"
+      >
+        validation message
+      </HelpBlock>
+    </Col>
+  </FormGroup>
+</Form>
+`;

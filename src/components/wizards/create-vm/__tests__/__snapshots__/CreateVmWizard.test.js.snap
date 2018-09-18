@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CreateVmWizard /> renders correctly 1`] = `
+<WizardPattern
+  activeStepIndex={0}
+  backText="Back"
+  bodyHeader={null}
+  cancelText="Cancel"
+  closeText="Close"
+  loading={false}
+  loadingMessage="Loading..."
+  loadingTitle="Loading Wizard..."
+  nextButtonRef={[Function]}
+  nextStepDisabled={true}
+  nextText="Create Virtual Machine"
+  onBack={[Function]}
+  onExited={[Function]}
+  onHide={[Function]}
+  onNext={[Function]}
+  onStepChanged={[Function]}
+  previousStepDisabled={false}
+  show={true}
+  stepButtonsDisabled={false}
+  steps={
+    Array [
+      Object {
+        "render": [Function],
+        "title": "Basic Settings",
+      },
+      Object {
+        "render": [Function],
+        "title": "Result",
+      },
+    ]
+  }
+  title=""
+/>
+`;
