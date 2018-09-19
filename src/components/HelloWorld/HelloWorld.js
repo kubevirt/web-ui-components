@@ -7,6 +7,9 @@ class HelloWorld extends React.Component {
   }
 
   render () {
+    const foo = { x: true }
+    // eslint-disable-next-line
+    const bar = { ...foo }
     return <div className='hello-world'>Hello {this.state.world}!</div>
   }
 }

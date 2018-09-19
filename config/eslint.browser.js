@@ -28,6 +28,7 @@ module.exports = {
     jest: true
   },
 
+  // use babel-eslint parser to ensure parity with Babel-supported syntax
   parser: 'babel-eslint',
 
   settings: {

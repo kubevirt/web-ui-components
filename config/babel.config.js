@@ -22,10 +22,7 @@ module.exports = {
   ],
 
   plugins: [
-    'transform-class-properties',
-    'transform-export-extensions',
-    'transform-object-assign',
-    'transform-object-rest-spread'
+    '@babel/plugin-proposal-class-properties'
   ]
 
 }
