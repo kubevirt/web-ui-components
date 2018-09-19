@@ -8,6 +8,7 @@ yarn-error.log
 # build artifacts and other generated files
 dist/
 coverage/
+cosmos/
 
 # editor files
 .idea/

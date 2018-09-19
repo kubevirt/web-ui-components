@@ -1,13 +1,17 @@
-'use strict'
-
 // https://eslint.org/docs/user-guide/configuring
 // This configuration covers code meant to execute in Node.js environment.
 
-module.exports = {
+const commonRules = require('./eslint.rules.common');
 
+module.exports = {
   extends: [
     'standard',
-    'plugin:node/recommended'
+    'airbnb',
+    'plugin:node/recommended',
+    'plugin:jest/recommended',
+    // Prettier configuration comes last
+    'plugin:prettier/recommended',
+    'prettier/standard'
   ],
 
   env: {
@@ -22,8 +26,10 @@ module.exports = {
   },
 
   rules: {
-    'strict': ['error', 'global'],
-    'node/no-unpublished-require': 0
+    ...commonRules,
+    'no-console': 'off',
+    'global-require': 'off',
+    'import/no-dynamic-require': 'off',
+    'import/newline-after-import': 'off'
   }
-
-}
+};

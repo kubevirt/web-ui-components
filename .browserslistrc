@@ -1,0 +1,13 @@
+# https://github.com/browserslist/browserslist
+
+# include browsers based on global coverage
+> 1%
+
+# exclude all Internet Explorer versions
+not ie > 0
+
+# include browsers we are committed to support
+last 1 Chrome version
+last 1 Firefox version
+last 1 Edge version
+last 1 Safari version
