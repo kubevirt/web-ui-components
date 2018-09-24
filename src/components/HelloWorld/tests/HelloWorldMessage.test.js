@@ -1,4 +1,4 @@
-import createTestContext from 'react-cosmos-test/enzyme';
+import createTestContext from '../../../cosmos/enzyme';
 import fixture from '../fixtures/HelloWorldMessage.fixture';
 
 const { mount, getWrapper } = createTestContext({ fixture });

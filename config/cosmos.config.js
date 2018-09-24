@@ -12,7 +12,7 @@ module.exports = {
   globalImports: ['@babel/polyfill'],
 
   // path to Cosmos proxies
-  proxiesPath: `${paths.src}/cosmosProxies.js`,
+  proxiesPath: `${paths.src}/cosmos/proxies.js`,
 
   // webpack server settings
   webpackConfigPath: `${paths.config}/cosmos.webpack.config.js`,
