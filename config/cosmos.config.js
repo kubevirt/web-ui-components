@@ -9,7 +9,12 @@ module.exports = {
   fileMatch: '**/*.fixture.js',
 
   // additional modules to load along with every component
-  globalImports: ['@babel/polyfill'],
+  globalImports: [
+    '@babel/polyfill',
+    'patternfly-react/dist/css/patternfly-react.css',
+    'patternfly/dist/css/patternfly.css',
+    'patternfly/dist/css/patternfly-additions.css'
+  ],
 
   // path to Cosmos proxies
   proxiesPath: `${paths.src}/cosmos/proxies.js`,
