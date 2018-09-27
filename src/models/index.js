@@ -14,5 +14,6 @@ export const VirtualMachineModel = {
 export const ProcessedTemplatesModel = {
   apiVersion: 'v1',
   path: 'processedtemplates',
-  apiGroup: 'template.openshift.io'
+  apiGroup: 'template.openshift.io',
+  namespaced: true
 };
