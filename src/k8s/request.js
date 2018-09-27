@@ -27,6 +27,10 @@ export const createVM = (k8sCreate, basicSettings, network, storage) => {
   });
 
   setFlavor(basicSettings);
+
+  // processedtemplate endpoint is namespaced
+  basicSettings.chosenTemplate.metadata.namespace = basicSettings.namespace.value;
+
   return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
     const vm = response.objects.find(obj => obj.kind === VM_KIND);
     modifyVmObject(vm, basicSettings, network, storage);
