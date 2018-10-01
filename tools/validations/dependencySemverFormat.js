@@ -22,7 +22,7 @@ module.exports = () => {
         chalk`semver range format: {white.bold A.x} or {white.bold A.B.x} or {white.bold A.B.C}.`
     );
     for (const depName of badDeps) {
-      console.log(chalk`{red ${crossMark} ${depName}} [{white ${deps[depName]}}]`);
+      console.log(chalk`{red ${crossMark} ${depName}} [{blue ${deps[depName]}}]`);
     }
   }
 

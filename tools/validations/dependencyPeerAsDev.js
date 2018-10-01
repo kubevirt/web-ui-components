@@ -24,7 +24,7 @@ module.exports = () => {
         chalk`have either missing or mismatched entries in {white.bold devDependencies}.`
     );
     for (const depName of badDevDeps) {
-      console.log(chalk`{red ${crossMark} ${depName}} [{white ${peerDeps[depName]}}]`);
+      console.log(chalk`{red ${crossMark} ${depName}} [{blue ${peerDeps[depName]}}]`);
     }
   }
 

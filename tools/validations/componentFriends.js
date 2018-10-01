@@ -1,16 +1,15 @@
 // Tests and fixtures are React component's best friends.
 
 const path = require('path');
-const fs = require('fs');
 const glob = require('glob');
 const chalk = require('chalk');
-const { crossMark } = require('../common');
+const { crossMark, fileExists } = require('../common');
 const paths = require('../../config/paths');
 
 function checkComponent(file) {
   const componentDir = path.dirname(file);
   const componentName = path.basename(file).replace(/\.js$/, '');
-  const friendExists = pathToFriend => fs.existsSync(`${componentDir}/${pathToFriend}`);
+  const friendExists = pathToFriend => fileExists(`${componentDir}/${pathToFriend}`);
 
   return {
     file,
@@ -23,12 +22,12 @@ function checkComponent(file) {
 module.exports = () => {
   const files = glob
     .sync(`${paths.components}/**/*.js`)
-    .filter(file => path.basename(file) !== 'index.js')
+    .filter(file => /^[A-Z]/.test(path.basename(file)))
     .filter(file => !file.endsWith('.test.js'))
     .filter(file => !file.endsWith('.fixture.js'));
 
   if (files.length === 0) {
-    console.log(chalk`{red ${crossMark}} no components found at [{white ${paths.components}}]`);
+    console.log(chalk`{red ${crossMark}} no components found at [{blue ${paths.components}}]`);
     return false;
   }
 
@@ -42,7 +41,7 @@ module.exports = () => {
         chalk`{white.bold tests/<ComponentName>.test.js} to fix this problem.`
     );
     for (const result of missingTests) {
-      console.log(chalk`{red ${crossMark} ${result.componentName}} [{white ${result.file}}]`);
+      console.log(chalk`{red ${crossMark} ${result.componentName}} [{blue ${result.file}}]`);
     }
   }
 
@@ -52,7 +51,7 @@ module.exports = () => {
         chalk`{white.bold fixtures/<ComponentName>.fixture.js} to fix this problem.`
     );
     for (const result of missingFixtures) {
-      console.log(chalk`{red ${crossMark} ${result.componentName}} [{white ${result.file}}]`);
+      console.log(chalk`{red ${crossMark} ${result.componentName}} [{blue ${result.file}}]`);
     }
   }
 
