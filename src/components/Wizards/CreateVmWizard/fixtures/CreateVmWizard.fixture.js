@@ -1,5 +1,6 @@
 import { CreateVmWizard } from '..';
-import { templates, namespaces, k8sCreate } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { namespaces, k8sCreate } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { templates } from '../../../../constants';
 
 export default {
   component: CreateVmWizard,

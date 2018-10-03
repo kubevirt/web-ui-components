@@ -10,10 +10,14 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
+  TEMPLATE_TYPE_LABEL,
+  TEMPLATE_TYPE_BASE,
+  TEMPLATE_TYPE_VM,
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_REGISTRY,
-  templates as predefinedTemplates
+  PROVISION_SOURCE_TEMPLATE,
+  baseTemplates as predefinedTemplates
 } from '../../../constants';
 import { getTemplatesWithLabels, getTemplatesLabelValues } from '../../../utils/template';
 
@@ -21,21 +25,18 @@ export class CreateVmWizard extends React.Component {
   state = {
     activeStepIndex: 0,
     basicVmSettings: {},
-    wizardValid: false,
-    namespaces: this.props.namespaces,
-    templates: this.props.templates.length === 0 ? predefinedTemplates : this.props.templates
+    wizardValid: false
   };
 
-  static getDerivedStateFromProps(props, state) {
-    const newState = {};
-    if (props.namespaces !== state.namespaces) {
-      newState.namespaces = props.namespaces;
+  getTemplate = type => {
+    if (type === TEMPLATE_TYPE_BASE) {
+      return predefinedTemplates;
     }
-    if (props.templates.length !== 0 && props.templates !== state.templates) {
-      newState.templates = props.templates;
-    }
-    return newState;
-  }
+    return this.props.templates.filter(template => {
+      const labels = get(template, 'metadata.labels', {});
+      return labels[TEMPLATE_TYPE_LABEL] === type;
+    });
+  };
 
   onFormChange = (newValue, target) => {
     let validMsg;
@@ -97,7 +98,9 @@ export class CreateVmWizard extends React.Component {
     });
   };
 
-  getValueFromState = key => this.state[key].map(value => value.metadata.name);
+  isImageSourceType = (basicVmSettings, type) => get(basicVmSettings, 'imageSourceType.value') === type;
+
+  isFlavorType = (basicVmSettings, type) => get(basicVmSettings, 'flavor.value') === type;
 
   isFieldRequired = (key, basicVmSettings) => {
     const field = this.basicFormFields[key];
@@ -127,21 +130,32 @@ export class CreateVmWizard extends React.Component {
       : undefined;
 
   getOperatingSystems = () => {
-    const templates = getTemplatesWithLabels(this.state.templates, [this.getWorkloadLabel(), this.getFlavorLabel()]);
+    const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
+      this.getWorkloadLabel(),
+      this.getFlavorLabel()
+    ]);
     return getTemplatesLabelValues(templates, TEMPLATE_OS_LABEL);
   };
 
   getWorkloadProfiles = () => {
-    const templates = getTemplatesWithLabels(this.state.templates, [this.getOsLabel(), this.getFlavorLabel()]);
+    const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
+      this.getOsLabel(),
+      this.getFlavorLabel()
+    ]);
     return getTemplatesLabelValues(templates, TEMPLATE_WORKLOAD_LABEL);
   };
 
   getFlavors = () => {
-    const templates = getTemplatesWithLabels(this.state.templates, [this.getWorkloadLabel(), this.getOsLabel()]);
+    const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
+      this.getWorkloadLabel(),
+      this.getOsLabel()
+    ]);
     const flavors = getTemplatesLabelValues(templates, TEMPLATE_FLAVOR_LABEL);
     flavors.push(CUSTOM_FLAVOR);
     return flavors;
   };
+
+  getName = resource => resource.metadata.name;
 
   basicFormFields = {
     name: {
@@ -156,50 +170,64 @@ export class CreateVmWizard extends React.Component {
       title: 'Namespace',
       type: 'dropdown',
       default: '--- Select Namespace ---',
-      values: () => this.getValueFromState('namespaces'),
+      values: () => this.props.namespaces.map(namespace => this.getName(namespace)),
       required: true
     },
     imageSourceType: {
       title: 'Provision Source',
       type: 'dropdown',
       default: '--- Select Provision Source ---',
-      values: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY],
+      values: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE],
       required: true
     },
     registryImage: {
       title: 'Registry Image',
       required: true,
-      isVisible: basicVmSettings => get(basicVmSettings, 'imageSourceType.value') === PROVISION_SOURCE_REGISTRY
+      isVisible: basicVmSettings => this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY)
     },
     imageURL: {
       title: 'URL',
       required: true,
-      isVisible: basicVmSettings => get(basicVmSettings, 'imageSourceType.value') === PROVISION_SOURCE_URL
+      isVisible: basicVmSettings => this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL)
+    },
+    userTemplate: {
+      title: 'Template',
+      type: 'dropdown',
+      default: '--- Select Template ---',
+      values: () => this.getTemplate(TEMPLATE_TYPE_VM).map(template => this.getName(template)),
+      isVisible: basicVmSettings => this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
+      required: true
     },
     operatingSystem: {
       title: 'Operating System',
       type: 'dropdown',
       default: '--- Select Operating System ---',
       values: this.getOperatingSystems,
-      required: true
+      required: true,
+      isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
     flavor: {
       title: 'Flavor',
       type: 'dropdown',
       default: '--- Select Flavor ---',
       values: this.getFlavors,
-      required: true
+      required: true,
+      isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
     memory: {
       title: 'Memory (GB)',
       required: true,
-      isVisible: basicVmSettings => get(basicVmSettings, 'flavor.value', '') === CUSTOM_FLAVOR,
+      isVisible: basicVmSettings =>
+        this.isFlavorType(basicVmSettings, CUSTOM_FLAVOR) ||
+        this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
     },
     cpu: {
       title: 'CPUs',
       required: true,
-      isVisible: basicVmSettings => get(basicVmSettings, 'flavor.value', '') === CUSTOM_FLAVOR,
+      isVisible: basicVmSettings =>
+        this.isFlavorType(basicVmSettings, CUSTOM_FLAVOR) ||
+        this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
     },
     workloadProfile: {
@@ -208,6 +236,7 @@ export class CreateVmWizard extends React.Component {
       default: '--- Select Workload Profile ---',
       values: this.getWorkloadProfiles,
       required: true,
+      isVisible: basicVmSettings => !this.isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       help: () =>
         this.getWorkloadProfiles().map(profile => (
           <p key={profile}>
@@ -270,11 +299,20 @@ export class CreateVmWizard extends React.Component {
       const basicSettings = {
         ...this.state.basicVmSettings
       };
-      const availableTemplates = getTemplatesWithLabels(this.state.templates, [
-        this.getOsLabel(),
-        this.getWorkloadLabel(),
-        this.getFlavorLabel()
-      ]);
+      const availableTemplates = [];
+      if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
+        const userTemplate = this.props.templates.find(
+          template => template.metadata.name === basicSettings.userTemplate.value
+        );
+        availableTemplates.push(userTemplate);
+      } else {
+        const templates = getTemplatesWithLabels(this.getTemplate(TEMPLATE_TYPE_BASE), [
+          this.getOsLabel(),
+          this.getWorkloadLabel(),
+          this.getFlavorLabel()
+        ]);
+        availableTemplates.push(...templates);
+      }
       basicSettings.chosenTemplate = cloneDeep(availableTemplates[0]);
       createVM(this.props.k8sCreate, basicSettings, this.state.network, this.state.storage)
         .then(result =>

@@ -1,7 +1,6 @@
 import { get, remove } from 'lodash';
 import { safeDump } from 'js-yaml';
 import {
-  VM_KIND,
   CLOUDINIT_DISK,
   CLOUDINIT_VOLUME,
   VIRTIO_BUS,
@@ -10,9 +9,10 @@ import {
   PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_REGISTRY,
-  PROVISION_SOURCE_URL
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_TEMPLATE
 } from '../constants';
-import { VirtualMachineModel, ProcessedTemplatesModel } from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 
 export const createVM = (k8sCreate, basicSettings, network, storage) => {
   setParameterValue(basicSettings.chosenTemplate, PARAM_VM_NAME, basicSettings.name.value);
@@ -27,15 +27,29 @@ export const createVM = (k8sCreate, basicSettings, network, storage) => {
   // processedtemplate endpoint is namespaced
   basicSettings.chosenTemplate.metadata.namespace = basicSettings.namespace.value;
 
+  // make sure api version is correct
+  basicSettings.chosenTemplate.apiVersion = 'template.openshift.io/v1';
+
   return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
-    const vm = response.objects.find(obj => obj.kind === VM_KIND);
+    const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
     modifyVmObject(vm, basicSettings, network, storage);
+
+    if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
+      const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
+      if (pvc) {
+        pvc.metadata.namespace = basicSettings.namespace.value;
+        k8sCreate(PersistentVolumeClaimModel, pvc);
+      }
+    }
     return k8sCreate(VirtualMachineModel, vm);
   });
 };
 
 const setFlavor = (vm, basicSettings) => {
-  if (basicSettings.flavor.value === CUSTOM_FLAVOR) {
+  if (
+    get(basicSettings, 'flavor.value') === CUSTOM_FLAVOR ||
+    basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE
+  ) {
     vm.spec.template.spec.domain.cpu.cores = parseInt(basicSettings.cpu.value, 10);
     vm.spec.template.spec.domain.resources.requests.memory = `${basicSettings.memory.value}G`;
   }
@@ -67,6 +81,9 @@ const modifyVmObject = (vm, basicSettings, network, storage) => {
 };
 
 const setSourceType = (vm, basicSettings) => {
+  if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
+    return;
+  }
   const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
   const defaultNetworkName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_NETWORK]);
 

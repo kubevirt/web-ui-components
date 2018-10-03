@@ -1,5 +1,6 @@
 import { createVM } from '../request';
 import { rhel75 } from '../mock_templates/rhel75.template';
+import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 import { ProcessedTemplatesModel } from '../../models';
 import {
   CUSTOM_FLAVOR,
@@ -131,10 +132,30 @@ const customFlavor = {
   }
 };
 
+const vmUserTemplate = {
+  name: {
+    value: 'name'
+  },
+  namespace: {
+    value: 'namespace'
+  },
+  chosenTemplate: linuxUserTemplate,
+  imageSourceType: {
+    value: 'Template'
+  },
+  cpu: {
+    value: 3
+  },
+  memory: {
+    value: 3
+  }
+};
+
 const processTemplate = template =>
   new Promise((resolve, reject) => {
     const nameParam = template.parameters.find(param => param.name === PARAM_VM_NAME);
     template.objects[0].metadata.name = nameParam.value;
+
     resolve(template);
   });
 
@@ -177,6 +198,14 @@ describe('request.js', () => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBe(1);
+      return vm;
+    }));
+  it('from User Template', () =>
+    createVM(k8sCreate, vmUserTemplate).then(vm => {
+      expect(vm.metadata.name).toBe(basicSettings.name.value);
+      expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+      expect(vm.spec.template.spec.domain.cpu.cores).toBe(3);
+      expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('3G');
       return vm;
     }));
   it('with CloudInit', () =>

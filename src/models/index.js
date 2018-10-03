@@ -17,3 +17,15 @@ export const ProcessedTemplatesModel = {
   apiGroup: 'template.openshift.io',
   namespaced: true
 };
+
+export const PersistentVolumeClaimModel = {
+  label: 'Persistent Volume Claim',
+  apiVersion: 'v1',
+  path: 'persistentvolumeclaims',
+  plural: 'persistentvolumeclaims',
+  abbr: 'PVC',
+  namespaced: true,
+  kind: 'PersistentVolumeClaim',
+  id: 'persistentvolumeclaim',
+  labelPlural: 'Persistent Volume Claims'
+};

@@ -2,7 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { WizardPattern } from 'patternfly-react';
 import { CreateVmWizard } from '../CreateVmWizard';
-import { templates, namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { templates } from '../../../../constants';
 
 const onHide = () => {};
 
