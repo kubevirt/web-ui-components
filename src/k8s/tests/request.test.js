@@ -1,6 +1,13 @@
 import { createVM } from '../request';
 import { rhel75 } from '../mock_templates/rhel75.template';
 import { ProcessedTemplatesModel } from '../../models';
+import {
+  CUSTOM_FLAVOR,
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_URL,
+  PARAM_VM_NAME
+} from '../../constants';
 
 const basicSettings = {
   name: {
@@ -11,7 +18,7 @@ const basicSettings = {
   },
   chosenTemplate: rhel75,
   imageSourceType: {
-    value: 'Registry'
+    value: PROVISION_SOURCE_REGISTRY
   },
   registryImage: {
     value: 'imageURL'
@@ -30,7 +37,7 @@ const basicSettingsCloudInit = {
   },
   chosenTemplate: rhel75,
   imageSourceType: {
-    value: 'Registry'
+    value: PROVISION_SOURCE_REGISTRY
   },
   registryImage: {
     value: 'imageURL'
@@ -61,7 +68,7 @@ const vmFromURL = {
   },
   chosenTemplate: rhel75,
   imageSourceType: {
-    value: 'URL'
+    value: PROVISION_SOURCE_URL
   },
   imageURL: {
     value: 'httpURL'
@@ -83,7 +90,7 @@ const vmPXE = {
   },
   chosenTemplate: rhel75,
   imageSourceType: {
-    value: 'PXE'
+    value: PROVISION_SOURCE_PXE
   },
   flavor: {
     value: 'small'
@@ -93,9 +100,40 @@ const vmPXE = {
   }
 };
 
+const customFlavor = {
+  name: {
+    value: 'name'
+  },
+  namespace: {
+    value: 'namespace'
+  },
+  description: {
+    value: 'desc'
+  },
+  chosenTemplate: rhel75,
+  imageSourceType: {
+    value: PROVISION_SOURCE_REGISTRY
+  },
+  registryImage: {
+    value: 'imageURL'
+  },
+  flavor: {
+    value: CUSTOM_FLAVOR
+  },
+  cpu: {
+    value: '1'
+  },
+  memory: {
+    value: '1'
+  },
+  startVM: {
+    value: true
+  }
+};
+
 const processTemplate = template =>
   new Promise((resolve, reject) => {
-    const nameParam = template.parameters.find(param => param.name === 'NAME');
+    const nameParam = template.parameters.find(param => param.name === PARAM_VM_NAME);
     template.objects[0].metadata.name = nameParam.value;
     resolve(template);
   });
@@ -149,6 +187,14 @@ describe('request.js', () => {
       expect(vm.spec.template.spec.domain.devices.disks[1].volumeName).toBe('cloudinitvolume');
 
       expect(vm.spec.template.spec.volumes[1].name).toBe('cloudinitvolume');
+      return vm;
+    }));
+  it('with custom flavor', () =>
+    createVM(k8sCreate, customFlavor).then(vm => {
+      expect(vm.metadata.name).toBe(basicSettings.name.value);
+      expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+      expect(vm.spec.template.spec.domain.cpu.cores).toBe(1);
+      expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('1G');
       return vm;
     }));
 });

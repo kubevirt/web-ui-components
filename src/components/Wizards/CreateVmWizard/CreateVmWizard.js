@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Wizard } from 'patternfly-react';
-import { get, has } from 'lodash';
+import { get, has, cloneDeep } from 'lodash';
 import { createVM } from '../../../k8s/request';
 import { FormFactory } from '../../Forms/FormFactory';
 import { isPositiveNumber } from '../../../utils/validation';
@@ -275,7 +275,7 @@ export class CreateVmWizard extends React.Component {
         this.getWorkloadLabel(),
         this.getFlavorLabel()
       ]);
-      [basicSettings.chosenTemplate] = availableTemplates;
+      basicSettings.chosenTemplate = cloneDeep(availableTemplates[0]);
       createVM(this.props.k8sCreate, basicSettings, this.state.network, this.state.storage)
         .then(result =>
           this.setState({

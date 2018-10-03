@@ -8,8 +8,6 @@ import {
   ANNOTATION_DEFAULT_DISK,
   ANNOTATION_DEFAULT_NETWORK,
   PARAM_VM_NAME,
-  PARAM_CPU_CORES,
-  PARAM_MEMORY,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL
@@ -26,8 +24,6 @@ export const createVM = (k8sCreate, basicSettings, network, storage) => {
     }
   });
 
-  setFlavor(basicSettings);
-
   // processedtemplate endpoint is namespaced
   basicSettings.chosenTemplate.metadata.namespace = basicSettings.namespace.value;
 
@@ -38,10 +34,10 @@ export const createVM = (k8sCreate, basicSettings, network, storage) => {
   });
 };
 
-const setFlavor = basicSettings => {
+const setFlavor = (vm, basicSettings) => {
   if (basicSettings.flavor.value === CUSTOM_FLAVOR) {
-    setParameterValue(basicSettings.chosenTemplate, PARAM_CPU_CORES, basicSettings.cpu.value);
-    setParameterValue(basicSettings.chosenTemplate, PARAM_MEMORY, basicSettings.memory.value);
+    vm.spec.template.spec.domain.cpu.cores = parseInt(basicSettings.cpu.value, 10);
+    vm.spec.template.spec.domain.resources.requests.memory = `${basicSettings.memory.value}G`;
   }
 };
 
@@ -51,6 +47,7 @@ const setParameterValue = (template, paramName, paramValue) => {
 };
 
 const modifyVmObject = (vm, basicSettings, network, storage) => {
+  setFlavor(vm, basicSettings);
   setSourceType(vm, basicSettings);
 
   // add running status
