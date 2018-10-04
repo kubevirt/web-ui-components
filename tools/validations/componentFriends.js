@@ -23,7 +23,7 @@ function checkComponent(file) {
 module.exports = () => {
   const files = glob
     .sync(`${paths.components}/**/*.js`)
-    .filter(file => path.basename(file) !== 'index.js')
+    .filter(file => /^[A-Z]/.test(path.basename(file)))
     .filter(file => !file.endsWith('.test.js'))
     .filter(file => !file.endsWith('.fixture.js'));
 
