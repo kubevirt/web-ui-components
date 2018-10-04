@@ -1,4 +1,13 @@
 import { FormFactory } from '..';
+import { getFormElement } from '../FormFactory';
+
+export const getPositiveNumber = () =>
+  getFormElement({
+    type: 'positive-number',
+    id: 'test-id',
+    value: 48,
+    onChange: jest.fn()
+  });
 
 export default {
   component: FormFactory,

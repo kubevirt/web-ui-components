@@ -7,10 +7,9 @@ import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL,
-  PARAM_VM_NAME
+  PARAM_VM_NAME,
+  templates
 } from '../../constants';
-
-import { templates } from '../../components/Wizards/NewVmWizard/fixtures/NewVmWizard.fixture';
 
 const basicSettings = {
   name: {

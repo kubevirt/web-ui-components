@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, Col, ControlLabel, HelpBlock, Form, FieldLevelHelp } from 'patternfly-react';
-import { get } from 'lodash'; // import { has } from 'lodash';
+import { get } from 'lodash';
 
-import { Dropdown, Checkbox, Text, TextArea } from '.';
+import { Dropdown, Checkbox, Text, TextArea, Integer } from '.';
 
 export const getFormElement = props => {
   const { type, id, value, title, onChange, onBlur, choices, defaultValue, isControlled } = props;
@@ -30,6 +30,18 @@ export const getFormElement = props => {
           checked={isControlled ? value || false : undefined}
           onBlur={onBlur}
           onChange={onChange}
+        />
+      );
+    case 'positive-number':
+      return (
+        <Integer
+          id={id}
+          key={id}
+          value={isControlled ? value || '' : undefined}
+          defaultValue={isControlled ? undefined : defaultValue}
+          onBlur={onBlur}
+          onChange={onChange}
+          positive
         />
       );
     default:

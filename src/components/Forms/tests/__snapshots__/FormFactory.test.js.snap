@@ -641,3 +641,16 @@ exports[`<FormFactory /> renders correctly 1`] = `
   </Form>
 </FormFactory>
 `;
+
+exports[`getFormElement renders correctly 1`] = `
+<FormControl
+  bsClass="form-control"
+  componentClass="input"
+  id="test-id"
+  min={1}
+  onBlur={null}
+  onChange={[Function]}
+  onKeyDown={[Function]}
+  type="number"
+/>
+`;
