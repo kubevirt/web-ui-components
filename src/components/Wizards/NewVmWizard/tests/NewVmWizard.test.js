@@ -1,11 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { NewVmWizard } from '../NewVmWizard';
-import { templates, namespaces } from '../fixtures/NewVmWizard.fixture';
+import { namespaces } from '../fixtures/NewVmWizard.fixture';
 import { CreateVmWizard } from '../../CreateVmWizard/CreateVmWizard';
+import { templates, userTemplates } from '../../../../constants';
 
 const testNewVmWizard = () => (
-  <NewVmWizard onHide={() => {}} templates={templates} namespaces={namespaces} k8sCreate={() => {}} />
+  <NewVmWizard
+    onHide={() => {}}
+    templates={templates}
+    namespaces={namespaces}
+    userTemplates={userTemplates}
+    k8sCreate={() => {}}
+  />
 );
 
 describe('<NewVmWizard />', () => {
