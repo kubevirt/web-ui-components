@@ -19,6 +19,7 @@ const sassOptions = {
 
 module.exports = {
   mode: webpackMode,
+  devtool: 'source-map',
 
   module: {
     rules: [
