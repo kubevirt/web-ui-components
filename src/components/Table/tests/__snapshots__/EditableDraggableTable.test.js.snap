@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditableDraggableTable /> renders correctly 1`] = `
+<EditableDraggableTable
+  columns={
+    Array [
+      Object {
+        "header": Object {
+          "label": "One",
+        },
+        "property": "one",
+      },
+      Object {
+        "header": Object {
+          "label": "Two",
+        },
+        "property": "two",
+      },
+    ]
+  }
+  onChange={[MockFunction]}
+  rows={Array []}
+/>
+`;
+
+exports[`<EditableDraggableTable /> renders data correctly 1`] = `
+<EditableDraggableTable
+  columns={
+    Array [
+      Object {
+        "header": Object {
+          "label": "One",
+        },
+        "property": "one",
+      },
+      Object {
+        "header": Object {
+          "label": "Two",
+        },
+        "property": "two",
+      },
+    ]
+  }
+  onChange={[MockFunction]}
+  rows={
+    Array [
+      Object {
+        "id": 1,
+        "one": "First Column",
+        "two": "Second Column",
+      },
+      Object {
+        "id": 2,
+        "one": "F Column",
+        "two": "S Column",
+      },
+    ]
+  }
+/>
+`;
