@@ -66,3 +66,6 @@ export const getTemplate = (templates, type) => {
     return labels[TEMPLATE_TYPE_LABEL] === type;
   });
 };
+
+export const getChosenTemplateAnnotations = (basicSettings, name) =>
+  get(basicSettings.chosenTemplate.metadata.annotations, [name]);
