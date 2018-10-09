@@ -1,6 +1,5 @@
 import { createVM } from '../request';
-import { rhel75 } from '../mock_templates/rhel75.template';
-import { linuxUserTemplate } from '../mock_user_templates/linux.template';
+
 import { ProcessedTemplatesModel } from '../../models';
 import {
   CUSTOM_FLAVOR,
@@ -8,8 +7,10 @@ import {
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL,
   PARAM_VM_NAME,
-  templates
+  templates,
+  userTemplates
 } from '../../constants';
+import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 
 const basicSettings = {
   name: {
@@ -18,7 +19,6 @@ const basicSettings = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: rhel75,
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -37,7 +37,6 @@ const basicSettingsCloudInit = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: rhel75,
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -68,7 +67,6 @@ const vmFromURL = {
   description: {
     value: 'desc'
   },
-  chosenTemplate: rhel75,
   imageSourceType: {
     value: PROVISION_SOURCE_URL
   },
@@ -90,7 +88,6 @@ const vmPXE = {
   description: {
     value: 'desc'
   },
-  chosenTemplate: rhel75,
   imageSourceType: {
     value: PROVISION_SOURCE_PXE
   },
@@ -112,7 +109,6 @@ const customFlavor = {
   description: {
     value: 'desc'
   },
-  chosenTemplate: rhel75,
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -140,9 +136,11 @@ const vmUserTemplate = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: linuxUserTemplate,
   imageSourceType: {
     value: 'Template'
+  },
+  userTemplate: {
+    value: linuxUserTemplate.metadata.name
   },
   cpu: {
     value: 3
@@ -167,18 +165,26 @@ export const k8sCreate = (model, resource) => {
   return new Promise(resolve => resolve(resource));
 };
 
-describe('request.js', () => {
-  it('registryImage', () =>
-    createVM(k8sCreate, templates, basicSettings).then(vm => {
-      expect(vm.metadata.name).toBe(basicSettings.name.value);
-      expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
-      expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
-      expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe('rootvolume');
+const testRegistryImage = vm => {
+  expect(vm.metadata.name).toBe(basicSettings.name.value);
+  expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+  expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
+  expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe('rootvolume');
 
-      expect(vm.spec.template.spec.volumes[0].name).toBe('rootvolume');
-      expect(vm.spec.template.spec.volumes[0].registryDisk.image).toBe('imageURL');
-      return vm;
-    }));
+  expect(vm.spec.template.spec.volumes[0].name).toBe('rootvolume');
+  expect(vm.spec.template.spec.volumes[0].registryDisk.image).toBe('imageURL');
+  return vm;
+};
+
+const testPXE = vm => {
+  expect(vm.metadata.name).toBe(basicSettings.name.value);
+  expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+  expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBe(1);
+  return vm;
+};
+
+describe('request.js', () => {
+  it('registryImage', () => createVM(k8sCreate, templates, basicSettings).then(testRegistryImage));
   it('from URL', () =>
     createVM(k8sCreate, templates, vmFromURL).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
@@ -194,15 +200,9 @@ describe('request.js', () => {
       expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(vmFromURL.imageURL.value);
       return vm;
     }));
-  it('from PXE', () =>
-    createVM(k8sCreate, templates, vmPXE).then(vm => {
-      expect(vm.metadata.name).toBe(basicSettings.name.value);
-      expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
-      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBe(1);
-      return vm;
-    }));
+  it('from PXE', () => createVM(k8sCreate, templates, vmPXE).then(testPXE));
   it('from User Template', () =>
-    createVM(k8sCreate, vmUserTemplate).then(vm => {
+    createVM(k8sCreate, userTemplates, vmUserTemplate).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(3);
@@ -220,7 +220,7 @@ describe('request.js', () => {
       return vm;
     }));
   it('with custom flavor', () =>
-    createVM(k8sCreate, customFlavor).then(vm => {
+    createVM(k8sCreate, templates, customFlavor).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(1);

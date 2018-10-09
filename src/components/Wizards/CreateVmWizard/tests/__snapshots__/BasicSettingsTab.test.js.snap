@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BasicSettingsTab /> renders correctly 1`] = `
+<FormFactory
+  fields={
+    Object {
+      "authKeys": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "Authenticated SSH Keys",
+        "type": "textarea",
+      },
+      "cloudInit": Object {
+        "title": "Use cloud-init",
+        "type": "checkbox",
+      },
+      "cpu": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "CPUs",
+        "validate": [Function],
+      },
+      "description": Object {
+        "title": "Description",
+        "type": "textarea",
+      },
+      "flavor": Object {
+        "choices": Array [
+          "small",
+          "medium",
+          "Custom",
+        ],
+        "defaultValue": "--- Select Flavor ---",
+        "id": "flavor-dropdown",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Flavor",
+        "type": "dropdown",
+      },
+      "hostname": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "Hostname",
+      },
+      "imageSourceType": Object {
+        "choices": Array [
+          "PXE",
+          "URL",
+          "Registry",
+          "Template",
+        ],
+        "defaultValue": "--- Select Provision Source ---",
+        "id": "image-source-type-dropdown",
+        "required": true,
+        "title": "Provision Source",
+        "type": "dropdown",
+      },
+      "imageURL": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "URL",
+      },
+      "memory": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "Memory (GB)",
+        "validate": [Function],
+      },
+      "name": Object {
+        "required": true,
+        "title": "Name",
+      },
+      "namespace": Object {
+        "choices": Array [
+          "default",
+          "myproject",
+        ],
+        "defaultValue": "--- Select Namespace ---",
+        "id": "namespace-dropdown",
+        "required": true,
+        "title": "Namespace",
+        "type": "dropdown",
+      },
+      "operatingSystem": Object {
+        "choices": Array [
+          "fedora29",
+          "fedora28",
+          "fedora27",
+          "fedora26",
+          "fedora25",
+          "fedora24",
+          "fedora23",
+          "ubuntu18.04",
+          "rhel7.0",
+        ],
+        "defaultValue": "--- Select Operating System ---",
+        "id": "operating-system-dropdown",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Operating System",
+        "type": "dropdown",
+      },
+      "registryImage": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "Registry Image",
+      },
+      "startVM": Object {
+        "noBottom": true,
+        "title": "Start virtual machine on creation",
+        "type": "checkbox",
+      },
+      "userTemplate": Object {
+        "choices": Array [
+          "linux-template",
+          "windows-template",
+        ],
+        "defaultValue": "--- Select Template ---",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Template",
+        "type": "dropdown",
+      },
+      "workloadProfile": Object {
+        "choices": Array [
+          "generic",
+          "high-performance",
+        ],
+        "defaultValue": "--- Select Workload Profile ---",
+        "help": [Function],
+        "id": "workload-profile-dropdown",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Workload Profile",
+        "type": "dropdown",
+      },
+    }
+  }
+  fieldsValues={Object {}}
+  onFormChange={[Function]}
+/>
+`;

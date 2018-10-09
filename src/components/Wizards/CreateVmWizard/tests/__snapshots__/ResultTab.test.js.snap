@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ResultTab /> renders fail correctly 1`] = `
+<Alert
+  className=""
+  key="fail"
+  onDismiss={null}
+  type="error"
+>
+  Failed to create VM
+</Alert>
+`;
+
+exports[`<ResultTab /> renders progress correctly 1`] = `
+<div
+  className="wizard-pf-process blank-slate-pf"
+  key="progress"
+>
+  <div
+    className="spinner spinner-lg blank-slate-pf-icon"
+  />
+  <h3
+    className="blank-slate-pf-main-action"
+  >
+    Creation of VM in progress
+  </h3>
+</div>
+`;
+
+exports[`<ResultTab /> renders success correctly 1`] = `
+<div
+  className="wizard-pf-complete blank-slate-pf"
+  key="success"
+>
+  <div
+    className="wizard-pf-success-icon"
+  >
+    <span
+      className="glyphicon glyphicon-ok-circle"
+    />
+  </div>
+  <h3
+    className="blank-slate-pf-main-action"
+  >
+    Creation of VM was succesfull
+  </h3>
+  <pre
+    className="blank-slate-pf-secondary-action description"
+  >
+    Created VM
+  </pre>
+</div>
+`;
