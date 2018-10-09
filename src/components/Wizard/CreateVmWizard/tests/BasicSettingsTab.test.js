@@ -6,6 +6,7 @@ import { templates, PROVISION_SOURCE_TEMPLATE, TEMPLATE_TYPE_VM } from '../../..
 import { getTemplate } from '../../../../utils/templates';
 import { getName } from '../../../../utils/selectors';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
+import { NAMESPACE_KEY } from '../constants';
 
 const testCreateVmWizard = (basicSettings = {}, onChange = null, selectedNamespace = undefined) => (
   <BasicSettingsTab
@@ -155,7 +156,7 @@ describe('<BasicSettingsTab />', () => {
   it('is invalid when one required fields is missing', () => {
     const onChange = jest.fn();
     const component = shallow(testCreateVmWizard(validBasicSettings, onChange));
-    onFormChange(component, '', 'namespace');
+    onFormChange(component, '', NAMESPACE_KEY);
 
     expectMockToBeCalledWith(
       onChange,

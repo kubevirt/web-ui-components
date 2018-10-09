@@ -116,6 +116,7 @@ export class NetworksTab extends React.Component {
         {
           id: state.nextId,
           isBootable: false,
+          editable: true,
           edit: true, // trigger immediate edit,
           name: `eth${state.nextId - 1}`,
           mac: '',

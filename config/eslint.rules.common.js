@@ -29,5 +29,6 @@ module.exports = {
       ignoreRestSiblings: true
     }
   ],
-  'no-use-before-define': 'off'
+  'no-use-before-define': 'off',
+  'no-return-assign': 'off'
 };
