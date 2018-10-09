@@ -14,7 +14,7 @@ import {
 import { rhel75 } from '../mock_templates/rhel75.template';
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 
-import { storages } from '../../components/Wizards/NewVmWizard/fixtures/NewVmWizard.fixture';
+import { storages } from '../../components/Wizard/NewVmWizard/fixtures/NewVmWizard.fixture';
 
 const basicSettings = {
   name: {
