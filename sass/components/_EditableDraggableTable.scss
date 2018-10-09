@@ -1,0 +1,30 @@
+table.pf-table-inline-edit {
+  tbody {
+    tr.editing {
+      td {
+        background-color: #def3ff; /* color-pf-blue-50 */
+      }
+    }
+  }
+}
+
+.row-actions {
+  padding: 3px;
+}
+
+.editable-draggable-table-elem {
+  min-height: 24px;
+}
+
+.minimal-formgroup {
+  margin: 0;
+  padding: 0;
+}
+
+.bootable-style {
+  margin-top: 2em;
+}
+
+.dropdown-menu {
+  z-index: 1001;
+}
