@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { NewVmWizard } from '../NewVmWizard';
-import { namespaces } from '../fixtures/NewVmWizard.fixture';
+import { namespaces, storages, storageClasses, units } from '../fixtures/NewVmWizard.fixture';
 import { CreateVmWizard } from '../../CreateVmWizard/CreateVmWizard';
 import { templates, userTemplates, networkConfigs } from '../../../../constants';
 
@@ -12,7 +12,10 @@ const testNewVmWizard = () => (
     namespaces={namespaces}
     userTemplates={userTemplates}
     networkConfigs={networkConfigs}
+    storages={storages}
+    storageClasses={storageClasses}
     k8sCreate={() => {}}
+    units={units}
   />
 );
 

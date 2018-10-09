@@ -34,6 +34,10 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
       },
       Object {
         "render": [Function],
+        "title": "Storage",
+      },
+      Object {
+        "render": [Function],
         "title": "Result",
       },
     ]

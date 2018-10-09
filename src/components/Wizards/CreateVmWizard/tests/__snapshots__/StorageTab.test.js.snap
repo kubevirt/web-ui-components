@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StorageTab /> renders correctly 1`] = `
+<Fragment>
+  <ButtonGroup
+    block={false}
+    bsClass="btn-group"
+    className="pull-right actions"
+    justified={false}
+    vertical={false}
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      id="attach-storage-btn"
+      onClick={[Function]}
+    >
+      Attach Storage
+    </Button>
+  </ButtonGroup>
+  <DragDropContext(EditableDraggableTable)
+    columns={
+      Array [
+        Object {
+          "header": Object {
+            "label": "Disk Name",
+            "props": Object {
+              "style": Object {
+                "width": "50%",
+              },
+            },
+          },
+          "property": "name",
+          "renderConfigs": Array [
+            Object {
+              "hasAddendum": true,
+              "id": "name-edit",
+              "type": "text",
+            },
+            Object {
+              "choices": Array [
+                "disk-one",
+                "disk-two",
+                "disk-three",
+              ],
+              "hasAddendum": true,
+              "id": "name-attach-edit",
+              "initialValue": "--- Select Storage ---",
+              "type": "dropdown",
+            },
+          ],
+        },
+        Object {
+          "header": Object {
+            "label": "Size (GB)",
+            "props": Object {
+              "style": Object {
+                "width": "23%",
+              },
+            },
+          },
+          "property": "size",
+          "renderConfigs": Array [
+            Object {
+              "id": "size-edit",
+              "type": "positive-number",
+            },
+          ],
+        },
+        Object {
+          "header": Object {
+            "label": "Storage Class",
+            "props": Object {
+              "style": Object {
+                "width": "23%",
+              },
+            },
+          },
+          "property": "storageClass",
+          "renderConfigs": Array [
+            Object {
+              "choices": Array [
+                "nfs",
+                "iscsi",
+                "glusterfs",
+                "azuredisk",
+              ],
+              "id": "storage-edit",
+              "initialValue": "--- Select ---",
+              "type": "dropdown",
+            },
+          ],
+        },
+        Object {
+          "header": Object {
+            "props": Object {
+              "style": Object {
+                "width": "4%",
+              },
+            },
+          },
+          "renderConfigs": Array [
+            Object {
+              "actions": Array [
+                "delete",
+              ],
+              "id": "actions",
+              "type": "actions",
+              "visibleOnEdit": false,
+            },
+            Object {
+              "actions": Array [
+                "delete",
+              ],
+              "id": "actions",
+              "type": "actions",
+              "visibleOnEdit": false,
+            },
+          ],
+        },
+      ]
+    }
+    onChange={[Function]}
+    rows={Array []}
+  />
+</Fragment>
+`;
