@@ -1,11 +1,12 @@
+import { shallow } from 'enzyme/build/index';
 import createTestContext from '../../../cosmos/enzyme';
-import fixture from '../fixtures/FormFactory.fixture';
+import fixture, { getPositiveNumber } from '../fixtures/FormFactory.fixture';
 
 const { mount, getWrapper } = createTestContext({ fixture });
 
-beforeEach(mount);
-
 describe('<FormFactory />', () => {
+  beforeEach(mount);
+
   it('renders correctly', () => {
     expect(getWrapper()).toMatchSnapshot();
   });
@@ -20,5 +21,12 @@ describe('<FormFactory />', () => {
         .find('.control-label')
         .find(node => node.text() === 'invisibleField')
     ).toHaveLength(0);
+  });
+});
+
+describe('getFormElement', () => {
+  it('renders correctly', () => {
+    const component = shallow(getPositiveNumber());
+    expect(component).toMatchSnapshot();
   });
 });

@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Integer /> renders correctly 1`] = `
+<FormControl
+  bsClass="form-control"
+  componentClass="input"
+  id="1"
+  onBlur={null}
+  onChange={[Function]}
+  onKeyDown={[Function]}
+  type="number"
+  value={-5}
+/>
+`;
+
+exports[`<Integer /> renders nonNegative correctly 1`] = `
+<FormControl
+  bsClass="form-control"
+  componentClass="input"
+  id="1"
+  min={0}
+  onBlur={null}
+  onChange={[Function]}
+  onKeyDown={[Function]}
+  type="number"
+  value={0}
+/>
+`;
+
+exports[`<Integer /> renders positive correctly 1`] = `
+<FormControl
+  bsClass="form-control"
+  componentClass="input"
+  id="1"
+  min={1}
+  onBlur={null}
+  onChange={[Function]}
+  onKeyDown={[Function]}
+  type="number"
+  value={5}
+/>
+`;

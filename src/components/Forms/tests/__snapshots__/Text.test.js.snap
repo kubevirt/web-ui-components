@@ -4,6 +4,7 @@ exports[`<TextControl /> renders correctly 1`] = `
 <FormControl
   bsClass="form-control"
   componentClass="input"
+  onBlur={null}
   onChange={[Function]}
   type="text"
   value="val"

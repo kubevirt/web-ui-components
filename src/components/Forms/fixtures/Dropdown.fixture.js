@@ -3,9 +3,9 @@ import { Dropdown } from '..';
 export default {
   component: Dropdown,
   props: {
-    fieldKey: 'fieldKey',
+    id: '1',
     value: 'This is dropdown button',
-    choices: ['choice1', 'choice2'],
+    choices: [{ name: 'choice1' }, { name: 'choice2' }],
     onChange: () => {}
   }
 };

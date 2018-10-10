@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox as PfCheckbox } from 'patternfly-react';
+import { checkboxHandler } from './utils';
 
-export const Checkbox = ({ fieldKey, checked, title, onChange }) => (
-  <PfCheckbox checked={checked} onChange={event => onChange(event.target.checked, fieldKey)}>
+export const Checkbox = ({ id, title, checked, onChange, onBlur }) => (
+  <PfCheckbox id={id} checked={checked} onBlur={checkboxHandler(onBlur)} onChange={checkboxHandler(onChange)}>
     {title}
   </PfCheckbox>
 );
 
+Checkbox.defaultProps = {
+  id: undefined,
+  title: '',
+  checked: false,
+  onChange: undefined,
+  onBlur: undefined
+};
+
 Checkbox.propTypes = {
-  fieldKey: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  id: PropTypes.string,
+  title: PropTypes.string,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func
 };
