@@ -73,6 +73,7 @@ export class CreateVmWizard extends React.Component {
         <BasicSettingsTab
           key="1"
           namespaces={this.props.namespaces}
+          selectedNamespace={this.props.selectedNamespace}
           templates={this.props.templates}
           basicSettings={this.state.stepData[0].value}
           onChange={this.onStepDataChanged}
@@ -107,9 +108,14 @@ export class CreateVmWizard extends React.Component {
   }
 }
 
+CreateVmWizard.defaultProps = {
+  selectedNamespace: undefined
+};
+
 CreateVmWizard.propTypes = {
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
+  selectedNamespace: PropTypes.object,
   k8sCreate: PropTypes.func.isRequired
 };

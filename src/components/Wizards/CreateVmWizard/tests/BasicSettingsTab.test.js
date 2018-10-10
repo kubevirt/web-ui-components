@@ -14,6 +14,16 @@ const testCreateVmWizard = (basicSettings = {}, onChange = null) => (
   />
 );
 
+const testCreateVmWizardWithNamespace = (selectedNamespace, basicSettings = {}, onChange = null) => (
+  <BasicSettingsTab
+    templates={templates}
+    namespaces={namespaces}
+    selectedNamespace={selectedNamespace}
+    basicSettings={basicSettings}
+    onChange={onChange || jest.fn()}
+  />
+);
+
 const expectMockToBeCalledWith = (fn, a, b) => {
   expect(fn.mock.calls[0][0]).toEqual(a);
   expect(fn.mock.calls[0][1]).toBe(b);
@@ -37,6 +47,23 @@ describe('<BasicSettingsTab />', () => {
   it('renders correctly', () => {
     const component = shallow(testCreateVmWizard());
     expect(component).toMatchSnapshot();
+  });
+
+  it('defaults to selectedNamespace', () => {
+    const onChange = jest.fn();
+    const namespace = namespaces[1];
+    shallow(testCreateVmWizardWithNamespace(namespace, {}, onChange));
+
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        namespace: {
+          validMsg: undefined,
+          value: namespace.metadata.name
+        }
+      },
+      false
+    );
   });
 
   it('validates incomplete form', () => {
