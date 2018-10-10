@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditableDraggableTable /> renders correctly 1`] = `
+<TableInlineEditRow
+  buttonsClassName=""
+  buttonsPosition={[Function]}
+  isEditing={[Function]}
+  last={false}
+  messages={
+    Object {
+      "cancelButtonLabel": "Cancel",
+      "confirmButtonLabel": "Save",
+    }
+  }
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  testProp="testProp"
+/>
+`;
