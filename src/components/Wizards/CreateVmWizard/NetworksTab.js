@@ -214,8 +214,12 @@ export class NetworksTab extends React.Component {
           : {
               id: 'actions',
               type: ACTIONS_TYPE,
-              actions: [DELETE_ACTION],
-              text: 'Remove NIC',
+              actions: [
+                {
+                  actionType: DELETE_ACTION,
+                  text: 'Remove NIC'
+                }
+              ],
               visibleOnEdit: false
             }
     }

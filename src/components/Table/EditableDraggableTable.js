@@ -131,13 +131,12 @@ class EditableDraggableTable extends React.Component {
     }
   };
 
-  getActionButton = (type, additionalData, id) => {
-    const renderConfig = this.getRenderConfig(additionalData);
-    switch (type) {
+  getActionButton = (action, additionalData, id) => {
+    switch (action.actionType) {
       case DELETE_ACTION:
         return (
           <MenuItem id={id} key={id} onSelect={() => this.crudController.onDelete(additionalData)}>
-            {renderConfig.text}
+            {action.text}
           </MenuItem>
         );
       default:
