@@ -12,7 +12,7 @@ import {
   DropdownKebab,
   HelpBlock
 } from 'patternfly-react';
-import { getFormElement } from '../Forms/FormFactory';
+import { getFormElement } from '../Form/FormFactory';
 import { prefixedId } from '../../utils/utils';
 import InlineEditRow from './InlineEditRow';
 import {
@@ -132,11 +132,12 @@ class EditableDraggableTable extends React.Component {
   };
 
   getActionButton = (type, additionalData, id) => {
+    const renderConfig = this.getRenderConfig(additionalData);
     switch (type) {
       case DELETE_ACTION:
         return (
           <MenuItem id={id} key={id} onSelect={() => this.crudController.onDelete(additionalData)}>
-            Remove Disk
+            {renderConfig.text}
           </MenuItem>
         );
       default:
@@ -146,14 +147,19 @@ class EditableDraggableTable extends React.Component {
 
   getActionButtons = (additionalData, isEditing) => {
     const renderConfig = this.getRenderConfig(additionalData);
-    const id = prefixedId(renderConfig.id, additionalData.rowKey);
+    let result;
+    if (renderConfig) {
+      const id = prefixedId(renderConfig.id, additionalData.rowKey);
 
-    const result =
-      isEditing && !renderConfig.visibleOnEdit ? null : (
-        <DropdownKebab className="row-actions" id={id} key={id} pullRight>
-          {renderConfig.actions.map((action, idx) => this.getActionButton(action, additionalData, prefixedId(idx, id)))}
-        </DropdownKebab>
-      );
+      result =
+        isEditing && !renderConfig.visibleOnEdit ? null : (
+          <DropdownKebab className="row-actions" id={id} key={id} pullRight>
+            {renderConfig.actions.map((action, idx) =>
+              this.getActionButton(action, additionalData, prefixedId(idx, id))
+            )}
+          </DropdownKebab>
+        );
+    }
 
     return <td className="editable">{result}</td>;
   };
@@ -161,13 +167,8 @@ class EditableDraggableTable extends React.Component {
   isDropdown = additionalData => get(this.getRenderConfig(additionalData), 'type') === 'dropdown';
 
   getRenderConfig = additionalData => {
-    const { renderConfigs } = additionalData.column;
-    const renderConfigIdx = additionalData.rowData.renderConfig;
-
-    if (renderConfigs && Number.isInteger(renderConfigIdx) && renderConfigIdx < renderConfigs.length) {
-      return renderConfigs[renderConfigIdx];
-    }
-    return null;
+    const { renderConfig } = additionalData.column;
+    return typeof renderConfig === 'function' ? renderConfig(additionalData.rowData) : renderConfig;
   };
 
   resolveRenderedValue = (value, additionalData, editable) => {
@@ -181,7 +182,7 @@ class EditableDraggableTable extends React.Component {
       result = value;
     }
 
-    if (!editable && renderConfig && renderConfig.hasAddendum) {
+    if (!editable && additionalData.column.hasAddendum) {
       const { addendum } = additionalData.rowData;
       if (addendum) {
         result = result ? `${result} ${addendum}` : addendum;

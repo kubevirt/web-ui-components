@@ -42,7 +42,7 @@ exports[`<ResultTab /> renders success correctly 1`] = `
   <h3
     className="blank-slate-pf-main-action"
   >
-    Creation of VM was succesfull
+    Creation of VM was successful
   </h3>
   <pre
     className="blank-slate-pf-secondary-action description"

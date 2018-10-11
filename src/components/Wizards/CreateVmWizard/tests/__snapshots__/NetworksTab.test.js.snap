@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NetworksTab /> renders correctly 1`] = `
+<TableFactory
+  actionButtons={
+    Array [
+      Object {
+        "className": "create-network",
+        "disabled": false,
+        "id": "create-network-btn",
+        "onClick": [Function],
+        "text": "Create NIC",
+      },
+    ]
+  }
+  columns={
+    Array [
+      Object {
+        "hasAddendum": true,
+        "header": Object {
+          "label": "NIC Name",
+          "props": Object {
+            "style": Object {
+              "width": "32%",
+            },
+          },
+        },
+        "property": "name",
+      },
+      Object {
+        "header": Object {
+          "label": "MAC Address",
+          "props": Object {
+            "style": Object {
+              "width": "32%",
+            },
+          },
+        },
+        "property": "mac",
+        "renderConfig": Object {
+          "id": "mac-edit",
+          "type": "text",
+        },
+      },
+      Object {
+        "header": Object {
+          "label": "Network Configuration",
+          "props": Object {
+            "style": Object {
+              "width": "32%",
+            },
+          },
+        },
+        "property": "network",
+        "renderConfig": [Function],
+      },
+      Object {
+        "header": Object {
+          "props": Object {
+            "style": Object {
+              "width": "4%",
+            },
+          },
+        },
+        "renderConfig": [Function],
+      },
+    ]
+  }
+  error="At least one bootable NIC has to be defined for PXE boot"
+  onRowActivate={[Function]}
+  onRowDeleteOrMove={[Function]}
+  onRowUpdate={[Function]}
+  rows={Array []}
+/>
+`;

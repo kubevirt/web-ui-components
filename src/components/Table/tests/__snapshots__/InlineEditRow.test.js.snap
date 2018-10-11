@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<EditableDraggableTable /> renders correctly 1`] = `
+exports[`<InlineEditRow /> renders correctly 1`] = `
 <TableInlineEditRow
   buttonsClassName=""
   buttonsPosition={[Function]}

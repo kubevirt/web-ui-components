@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Wizard, Button } from 'patternfly-react';
 import { CreateVmWizard } from '../CreateVmWizard/CreateVmWizard';
-import { ButtonWithIcon } from '../../Buttons/ButtonWithIcon';
+import { ButtonWithIcon } from '../../Button/ButtonWithIcon';
 
 export class NewVmWizard extends React.Component {
   state = {
@@ -53,5 +53,6 @@ NewVmWizard.propTypes = {
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
-  k8sCreate: PropTypes.func.isRequired
+  k8sCreate: PropTypes.func.isRequired,
+  networkConfigs: PropTypes.array.isRequired
 };

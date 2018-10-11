@@ -1,6 +1,6 @@
 import { CreateVmWizard } from '..';
 import { namespaces, k8sCreate } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
-import { templates } from '../../../../constants';
+import { templates, networkConfigs } from '../../../../constants';
 
 export default [
   {
@@ -10,7 +10,8 @@ export default [
       onHide: () => {},
       templates,
       namespaces,
-      k8sCreate
+      k8sCreate,
+      networkConfigs
     }
   },
   {
@@ -21,7 +22,8 @@ export default [
       templates,
       namespaces,
       selectedNamespace: namespaces[1],
-      k8sCreate
+      k8sCreate,
+      networkConfigs
     }
   }
 ];

@@ -12,7 +12,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
   loadingTitle="Loading Wizard..."
   nextButtonRef={[Function]}
   nextStepDisabled={true}
-  nextText="Create Virtual Machine"
+  nextText="Next"
   onBack={[Function]}
   onExited={[Function]}
   onHide={[Function]}
@@ -26,6 +26,10 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
       Object {
         "render": [Function],
         "title": "Basic Settings",
+      },
+      Object {
+        "render": [Function],
+        "title": "Network",
       },
       Object {
         "render": [Function],

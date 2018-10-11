@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { FormFactory } from '../../Forms/FormFactory';
+import { FormFactory } from '../../Form/FormFactory';
 import { isPositiveNumber } from '../../../utils/validation';
 import { getName } from '../../../utils/selectors';
 import {

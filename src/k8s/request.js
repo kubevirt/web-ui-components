@@ -5,19 +5,20 @@ import {
   CLOUDINIT_VOLUME,
   VIRTIO_BUS,
   ANNOTATION_DEFAULT_DISK,
-  ANNOTATION_DEFAULT_NETWORK,
   PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_TEMPLATE,
-  TEMPLATE_TYPE_BASE
+  TEMPLATE_TYPE_BASE,
+  PROVISION_SOURCE_PXE,
+  POD_NETWORK
 } from '../constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels } from '../utils/template';
 import { getOsLabel, getWorkloadLabel, getFlavorLabel, getTemplate } from './selectors';
 
-export const createVM = (k8sCreate, templates, basicSettings) => {
+export const createVM = (k8sCreate, templates, basicSettings, networks) => {
   const availableTemplates = [];
   if (get(basicSettings, 'imageSourceType.value') === PROVISION_SOURCE_TEMPLATE) {
     const userTemplate = templates.find(template => template.metadata.name === basicSettings.userTemplate.value);
@@ -50,7 +51,7 @@ export const createVM = (k8sCreate, templates, basicSettings) => {
 
   return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
     const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
-    modifyVmObject(vm, basicSettings);
+    modifyVmObject(vm, basicSettings, networks.networks);
 
     if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
       const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
@@ -78,9 +79,10 @@ const setParameterValue = (template, paramName, paramValue) => {
   parameter.value = paramValue;
 };
 
-const modifyVmObject = (vm, basicSettings) => {
+const modifyVmObject = (vm, basicSettings, networks) => {
   setFlavor(vm, basicSettings);
   setSourceType(vm, basicSettings);
+  setNetworks(vm, basicSettings, networks);
 
   // add running status
   vm.spec.running = basicSettings.startVM ? basicSettings.startVM.value : false;
@@ -99,14 +101,14 @@ const modifyVmObject = (vm, basicSettings) => {
 };
 
 const setSourceType = (vm, basicSettings) => {
-  if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
+  if (
+    basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE ||
+    basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE
+  ) {
     return;
   }
   const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
-  const defaultNetworkName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_NETWORK]);
-
   const defaultDisk = getDefaultDevice(vm, 'disks', defaultDiskName);
-  let defaultNetwork = getDefaultDevice(vm, 'interfaces', defaultNetworkName);
 
   remove(vm.spec.template.spec.volumes, volume => defaultDisk && volume.name === defaultDisk.volumeName);
 
@@ -153,20 +155,43 @@ const setSourceType = (vm, basicSettings) => {
       addVolume(vm, volume);
       break;
     }
-    // PXE
-    default: {
-      if (!defaultNetwork) {
-        defaultNetwork = {
-          type: 'pod-network',
-          name: 'default-network',
-          model: 'virtio'
-        };
-        addInterface(vm, defaultNetwork);
-      }
-      defaultNetwork.bootOrder = 1;
-      addAnnotation(vm, 'firstRun', 'true');
+    default:
       break;
+  }
+};
+
+const setNetworks = (vm, basicSettings, networks) => {
+  networks.forEach(network => {
+    const nic = {
+      bridge: {},
+      name: network.name
+    };
+    if (network.mac) {
+      nic.macAddress = network.mac;
     }
+    if (network.isBootable) {
+      nic.bootOrder = 1;
+    }
+
+    const networkConfig = {
+      name: network.name
+    };
+    if (network.network === POD_NETWORK) {
+      networkConfig.pod = {};
+    } else {
+      networkConfig.multus = {
+        networkName: network.network
+      };
+    }
+    addInterface(vm, nic);
+    addNetwork(vm, networkConfig);
+  });
+
+  if (basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE) {
+    delete vm.spec.template.spec.domain.devices.disks;
+    delete vm.spec.template.spec.volumes;
+    addAnnotation(vm, 'cnv.ui.pxeInterface', networks.find(network => network.isBootable).name);
+    addAnnotation(vm, 'cnv.ui.firstBoot', 'true');
   }
 };
 
@@ -243,6 +268,12 @@ const addInterface = (vm, interfaceSpec) => {
   devices.interfaces = interfaces;
   domain.devices = devices;
   vm.spec.template.spec.domain = domain;
+};
+
+const addNetwork = (vm, networkSpec) => {
+  const networks = get(vm.spec.template.spec, 'networks', []);
+  networks.push(networkSpec);
+  vm.spec.template.spec.networks = networks;
 };
 
 const addAnnotation = (vm, key, value) => {
