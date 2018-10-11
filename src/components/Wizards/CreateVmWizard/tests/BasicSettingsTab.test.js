@@ -5,16 +5,7 @@ import { namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 import { templates } from '../../../../constants';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 
-const testCreateVmWizard = (basicSettings = {}, onChange = null) => (
-  <BasicSettingsTab
-    templates={templates}
-    namespaces={namespaces}
-    basicSettings={basicSettings}
-    onChange={onChange || jest.fn()}
-  />
-);
-
-const testCreateVmWizardWithNamespace = (selectedNamespace, basicSettings = {}, onChange = null) => (
+const testCreateVmWizard = (basicSettings = {}, onChange = null, selectedNamespace = undefined) => (
   <BasicSettingsTab
     templates={templates}
     namespaces={namespaces}
@@ -52,7 +43,7 @@ describe('<BasicSettingsTab />', () => {
   it('defaults to selectedNamespace', () => {
     const onChange = jest.fn();
     const namespace = namespaces[1];
-    shallow(testCreateVmWizardWithNamespace(namespace, {}, onChange));
+    shallow(testCreateVmWizard({}, onChange, namespace));
 
     expectMockToBeCalledWith(
       onChange,
@@ -60,6 +51,35 @@ describe('<BasicSettingsTab />', () => {
         namespace: {
           validMsg: undefined,
           value: namespace.metadata.name
+        }
+      },
+      false
+    );
+  });
+
+  it('changes selectedNamespace on prop change', () => {
+    const onChange = jest.fn();
+    const basicSettings = {};
+    const selectedNamespace = namespaces[1];
+
+    const component = shallow(testCreateVmWizard(basicSettings, onChange));
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    component.setProps({
+      templates,
+      namespaces,
+      selectedNamespace,
+      basicSettings,
+      onChange
+    });
+
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        namespace: {
+          validMsg: undefined,
+          value: selectedNamespace.metadata.name
         }
       },
       false
