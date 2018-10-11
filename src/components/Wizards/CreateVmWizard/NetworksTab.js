@@ -34,7 +34,7 @@ export class NetworksTab extends React.Component {
       mac,
       network,
       errors,
-      renderConfig: 0,
+      renderConfig: id === 1 ? 1 : 0,
       edit: false,
       addendum: isBootable && props.pxeBoot ? BOOTABLE : null
     }));
@@ -141,7 +141,8 @@ export class NetworksTab extends React.Component {
           edit: true, // trigger immediate edit,
           name: `eth${state.nextId - 1}`,
           mac: '',
-          network: ''
+          network: '',
+          renderConfig: 0
         }
       ]
     }));
@@ -170,10 +171,16 @@ export class NetworksTab extends React.Component {
         }
       },
       property: 'mac',
-      renderConfig: {
-        id: 'mac-edit',
-        type: 'text'
-      }
+      renderConfigs: [
+        {
+          id: 'mac-edit',
+          type: 'text'
+        },
+        {
+          id: 'mac-edit',
+          type: 'text'
+        }
+      ]
     },
     {
       header: {
@@ -185,20 +192,17 @@ export class NetworksTab extends React.Component {
         }
       },
       property: 'network',
-      renderConfig: row =>
-        row.id === 1
-          ? null
-          : {
-              id: 'network-edit',
-              type: 'dropdown',
-              choices: this.props.networkConfigs
-                .map(networkConfig => networkConfig.metadata.name)
-                .filter(networkConfig => {
-                  const result = this.state.rows.find(r => r.network === networkConfig);
-                  return !result;
-                }),
-              initialValue: '--- Select Network Definition ---'
-            }
+      renderConfigs: [
+        {
+          id: 'network-edit',
+          type: 'dropdown',
+          choices: this.props.networkConfigs.map(networkConfig => networkConfig.metadata.name).filter(networkConfig => {
+            const result = this.state.rows.find(r => r.network === networkConfig);
+            return !result;
+          }),
+          initialValue: '--- Select Network Definition ---'
+        }
+      ]
     },
     {
       header: {

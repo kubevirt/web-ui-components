@@ -37,10 +37,16 @@ exports[`<NetworksTab /> renders correctly 1`] = `
           },
         },
         "property": "mac",
-        "renderConfig": Object {
-          "id": "mac-edit",
-          "type": "text",
-        },
+        "renderConfigs": Array [
+          Object {
+            "id": "mac-edit",
+            "type": "text",
+          },
+          Object {
+            "id": "mac-edit",
+            "type": "text",
+          },
+        ],
       },
       Object {
         "header": Object {
@@ -52,7 +58,16 @@ exports[`<NetworksTab /> renders correctly 1`] = `
           },
         },
         "property": "network",
-        "renderConfig": [Function],
+        "renderConfigs": Array [
+          Object {
+            "choices": Array [
+              "pxe-net-conf",
+            ],
+            "id": "network-edit",
+            "initialValue": "--- Select Network Definition ---",
+            "type": "dropdown",
+          },
+        ],
       },
       Object {
         "header": Object {
