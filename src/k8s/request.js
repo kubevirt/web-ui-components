@@ -5,6 +5,7 @@ import {
   CLOUDINIT_VOLUME,
   VIRTIO_BUS,
   ANNOTATION_DEFAULT_DISK,
+  ANNOTATION_DEFAULT_NETWORK,
   PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_REGISTRY,
@@ -107,8 +108,7 @@ const setSourceType = (vm, basicSettings) => {
   ) {
     return;
   }
-  const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
-  const defaultDisk = getDefaultDevice(vm, 'disks', defaultDiskName);
+  const defaultDisk = getDefaultDisk(vm, basicSettings);
 
   remove(vm.spec.template.spec.volumes, volume => defaultDisk && volume.name === defaultDisk.volumeName);
 
@@ -161,6 +161,14 @@ const setSourceType = (vm, basicSettings) => {
 };
 
 const setNetworks = (vm, basicSettings, networks) => {
+  const defaultInterface = getDefaultInterface(vm, basicSettings);
+  const interfaceModel = defaultInterface ? defaultInterface.model : undefined;
+
+  if (basicSettings.imageSourceType.value !== PROVISION_SOURCE_TEMPLATE) {
+    delete vm.spec.template.spec.domain.devices.interfaces;
+    delete vm.spec.template.spec.networks;
+  }
+
   networks.forEach(network => {
     const nic = {
       bridge: {},
@@ -171,6 +179,9 @@ const setNetworks = (vm, basicSettings, networks) => {
     }
     if (network.isBootable) {
       nic.bootOrder = 1;
+    }
+    if (interfaceModel) {
+      nic.model = interfaceModel;
     }
 
     const networkConfig = {
@@ -195,7 +206,17 @@ const setNetworks = (vm, basicSettings, networks) => {
   }
 };
 
-const getDefaultDevice = (vm, deviceType, deviceName) =>
+const getDefaultDisk = (vm, basicSettings) => {
+  const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
+  return getDevice(vm, 'disks', defaultDiskName);
+};
+
+const getDefaultInterface = (vm, basicSettings) => {
+  const defaultInterfaceName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_NETWORK]);
+  return getDevice(vm, 'interfaces', defaultInterfaceName);
+};
+
+const getDevice = (vm, deviceType, deviceName) =>
   get(vm.spec.template.spec.domain.devices, deviceType, []).find(device => device.name === deviceName);
 
 const addCloudInit = (vm, basicSettings) => {
