@@ -6,6 +6,9 @@ import BasicSettingsTab from './BasicSettingsTab';
 import ResultTab from './ResultTab';
 
 import { createVM } from '../../../k8s/request';
+import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
+import { NetworksTab } from './NetworksTab';
+import { isImageSourceType } from '../../../k8s/selectors';
 
 export class CreateVmWizard extends React.Component {
   state = {
@@ -14,6 +17,20 @@ export class CreateVmWizard extends React.Component {
       {
         value: {}, // Basic Settings
         valid: false
+      },
+      {
+        value: {
+          networks: [
+            {
+              id: 1,
+              name: 'eth0',
+              mac: '',
+              network: POD_NETWORK,
+              edit: false
+            }
+          ]
+        },
+        valid: true
       },
       {
         value: '',
@@ -81,6 +98,17 @@ export class CreateVmWizard extends React.Component {
       )
     },
     {
+      title: 'Network',
+      render: () => (
+        <NetworksTab
+          onChange={this.onStepDataChanged}
+          networkConfigs={this.props.networkConfigs}
+          networks={this.state.stepData[1].value.networks || []}
+          pxeBoot={isImageSourceType(this.state.stepData[0].value, PROVISION_SOURCE_PXE)}
+        />
+      )
+    },
+    {
       title: 'Result',
       render: () => {
         const stepData = this.state.stepData[this.getLastStepIndex()];
@@ -117,5 +145,6 @@ CreateVmWizard.propTypes = {
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
   selectedNamespace: PropTypes.object,
-  k8sCreate: PropTypes.func.isRequired
+  k8sCreate: PropTypes.func.isRequired,
+  networkConfigs: PropTypes.array.isRequired
 };

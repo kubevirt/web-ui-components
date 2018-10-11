@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TableFactory /> renders correctly 1`] = `
+<Fragment>
+  <ButtonGroup
+    block={false}
+    bsClass="btn-group"
+    className="pull-right actions"
+    justified={false}
+    vertical={false}
+  />
+  <DragDropContext(EditableDraggableTable)
+    columns={Array []}
+    onChange={[Function]}
+    rows={Array []}
+  />
+</Fragment>
+`;

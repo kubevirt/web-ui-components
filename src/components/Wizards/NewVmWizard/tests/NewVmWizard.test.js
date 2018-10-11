@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { NewVmWizard } from '../NewVmWizard';
 import { namespaces } from '../fixtures/NewVmWizard.fixture';
 import { CreateVmWizard } from '../../CreateVmWizard/CreateVmWizard';
-import { templates, userTemplates } from '../../../../constants';
+import { templates, userTemplates, networkConfigs } from '../../../../constants';
 
 const testNewVmWizard = () => (
   <NewVmWizard
@@ -11,6 +11,7 @@ const testNewVmWizard = () => (
     templates={templates}
     namespaces={namespaces}
     userTemplates={userTemplates}
+    networkConfigs={networkConfigs}
     k8sCreate={() => {}}
   />
 );

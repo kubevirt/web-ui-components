@@ -7,7 +7,7 @@ const testProp = 'testProp';
 
 const testInlineEditRow = () => <InlineEditRow testProp={testProp} />;
 
-describe('<EditableDraggableTable />', () => {
+describe('<InlineEditRow />', () => {
   it('renders correctly', () => {
     const component = shallow(testInlineEditRow());
     expect(component).toMatchSnapshot();

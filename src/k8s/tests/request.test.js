@@ -1,3 +1,4 @@
+import { cloneDeep, get } from 'lodash';
 import { createVM } from '../request';
 
 import { ProcessedTemplatesModel } from '../../models';
@@ -8,8 +9,9 @@ import {
   PROVISION_SOURCE_URL,
   PARAM_VM_NAME,
   templates,
-  userTemplates
+  POD_NETWORK
 } from '../../constants';
+import { rhel75 } from '../mock_templates/rhel75.template';
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 
 const basicSettings = {
@@ -19,6 +21,26 @@ const basicSettings = {
   namespace: {
     value: 'namespace'
   },
+  chosenTemplate: cloneDeep(rhel75),
+  imageSourceType: {
+    value: PROVISION_SOURCE_REGISTRY
+  },
+  registryImage: {
+    value: 'imageURL'
+  },
+  flavor: {
+    value: 'small'
+  }
+};
+
+const basicSettingsWithNetwork = {
+  name: {
+    value: 'name'
+  },
+  namespace: {
+    value: 'namespace'
+  },
+  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -37,6 +59,7 @@ const basicSettingsCloudInit = {
   namespace: {
     value: 'namespace'
   },
+  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -67,6 +90,7 @@ const vmFromURL = {
   description: {
     value: 'desc'
   },
+  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_URL
   },
@@ -88,6 +112,7 @@ const vmPXE = {
   description: {
     value: 'desc'
   },
+  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_PXE
   },
@@ -109,6 +134,7 @@ const customFlavor = {
   description: {
     value: 'desc'
   },
+  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -136,6 +162,7 @@ const vmUserTemplate = {
   namespace: {
     value: 'namespace'
   },
+  chosenTemplate: cloneDeep(linuxUserTemplate),
   imageSourceType: {
     value: 'Template'
   },
@@ -148,6 +175,28 @@ const vmUserTemplate = {
   memory: {
     value: 3
   }
+};
+
+const networks = { networks: [] };
+
+const podNetworks = {
+  networks: [
+    {
+      name: 'podNetworkName',
+      network: POD_NETWORK
+    }
+  ]
+};
+
+const pxeNetworks = {
+  networks: [
+    ...podNetworks.networks,
+    {
+      name: 'pxeNetworkName',
+      network: 'networkConfig',
+      isBootable: true
+    }
+  ]
 };
 
 const processTemplate = template =>
@@ -176,17 +225,10 @@ const testRegistryImage = vm => {
   return vm;
 };
 
-const testPXE = vm => {
-  expect(vm.metadata.name).toBe(basicSettings.name.value);
-  expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
-  expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBe(1);
-  return vm;
-};
-
 describe('request.js', () => {
-  it('registryImage', () => createVM(k8sCreate, templates, basicSettings).then(testRegistryImage));
+  it('registryImage', () => createVM(k8sCreate, templates, basicSettings, networks).then(testRegistryImage));
   it('from URL', () =>
-    createVM(k8sCreate, templates, vmFromURL).then(vm => {
+    createVM(k8sCreate, templates, vmFromURL, networks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
@@ -200,9 +242,40 @@ describe('request.js', () => {
       expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(vmFromURL.imageURL.value);
       return vm;
     }));
-  it('from PXE', () => createVM(k8sCreate, templates, vmPXE).then(testPXE));
+  it('from PXE', () =>
+    createVM(k8sCreate, templates, vmPXE, pxeNetworks).then(vm => {
+      expect(vm.metadata.name).toBe(basicSettings.name.value);
+      expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetworks.networks[0].name);
+      expect(vm.spec.template.spec.domain.devices.interfaces[1].bootOrder).toBe(1);
+      expect(vm.spec.template.spec.domain.devices.interfaces[1].name).toEqual(pxeNetworks.networks[1].name);
+      expect(vm.spec.template.spec.networks).toHaveLength(2);
+      expect(vm.spec.template.spec.networks[0].name).toEqual(podNetworks.networks[0].name);
+      expect(vm.spec.template.spec.networks[1].name).toEqual(pxeNetworks.networks[1].name);
+      expect(vm.spec.template.spec.networks[1].multus.networkName).toEqual(pxeNetworks.networks[1].network);
+
+      expect(vm.metadata.annotations['cnv.ui.pxeInterface']).toEqual(pxeNetworks.networks[1].name);
+      expect(vm.metadata.annotations['cnv.ui.firstBoot']).toBeTruthy();
+      return vm;
+    }));
+  it('with non bootable networks', () =>
+    createVM(k8sCreate, templates, basicSettingsWithNetwork, podNetworks).then(vm => {
+      expect(vm.metadata.name).toBe(basicSettingsWithNetwork.name.value);
+      expect(vm.metadata.namespace).toBe(basicSettingsWithNetwork.namespace.value);
+      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetworks.networks[0].name);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBeUndefined();
+      expect(vm.spec.template.spec.networks).toHaveLength(1);
+      expect(vm.spec.template.spec.networks[0].name).toEqual(podNetworks.networks[0].name);
+      expect(vm.spec.template.spec.networks[0].pod).toEqual({});
+
+      expect(get(vm.metadata.annotations, 'cnv.ui.pxeInterface')).toBeUndefined();
+      expect(get(vm.metadata.annotations, 'cnv.ui.firstBoot')).toBeUndefined();
+      return vm;
+    }));
   it('from User Template', () =>
-    createVM(k8sCreate, userTemplates, vmUserTemplate).then(vm => {
+    createVM(k8sCreate, templates, vmUserTemplate, networks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(3);
@@ -210,7 +283,7 @@ describe('request.js', () => {
       return vm;
     }));
   it('with CloudInit', () =>
-    createVM(k8sCreate, templates, basicSettingsCloudInit).then(vm => {
+    createVM(k8sCreate, templates, basicSettingsCloudInit, networks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.devices.disks[1].name).toBe('cloudinitdisk');
@@ -220,7 +293,7 @@ describe('request.js', () => {
       return vm;
     }));
   it('with custom flavor', () =>
-    createVM(k8sCreate, templates, customFlavor).then(vm => {
+    createVM(k8sCreate, templates, customFlavor, networks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(1);

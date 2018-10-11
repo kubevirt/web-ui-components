@@ -17,7 +17,7 @@ const ResultTab = ({ result, success }) => {
         <div className="wizard-pf-success-icon">
           <span className="glyphicon glyphicon-ok-circle" />
         </div>
-        <h3 className="blank-slate-pf-main-action">Creation of VM was succesfull</h3>
+        <h3 className="blank-slate-pf-main-action">Creation of VM was successful</h3>
         <pre className="blank-slate-pf-secondary-action description">{result}</pre>
       </div>
     );
