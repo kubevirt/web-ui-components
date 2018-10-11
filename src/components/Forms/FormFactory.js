@@ -60,7 +60,7 @@ export const getFormElement = props => {
 
 export const FormFactory = ({ fields, fieldsValues, onFormChange }) => {
   const formGroups = Object.keys(fields)
-    .filter(key => !fields[key].isVisible || fields[key].isVisible(fieldsValues))
+    .filter(key => fields[key] && (!fields[key].isVisible || fields[key].isVisible(fieldsValues)))
     .map(key => {
       const field = fields[key];
       const values = fieldsValues[key];

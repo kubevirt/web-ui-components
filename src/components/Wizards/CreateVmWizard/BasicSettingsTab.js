@@ -21,12 +21,23 @@ import {
   getTemplate
 } from '../../../k8s/selectors';
 
-export const getFormFields = (basicSettings, namespaces, templates) => {
+export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates);
   const operatingSystems = getOperatingSystems(basicSettings, templates);
   const flavors = getFlavors(basicSettings, templates);
 
-  namespaces = namespaces.map(getName);
+  let namespaceDropdown;
+
+  if (!selectedNamespace) {
+    namespaceDropdown = {
+      id: 'namespace-dropdown',
+      title: 'Namespace',
+      type: 'dropdown',
+      defaultValue: '--- Select Namespace ---',
+      choices: namespaces.map(getName),
+      required: true
+    };
+  }
 
   return {
     name: {
@@ -37,14 +48,7 @@ export const getFormFields = (basicSettings, namespaces, templates) => {
       title: 'Description',
       type: 'textarea'
     },
-    namespace: {
-      id: 'namespace-dropdown',
-      title: 'Namespace',
-      type: 'dropdown',
-      defaultValue: '--- Select Namespace ---',
-      choices: namespaces,
-      required: true
-    },
+    namespace: namespaceDropdown,
     imageSourceType: {
       id: 'image-source-type-dropdown',
       title: 'Provision Source',
@@ -149,6 +153,20 @@ export const getFormFields = (basicSettings, namespaces, templates) => {
 };
 
 class BasicSettingsTab extends React.Component {
+  constructor(props) {
+    super(props);
+    if (props.selectedNamespace) {
+      const basicSettings = {
+        ...props.basicSettings,
+        namespace: {
+          value: getName(props.selectedNamespace)
+        }
+      };
+
+      props.onChange(basicSettings, false); // not valid
+    }
+  }
+
   onFormChange = (formFields, newValue, target) => {
     let validMsg;
 
@@ -205,8 +223,8 @@ class BasicSettingsTab extends React.Component {
   };
 
   render() {
-    const { basicSettings, namespaces, templates } = this.props;
-    const formFields = getFormFields(basicSettings, namespaces, templates);
+    const { basicSettings, namespaces, templates, selectedNamespace } = this.props;
+    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace);
 
     return (
       <FormFactory
@@ -218,9 +236,14 @@ class BasicSettingsTab extends React.Component {
   }
 }
 
+BasicSettingsTab.defaultProps = {
+  selectedNamespace: undefined
+};
+
 BasicSettingsTab.propTypes = {
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
+  selectedNamespace: PropTypes.object, // used only in initialization
   basicSettings: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
 };
