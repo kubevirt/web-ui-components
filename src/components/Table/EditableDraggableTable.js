@@ -166,8 +166,13 @@ class EditableDraggableTable extends React.Component {
   isDropdown = additionalData => get(this.getRenderConfig(additionalData), 'type') === 'dropdown';
 
   getRenderConfig = additionalData => {
-    const { renderConfig } = additionalData.column;
-    return typeof renderConfig === 'function' ? renderConfig(additionalData.rowData) : renderConfig;
+    const { renderConfigs } = additionalData.column;
+    const renderConfigIdx = additionalData.rowData.renderConfig;
+
+    if (renderConfigs && Number.isInteger(renderConfigIdx) && renderConfigIdx < renderConfigs.length) {
+      return renderConfigs[renderConfigIdx];
+    }
+    return null;
   };
 
   resolveRenderedValue = (value, additionalData, editable) => {
