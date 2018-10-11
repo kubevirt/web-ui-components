@@ -7,6 +7,7 @@ import { namespaces, storages, storageClasses, units } from '../../NewVmWizard/f
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
+import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
 
 jest.mock('../../../../k8s/request');
 
@@ -29,13 +30,17 @@ const testWalkThrough = () => {
   component.instance().onStepDataChanged(validBasicSettings, true);
   expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
 
-  component.instance().onStepChanged(1); // should allow going forward
-  expect(component.state().activeStepIndex).toEqual(1);
-  component.instance().onStepChanged(0); // try to go back
-  expect(component.state().activeStepIndex).toEqual(0);
+  component.instance().onStepChanged(NETWORK_TAB_IDX); // should allow going forward
+  expect(component.state().activeStepIndex).toEqual(NETWORK_TAB_IDX);
 
-  component.instance().onStepChanged(1); // forward again
-  expect(component.state().activeStepIndex).toEqual(1);
+  component.instance().onStepChanged(BASIC_SETTINGS_TAB_IDX); // try to go back
+  expect(component.state().activeStepIndex).toEqual(BASIC_SETTINGS_TAB_IDX);
+
+  component.instance().onStepChanged(NETWORK_TAB_IDX); // forward
+  expect(component.find(WizardPattern).props().nextText).toBe('Next');
+  component.instance().onStepChanged(DISKS_TAB_IDX);
+
+  expect(component.state().activeStepIndex).toEqual(DISKS_TAB_IDX);
   expect(component.find(WizardPattern).props().nextText).toBe('Create Virtual Machine');
   expect(component.instance().lastStepReached()).toBeFalsy();
 
@@ -65,13 +70,13 @@ const testWalkThrough = () => {
   );
 
   expect(createVM).not.toHaveBeenCalled();
-  component.instance().onStepChanged(2); // create vm
-  expect(component.state().activeStepIndex).toEqual(2);
+  component.instance().onStepChanged(RESULTS_TAB_IDX); // create vm
+  expect(component.state().activeStepIndex).toEqual(RESULTS_TAB_IDX);
   expect(component.instance().lastStepReached()).toBeTruthy();
   expect(createVM).toHaveBeenCalled();
   expect(component.find(WizardPattern).props().previousStepDisabled).toBeTruthy();
-  component.instance().onStepChanged(0); // should not allow going backwards
-  expect(component.state().activeStepIndex).toEqual(2);
+  component.instance().onStepChanged(BASIC_SETTINGS_TAB_IDX); // should not allow going backwards
+  expect(component.state().activeStepIndex).toEqual(RESULTS_TAB_IDX);
 };
 
 describe('<CreateVmWizard />', () => {
@@ -101,8 +106,8 @@ describe('<CreateVmWizard />', () => {
     const component = shallow(testCreateVmWizard());
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
     expect(component.find(WizardPattern).props().nextText).toBe('Next');
-    expect(component.find(WizardPattern).props().steps).toHaveLength(3);
-    expect(component.instance().getLastStepIndex()).toBe(2);
+    expect(component.find(WizardPattern).props().steps).toHaveLength(ALL_TABS.length);
+    expect(component.instance().getLastStepIndex()).toBe(ALL_TABS.length - 1);
   });
 
   it('changes next step disability', () => {

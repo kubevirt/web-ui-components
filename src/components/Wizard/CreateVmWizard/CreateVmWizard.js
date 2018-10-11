@@ -12,11 +12,7 @@ import { createVM } from '../../../k8s/request';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
 import { NetworksTab } from './NetworksTab';
 import { isImageSourceType } from '../../../k8s/selectors';
-
-const BASIC_SETTINGS_TAB_IDX = 0;
-const DISKS_TAB_IDX = 1;
-const NETWORK_TAB_IDX = 2;
-const RESULTS_TAB_IDX = 3;
+import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX } from './constants';
 
 const getBasicSettingsValue = (stepData, key) => get(stepData[BASIC_SETTINGS_TAB_IDX].value, `${key}.value`);
 

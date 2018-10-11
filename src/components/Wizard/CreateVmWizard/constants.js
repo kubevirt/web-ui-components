@@ -1,0 +1,6 @@
+export const BASIC_SETTINGS_TAB_IDX = 0;
+export const NETWORK_TAB_IDX = 1;
+export const DISKS_TAB_IDX = 2;
+export const RESULTS_TAB_IDX = 3;
+
+export const ALL_TABS = [BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX];

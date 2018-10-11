@@ -248,6 +248,23 @@ const testRegistryImage = vm => {
   return vm;
 };
 
+const testPXE = vm => {
+  expect(vm.metadata.name).toBe(basicSettings.name.value);
+  expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+  expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
+  expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetworks.networks[0].name);
+  expect(vm.spec.template.spec.domain.devices.interfaces[1].bootOrder).toBe(1);
+  expect(vm.spec.template.spec.domain.devices.interfaces[1].name).toEqual(pxeNetworks.networks[1].name);
+  expect(vm.spec.template.spec.networks).toHaveLength(2);
+  expect(vm.spec.template.spec.networks[0].name).toEqual(podNetworks.networks[0].name);
+  expect(vm.spec.template.spec.networks[1].name).toEqual(pxeNetworks.networks[1].name);
+  expect(vm.spec.template.spec.networks[1].multus.networkName).toEqual(pxeNetworks.networks[1].network);
+
+  expect(vm.metadata.annotations['cnv.ui.pxeInterface']).toEqual(pxeNetworks.networks[1].name);
+  expect(vm.metadata.annotations['cnv.ui.firstBoot']).toBeTruthy();
+  return vm;
+};
+
 describe('request.js', () => {
   it('registryImage', () => createVM(k8sCreate, templates, basicSettings, networks).then(testRegistryImage));
   it('from URL', () =>
@@ -265,23 +282,7 @@ describe('request.js', () => {
       expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(vmFromURL.imageURL.value);
       return vm;
     }));
-  it('from PXE', () =>
-    createVM(k8sCreate, templates, vmPXE, pxeNetworks).then(vm => {
-      expect(vm.metadata.name).toBe(basicSettings.name.value);
-      expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
-      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
-      expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetworks.networks[0].name);
-      expect(vm.spec.template.spec.domain.devices.interfaces[1].bootOrder).toBe(1);
-      expect(vm.spec.template.spec.domain.devices.interfaces[1].name).toEqual(pxeNetworks.networks[1].name);
-      expect(vm.spec.template.spec.networks).toHaveLength(2);
-      expect(vm.spec.template.spec.networks[0].name).toEqual(podNetworks.networks[0].name);
-      expect(vm.spec.template.spec.networks[1].name).toEqual(pxeNetworks.networks[1].name);
-      expect(vm.spec.template.spec.networks[1].multus.networkName).toEqual(pxeNetworks.networks[1].network);
-
-      expect(vm.metadata.annotations['cnv.ui.pxeInterface']).toEqual(pxeNetworks.networks[1].name);
-      expect(vm.metadata.annotations['cnv.ui.firstBoot']).toBeTruthy();
-      return vm;
-    }));
+  it('from PXE', () => createVM(k8sCreate, templates, vmPXE, pxeNetworks).then(testPXE));
   it('with non bootable networks', () =>
     createVM(k8sCreate, templates, basicSettingsWithNetwork, podNetworks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettingsWithNetwork.name.value);
@@ -325,16 +326,16 @@ describe('request.js', () => {
     }));
 
   it('registryImage with attached disks', () =>
-    createVM(k8sCreate, templates, basicSettings, attachStorageDisks).then(vm => {
+    createVM(k8sCreate, templates, basicSettings, networks, attachStorageDisks).then(vm => {
       testRegistryImage(vm);
       testFirstAttachedStorage(vm, 1, 1, 1);
       return vm;
     }));
 
   it('from PXE with attached disks', () =>
-    createVM(k8sCreate, templates, vmPXE, attachStorageDisks).then(vm => {
+    createVM(k8sCreate, templates, vmPXE, pxeNetworks, attachStorageDisks).then(vm => {
       testPXE(vm);
-      testFirstAttachedStorage(vm, 0, 1, 2);
+      testFirstAttachedStorage(vm, 0, 0, 2);
       return vm;
     }));
 });
