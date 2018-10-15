@@ -1,12 +1,13 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { WizardPattern } from 'patternfly-react';
-import { CreateVmWizard } from '../CreateVmWizard';
+import { CreateVmWizard, NetworksTab } from '..';
 import { templates, networkConfigs } from '../../../../constants';
 import { namespaces, storages, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
+import BasicSettingsTab from '../BasicSettingsTab';
 
 jest.mock('../../../../k8s/request');
 
@@ -124,6 +125,23 @@ describe('<CreateVmWizard />', () => {
       false
     );
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
+  });
+
+  it('first step renders <BasicSettinsTab />', () => {
+    const component = mount(testCreateVmWizard());
+    expect(component.find(BasicSettingsTab).exists()).toBeTruthy();
+  });
+
+  it('second step renders <NetworksTab />', () => {
+    const component = mount(testCreateVmWizard());
+    const stepData = [...component.state().stepData];
+    stepData[0].valid = true;
+    component.setState({
+      stepData
+    });
+    expect(component.find(NetworksTab).exists()).toBeFalsy();
+    component.find('.btn-primary').simulate('click');
+    expect(component.find(NetworksTab).exists()).toBeTruthy();
   });
 
   it('creates vm', () => {
