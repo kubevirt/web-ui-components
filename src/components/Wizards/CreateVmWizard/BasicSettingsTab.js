@@ -21,6 +21,8 @@ import {
   getTemplate
 } from '../../../k8s/selectors';
 
+const NAMESPACE_KEY = 'namespace';
+
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates);
   const operatingSystems = getOperatingSystems(basicSettings, templates);
@@ -48,7 +50,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       title: 'Description',
       type: 'textarea'
     },
-    namespace: namespaceDropdown,
+    [NAMESPACE_KEY]: namespaceDropdown,
     imageSourceType: {
       id: 'image-source-type-dropdown',
       title: 'Provision Source',
@@ -152,18 +154,68 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
   };
 };
 
+const isFieldRequired = (formFields, key, basicVmSettings) => {
+  const field = formFields[key];
+  if (field && field.required) {
+    return field.isVisible ? field.isVisible(basicVmSettings) : true;
+  }
+  return false;
+};
+
+const validateWizard = (formFields, values) => {
+  let wizardValid = true;
+
+  // check if all required fields are defined
+  const requiredKeys = Object.keys(formFields).filter(key => isFieldRequired(formFields, key, values));
+  const requiredKeysInValues = Object.keys(values).filter(key => isFieldRequired(formFields, key, values));
+
+  if (requiredKeys.length !== requiredKeysInValues.length) {
+    wizardValid = false;
+  }
+
+  // check if all fields are valid
+  for (const key in values) {
+    if (get(values[key], 'validMsg') && (formFields[key].isVisible ? formFields[key].isVisible(values) : true)) {
+      wizardValid = false;
+      break;
+    }
+  }
+
+  return wizardValid;
+};
+
+const asValueObject = (value, validMsg) => ({
+  value,
+  validMsg
+});
+
+const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onChange }, value, target, formFields) => {
+  if (!formFields) {
+    formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace);
+  }
+
+  const newBasicSettings = {
+    ...basicSettings,
+    [target]: value
+  };
+
+  onChange(newBasicSettings, validateWizard(formFields, newBasicSettings)); // not valid
+};
+
 class BasicSettingsTab extends React.Component {
   constructor(props) {
     super(props);
     if (props.selectedNamespace) {
-      const basicSettings = {
-        ...props.basicSettings,
-        namespace: {
-          value: getName(props.selectedNamespace)
-        }
-      };
+      publish(props, asValueObject(getName(props.selectedNamespace)), NAMESPACE_KEY);
+    }
+  }
 
-      props.onChange(basicSettings, false); // not valid
+  componentDidUpdate(prevProps) {
+    const newNamespace = this.props.selectedNamespace;
+    const oldNamespace = prevProps.selectedNamespace;
+
+    if (newNamespace && getName(newNamespace) !== getName(oldNamespace)) {
+      publish(this.props, asValueObject(getName(newNamespace)), NAMESPACE_KEY);
     }
   }
 
@@ -181,45 +233,7 @@ class BasicSettingsTab extends React.Component {
       validMsg = `${formFields[target].title} ${validMsg}`;
     }
 
-    const basicSettings = {
-      ...this.props.basicSettings,
-      [target]: {
-        value: newValue,
-        validMsg
-      }
-    };
-
-    this.props.onChange(basicSettings, this.validateWizard(formFields, basicSettings));
-  };
-
-  validateWizard = (formFields, values) => {
-    let wizardValid = true;
-
-    // check if all required fields are defined
-    const requiredKeys = Object.keys(formFields).filter(key => this.isFieldRequired(formFields, key, values));
-    const requiredKeysInValues = Object.keys(values).filter(key => this.isFieldRequired(formFields, key, values));
-
-    if (requiredKeys.length !== requiredKeysInValues.length) {
-      wizardValid = false;
-    }
-
-    // check if all fields are valid
-    for (const key in values) {
-      if (get(values[key], 'validMsg') && (formFields[key].isVisible ? formFields[key].isVisible(values) : true)) {
-        wizardValid = false;
-        break;
-      }
-    }
-
-    return wizardValid;
-  };
-
-  isFieldRequired = (formFields, key, basicVmSettings) => {
-    const field = formFields[key];
-    if (field && field.required) {
-      return field.isVisible ? field.isVisible(basicVmSettings) : true;
-    }
-    return false;
+    publish(this.props, asValueObject(newValue, validMsg), target, formFields);
   };
 
   render() {
@@ -245,6 +259,7 @@ BasicSettingsTab.propTypes = {
   namespaces: PropTypes.array.isRequired,
   selectedNamespace: PropTypes.object, // used only in initialization
   basicSettings: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   onChange: PropTypes.func.isRequired
 };
 
