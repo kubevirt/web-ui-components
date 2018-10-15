@@ -26,6 +26,12 @@ exports[`<NetworksTab /> renders correctly 1`] = `
           },
         },
         "property": "name",
+        "renderConfigs": Array [
+          Object {
+            "id": "name-edit",
+            "type": "text",
+          },
+        ],
       },
       Object {
         "header": Object {
@@ -38,10 +44,6 @@ exports[`<NetworksTab /> renders correctly 1`] = `
         },
         "property": "mac",
         "renderConfigs": Array [
-          Object {
-            "id": "mac-edit",
-            "type": "text",
-          },
           Object {
             "id": "mac-edit",
             "type": "text",
@@ -62,6 +64,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
           Object {
             "choices": Array [
               "pxe-net-conf",
+              "Pod Networking",
             ],
             "id": "network-edit",
             "initialValue": "--- Select Network Definition ---",
@@ -77,7 +80,19 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             },
           },
         },
-        "renderConfig": [Function],
+        "renderConfigs": Array [
+          Object {
+            "actions": Array [
+              Object {
+                "actionType": "delete",
+                "text": "Remove NIC",
+              },
+            ],
+            "id": "actions",
+            "type": "actions",
+            "visibleOnEdit": false,
+          },
+        ],
       },
     ]
   }

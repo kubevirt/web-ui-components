@@ -277,6 +277,7 @@ describe('request.js', () => {
     createVM(k8sCreate, templates, vmPXE, pxeNetworks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
+      expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetworks.networks[0].name);
       expect(vm.spec.template.spec.domain.devices.interfaces[1].bootOrder).toBe(1);
@@ -294,6 +295,7 @@ describe('request.js', () => {
     createVM(k8sCreate, templates, basicSettingsWithNetwork, podNetworks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettingsWithNetwork.name.value);
       expect(vm.metadata.namespace).toBe(basicSettingsWithNetwork.namespace.value);
+      expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetworks.networks[0].name);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBeUndefined();
@@ -343,6 +345,22 @@ describe('request.js', () => {
       expect(vm.spec.template.spec.networks).toHaveLength(2);
       expect(vm.spec.template.spec.networks[0].name).toEqual(pxeNetworks.networks[0].name);
       expect(vm.spec.template.spec.networks[1].name).toEqual(pxeNetworks.networks[1].name);
+      return vm;
+    }));
+  it('without network', () =>
+    createVM(k8sCreate, templates, customFlavor, networks).then(vm => {
+      expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeFalsy();
+      expect(vm.spec.template.spec.domain.devices.interfaces).toBeUndefined();
+      expect(vm.spec.template.spec.networks).toBeUndefined();
+      return vm;
+    }));
+  it('with multus network and no pod network', () =>
+    createVM(k8sCreate, templates, customFlavor, { networks: pxeNetworks.networks.slice(1, 2) }).then(vm => {
+      expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeFalsy();
+      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual('pxeNetworkName');
+      expect(vm.spec.template.spec.networks).toHaveLength(1);
+      expect(vm.spec.template.spec.networks[0].name).toEqual('pxeNetworkName');
       return vm;
     }));
 });

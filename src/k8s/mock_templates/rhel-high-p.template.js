@@ -18,7 +18,8 @@ export const rhelHighPerformance = {
     labels: {
       'os.template.cnv.io/rhel7.0': 'true',
       'workload.template.cnv.io/high-performance': 'true',
-      'flavor.template.cnv.io/medium': 'true'
+      'flavor.template.cnv.io/medium': 'true',
+      'template.cnv.io/type': 'base'
     }
   },
   objects: [

@@ -34,7 +34,7 @@ export class NetworksTab extends React.Component {
       mac,
       network,
       errors,
-      renderConfig: id === 1 ? 1 : 0,
+      renderConfig: 0,
       edit: false,
       addendum: isBootable && props.pxeBoot ? BOOTABLE : null
     }));
@@ -159,7 +159,13 @@ export class NetworksTab extends React.Component {
         }
       },
       property: 'name',
-      hasAddendum: true
+      hasAddendum: true,
+      renderConfigs: [
+        {
+          id: 'name-edit',
+          type: 'text'
+        }
+      ]
     },
     {
       header: {
@@ -172,10 +178,6 @@ export class NetworksTab extends React.Component {
       },
       property: 'mac',
       renderConfigs: [
-        {
-          id: 'mac-edit',
-          type: 'text'
-        },
         {
           id: 'mac-edit',
           type: 'text'
@@ -196,10 +198,10 @@ export class NetworksTab extends React.Component {
         {
           id: 'network-edit',
           type: 'dropdown',
-          choices: this.props.networkConfigs.map(networkConfig => networkConfig.metadata.name).filter(networkConfig => {
-            const result = this.state.rows.find(r => r.network === networkConfig);
-            return !result;
-          }),
+          choices: this.props.networkConfigs
+            .map(networkConfig => networkConfig.metadata.name)
+            .concat(POD_NETWORK)
+            .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
           initialValue: '--- Select Network Definition ---'
         }
       ]
@@ -212,20 +214,19 @@ export class NetworksTab extends React.Component {
           }
         }
       },
-      renderConfig: row =>
-        row.id === 1
-          ? null
-          : {
-              id: 'actions',
-              type: ACTIONS_TYPE,
-              actions: [
-                {
-                  actionType: DELETE_ACTION,
-                  text: 'Remove NIC'
-                }
-              ],
-              visibleOnEdit: false
+      renderConfigs: [
+        {
+          id: 'actions',
+          type: ACTIONS_TYPE,
+          actions: [
+            {
+              actionType: DELETE_ACTION,
+              text: 'Remove NIC'
             }
+          ],
+          visibleOnEdit: false
+        }
+      ]
     }
   ];
 
