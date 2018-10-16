@@ -110,7 +110,7 @@ const setSourceType = (vm, basicSettings) => {
   }
   const defaultDisk = getDefaultDisk(vm, basicSettings);
 
-  remove(vm.spec.template.spec.volumes, volume => defaultDisk && volume.name === defaultDisk.volumeName);
+  remove(getVolumes(vm), volume => defaultDisk && volume.name === defaultDisk.volumeName);
 
   switch (get(basicSettings.imageSourceType, 'value')) {
     case PROVISION_SOURCE_REGISTRY: {
@@ -210,29 +210,14 @@ const setNetworks = (vm, basicSettings, networks) => {
   }
 };
 
-const getDefaultDisk = (vm, basicSettings) => {
-  const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
-  return getDevice(vm, 'disks', defaultDiskName);
-};
-
-const getDefaultInterface = (vm, basicSettings) => {
-  const defaultInterfaceName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_NETWORK]);
-  return getDevice(vm, 'interfaces', defaultInterfaceName);
-};
-
-const getDevice = (vm, deviceType, deviceName) =>
-  get(getDevices(vm), deviceType, []).find(device => device.name === deviceName);
-
-const getDevices = vm => {
-  const devices = get(vm.spec.template.spec.domain, 'devices', {});
-  vm.spec.template.spec.domain.devices = devices;
-  return devices;
-};
-
 const addCloudInit = (vm, basicSettings) => {
   // remove existing config
-  const volumes = get(vm.spec.template.spec, 'volumes', []);
-  remove(volumes, volume => volume.hasOwnProperty('cloudInitNoCloud'));
+  const volumes = get(getSpec(vm), 'volumes', []);
+  const existingVolume = volumes.find(volume => volume.hasOwnProperty('cloudInitNoCloud'));
+  if (existingVolume) {
+    remove(getDisks(vm), disk => disk.volumeName === existingVolume.name);
+    remove(volumes, volume => volume.name === existingVolume.name);
+  }
 
   if (get(basicSettings.cloudInit, 'value', false)) {
     const cloudInitDisk = {
@@ -269,46 +254,122 @@ const addCloudInit = (vm, basicSettings) => {
   }
 };
 
+const getDefaultDisk = (vm, basicSettings) => {
+  const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
+  return getDevice(vm, 'disks', defaultDiskName);
+};
+
+const getDefaultInterface = (vm, basicSettings) => {
+  const defaultInterfaceName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_NETWORK]);
+  return getDevice(vm, 'interfaces', defaultInterfaceName);
+};
+
+const getDevice = (vm, deviceType, deviceName) =>
+  get(getDevices(vm), deviceType, []).find(device => device.name === deviceName);
+
+const getSpec = vm => {
+  if (!vm.spec.template.spec) {
+    vm.spec.template.spec = {};
+  }
+  return vm.spec.template.spec;
+};
+
+const getDomain = vm => {
+  const spec = getSpec(vm);
+  if (!spec.domain) {
+    spec.domain = {};
+  }
+  return spec.domain;
+};
+
+const getDevices = vm => {
+  const domain = getDomain(vm);
+  if (!domain.devices) {
+    domain.devices = {};
+  }
+  return domain.devices;
+};
+
+const getDisks = vm => {
+  const devices = getDevices(vm);
+  if (!devices.disks) {
+    devices.disks = [];
+  }
+  return devices.disks;
+};
+
+const getInterfaces = vm => {
+  const devices = getDevices(vm);
+  if (!devices.interfaces) {
+    devices.interfaces = [];
+  }
+  return devices.interfaces;
+};
+
+const getVolumes = vm => {
+  const spec = getSpec(vm);
+  if (!spec.volumes) {
+    spec.volumes = [];
+  }
+  return spec.volumes;
+};
+
+const getVmSpec = vm => {
+  if (!vm.spec) {
+    vm.spec = {};
+  }
+  return vm.spec;
+};
+
+const getDataVolumeTemplates = vm => {
+  const spec = getVmSpec(vm);
+  if (!spec.dataVolumeTemplates) {
+    spec.dataVolumeTemplates = [];
+  }
+  return spec.dataVolumeTemplates;
+};
+
+const getNetworks = vm => {
+  const spec = getSpec(vm);
+  if (!spec.networks) {
+    spec.networks = [];
+  }
+  return spec.networks;
+};
+
+const getAnnotations = vm => {
+  if (!vm.metadata.annotations) {
+    vm.metadata.annotations = {};
+  }
+  return vm.metadata.annotations;
+};
+
 const addDisk = (vm, diskSpec) => {
-  const domain = get(vm.spec.template.spec, 'domain', {});
-  const devices = get(domain, 'devices', {});
-  const disks = get(devices, 'disks', []);
+  const disks = getDisks(vm);
   disks.push(diskSpec);
-  devices.disks = disks;
-  domain.devices = devices;
-  vm.spec.template.spec.domain = domain;
 };
 
 const addVolume = (vm, volumeSpec) => {
-  const volumes = get(vm.spec.template.spec, 'volumes', []);
+  const volumes = getVolumes(vm);
   volumes.push(volumeSpec);
-  vm.spec.template.spec.volumes = volumes;
 };
 
 const addDataVolumeTemplate = (vm, dataVolumeSpec) => {
-  const dataVolumes = get(vm.spec, 'dataVolumeTemplates', []);
+  const dataVolumes = getDataVolumeTemplates(vm);
   dataVolumes.push(dataVolumeSpec);
-  vm.spec.dataVolumeTemplates = dataVolumes;
 };
 
 const addInterface = (vm, interfaceSpec) => {
-  const domain = get(vm.spec.template.spec, 'domain', {});
-  const devices = get(domain, 'devices', {});
-  const interfaces = get(devices, 'interfaces', []);
+  const interfaces = getInterfaces(vm);
   interfaces.push(interfaceSpec);
-  devices.interfaces = interfaces;
-  domain.devices = devices;
-  vm.spec.template.spec.domain = domain;
 };
 
 const addNetwork = (vm, networkSpec) => {
-  const networks = get(vm.spec.template.spec, 'networks', []);
+  const networks = getNetworks(vm);
   networks.push(networkSpec);
-  vm.spec.template.spec.networks = networks;
 };
 
 const addAnnotation = (vm, key, value) => {
-  const annotations = get(vm.metadata, 'annotations', {});
+  const annotations = getAnnotations(vm);
   annotations[key] = value;
-  vm.metadata.annotations = annotations;
 };

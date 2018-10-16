@@ -256,6 +256,13 @@ const testRegistryImage = vm => {
   return vm;
 };
 
+const everyDiskHasVolue = vm => {
+  vm.spec.template.spec.domain.devices.disks.forEach(disk => {
+    expect(vm.spec.template.spec.volumes.filter(volume => volume.name === disk.volumeName)).toHaveLength(1);
+  });
+  return vm;
+};
+
 describe('request.js', () => {
   it('registryImage', () => createVM(k8sCreate, templates, basicSettings, networks).then(testRegistryImage));
   it('from URL', () =>
@@ -325,6 +332,13 @@ describe('request.js', () => {
       expect(vm.spec.template.spec.volumes[1].name).toBe('cloudinitvolume');
       return vm;
     }));
+  it('without CloudInit - disk and volume is not present', () =>
+    createVM(k8sCreate, templates, basicSettings, networks).then(vm => {
+      expect(vm.spec.template.spec.domain.devices.disks.some(disk => disk.name === 'cloudinitdisk')).toBeFalsy();
+      expect(vm.spec.template.spec.volumes.some(volume => volume.name === 'cloudinitvolume')).toBeFalsy();
+      expect(vm.spec.template.spec.volumes.some(volume => volume.hasOwnProperty('cloudInitNoCloud'))).toBeFalsy();
+      return vm;
+    }));
   it('with custom flavor', () =>
     createVM(k8sCreate, templates, customFlavor, networks).then(vm => {
       expect(vm.metadata.name).toBe(basicSettings.name.value);
@@ -363,4 +377,8 @@ describe('request.js', () => {
       expect(vm.spec.template.spec.networks[0].name).toEqual('pxeNetworkName');
       return vm;
     }));
+  it('every disk has volume', () =>
+    createVM(k8sCreate, templates, basicSettings, networks).then(vm => everyDiskHasVolue(vm)));
+  it('every disk has volume - cloud init', () =>
+    createVM(k8sCreate, templates, basicSettingsCloudInit, networks).then(vm => everyDiskHasVolue(vm)));
 });
