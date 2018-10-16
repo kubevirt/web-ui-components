@@ -5,24 +5,40 @@ import { FormFactory } from '../../Form/FormFactory';
 import { isPositiveNumber } from '../../../utils/validation';
 import { getName } from '../../../utils/selectors';
 import {
+  getFlavors,
+  getOperatingSystems,
+  getTemplate,
+  getWorkloadProfiles,
+  isFlavorType,
+  isImageSourceType
+} from '../../../k8s/selectors';
+
+import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_URL,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_TEMPLATE,
+  PROVISION_SOURCE_URL,
   TEMPLATE_TYPE_VM
 } from '../../../constants';
 import {
-  getOperatingSystems,
-  getWorkloadProfiles,
-  getFlavors,
-  isImageSourceType,
-  isFlavorType,
-  getTemplate
-} from '../../../k8s/selectors';
-
-const NAMESPACE_KEY = 'namespace';
-const IMAGE_SOURCE_TYPE = 'imageSourceType';
+  NAME_KEY,
+  NAMESPACE_KEY,
+  DESCRIPTION_KEY,
+  IMAGE_SOURCE_TYPE_KEY,
+  REGISTRY_IMAGE_KEY,
+  IMAGE_URL_KEY,
+  USER_TEMPLATE_KEY,
+  OPERATING_SYSTEM_KEY,
+  FLAVOR_KEY,
+  MEMORY_KEY,
+  CPU_KEY,
+  WORKLOAD_PROFILE_KEY,
+  START_VM_KEY,
+  CLOUD_INIT_KEY,
+  HOST_NAME_KEY,
+  AUTHKEYS_KEY
+} from './constants';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates);
@@ -43,16 +59,16 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
   }
 
   return {
-    name: {
+    [NAME_KEY]: {
       title: 'Name',
       required: true
     },
-    description: {
+    [DESCRIPTION_KEY]: {
       title: 'Description',
       type: 'textarea'
     },
     [NAMESPACE_KEY]: namespaceDropdown,
-    [IMAGE_SOURCE_TYPE]: {
+    [IMAGE_SOURCE_TYPE_KEY]: {
       id: 'image-source-type-dropdown',
       title: 'Provision Source',
       type: 'dropdown',
@@ -60,17 +76,17 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       choices: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE],
       required: true
     },
-    registryImage: {
+    [REGISTRY_IMAGE_KEY]: {
       title: 'Registry Image',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY)
     },
-    imageURL: {
+    [IMAGE_URL_KEY]: {
       title: 'URL',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL)
     },
-    userTemplate: {
+    [USER_TEMPLATE_KEY]: {
       title: 'Template',
       type: 'dropdown',
       defaultValue: '--- Select Template ---',
@@ -78,7 +94,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       required: true
     },
-    operatingSystem: {
+    [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
       title: 'Operating System',
       type: 'dropdown',
@@ -87,7 +103,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
-    flavor: {
+    [FLAVOR_KEY]: {
       id: 'flavor-dropdown',
       title: 'Flavor',
       type: 'dropdown',
@@ -96,21 +112,21 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
-    memory: {
+    [MEMORY_KEY]: {
       title: 'Memory (GB)',
       required: true,
       isVisible: basicVmSettings =>
         isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
     },
-    cpu: {
+    [CPU_KEY]: {
       title: 'CPUs',
       required: true,
       isVisible: basicVmSettings =>
         isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
     },
-    workloadProfile: {
+    [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',
       title: 'Workload Profile',
       type: 'dropdown',
@@ -125,28 +141,28 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
           </p>
         ))
     },
-    startVM: {
+    [START_VM_KEY]: {
       title: 'Start virtual machine on creation',
       type: 'checkbox',
       noBottom: true
     },
     /*
-      createTemplate: {
+      [CREATE_TEMPLATE_KEY]: {
         title: 'Create new template from configuration',
         type: 'checkbox',
         noBottom: true
       },
       */
-    cloudInit: {
+    [CLOUD_INIT_KEY]: {
       title: 'Use cloud-init',
       type: 'checkbox'
     },
-    hostname: {
+    [HOST_NAME_KEY]: {
       title: 'Hostname',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
       required: true
     },
-    authKeys: {
+    [AUTHKEYS_KEY]: {
       title: 'Authenticated SSH Keys',
       type: 'textarea',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
@@ -200,7 +216,7 @@ const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onCh
     [target]: value
   };
 
-  if (target === IMAGE_SOURCE_TYPE && value.value === PROVISION_SOURCE_TEMPLATE) {
+  if (target === IMAGE_SOURCE_TYPE_KEY && value.value === PROVISION_SOURCE_TEMPLATE) {
     const currentUserTemplate = get(newBasicSettings.userTemplate, 'value');
     if (!currentUserTemplate) {
       const allTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);

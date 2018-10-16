@@ -14,14 +14,57 @@ import {
   PROVISION_SOURCE_PXE,
   POD_NETWORK
 } from '../constants';
+import {
+  NAME_KEY,
+  NAMESPACE_KEY,
+  DESCRIPTION_KEY,
+  IMAGE_SOURCE_TYPE_KEY,
+  REGISTRY_IMAGE_KEY,
+  IMAGE_URL_KEY,
+  USER_TEMPLATE_KEY,
+  FLAVOR_KEY,
+  MEMORY_KEY,
+  CPU_KEY,
+  START_VM_KEY,
+  CLOUD_INIT_KEY,
+  HOST_NAME_KEY,
+  AUTHKEYS_KEY
+} from '../components/Wizard/CreateVmWizard/constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels } from '../utils/template';
-import { getOsLabel, getWorkloadLabel, getFlavorLabel, getTemplate, getChosenTemplateAnnotations } from './selectors';
+import {
+  getOsLabel,
+  getWorkloadLabel,
+  getFlavorLabel,
+  getTemplate,
+  getTemplateAnnotations,
+  settingsValue
+} from './selectors';
 
 export const createVM = (k8sCreate, templates, basicSettings, networks, storage) => {
+  const getSetting = settingsValue.bind(undefined, basicSettings);
+  const template = resolveTemplate(templates, basicSettings, getSetting);
+
+  return k8sCreate(ProcessedTemplatesModel, template).then(response => {
+    const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
+    modifyVmObject(vm, template, getSetting, networks.networks, storage);
+
+    if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
+      const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
+      if (pvc) {
+        pvc.metadata.namespace = getSetting(NAMESPACE_KEY);
+        k8sCreate(PersistentVolumeClaimModel, pvc);
+      }
+    }
+    return k8sCreate(VirtualMachineModel, vm);
+  });
+};
+
+const resolveTemplate = (templates, basicSettings, getSetting) => {
   const availableTemplates = [];
-  if (get(basicSettings, 'imageSourceType.value') === PROVISION_SOURCE_TEMPLATE) {
-    const userTemplate = templates.find(template => template.metadata.name === basicSettings.userTemplate.value);
+
+  if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
+    const userTemplate = templates.find(template => template.metadata.name === getSetting(USER_TEMPLATE_KEY));
     availableTemplates.push(userTemplate);
   } else {
     const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
@@ -32,45 +75,53 @@ export const createVM = (k8sCreate, templates, basicSettings, networks, storage)
     availableTemplates.push(...baseTemplates);
   }
 
-  basicSettings.chosenTemplate = availableTemplates.length > 0 ? cloneDeep(availableTemplates[0]) : null;
-
-  setParameterValue(basicSettings.chosenTemplate, PARAM_VM_NAME, basicSettings.name.value);
+  const chosenTemplate = availableTemplates.length > 0 ? cloneDeep(availableTemplates[0]) : null;
+  setParameterValue(chosenTemplate, PARAM_VM_NAME, getSetting(NAME_KEY));
 
   // no more required parameters
-  basicSettings.chosenTemplate.parameters.forEach(param => {
+  chosenTemplate.parameters.forEach(param => {
     if (param.name !== PARAM_VM_NAME && param.required) {
       delete param.required;
     }
   });
 
   // processedtemplate endpoint is namespaced
-  basicSettings.chosenTemplate.metadata.namespace = basicSettings.namespace.value;
+  chosenTemplate.metadata.namespace = getSetting(NAMESPACE_KEY);
 
   // make sure api version is correct
-  basicSettings.chosenTemplate.apiVersion = 'template.openshift.io/v1';
+  chosenTemplate.apiVersion = 'template.openshift.io/v1';
 
-  return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
-    const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
-    modifyVmObject(vm, basicSettings, networks.networks, storage);
-
-    if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
-      const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
-      if (pvc) {
-        pvc.metadata.namespace = basicSettings.namespace.value;
-        k8sCreate(PersistentVolumeClaimModel, pvc);
-      }
-    }
-    return k8sCreate(VirtualMachineModel, vm);
-  });
+  return chosenTemplate;
 };
 
-const setFlavor = (vm, basicSettings) => {
-  if (
-    get(basicSettings, 'flavor.value') === CUSTOM_FLAVOR ||
-    basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE
-  ) {
-    vm.spec.template.spec.domain.cpu.cores = parseInt(basicSettings.cpu.value, 10);
-    vm.spec.template.spec.domain.resources.requests.memory = `${basicSettings.memory.value}G`;
+const modifyVmObject = (vm, template, getSetting, networks, storages) => {
+  setFlavor(vm, getSetting);
+  setSourceType(vm, template, getSetting);
+  setNetworks(vm, getSetting, networks);
+
+  // add running status
+  vm.spec.running = getSetting(START_VM_KEY, false);
+
+  // add namespace
+  const namespace = getSetting(NAMESPACE_KEY);
+  if (namespace) {
+    vm.metadata.namespace = namespace;
+  }
+
+  // add description
+  const description = getSetting(DESCRIPTION_KEY);
+  if (description) {
+    addAnnotation(vm, 'description', description);
+  }
+
+  addCloudInit(vm, getSetting);
+  addStorages(vm, storages, networks);
+};
+
+const setFlavor = (vm, getSetting) => {
+  if (getSetting(FLAVOR_KEY) === CUSTOM_FLAVOR || getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
+    vm.spec.template.spec.domain.cpu.cores = parseInt(getSetting(CPU_KEY), 10);
+    vm.spec.template.spec.domain.resources.requests.memory = `${getSetting(MEMORY_KEY)}G`;
   }
 };
 
@@ -79,53 +130,30 @@ const setParameterValue = (template, paramName, paramValue) => {
   parameter.value = paramValue;
 };
 
-const modifyVmObject = (vm, basicSettings, networks, storages) => {
-  setFlavor(vm, basicSettings);
-  setSourceType(vm, basicSettings);
-  setNetworks(vm, basicSettings, networks);
-
-  // add running status
-  vm.spec.running = basicSettings.startVM ? basicSettings.startVM.value : false;
-
-  // add namespace
-  if (basicSettings.namespace) {
-    vm.metadata.namespace = basicSettings.namespace.value;
-  }
-
-  // add description
-  if (basicSettings.description) {
-    addAnnotation(vm, 'description', basicSettings.description.value);
-  }
-
-  addCloudInit(vm, basicSettings);
-  addStorages(vm, storages, networks);
-};
-
-const setSourceType = (vm, basicSettings) => {
-  if (
-    basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE ||
-    basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE
-  ) {
+const setSourceType = (vm, template, getSetting) => {
+  const imageSourceType = getSetting(IMAGE_SOURCE_TYPE_KEY);
+  if (imageSourceType === PROVISION_SOURCE_TEMPLATE || imageSourceType === PROVISION_SOURCE_PXE) {
     return;
   }
-  const defaultDiskName = getChosenTemplateAnnotations(basicSettings, ANNOTATION_DEFAULT_DISK);
+
+  const defaultDiskName = getTemplateAnnotations(template, ANNOTATION_DEFAULT_DISK);
   const defaultDisk = getDefaultDevice(vm, 'disks', defaultDiskName);
 
   remove(vm.spec.template.spec.volumes, volume => defaultDisk && volume.name === defaultDisk.volumeName);
 
-  switch (get(basicSettings.imageSourceType, 'value')) {
+  switch (imageSourceType) {
     case PROVISION_SOURCE_REGISTRY: {
       const volume = {
         name: defaultDisk && defaultDisk.volumeName,
         registryDisk: {
-          image: basicSettings.registryImage.value
+          image: getSetting(REGISTRY_IMAGE_KEY)
         }
       };
       addVolume(vm, volume);
       break;
     }
     case PROVISION_SOURCE_URL: {
-      const dataVolumeName = `datavolume-${basicSettings.name.value}`;
+      const dataVolumeName = `datavolume-${getSetting(NAME_KEY)}`;
       const volume = {
         name: defaultDisk && defaultDisk.volumeName,
         dataVolume: {
@@ -147,7 +175,7 @@ const setSourceType = (vm, basicSettings) => {
           },
           source: {
             http: {
-              url: basicSettings.imageURL.value
+              url: getSetting(IMAGE_URL_KEY)
             }
           }
         }
@@ -161,7 +189,7 @@ const setSourceType = (vm, basicSettings) => {
   }
 };
 
-const setNetworks = (vm, basicSettings, networks) => {
+const setNetworks = (vm, getSetting, networks) => {
   networks.forEach(network => {
     const nic = {
       bridge: {},
@@ -188,7 +216,7 @@ const setNetworks = (vm, basicSettings, networks) => {
     addNetwork(vm, networkConfig);
   });
 
-  if (basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE) {
+  if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE) {
     delete vm.spec.template.spec.domain.devices.disks;
     delete vm.spec.template.spec.volumes;
     addAnnotation(vm, 'cnv.ui.pxeInterface', networks.find(network => network.isBootable).name);
@@ -199,12 +227,12 @@ const setNetworks = (vm, basicSettings, networks) => {
 const getDefaultDevice = (vm, deviceType, deviceName) =>
   get(vm.spec.template.spec.domain.devices, deviceType, []).find(device => device.name === deviceName);
 
-const addCloudInit = (vm, basicSettings) => {
+const addCloudInit = (vm, getSetting) => {
   // remove existing config
   const volumes = get(vm.spec.template.spec, 'volumes', []);
   remove(volumes, volume => volume.hasOwnProperty('cloudInitNoCloud'));
 
-  if (get(basicSettings.cloudInit, 'value', false)) {
+  if (getSetting(CLOUD_INIT_KEY)) {
     const cloudInitDisk = {
       name: CLOUDINIT_DISK,
       volumeName: CLOUDINIT_VOLUME,
@@ -218,10 +246,10 @@ const addCloudInit = (vm, basicSettings) => {
       users: [
         {
           name: 'root',
-          'ssh-authorized-keys': basicSettings.authKeys.value
+          'ssh-authorized-keys': getSetting(AUTHKEYS_KEY)
         }
       ],
-      hostname: basicSettings.hostname.value
+      hostname: getSetting(HOST_NAME_KEY)
     };
 
     const userData = safeDump(userDataObject);

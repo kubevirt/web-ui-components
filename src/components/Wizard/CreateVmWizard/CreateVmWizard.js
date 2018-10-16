@@ -12,7 +12,7 @@ import { createVM } from '../../../k8s/request';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
 import { NetworksTab } from './NetworksTab';
 import { isImageSourceType } from '../../../k8s/selectors';
-import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX } from './constants';
+import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX, NAMESPACE_KEY } from './constants';
 
 const getBasicSettingsValue = (stepData, key) => get(stepData[BASIC_SETTINGS_TAB_IDX].value, `${key}.value`);
 
@@ -62,8 +62,8 @@ export class CreateVmWizard extends React.Component {
       };
 
       if (state.activeStepIndex === BASIC_SETTINGS_TAB_IDX) {
-        const oldNamespace = getBasicSettingsValue(state.stepData, 'namespace');
-        const newNamespace = getBasicSettingsValue(stepData, 'namespace');
+        const oldNamespace = getBasicSettingsValue(state.stepData, NAMESPACE_KEY);
+        const newNamespace = getBasicSettingsValue(stepData, NAMESPACE_KEY);
         const disksStepData = stepData[DISKS_TAB_IDX];
         if (oldNamespace !== newNamespace && disksStepData.value.length > 0) {
           // cannot asses validity when namespace changes (if disks present)
@@ -126,7 +126,7 @@ export class CreateVmWizard extends React.Component {
     {
       title: 'Storage',
       render: () => {
-        const namespace = getBasicSettingsValue(this.state.stepData, 'namespace');
+        const namespace = getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY);
         const storages = this.props.storages.filter(storage => namespace && getNameSpace(storage) === namespace);
         return (
           <StorageTab
