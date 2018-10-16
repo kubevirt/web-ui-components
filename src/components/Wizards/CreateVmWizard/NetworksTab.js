@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormFactory } from '../../Form';
 import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK } from '../../../constants';
-
-const BOOTABLE = '(Bootable)';
 
 const validateNetwork = network => {
   const errors = Array(3).fill(null);
@@ -27,72 +26,38 @@ const validateNetwork = network => {
 export class NetworksTab extends React.Component {
   constructor(props) {
     super(props);
-    let rows = props.networks.map(({ id, isBootable, name, mac, network, errors }) => ({
+    const rows = props.networks.map(({ id, name, mac, network, isBootable, errors }) => ({
       id,
-      isBootable: isBootable && props.pxeBoot,
       name,
       mac,
       network,
       errors,
+      isBootable,
       renderConfig: 0,
-      edit: false,
-      addendum: isBootable && props.pxeBoot ? BOOTABLE : null
+      edit: false
     }));
 
-    rows = this.resolveBootability(rows);
-    const pxeBootError = this.checkPxeBootNetwork(rows);
-    this.publishResults(rows, pxeBootError);
-
+    this.resolveBootableNetwork(props.pxeBoot, rows);
+    this.publishResults(rows);
     this.state = {
       // eslint-disable-next-line
       nextId: rows.length + 1,
       editing: false,
-      rows,
-      pxeBootError
+      rows
     };
   }
 
-  checkPxeBootNetwork = rows => {
-    if (!this.props.pxeBoot) {
-      return false;
-    }
-    const bootableNetwork = rows.find(row => row.network !== POD_NETWORK && row.network !== '');
-    return !bootableNetwork;
-  };
+  checkPxeBootable = rows => (this.props.pxeBoot ? rows.some(row => row.isBootable) : true);
 
-  resolveBootability = rows => {
-    const bootableNetwork = rows.find(row => row.network !== POD_NETWORK && row.network !== '');
-    if (this.props.pxeBoot && bootableNetwork && !bootableNetwork.isBootable) {
-      // change detected
-      let isBootable = true;
-      return rows.map(row => {
-        if (row.id === 1) {
-          return row;
-        }
-        const result = {
-          ...row,
-          isBootable,
-          addendum: isBootable ? BOOTABLE : null
-        };
-        if (isBootable) {
-          // only the first one is bootable
-          isBootable = false;
-        }
-        return result;
-      });
-    }
-    return rows;
-  };
-
-  publishResults = (rows, pxeBootError) => {
-    let valid = !pxeBootError;
-    const nics = rows.map(({ id, name, mac, network, isBootable, errors }) => {
+  publishResults = rows => {
+    let valid = this.checkPxeBootable(rows);
+    const nics = rows.map(({ id, isBootable, name, mac, network, errors }) => {
       const result = {
         id,
+        isBootable,
         name,
         mac,
         network,
-        isBootable,
         errors
       };
 
@@ -124,11 +89,21 @@ export class NetworksTab extends React.Component {
   };
 
   rowsChanged = (rows, editing) => {
-    rows = this.resolveBootability(rows);
-    const pxeBootError = this.checkPxeBootNetwork(rows);
-    this.publishResults(rows, pxeBootError);
-    this.setState({ rows, editing, pxeBootError });
+    this.resolveBootableNetwork(this.props.pxeBoot, rows);
+    this.publishResults(rows);
+    this.setState({ rows, editing });
   };
+
+  resolveBootableNetwork = (pxeBoot, rows) => {
+    if (!rows.some(row => row.isBootable)) {
+      const bootableNetworks = this.getBootableNetworks(rows);
+      if (bootableNetworks.length > 0) {
+        bootableNetworks[0].isBootable = true;
+      }
+    }
+  };
+
+  getBootableNetworks = rows => rows.filter(row => row.network !== POD_NETWORK && row.network !== '');
 
   createNic = () => {
     this.setState(state => ({
@@ -159,7 +134,6 @@ export class NetworksTab extends React.Component {
         }
       },
       property: 'name',
-      hasAddendum: true,
       renderConfigs: [
         {
           id: 'name-edit',
@@ -240,20 +214,67 @@ export class NetworksTab extends React.Component {
     }
   ];
 
+  getFormFields = pxeNetworks => ({
+    pxeNetwork: {
+      id: 'pxe-nic-dropdown',
+      title: 'PXE NIC',
+      type: 'dropdown',
+      defaultValue: '--- Select PXE NIC ---',
+      choices: pxeNetworks.map(n => n.name),
+      required: true,
+      help: 'Pod network is not PXE bootable'
+    }
+  });
+
+  onFormChange = newValue => {
+    this.setState(state => {
+      state.rows.forEach(row => {
+        row.isBootable = row.name === newValue;
+      });
+      this.publishResults(state.rows);
+      return state.rows;
+    });
+  };
+
   render() {
     const columns = this.getColumns();
     const actionButtons = this.getActionButtons();
 
+    let pxeForm;
+    if (this.props.pxeBoot) {
+      const pxeNetworks = this.state.rows.filter(row => row.network !== POD_NETWORK && row.network !== '');
+      const bootableNetwork = pxeNetworks.find(row => row.isBootable);
+      const values = {
+        pxeNetwork: {
+          value: bootableNetwork ? bootableNetwork.name : undefined,
+          validMsg: pxeNetworks.length === 0 ? 'A PXE-capable NIC could not be found' : undefined
+        }
+      };
+
+      pxeForm = (
+        <FormFactory
+          fields={this.getFormFields(pxeNetworks)}
+          fieldsValues={values}
+          onFormChange={this.onFormChange}
+          textPosition="text-left"
+          labelSize={2}
+          controlSize={10}
+          formClassName="pxe-form"
+        />
+      );
+    }
     return (
-      <TableFactory
-        actionButtons={actionButtons}
-        columns={columns}
-        rows={this.state.rows}
-        onRowUpdate={this.onRowUpdate}
-        onRowDeleteOrMove={this.rowsChanged}
-        onRowActivate={this.onRowActivate}
-        error={this.state.pxeBootError ? 'At least one bootable NIC has to be defined for PXE boot' : ''}
-      />
+      <React.Fragment>
+        <TableFactory
+          actionButtons={actionButtons}
+          columns={columns}
+          rows={this.state.rows}
+          onRowUpdate={this.onRowUpdate}
+          onRowDeleteOrMove={this.rowsChanged}
+          onRowActivate={this.onRowActivate}
+        />
+        {pxeForm}
+      </React.Fragment>
     );
   }
 }

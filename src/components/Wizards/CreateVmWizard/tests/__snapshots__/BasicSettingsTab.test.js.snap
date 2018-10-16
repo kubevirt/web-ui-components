@@ -2,6 +2,7 @@
 
 exports[`<BasicSettingsTab /> renders correctly 1`] = `
 <FormFactory
+  controlSize={5}
   fields={
     Object {
       "authKeys": Object {
@@ -131,7 +132,22 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
           "high-performance",
         ],
         "defaultValue": "--- Select Workload Profile ---",
-        "help": [Function],
+        "help": Array [
+          <p>
+            <b>
+              generic
+            </b>
+            : 
+            generic
+          </p>,
+          <p>
+            <b>
+              high-performance
+            </b>
+            : 
+            high-performance
+          </p>,
+        ],
         "id": "workload-profile-dropdown",
         "isVisible": [Function],
         "required": true,
@@ -141,6 +157,8 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
     }
   }
   fieldsValues={Object {}}
+  labelSize={3}
   onFormChange={[Function]}
+  textPosition="text-right"
 />
 `;

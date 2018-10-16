@@ -58,7 +58,15 @@ export const getFormElement = props => {
   }
 };
 
-export const FormFactory = ({ fields, fieldsValues, onFormChange }) => {
+export const FormFactory = ({
+  fields,
+  fieldsValues,
+  onFormChange,
+  textPosition,
+  labelSize,
+  controlSize,
+  formClassName
+}) => {
   const formGroups = Object.keys(fields)
     .filter(key => fields[key] && (!fields[key].isVisible || fields[key].isVisible(fieldsValues)))
     .map(key => {
@@ -80,26 +88,41 @@ export const FormFactory = ({ fields, fieldsValues, onFormChange }) => {
           validationState={validMsg ? 'error' : null}
           className={field.noBottom ? 'form-group-no-bottom' : undefined}
         >
-          <Col sm={3} className="text-right">
+          <Col sm={labelSize} className={textPosition}>
             {field.type === 'checkbox' ? null : (
               <React.Fragment>
                 <ControlLabel className={field.required ? 'required-pf' : null}>{field.title}</ControlLabel>
-                {field.help ? <FieldLevelHelp placement="right" content={field.help()} /> : undefined}
+                {field.help ? <FieldLevelHelp placement="right" content={field.help} /> : undefined}
               </React.Fragment>
             )}
           </Col>
-          <Col sm={5}>
+          <Col sm={controlSize}>
             {child}
             <HelpBlock>{validMsg}</HelpBlock>
           </Col>
         </FormGroup>
       );
     });
-  return <Form horizontal>{formGroups}</Form>;
+  return (
+    <Form horizontal className={formClassName}>
+      {formGroups}
+    </Form>
+  );
+};
+
+FormFactory.defaultProps = {
+  textPosition: 'text-right',
+  labelSize: 3,
+  controlSize: 5,
+  formClassName: undefined
 };
 
 FormFactory.propTypes = {
   fields: PropTypes.object.isRequired,
   fieldsValues: PropTypes.object.isRequired,
-  onFormChange: PropTypes.func.isRequired
+  onFormChange: PropTypes.func.isRequired,
+  textPosition: PropTypes.string,
+  labelSize: PropTypes.number,
+  controlSize: PropTypes.number,
+  formClassName: PropTypes.string
 };

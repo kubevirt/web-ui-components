@@ -4,15 +4,7 @@ import { TableFactory } from '../TableFactory';
 
 const noop = () => {};
 const testTableFactory = () => (
-  <TableFactory
-    onRowUpdate={noop}
-    onRowActivate={noop}
-    onRowDeleteOrMove={noop}
-    error=""
-    columns={[]}
-    rows={[]}
-    actionButtons={[]}
-  />
+  <TableFactory onRowUpdate={noop} onRowActivate={noop} onRowDeleteOrMove={noop} columns={[]} rows={[]} />
 );
 
 describe('<TableFactory />', () => {
