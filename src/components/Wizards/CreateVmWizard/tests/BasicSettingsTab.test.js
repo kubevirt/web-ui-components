@@ -2,7 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import BasicSettingsTab, { getFormFields } from '../BasicSettingsTab';
 import { namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
-import { templates } from '../../../../constants';
+import { templates, PROVISION_SOURCE_TEMPLATE, TEMPLATE_TYPE_VM } from '../../../../constants';
+import { getTemplate } from '../../../../k8s/selectors';
+import { getName } from '../../../../utils/selectors';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 
 const testCreateVmWizard = (basicSettings = {}, onChange = null, selectedNamespace = undefined) => (
@@ -162,6 +164,26 @@ describe('<BasicSettingsTab />', () => {
         namespace: {
           validMsg: 'Namespace is required',
           value: ''
+        }
+      },
+      false
+    );
+  });
+
+  it('selects template for template provision source', () => {
+    const onChange = jest.fn();
+    const component = shallow(testCreateVmWizard(validBasicSettings, onChange));
+    onFormChange(component, PROVISION_SOURCE_TEMPLATE, 'imageSourceType');
+
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        imageSourceType: {
+          value: PROVISION_SOURCE_TEMPLATE
+        },
+        userTemplate: {
+          value: getName(getTemplate(templates, TEMPLATE_TYPE_VM)[0])
         }
       },
       false
