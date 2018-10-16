@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Wizard } from 'patternfly-react';
-import { get } from 'lodash';
 
 import BasicSettingsTab from './BasicSettingsTab';
 import StorageTab from './StorageTab';
@@ -11,10 +10,26 @@ import { getNameSpace } from '../../../utils/selectors';
 import { createVM } from '../../../k8s/request';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
 import { NetworksTab } from './NetworksTab';
-import { isImageSourceType } from '../../../k8s/selectors';
+import { isImageSourceType, settingsValue } from '../../../k8s/selectors';
 import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX, NAMESPACE_KEY } from './constants';
 
-const getBasicSettingsValue = (stepData, key) => get(stepData[BASIC_SETTINGS_TAB_IDX].value, `${key}.value`);
+const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_IDX].value, key);
+
+const onNamespaceChanged = (stepData, stepIdx) => {
+  switch (stepIdx) {
+    case DISKS_TAB_IDX:
+      if (stepData.value.length > 0) {
+        return {
+          ...stepData,
+          // cannot asses validity when namespace changes (if disks present)
+          valid: false
+        };
+      }
+      return stepData;
+    default:
+      return stepData;
+  }
+};
 
 export class CreateVmWizard extends React.Component {
   state = {
@@ -55,20 +70,25 @@ export class CreateVmWizard extends React.Component {
 
   onStepDataChanged = (value, valid) => {
     this.setState(state => {
-      const stepData = [...state.stepData];
+      const oldStepData = state.stepData;
+      let stepData = [...oldStepData];
+
       stepData[state.activeStepIndex] = {
         value,
         valid
       };
 
       if (state.activeStepIndex === BASIC_SETTINGS_TAB_IDX) {
-        const oldNamespace = getBasicSettingsValue(state.stepData, NAMESPACE_KEY);
-        const newNamespace = getBasicSettingsValue(stepData, NAMESPACE_KEY);
-        const disksStepData = stepData[DISKS_TAB_IDX];
-        if (oldNamespace !== newNamespace && disksStepData.value.length > 0) {
-          // cannot asses validity when namespace changes (if disks present)
-          disksStepData.valid = false;
-        }
+        // callbacks for changes on fields resolve new step data
+        stepData = [{ field: NAMESPACE_KEY, callback: onNamespaceChanged }].reduce(
+          (newStepData, { field, callback }) => {
+            const oldValue = getBasicSettingsValue(oldStepData, field);
+            const newValue = getBasicSettingsValue(newStepData, field);
+
+            return oldValue === newValue ? newStepData : newStepData.map(callback);
+          },
+          stepData
+        );
       }
 
       return { stepData };
