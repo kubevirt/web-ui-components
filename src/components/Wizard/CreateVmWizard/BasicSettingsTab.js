@@ -87,6 +87,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL)
     },
     [USER_TEMPLATE_KEY]: {
+      id: 'template-dropdown',
       title: 'Template',
       type: 'dropdown',
       defaultValue: '--- Select Template ---',

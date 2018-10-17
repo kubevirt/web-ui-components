@@ -116,6 +116,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
           "windows-template",
         ],
         "defaultValue": "--- Select Template ---",
+        "id": "template-dropdown",
         "isVisible": [Function],
         "required": true,
         "title": "Template",
