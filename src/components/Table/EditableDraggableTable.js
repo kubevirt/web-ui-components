@@ -39,7 +39,6 @@ class EditableDraggableTable extends React.Component {
   }
 
   // needed for refiring row renders
-  // eslint-disable-next-line no-return-assign
   flagUpdate = (rows, editingInProgress) => rows.forEach(row => (row.editingInProgress = editingInProgress));
 
   inlineEditController = {
