@@ -78,6 +78,18 @@ const attachStorageDisks = [
   }
 ];
 
+const attachStorageDisksWithLinuxUserTemplate = [
+  ...attachStorageDisks,
+  {
+    id: 2,
+    templateStorage: {
+      pvc: linuxUserTemplate.objects[1],
+      disk: linuxUserTemplate.objects[0].spec.template.spec.domain.devices.disks[0],
+      volume: linuxUserTemplate.objects[0].spec.template.spec.volumes[0]
+    }
+  }
+];
+
 const basicSettingsCloudInit = {
   [NAME_KEY]: {
     value: 'name'
@@ -248,6 +260,21 @@ const testFirstAttachedStorage = (vm, volumeIndex, disksIndex, bootOrder) => {
   );
 };
 
+const testTemplateStorage = (vm, volumeIndex, disksIndex, bootOrder) => {
+  const storage = attachStorageDisksWithLinuxUserTemplate[1];
+  const { volume, disk } = storage.templateStorage;
+
+  expect(vm.spec.template.spec.volumes[volumeIndex].name).toBe(volume.name);
+  expect(vm.spec.template.spec.volumes[volumeIndex].persistentVolumeClaim.claimName).toBe(
+    volume.persistentVolumeClaim.claimName
+  );
+  expect(vm.spec.template.spec.domain.devices.disks[disksIndex].name).toBe(disk.name);
+  expect(vm.spec.template.spec.domain.devices.disks[disksIndex].volumeName).toBe(disk.volumeName);
+  expect(vm.spec.template.spec.domain.devices.disks[disksIndex].bootOrder).toBe(
+    storage.isBootable ? bootOrder : undefined
+  );
+};
+
 const testRegistryImage = vm => {
   expect(vm.metadata.name).toBe(settingsValue(basicSettings, NAME_KEY));
   expect(vm.metadata.namespace).toBe(settingsValue(basicSettings, NAMESPACE_KEY));
@@ -310,11 +337,16 @@ describe('request.js', () => {
       return vm;
     }));
   it('from User Template', () =>
-    createVM(k8sCreate, templates, vmUserTemplate, networks).then(vm => {
+    createVM(k8sCreate, templates, vmUserTemplate, networks, attachStorageDisksWithLinuxUserTemplate).then(vm => {
       expect(vm.metadata.name).toBe(settingsValue(basicSettings, NAME_KEY));
       expect(vm.metadata.namespace).toBe(settingsValue(basicSettings, NAMESPACE_KEY));
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(3);
       expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('3G');
+
+      expect(vm.spec.template.spec.volumes).toHaveLength(2);
+      expect(vm.spec.template.spec.domain.devices.disks).toHaveLength(2);
+      testTemplateStorage(vm, 0, 0);
+      testFirstAttachedStorage(vm, 1, 1, 1);
       return vm;
     }));
   it('with CloudInit', () =>

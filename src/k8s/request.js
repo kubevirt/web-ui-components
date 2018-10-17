@@ -1,4 +1,4 @@
-import { cloneDeep, get, remove } from 'lodash';
+import { cloneDeep, get, partition, remove } from 'lodash';
 import { safeDump } from 'js-yaml';
 import {
   CLOUDINIT_DISK,
@@ -38,44 +38,66 @@ import {
   getFlavorLabel,
   getTemplate,
   getTemplateAnnotations,
-  settingsValue
+  settingsValue,
+  selectPVCs,
+  selectAllExceptPVCs,
+  selectVm
 } from './selectors';
 
-export const createVM = (k8sCreate, templates, basicSettings, networks, storage) => {
+export const createVM = (k8sCreate, templates, basicSettings, { networks }, storage) => {
   const getSetting = settingsValue.bind(undefined, basicSettings);
-  const template = resolveTemplate(templates, basicSettings, getSetting);
+  const [templateStorage, additionalStorage] = partition(storage, disk => disk.templateStorage);
 
-  return k8sCreate(ProcessedTemplatesModel, template).then(response => {
-    const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
-    modifyVmObject(vm, template, getSetting, networks.networks, storage);
+  const template = resolveTemplate(templates, basicSettings, getSetting, networks, templateStorage);
+
+  return k8sCreate(ProcessedTemplatesModel, template).then(({ objects }) => {
+    const vm = selectVm(objects);
+    modifyVmObject(vm, template, getSetting, networks, additionalStorage);
 
     if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
-      const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
-      if (pvc) {
+      selectPVCs(objects).forEach(pvc => {
         pvc.metadata.namespace = getSetting(NAMESPACE_KEY);
         k8sCreate(PersistentVolumeClaimModel, pvc);
-      }
+      });
     }
     return k8sCreate(VirtualMachineModel, vm);
   });
 };
 
-const resolveTemplate = (templates, basicSettings, getSetting) => {
-  const availableTemplates = [];
+const resolveTemplate = (templates, basicSettings, getSetting, networks, storage) => {
+  let chosenTemplate;
 
   if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
-    const userTemplate = templates.find(template => template.metadata.name === getSetting(USER_TEMPLATE_KEY));
-    availableTemplates.push(userTemplate);
+    chosenTemplate = templates.find(template => template.metadata.name === getSetting(USER_TEMPLATE_KEY));
+    if (!chosenTemplate) {
+      return null;
+    }
+    chosenTemplate = cloneDeep(chosenTemplate);
+    const vm = selectVm(chosenTemplate.objects);
+    // clear
+    removeDisksAndVolumes(vm);
+    const newObjects = selectAllExceptPVCs(chosenTemplate.objects);
+
+    // add the ones selected by the user again
+    storage.filter(disk => disk.templateStorage).forEach(({ templateStorage: { pvc, disk, volume }, isBootable }) => {
+      newObjects.push(pvc);
+      addVolume(vm, volume);
+      addBootableDisk(vm, networks, disk, isBootable);
+    });
+
+    chosenTemplate.objects = newObjects;
   } else {
     const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getOsLabel(basicSettings),
       getWorkloadLabel(basicSettings),
       getFlavorLabel(basicSettings)
     ]);
-    availableTemplates.push(...baseTemplates);
+    if (baseTemplates.length === 0) {
+      return null;
+    }
+    chosenTemplate = cloneDeep(baseTemplates[0]);
   }
 
-  const chosenTemplate = availableTemplates.length > 0 ? cloneDeep(availableTemplates[0]) : null;
   setParameterValue(chosenTemplate, PARAM_VM_NAME, getSetting(NAME_KEY));
 
   // no more required parameters
@@ -217,8 +239,7 @@ const setNetworks = (vm, getSetting, networks) => {
   });
 
   if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE) {
-    delete vm.spec.template.spec.domain.devices.disks;
-    delete vm.spec.template.spec.volumes;
+    removeDisksAndVolumes(vm);
     addAnnotation(vm, 'cnv.ui.pxeInterface', networks.find(network => network.isBootable).name);
     addAnnotation(vm, 'cnv.ui.firstBoot', 'true');
   }
@@ -400,4 +421,9 @@ const addAnnotation = (vm, key, value) => {
   const annotations = get(vm.metadata, 'annotations', {});
   annotations[key] = value;
   vm.metadata.annotations = annotations;
+};
+
+const removeDisksAndVolumes = vm => {
+  delete vm.spec.template.spec.domain.devices.disks;
+  delete vm.spec.template.spec.volumes;
 };

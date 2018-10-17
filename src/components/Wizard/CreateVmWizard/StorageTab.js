@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { findIndex, get } from 'lodash';
+import { findIndex } from 'lodash';
 import { Button, ButtonGroup } from 'patternfly-react';
 
 import EditableDraggableTable from '../../Table/EditableDraggableTable';
-import { getName } from '../../../utils/selectors';
+import { getName, getGibStorageSize, getStorageClassName } from '../../../utils/selectors';
 
 import {
   ACTIONS_TYPE,
@@ -43,6 +43,11 @@ const validateDisk = disk => {
     errors
   };
 };
+
+const noValidation = disk => ({
+  ...disk,
+  errors: Array(4).fill(null)
+});
 
 const validateAttachStorage = (storage, storages) => {
   const errors = Array(4).fill(null);
@@ -85,21 +90,35 @@ const resolveBootability = rows => {
 
 const resolveAttachedStorage = (disk, storages, storageClasses, units) => {
   const attachStorage = storages.find(storage => getName(storage) === disk.name) || disk.attachStorage;
-  const attachStorageClassName = get(attachStorage, 'spec.storageClassName');
-  const size = get(attachStorage, 'spec.resources.requests.storage');
-  const sizeGiB = size ? units.dehumanize(size, 'binaryBytesWithoutB').value / 1073741824 : null; // 1024^3
+  const attachStorageClassName = getStorageClassName(attachStorage);
 
   return {
     ...disk,
     attachStorage,
     // just for visualisation
     name: getName(attachStorage),
-    size: sizeGiB,
+    size: getGibStorageSize(units, attachStorage),
     storageClass: getName(storageClasses.find(clazz => getName(clazz) === attachStorageClassName))
   };
 };
 
+const resolveTemplateStorage = (templateDisk, units) => {
+  const {
+    templateStorage: { pvc, disk }
+  } = templateDisk;
+
+  return {
+    ...templateDisk,
+    // just for visualisation
+    name: disk.name,
+    size: getGibStorageSize(units, pvc),
+    storageClass: getStorageClassName(pvc)
+  };
+};
+
 const resolveInitialDisks = (initialDisks, storages, storageClasses, units) => {
+  let nextId = Math.max(...initialDisks.map(disk => disk.id || 0), 0) + 1;
+
   const disks = initialDisks.map(disk => {
     let result;
 
@@ -108,6 +127,12 @@ const resolveInitialDisks = (initialDisks, storages, storageClasses, units) => {
         ...resolveAttachedStorage(disk, storages, storageClasses, units),
         renderConfig: 1,
         editable: true
+      };
+    } else if (disk.templateStorage) {
+      result = {
+        ...resolveTemplateStorage(disk, units),
+        id: nextId++,
+        renderConfig: 2
       };
     } else {
       result = {
@@ -126,24 +151,39 @@ const resolveInitialDisks = (initialDisks, storages, storageClasses, units) => {
 };
 
 const resolveValidation = (rows, storages) =>
-  rows.map(row => (row.attachStorage ? validateAttachStorage(row, storages) : validateDisk(row)));
+  rows.map(row => {
+    if (row.attachStorage) {
+      return validateAttachStorage(row, storages);
+    }
+    if (row.templateStorage) {
+      // expect template disks to be valid
+      // only bootability can be changed
+      return noValidation(row);
+    }
+    return validateDisk(row);
+  });
 
 const publishResults = (rows, publish, defaultValid = true) => {
   let valid = defaultValid;
-  const disks = rows.map(({ attachStorage, id, name, size, storageClass, isBootable, errors }) => {
-    const result = attachStorage
-      ? {
-          attachStorage,
-          id,
-          isBootable
-        }
-      : {
-          id,
-          name,
-          size,
-          storageClass,
-          isBootable
-        };
+  const disks = rows.map(({ attachStorage, templateStorage, id, name, size, storageClass, isBootable, errors }) => {
+    let result;
+    if (attachStorage) {
+      result = { attachStorage };
+    } else if (templateStorage) {
+      result = { templateStorage };
+    } else {
+      result = {
+        name,
+        size,
+        storageClass
+      };
+    }
+
+    result = {
+      ...result,
+      id,
+      isBootable
+    };
 
     if (valid && errors) {
       for (const error of errors) {

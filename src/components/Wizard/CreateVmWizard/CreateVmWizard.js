@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Wizard } from 'patternfly-react';
+import { partition } from 'lodash';
 
 import BasicSettingsTab from './BasicSettingsTab';
 import StorageTab from './StorageTab';
@@ -8,14 +9,71 @@ import ResultTab from './ResultTab';
 import { getNameSpace } from '../../../utils/selectors';
 
 import { createVM } from '../../../k8s/request';
-import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
+import { POD_NETWORK, PROVISION_SOURCE_PXE, PROVISION_SOURCE_TEMPLATE } from '../../../constants';
 import { NetworksTab } from './NetworksTab';
 import { isImageSourceType, settingsValue } from '../../../k8s/selectors';
-import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX, NAMESPACE_KEY } from './constants';
+import {
+  BASIC_SETTINGS_TAB_IDX,
+  NETWORK_TAB_IDX,
+  DISKS_TAB_IDX,
+  IMAGE_SOURCE_TYPE_KEY,
+  RESULTS_TAB_IDX,
+  NAMESPACE_KEY,
+  USER_TEMPLATE_KEY
+} from './constants';
+
+import { getTemplateStorages } from './utils';
 
 const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_IDX].value, key);
 
-const onNamespaceChanged = (stepData, stepIdx) => {
+const onUserTemplateChangedInDisksTab = ({ templates }, stepData, newUserTemplate) => {
+  const withoutDiscardedTemplateStorage = stepData.value.filter(disk => !disk.templateStorage);
+  let newTemplateBootableDisks = [];
+  let newTemplateDisks = [];
+
+  if (newUserTemplate) {
+    [newTemplateDisks, newTemplateBootableDisks] = partition(
+      getTemplateStorages(templates, newUserTemplate),
+      disk => disk.templateStorage.disk.bootOrder == null
+    );
+    newTemplateBootableDisks.sort((a, b) => a.templateStorage.disk.bootOrder - b.templateStorage.disk.bootOrder);
+  }
+
+  // prefer boot order from template
+  const rows = [...newTemplateBootableDisks, ...withoutDiscardedTemplateStorage, ...newTemplateDisks];
+
+  return {
+    ...stepData,
+    value: rows
+  };
+};
+
+const onUserTemplateChanged = (props, stepData, stepIdx, basicSettings) => {
+  let userTemplate;
+  switch (stepIdx) {
+    case DISKS_TAB_IDX:
+      userTemplate = settingsValue(basicSettings, USER_TEMPLATE_KEY);
+      return onUserTemplateChangedInDisksTab(props, stepData, userTemplate);
+    default:
+      return stepData;
+  }
+};
+
+const onImageSourceTypeChanged = (props, stepData, stepIdx, basicSettings) => {
+  let userTemplate;
+  switch (stepIdx) {
+    case DISKS_TAB_IDX:
+      userTemplate =
+        settingsValue(basicSettings, IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE
+          ? settingsValue(basicSettings, USER_TEMPLATE_KEY)
+          : undefined;
+      return onUserTemplateChangedInDisksTab(props, stepData, userTemplate);
+    default:
+      return stepData;
+  }
+};
+
+const onNamespaceChanged = (props, stepData, stepIdx) => {
   switch (stepIdx) {
     case DISKS_TAB_IDX:
       if (stepData.value.length > 0) {
@@ -70,7 +128,7 @@ export class CreateVmWizard extends React.Component {
   lastStepReached = () => this.state.activeStepIndex === this.getLastStepIndex();
 
   onStepDataChanged = (value, valid) => {
-    this.setState(state => {
+    this.setState((state, props) => {
       const oldStepData = state.stepData;
       let stepData = [...oldStepData];
 
@@ -81,15 +139,28 @@ export class CreateVmWizard extends React.Component {
 
       if (state.activeStepIndex === BASIC_SETTINGS_TAB_IDX) {
         // callbacks for changes on fields resolve new step data
-        stepData = [{ field: NAMESPACE_KEY, callback: onNamespaceChanged }].reduce(
-          (newStepData, { field, callback }) => {
-            const oldValue = getBasicSettingsValue(oldStepData, field);
-            const newValue = getBasicSettingsValue(newStepData, field);
-
-            return oldValue === newValue ? newStepData : newStepData.map(callback);
+        stepData = [
+          {
+            field: NAMESPACE_KEY,
+            callback: onNamespaceChanged
           },
-          stepData
-        );
+          {
+            field: USER_TEMPLATE_KEY,
+            callback: onUserTemplateChanged
+          },
+          {
+            field: IMAGE_SOURCE_TYPE_KEY,
+            callback: onImageSourceTypeChanged
+          }
+        ].reduce((newStepData, { field, callback }) => {
+          const oldValue = getBasicSettingsValue(oldStepData, field);
+          const newValue = getBasicSettingsValue(newStepData, field);
+
+          if (oldValue === newValue) {
+            return newStepData;
+          }
+          return newStepData.map((v, idx) => callback(props, v, idx, newStepData[BASIC_SETTINGS_TAB_IDX].value));
+        }, stepData);
       }
 
       return { stepData };

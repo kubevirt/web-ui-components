@@ -17,6 +17,7 @@ import {
 } from '../components/Wizard/CreateVmWizard/constants';
 
 import { getTemplatesLabelValues, getTemplatesWithLabels } from '../utils/template';
+import { PersistentVolumeClaimModel, VirtualMachineModel } from '../models';
 
 export const settingsValue = (basicSettings, key, defaultValue) => get(basicSettings, [key, 'value'], defaultValue);
 
@@ -77,3 +78,7 @@ export const getTemplate = (templates, type) => {
 };
 
 export const getTemplateAnnotations = (template, name) => get(template.metadata.annotations, [name]);
+
+export const selectPVCs = objects => objects.filter(obj => obj.kind === PersistentVolumeClaimModel.kind);
+export const selectAllExceptPVCs = objects => objects.filter(obj => obj.kind !== PersistentVolumeClaimModel.kind);
+export const selectVm = objects => objects.find(obj => obj.kind === VirtualMachineModel.kind);
