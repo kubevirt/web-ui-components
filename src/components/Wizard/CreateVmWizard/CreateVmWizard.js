@@ -47,6 +47,7 @@ export class CreateVmWizard extends React.Component {
               name: 'eth0',
               mac: '',
               network: POD_NETWORK,
+              editable: true,
               edit: false
             }
           ]

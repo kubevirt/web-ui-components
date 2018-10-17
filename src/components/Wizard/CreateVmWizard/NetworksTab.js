@@ -35,6 +35,7 @@ export class NetworksTab extends React.Component {
       network,
       errors,
       renderConfig: id === 1 ? 1 : 0,
+      editable: true,
       edit: false,
       addendum: isBootable && props.pxeBoot ? BOOTABLE : null
     }));
@@ -138,6 +139,7 @@ export class NetworksTab extends React.Component {
         {
           id: state.nextId,
           isBootable: false,
+          editable: true,
           edit: true, // trigger immediate edit,
           name: `eth${state.nextId - 1}`,
           mac: '',

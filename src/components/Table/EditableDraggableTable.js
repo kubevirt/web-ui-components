@@ -52,17 +52,20 @@ class EditableDraggableTable extends React.Component {
         const index = findIndex(rows, { id });
 
         if (index !== -1) {
-          delete rows[index].edit; // remove edit signal
-          rows[index].backup = cloneDeep(rows[index]);
+          const row = rows[index];
+          if (row.editable) {
+            delete row.edit; // remove edit signal
+            row.backup = cloneDeep(row);
 
-          this.flagUpdate(rows, editing);
-          this.setState({ editing });
+            this.flagUpdate(rows, editing);
+            this.setState({ editing });
 
-          this.props.onChange(rows, {
-            type: ON_ACTIVATE,
-            id,
-            editing
-          });
+            this.props.onChange(rows, {
+              type: ON_ACTIVATE,
+              id,
+              editing
+            });
+          }
         }
       }
     },
