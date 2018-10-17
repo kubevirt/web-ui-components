@@ -106,12 +106,14 @@ const resolveInitialDisks = (initialDisks, storages, storageClasses, units) => {
     if (disk.attachStorage) {
       result = {
         ...resolveAttachedStorage(disk, storages, storageClasses, units),
-        renderConfig: 1
+        renderConfig: 1,
+        editable: true
       };
     } else {
       result = {
         ...disk,
-        renderConfig: 0
+        renderConfig: 0,
+        editable: true
       };
     }
 
@@ -164,7 +166,7 @@ class StorageTab extends React.Component {
 
     this.state = {
       // eslint-disable-next-line react/no-unused-state
-      nextId: Math.max(...props.initialDisks.map(disk => disk.id), 0) + 1,
+      nextId: Math.max(...rows.map(disk => disk.id || 0), 0) + 1,
       rows,
       editing: false
     };
@@ -229,6 +231,7 @@ class StorageTab extends React.Component {
         {
           id: state.nextId,
           isBootable: false,
+          editable: true,
           edit: true, // trigger immediate edit
           renderConfig,
           ...values
@@ -253,18 +256,17 @@ class StorageTab extends React.Component {
           }
         },
         property: 'name',
+        hasAddendum: true,
         renderConfigs: [
           {
             id: 'name-edit',
-            type: 'text',
-            hasAddendum: true
+            type: 'text'
           },
           {
             id: 'name-attach-edit',
             type: 'dropdown',
             choices: this.props.storages.map(getName),
-            initialValue: '--- Select Storage ---',
-            hasAddendum: true
+            initialValue: '--- Select Storage ---'
           }
         ]
       },
@@ -314,20 +316,17 @@ class StorageTab extends React.Component {
           }
         },
 
-        renderConfigs: [
-          {
-            id: 'actions',
-            type: ACTIONS_TYPE,
-            actions: [DELETE_ACTION],
-            visibleOnEdit: false
-          },
-          {
-            id: 'actions',
-            type: ACTIONS_TYPE,
-            actions: [DELETE_ACTION],
-            visibleOnEdit: false
-          }
-        ]
+        renderConfigs: Array(3).fill({
+          id: 'actions',
+          type: ACTIONS_TYPE,
+          actions: [
+            {
+              actionType: DELETE_ACTION,
+              text: 'Remove Disk'
+            }
+          ],
+          visibleOnEdit: false
+        })
       }
     ];
 

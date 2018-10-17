@@ -28,6 +28,7 @@ describe('<EditableDraggableTable />', () => {
         ...rows,
         {
           id: 3,
+          editable: true,
           edit: true,
           one: 'F3 Column',
           two: 'S3 Column'

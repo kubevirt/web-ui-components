@@ -25,6 +25,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
     columns={
       Array [
         Object {
+          "hasAddendum": true,
           "header": Object {
             "label": "Disk Name",
             "props": Object {
@@ -36,7 +37,6 @@ exports[`<StorageTab /> renders correctly 1`] = `
           "property": "name",
           "renderConfigs": Array [
             Object {
-              "hasAddendum": true,
               "id": "name-edit",
               "type": "text",
             },
@@ -46,7 +46,6 @@ exports[`<StorageTab /> renders correctly 1`] = `
                 "disk-two",
                 "disk-three",
               ],
-              "hasAddendum": true,
               "id": "name-attach-edit",
               "initialValue": "--- Select Storage ---",
               "type": "dropdown",
@@ -105,7 +104,10 @@ exports[`<StorageTab /> renders correctly 1`] = `
           "renderConfigs": Array [
             Object {
               "actions": Array [
-                "delete",
+                Object {
+                  "actionType": "delete",
+                  "text": "Remove Disk",
+                },
               ],
               "id": "actions",
               "type": "actions",
@@ -113,7 +115,21 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
             Object {
               "actions": Array [
-                "delete",
+                Object {
+                  "actionType": "delete",
+                  "text": "Remove Disk",
+                },
+              ],
+              "id": "actions",
+              "type": "actions",
+              "visibleOnEdit": false,
+            },
+            Object {
+              "actions": Array [
+                Object {
+                  "actionType": "delete",
+                  "text": "Remove Disk",
+                },
               ],
               "id": "actions",
               "type": "actions",
