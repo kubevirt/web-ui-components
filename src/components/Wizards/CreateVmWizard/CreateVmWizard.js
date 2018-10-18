@@ -119,6 +119,7 @@ export class CreateVmWizard extends React.Component {
 
   render() {
     const beforeLastStepReached = this.state.activeStepIndex === this.state.stepData.length - 2;
+    const lastStepReached = this.lastStepReached();
 
     return (
       <Wizard.Pattern
@@ -127,8 +128,9 @@ export class CreateVmWizard extends React.Component {
         steps={this.wizardStepsNewVM}
         activeStepIndex={this.state.activeStepIndex}
         onStepChanged={index => this.onStepChanged(index)}
-        previousStepDisabled={this.lastStepReached()}
-        stepButtonsDisabled={this.lastStepReached()}
+        previousStepDisabled={lastStepReached}
+        cancelButtonDisabled={lastStepReached}
+        stepButtonsDisabled={lastStepReached}
         nextStepDisabled={!this.state.stepData[this.state.activeStepIndex].valid}
         nextText={beforeLastStepReached ? 'Create Virtual Machine' : 'Next'}
       />

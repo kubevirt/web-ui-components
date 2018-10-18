@@ -5,6 +5,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
   activeStepIndex={0}
   backText="Back"
   bodyHeader={null}
+  cancelButtonDisabled={false}
   cancelText="Cancel"
   closeText="Close"
   loading={false}
