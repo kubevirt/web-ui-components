@@ -378,7 +378,7 @@ describe('request.js', () => {
   it('from PXE with attached disks', () =>
     createVM(k8sCreate, templates, vmPXE, pxeNetworks, attachStorageDisks).then(vm => {
       testPXE(vm);
-      testFirstAttachedStorage(vm, 0, 0, 2);
+      testFirstAttachedStorage(vm, 1, 1, 2);
       return vm;
     }));
 });

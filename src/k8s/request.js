@@ -239,7 +239,6 @@ const setNetworks = (vm, getSetting, networks) => {
   });
 
   if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE) {
-    removeDisksAndVolumes(vm);
     addAnnotation(vm, 'cnv.ui.pxeInterface', networks.find(network => network.isBootable).name);
     addAnnotation(vm, 'cnv.ui.firstBoot', 'true');
   }
