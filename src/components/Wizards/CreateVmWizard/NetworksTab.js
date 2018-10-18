@@ -84,6 +84,9 @@ export class NetworksTab extends React.Component {
 
   onRowUpdate = (rows, updatedRowId, editing) => {
     const updatedRow = rows.find(r => r.id === updatedRowId);
+    if (updatedRow.isBootable && updatedRow.network === POD_NETWORK) {
+      updatedRow.isBootable = false;
+    }
     updatedRow.errors = validateNetwork(updatedRow);
     this.rowsChanged(rows, editing);
   };
@@ -95,7 +98,7 @@ export class NetworksTab extends React.Component {
   };
 
   resolveBootableNetwork = (pxeBoot, rows) => {
-    if (!rows.some(row => row.isBootable)) {
+    if (pxeBoot && !rows.some(row => row.isBootable)) {
       const bootableNetworks = this.getBootableNetworks(rows);
       if (bootableNetworks.length > 0) {
         bootableNetworks[0].isBootable = true;

@@ -34,7 +34,7 @@ export const TableFactory = props => {
 
   const onTableChange = (rows, data) =>
     onChange(rows, data, props.onRowUpdate, props.onRowDeleteOrMove, props.onRowActivate);
-  const error = props.error !== undefined ? <Alert>{props.error}</Alert> : undefined;
+  const error = props.error && <Alert>{props.error}</Alert>;
 
   return (
     <React.Fragment>
