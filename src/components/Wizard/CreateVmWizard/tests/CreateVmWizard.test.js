@@ -3,11 +3,16 @@ import { shallow } from 'enzyme';
 import { WizardPattern } from 'patternfly-react';
 import { CreateVmWizard } from '../CreateVmWizard';
 import { templates, networkConfigs } from '../../../../constants';
-import { namespaces, storages, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import {
+  namespaces,
+  persistentVolumeClaims,
+  storageClasses,
+  units
+} from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
-import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, DISKS_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
+import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, STORAGE_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
 
 jest.mock('../../../../k8s/request');
 
@@ -17,7 +22,7 @@ const testCreateVmWizard = () => (
     templates={templates}
     namespaces={namespaces}
     k8sCreate={() => {}}
-    storages={storages}
+    persistentVolumeClaims={persistentVolumeClaims}
     storageClasses={storageClasses}
     units={units}
     networkConfigs={networkConfigs}
@@ -38,9 +43,9 @@ const testWalkThrough = () => {
 
   component.instance().onStepChanged(NETWORK_TAB_IDX); // forward
   expect(component.find(WizardPattern).props().nextText).toBe('Next');
-  component.instance().onStepChanged(DISKS_TAB_IDX);
+  component.instance().onStepChanged(STORAGE_TAB_IDX);
 
-  expect(component.state().activeStepIndex).toEqual(DISKS_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(STORAGE_TAB_IDX);
   expect(component.find(WizardPattern).props().nextText).toBe('Create Virtual Machine');
   expect(component.instance().lastStepReached()).toBeFalsy();
 

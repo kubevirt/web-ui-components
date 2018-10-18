@@ -32,7 +32,7 @@ import {
 
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 
-import { storages } from '../../components/Wizard/NewVmWizard/fixtures/NewVmWizard.fixture';
+import { persistentVolumeClaims } from '../../components/Wizard/NewVmWizard/fixtures/NewVmWizard.fixture';
 
 const basicSettings = {
   [NAME_KEY]: {
@@ -74,7 +74,7 @@ const attachStorageDisks = [
   {
     id: 1,
     isBootable: true,
-    attachStorage: storages[2]
+    attachStorage: persistentVolumeClaims[2]
   }
 ];
 

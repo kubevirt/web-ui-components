@@ -1,5 +1,11 @@
 import { CreateVmWizard } from '..';
-import { namespaces, k8sCreate, storages, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import {
+  namespaces,
+  k8sCreate,
+  persistentVolumeClaims,
+  storageClasses,
+  units
+} from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 import { templates, networkConfigs } from '../../../../constants';
 
 export default [
@@ -12,7 +18,7 @@ export default [
       namespaces,
       k8sCreate,
       networkConfigs,
-      storages,
+      persistentVolumeClaims,
       storageClasses,
       units
     }
@@ -27,7 +33,7 @@ export default [
       selectedNamespace: namespaces[1],
       k8sCreate,
       networkConfigs,
-      storages,
+      persistentVolumeClaims,
       storageClasses,
       units
     }

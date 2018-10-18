@@ -55,7 +55,7 @@ NewVmWizard.propTypes = {
   namespaces: PropTypes.array.isRequired,
   k8sCreate: PropTypes.func.isRequired,
   networkConfigs: PropTypes.array.isRequired,
-  storages: PropTypes.array.isRequired,
+  persistentVolumeClaims: PropTypes.array.isRequired,
   storageClasses: PropTypes.array.isRequired,
   units: PropTypes.object.isRequired
 };

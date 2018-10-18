@@ -38,7 +38,7 @@ export const storageClasses = [
   }
 ];
 
-export const storages = [
+export const persistentVolumeClaims = [
   {
     metadata: {
       // should be the same namespaces as the vm
@@ -107,7 +107,7 @@ export default {
     templates,
     namespaces,
     storageClasses,
-    storages,
+    persistentVolumeClaims,
     k8sCreate,
     units
   }

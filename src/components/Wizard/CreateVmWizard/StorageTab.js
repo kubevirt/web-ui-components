@@ -19,33 +19,33 @@ import {
 
 const BOOTABLE = '(Bootable)';
 
-const validateDisk = disk => {
+const validatePvc = pvc => {
   const errors = Array(4).fill(null);
 
-  if (!disk || disk.id == null) {
+  if (!pvc || pvc.id == null) {
     errors[0] = 'Empty entity'; // row error on index 0
   }
 
-  if (!disk.name) {
+  if (!pvc.name) {
     errors[1] = 'Name is empty';
   }
 
-  if (!disk.size || disk.size <= 0) {
+  if (!pvc.size || pvc.size <= 0) {
     errors[2] = 'Size must be positive';
   }
 
-  if (!disk.storageClass) {
+  if (!pvc.storageClass) {
     errors[3] = 'Storage Class not selected';
   }
 
   return {
-    ...disk,
+    ...pvc,
     errors
   };
 };
 
-const noValidation = disk => ({
-  ...disk,
+const noValidation = storage => ({
+  ...storage,
   errors: Array(4).fill(null)
 });
 
@@ -88,12 +88,12 @@ const resolveBootability = rows => {
   return rows;
 };
 
-const resolveAttachedStorage = (disk, storages, storageClasses, units) => {
-  const attachStorage = storages.find(storage => getName(storage) === disk.name) || disk.attachStorage;
+const resolveAttachedStorage = (storage, persistentVolumeClaims, storageClasses, units) => {
+  const attachStorage = persistentVolumeClaims.find(pvc => getName(pvc) === storage.name) || storage.attachStorage;
   const attachStorageClassName = getStorageClassName(attachStorage);
 
   return {
-    ...disk,
+    ...storage,
     attachStorage,
     // just for visualisation
     name: getName(attachStorage),
@@ -102,13 +102,13 @@ const resolveAttachedStorage = (disk, storages, storageClasses, units) => {
   };
 };
 
-const resolveTemplateStorage = (templateDisk, units) => {
+const resolveTemplateStorage = (storage, units) => {
   const {
     templateStorage: { pvc, disk }
-  } = templateDisk;
+  } = storage;
 
   return {
-    ...templateDisk,
+    ...storage,
     // just for visualisation
     name: disk.name,
     size: getGibStorageSize(units, pvc),
@@ -116,15 +116,15 @@ const resolveTemplateStorage = (templateDisk, units) => {
   };
 };
 
-const resolveInitialDisks = (initialDisks, storages, storageClasses, units) => {
-  let nextId = Math.max(...initialDisks.map(disk => disk.id || 0), 0) + 1;
+const resolveInitialStorages = (initialStorages, persistentVolumeClaims, storageClasses, units) => {
+  let nextId = Math.max(...initialStorages.map(disk => disk.id || 0), 0) + 1;
 
-  const disks = initialDisks.map(disk => {
+  const disks = initialStorages.map(disk => {
     let result;
 
     if (disk.attachStorage) {
       result = {
-        ...resolveAttachedStorage(disk, storages, storageClasses, units),
+        ...resolveAttachedStorage(disk, persistentVolumeClaims, storageClasses, units),
         renderConfig: 1,
         editable: true
       };
@@ -147,25 +147,25 @@ const resolveInitialDisks = (initialDisks, storages, storageClasses, units) => {
     return result;
   });
 
-  return resolveValidation(resolveBootability(disks), storages);
+  return resolveValidation(resolveBootability(disks), persistentVolumeClaims);
 };
 
-const resolveValidation = (rows, storages) =>
+const resolveValidation = (rows, persistentVolumeClaims) =>
   rows.map(row => {
     if (row.attachStorage) {
-      return validateAttachStorage(row, storages);
+      return validateAttachStorage(row, persistentVolumeClaims);
     }
     if (row.templateStorage) {
       // expect template disks to be valid
       // only bootability can be changed
       return noValidation(row);
     }
-    return validateDisk(row);
+    return validatePvc(row);
   });
 
 const publishResults = (rows, publish, defaultValid = true) => {
   let valid = defaultValid;
-  const disks = rows.map(({ attachStorage, templateStorage, id, name, size, storageClass, isBootable, errors }) => {
+  const storages = rows.map(({ attachStorage, templateStorage, id, name, size, storageClass, isBootable, errors }) => {
     let result;
     if (attachStorage) {
       result = { attachStorage };
@@ -196,13 +196,18 @@ const publishResults = (rows, publish, defaultValid = true) => {
     return result;
   });
 
-  publish(disks, valid);
+  publish(storages, valid);
 };
 
 class StorageTab extends React.Component {
   constructor(props) {
     super(props);
-    const rows = resolveInitialDisks(props.initialDisks, props.storages, props.storageClasses, props.units);
+    const rows = resolveInitialStorages(
+      props.initialStorages,
+      props.persistentVolumeClaims,
+      props.storageClasses,
+      props.units
+    );
 
     this.state = {
       // eslint-disable-next-line react/no-unused-state
@@ -220,7 +225,12 @@ class StorageTab extends React.Component {
       const row = rows[index];
 
       if (row.attachStorage) {
-        rows[index] = resolveAttachedStorage(row, this.props.storages, this.props.storageClasses, this.props.units);
+        rows[index] = resolveAttachedStorage(
+          row,
+          this.props.persistentVolumeClaims,
+          this.props.storageClasses,
+          this.props.units
+        );
       }
     }
 
@@ -228,7 +238,7 @@ class StorageTab extends React.Component {
       case ON_CONFIRM:
       case ON_CANCEL: // to validate first empty row
       case ON_DELETE:
-        rows = resolveValidation(rows, this.props.storages);
+        rows = resolveValidation(rows, this.props.persistentVolumeClaims);
         break;
       default:
         break;
@@ -305,7 +315,7 @@ class StorageTab extends React.Component {
           {
             id: 'name-attach-edit',
             type: 'dropdown',
-            choices: this.props.storages.map(getName),
+            choices: this.props.persistentVolumeClaims.map(getName),
             initialValue: '--- Select Storage ---'
           }
         ]
@@ -390,13 +400,13 @@ class StorageTab extends React.Component {
 }
 
 StorageTab.defaultProps = {
-  initialDisks: []
+  initialStorages: []
 };
 
 StorageTab.propTypes = {
   storageClasses: PropTypes.array.isRequired,
-  storages: PropTypes.array.isRequired,
-  initialDisks: PropTypes.array, // StorageTab keeps it's own state
+  persistentVolumeClaims: PropTypes.array.isRequired,
+  initialStorages: PropTypes.array, // StorageTab keeps it's own state
   onChange: PropTypes.func.isRequired,
   units: PropTypes.object.isRequired
 };

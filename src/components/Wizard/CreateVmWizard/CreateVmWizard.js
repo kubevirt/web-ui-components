@@ -6,7 +6,7 @@ import { partition } from 'lodash';
 import BasicSettingsTab from './BasicSettingsTab';
 import StorageTab from './StorageTab';
 import ResultTab from './ResultTab';
-import { getNameSpace } from '../../../utils/selectors';
+import { getNamespace } from '../../../utils/selectors';
 
 import { createVM } from '../../../k8s/request';
 import { POD_NETWORK, PROVISION_SOURCE_PXE, PROVISION_SOURCE_TEMPLATE } from '../../../constants';
@@ -15,7 +15,7 @@ import { isImageSourceType, settingsValue } from '../../../k8s/selectors';
 import {
   BASIC_SETTINGS_TAB_IDX,
   NETWORK_TAB_IDX,
-  DISKS_TAB_IDX,
+  STORAGE_TAB_IDX,
   IMAGE_SOURCE_TYPE_KEY,
   RESULTS_TAB_IDX,
   NAMESPACE_KEY,
@@ -26,21 +26,21 @@ import { getTemplateStorages } from './utils';
 
 const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_IDX].value, key);
 
-const onUserTemplateChangedInDisksTab = ({ templates }, stepData, newUserTemplate) => {
-  const withoutDiscardedTemplateStorage = stepData.value.filter(disk => !disk.templateStorage);
-  let newTemplateBootableDisks = [];
-  let newTemplateDisks = [];
+const onUserTemplateChangedInStorageTab = ({ templates }, stepData, newUserTemplate) => {
+  const withoutDiscardedTemplateStorage = stepData.value.filter(storage => !storage.templateStorage);
+  let newTemplateBootableStorages = [];
+  let newTemplateStorages = [];
 
   if (newUserTemplate) {
-    [newTemplateDisks, newTemplateBootableDisks] = partition(
+    [newTemplateStorages, newTemplateBootableStorages] = partition(
       getTemplateStorages(templates, newUserTemplate),
-      disk => disk.templateStorage.disk.bootOrder == null
+      storage => storage.templateStorage.disk.bootOrder == null
     );
-    newTemplateBootableDisks.sort((a, b) => a.templateStorage.disk.bootOrder - b.templateStorage.disk.bootOrder);
+    newTemplateBootableStorages.sort((a, b) => a.templateStorage.disk.bootOrder - b.templateStorage.disk.bootOrder);
   }
 
   // prefer boot order from template
-  const rows = [...newTemplateBootableDisks, ...withoutDiscardedTemplateStorage, ...newTemplateDisks];
+  const rows = [...newTemplateBootableStorages, ...withoutDiscardedTemplateStorage, ...newTemplateStorages];
 
   return {
     ...stepData,
@@ -51,9 +51,9 @@ const onUserTemplateChangedInDisksTab = ({ templates }, stepData, newUserTemplat
 const onUserTemplateChanged = (props, stepData, stepIdx, basicSettings) => {
   let userTemplate;
   switch (stepIdx) {
-    case DISKS_TAB_IDX:
+    case STORAGE_TAB_IDX:
       userTemplate = settingsValue(basicSettings, USER_TEMPLATE_KEY);
-      return onUserTemplateChangedInDisksTab(props, stepData, userTemplate);
+      return onUserTemplateChangedInStorageTab(props, stepData, userTemplate);
     default:
       return stepData;
   }
@@ -62,12 +62,12 @@ const onUserTemplateChanged = (props, stepData, stepIdx, basicSettings) => {
 const onImageSourceTypeChanged = (props, stepData, stepIdx, basicSettings) => {
   let userTemplate;
   switch (stepIdx) {
-    case DISKS_TAB_IDX:
+    case STORAGE_TAB_IDX:
       userTemplate =
         settingsValue(basicSettings, IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE
           ? settingsValue(basicSettings, USER_TEMPLATE_KEY)
           : undefined;
-      return onUserTemplateChangedInDisksTab(props, stepData, userTemplate);
+      return onUserTemplateChangedInStorageTab(props, stepData, userTemplate);
     default:
       return stepData;
   }
@@ -75,7 +75,7 @@ const onImageSourceTypeChanged = (props, stepData, stepIdx, basicSettings) => {
 
 const onNamespaceChanged = (props, stepData, stepIdx) => {
   switch (stepIdx) {
-    case DISKS_TAB_IDX:
+    case STORAGE_TAB_IDX:
       if (stepData.value.length > 0) {
         return {
           ...stepData,
@@ -113,8 +113,8 @@ export class CreateVmWizard extends React.Component {
         valid: true
       },
       {
-        value: [], // Disks
-        valid: true // empty Disks are valid
+        value: [], // Storages
+        valid: true // empty Storages are valid
       },
       {
         value: '',
@@ -219,12 +219,14 @@ export class CreateVmWizard extends React.Component {
       title: 'Storage',
       render: () => {
         const namespace = getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY);
-        const storages = this.props.storages.filter(storage => namespace && getNameSpace(storage) === namespace);
+        const persistentVolumeClaims = this.props.persistentVolumeClaims.filter(
+          storage => namespace && getNamespace(storage) === namespace
+        );
         return (
           <StorageTab
             storageClasses={this.props.storageClasses}
-            storages={storages}
-            initialDisks={this.state.stepData[DISKS_TAB_IDX].value}
+            persistentVolumeClaims={persistentVolumeClaims}
+            initialStorages={this.state.stepData[STORAGE_TAB_IDX].value}
             onChange={this.onStepDataChanged}
             units={this.props.units}
           />
@@ -272,7 +274,7 @@ CreateVmWizard.propTypes = {
   selectedNamespace: PropTypes.object,
   k8sCreate: PropTypes.func.isRequired,
   networkConfigs: PropTypes.array.isRequired,
-  storages: PropTypes.array.isRequired,
+  persistentVolumeClaims: PropTypes.array.isRequired,
   storageClasses: PropTypes.array.isRequired,
   units: PropTypes.object.isRequired
 };

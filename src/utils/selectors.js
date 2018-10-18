@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 export const getName = value => get(value, 'metadata.name');
-export const getNameSpace = value => get(value, 'metadata.namespace');
+export const getNamespace = value => get(value, 'metadata.namespace');
 
 export const getGibStorageSize = (units, object) => {
   const size = get(object, 'spec.resources.requests.storage');

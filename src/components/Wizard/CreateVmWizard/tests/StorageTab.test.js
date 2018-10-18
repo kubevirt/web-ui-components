@@ -3,15 +3,15 @@ import { shallow, mount } from 'enzyme';
 import StorageTab from '../StorageTab';
 import { ON_DELETE, ON_CHANGE, ON_CONFIRM } from '../../../Table/constants';
 
-import { storages, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { persistentVolumeClaims, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 import { rows } from '../fixtures/StorageTab.fixture';
 
 const testStorageTab = (onChange, initialDisks) => (
   <StorageTab
-    storages={storages}
+    persistentVolumeClaims={persistentVolumeClaims}
     storageClasses={storageClasses}
     onChange={onChange || jest.fn()}
-    initialDisks={initialDisks || []}
+    initialStorages={initialDisks || []}
     units={units}
   />
 );

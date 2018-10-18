@@ -1,5 +1,5 @@
 import StorageTab from '../StorageTab';
-import { storages, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { persistentVolumeClaims, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 
 export const rows = [
   {
@@ -33,10 +33,10 @@ export default [
   {
     component: StorageTab,
     props: {
-      storages,
+      persistentVolumeClaims,
       storageClasses,
       onChange: () => {},
-      initialDisks: [],
+      initialStorages: [],
       units
     }
   }
