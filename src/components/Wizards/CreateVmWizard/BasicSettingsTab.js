@@ -22,6 +22,7 @@ import {
 } from '../../../k8s/selectors';
 
 const NAMESPACE_KEY = 'namespace';
+const IMAGE_SOURCE_TYPE = 'imageSourceType';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates);
@@ -51,7 +52,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       type: 'textarea'
     },
     [NAMESPACE_KEY]: namespaceDropdown,
-    imageSourceType: {
+    [IMAGE_SOURCE_TYPE]: {
       id: 'image-source-type-dropdown',
       title: 'Provision Source',
       type: 'dropdown',
@@ -198,6 +199,16 @@ const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onCh
     ...basicSettings,
     [target]: value
   };
+
+  if (target === IMAGE_SOURCE_TYPE && value.value === PROVISION_SOURCE_TEMPLATE) {
+    const currentUserTemplate = get(newBasicSettings.userTemplate, 'value');
+    if (!currentUserTemplate) {
+      const allTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
+      if (allTemplates.length > 0) {
+        newBasicSettings.userTemplate = asValueObject(getName(allTemplates[0]));
+      }
+    }
+  }
 
   onChange(newBasicSettings, validateWizard(formFields, newBasicSettings)); // not valid
 };
