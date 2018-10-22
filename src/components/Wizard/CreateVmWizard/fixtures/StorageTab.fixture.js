@@ -1,5 +1,6 @@
 import StorageTab from '../StorageTab';
 import { persistentVolumeClaims, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { PROVISION_SOURCE_URL } from '../../../../constants';
 
 export const rows = [
   {
@@ -37,7 +38,9 @@ export default [
       storageClasses,
       onChange: () => {},
       initialStorages: [],
-      units
+      units,
+      sourceType: PROVISION_SOURCE_URL,
+      namespace: 'default'
     }
   }
 ];

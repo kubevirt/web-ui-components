@@ -222,6 +222,7 @@ export class CreateVmWizard extends React.Component {
         const persistentVolumeClaims = this.props.persistentVolumeClaims.filter(
           storage => namespace && getNamespace(storage) === namespace
         );
+        const sourceType = getBasicSettingsValue(this.state.stepData, IMAGE_SOURCE_TYPE_KEY);
         return (
           <StorageTab
             storageClasses={this.props.storageClasses}
@@ -229,6 +230,8 @@ export class CreateVmWizard extends React.Component {
             initialStorages={this.state.stepData[STORAGE_TAB_IDX].value}
             onChange={this.onStepDataChanged}
             units={this.props.units}
+            sourceType={sourceType}
+            namespace={this.state.stepData[0].value.namespace.value}
           />
         );
       }

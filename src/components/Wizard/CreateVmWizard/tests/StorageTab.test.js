@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import StorageTab from '../StorageTab';
-import { ON_DELETE, ON_CHANGE, ON_CONFIRM } from '../../../Table/constants';
 
 import { persistentVolumeClaims, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 import { rows } from '../fixtures/StorageTab.fixture';
+import { PROVISION_SOURCE_URL } from '../../../../constants';
 
 const testStorageTab = (onChange, initialDisks) => (
   <StorageTab
@@ -13,6 +13,8 @@ const testStorageTab = (onChange, initialDisks) => (
     onChange={onChange || jest.fn()}
     initialStorages={initialDisks || []}
     units={units}
+    sourceType={PROVISION_SOURCE_URL}
+    namespace="default"
   />
 );
 
@@ -68,47 +70,36 @@ describe('<StorageTab />', () => {
     expect(component.state().rows).toHaveLength(0);
   });
 
-  it('calls onChange on delete', () => {
+  it('calls onChange when rows change', () => {
     const onChange = jest.fn();
 
     const component = mount(testStorageTab(onChange, [...testRows, thirdRow]));
     expect(onChange).toHaveBeenCalledTimes(1);
 
-    component.instance().onChange(testRows, {
-      editing: false,
-      type: ON_DELETE,
-      id: 3
-    });
+    component.instance().rowsChanged(testRows, false);
 
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 
-  it('calls onChange on confirm', () => {
+  it('calls onChange when row is updated', () => {
     const onChange = jest.fn();
 
-    const component = mount(testStorageTab(onChange, [...testRows, thirdRow]));
+    const newRows = [...testRows, thirdRow];
+    const component = mount(testStorageTab(onChange, newRows));
     expect(onChange).toHaveBeenCalledTimes(1);
 
-    component.instance().onChange([...testRows, updatedThirdRow], {
-      editing: true,
-      type: ON_CONFIRM,
-      id: 3
-    });
+    component.instance().onRowUpdate(newRows, thirdRow.id, false);
 
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 
-  it('does not call onChange on change', () => {
+  it('does not call onChange when row is activated', () => {
     const onChange = jest.fn();
 
     const component = mount(testStorageTab(onChange, [...testRows, thirdRow]));
     expect(onChange).toHaveBeenCalledTimes(1);
 
-    component.instance().onChange([...testRows, updatedThirdRow], {
-      editing: true,
-      type: ON_CHANGE,
-      id: 3
-    });
+    component.instance().onRowActivate([...testRows, updatedThirdRow]);
 
     expect(onChange).toHaveBeenCalledTimes(1);
   });

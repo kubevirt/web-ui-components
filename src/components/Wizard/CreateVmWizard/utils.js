@@ -9,7 +9,10 @@ export const getTemplateStorages = (templates, userTemplate) => {
   const templateDisks = {};
   const templateVolumes = {};
 
+  // eslint-disable-next-line no-return-assign
   getDisks(vm).forEach(disk => (templateDisks[disk.volumeName] = disk));
+
+  // eslint-disable-next-line no-return-assign
   getVolumes(vm).forEach(volume => (templateVolumes[getPersistentVolumeClaimName(volume)] = volume));
 
   return selectPVCs(objects).map(pvc => {

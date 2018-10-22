@@ -1,23 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { findIndex } from 'lodash';
-import { Button, ButtonGroup } from 'patternfly-react';
 
-import EditableDraggableTable from '../../Table/EditableDraggableTable';
+import { PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY } from '../../../constants';
+import { TableFactory } from '../../Table/TableFactory';
+import { FormFactory } from '../../Form/FormFactory';
 import { getName, getGibStorageSize, getStorageClassName } from '../../../utils/selectors';
 
-import {
-  ACTIONS_TYPE,
-  DELETE_ACTION,
-  ON_CHANGE,
-  ON_ACTIVATE,
-  ON_CONFIRM,
-  ON_DELETE,
-  ON_MOVE,
-  ON_CANCEL
-} from '../../Table/constants';
-
-const BOOTABLE = '(Bootable)';
+import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 
 const validatePvc = pvc => {
   const errors = Array(4).fill(null);
@@ -38,16 +28,8 @@ const validatePvc = pvc => {
     errors[3] = 'Storage Class not selected';
   }
 
-  return {
-    ...pvc,
-    errors
-  };
+  return errors;
 };
-
-const noValidation = storage => ({
-  ...storage,
-  errors: Array(4).fill(null)
-});
 
 const validateAttachStorage = (storage, storages) => {
   const errors = Array(4).fill(null);
@@ -62,21 +44,49 @@ const validateAttachStorage = (storage, storages) => {
     errors[1] = 'Selected storage is not valid';
   }
 
-  return {
-    ...storage,
-    errors
-  };
+  return errors;
 };
 
-const resolveBootability = rows => {
+const validateDiskNamespace = (storages, pvcs, namespace) => {
+  const availablePvcs = pvcs.filter(pvc => pvc.metadata.namespace === namespace);
+  storages.filter(storage => !!storage.attachStorage).forEach(storage => {
+    if (!storage.errors) {
+      storage.errors = new Array(4).fill(null);
+    }
+    storage.errors[1] = availablePvcs.some(pvc => pvc.metadata.name === getName(storage.attachStorage))
+      ? null
+      : 'Disk configuration not found';
+  });
+};
+
+const hasError = disk => (disk.errors ? disk.errors.some(error => !!error) : false);
+
+const resolveBootability = (rows, sourceType) => {
+  if (
+    sourceType !== PROVISION_SOURCE_REGISTRY &&
+    sourceType !== PROVISION_SOURCE_URL &&
+    !rows.some(row => row.isBootable && !hasError(row))
+  ) {
+    const bootableDisks = rows.filter(row => !!row.attachStorage || !!row.templateStorage);
+    if (bootableDisks.length > 0) {
+      let bootableFound = false;
+      bootableDisks.forEach(disk => {
+        if (!bootableFound && !hasError(disk)) {
+          disk.isBootable = true;
+          bootableFound = true;
+        } else {
+          disk.isBootable = false;
+        }
+      });
+    }
+  }
   if (rows && rows.length > 0 && !rows[0].isBootable) {
     // change detected
-    let isBootable = true;
+    let isBootable = sourceType !== PROVISION_SOURCE_REGISTRY && sourceType !== PROVISION_SOURCE_URL;
     return rows.map(row => {
       const result = {
         ...row,
-        isBootable,
-        addendum: isBootable ? BOOTABLE : null
+        isBootable
       };
       if (isBootable) {
         // only the first one is bootable
@@ -116,7 +126,14 @@ const resolveTemplateStorage = (storage, units) => {
   };
 };
 
-const resolveInitialStorages = (initialStorages, persistentVolumeClaims, storageClasses, units) => {
+const resolveInitialStorages = (
+  initialStorages,
+  persistentVolumeClaims,
+  storageClasses,
+  units,
+  sourceType,
+  namespace
+) => {
   let nextId = Math.max(...initialStorages.map(disk => disk.id || 0), 0) + 1;
 
   const disks = initialStorages.map(disk => {
@@ -142,29 +159,30 @@ const resolveInitialStorages = (initialStorages, persistentVolumeClaims, storage
       };
     }
 
-    result.isBootable = false; // clear to prevent mistakes and resolve again (adds addendum)
-
     return result;
   });
 
-  return resolveValidation(resolveBootability(disks), persistentVolumeClaims);
+  validateDiskNamespace(disks, persistentVolumeClaims, namespace);
+  resolveBootability(disks, sourceType);
+  return disks;
 };
 
-const resolveValidation = (rows, persistentVolumeClaims) =>
-  rows.map(row => {
-    if (row.attachStorage) {
-      return validateAttachStorage(row, persistentVolumeClaims);
-    }
-    if (row.templateStorage) {
-      // expect template disks to be valid
-      // only bootability can be changed
-      return noValidation(row);
-    }
-    return validatePvc(row);
-  });
+const validateStorage = (row, persistentVolumeClaims) => {
+  let errors;
+  if (row.attachStorage) {
+    errors = validateAttachStorage(row, persistentVolumeClaims);
+  } else if (row.templateStorage) {
+    // expect template disks to be valid
+    // only bootability can be changed
+    errors = Array(4).fill(null);
+  } else {
+    errors = validatePvc(row);
+  }
+  return errors;
+};
 
-const publishResults = (rows, publish, defaultValid = true) => {
-  let valid = defaultValid;
+const publishResults = (rows, publish) => {
+  let valid = true;
   const storages = rows.map(({ attachStorage, templateStorage, id, name, size, storageClass, isBootable, errors }) => {
     let result;
     if (attachStorage) {
@@ -182,7 +200,8 @@ const publishResults = (rows, publish, defaultValid = true) => {
     result = {
       ...result,
       id,
-      isBootable
+      isBootable,
+      errors
     };
 
     if (valid && errors) {
@@ -206,7 +225,9 @@ class StorageTab extends React.Component {
       props.initialStorages,
       props.persistentVolumeClaims,
       props.storageClasses,
-      props.units
+      props.units,
+      props.sourceType,
+      props.namespace
     );
 
     this.state = {
@@ -216,61 +237,32 @@ class StorageTab extends React.Component {
       editing: false
     };
 
-    publishResults(rows, this.props.onChange, true); // resolved new validation and boot order
+    publishResults(rows, this.props.onChange); // resolved new validation and boot order
   }
 
-  onChange = (rows, { editing, type, id }) => {
-    if (type === ON_CHANGE) {
-      const index = findIndex(rows, { id });
-      const row = rows[index];
+  onRowActivate = rows => {
+    this.setState({ rows, editing: true });
+  };
 
-      if (row.attachStorage) {
-        rows[index] = resolveAttachedStorage(
-          row,
-          this.props.persistentVolumeClaims,
-          this.props.storageClasses,
-          this.props.units
-        );
-      }
+  onRowUpdate = (rows, updatedRowId, editing) => {
+    const index = findIndex(rows, row => row.id === updatedRowId);
+    if (rows[index].attachStorage) {
+      rows[index] = resolveAttachedStorage(
+        rows[index],
+        this.props.persistentVolumeClaims,
+        this.props.storageClasses,
+        this.props.units
+      );
     }
+    const updatedRow = rows[index];
+    updatedRow.errors = validateStorage(updatedRow, this.props.persistentVolumeClaims);
+    this.rowsChanged(rows, editing);
+  };
 
-    switch (type) {
-      case ON_CONFIRM:
-      case ON_CANCEL: // to validate first empty row
-      case ON_DELETE:
-        rows = resolveValidation(rows, this.props.persistentVolumeClaims);
-        break;
-      default:
-        break;
-    }
-
-    switch (type) {
-      case ON_ACTIVATE: // new row
-      case ON_DELETE:
-      case ON_MOVE:
-        rows = resolveBootability(rows);
-        break;
-      default:
-        break;
-    }
-
-    this.setState({
-      rows,
-      editing
-    });
-
-    switch (type) {
-      case ON_ACTIVATE: // new empty data
-        publishResults(rows, this.props.onChange, false); // data can't be valid ON_ACTIVATE
-        break;
-      case ON_CONFIRM: // new data
-      case ON_DELETE:
-      case ON_MOVE:
-        publishResults(rows, this.props.onChange, true); // expect data to be valid
-        break;
-      default:
-        break;
-    }
+  rowsChanged = (rows, editing) => {
+    resolveBootability(rows, this.props.sourceType);
+    publishResults(rows, this.props.onChange);
+    this.setState({ rows, editing });
   };
 
   create = (renderConfig, values = {}) => {
@@ -294,106 +286,171 @@ class StorageTab extends React.Component {
 
   attachStorage = () => this.create(1, { attachStorage: {} });
 
-  render() {
-    const columns = [
-      {
-        header: {
-          label: 'Disk Name',
-          props: {
-            style: {
-              width: '50%'
-            }
+  getColumns = () => [
+    {
+      header: {
+        label: 'Disk Name',
+        props: {
+          style: {
+            width: '50%'
           }
-        },
-        property: 'name',
-        hasAddendum: true,
-        renderConfigs: [
-          {
-            id: 'name-edit',
-            type: 'text'
-          },
-          {
-            id: 'name-attach-edit',
-            type: 'dropdown',
-            choices: this.props.persistentVolumeClaims.map(getName),
-            initialValue: '--- Select Storage ---'
-          }
-        ]
+        }
       },
-      {
-        header: {
-          label: 'Size (GB)',
-          props: {
-            style: {
-              width: '23%'
-            }
-          }
+      property: 'name',
+      renderConfigs: [
+        {
+          id: 'name-edit',
+          type: 'text'
         },
-        property: 'size',
-        renderConfigs: [
-          {
-            id: 'size-edit',
-            type: 'positive-number'
+        {
+          id: 'name-attach-edit',
+          type: 'dropdown',
+          choices: this.props.persistentVolumeClaims
+            .filter(pvc => pvc.metadata.namespace === this.props.namespace)
+            .map(getName)
+            .filter(pvc => !this.state.rows.some(row => row.name === pvc)),
+          initialValue: '--- Select Storage ---'
+        }
+      ]
+    },
+    {
+      header: {
+        label: 'Size (GB)',
+        props: {
+          style: {
+            width: '23%'
           }
-        ]
+        }
       },
-      {
-        header: {
-          label: 'Storage Class',
-          props: {
-            style: {
-              width: '23%'
-            }
+      property: 'size',
+      renderConfigs: [
+        {
+          id: 'size-edit',
+          type: 'positive-number'
+        }
+      ]
+    },
+    {
+      header: {
+        label: 'Storage Class',
+        props: {
+          style: {
+            width: '23%'
           }
-        },
-        property: 'storageClass',
-
-        renderConfigs: [
-          {
-            id: 'storage-edit',
-            type: 'dropdown',
-            choices: this.props.storageClasses.map(getName),
-            initialValue: '--- Select ---'
-          }
-        ]
+        }
       },
-      {
-        header: {
-          props: {
-            style: {
-              width: '4%'
-            }
+      property: 'storageClass',
+
+      renderConfigs: [
+        {
+          id: 'storage-edit',
+          type: 'dropdown',
+          choices: this.props.storageClasses.map(getName),
+          initialValue: '--- Select ---'
+        }
+      ]
+    },
+    {
+      header: {
+        props: {
+          style: {
+            width: '4%'
           }
-        },
+        }
+      },
 
-        renderConfigs: Array(3).fill({
-          id: 'actions',
-          type: ACTIONS_TYPE,
-          actions: [
-            {
-              actionType: DELETE_ACTION,
-              text: 'Remove Disk'
-            }
-          ],
-          visibleOnEdit: false
-        })
-      }
-    ];
+      renderConfigs: Array(3).fill({
+        id: 'actions',
+        type: ACTIONS_TYPE,
+        actions: [
+          {
+            actionType: DELETE_ACTION,
+            text: 'Remove Disk'
+          }
+        ],
+        visibleOnEdit: false
+      })
+    }
+  ];
 
-    // TODO: add create disk button once the create blank disk feature is implemented in kubevirt
+  getActionButtons = () => [
+    {
+      onClick: this.attachStorage,
+      id: 'attach-storage-btn',
+      text: 'Attach Storage',
+      disabled: this.state.editing
+    }
     /*
-     * <Button className="create-disk" onClick={this.createDisk} disabled={this.state.editing} id="create-disk-btn">
-     *   Create Disk
-     * </Button>
+    {
+      className: 'create-disk',
+      onClick: this.createDisk,
+      id: 'create-storage-btn',
+      text: 'Create Disk',
+      disabled: this.state.editing
+    }
     */
+  ];
+
+  getFormFields = disks => ({
+    bootableDisk: {
+      id: 'bootable-disk-dropdown',
+      title: 'Bootable Disk',
+      type: 'dropdown',
+      defaultValue: '--- Select Bootable Disk ---',
+      choices: disks.map(disk => disk.name),
+      required: true
+    }
+  });
+
+  onFormChange = newValue => {
+    this.setState(state => {
+      state.rows.forEach(row => {
+        row.isBootable = row.name === newValue;
+      });
+      publishResults(state.rows, this.props.onChange);
+      return state.rows;
+    });
+  };
+
+  render() {
+    const columns = this.getColumns();
+    const actionButtons = this.getActionButtons();
+
+    let bootableForm;
+    if (this.props.sourceType !== PROVISION_SOURCE_REGISTRY && this.props.sourceType !== PROVISION_SOURCE_URL) {
+      const bootableDisk = this.state.rows.find(row => row.isBootable && !hasError(row));
+      const values = {
+        bootableDisk: {
+          value: bootableDisk ? bootableDisk.name : undefined,
+          validMsg: this.state.rows.length === 0 ? 'A bootable disk could not be found' : undefined
+        }
+      };
+
+      bootableForm = (
+        <FormFactory
+          fields={this.getFormFields(this.state.rows)}
+          fieldsValues={values}
+          onFormChange={this.onFormChange}
+          textPosition="text-left"
+          labelSize={2}
+          controlSize={10}
+          formClassName="pxe-form"
+        />
+      );
+    }
+
     return (
       <React.Fragment>
-        <ButtonGroup className="pull-right actions">
-          <Button onClick={this.attachStorage} disabled={this.state.editing} id="attach-storage-btn">
-            Attach Storage
-          </Button>
-        </ButtonGroup>
-        <EditableDraggableTable columns={columns} rows={this.state.rows} onChange={this.onChange} />
+        <TableFactory
+          actionButtons={actionButtons}
+          columns={columns}
+          rows={this.state.rows}
+          onRowUpdate={this.onRowUpdate}
+          onRowDeleteOrMove={this.rowsChanged}
+          onRowActivate={this.onRowActivate}
+          error=""
+        />
+        {bootableForm}
       </React.Fragment>
     );
   }
@@ -408,7 +465,9 @@ StorageTab.propTypes = {
   persistentVolumeClaims: PropTypes.array.isRequired,
   initialStorages: PropTypes.array, // StorageTab keeps it's own state
   onChange: PropTypes.func.isRequired,
-  units: PropTypes.object.isRequired
+  units: PropTypes.object.isRequired,
+  sourceType: PropTypes.string.isRequired,
+  namespace: PropTypes.string.isRequired
 };
 
 export default StorageTab;

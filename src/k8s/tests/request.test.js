@@ -355,11 +355,12 @@ describe('request.js', () => {
     createVM(k8sCreate, templates, vmFromURL, networks).then(vm => {
       expect(vm.metadata.name).toBe(settingsValue(basicSettings, NAME_KEY));
       expect(vm.metadata.namespace).toBe(settingsValue(basicSettings, NAMESPACE_KEY));
-      expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
-      expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe('rootvolume');
 
-      expect(vm.spec.template.spec.volumes[0].name).toBe('rootvolume');
       const dataVolumeName = `datavolume-${settingsValue(vmFromURL, NAME_KEY)}`;
+      expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe('rootdisk');
+      expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe(dataVolumeName);
+
+      expect(vm.spec.template.spec.volumes[0].name).toBe(dataVolumeName);
       expect(vm.spec.template.spec.volumes[0].dataVolume.name).toBe(dataVolumeName);
 
       expect(vm.spec.dataVolumeTemplates[0].metadata.name).toBe(dataVolumeName);
@@ -466,7 +467,7 @@ describe('request.js', () => {
   it('from PXE with attached disks', () =>
     createVM(k8sCreate, templates, vmPXE, pxeNetworks, attachStorageDisks).then(vm => {
       testPXE(vm);
-      testFirstAttachedStorage(vm, 1, 1, 2);
+      testFirstAttachedStorage(vm, 0, 0, 2);
       return vm;
     }));
 });

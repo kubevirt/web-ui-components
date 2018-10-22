@@ -2,30 +2,20 @@
 
 exports[`<StorageTab /> renders correctly 1`] = `
 <Fragment>
-  <ButtonGroup
-    block={false}
-    bsClass="btn-group"
-    className="pull-right actions"
-    justified={false}
-    vertical={false}
-  >
-    <Button
-      active={false}
-      block={false}
-      bsClass="btn"
-      bsStyle="default"
-      disabled={false}
-      id="attach-storage-btn"
-      onClick={[Function]}
-    >
-      Attach Storage
-    </Button>
-  </ButtonGroup>
-  <DragDropContext(EditableDraggableTable)
+  <TableFactory
+    actionButtons={
+      Array [
+        Object {
+          "disabled": false,
+          "id": "attach-storage-btn",
+          "onClick": [Function],
+          "text": "Attach Storage",
+        },
+      ]
+    }
     columns={
       Array [
         Object {
-          "hasAddendum": true,
           "header": Object {
             "label": "Disk Name",
             "props": Object {
@@ -43,7 +33,6 @@ exports[`<StorageTab /> renders correctly 1`] = `
             Object {
               "choices": Array [
                 "disk-one",
-                "disk-two",
                 "disk-three",
               ],
               "id": "name-attach-edit",
@@ -139,7 +128,10 @@ exports[`<StorageTab /> renders correctly 1`] = `
         },
       ]
     }
-    onChange={[Function]}
+    error=""
+    onRowActivate={[Function]}
+    onRowDeleteOrMove={[Function]}
+    onRowUpdate={[Function]}
     rows={Array []}
   />
 </Fragment>
