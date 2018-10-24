@@ -18,7 +18,8 @@ export const rhel75 = {
     labels: {
       'os.template.cnv.io/rhel7.0': 'true',
       'workload.template.cnv.io/generic': 'true',
-      'flavor.template.cnv.io/small': 'true'
+      'flavor.template.cnv.io/small': 'true',
+      'template.cnv.io/type': 'base'
     }
   },
   objects: [

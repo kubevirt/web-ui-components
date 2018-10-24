@@ -169,6 +169,10 @@ const setNetworks = (vm, basicSettings, networks) => {
     delete vm.spec.template.spec.networks;
   }
 
+  if (!networks.find(network => network.network === POD_NETWORK)) {
+    getDevices(vm).autoattachPodInterface = false;
+  }
+
   networks.forEach(network => {
     const nic = {
       bridge: {},
@@ -217,7 +221,13 @@ const getDefaultInterface = (vm, basicSettings) => {
 };
 
 const getDevice = (vm, deviceType, deviceName) =>
-  get(vm.spec.template.spec.domain.devices, deviceType, []).find(device => device.name === deviceName);
+  get(getDevices(vm), deviceType, []).find(device => device.name === deviceName);
+
+const getDevices = vm => {
+  const devices = get(vm.spec.template.spec.domain, 'devices', {});
+  vm.spec.template.spec.domain.devices = devices;
+  return devices;
+};
 
 const addCloudInit = (vm, basicSettings) => {
   // remove existing config
