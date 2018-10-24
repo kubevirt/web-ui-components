@@ -1,4 +1,4 @@
-import { cloneDeep, get } from 'lodash';
+import { get } from 'lodash';
 import { createVM } from '../request';
 
 import { ProcessedTemplatesModel } from '../../models';
@@ -11,7 +11,6 @@ import {
   templates,
   POD_NETWORK
 } from '../../constants';
-import { rhel75 } from '../mock_templates/rhel75.template';
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 
 const basicSettings = {
@@ -21,7 +20,6 @@ const basicSettings = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -30,6 +28,9 @@ const basicSettings = {
   },
   flavor: {
     value: 'small'
+  },
+  operatingSystem: {
+    value: 'rhel7.0'
   }
 };
 
@@ -40,7 +41,6 @@ const basicSettingsWithNetwork = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -49,6 +49,9 @@ const basicSettingsWithNetwork = {
   },
   flavor: {
     value: 'small'
+  },
+  operatingSystem: {
+    value: 'rhel7.0'
   }
 };
 
@@ -59,7 +62,6 @@ const basicSettingsCloudInit = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -68,6 +70,9 @@ const basicSettingsCloudInit = {
   },
   flavor: {
     value: 'small'
+  },
+  operatingSystem: {
+    value: 'rhel7.0'
   },
   cloudInit: {
     value: true
@@ -90,7 +95,6 @@ const vmFromURL = {
   description: {
     value: 'desc'
   },
-  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_URL
   },
@@ -99,6 +103,9 @@ const vmFromURL = {
   },
   flavor: {
     value: 'small'
+  },
+  operatingSystem: {
+    value: 'rhel7.0'
   }
 };
 
@@ -112,7 +119,6 @@ const vmPXE = {
   description: {
     value: 'desc'
   },
-  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_PXE
   },
@@ -121,6 +127,9 @@ const vmPXE = {
   },
   startVM: {
     value: true
+  },
+  operatingSystem: {
+    value: 'rhel7.0'
   }
 };
 
@@ -134,7 +143,6 @@ const customFlavor = {
   description: {
     value: 'desc'
   },
-  chosenTemplate: cloneDeep(rhel75),
   imageSourceType: {
     value: PROVISION_SOURCE_REGISTRY
   },
@@ -152,6 +160,9 @@ const customFlavor = {
   },
   startVM: {
     value: true
+  },
+  operatingSystem: {
+    value: 'rhel7.0'
   }
 };
 
@@ -162,7 +173,6 @@ const vmUserTemplate = {
   namespace: {
     value: 'namespace'
   },
-  chosenTemplate: cloneDeep(linuxUserTemplate),
   imageSourceType: {
     value: 'Template'
   },
@@ -197,6 +207,27 @@ const pxeNetworks = {
       isBootable: true
     }
   ]
+};
+
+const windowsSettings = {
+  name: {
+    value: 'name'
+  },
+  namespace: {
+    value: 'namespace'
+  },
+  imageSourceType: {
+    value: PROVISION_SOURCE_REGISTRY
+  },
+  registryImage: {
+    value: 'imageURL'
+  },
+  flavor: {
+    value: 'medium'
+  },
+  operatingSystem: {
+    value: 'win2k12r2'
+  }
 };
 
 const processTemplate = template =>
@@ -298,6 +329,20 @@ describe('request.js', () => {
       expect(vm.metadata.namespace).toBe(basicSettings.namespace.value);
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(1);
       expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('1G');
+      return vm;
+    }));
+  it('default network model is used for all networks', () =>
+    createVM(k8sCreate, templates, windowsSettings, pxeNetworks).then(vm => {
+      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(pxeNetworks.networks[0].name);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].model).toEqual('e1000e');
+
+      expect(vm.spec.template.spec.domain.devices.interfaces[1].name).toEqual(pxeNetworks.networks[1].name);
+      expect(vm.spec.template.spec.domain.devices.interfaces[1].model).toEqual('e1000e');
+
+      expect(vm.spec.template.spec.networks).toHaveLength(2);
+      expect(vm.spec.template.spec.networks[0].name).toEqual(pxeNetworks.networks[0].name);
+      expect(vm.spec.template.spec.networks[1].name).toEqual(pxeNetworks.networks[1].name);
       return vm;
     }));
 });

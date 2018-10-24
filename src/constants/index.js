@@ -2,6 +2,7 @@ import { fedora28 } from '../k8s/mock_templates/fedora28.template';
 import { rhel75 } from '../k8s/mock_templates/rhel75.template';
 import { ubuntu1804 } from '../k8s/mock_templates/ubuntu1804.template';
 import { rhelHighPerformance } from '../k8s/mock_templates/rhel-high-p.template';
+import { windows } from '../k8s/mock_templates/windows.template';
 import { linuxUserTemplate } from '../k8s/mock_user_templates/linux.template';
 import { windowsUserTemplate } from '../k8s/mock_user_templates/windows.template';
 import { network1 } from '../k8s/mock_network/network.template';
@@ -31,7 +32,7 @@ export const PROVISION_SOURCE_TEMPLATE = 'Template';
 
 export const POD_NETWORK = 'Pod Networking';
 
-export const baseTemplates = [fedora28, ubuntu1804, rhel75, rhelHighPerformance];
+export const baseTemplates = [fedora28, ubuntu1804, rhel75, rhelHighPerformance, windows];
 export const userTemplates = [linuxUserTemplate, windowsUserTemplate];
 export const templates = [...baseTemplates, ...userTemplates];
 export const networkConfigs = [network1];

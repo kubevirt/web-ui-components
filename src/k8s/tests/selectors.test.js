@@ -117,8 +117,9 @@ describe('selectors.js', () => {
     const fedora = ['fedora23', 'fedora24', 'fedora25', 'fedora26', 'fedora27', 'fedora28', 'fedora29'];
     const rhel = ['rhel7.0'];
     const ubuntu = ['ubuntu18.04'];
+    const windows = ['win2k12r2', 'win2k8r2', 'win2k8', 'win10'];
 
-    expect(getOperatingSystems({}, templates).sort()).toEqual([...fedora, ...rhel, ...ubuntu].sort());
+    expect(getOperatingSystems({}, templates).sort()).toEqual([...fedora, ...rhel, ...ubuntu, ...windows].sort());
 
     const basicVmSettings = {
       workloadProfile: {
@@ -126,7 +127,9 @@ describe('selectors.js', () => {
       }
     };
 
-    expect(getOperatingSystems(basicVmSettings, templates).sort()).toEqual([...fedora, ...rhel, ...ubuntu].sort());
+    expect(getOperatingSystems(basicVmSettings, templates).sort()).toEqual(
+      [...fedora, ...rhel, ...ubuntu, ...windows].sort()
+    );
 
     basicVmSettings.workloadProfile.value = 'high-performance';
 
@@ -140,7 +143,7 @@ describe('selectors.js', () => {
 
     delete basicVmSettings.workloadProfile;
 
-    expect(getOperatingSystems(basicVmSettings, templates)).toEqual([...rhel]);
+    expect(getOperatingSystems(basicVmSettings, templates)).toEqual([...rhel, ...windows]);
 
     basicVmSettings.flavor.value = 'small';
     basicVmSettings.workloadProfile = {
@@ -162,7 +165,7 @@ describe('selectors.js', () => {
       }
     };
 
-    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor].sort());
+    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
 
     basicVmSettings.workloadProfile.value = 'high-performance';
     expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor].sort());
