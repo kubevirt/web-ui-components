@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormFactory } from '../../Form/FormFactory';
-import { isPositiveNumber } from '../../../utils/validations';
 import { getName } from '../../../utils/selectors';
 import { getTemplate } from '../../../utils/templates';
 import {
@@ -127,18 +126,18 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [MEMORY_KEY]: {
       id: 'resources-memory',
       title: 'Memory (GB)',
+      type: 'positive-number',
       required: true,
       isVisible: basicVmSettings =>
         isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number'),
     },
     [CPU_KEY]: {
       id: 'resources-cpu',
       title: 'CPUs',
+      type: 'positive-number',
       required: true,
       isVisible: basicVmSettings =>
         isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number'),
     },
     [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',

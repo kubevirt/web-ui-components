@@ -8,16 +8,16 @@ const testInteger = (value = -5, positive = false, nonNegative = false) => (
   <Integer id="1" value={value} onChange={jest.fn()} positive={positive} nonNegative={nonNegative} />
 );
 
-const getEvent = keyCode => ({
+const getEvent = (keyCode, value = '') => ({
   keyCode,
   preventDefault: jest.fn(),
   target: {
-    value: '',
+    value,
   },
 });
 
-const testValidity = (component, keyCode, validity) => {
-  const event = getEvent(keyCode);
+const testValidity = (component, keyCode, validity, startingValue) => {
+  const event = getEvent(keyCode, startingValue);
   expect(
     component
       .find(FormControl)
@@ -32,9 +32,9 @@ const testValidity = (component, keyCode, validity) => {
   }
 };
 
-const testValidKey = (component, keyCode) => testValidity(component, keyCode, true);
+const testValidKey = (component, keyCode, startingValue) => testValidity(component, keyCode, true, startingValue);
 
-const testInValidKey = (component, keyCode) => testValidity(component, keyCode, false);
+const testInValidKey = (component, keyCode, startingValue) => testValidity(component, keyCode, false, startingValue);
 
 describe('<Integer />', () => {
   it('renders correctly', () => {
@@ -83,7 +83,8 @@ describe('<Integer />', () => {
   it('positive integer onKeyDown', () => {
     const component = shallow(testInteger(1, true));
 
-    testValidKey(component, KEY_CODES['0']); // is set in timeout after that
+    testInValidKey(component, KEY_CODES['0']);
+    testValidKey(component, KEY_CODES['0'], '1');
 
     testValidKey(component, KEY_CODES.NUMPAD['1']);
     testInValidKey(component, KEY_CODES.NUMPAD.SUBTRACT);
