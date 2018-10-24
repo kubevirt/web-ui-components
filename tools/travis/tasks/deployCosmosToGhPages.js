@@ -11,8 +11,8 @@ async function deployCosmosToGhPages() {
     await cosmosExecShell(`git config user.email ${commitAuthorEmail}`);
     await cosmosExecShell(`git config user.name ${commitAuthorName}`);
     await cosmosExecShell('git commit -m "Deploy Cosmos application to GitHub Pages"');
-    await cosmosExecShell(`git remote add ssh-origin git@github.com:${repoSlug}`);
-    await cosmosExecShell(`git push --force --quiet ssh-origin master:gh-pages`);
+    await cosmosExecShell('ssh-add -l -E md5'); // TODO(vs) remove this once git push works
+    await cosmosExecShell(`git push -f git@github.com:${repoSlug}.git master:gh-pages`);
     return true;
   } catch (error) {
     return false;

@@ -23,6 +23,3 @@ script:
   - yarn coveralls
 after_success:
   - node tools/travis/afterSuccess.js
-branches:
-  only:
-  - master

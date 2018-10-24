@@ -12,7 +12,9 @@ function getBuildInfo() {
 
 async function exportCosmos() {
   try {
+    // generate a static version of the Cosmos application
     await execShell('yarn cosmos:export');
+    // add build-info.txt to provide additional build details
     fs.writeFileSync(`${paths.cosmosExport}/build-info.txt`, getBuildInfo());
     return true;
   } catch (error) {
