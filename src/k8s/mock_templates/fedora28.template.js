@@ -58,6 +58,13 @@ export const fedora28 = {
                     },
                     name: 'rootdisk',
                     volumeName: 'rootvolume'
+                  },
+                  {
+                    disk: {
+                      bus: 'virtio'
+                    },
+                    name: 'cloudinitdisk',
+                    volumeName: 'cloudinitvolume'
                   }
                 ]
               }

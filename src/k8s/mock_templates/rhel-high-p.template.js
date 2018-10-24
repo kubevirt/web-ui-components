@@ -55,6 +55,13 @@ export const rhelHighPerformance = {
                     },
                     name: 'rootdisk',
                     volumeName: 'rootvolume'
+                  },
+                  {
+                    disk: {
+                      bus: 'virtio'
+                    },
+                    name: 'cloudinitdisk',
+                    volumeName: 'cloudinitvolume'
                   }
                 ]
               }
