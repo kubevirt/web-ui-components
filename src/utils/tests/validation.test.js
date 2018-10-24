@@ -1,4 +1,4 @@
-import { isPositiveNumber } from '../validation';
+import { isPositiveNumber } from '../validations';
 
 describe('validation.js tests', () => {
   it('returns false for NaN', () => {

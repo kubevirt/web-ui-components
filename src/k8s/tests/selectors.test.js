@@ -16,10 +16,10 @@ import {
   getFlavorLabel,
   getFlavors,
   getOperatingSystems,
-  getTemplate,
   getWorkloadProfiles,
   isImageSourceType
 } from '../selectors';
+import { getTemplate } from '../../utils/templates';
 
 describe('selectors.js', () => {
   it('isImageSourceType', () => {

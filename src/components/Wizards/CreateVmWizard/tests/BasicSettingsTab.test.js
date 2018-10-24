@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import BasicSettingsTab, { getFormFields } from '../BasicSettingsTab';
 import { namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 import { templates, PROVISION_SOURCE_TEMPLATE, TEMPLATE_TYPE_VM } from '../../../../constants';
-import { getTemplate } from '../../../../k8s/selectors';
+import { getTemplate } from '../../../../utils/templates';
 import { getName } from '../../../../utils/selectors';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 
