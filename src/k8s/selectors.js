@@ -58,11 +58,10 @@ export const isImageSourceType = (basicSettings, type) => get(basicSettings, 'im
 export const isFlavorType = (basicSettings, type) => get(basicSettings, 'flavor.value') === type;
 
 export const getTemplate = (templates, type) => {
-  if (type === TEMPLATE_TYPE_BASE) {
-    return predefinedTemplates;
-  }
-  return templates.filter(template => {
+  const filteredTemplates = templates.filter(template => {
     const labels = get(template, 'metadata.labels', {});
     return labels[TEMPLATE_TYPE_LABEL] === type;
   });
+
+  return type === TEMPLATE_TYPE_BASE && filteredTemplates.length === 0 ? predefinedTemplates : filteredTemplates;
 };
