@@ -7,7 +7,7 @@ import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL,
-  PARAM_VM_NAME,
+  TEMPLATE_PARAM_VM_NAME,
   templates,
   POD_NETWORK
 } from '../../constants';
@@ -232,7 +232,7 @@ const windowsSettings = {
 
 const processTemplate = template =>
   new Promise((resolve, reject) => {
-    const nameParam = template.parameters.find(param => param.name === PARAM_VM_NAME);
+    const nameParam = template.parameters.find(param => param.name === TEMPLATE_PARAM_VM_NAME);
     template.objects[0].metadata.name = nameParam.value;
 
     resolve(template);

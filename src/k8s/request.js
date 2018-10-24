@@ -6,14 +6,19 @@ import {
   VIRTIO_BUS,
   ANNOTATION_DEFAULT_DISK,
   ANNOTATION_DEFAULT_NETWORK,
-  PARAM_VM_NAME,
+  TEMPLATE_PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_TEMPLATE,
   TEMPLATE_TYPE_BASE,
   PROVISION_SOURCE_PXE,
-  POD_NETWORK
+  POD_NETWORK,
+  ANNOTATION_FIRST_BOOT,
+  ANNOTATION_PXE_INTERFACE,
+  TEMPLATE_API_VERSION,
+  PVC_ACCESSMODE_RWO,
+  CLOUDINIT_NOCLOUD
 } from '../constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels } from '../utils/template';
@@ -35,11 +40,11 @@ export const createVM = (k8sCreate, templates, basicSettings, networks) => {
 
   basicSettings.chosenTemplate = availableTemplates.length > 0 ? cloneDeep(availableTemplates[0]) : null;
 
-  setParameterValue(basicSettings.chosenTemplate, PARAM_VM_NAME, basicSettings.name.value);
+  setParameterValue(basicSettings.chosenTemplate, TEMPLATE_PARAM_VM_NAME, basicSettings.name.value);
 
   // no more required parameters
   basicSettings.chosenTemplate.parameters.forEach(param => {
-    if (param.name !== PARAM_VM_NAME && param.required) {
+    if (param.name !== TEMPLATE_PARAM_VM_NAME && param.required) {
       delete param.required;
     }
   });
@@ -48,7 +53,7 @@ export const createVM = (k8sCreate, templates, basicSettings, networks) => {
   basicSettings.chosenTemplate.metadata.namespace = basicSettings.namespace.value;
 
   // make sure api version is correct
-  basicSettings.chosenTemplate.apiVersion = 'template.openshift.io/v1';
+  basicSettings.chosenTemplate.apiVersion = TEMPLATE_API_VERSION;
 
   return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
     const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
@@ -137,7 +142,7 @@ const setSourceType = (vm, basicSettings) => {
         },
         spec: {
           pvc: {
-            accessModes: ['ReadWriteOnce'],
+            accessModes: [PVC_ACCESSMODE_RWO],
             resources: {
               requests: {
                 storage: '2Gi'
@@ -205,15 +210,15 @@ const setNetworks = (vm, basicSettings, networks) => {
   if (basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE) {
     delete vm.spec.template.spec.domain.devices.disks;
     delete vm.spec.template.spec.volumes;
-    addAnnotation(vm, 'cnv.ui.pxeInterface', networks.find(network => network.isBootable).name);
-    addAnnotation(vm, 'cnv.ui.firstBoot', 'true');
+    addAnnotation(vm, ANNOTATION_PXE_INTERFACE, networks.find(network => network.isBootable).name);
+    addAnnotation(vm, ANNOTATION_FIRST_BOOT, 'true');
   }
 };
 
 const addCloudInit = (vm, basicSettings) => {
   // remove existing config
   const volumes = get(getSpec(vm), 'volumes', []);
-  const existingVolume = volumes.find(volume => volume.hasOwnProperty('cloudInitNoCloud'));
+  const existingVolume = volumes.find(volume => volume.hasOwnProperty(CLOUDINIT_NOCLOUD));
   if (existingVolume) {
     remove(getDisks(vm), disk => disk.volumeName === existingVolume.name);
     remove(volumes, volume => volume.name === existingVolume.name);
