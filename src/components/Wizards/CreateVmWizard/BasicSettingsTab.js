@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormFactory } from '../../Form/FormFactory';
-import { isPositiveNumber } from '../../../utils/validation';
+import { isPositiveNumber } from '../../../utils/validations';
 import { getName } from '../../../utils/selectors';
+import { getTemplate } from '../../../utils/templates';
 import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_PXE,
@@ -17,8 +18,7 @@ import {
   getWorkloadProfiles,
   getFlavors,
   isImageSourceType,
-  isFlavorType,
-  getTemplate
+  isFlavorType
 } from '../../../k8s/selectors';
 
 const NAMESPACE_KEY = 'namespace';

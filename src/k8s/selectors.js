@@ -4,12 +4,10 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
-  TEMPLATE_TYPE_LABEL,
-  TEMPLATE_TYPE_BASE,
-  baseTemplates as predefinedTemplates
+  TEMPLATE_TYPE_BASE
 } from '../constants';
 
-import { getTemplatesLabelValues, getTemplatesWithLabels } from '../utils/template';
+import { getTemplatesLabelValues, getTemplatesWithLabels, getTemplate } from '../utils/templates';
 
 export const getLabel = (basicSettings, labelPrefix, value) =>
   has(basicSettings, value) ? `${labelPrefix}/${get(basicSettings, [value, 'value'])}` : undefined;
@@ -56,12 +54,3 @@ export const getFlavors = (basicSettings, templates) => {
 export const isImageSourceType = (basicSettings, type) => get(basicSettings, 'imageSourceType.value') === type;
 
 export const isFlavorType = (basicSettings, type) => get(basicSettings, 'flavor.value') === type;
-
-export const getTemplate = (templates, type) => {
-  const filteredTemplates = templates.filter(template => {
-    const labels = get(template, 'metadata.labels', {});
-    return labels[TEMPLATE_TYPE_LABEL] === type;
-  });
-
-  return type === TEMPLATE_TYPE_BASE && filteredTemplates.length === 0 ? predefinedTemplates : filteredTemplates;
-};

@@ -21,8 +21,8 @@ import {
   CLOUDINIT_NOCLOUD
 } from '../constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
-import { getTemplatesWithLabels } from '../utils/template';
-import { getOsLabel, getWorkloadLabel, getFlavorLabel, getTemplate } from './selectors';
+import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
+import { getOsLabel, getWorkloadLabel, getFlavorLabel } from './selectors';
 
 export const createVM = (k8sCreate, templates, basicSettings, networks) => {
   const availableTemplates = [];

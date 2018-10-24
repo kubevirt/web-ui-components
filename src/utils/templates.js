@@ -1,4 +1,5 @@
-import { remove, pull } from 'lodash';
+import { remove, pull, get } from 'lodash';
+import { TEMPLATE_TYPE_BASE, TEMPLATE_TYPE_LABEL, baseTemplates } from '../constants';
 
 export const getTemplatesWithLabels = (templates, labels) => {
   const filteredTemplates = [...templates];
@@ -31,4 +32,12 @@ export const getTemplatesLabelValues = (templates, label) => {
     });
   });
   return labelValues;
+};
+
+export const getTemplate = (templates, type) => {
+  const filteredTemplates = templates.filter(template => {
+    const labels = get(template, 'metadata.labels', {});
+    return labels[TEMPLATE_TYPE_LABEL] === type;
+  });
+  return type === TEMPLATE_TYPE_BASE && filteredTemplates.length === 0 ? baseTemplates : filteredTemplates;
 };
