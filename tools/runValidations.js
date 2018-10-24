@@ -30,6 +30,6 @@ function runValidations() {
 }
 
 if (!runValidations()) {
-  console.error('One or more validations failed.');
+  console.log('One or more validations failed.');
   process.exit(1); // eslint-disable-line
 }

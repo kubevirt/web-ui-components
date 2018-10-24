@@ -7,7 +7,7 @@ const pkg = require(paths.packageJson);
 
 // resolve React version for use with eslint-plugin-react
 const reactVersion = /^\D*(\d+).*$/.exec(pkg.peerDependencies.react)[1];
-console.log(chalk`Using React {white ${reactVersion}} linting rules.`);
+console.log(chalk`Using React {blue ${reactVersion}} linting rules.`);
 
 const commonRules = require('./eslint.rules.common');
 const reactRules = require('./eslint.rules.react');

@@ -66,6 +66,7 @@
     "eslint-plugin-promise": "4.x",
     "eslint-plugin-react": "7.x",
     "eslint-plugin-standard": "4.x",
+    "exec-sh": "0.x",
     "file-loader": "2.x",
     "glob": "7.x",
     "html-webpack-plugin": "3.x",

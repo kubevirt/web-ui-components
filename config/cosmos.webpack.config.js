@@ -5,7 +5,7 @@ const paths = require('./paths');
 const babelOptions = require('./babel.config');
 
 const webpackMode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-console.log(chalk`Running webpack in {white ${webpackMode}} mode.`);
+console.log(chalk`Running webpack in {blue ${webpackMode}} mode.`);
 
 // https://github.com/sass/node-sass#options
 const sassOptions = {
