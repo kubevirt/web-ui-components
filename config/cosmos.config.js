@@ -14,8 +14,11 @@ module.exports = {
   // path to Cosmos proxies
   proxiesPath: `${paths.src}/cosmos/proxies.js`,
 
-  // webpack server settings
+  // webpack configuration
   webpackConfigPath: `${paths.config}/cosmos.webpack.config.js`,
+  publicUrl: './',
+
+  // dev server settings
   watchDirs: [paths.src],
   port: 9000,
 
