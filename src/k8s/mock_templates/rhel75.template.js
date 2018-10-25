@@ -3,6 +3,7 @@ export const rhel75 = {
   kind: 'Template',
   metadata: {
     name: 'rhel-generic',
+    namespace: 'default',
     annotations: {
       'openshift.io/display-name': 'Red Hat Enterprise Linux 7.0+ VM',
       description:

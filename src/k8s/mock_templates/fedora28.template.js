@@ -3,6 +3,7 @@ export const fedora28 = {
   kind: 'Template',
   metadata: {
     name: 'fedora-generic',
+    namespace: 'default',
     annotations: {
       'openshift.io/display-name': 'Fedora 23+ VM',
       description:

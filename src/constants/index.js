@@ -12,6 +12,7 @@ export const ANNOTATION_DEFAULT_DISK = 'defaults.template.cnv.io/disk';
 export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.cnv.io/network';
 export const ANNOTATION_FIRST_BOOT = 'cnv.ui.firstBoot';
 export const ANNOTATION_PXE_INTERFACE = 'cnv.ui.pxeInterface';
+export const ANNOTATION_USED_TEMPLATE = 'template.cnv.ui';
 
 export const CLOUDINIT_DISK = 'cloudinitdisk';
 export const CLOUDINIT_NOCLOUD = 'cloudInitNoCloud';
