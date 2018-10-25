@@ -19,7 +19,13 @@ import {
   IMAGE_SOURCE_TYPE_KEY,
   RESULTS_TAB_IDX,
   NAMESPACE_KEY,
-  USER_TEMPLATE_KEY
+  USER_TEMPLATE_KEY,
+  CREATE_VM,
+  STEP_BASIC_SETTINGS,
+  STEP_NETWORK,
+  STEP_STORAGE,
+  STEP_RESULT,
+  NEXT
 } from './constants';
 
 import { getTemplateStorages } from './utils';
@@ -192,7 +198,7 @@ export class CreateVmWizard extends React.Component {
 
   wizardStepsNewVM = [
     {
-      title: 'Basic Settings',
+      title: STEP_BASIC_SETTINGS,
       render: () => (
         <BasicSettingsTab
           key="1"
@@ -205,7 +211,7 @@ export class CreateVmWizard extends React.Component {
       )
     },
     {
-      title: 'Network',
+      title: STEP_NETWORK,
       render: () => (
         <NetworksTab
           onChange={this.onStepDataChanged}
@@ -216,7 +222,7 @@ export class CreateVmWizard extends React.Component {
       )
     },
     {
-      title: 'Storage',
+      title: STEP_STORAGE,
       render: () => {
         const namespace = getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY);
         const persistentVolumeClaims = this.props.persistentVolumeClaims.filter(
@@ -237,7 +243,7 @@ export class CreateVmWizard extends React.Component {
       }
     },
     {
-      title: 'Result',
+      title: STEP_RESULT,
       render: () => {
         const stepData = this.state.stepData[RESULTS_TAB_IDX];
         return <ResultTab result={stepData.value} success={stepData.valid} />;
@@ -260,7 +266,8 @@ export class CreateVmWizard extends React.Component {
         cancelButtonDisabled={lastStepReached}
         stepButtonsDisabled={lastStepReached}
         nextStepDisabled={!this.state.stepData[this.state.activeStepIndex].valid}
-        nextText={beforeLastStepReached ? 'Create Virtual Machine' : 'Next'}
+        nextText={beforeLastStepReached ? CREATE_VM : NEXT}
+        title={CREATE_VM}
       />
     );
   }
