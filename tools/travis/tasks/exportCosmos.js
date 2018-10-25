@@ -16,6 +16,8 @@ async function exportCosmos() {
     await execShell('yarn cosmos:export');
     // add build-info.txt to provide additional build details
     fs.writeFileSync(`${paths.cosmosExport}/build-info.txt`, getBuildInfo());
+    // add .nojekyll file to turn off Jekyll when served via GitHub Pages
+    fs.writeFileSync(`${paths.cosmosExport}/.nojekyll`, '');
     return true;
   } catch (error) {
     return false;
