@@ -6,6 +6,7 @@ import { windows } from '../k8s/mock_templates/windows.template';
 import { linuxUserTemplate } from '../k8s/mock_user_templates/linux.template';
 import { windowsUserTemplate } from '../k8s/mock_user_templates/windows.template';
 import { network1 } from '../k8s/mock_network/network.template';
+import { network2 } from '../k8s/mock_network/network2.template';
 
 export const ANNOTATION_DEFAULT_DISK = 'defaults.template.cnv.io/disk';
 export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.cnv.io/network';
@@ -43,6 +44,6 @@ export const TEMPLATE_WORKLOAD_LABEL = 'workload.template.cnv.io';
 export const VIRTIO_BUS = 'virtio';
 
 export const baseTemplates = [fedora28, ubuntu1804, rhel75, rhelHighPerformance, windows];
-export const networkConfigs = [network1];
+export const networkConfigs = [network1, network2];
 export const userTemplates = [linuxUserTemplate, windowsUserTemplate];
 export const templates = [...baseTemplates, ...userTemplates];

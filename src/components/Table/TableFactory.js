@@ -34,7 +34,7 @@ export const TableFactory = props => {
 
   const onTableChange = (rows, data) =>
     onChange(rows, data, props.onRowUpdate, props.onRowDeleteOrMove, props.onRowActivate);
-  const error = props.error !== '' ? <Alert>{props.error}</Alert> : undefined;
+  const error = props.error && <Alert>{props.error}</Alert>;
 
   return (
     <React.Fragment>
@@ -45,12 +45,17 @@ export const TableFactory = props => {
   );
 };
 
+TableFactory.defaultProps = {
+  error: undefined,
+  actionButtons: []
+};
+
 TableFactory.propTypes = {
-  actionButtons: PropTypes.array.isRequired,
+  actionButtons: PropTypes.array,
   onRowUpdate: PropTypes.func.isRequired,
   onRowDeleteOrMove: PropTypes.func.isRequired,
   onRowActivate: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string,
   columns: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired
 };

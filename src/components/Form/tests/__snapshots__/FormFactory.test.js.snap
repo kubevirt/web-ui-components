@@ -2,6 +2,7 @@
 
 exports[`<FormFactory /> renders correctly 1`] = `
 <FormFactory
+  controlSize={5}
   fields={
     Object {
       "checkboxField": Object {
@@ -91,7 +92,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
       },
     }
   }
+  labelSize={3}
   onFormChange={[MockFunction]}
+  textPosition="text-right"
 >
   <Form
     bsClass="form"

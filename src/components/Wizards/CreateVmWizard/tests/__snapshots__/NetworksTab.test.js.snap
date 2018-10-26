@@ -1,105 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<NetworksTab /> renders correctly 1`] = `
-<TableFactory
-  actionButtons={
-    Array [
-      Object {
-        "className": "create-network",
-        "disabled": false,
-        "id": "create-network-btn",
-        "onClick": [Function],
-        "text": "Create NIC",
-      },
-    ]
-  }
-  columns={
-    Array [
-      Object {
-        "hasAddendum": true,
-        "header": Object {
-          "label": "NIC Name",
-          "props": Object {
-            "style": Object {
-              "width": "32%",
-            },
-          },
+<Fragment>
+  <TableFactory
+    actionButtons={
+      Array [
+        Object {
+          "className": "create-network",
+          "disabled": false,
+          "id": "create-network-btn",
+          "onClick": [Function],
+          "text": "Create NIC",
         },
-        "property": "name",
-        "renderConfigs": Array [
-          Object {
-            "id": "name-edit",
-            "type": "text",
-          },
-        ],
-      },
-      Object {
-        "header": Object {
-          "label": "MAC Address",
-          "props": Object {
-            "style": Object {
-              "width": "32%",
-            },
-          },
-        },
-        "property": "mac",
-        "renderConfigs": Array [
-          Object {
-            "id": "mac-edit",
-            "type": "text",
-          },
-        ],
-      },
-      Object {
-        "header": Object {
-          "label": "Network Configuration",
-          "props": Object {
-            "style": Object {
-              "width": "32%",
-            },
-          },
-        },
-        "property": "network",
-        "renderConfigs": Array [
-          Object {
-            "choices": Array [
-              "pxe-net-conf",
-              "Pod Networking",
-            ],
-            "id": "network-edit",
-            "initialValue": "--- Select Network Definition ---",
-            "type": "dropdown",
-          },
-        ],
-      },
-      Object {
-        "header": Object {
-          "props": Object {
-            "style": Object {
-              "width": "4%",
-            },
-          },
-        },
-        "renderConfigs": Array [
-          Object {
-            "actions": Array [
-              Object {
-                "actionType": "delete",
-                "text": "Remove NIC",
+      ]
+    }
+    columns={
+      Array [
+        Object {
+          "header": Object {
+            "label": "NIC Name",
+            "props": Object {
+              "style": Object {
+                "width": "32%",
               },
-            ],
-            "id": "actions",
-            "type": "actions",
-            "visibleOnEdit": false,
+            },
           },
-        ],
-      },
-    ]
-  }
-  error="At least one bootable NIC has to be defined for PXE boot"
-  onRowActivate={[Function]}
-  onRowDeleteOrMove={[Function]}
-  onRowUpdate={[Function]}
-  rows={Array []}
-/>
+          "property": "name",
+          "renderConfigs": Array [
+            Object {
+              "id": "name-edit",
+              "type": "text",
+            },
+          ],
+        },
+        Object {
+          "header": Object {
+            "label": "MAC Address",
+            "props": Object {
+              "style": Object {
+                "width": "32%",
+              },
+            },
+          },
+          "property": "mac",
+          "renderConfigs": Array [
+            Object {
+              "id": "mac-edit",
+              "type": "text",
+            },
+          ],
+        },
+        Object {
+          "header": Object {
+            "label": "Network Configuration",
+            "props": Object {
+              "style": Object {
+                "width": "32%",
+              },
+            },
+          },
+          "property": "network",
+          "renderConfigs": Array [
+            Object {
+              "choices": Array [
+                "pxe-net-conf",
+                "pxe-net-conf2",
+                "Pod Networking",
+              ],
+              "id": "network-edit",
+              "initialValue": "--- Select Network Definition ---",
+              "type": "dropdown",
+            },
+          ],
+        },
+        Object {
+          "header": Object {
+            "props": Object {
+              "style": Object {
+                "width": "4%",
+              },
+            },
+          },
+          "renderConfigs": Array [
+            Object {
+              "actions": Array [
+                Object {
+                  "actionType": "delete",
+                  "text": "Remove NIC",
+                },
+              ],
+              "id": "actions",
+              "type": "actions",
+              "visibleOnEdit": false,
+            },
+          ],
+        },
+      ]
+    }
+    onRowActivate={[Function]}
+    onRowDeleteOrMove={[Function]}
+    onRowUpdate={[Function]}
+    rows={Array []}
+  />
+  <FormFactory
+    controlSize={10}
+    fields={
+      Object {
+        "pxeNetwork": Object {
+          "choices": Array [],
+          "defaultValue": "--- Select PXE NIC ---",
+          "help": "Pod network is not PXE bootable",
+          "id": "pxe-nic-dropdown",
+          "required": true,
+          "title": "PXE NIC",
+          "type": "dropdown",
+        },
+      }
+    }
+    fieldsValues={
+      Object {
+        "pxeNetwork": Object {
+          "validMsg": "A PXE-capable NIC could not be found",
+          "value": undefined,
+        },
+      }
+    }
+    formClassName="pxe-form"
+    labelSize={2}
+    onFormChange={[Function]}
+    textPosition="text-left"
+  />
+</Fragment>
 `;

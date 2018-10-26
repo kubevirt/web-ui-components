@@ -118,12 +118,11 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       choices: workloadProfiles,
       required: true,
       isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      help: () =>
-        workloadProfiles.map(profile => (
-          <p key={profile}>
-            <b>{profile}</b>: {profile}
-          </p>
-        ))
+      help: workloadProfiles.map(profile => (
+        <p key={profile}>
+          <b>{profile}</b>: {profile}
+        </p>
+      ))
     },
     startVM: {
       title: 'Start virtual machine on creation',
