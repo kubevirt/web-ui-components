@@ -212,6 +212,7 @@ export class CreateVmWizard extends React.Component {
           networkConfigs={this.props.networkConfigs}
           networks={this.state.stepData[NETWORK_TAB_IDX].value.networks || []}
           pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_IDX].value, PROVISION_SOURCE_PXE)}
+          namespace={this.state.stepData[0].value.namespace.value}
         />
       )
     },

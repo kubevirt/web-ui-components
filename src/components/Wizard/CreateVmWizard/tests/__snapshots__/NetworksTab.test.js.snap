@@ -64,7 +64,6 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             Object {
               "choices": Array [
                 "pxe-net-conf",
-                "pxe-net-conf2",
                 "Pod Networking",
               ],
               "id": "network-edit",

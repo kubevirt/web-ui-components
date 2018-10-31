@@ -175,7 +175,7 @@ const setNetworks = (vm, template, getSetting, networks) => {
     if (network.mac) {
       nic.macAddress = network.mac;
     }
-    if (network.isBootable) {
+    if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE && network.isBootable) {
       nic.bootOrder = 1;
     }
     if (interfaceModel) {
