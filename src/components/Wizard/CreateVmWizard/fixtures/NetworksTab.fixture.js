@@ -7,6 +7,7 @@ export default {
     onChange: () => {},
     networks: [],
     pxeBoot: true,
-    networkConfigs
+    networkConfigs,
+    namespace: 'default'
   }
 };

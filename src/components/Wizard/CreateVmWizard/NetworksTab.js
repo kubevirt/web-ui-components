@@ -6,7 +6,7 @@ import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK } from '../../../constants';
 
 const validateNetwork = network => {
-  const errors = Array(3).fill(null);
+  const errors = Array(4).fill(null);
 
   if (!network || network.id == null) {
     errors[0] = 'Empty entity.'; // row error on index 0
@@ -23,6 +23,22 @@ const validateNetwork = network => {
   return errors;
 };
 
+export const validateNetworksNamespace = (networkConfigs, namespace, networks) => {
+  const availableNetworkConfigs = networkConfigs.filter(nc => nc.metadata.namespace === namespace);
+  networks.filter(network => isBootableNetwork(network)).forEach(network => {
+    if (!network.errors) {
+      network.errors = Array(4).fill(null);
+    }
+    network.errors[3] = availableNetworkConfigs.some(nc => nc.metadata.name === network.network)
+      ? null
+      : 'Network config not found';
+  });
+};
+
+export const hasError = network => (network.errors ? network.errors.some(error => !!error) : false);
+
+export const isBootableNetwork = network => network.network !== POD_NETWORK && network.network !== '';
+
 export class NetworksTab extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +53,7 @@ export class NetworksTab extends React.Component {
       edit: false
     }));
 
+    validateNetworksNamespace(props.networkConfigs, props.namespace, rows);
     this.resolveBootableNetwork(props.pxeBoot, rows);
     this.publishResults(rows);
     this.state = {
@@ -98,15 +115,21 @@ export class NetworksTab extends React.Component {
   };
 
   resolveBootableNetwork = (pxeBoot, rows) => {
-    if (pxeBoot && !rows.some(row => row.isBootable)) {
-      const bootableNetworks = this.getBootableNetworks(rows);
+    if (pxeBoot && !rows.some(row => row.isBootable && !hasError(row))) {
+      const bootableNetworks = rows.filter(row => isBootableNetwork(row));
       if (bootableNetworks.length > 0) {
-        bootableNetworks[0].isBootable = true;
+        let bootableFound = false;
+        bootableNetworks.forEach(network => {
+          if (!bootableFound && !hasError(network)) {
+            network.isBootable = true;
+            bootableFound = true;
+          } else {
+            network.isBootable = false;
+          }
+        });
       }
     }
   };
-
-  getBootableNetworks = rows => rows.filter(row => row.network !== POD_NETWORK && row.network !== '');
 
   createNic = () => {
     this.setState(state => ({
@@ -177,6 +200,7 @@ export class NetworksTab extends React.Component {
           id: 'network-edit',
           type: 'dropdown',
           choices: this.props.networkConfigs
+            .filter(networkConfig => networkConfig.metadata.namespace === this.props.namespace)
             .map(networkConfig => networkConfig.metadata.name)
             .concat(POD_NETWORK)
             .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
@@ -246,7 +270,7 @@ export class NetworksTab extends React.Component {
 
     let pxeForm;
     if (this.props.pxeBoot) {
-      const pxeNetworks = this.state.rows.filter(row => row.network !== POD_NETWORK && row.network !== '');
+      const pxeNetworks = this.state.rows.filter(row => isBootableNetwork(row) && !hasError(row));
       const bootableNetwork = pxeNetworks.find(row => row.isBootable);
       const values = {
         pxeNetwork: {
@@ -287,5 +311,6 @@ NetworksTab.propTypes = {
   onChange: PropTypes.func.isRequired,
   networks: PropTypes.array.isRequired,
   pxeBoot: PropTypes.bool.isRequired,
-  networkConfigs: PropTypes.array.isRequired
+  networkConfigs: PropTypes.array.isRequired,
+  namespace: PropTypes.string.isRequired
 };
