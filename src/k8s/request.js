@@ -1,4 +1,4 @@
-import { cloneDeep, get, remove } from 'lodash';
+import { cloneDeep, get, partition, remove } from 'lodash';
 import { safeDump } from 'js-yaml';
 import {
   CLOUDINIT_DISK,
@@ -20,63 +20,132 @@ import {
   PVC_ACCESSMODE_RWO,
   CLOUDINIT_NOCLOUD
 } from '../constants';
+import {
+  NAMESPACE_KEY,
+  DESCRIPTION_KEY,
+  IMAGE_SOURCE_TYPE_KEY,
+  REGISTRY_IMAGE_KEY,
+  IMAGE_URL_KEY,
+  USER_TEMPLATE_KEY,
+  FLAVOR_KEY,
+  MEMORY_KEY,
+  CPU_KEY,
+  START_VM_KEY,
+  CLOUD_INIT_KEY,
+  HOST_NAME_KEY,
+  AUTHKEYS_KEY,
+  NAME_KEY
+} from '../components/Wizard/CreateVmWizard/constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
-import { getOsLabel, getWorkloadLabel, getFlavorLabel } from './selectors';
+import {
+  getOsLabel,
+  getWorkloadLabel,
+  getFlavorLabel,
+  getTemplateAnnotations,
+  settingsValue,
+  selectPVCs,
+  selectAllExceptPVCs,
+  selectVm
+} from './selectors';
 
-export const createVM = (k8sCreate, templates, basicSettings, networks) => {
-  const availableTemplates = [];
-  if (get(basicSettings, 'imageSourceType.value') === PROVISION_SOURCE_TEMPLATE) {
-    const userTemplate = templates.find(template => template.metadata.name === basicSettings.userTemplate.value);
-    availableTemplates.push(userTemplate);
+export const createVM = (k8sCreate, templates, basicSettings, { networks }, storage) => {
+  const getSetting = settingsValue.bind(undefined, basicSettings);
+  const [templateStorage, additionalStorage] = partition(storage, disk => disk.templateStorage);
+
+  const template = resolveTemplate(templates, basicSettings, getSetting, networks, templateStorage);
+
+  return k8sCreate(ProcessedTemplatesModel, template).then(({ objects }) => {
+    const vm = selectVm(objects);
+    modifyVmObject(vm, template, getSetting, networks, additionalStorage);
+
+    if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
+      selectPVCs(objects).forEach(pvc => {
+        pvc.metadata.namespace = getSetting(NAMESPACE_KEY);
+        k8sCreate(PersistentVolumeClaimModel, pvc);
+      });
+    }
+    return k8sCreate(VirtualMachineModel, vm);
+  });
+};
+
+const resolveTemplate = (templates, basicSettings, getSetting, networks, storage) => {
+  let chosenTemplate;
+
+  if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
+    chosenTemplate = templates.find(template => template.metadata.name === getSetting(USER_TEMPLATE_KEY));
+    if (!chosenTemplate) {
+      return null;
+    }
+    chosenTemplate = cloneDeep(chosenTemplate);
+    const vm = selectVm(chosenTemplate.objects);
+    // clear
+    removeDisksAndVolumes(vm);
+    const newObjects = selectAllExceptPVCs(chosenTemplate.objects);
+
+    // add the ones selected by the user again
+    storage.filter(disk => disk.templateStorage).forEach(({ templateStorage: { pvc, disk, volume }, isBootable }) => {
+      newObjects.push(pvc);
+      addVolume(vm, volume);
+      addBootableDisk(vm, networks, disk, isBootable);
+    });
+
+    chosenTemplate.objects = newObjects;
   } else {
     const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getOsLabel(basicSettings),
       getWorkloadLabel(basicSettings),
       getFlavorLabel(basicSettings)
     ]);
-    availableTemplates.push(...baseTemplates);
+    if (baseTemplates.length === 0) {
+      return null;
+    }
+    chosenTemplate = cloneDeep(baseTemplates[0]);
   }
 
-  basicSettings.chosenTemplate = availableTemplates.length > 0 ? cloneDeep(availableTemplates[0]) : null;
-
-  setParameterValue(basicSettings.chosenTemplate, TEMPLATE_PARAM_VM_NAME, basicSettings.name.value);
+  setParameterValue(chosenTemplate, TEMPLATE_PARAM_VM_NAME, getSetting(NAME_KEY));
 
   // no more required parameters
-  basicSettings.chosenTemplate.parameters.forEach(param => {
+  chosenTemplate.parameters.forEach(param => {
     if (param.name !== TEMPLATE_PARAM_VM_NAME && param.required) {
       delete param.required;
     }
   });
 
   // processedtemplate endpoint is namespaced
-  basicSettings.chosenTemplate.metadata.namespace = basicSettings.namespace.value;
+  chosenTemplate.metadata.namespace = getSetting(NAMESPACE_KEY);
 
   // make sure api version is correct
-  basicSettings.chosenTemplate.apiVersion = TEMPLATE_API_VERSION;
+  chosenTemplate.apiVersion = TEMPLATE_API_VERSION;
 
-  return k8sCreate(ProcessedTemplatesModel, basicSettings.chosenTemplate).then(response => {
-    const vm = response.objects.find(obj => obj.kind === VirtualMachineModel.kind);
-    modifyVmObject(vm, basicSettings, networks.networks);
-
-    if (basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE) {
-      const pvc = response.objects.find(obj => obj.kind === PersistentVolumeClaimModel.kind);
-      if (pvc) {
-        pvc.metadata.namespace = basicSettings.namespace.value;
-        k8sCreate(PersistentVolumeClaimModel, pvc);
-      }
-    }
-    return k8sCreate(VirtualMachineModel, vm);
-  });
+  return chosenTemplate;
 };
 
-const setFlavor = (vm, basicSettings) => {
-  if (
-    get(basicSettings, 'flavor.value') === CUSTOM_FLAVOR ||
-    basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE
-  ) {
-    vm.spec.template.spec.domain.cpu.cores = parseInt(basicSettings.cpu.value, 10);
-    vm.spec.template.spec.domain.resources.requests.memory = `${basicSettings.memory.value}G`;
+const modifyVmObject = (vm, template, getSetting, networks, storages) => {
+  setFlavor(vm, getSetting);
+  setNetworks(vm, template, getSetting, networks);
+
+  // add running status
+  vm.spec.running = getSetting(START_VM_KEY, false);
+
+  // add namespace
+  const namespace = getSetting(NAMESPACE_KEY);
+  if (namespace) {
+    vm.metadata.namespace = namespace;
+  }
+
+  // add description
+  const description = getSetting(DESCRIPTION_KEY);
+  if (description) {
+    addAnnotation(vm, 'description', description);
+  }
+  addStorages(vm, template, storages, networks, getSetting);
+};
+
+const setFlavor = (vm, getSetting) => {
+  if (getSetting(FLAVOR_KEY) === CUSTOM_FLAVOR || getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
+    vm.spec.template.spec.domain.cpu.cores = parseInt(getSetting(CPU_KEY), 10);
+    vm.spec.template.spec.domain.resources.requests.memory = `${getSetting(MEMORY_KEY)}G`;
   }
 };
 
@@ -85,91 +154,11 @@ const setParameterValue = (template, paramName, paramValue) => {
   parameter.value = paramValue;
 };
 
-const modifyVmObject = (vm, basicSettings, networks) => {
-  setFlavor(vm, basicSettings);
-  setSourceType(vm, basicSettings);
-  setNetworks(vm, basicSettings, networks);
-
-  // add running status
-  vm.spec.running = basicSettings.startVM ? basicSettings.startVM.value : false;
-
-  // add namespace
-  if (basicSettings.namespace) {
-    vm.metadata.namespace = basicSettings.namespace.value;
-  }
-
-  // add description
-  if (basicSettings.description) {
-    addAnnotation(vm, 'description', basicSettings.description.value);
-  }
-
-  addCloudInit(vm, basicSettings);
-};
-
-const setSourceType = (vm, basicSettings) => {
-  if (
-    basicSettings.imageSourceType.value === PROVISION_SOURCE_TEMPLATE ||
-    basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE
-  ) {
-    return;
-  }
-  const defaultDisk = getDefaultDisk(vm, basicSettings);
-
-  remove(getVolumes(vm), volume => defaultDisk && volume.name === defaultDisk.volumeName);
-
-  switch (get(basicSettings.imageSourceType, 'value')) {
-    case PROVISION_SOURCE_REGISTRY: {
-      const volume = {
-        name: defaultDisk && defaultDisk.volumeName,
-        registryDisk: {
-          image: basicSettings.registryImage.value
-        }
-      };
-      addVolume(vm, volume);
-      break;
-    }
-    case PROVISION_SOURCE_URL: {
-      const dataVolumeName = `datavolume-${basicSettings.name.value}`;
-      const volume = {
-        name: defaultDisk && defaultDisk.volumeName,
-        dataVolume: {
-          name: dataVolumeName
-        }
-      };
-      const dataVolumeTemplate = {
-        metadata: {
-          name: dataVolumeName
-        },
-        spec: {
-          pvc: {
-            accessModes: [PVC_ACCESSMODE_RWO],
-            resources: {
-              requests: {
-                storage: '2Gi'
-              }
-            }
-          },
-          source: {
-            http: {
-              url: basicSettings.imageURL.value
-            }
-          }
-        }
-      };
-      addDataVolumeTemplate(vm, dataVolumeTemplate);
-      addVolume(vm, volume);
-      break;
-    }
-    default:
-      break;
-  }
-};
-
-const setNetworks = (vm, basicSettings, networks) => {
-  const defaultInterface = getDefaultInterface(vm, basicSettings);
+const setNetworks = (vm, template, getSetting, networks) => {
+  const defaultInterface = getDefaultInterface(vm, template);
   const interfaceModel = defaultInterface ? defaultInterface.model : undefined;
 
-  if (basicSettings.imageSourceType.value !== PROVISION_SOURCE_TEMPLATE) {
+  if (getSetting(IMAGE_SOURCE_TYPE_KEY) !== PROVISION_SOURCE_TEMPLATE) {
     delete vm.spec.template.spec.domain.devices.interfaces;
     delete vm.spec.template.spec.networks;
   }
@@ -207,15 +196,13 @@ const setNetworks = (vm, basicSettings, networks) => {
     addNetwork(vm, networkConfig);
   });
 
-  if (basicSettings.imageSourceType.value === PROVISION_SOURCE_PXE) {
-    delete vm.spec.template.spec.domain.devices.disks;
-    delete vm.spec.template.spec.volumes;
+  if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE) {
     addAnnotation(vm, ANNOTATION_PXE_INTERFACE, networks.find(network => network.isBootable).name);
     addAnnotation(vm, ANNOTATION_FIRST_BOOT, 'true');
   }
 };
 
-const addCloudInit = (vm, basicSettings) => {
+const addCloudInit = (vm, getSetting) => {
   // remove existing config
   const volumes = get(getSpec(vm), 'volumes', []);
   const existingVolume = volumes.find(volume => volume.hasOwnProperty(CLOUDINIT_NOCLOUD));
@@ -224,7 +211,7 @@ const addCloudInit = (vm, basicSettings) => {
     remove(volumes, volume => volume.name === existingVolume.name);
   }
 
-  if (get(basicSettings.cloudInit, 'value', false)) {
+  if (getSetting(CLOUD_INIT_KEY)) {
     const cloudInitDisk = {
       name: CLOUDINIT_DISK,
       volumeName: CLOUDINIT_VOLUME,
@@ -238,10 +225,10 @@ const addCloudInit = (vm, basicSettings) => {
       users: [
         {
           name: 'root',
-          'ssh-authorized-keys': basicSettings.authKeys.value
+          'ssh-authorized-keys': getSetting(AUTHKEYS_KEY)
         }
       ],
-      hostname: basicSettings.hostname.value
+      hostname: getSetting(HOST_NAME_KEY)
     };
 
     const userData = safeDump(userDataObject);
@@ -259,32 +246,170 @@ const addCloudInit = (vm, basicSettings) => {
   }
 };
 
-const getDefaultDisk = (vm, basicSettings) => {
-  const defaultDiskName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_DISK]);
+const addStorages = (vm, template, storages, networks, getSetting) => {
+  const imageSourceType = getSetting(IMAGE_SOURCE_TYPE_KEY);
+
+  let defaultDisk = getDefaultDisk(vm, template);
+
+  if (!defaultDisk) {
+    defaultDisk = {
+      disk: {
+        bus: VIRTIO_BUS
+      }
+    };
+  }
+
+  if (imageSourceType !== PROVISION_SOURCE_TEMPLATE) {
+    delete vm.spec.template.spec.volumes;
+    delete vm.spec.template.spec.domain.devices.disks;
+  }
+
+  addImageSourceDisks(vm, imageSourceType, defaultDisk, getSetting);
+
+  if (storages) {
+    for (const storage of storages) {
+      if (storage.attachStorage) {
+        addPersistentVolumeClaimVolume(vm, networks, storage, defaultDisk);
+      } else {
+        addDataVolume(vm, networks, storage, defaultDisk);
+      }
+    }
+  }
+  addCloudInit(vm, getSetting);
+};
+
+const addImageSourceDisks = (vm, imageSourceType, defaultDisk, getSetting) => {
+  switch (imageSourceType) {
+    case PROVISION_SOURCE_REGISTRY: {
+      const registryDisk = {
+        ...defaultDisk,
+        name: 'rootdisk',
+        volumeName: 'rootvolume'
+      };
+      const registryVolume = {
+        name: 'rootvolume',
+        registryDisk: {
+          image: getSetting(REGISTRY_IMAGE_KEY)
+        }
+      };
+
+      addDisk(vm, registryDisk);
+      addVolume(vm, registryVolume);
+      break;
+    }
+    case PROVISION_SOURCE_URL: {
+      const dataVolumeName = `datavolume-${vm.metadata.name}`;
+      const disk = {
+        ...defaultDisk,
+        name: 'rootdisk',
+        volumeName: dataVolumeName
+      };
+
+      const volume = {
+        name: dataVolumeName,
+        dataVolume: {
+          name: dataVolumeName
+        }
+      };
+      const dataVolumeTemplate = {
+        metadata: {
+          name: dataVolumeName
+        },
+        spec: {
+          pvc: {
+            accessModes: [PVC_ACCESSMODE_RWO],
+            resources: {
+              requests: {
+                storage: '10Gi'
+              }
+            }
+          },
+          source: {
+            http: {
+              url: getSetting(IMAGE_URL_KEY)
+            }
+          }
+        }
+      };
+      addDisk(vm, disk, 1);
+      addVolume(vm, volume);
+
+      addDataVolumeTemplate(vm, dataVolumeTemplate);
+      break;
+    }
+    default:
+      break;
+  }
+};
+
+const addDataVolume = (vm, networks, volume, defaultDisk) => {
+  addDataVolumeTemplate(vm, {
+    metadata: {
+      name: volume.name
+    },
+    spec: {
+      pvc: {
+        accessModes: [PVC_ACCESSMODE_RWO],
+        resources: {
+          requests: {
+            storage: `${volume.size}Gi`
+          }
+        },
+        storageClassName: volume.storageClass
+      },
+      source: {}
+    }
+  });
+
+  addVolume(vm, {
+    name: volume.name,
+    dataVolume: {
+      name: volume.name
+    }
+  });
+
+  addBootableDisk(
+    vm,
+    networks,
+    {
+      ...defaultDisk,
+      name: volume.name,
+      volumeName: volume.name
+    },
+    volume.isBootable
+  );
+};
+
+const addPersistentVolumeClaimVolume = (vm, networks, volume, defaultDisk) => {
+  const { name } = volume.attachStorage.metadata;
+
+  addVolume(vm, {
+    name,
+    persistentVolumeClaim: {
+      claimName: name
+    }
+  });
+
+  addBootableDisk(
+    vm,
+    networks,
+    {
+      ...defaultDisk,
+      name,
+      volumeName: name
+    },
+    volume.isBootable
+  );
+};
+
+const getDefaultDisk = (vm, template) => {
+  const defaultDiskName = getTemplateAnnotations(template, ANNOTATION_DEFAULT_DISK);
   return getDevice(vm, 'disks', defaultDiskName);
 };
 
-const getDefaultInterface = (vm, basicSettings) => {
-  const defaultInterfaceName = get(basicSettings.chosenTemplate.metadata.annotations, [ANNOTATION_DEFAULT_NETWORK]);
+const getDefaultInterface = (vm, template) => {
+  const defaultInterfaceName = getTemplateAnnotations(template, ANNOTATION_DEFAULT_NETWORK);
   return getDevice(vm, 'interfaces', defaultInterfaceName);
-};
-
-const getDevice = (vm, deviceType, deviceName) =>
-  get(getDevices(vm), deviceType, []).find(device => device.name === deviceName);
-
-const getSpec = vm => {
-  if (!vm.spec.template.spec) {
-    vm.spec.template.spec = {};
-  }
-  return vm.spec.template.spec;
-};
-
-const getDomain = vm => {
-  const spec = getSpec(vm);
-  if (!spec.domain) {
-    spec.domain = {};
-  }
-  return spec.domain;
 };
 
 const getDevices = vm => {
@@ -301,6 +426,14 @@ const getDisks = vm => {
     devices.disks = [];
   }
   return devices.disks;
+};
+
+const getDomain = vm => {
+  const spec = getSpec(vm);
+  if (!spec.domain) {
+    spec.domain = {};
+  }
+  return spec.domain;
 };
 
 const getInterfaces = vm => {
@@ -326,6 +459,16 @@ const getVmSpec = vm => {
   return vm.spec;
 };
 
+const getSpec = vm => {
+  if (!vm.spec.template.spec) {
+    vm.spec.template.spec = {};
+  }
+  return vm.spec.template.spec;
+};
+
+const getDevice = (vm, deviceType, deviceName) =>
+  get(getDevices(vm), deviceType, []).find(device => device.name === deviceName);
+
 const getDataVolumeTemplates = vm => {
   const spec = getVmSpec(vm);
   if (!spec.dataVolumeTemplates) {
@@ -347,6 +490,14 @@ const getAnnotations = vm => {
     vm.metadata.annotations = {};
   }
   return vm.metadata.annotations;
+};
+
+const addBootableDisk = (vm, networks, diskSpec, isBootable) => {
+  if (isBootable) {
+    diskSpec.bootOrder = networks.find(network => network.isBootable) ? 2 : 1;
+  }
+
+  addDisk(vm, diskSpec);
 };
 
 const addDisk = (vm, diskSpec) => {
@@ -377,4 +528,9 @@ const addNetwork = (vm, networkSpec) => {
 const addAnnotation = (vm, key, value) => {
   const annotations = getAnnotations(vm);
   annotations[key] = value;
+};
+
+const removeDisksAndVolumes = vm => {
+  delete vm.spec.template.spec.domain.devices.disks;
+  delete vm.spec.template.spec.volumes;
 };
