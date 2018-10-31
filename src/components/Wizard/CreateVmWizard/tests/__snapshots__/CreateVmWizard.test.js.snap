@@ -30,7 +30,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
       },
       Object {
         "render": [Function],
-        "title": "Network",
+        "title": "Networking",
       },
       Object {
         "render": [Function],
@@ -42,6 +42,6 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
       },
     ]
   }
-  title=""
+  title="Create Virtual Machine"
 />
 `;
