@@ -181,8 +181,11 @@ const validateStorage = (row, persistentVolumeClaims) => {
   return errors;
 };
 
-const publishResults = (rows, publish) => {
-  let valid = true;
+const publishResults = (rows, publish, sourceType) => {
+  let valid =
+    sourceType !== PROVISION_SOURCE_REGISTRY && sourceType !== PROVISION_SOURCE_URL
+      ? rows.some(row => row.isBootable)
+      : true;
   const storages = rows.map(({ attachStorage, templateStorage, id, name, size, storageClass, isBootable, errors }) => {
     let result;
     if (attachStorage) {
@@ -237,7 +240,7 @@ class StorageTab extends React.Component {
       editing: false
     };
 
-    publishResults(rows, this.props.onChange); // resolved new validation and boot order
+    publishResults(rows, this.props.onChange, this.props.sourceType); // resolved new validation and boot order
   }
 
   onRowActivate = rows => {
@@ -261,7 +264,7 @@ class StorageTab extends React.Component {
 
   rowsChanged = (rows, editing) => {
     resolveBootability(rows, this.props.sourceType);
-    publishResults(rows, this.props.onChange);
+    publishResults(rows, this.props.onChange, this.props.sourceType);
     this.setState({ rows, editing });
   };
 
@@ -407,7 +410,7 @@ class StorageTab extends React.Component {
       state.rows.forEach(row => {
         row.isBootable = row.name === newValue;
       });
-      publishResults(state.rows, this.props.onChange);
+      publishResults(state.rows, this.props.onChange, this.props.sourceType);
       return state.rows;
     });
   };
