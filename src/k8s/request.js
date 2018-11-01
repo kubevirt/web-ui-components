@@ -53,7 +53,7 @@ export const createVM = (k8sCreate, templates, basicSettings, { networks }, stor
   const getSetting = settingsValue.bind(undefined, basicSettings);
   const [templateStorage, additionalStorage] = partition(storage, disk => disk.templateStorage);
 
-  const template = resolveTemplate(templates, basicSettings, getSetting, networks, templateStorage);
+  const template = resolveTemplate(templates, basicSettings, getSetting, templateStorage);
 
   return k8sCreate(ProcessedTemplatesModel, template).then(({ objects }) => {
     const vm = selectVm(objects);
@@ -69,7 +69,7 @@ export const createVM = (k8sCreate, templates, basicSettings, { networks }, stor
   });
 };
 
-const resolveTemplate = (templates, basicSettings, getSetting, networks, storage) => {
+const resolveTemplate = (templates, basicSettings, getSetting, storage) => {
   let chosenTemplate;
 
   if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
@@ -87,7 +87,7 @@ const resolveTemplate = (templates, basicSettings, getSetting, networks, storage
     storage.filter(disk => disk.templateStorage).forEach(({ templateStorage: { pvc, disk, volume }, isBootable }) => {
       newObjects.push(pvc);
       addVolume(vm, volume);
-      addBootableDisk(vm, networks, disk, isBootable);
+      addBootableDisk(vm, disk, isBootable, getSetting);
     });
 
     chosenTemplate.objects = newObjects;
@@ -139,7 +139,7 @@ const modifyVmObject = (vm, template, getSetting, networks, storages) => {
   if (description) {
     addAnnotation(vm, 'description', description);
   }
-  addStorages(vm, template, storages, networks, getSetting);
+  addStorages(vm, template, storages, getSetting);
 };
 
 const setFlavor = (vm, getSetting) => {
@@ -246,7 +246,7 @@ const addCloudInit = (vm, getSetting) => {
   }
 };
 
-const addStorages = (vm, template, storages, networks, getSetting) => {
+const addStorages = (vm, template, storages, getSetting) => {
   const imageSourceType = getSetting(IMAGE_SOURCE_TYPE_KEY);
 
   let defaultDisk = getDefaultDisk(vm, template);
@@ -269,9 +269,9 @@ const addStorages = (vm, template, storages, networks, getSetting) => {
   if (storages) {
     for (const storage of storages) {
       if (storage.attachStorage) {
-        addPersistentVolumeClaimVolume(vm, networks, storage, defaultDisk);
+        addPersistentVolumeClaimVolume(vm, storage, defaultDisk, getSetting);
       } else {
-        addDataVolume(vm, networks, storage, defaultDisk);
+        addDataVolume(vm, storage, defaultDisk, getSetting);
       }
     }
   }
@@ -342,7 +342,7 @@ const addImageSourceDisks = (vm, imageSourceType, defaultDisk, getSetting) => {
   }
 };
 
-const addDataVolume = (vm, networks, volume, defaultDisk) => {
+const addDataVolume = (vm, volume, defaultDisk, getSetting) => {
   addDataVolumeTemplate(vm, {
     metadata: {
       name: volume.name
@@ -370,17 +370,17 @@ const addDataVolume = (vm, networks, volume, defaultDisk) => {
 
   addBootableDisk(
     vm,
-    networks,
     {
       ...defaultDisk,
       name: volume.name,
       volumeName: volume.name
     },
-    volume.isBootable
+    volume.isBootable,
+    getSetting
   );
 };
 
-const addPersistentVolumeClaimVolume = (vm, networks, volume, defaultDisk) => {
+const addPersistentVolumeClaimVolume = (vm, volume, defaultDisk, getSetting) => {
   const { name } = volume.attachStorage.metadata;
 
   addVolume(vm, {
@@ -392,13 +392,13 @@ const addPersistentVolumeClaimVolume = (vm, networks, volume, defaultDisk) => {
 
   addBootableDisk(
     vm,
-    networks,
     {
       ...defaultDisk,
       name,
       volumeName: name
     },
-    volume.isBootable
+    volume.isBootable,
+    getSetting
   );
 };
 
@@ -492,9 +492,18 @@ const getAnnotations = vm => {
   return vm.metadata.annotations;
 };
 
-const addBootableDisk = (vm, networks, diskSpec, isBootable) => {
+const addBootableDisk = (vm, diskSpec, isBootable, getSetting) => {
   if (isBootable) {
-    diskSpec.bootOrder = networks.find(network => network.isBootable) ? 2 : 1;
+    switch (getSetting(IMAGE_SOURCE_TYPE_KEY)) {
+      case PROVISION_SOURCE_PXE:
+        diskSpec.bootOrder = 2;
+        break;
+      case PROVISION_SOURCE_TEMPLATE:
+        diskSpec.bootOrder = 1;
+        break;
+      default:
+        break;
+    }
   }
 
   addDisk(vm, diskSpec);

@@ -460,6 +460,19 @@ describe('request.js', () => {
   it('registryImage with attached disks', () =>
     createVM(k8sCreate, templates, basicSettings, networks, attachStorageDisks).then(vm => {
       testRegistryImage(vm);
+      testFirstAttachedStorage(vm, 1, 1, undefined);
+      return vm;
+    }));
+
+  it('url source with attached disks', () =>
+    createVM(k8sCreate, templates, vmFromURL, networks, attachStorageDisks).then(vm => {
+      testFirstAttachedStorage(vm, 1, 1, undefined);
+      return vm;
+    }));
+
+  it('user template with attached disks', () =>
+    createVM(k8sCreate, templates, vmUserTemplate, networks, attachStorageDisksWithLinuxUserTemplate).then(vm => {
+      testTemplateStorage(vm, 0, 0, undefined);
       testFirstAttachedStorage(vm, 1, 1, 1);
       return vm;
     }));
