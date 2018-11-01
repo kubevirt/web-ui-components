@@ -50,7 +50,8 @@ export class NetworksTab extends React.Component {
       errors,
       isBootable,
       renderConfig: 0,
-      edit: false
+      edit: false,
+      editable: true
     }));
 
     validateNetworksNamespace(props.networkConfigs, props.namespace, rows);
