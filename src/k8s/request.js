@@ -18,7 +18,11 @@ import {
   ANNOTATION_PXE_INTERFACE,
   TEMPLATE_API_VERSION,
   PVC_ACCESSMODE_RWO,
-  CLOUDINIT_NOCLOUD
+  CLOUDINIT_NOCLOUD,
+  TEMPLATE_FLAVOR_LABEL,
+  TEMPLATE_OS_LABEL,
+  TEMPLATE_WORKLOAD_LABEL,
+  ANNOTATION_USED_TEMPLATE
 } from '../constants';
 import {
   NAMESPACE_KEY,
@@ -34,7 +38,9 @@ import {
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
-  NAME_KEY
+  NAME_KEY,
+  OPERATING_SYSTEM_KEY,
+  WORKLOAD_PROFILE_KEY
 } from '../components/Wizard/CreateVmWizard/constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
@@ -57,6 +63,7 @@ export const createVM = (k8sCreate, templates, basicSettings, { networks }, stor
 
   return k8sCreate(ProcessedTemplatesModel, template).then(({ objects }) => {
     const vm = selectVm(objects);
+    addMetadata(vm, template, getSetting);
     modifyVmObject(vm, template, getSetting, networks, additionalStorage);
 
     if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
@@ -112,13 +119,25 @@ const resolveTemplate = (templates, basicSettings, getSetting, storage) => {
     }
   });
 
-  // processedtemplate endpoint is namespaced
-  chosenTemplate.metadata.namespace = getSetting(NAMESPACE_KEY);
-
   // make sure api version is correct
   chosenTemplate.apiVersion = TEMPLATE_API_VERSION;
 
   return chosenTemplate;
+};
+
+const addMetadata = (vm, template, getSetting) => {
+  const userTemplate = getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE;
+
+  const flavor = userTemplate ? CUSTOM_FLAVOR : getSetting(FLAVOR_KEY);
+  addAnnotation(vm, TEMPLATE_FLAVOR_LABEL, flavor);
+
+  const os = userTemplate ? template.metadata.labels[TEMPLATE_OS_LABEL] : getSetting(OPERATING_SYSTEM_KEY);
+  addAnnotation(vm, TEMPLATE_OS_LABEL, os);
+
+  const workload = userTemplate ? template.metadata.labels[TEMPLATE_WORKLOAD_LABEL] : getSetting(WORKLOAD_PROFILE_KEY);
+  addAnnotation(vm, TEMPLATE_WORKLOAD_LABEL, workload);
+
+  addAnnotation(vm, ANNOTATION_USED_TEMPLATE, `${template.metadata.namespace}/${template.metadata.name}`);
 };
 
 const modifyVmObject = (vm, template, getSetting, networks, storages) => {

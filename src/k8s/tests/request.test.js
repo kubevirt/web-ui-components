@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, cloneDeep } from 'lodash';
 import { createVM } from '../request';
 import { settingsValue } from '../selectors';
 
@@ -10,7 +10,11 @@ import {
   PROVISION_SOURCE_URL,
   TEMPLATE_PARAM_VM_NAME,
   templates,
-  POD_NETWORK
+  POD_NETWORK,
+  TEMPLATE_FLAVOR_LABEL,
+  TEMPLATE_WORKLOAD_LABEL,
+  TEMPLATE_OS_LABEL,
+  ANNOTATION_USED_TEMPLATE
 } from '../../constants';
 
 import {
@@ -28,7 +32,8 @@ import {
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
-  OPERATING_SYSTEM_KEY
+  OPERATING_SYSTEM_KEY,
+  WORKLOAD_PROFILE_KEY
 } from '../../components/Wizard/CreateVmWizard/constants';
 
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
@@ -53,6 +58,9 @@ const basicSettings = {
   },
   [OPERATING_SYSTEM_KEY]: {
     value: 'rhel7.0'
+  },
+  [WORKLOAD_PROFILE_KEY]: {
+    value: 'generic'
   }
 };
 
@@ -349,6 +357,13 @@ const testPXE = vm => {
   return vm;
 };
 
+const testMetadata = (vm, os, workload, flavor, template) => {
+  expect(vm.metadata.annotations[TEMPLATE_FLAVOR_LABEL]).toEqual(flavor);
+  expect(vm.metadata.annotations[TEMPLATE_OS_LABEL]).toEqual(os);
+  expect(vm.metadata.annotations[TEMPLATE_WORKLOAD_LABEL]).toEqual(workload);
+  expect(vm.metadata.annotations[ANNOTATION_USED_TEMPLATE]).toEqual(template);
+};
+
 describe('request.js', () => {
   it('registryImage', () => createVM(k8sCreate, templates, basicSettings, networks).then(testRegistryImage));
   it('from URL', () =>
@@ -483,4 +498,40 @@ describe('request.js', () => {
       testFirstAttachedStorage(vm, 0, 0, 2);
       return vm;
     }));
+
+  it('VM has os/flavor/workload metadata', () =>
+    createVM(k8sCreate, templates, basicSettings, pxeNetworks, attachStorageDisks).then(vm => {
+      testMetadata(
+        vm,
+        basicSettings[OPERATING_SYSTEM_KEY].value,
+        basicSettings[WORKLOAD_PROFILE_KEY].value,
+        basicSettings[FLAVOR_KEY].value,
+        'default/rhel-generic'
+      );
+      return vm;
+    }));
+  it('VM has os/flavor/workload metadata - user template without os and workload', () =>
+    createVM(k8sCreate, templates, vmUserTemplate, pxeNetworks, attachStorageDisks).then(vm => {
+      testMetadata(vm, undefined, undefined, CUSTOM_FLAVOR, 'openshift/linux-template');
+      return vm;
+    }));
+  it('VM has os/flavor/workload metadata - user template with os and workload', () => {
+    const settings = cloneDeep(vmUserTemplate);
+    settings[USER_TEMPLATE_KEY].value = 'linux-template1';
+    const userTemplate = cloneDeep(templates.find(template => template.metadata.name === 'linux-template'));
+    userTemplate.metadata.name = 'linux-template1';
+    userTemplate.metadata.labels[TEMPLATE_OS_LABEL] = 'fooOs';
+    userTemplate.metadata.labels[TEMPLATE_WORKLOAD_LABEL] = 'fooWorkload';
+
+    return createVM(k8sCreate, [...templates, userTemplate], settings, pxeNetworks, attachStorageDisks).then(vm => {
+      testMetadata(
+        vm,
+        userTemplate.metadata.labels[TEMPLATE_OS_LABEL],
+        userTemplate.metadata.labels[TEMPLATE_WORKLOAD_LABEL],
+        CUSTOM_FLAVOR,
+        `${userTemplate.metadata.namespace}/${userTemplate.metadata.name}`
+      );
+      return vm;
+    });
+  });
 });
