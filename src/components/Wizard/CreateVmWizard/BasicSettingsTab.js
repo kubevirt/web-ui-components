@@ -60,10 +60,12 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
 
   return {
     [NAME_KEY]: {
+      id: 'vm-name',
       title: 'Name',
       required: true
     },
     [DESCRIPTION_KEY]: {
+      id: 'vm-description',
       title: 'Description',
       type: 'textarea'
     },
@@ -77,11 +79,13 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true
     },
     [REGISTRY_IMAGE_KEY]: {
+      id: 'provision-source-registry',
       title: 'Registry Image',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY)
     },
     [IMAGE_URL_KEY]: {
+      id: 'provision-source-url',
       title: 'URL',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL)
@@ -114,6 +118,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
     },
     [MEMORY_KEY]: {
+      id: 'resources-memory',
       title: 'Memory (GB)',
       required: true,
       isVisible: basicVmSettings =>
@@ -121,6 +126,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
     },
     [CPU_KEY]: {
+      id: 'resources-cpu',
       title: 'CPUs',
       required: true,
       isVisible: basicVmSettings =>
@@ -142,6 +148,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       ))
     },
     [START_VM_KEY]: {
+      id: 'start-vm',
       title: 'Start virtual machine on creation',
       type: 'checkbox',
       noBottom: true
@@ -154,15 +161,18 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       },
       */
     [CLOUD_INIT_KEY]: {
+      id: 'use-cloud-init',
       title: 'Use cloud-init',
       type: 'checkbox'
     },
     [HOST_NAME_KEY]: {
+      id: 'cloud-init-hostname',
       title: 'Hostname',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
       required: true
     },
     [AUTHKEYS_KEY]: {
+      id: 'cloud-init-ssh',
       title: 'Authenticated SSH Keys',
       type: 'textarea',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
