@@ -6,22 +6,26 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
   fields={
     Object {
       "authKeys": Object {
+        "id": "cloud-init-ssh",
         "isVisible": [Function],
         "required": true,
         "title": "Authenticated SSH Keys",
         "type": "textarea",
       },
       "cloudInit": Object {
+        "id": "use-cloud-init",
         "title": "Use cloud-init",
         "type": "checkbox",
       },
       "cpu": Object {
+        "id": "resources-cpu",
         "isVisible": [Function],
         "required": true,
         "title": "CPUs",
         "validate": [Function],
       },
       "description": Object {
+        "id": "vm-description",
         "title": "Description",
         "type": "textarea",
       },
@@ -39,6 +43,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "type": "dropdown",
       },
       "hostname": Object {
+        "id": "cloud-init-hostname",
         "isVisible": [Function],
         "required": true,
         "title": "Hostname",
@@ -57,17 +62,20 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "type": "dropdown",
       },
       "imageURL": Object {
+        "id": "provision-source-url",
         "isVisible": [Function],
         "required": true,
         "title": "URL",
       },
       "memory": Object {
+        "id": "resources-memory",
         "isVisible": [Function],
         "required": true,
         "title": "Memory (GB)",
         "validate": [Function],
       },
       "name": Object {
+        "id": "vm-name",
         "required": true,
         "title": "Name",
       },
@@ -106,11 +114,13 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "type": "dropdown",
       },
       "registryImage": Object {
+        "id": "provision-source-registry",
         "isVisible": [Function],
         "required": true,
         "title": "Registry Image",
       },
       "startVM": Object {
+        "id": "start-vm",
         "noBottom": true,
         "title": "Start virtual machine on creation",
         "type": "checkbox",
