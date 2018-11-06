@@ -1,33 +1,21 @@
-import { getName, getDisks, getVolumes, getPersistentVolumeClaimName } from '../../../utils/selectors';
+import { get } from 'lodash';
+import { getName, getDisks, getVolumes, getDataVolumes } from '../../../utils/selectors';
 
-import { selectPVCs, selectVm } from '../../../k8s/selectors';
+import { selectVm } from '../../../k8s/selectors';
 
 export const getTemplateStorages = (templates, userTemplate) => {
   const { objects } = templates.find(template => getName(template) === userTemplate);
   const vm = selectVm(objects);
 
-  const templateDisks = {};
-  const templateVolumes = {};
-
-  // eslint-disable-next-line no-return-assign
-  getDisks(vm).forEach(disk => (templateDisks[disk.volumeName] = disk));
-
-  // eslint-disable-next-line no-return-assign
-  getVolumes(vm).forEach(volume => (templateVolumes[getPersistentVolumeClaimName(volume)] = volume));
-
-  return selectPVCs(objects).map(pvc => {
-    const volume = templateVolumes[getName(pvc)];
-    let disk;
-
-    if (volume) {
-      disk = templateDisks[volume.name];
-    }
-
+  return getDisks(vm).map(disk => {
+    const volume = getVolumes(vm).find(v => v.name === disk.volumeName);
     return {
       templateStorage: {
-        pvc,
         disk,
-        volume
+        volume,
+        dataVolume: getDataVolumes(vm).find(
+          dataVolume => get(dataVolume, 'metadata.name') === get(volume, 'dataVolume.name')
+        )
       }
     };
   });

@@ -2,10 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { findIndex } from 'lodash';
 
-import { PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY } from '../../../constants';
+import { PROVISION_SOURCE_TEMPLATE, PROVISION_SOURCE_PXE } from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
 import { FormFactory } from '../../Form/FormFactory';
-import { getName, getGibStorageSize, getStorageClassName } from '../../../utils/selectors';
+import {
+  getName,
+  getGibStorageSize,
+  getPvcStorageClassName,
+  getDataVolumeStorageClassName,
+  getPvcResources,
+  getDataVolumeResources
+} from '../../../utils/selectors';
 
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 
@@ -63,8 +70,7 @@ const hasError = disk => (disk.errors ? disk.errors.some(error => !!error) : fal
 
 const resolveBootability = (rows, sourceType) => {
   if (
-    sourceType !== PROVISION_SOURCE_REGISTRY &&
-    sourceType !== PROVISION_SOURCE_URL &&
+    (sourceType === PROVISION_SOURCE_TEMPLATE || sourceType === PROVISION_SOURCE_PXE) &&
     !rows.some(row => row.isBootable && !hasError(row))
   ) {
     const bootableDisks = rows.filter(row => !!row.attachStorage || !!row.templateStorage);
@@ -82,7 +88,7 @@ const resolveBootability = (rows, sourceType) => {
   }
   if (rows && rows.length > 0 && !rows[0].isBootable) {
     // change detected
-    let isBootable = sourceType !== PROVISION_SOURCE_REGISTRY && sourceType !== PROVISION_SOURCE_URL;
+    let isBootable = sourceType === PROVISION_SOURCE_TEMPLATE || sourceType === PROVISION_SOURCE_PXE;
     return rows.map(row => {
       const result = {
         ...row,
@@ -100,29 +106,29 @@ const resolveBootability = (rows, sourceType) => {
 
 const resolveAttachedStorage = (storage, persistentVolumeClaims, storageClasses, units) => {
   const attachStorage = persistentVolumeClaims.find(pvc => getName(pvc) === storage.name) || storage.attachStorage;
-  const attachStorageClassName = getStorageClassName(attachStorage);
+  const attachStorageClassName = getPvcStorageClassName(attachStorage);
 
   return {
     ...storage,
     attachStorage,
     // just for visualisation
     name: getName(attachStorage),
-    size: getGibStorageSize(units, attachStorage),
+    size: getGibStorageSize(units, getPvcResources(attachStorage)),
     storageClass: getName(storageClasses.find(clazz => getName(clazz) === attachStorageClassName))
   };
 };
 
 const resolveTemplateStorage = (storage, units) => {
   const {
-    templateStorage: { pvc, disk }
+    templateStorage: { dataVolume, disk }
   } = storage;
 
   return {
     ...storage,
     // just for visualisation
     name: disk.name,
-    size: getGibStorageSize(units, pvc),
-    storageClass: getStorageClassName(pvc)
+    size: getGibStorageSize(units, getDataVolumeResources(dataVolume)),
+    storageClass: getDataVolumeStorageClassName(dataVolume)
   };
 };
 
@@ -182,10 +188,7 @@ const validateStorage = (row, persistentVolumeClaims) => {
 };
 
 const publishResults = (rows, publish, sourceType) => {
-  let valid =
-    sourceType !== PROVISION_SOURCE_REGISTRY && sourceType !== PROVISION_SOURCE_URL
-      ? rows.some(row => row.isBootable)
-      : true;
+  let valid = sourceType === PROVISION_SOURCE_TEMPLATE ? rows.some(row => row.isBootable) : true;
   const storages = rows.map(({ attachStorage, templateStorage, id, name, size, storageClass, isBootable, errors }) => {
     let result;
     if (attachStorage) {
@@ -401,7 +404,7 @@ class StorageTab extends React.Component {
       type: 'dropdown',
       defaultValue: '--- Select Bootable Disk ---',
       choices: disks.map(disk => disk.name),
-      required: true
+      required: this.props.sourceType === PROVISION_SOURCE_TEMPLATE
     }
   });
 
@@ -420,12 +423,15 @@ class StorageTab extends React.Component {
     const actionButtons = this.getActionButtons();
 
     let bootableForm;
-    if (this.props.sourceType !== PROVISION_SOURCE_REGISTRY && this.props.sourceType !== PROVISION_SOURCE_URL) {
+    if (this.props.sourceType === PROVISION_SOURCE_TEMPLATE || this.props.sourceType === PROVISION_SOURCE_PXE) {
       const bootableDisk = this.state.rows.find(row => row.isBootable && !hasError(row));
       const values = {
         bootableDisk: {
           value: bootableDisk ? bootableDisk.name : undefined,
-          validMsg: this.state.rows.length === 0 ? 'A bootable disk could not be found' : undefined
+          validMsg:
+            this.props.sourceType === PROVISION_SOURCE_TEMPLATE && this.state.rows.length === 0
+              ? 'A bootable disk could not be found'
+              : undefined
         }
       };
 
