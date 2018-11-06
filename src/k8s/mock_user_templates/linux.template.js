@@ -25,6 +25,31 @@ export const linuxUserTemplate = {
         name: '${NAME}',
       },
       spec: {
+        dataVolumeTemplates: [
+          {
+            metadata: {
+              // eslint-disable-next-line no-template-curly-in-string
+              name: 'vm-${NAME}-dv-01',
+            },
+            spec: {
+              pvc: {
+                storageClassName: 'storagename',
+                accessModes: ['ReadWriteOnce'],
+                resources: {
+                  requests: {
+                    storage: '10Gi',
+                  },
+                },
+              },
+              source: {
+                pvc: {
+                  namespace: 'somenmspc',
+                  name: 'somenm',
+                },
+              },
+            },
+          },
+        ],
         running: false,
         template: {
           spec: {
@@ -57,31 +82,12 @@ export const linuxUserTemplate = {
             volumes: [
               {
                 name: 'volume-1',
-                persistentVolumeClaim: {
+                dataVolume: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  claimName: 'vm-${NAME}-disk-01',
+                  name: 'vm-${NAME}-dv-01',
                 },
               },
             ],
-          },
-        },
-      },
-    },
-    {
-      apiVersion: 'v1',
-      kind: 'PersistentVolumeClaim',
-      metadata: {
-        // eslint-disable-next-line no-template-curly-in-string
-        name: 'vm-${NAME}-disk-01',
-        annotations: {
-          'k8s.io/CloneRequest': 'namespace/pvcname',
-        },
-      },
-      spec: {
-        accessModes: ['ReadWriteOnce'],
-        resources: {
-          requests: {
-            storage: '2Gi',
           },
         },
       },
