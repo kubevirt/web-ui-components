@@ -6,23 +6,23 @@ export default [
     name: 'Loading',
     props: {
       success: null,
-      result: null
-    }
+      result: null,
+    },
   },
   {
     component: ResultTab,
     name: 'Error',
     props: {
       success: false,
-      result: 'Failed'
-    }
+      result: 'Failed',
+    },
   },
   {
     component: ResultTab,
     name: 'Success',
     props: {
       success: true,
-      result: 'Finished succesfully'
-    }
-  }
+      result: 'Finished succesfully',
+    },
+  },
 ];

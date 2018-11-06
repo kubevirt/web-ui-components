@@ -65,7 +65,7 @@ export const FormFactory = ({
   textPosition,
   labelSize,
   controlSize,
-  formClassName
+  formClassName,
 }) => {
   const formGroups = Object.keys(fields)
     .filter(key => fields[key] && (!fields[key].isVisible || fields[key].isVisible(fieldsValues)))
@@ -79,7 +79,7 @@ export const FormFactory = ({
         ...field,
         value,
         isControlled: true,
-        onChange: newValue => onFormChange(newValue, key)
+        onChange: newValue => onFormChange(newValue, key),
       });
 
       return (
@@ -114,7 +114,7 @@ FormFactory.defaultProps = {
   textPosition: 'text-right',
   labelSize: 3,
   controlSize: 5,
-  formClassName: undefined
+  formClassName: undefined,
 };
 
 FormFactory.propTypes = {
@@ -124,5 +124,5 @@ FormFactory.propTypes = {
   textPosition: PropTypes.string,
   labelSize: PropTypes.number,
   controlSize: PropTypes.number,
-  formClassName: PropTypes.string
+  formClassName: PropTypes.string,
 };

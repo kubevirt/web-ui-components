@@ -14,14 +14,14 @@ export const rhelHighPerformance = {
       'openshift.io/documentation-url': 'https://github.com/fabiand/common-templates',
       'openshift.io/support-url': 'https://github.com/fabiand/common-templates/issues',
       'template.openshift.io/bindable': 'false',
-      'defaults.template.cnv.io/disk': 'rootdisk'
+      'defaults.template.cnv.io/disk': 'rootdisk',
     },
     labels: {
       'os.template.cnv.io/rhel7.0': 'true',
       'workload.template.cnv.io/high-performance': 'true',
       'flavor.template.cnv.io/medium': 'true',
-      'template.cnv.io/type': 'base'
-    }
+      'template.cnv.io/type': 'base',
+    },
   },
   objects: [
     {
@@ -29,7 +29,7 @@ export const rhelHighPerformance = {
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
-        name: '${NAME}'
+        name: '${NAME}',
       },
       spec: {
         running: false,
@@ -39,12 +39,12 @@ export const rhelHighPerformance = {
               cpu: {
                 cores: 2,
                 dedicatedCpuPlacement: true,
-                model: 'host-model'
+                model: 'host-model',
               },
               resources: {
                 requests: {
-                  memory: '4G'
-                }
+                  memory: '4G',
+                },
               },
               devices: {
                 autoattachGraphicsDevice: false,
@@ -52,20 +52,20 @@ export const rhelHighPerformance = {
                 disks: [
                   {
                     disk: {
-                      bus: 'virtio'
+                      bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootvolume'
+                    volumeName: 'rootvolume',
                   },
                   {
                     disk: {
-                      bus: 'virtio'
+                      bus: 'virtio',
                     },
                     name: 'cloudinitdisk',
-                    volumeName: 'cloudinitvolume'
-                  }
-                ]
-              }
+                    volumeName: 'cloudinitvolume',
+                  },
+                ],
+              },
             },
             terminationGracePeriodSeconds: 0,
             volumes: [
@@ -73,32 +73,32 @@ export const rhelHighPerformance = {
                 name: 'rootvolume',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  claimName: '${PVCNAME}'
-                }
+                  claimName: '${PVCNAME}',
+                },
               },
               {
                 cloudInitNoCloud: {
-                  userData: '# configure default password\npassword: fedora\nchpasswd: { expire: False }'
+                  userData: '# configure default password\npassword: fedora\nchpasswd: { expire: False }',
                 },
-                name: 'cloudinitvolume'
-              }
-            ]
-          }
-        }
-      }
-    }
+                name: 'cloudinitvolume',
+              },
+            ],
+          },
+        },
+      },
+    },
   ],
   parameters: [
     {
       description: 'Name of the new VM',
       from: '[A-Za-z0-9]{1,16}',
       generate: 'expression',
-      name: 'NAME'
+      name: 'NAME',
     },
     {
       name: 'PVCNAME',
       description: 'Name of the PVC with the disk image',
-      required: true
-    }
-  ]
+      required: true,
+    },
+  ],
 };

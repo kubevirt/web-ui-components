@@ -7,14 +7,14 @@ export const windowsUserTemplate = {
     annotations: {
       description: 'OCP KubeVirt Microsoft Windows Server 2016 VM template',
       tags: 'kubevirt,ocp,template,windows,virtualmachine',
-      iconClass: 'icon-windows'
+      iconClass: 'icon-windows',
     },
     labels: {
       'template.cnv.io/type': 'vm',
       'kubevirt.io/os': 'win2k16',
       'miq.github.io/kubevirt-is-vm-template': 'true',
-      'import-vm-apb/transaction_id': 'someid'
-    }
+      'import-vm-apb/transaction_id': 'someid',
+    },
   },
   objects: [
     {
@@ -22,7 +22,7 @@ export const windowsUserTemplate = {
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
-        name: '${NAME}'
+        name: '${NAME}',
       },
       spec: {
         running: false,
@@ -36,62 +36,62 @@ export const windowsUserTemplate = {
                   relaxed: {},
                   vapic: {},
                   spinlocks: {
-                    spinlocks: 8191
-                  }
-                }
+                    spinlocks: 8191,
+                  },
+                },
               },
               clock: {
                 utc: {},
                 timer: {
                   hpet: {
-                    present: false
+                    present: false,
                   },
                   pit: {
-                    tickPolicy: 'delay'
+                    tickPolicy: 'delay',
                   },
                   rtc: {
-                    tickPolicy: 'catchup'
+                    tickPolicy: 'catchup',
                   },
-                  hyperv: {}
-                }
+                  hyperv: {},
+                },
               },
               cpu: {
                 // eslint-disable-next-line no-template-curly-in-string
-                cores: '${{CPU_CORES}}'
+                cores: '${{CPU_CORES}}',
               },
               machine: {
-                type: 'q35'
+                type: 'q35',
               },
               resources: {
                 requests: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  memory: '${MEMORY}'
-                }
+                  memory: '${MEMORY}',
+                },
               },
               devices: {
                 disks: [
                   {
                     name: 'disk1',
                     disk: {
-                      bus: 'virtio'
+                      bus: 'virtio',
                     },
-                    volumeName: 'volume-1'
-                  }
-                ]
-              }
+                    volumeName: 'volume-1',
+                  },
+                ],
+              },
             },
             volumes: [
               {
                 name: 'volume-1',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  claimName: 'vm-${NAME}-disk-01'
-                }
-              }
-            ]
-          }
-        }
-      }
+                  claimName: 'vm-${NAME}-disk-01',
+                },
+              },
+            ],
+          },
+        },
+      },
     },
     {
       apiVersion: 'v1',
@@ -100,33 +100,33 @@ export const windowsUserTemplate = {
         // eslint-disable-next-line no-template-curly-in-string
         name: 'vm-${NAME}-disk-01',
         annotations: {
-          'k8s.io/CloneRequest': 'namespace/pvc'
-        }
+          'k8s.io/CloneRequest': 'namespace/pvc',
+        },
       },
       spec: {
         accessModes: ['ReadWriteOnce'],
         resources: {
           requests: {
-            storage: '2Gi'
-          }
-        }
-      }
-    }
+            storage: '2Gi',
+          },
+        },
+      },
+    },
   ],
   parameters: [
     {
       name: 'NAME',
-      description: 'Name for the new VM'
+      description: 'Name for the new VM',
     },
     {
       name: 'MEMORY',
       description: 'Amount of memory',
-      value: '2G'
+      value: '2G',
     },
     {
       name: 'CPU_CORES',
       description: 'Amount of cores',
-      value: '2'
-    }
-  ]
+      value: '2',
+    },
+  ],
 };

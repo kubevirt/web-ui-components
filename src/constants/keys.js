@@ -11,10 +11,10 @@ export const KEY_CODES = {
     0: 96,
     1: 97,
     9: 105,
-    SUBTRACT: 109
+    SUBTRACT: 109,
   },
   HYPHEN_MINUS: 173,
-  MINUS: 189
+  MINUS: 189,
 };
 
 export const INPUT_NAVIGATION_KEYS = [
@@ -22,7 +22,7 @@ export const INPUT_NAVIGATION_KEYS = [
   KEY_CODES.SHIFT,
   KEY_CODES.LEFT_KEY,
   KEY_CODES.RIGHT_KEY,
-  KEY_CODES.DELETE_KEY
+  KEY_CODES.DELETE_KEY,
 ];
 
 export const isMinus = keyCode => {

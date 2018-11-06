@@ -14,7 +14,7 @@ Checkbox.defaultProps = {
   title: '',
   checked: false,
   onChange: undefined,
-  onBlur: undefined
+  onBlur: undefined,
 };
 
 Checkbox.propTypes = {
@@ -22,5 +22,5 @@ Checkbox.propTypes = {
   title: PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
 };

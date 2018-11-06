@@ -9,7 +9,7 @@ export const rows = [
     name: 'D',
     size: '15',
     storageClass: 'iscsi',
-    renderConfig: 0
+    renderConfig: 0,
   },
   {
     id: 2,
@@ -19,15 +19,15 @@ export const rows = [
       id: 'disk-two',
       name: 'disk Two',
       size: '15',
-      storageClass: 'glusterfs'
-    }
+      storageClass: 'glusterfs',
+    },
   },
   {
     id: 3,
     isBootable: false,
     renderConfig: 1,
-    attachStorage: {}
-  }
+    attachStorage: {},
+  },
 ];
 
 export default [
@@ -40,7 +40,7 @@ export default [
       initialStorages: [],
       units,
       sourceType: PROVISION_SOURCE_URL,
-      namespace: 'default'
-    }
-  }
+      namespace: 'default',
+    },
+  },
 ];

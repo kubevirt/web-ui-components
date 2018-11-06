@@ -4,8 +4,8 @@ module.exports = {
   'import/no-extraneous-dependencies': [
     'error',
     {
-      devDependencies: true
-    }
+      devDependencies: true,
+    },
   ],
   'import/no-named-default': 'off',
   'import/prefer-default-export': 'off',
@@ -18,16 +18,16 @@ module.exports = {
     'error',
     {
       allowShortCircuit: true,
-      allowTernary: true
-    }
+      allowTernary: true,
+    },
   ],
   'no-unused-vars': [
     'error',
     {
       vars: 'all',
       args: 'none',
-      ignoreRestSiblings: true
-    }
+      ignoreRestSiblings: true,
+    },
   ],
-  'no-use-before-define': 'off'
+  'no-use-before-define': 'off',
 };

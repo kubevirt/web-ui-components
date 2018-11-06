@@ -47,7 +47,7 @@ export const TableFactory = props => {
 
 TableFactory.defaultProps = {
   error: undefined,
-  actionButtons: []
+  actionButtons: [],
 };
 
 TableFactory.propTypes = {
@@ -57,5 +57,5 @@ TableFactory.propTypes = {
   onRowActivate: PropTypes.func.isRequired,
   error: PropTypes.string,
   columns: PropTypes.array.isRequired,
-  rows: PropTypes.array.isRequired
+  rows: PropTypes.array.isRequired,
 };

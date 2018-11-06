@@ -4,28 +4,28 @@ export const rows = [
   {
     id: 1,
     one: 'First Column',
-    two: 'Second Column'
+    two: 'Second Column',
   },
   {
     id: 2,
     one: 'F Column',
-    two: 'S Column'
-  }
+    two: 'S Column',
+  },
 ];
 
 export const columns = [
   {
     header: {
-      label: 'One'
+      label: 'One',
     },
-    property: 'one'
+    property: 'one',
   },
   {
     header: {
-      label: 'Two'
+      label: 'Two',
     },
-    property: 'two'
-  }
+    property: 'two',
+  },
 ];
 
 export default [
@@ -34,7 +34,7 @@ export default [
     props: {
       rows,
       columns,
-      onChange: () => {}
-    }
-  }
+      onChange: () => {},
+    },
+  },
 ];

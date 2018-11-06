@@ -53,8 +53,8 @@ describe('<BasicSettingsTab />', () => {
       {
         namespace: {
           validMsg: undefined,
-          value: namespace.metadata.name
-        }
+          value: namespace.metadata.name,
+        },
       },
       false
     );
@@ -74,7 +74,7 @@ describe('<BasicSettingsTab />', () => {
       namespaces,
       selectedNamespace,
       basicSettings,
-      onChange
+      onChange,
     });
 
     expectMockToBeCalledWith(
@@ -82,8 +82,8 @@ describe('<BasicSettingsTab />', () => {
       {
         namespace: {
           validMsg: undefined,
-          value: selectedNamespace.metadata.name
-        }
+          value: selectedNamespace.metadata.name,
+        },
       },
       false
     );
@@ -96,8 +96,8 @@ describe('<BasicSettingsTab />', () => {
       {
         name: {
           validMsg: undefined,
-          value: 'someName'
-        }
+          value: 'someName',
+        },
       },
       false
     );
@@ -118,8 +118,8 @@ describe('<BasicSettingsTab />', () => {
       {
         name: {
           validMsg: 'Name is required',
-          value: ''
-        }
+          value: '',
+        },
       },
       false
     );
@@ -132,8 +132,8 @@ describe('<BasicSettingsTab />', () => {
       {
         cpu: {
           validMsg: 'CPUs must be a number',
-          value: 'someCpu'
-        }
+          value: 'someCpu',
+        },
       },
       false
     );
@@ -146,8 +146,8 @@ describe('<BasicSettingsTab />', () => {
       {
         memory: {
           validMsg: 'Memory (GB) must be a number',
-          value: 'someMemory'
-        }
+          value: 'someMemory',
+        },
       },
       false
     );
@@ -164,8 +164,8 @@ describe('<BasicSettingsTab />', () => {
         ...validBasicSettings,
         namespace: {
           validMsg: 'Namespace is required',
-          value: ''
-        }
+          value: '',
+        },
       },
       false
     );
@@ -181,11 +181,11 @@ describe('<BasicSettingsTab />', () => {
       {
         ...validBasicSettings,
         imageSourceType: {
-          value: PROVISION_SOURCE_TEMPLATE
+          value: PROVISION_SOURCE_TEMPLATE,
         },
         userTemplate: {
-          value: getName(getTemplate(templates, TEMPLATE_TYPE_VM)[0])
-        }
+          value: getName(getTemplate(templates, TEMPLATE_TYPE_VM)[0]),
+        },
       },
       false
     );

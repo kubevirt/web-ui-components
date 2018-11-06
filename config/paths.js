@@ -1,4 +1,5 @@
 const path = require('path');
+
 const projectRoot = path.resolve(`${__dirname}/..`);
 const pathTo = relativePath => path.join(projectRoot, relativePath);
 
@@ -12,5 +13,5 @@ module.exports = {
   config: pathTo('config'),
   tools: pathTo('tools'),
   coverage: pathTo('coverage'),
-  cosmosExport: pathTo('cosmos')
+  cosmosExport: pathTo('cosmos'),
 };

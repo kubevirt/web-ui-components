@@ -5,6 +5,6 @@ export default {
   props: {
     id: '1',
     value: 5,
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };

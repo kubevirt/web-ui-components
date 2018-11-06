@@ -12,5 +12,5 @@ module.exports = {
   'react/jsx-filename-extension': 'off',
   'react/jsx-uses-vars': 'error',
   'react/no-danger': 'off',
-  'react/sort-comp': 'off'
+  'react/sort-comp': 'off',
 };

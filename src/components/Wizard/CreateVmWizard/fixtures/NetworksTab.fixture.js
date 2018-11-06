@@ -8,6 +8,6 @@ export default {
     networks: [],
     pxeBoot: true,
     networkConfigs,
-    namespace: 'default'
-  }
+    namespace: 'default',
+  },
 };

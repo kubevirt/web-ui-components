@@ -31,7 +31,7 @@ export const Dropdown = ({ id, value, onChange, onBlur, choices }) => (
 Dropdown.defaultProps = {
   id: null,
   onChange: null,
-  onBlur: null
+  onBlur: null,
 };
 
 Dropdown.propTypes = {
@@ -39,5 +39,5 @@ Dropdown.propTypes = {
   value: PropTypes.string.isRequired,
   choices: PropTypes.array.isRequired,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
 };

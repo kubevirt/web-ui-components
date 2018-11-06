@@ -23,5 +23,5 @@ module.exports = {
   port: 9000,
 
   // directory where cosmos-export tool generates the static application
-  outputPath: paths.cosmosExport
+  outputPath: paths.cosmosExport,
 };

@@ -11,7 +11,7 @@ function loadValidations() {
         return filename.replace(/\.js$/, '');
       }
       return false;
-    }
+    },
   });
 }
 

@@ -3,9 +3,9 @@ export const network2 = {
   kind: 'NetworkAttachmentDefinition',
   metadata: {
     name: 'pxe-net-conf2',
-    namespace: 'myproject'
+    namespace: 'myproject',
   },
   spec: {
-    config: '{ "cniVersion": "0.3.1", "type": "ovs", "bridge": "br1" }'
-  }
+    config: '{ "cniVersion": "0.3.1", "type": "ovs", "bridge": "br1" }',
+  },
 };

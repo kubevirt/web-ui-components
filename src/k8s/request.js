@@ -22,7 +22,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
-  ANNOTATION_USED_TEMPLATE
+  ANNOTATION_USED_TEMPLATE,
 } from '../constants';
 import {
   NAMESPACE_KEY,
@@ -40,7 +40,7 @@ import {
   AUTHKEYS_KEY,
   NAME_KEY,
   OPERATING_SYSTEM_KEY,
-  WORKLOAD_PROFILE_KEY
+  WORKLOAD_PROFILE_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
@@ -52,7 +52,7 @@ import {
   settingsValue,
   selectPVCs,
   selectAllExceptPVCs,
-  selectVm
+  selectVm,
 } from './selectors';
 
 export const createVM = (k8sCreate, templates, basicSettings, { networks }, storage) => {
@@ -102,7 +102,7 @@ const resolveTemplate = (templates, basicSettings, getSetting, storage) => {
     const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getOsLabel(basicSettings),
       getWorkloadLabel(basicSettings),
-      getFlavorLabel(basicSettings)
+      getFlavorLabel(basicSettings),
     ]);
     if (baseTemplates.length === 0) {
       return null;
@@ -189,7 +189,7 @@ const setNetworks = (vm, template, getSetting, networks) => {
   networks.forEach(network => {
     const nic = {
       bridge: {},
-      name: network.name
+      name: network.name,
     };
     if (network.mac) {
       nic.macAddress = network.mac;
@@ -202,13 +202,13 @@ const setNetworks = (vm, template, getSetting, networks) => {
     }
 
     const networkConfig = {
-      name: network.name
+      name: network.name,
     };
     if (network.network === POD_NETWORK) {
       networkConfig.pod = {};
     } else {
       networkConfig.multus = {
-        networkName: network.network
+        networkName: network.network,
       };
     }
     addInterface(vm, nic);
@@ -235,8 +235,8 @@ const addCloudInit = (vm, getSetting) => {
       name: CLOUDINIT_DISK,
       volumeName: CLOUDINIT_VOLUME,
       disk: {
-        bus: VIRTIO_BUS
-      }
+        bus: VIRTIO_BUS,
+      },
     };
     addDisk(vm, cloudInitDisk);
 
@@ -244,10 +244,10 @@ const addCloudInit = (vm, getSetting) => {
       users: [
         {
           name: 'root',
-          'ssh-authorized-keys': getSetting(AUTHKEYS_KEY)
-        }
+          'ssh-authorized-keys': getSetting(AUTHKEYS_KEY),
+        },
       ],
-      hostname: getSetting(HOST_NAME_KEY)
+      hostname: getSetting(HOST_NAME_KEY),
     };
 
     const userData = safeDump(userDataObject);
@@ -257,8 +257,8 @@ const addCloudInit = (vm, getSetting) => {
     const cloudInitVolume = {
       name: CLOUDINIT_VOLUME,
       cloudInitNoCloud: {
-        userData: userDataWithMagicHeader
-      }
+        userData: userDataWithMagicHeader,
+      },
     };
 
     addVolume(vm, cloudInitVolume);
@@ -273,8 +273,8 @@ const addStorages = (vm, template, storages, getSetting) => {
   if (!defaultDisk) {
     defaultDisk = {
       disk: {
-        bus: VIRTIO_BUS
-      }
+        bus: VIRTIO_BUS,
+      },
     };
   }
 
@@ -303,13 +303,13 @@ const addImageSourceDisks = (vm, imageSourceType, defaultDisk, getSetting) => {
       const registryDisk = {
         ...defaultDisk,
         name: 'rootdisk',
-        volumeName: 'rootvolume'
+        volumeName: 'rootvolume',
       };
       const registryVolume = {
         name: 'rootvolume',
         registryDisk: {
-          image: getSetting(REGISTRY_IMAGE_KEY)
-        }
+          image: getSetting(REGISTRY_IMAGE_KEY),
+        },
       };
 
       addDisk(vm, registryDisk);
@@ -321,34 +321,34 @@ const addImageSourceDisks = (vm, imageSourceType, defaultDisk, getSetting) => {
       const disk = {
         ...defaultDisk,
         name: 'rootdisk',
-        volumeName: dataVolumeName
+        volumeName: dataVolumeName,
       };
 
       const volume = {
         name: dataVolumeName,
         dataVolume: {
-          name: dataVolumeName
-        }
+          name: dataVolumeName,
+        },
       };
       const dataVolumeTemplate = {
         metadata: {
-          name: dataVolumeName
+          name: dataVolumeName,
         },
         spec: {
           pvc: {
             accessModes: [PVC_ACCESSMODE_RWO],
             resources: {
               requests: {
-                storage: '10Gi'
-              }
-            }
+                storage: '10Gi',
+              },
+            },
           },
           source: {
             http: {
-              url: getSetting(IMAGE_URL_KEY)
-            }
-          }
-        }
+              url: getSetting(IMAGE_URL_KEY),
+            },
+          },
+        },
       };
       addDisk(vm, disk, 1);
       addVolume(vm, volume);
@@ -364,27 +364,27 @@ const addImageSourceDisks = (vm, imageSourceType, defaultDisk, getSetting) => {
 const addDataVolume = (vm, volume, defaultDisk, getSetting) => {
   addDataVolumeTemplate(vm, {
     metadata: {
-      name: volume.name
+      name: volume.name,
     },
     spec: {
       pvc: {
         accessModes: [PVC_ACCESSMODE_RWO],
         resources: {
           requests: {
-            storage: `${volume.size}Gi`
-          }
+            storage: `${volume.size}Gi`,
+          },
         },
-        storageClassName: volume.storageClass
+        storageClassName: volume.storageClass,
       },
-      source: {}
-    }
+      source: {},
+    },
   });
 
   addVolume(vm, {
     name: volume.name,
     dataVolume: {
-      name: volume.name
-    }
+      name: volume.name,
+    },
   });
 
   addBootableDisk(
@@ -392,7 +392,7 @@ const addDataVolume = (vm, volume, defaultDisk, getSetting) => {
     {
       ...defaultDisk,
       name: volume.name,
-      volumeName: volume.name
+      volumeName: volume.name,
     },
     volume.isBootable,
     getSetting
@@ -405,8 +405,8 @@ const addPersistentVolumeClaimVolume = (vm, volume, defaultDisk, getSetting) => 
   addVolume(vm, {
     name,
     persistentVolumeClaim: {
-      claimName: name
-    }
+      claimName: name,
+    },
   });
 
   addBootableDisk(
@@ -414,7 +414,7 @@ const addPersistentVolumeClaimVolume = (vm, volume, defaultDisk, getSetting) => 
     {
       ...defaultDisk,
       name,
-      volumeName: name
+      volumeName: name,
     },
     volume.isBootable,
     getSetting
