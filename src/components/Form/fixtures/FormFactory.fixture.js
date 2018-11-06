@@ -6,7 +6,7 @@ export const getPositiveNumber = () =>
     type: 'positive-number',
     id: 'test-id',
     value: 48,
-    onChange: jest.fn()
+    onChange: jest.fn(),
   });
 
 export default {
@@ -14,15 +14,15 @@ export default {
   props: {
     fields: {
       textField: {
-        title: 'textField'
+        title: 'textField',
       },
       requiredField: {
         title: 'requiredField',
-        required: true
+        required: true,
       },
       invisibleField: {
         title: 'invisibleField',
-        isVisible: () => false
+        isVisible: () => false,
       },
       dropdownField: {
         id: 'dropdown',
@@ -31,41 +31,41 @@ export default {
         defaultValue: 'default',
         choices: [
           {
-            name: 'value1'
+            name: 'value1',
           },
           {
-            name: 'value2'
-          }
-        ]
+            name: 'value2',
+          },
+        ],
       },
       textAreaField: {
-        type: 'textarea'
+        type: 'textarea',
       },
       checkboxField: {
         type: 'checkbox',
-        title: 'checkboxFieldTitle'
-      }
+        title: 'checkboxFieldTitle',
+      },
     },
     fieldsValues: {
       textField: {
-        value: 'textField'
+        value: 'textField',
       },
       requiredField: {
-        value: 'requiredField'
+        value: 'requiredField',
       },
       invisibleField: {
-        value: 'invisibleField'
+        value: 'invisibleField',
       },
       dropdownField: {
-        value: 'dropdownField'
+        value: 'dropdownField',
       },
       textAreaField: {
-        value: 'textarea'
+        value: 'textarea',
       },
       checkboxField: {
-        value: true
-      }
+        value: true,
+      },
     },
-    onFormChange: () => {}
-  }
+    onFormChange: () => {},
+  },
 };

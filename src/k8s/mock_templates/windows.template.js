@@ -18,7 +18,7 @@ export const windows = {
       'defaults.template.cnv.io/disk': 'rootdisk',
       'defaults.template.cnv.io/network': 'default',
       'template.cnv.io/editable':
-        '/objects[0].spec.template.spec.domain.cpu.cores\n/objects[0].spec.template.spec.domain.resources.requests.memory\n/objects[0].spec.template.spec.domain.devices.disks\n/objects[0].spec.template.spec.volumes\n/objects[0].spec.template.spec.networks\n'
+        '/objects[0].spec.template.spec.domain.cpu.cores\n/objects[0].spec.template.spec.domain.resources.requests.memory\n/objects[0].spec.template.spec.domain.devices.disks\n/objects[0].spec.template.spec.volumes\n/objects[0].spec.template.spec.networks\n',
     },
     labels: {
       'os.template.cnv.io/win2k12r2': 'true',
@@ -27,8 +27,8 @@ export const windows = {
       'os.template.cnv.io/win10': 'true',
       'workload.template.cnv.io/generic': 'true',
       'flavor.template.cnv.io/medium': 'true',
-      'template.cnv.io/type': 'base'
-    }
+      'template.cnv.io/type': 'base',
+    },
   },
   objects: [
     {
@@ -36,10 +36,10 @@ export const windows = {
       kind: 'VirtualMachine',
       metadata: {
         labels: {
-          'kubevirt.io/os': 'win2k12r2'
+          'kubevirt.io/os': 'win2k12r2',
         },
         // eslint-disable-next-line no-template-curly-in-string
-        name: '${NAME}'
+        name: '${NAME}',
       },
       spec: {
         running: false,
@@ -50,24 +50,24 @@ export const windows = {
                 utc: {},
                 timer: {
                   hpet: {
-                    present: false
+                    present: false,
                   },
                   pit: {
-                    tickPolicy: 'delay'
+                    tickPolicy: 'delay',
                   },
                   rtc: {
-                    tickPolicy: 'catchup'
+                    tickPolicy: 'catchup',
                   },
-                  hyperv: {}
-                }
+                  hyperv: {},
+                },
               },
               cpu: {
-                cores: 2
+                cores: 2,
               },
               resources: {
                 requests: {
-                  memory: '4G'
-                }
+                  memory: '4G',
+                },
               },
               features: {
                 acpi: {},
@@ -76,28 +76,28 @@ export const windows = {
                   relaxed: {},
                   vapic: {},
                   spinlocks: {
-                    spinlocks: 8191
-                  }
-                }
+                    spinlocks: 8191,
+                  },
+                },
               },
               devices: {
                 disks: [
                   {
                     disk: {
-                      bus: 'sata'
+                      bus: 'sata',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootvolume'
-                  }
+                    volumeName: 'rootvolume',
+                  },
                 ],
                 interfaces: [
                   {
                     bridge: {},
                     model: 'e1000e',
-                    name: 'default'
-                  }
-                ]
-              }
+                    name: 'default',
+                  },
+                ],
+              },
             },
             terminationGracePeriodSeconds: 0,
             volumes: [
@@ -105,32 +105,32 @@ export const windows = {
                 name: 'rootvolume',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  claimName: '${PVCNAME}'
-                }
-              }
+                  claimName: '${PVCNAME}',
+                },
+              },
             ],
             networks: [
               {
                 name: 'default',
-                pod: {}
-              }
-            ]
-          }
-        }
-      }
-    }
+                pod: {},
+              },
+            ],
+          },
+        },
+      },
+    },
   ],
   parameters: [
     {
       name: 'NAME',
       description: 'VM name',
       generate: 'expression',
-      from: 'win2k12-[a-z0-9]{6}'
+      from: 'win2k12-[a-z0-9]{6}',
     },
     {
       name: 'PVCNAME',
       description: 'Name of the PVC with the disk image',
-      required: true
-    }
-  ]
+      required: true,
+    },
+  ],
 };

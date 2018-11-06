@@ -17,5 +17,5 @@ ButtonWithIcon.propTypes = {
   onClick: PropTypes.func.isRequired,
   iconType: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
 };

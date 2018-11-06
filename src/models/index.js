@@ -8,14 +8,14 @@ export const VirtualMachineModel = {
   abbr: 'VM',
   namespaced: true,
   kind: 'VirtualMachine',
-  id: 'virtualmachine'
+  id: 'virtualmachine',
 };
 
 export const ProcessedTemplatesModel = {
   apiVersion: 'v1',
   path: 'processedtemplates',
   apiGroup: 'template.openshift.io',
-  namespaced: true
+  namespaced: true,
 };
 
 export const PersistentVolumeClaimModel = {
@@ -27,5 +27,5 @@ export const PersistentVolumeClaimModel = {
   namespaced: true,
   kind: 'PersistentVolumeClaim',
   id: 'persistentvolumeclaim',
-  labelPlural: 'Persistent Volume Claims'
+  labelPlural: 'Persistent Volume Claims',
 };

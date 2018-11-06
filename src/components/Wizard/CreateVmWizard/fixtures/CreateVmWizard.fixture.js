@@ -4,7 +4,7 @@ import {
   k8sCreate,
   persistentVolumeClaims,
   storageClasses,
-  units
+  units,
 } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 import { templates, networkConfigs } from '../../../../constants';
 
@@ -20,8 +20,8 @@ export default [
       networkConfigs,
       persistentVolumeClaims,
       storageClasses,
-      units
-    }
+      units,
+    },
   },
   {
     component: CreateVmWizard,
@@ -35,7 +35,7 @@ export default [
       networkConfigs,
       persistentVolumeClaims,
       storageClasses,
-      units
-    }
-  }
+      units,
+    },
+  },
 ];

@@ -3,6 +3,7 @@
 
 const chalk = require('chalk');
 const paths = require('./paths');
+
 const pkg = require(paths.packageJson);
 
 // resolve React version for use with eslint-plugin-react
@@ -24,13 +25,13 @@ module.exports = {
     // Prettier configuration comes last
     'plugin:prettier/recommended',
     'prettier/react',
-    'prettier/standard'
+    'prettier/standard',
   ],
 
   env: {
     es6: true,
     browser: true,
-    jest: true
+    jest: true,
   },
 
   // use babel-eslint parser to ensure parity with Babel-supported syntax
@@ -38,8 +39,8 @@ module.exports = {
 
   settings: {
     react: {
-      version: reactVersion
-    }
+      version: reactVersion,
+    },
   },
 
   rules: {
@@ -48,8 +49,8 @@ module.exports = {
     'react/destructuring-assignment': [
       'error',
       {
-        ignoreClassFields: true
-      }
-    ]
-  }
+        ignoreClassFields: true,
+      },
+    ],
+  },
 };

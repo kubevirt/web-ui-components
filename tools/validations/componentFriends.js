@@ -15,7 +15,7 @@ function checkComponent(file) {
     file,
     componentName,
     hasTest: friendExists(`tests/${componentName}.test.js`),
-    hasFixture: friendExists(`fixtures/${componentName}.fixture.js`)
+    hasFixture: friendExists(`fixtures/${componentName}.fixture.js`),
   };
 }
 

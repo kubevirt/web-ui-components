@@ -8,17 +8,17 @@ const testNetworksTab = () => <NetworksTab {...NetworksTabFixture.props} />;
 
 const networks = [
   {
-    network: ''
+    network: '',
   },
   {
-    network: POD_NETWORK
+    network: POD_NETWORK,
   },
   {
-    network: 'pxe-net-conf'
+    network: 'pxe-net-conf',
   },
   {
-    network: 'pxe-net-conf2'
-  }
+    network: 'pxe-net-conf2',
+  },
 ];
 
 const nullArray = Array(4).fill(null);
@@ -55,13 +55,13 @@ describe('<NetworksTab />', () => {
   it('hasError', () => {
     const networkWithError = {
       network: '',
-      errors: errorArray
+      errors: errorArray,
     };
     expect(hasError(networkWithError)).toBeTruthy();
 
     const networkWithoutError = {
       network: '',
-      errors: nullArray
+      errors: nullArray,
     };
 
     expect(hasError(networkWithoutError)).toBeFalsy();

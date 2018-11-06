@@ -8,7 +8,7 @@ import { isMinus, KEY_CODES, INPUT_NAVIGATION_KEYS } from '../../constants/keys'
 const NON_NEGATIVE_INTEGER_KEYS = [
   ...INPUT_NAVIGATION_KEYS,
   ...getSequence(KEY_CODES[0], KEY_CODES[9]),
-  ...getSequence(KEY_CODES.NUMPAD[0], KEY_CODES.NUMPAD[9])
+  ...getSequence(KEY_CODES.NUMPAD[0], KEY_CODES.NUMPAD[9]),
 ];
 
 const INTEGER_KEYS = [...NON_NEGATIVE_INTEGER_KEYS, KEY_CODES.MINUS, KEY_CODES.HYPHEN_MINUS, KEY_CODES.NUMPAD.SUBTRACT];
@@ -87,7 +87,7 @@ export const Integer = ({ id, value, defaultValue, onChange, onBlur, positive, n
         target.dispatchEvent(
           new Event('input', {
             bubbles: true,
-            cancelable: true
+            cancelable: true,
           })
         );
       }
@@ -116,7 +116,7 @@ Integer.defaultProps = {
   onChange: undefined,
   onBlur: undefined,
   positive: false,
-  nonNegative: false // is ignored when positive == true
+  nonNegative: false, // is ignored when positive == true
 };
 
 Integer.propTypes = {
@@ -126,5 +126,5 @@ Integer.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   positive: PropTypes.bool,
-  nonNegative: PropTypes.bool
+  nonNegative: PropTypes.bool,
 };

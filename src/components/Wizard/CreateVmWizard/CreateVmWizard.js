@@ -25,7 +25,7 @@ import {
   STEP_NETWORK,
   STEP_STORAGE,
   STEP_RESULT,
-  NEXT
+  NEXT,
 } from './constants';
 
 import { getTemplateStorages } from './utils';
@@ -50,7 +50,7 @@ const onUserTemplateChangedInStorageTab = ({ templates }, stepData, newUserTempl
 
   return {
     ...stepData,
-    value: rows
+    value: rows,
   };
 };
 
@@ -86,7 +86,7 @@ const onNamespaceChanged = (props, stepData, stepIdx) => {
         return {
           ...stepData,
           // cannot asses validity when namespace changes (if disks present)
-          valid: false
+          valid: false,
         };
       }
       return stepData;
@@ -101,7 +101,7 @@ export class CreateVmWizard extends React.Component {
     stepData: [
       {
         value: {}, // Basic Settings
-        valid: false
+        valid: false,
       },
       {
         value: {
@@ -112,21 +112,21 @@ export class CreateVmWizard extends React.Component {
               mac: '',
               network: POD_NETWORK,
               editable: true,
-              edit: false
-            }
-          ]
+              edit: false,
+            },
+          ],
         },
-        valid: true
+        valid: true,
       },
       {
         value: [], // Storages
-        valid: true // empty Storages are valid
+        valid: true, // empty Storages are valid
       },
       {
         value: '',
-        valid: null // result of the request
-      }
-    ]
+        valid: null, // result of the request
+      },
+    ],
   };
 
   getLastStepIndex = () => this.state.stepData.length - 1;
@@ -140,7 +140,7 @@ export class CreateVmWizard extends React.Component {
 
       stepData[state.activeStepIndex] = {
         value,
-        valid
+        valid,
       };
 
       if (state.activeStepIndex === BASIC_SETTINGS_TAB_IDX) {
@@ -148,16 +148,16 @@ export class CreateVmWizard extends React.Component {
         stepData = [
           {
             field: NAMESPACE_KEY,
-            callback: onNamespaceChanged
+            callback: onNamespaceChanged,
           },
           {
             field: USER_TEMPLATE_KEY,
-            callback: onUserTemplateChanged
+            callback: onUserTemplateChanged,
           },
           {
             field: IMAGE_SOURCE_TYPE_KEY,
-            callback: onImageSourceTypeChanged
-          }
+            callback: onImageSourceTypeChanged,
+          },
         ].reduce((newStepData, { field, callback }) => {
           const oldValue = getBasicSettingsValue(oldStepData, field);
           const newValue = getBasicSettingsValue(newStepData, field);
@@ -208,7 +208,7 @@ export class CreateVmWizard extends React.Component {
           basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_IDX].value}
           onChange={this.onStepDataChanged}
         />
-      )
+      ),
     },
     {
       title: STEP_NETWORK,
@@ -220,7 +220,7 @@ export class CreateVmWizard extends React.Component {
           pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_IDX].value, PROVISION_SOURCE_PXE)}
           namespace={this.state.stepData[0].value.namespace.value}
         />
-      )
+      ),
     },
     {
       title: STEP_STORAGE,
@@ -241,15 +241,15 @@ export class CreateVmWizard extends React.Component {
             namespace={this.state.stepData[0].value.namespace.value}
           />
         );
-      }
+      },
     },
     {
       title: STEP_RESULT,
       render: () => {
         const stepData = this.state.stepData[RESULTS_TAB_IDX];
         return <ResultTab result={stepData.value} success={stepData.valid} />;
-      }
-    }
+      },
+    },
   ];
 
   render() {
@@ -275,7 +275,7 @@ export class CreateVmWizard extends React.Component {
 }
 
 CreateVmWizard.defaultProps = {
-  selectedNamespace: undefined
+  selectedNamespace: undefined,
 };
 
 CreateVmWizard.propTypes = {
@@ -287,5 +287,5 @@ CreateVmWizard.propTypes = {
   networkConfigs: PropTypes.array.isRequired,
   persistentVolumeClaims: PropTypes.array.isRequired,
   storageClasses: PropTypes.array.isRequired,
-  units: PropTypes.object.isRequired
+  units: PropTypes.object.isRequired,
 };

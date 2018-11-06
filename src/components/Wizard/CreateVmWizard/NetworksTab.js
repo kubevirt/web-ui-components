@@ -51,7 +51,7 @@ export class NetworksTab extends React.Component {
       isBootable,
       renderConfig: 0,
       edit: false,
-      editable: true
+      editable: true,
     }));
 
     validateNetworksNamespace(props.networkConfigs, props.namespace, rows);
@@ -61,7 +61,7 @@ export class NetworksTab extends React.Component {
       // eslint-disable-next-line
       nextId: rows.length + 1,
       editing: false,
-      rows
+      rows,
     };
   }
 
@@ -76,7 +76,7 @@ export class NetworksTab extends React.Component {
         name,
         mac,
         network,
-        errors
+        errors,
       };
 
       if (valid && errors) {
@@ -91,7 +91,7 @@ export class NetworksTab extends React.Component {
     });
 
     const value = {
-      networks: nics
+      networks: nics,
     };
     this.props.onChange(value, valid);
   };
@@ -145,9 +145,9 @@ export class NetworksTab extends React.Component {
           name: `eth${state.nextId - 1}`,
           mac: '',
           network: '',
-          renderConfig: 0
-        }
-      ]
+          renderConfig: 0,
+        },
+      ],
     }));
   };
 
@@ -157,43 +157,43 @@ export class NetworksTab extends React.Component {
         label: 'NIC Name',
         props: {
           style: {
-            width: '32%'
-          }
-        }
+            width: '32%',
+          },
+        },
       },
       property: 'name',
       renderConfigs: [
         {
           id: 'name-edit',
-          type: 'text'
-        }
-      ]
+          type: 'text',
+        },
+      ],
     },
     {
       header: {
         label: 'MAC Address',
         props: {
           style: {
-            width: '32%'
-          }
-        }
+            width: '32%',
+          },
+        },
       },
       property: 'mac',
       renderConfigs: [
         {
           id: 'mac-edit',
-          type: 'text'
-        }
-      ]
+          type: 'text',
+        },
+      ],
     },
     {
       header: {
         label: 'Network Configuration',
         props: {
           style: {
-            width: '32%'
-          }
-        }
+            width: '32%',
+          },
+        },
       },
       property: 'network',
       renderConfigs: [
@@ -205,17 +205,17 @@ export class NetworksTab extends React.Component {
             .map(networkConfig => networkConfig.metadata.name)
             .concat(POD_NETWORK)
             .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
-          initialValue: '--- Select Network Definition ---'
-        }
-      ]
+          initialValue: '--- Select Network Definition ---',
+        },
+      ],
     },
     {
       header: {
         props: {
           style: {
-            width: '4%'
-          }
-        }
+            width: '4%',
+          },
+        },
       },
       renderConfigs: [
         {
@@ -224,13 +224,13 @@ export class NetworksTab extends React.Component {
           actions: [
             {
               actionType: DELETE_ACTION,
-              text: 'Remove NIC'
-            }
+              text: 'Remove NIC',
+            },
           ],
-          visibleOnEdit: false
-        }
-      ]
-    }
+          visibleOnEdit: false,
+        },
+      ],
+    },
   ];
 
   getActionButtons = () => [
@@ -239,8 +239,8 @@ export class NetworksTab extends React.Component {
       onClick: this.createNic,
       id: 'create-network-btn',
       text: 'Create NIC',
-      disabled: this.state.editing
-    }
+      disabled: this.state.editing,
+    },
   ];
 
   getFormFields = pxeNetworks => ({
@@ -251,8 +251,8 @@ export class NetworksTab extends React.Component {
       defaultValue: '--- Select PXE NIC ---',
       choices: pxeNetworks.map(n => n.name),
       required: true,
-      help: 'Pod network is not PXE bootable'
-    }
+      help: 'Pod network is not PXE bootable',
+    },
   });
 
   onFormChange = newValue => {
@@ -276,8 +276,8 @@ export class NetworksTab extends React.Component {
       const values = {
         pxeNetwork: {
           value: bootableNetwork ? bootableNetwork.name : undefined,
-          validMsg: pxeNetworks.length === 0 ? 'A PXE-capable NIC could not be found' : undefined
-        }
+          validMsg: pxeNetworks.length === 0 ? 'A PXE-capable NIC could not be found' : undefined,
+        },
       };
 
       pxeForm = (
@@ -313,5 +313,5 @@ NetworksTab.propTypes = {
   networks: PropTypes.array.isRequired,
   pxeBoot: PropTypes.bool.isRequired,
   networkConfigs: PropTypes.array.isRequired,
-  namespace: PropTypes.string.isRequired
+  namespace: PropTypes.string.isRequired,
 };

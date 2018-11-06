@@ -14,36 +14,36 @@ export const ubuntu1804 = {
       'openshift.io/documentation-url': 'https://github.com/fabiand/common-templates',
       'openshift.io/support-url': 'https://github.com/fabiand/common-templates/issues',
       'template.openshift.io/bindable': 'false',
-      'defaults.template.cnv.io/disk': 'rootdisk'
+      'defaults.template.cnv.io/disk': 'rootdisk',
     },
     labels: {
       'os.template.cnv.io/ubuntu18.04': 'true',
       'workload.template.cnv.io/generic': 'true',
       'flavor.template.cnv.io/small': 'true',
-      'template.cnv.io/type': 'base'
-    }
+      'template.cnv.io/type': 'base',
+    },
   },
   objects: [
     {
       apiVersion: 'kubevirt.io/v1alpha2',
       kind: 'VirtualMachineInstancePreset',
       metadata: {
-        name: 'ubuntu1804'
+        name: 'ubuntu1804',
       },
       spec: {
         selector: {
           matchLabels: {
-            'kubevirt.io/os': 'ubuntu1804'
-          }
-        }
-      }
+            'kubevirt.io/os': 'ubuntu1804',
+          },
+        },
+      },
     },
     {
       apiVersion: 'kubevirt.io/v1alpha2',
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
-        name: '${NAME}'
+        name: '${NAME}',
       },
       spec: {
         running: false,
@@ -52,24 +52,24 @@ export const ubuntu1804 = {
             domain: {
               cpu: {
                 cores: 2,
-                model: 'Conroe'
+                model: 'Conroe',
               },
               devices: {
                 disks: [
                   {
                     disk: {
-                      bus: 'virtio'
+                      bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootvolume'
-                  }
-                ]
+                    volumeName: 'rootvolume',
+                  },
+                ],
               },
               resources: {
                 requests: {
-                  memory: '2G'
-                }
-              }
+                  memory: '2G',
+                },
+              },
             },
             terminationGracePeriodSeconds: 0,
             volumes: [
@@ -77,20 +77,20 @@ export const ubuntu1804 = {
                 name: 'rootvolume',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  claimName: '${PVCNAME}'
-                }
+                  claimName: '${PVCNAME}',
+                },
               },
               {
                 cloudInitNoCloud: {
-                  userData: '#cloud-config\npassword: ubuntu\nchpasswd: { expire: False }'
+                  userData: '#cloud-config\npassword: ubuntu\nchpasswd: { expire: False }',
                 },
-                name: 'cloudinitvolume'
-              }
-            ]
-          }
-        }
-      }
-    }
+                name: 'cloudinitvolume',
+              },
+            ],
+          },
+        },
+      },
+    },
   ],
   parameters: [
     {
@@ -98,12 +98,12 @@ export const ubuntu1804 = {
       description: 'Name of the new VM',
       generate: 'expression',
       from: 'ubuntu1804-[a-z0-9]{6}',
-      required: true
+      required: true,
     },
     {
       name: 'PVCNAME',
       description: 'Name of the PVC with the disk image',
-      required: true
-    }
-  ]
+      required: true,
+    },
+  ],
 };

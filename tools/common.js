@@ -7,5 +7,5 @@ function fileExists(path) {
 module.exports = {
   checkMark: '✓',
   crossMark: '✕',
-  fileExists
+  fileExists,
 };

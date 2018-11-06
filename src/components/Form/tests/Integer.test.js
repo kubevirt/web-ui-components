@@ -12,8 +12,8 @@ const getEvent = keyCode => ({
   keyCode,
   preventDefault: jest.fn(),
   target: {
-    value: ''
-  }
+    value: '',
+  },
 });
 
 const testValidity = (component, keyCode, validity) => {

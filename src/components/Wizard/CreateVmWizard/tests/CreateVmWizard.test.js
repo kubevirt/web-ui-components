@@ -7,7 +7,7 @@ import {
   namespaces,
   persistentVolumeClaims,
   storageClasses,
-  units
+  units,
 } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
@@ -58,7 +58,7 @@ const testWalkThrough = () => {
         name: 'D',
         size: '15',
         storageClass: 'iscsi',
-        isBootable: true
+        isBootable: true,
       },
       {
         id: 2,
@@ -67,9 +67,9 @@ const testWalkThrough = () => {
           id: 'disk-two',
           name: 'disk Two',
           size: '15',
-          storageClass: 'glusterfs'
-        }
-      }
+          storageClass: 'glusterfs',
+        },
+      },
     ],
     true
   );
@@ -128,8 +128,8 @@ describe('<CreateVmWizard />', () => {
       {
         ...validBasicSettings,
         imageSourceType: {
-          value: 'URL'
-        }
+          value: 'URL',
+        },
       },
       false
     );

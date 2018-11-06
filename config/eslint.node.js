@@ -11,18 +11,18 @@ module.exports = {
     'plugin:jest/recommended',
     // Prettier configuration comes last
     'plugin:prettier/recommended',
-    'prettier/standard'
+    'prettier/standard',
   ],
 
   env: {
     es6: true,
     node: true,
-    jest: true
+    jest: true,
   },
 
   parserOptions: {
     // Node.js loads scripts as CommonJS modules
-    sourceType: 'script'
+    sourceType: 'script',
   },
 
   rules: {
@@ -30,6 +30,6 @@ module.exports = {
     'no-console': 'off',
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
-    'import/newline-after-import': 'off'
-  }
+    'import/newline-after-import': 'off',
+  },
 };

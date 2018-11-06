@@ -31,9 +31,9 @@ describe('<EditableDraggableTable />', () => {
           editable: true,
           edit: true,
           one: 'F3 Column',
-          two: 'S3 Column'
-        }
-      ]
+          two: 'S3 Column',
+        },
+      ],
     });
     expect(onChange).toHaveBeenCalled();
   });

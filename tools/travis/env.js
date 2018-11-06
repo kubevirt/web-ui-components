@@ -5,7 +5,7 @@ const {
   TRAVIS_SECURE_ENV_VARS,
   ENCRYPTED_VARIABLE_TOKEN,
   COMMIT_AUTHOR_EMAIL,
-  COMMIT_AUTHOR_NAME
+  COMMIT_AUTHOR_NAME,
 } = process.env;
 
 module.exports = {
@@ -16,5 +16,5 @@ module.exports = {
   encryptedKey: process.env[`encrypted_${ENCRYPTED_VARIABLE_TOKEN}_key`],
   encryptedInitVector: process.env[`encrypted_${ENCRYPTED_VARIABLE_TOKEN}_iv`],
   commitAuthorEmail: COMMIT_AUTHOR_EMAIL,
-  commitAuthorName: COMMIT_AUTHOR_NAME
+  commitAuthorName: COMMIT_AUTHOR_NAME,
 };

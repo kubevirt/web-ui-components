@@ -10,7 +10,7 @@ import {
   Table,
   MenuItem,
   DropdownKebab,
-  HelpBlock
+  HelpBlock,
 } from 'patternfly-react';
 import { getFormElement } from '../Form/FormFactory';
 import { prefixedId } from '../../utils/utils';
@@ -23,12 +23,12 @@ import {
   ON_CONFIRM,
   ON_DELETE,
   ACTIONS_TYPE,
-  DELETE_ACTION
+  DELETE_ACTION,
 } from './constants';
 
 class EditableDraggableTable extends React.Component {
   state = {
-    editing: false
+    editing: false,
   };
 
   componentDidUpdate() {
@@ -63,7 +63,7 @@ class EditableDraggableTable extends React.Component {
             this.props.onChange(rows, {
               type: ON_ACTIVATE,
               id,
-              editing
+              editing,
             });
           }
         }
@@ -84,7 +84,7 @@ class EditableDraggableTable extends React.Component {
       this.props.onChange(rows, {
         type: ON_CONFIRM,
         id,
-        editing
+        editing,
       });
     },
 
@@ -103,7 +103,7 @@ class EditableDraggableTable extends React.Component {
       this.props.onChange(rows, {
         type: ON_CANCEL,
         id,
-        editing
+        editing,
       });
     },
 
@@ -118,9 +118,9 @@ class EditableDraggableTable extends React.Component {
       this.props.onChange(rows, {
         type: ON_CHANGE,
         id,
-        editing
+        editing,
       });
-    }
+    },
   };
 
   crudController = {
@@ -129,9 +129,9 @@ class EditableDraggableTable extends React.Component {
       this.props.onChange(this.props.rows.filter(row => row.id !== id), {
         type: ON_DELETE,
         editing: false,
-        id
+        id,
       });
-    }
+    },
   };
 
   getActionButton = (action, additionalData, id) => {
@@ -249,17 +249,17 @@ class EditableDraggableTable extends React.Component {
             value: this.resolveRenderedValue(value, additionalData, true),
             defaultValue: this.resolveRenderedValue(value, additionalData, true) || renderConfig.initialValue,
             onChange: isDropdown ? onChange : null, // onChange for dropdowns
-            onBlur: isDropdown ? null : onChange // onBlur for text
+            onBlur: isDropdown ? null : onChange, // onBlur for text
           })}
         </td>
       );
-    }
+    },
   });
 
   inlineEditButtonsFormatter = inlineEditFormatterFactory({
     isEditing: additionalData => this.state.editing,
     renderValue: (value, additionalData) => this.getActionButtons(additionalData, false),
-    renderEdit: (value, additionalData) => this.getActionButtons(additionalData, true)
+    renderEdit: (value, additionalData) => this.getActionButtons(additionalData, true),
   });
 
   onRow = (rowData, { rowIndex }) => ({
@@ -269,7 +269,7 @@ class EditableDraggableTable extends React.Component {
       if (!this.state.editing) {
         const rows = dnd.moveRows({
           sourceRowId,
-          targetRowId
+          targetRowId,
         })(this.props.rows);
 
         if (rows) {
@@ -277,7 +277,7 @@ class EditableDraggableTable extends React.Component {
             type: ON_MOVE,
             id: sourceRowId,
             targetRowId,
-            editing: false
+            editing: false,
           });
         }
       }
@@ -286,14 +286,14 @@ class EditableDraggableTable extends React.Component {
     onCancel: () =>
       this.inlineEditController.onCancel({
         rowData,
-        rowIndex
+        rowIndex,
       }),
     onConfirm: () =>
       this.inlineEditController.onConfirm({
         rowData,
-        rowIndex
+        rowIndex,
       }),
-    last: rowIndex > 3 && rowIndex === this.props.rows.length - 1
+    last: rowIndex > 3 && rowIndex === this.props.rows.length - 1,
   });
 
   render() {
@@ -301,7 +301,7 @@ class EditableDraggableTable extends React.Component {
     const columns = this.props.columns.map(column => {
       const config = this.getRenderConfig({
         column,
-        rowData: { renderConfig: 0 }
+        rowData: { renderConfig: 0 },
       });
 
       return {
@@ -309,17 +309,17 @@ class EditableDraggableTable extends React.Component {
         cell: {
           ...column.cell,
           formatters: [
-            config && config.type === ACTIONS_TYPE ? this.inlineEditButtonsFormatter : this.inlineEditFormatter
-          ]
-        }
+            config && config.type === ACTIONS_TYPE ? this.inlineEditButtonsFormatter : this.inlineEditFormatter,
+          ],
+        },
       };
     });
 
     const renderers = {
       body: {
         row: dnd.draggableRow(InlineEditRow),
-        cell: cellProps => cellProps.children
-      }
+        cell: cellProps => cellProps.children,
+      },
     };
 
     return (
@@ -343,7 +343,7 @@ class EditableDraggableTable extends React.Component {
 EditableDraggableTable.propTypes = {
   rows: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default DragDropContext(HTML5Backend)(EditableDraggableTable);

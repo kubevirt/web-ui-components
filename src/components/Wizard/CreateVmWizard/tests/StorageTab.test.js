@@ -24,9 +24,9 @@ const testRows = rows.slice(0, 2);
 const updatedThirdRow = {
   ...thirdRow,
   attachStorage: {
-    id: 'attach'
+    id: 'attach',
   },
-  name: 'name'
+  name: 'name',
 };
 
 describe('<StorageTab />', () => {

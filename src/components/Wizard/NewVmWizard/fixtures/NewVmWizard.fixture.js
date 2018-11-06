@@ -5,37 +5,37 @@ import { ProcessedTemplatesModel } from '../../../../models';
 export const namespaces = [
   {
     metadata: {
-      name: 'default'
-    }
+      name: 'default',
+    },
   },
   {
     metadata: {
-      name: 'myproject'
-    }
-  }
+      name: 'myproject',
+    },
+  },
 ];
 
 export const storageClasses = [
   {
     metadata: {
-      name: 'nfs'
-    }
+      name: 'nfs',
+    },
   },
   {
     metadata: {
-      name: 'iscsi'
-    }
+      name: 'iscsi',
+    },
   },
   {
     metadata: {
-      name: 'glusterfs'
-    }
+      name: 'glusterfs',
+    },
   },
   {
     metadata: {
-      name: 'azuredisk'
-    }
-  }
+      name: 'azuredisk',
+    },
+  },
 ];
 
 export const persistentVolumeClaims = [
@@ -43,45 +43,45 @@ export const persistentVolumeClaims = [
     metadata: {
       // should be the same namespaces as the vm
       name: 'disk-one',
-      namespace: 'default'
+      namespace: 'default',
     },
     spec: {
       resources: {
         requests: {
-          storage: '10gi'
-        }
+          storage: '10gi',
+        },
       },
-      storageClassName: 'nfs'
-    }
+      storageClassName: 'nfs',
+    },
   },
   {
     metadata: {
       name: 'disk-two',
-      namespace: 'myproject'
+      namespace: 'myproject',
     },
     spec: {
       resources: {
         requests: {
-          storage: '15gi'
-        }
+          storage: '15gi',
+        },
       },
-      storageClassName: 'glusterfs'
-    }
+      storageClassName: 'glusterfs',
+    },
   },
   {
     metadata: {
       name: 'disk-three',
-      namespace: 'default'
+      namespace: 'default',
     },
     spec: {
       resources: {
         requests: {
-          storage: '20gi'
-        }
+          storage: '20gi',
+        },
       },
-      storageClassName: 'iscsi'
-    }
-  }
+      storageClassName: 'iscsi',
+    },
+  },
 ];
 
 const processTemplate = template =>
@@ -109,6 +109,6 @@ export default {
     storageClasses,
     persistentVolumeClaims,
     k8sCreate,
-    units
-  }
+    units,
+  },
 };

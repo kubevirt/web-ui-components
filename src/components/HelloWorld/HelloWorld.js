@@ -4,7 +4,7 @@ import HelloWorldMessage from './HelloWorldMessage';
 
 class HelloWorld extends React.Component {
   state = {
-    world: this.props.world
+    world: this.props.world,
   };
 
   render() {
@@ -13,7 +13,7 @@ class HelloWorld extends React.Component {
     const style = {
       border: '1px solid black',
       backgroundColor: 'yellow',
-      padding: '10px'
+      padding: '10px',
     };
 
     return (
@@ -25,11 +25,11 @@ class HelloWorld extends React.Component {
 }
 
 HelloWorld.propTypes = {
-  world: PropTypes.string
+  world: PropTypes.string,
 };
 
 HelloWorld.defaultProps = {
-  world: 'World'
+  world: 'World',
 };
 
 export default HelloWorld;

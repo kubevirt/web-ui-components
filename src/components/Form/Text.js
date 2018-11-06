@@ -18,7 +18,7 @@ Text.defaultProps = {
   value: undefined,
   defaultValue: undefined,
   onChange: undefined,
-  onBlur: undefined
+  onBlur: undefined,
 };
 
 Text.propTypes = {
@@ -26,5 +26,5 @@ Text.propTypes = {
   value: PropTypes.string,
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
 };

@@ -11,14 +11,14 @@ beforeEach(() => {
 test('allowed semver formats', () => {
   jest.doMock(paths.packageJson, () => ({
     dependencies: {
-      foo: '1.x'
+      foo: '1.x',
     },
     devDependencies: {
-      bar: '1.2.x'
+      bar: '1.2.x',
     },
     peerDependencies: {
-      qux: '1.2.3'
-    }
+      qux: '1.2.3',
+    },
   }));
 
   const result = tested();
@@ -29,14 +29,14 @@ test('allowed semver formats', () => {
 test('disallowed semver formats', () => {
   jest.doMock(paths.packageJson, () => ({
     dependencies: {
-      foo: '^1.2.3'
+      foo: '^1.2.3',
     },
     devDependencies: {
-      bar: '~1.2.3'
+      bar: '~1.2.3',
     },
     peerDependencies: {
-      qux: '>=1.2.3'
-    }
+      qux: '>=1.2.3',
+    },
   }));
 
   const result = tested();

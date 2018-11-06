@@ -27,8 +27,8 @@ export const getTemplateStorages = (templates, userTemplate) => {
       templateStorage: {
         pvc,
         disk,
-        volume
-      }
+        volume,
+      },
     };
   });
 };

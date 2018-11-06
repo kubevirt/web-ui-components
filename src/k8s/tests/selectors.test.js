@@ -7,7 +7,7 @@ import {
   TEMPLATE_TYPE_VM,
   templates,
   userTemplates,
-  baseTemplates
+  baseTemplates,
 } from '../../constants';
 import {
   isFlavorType,
@@ -17,7 +17,7 @@ import {
   getFlavors,
   getOperatingSystems,
   getWorkloadProfiles,
-  isImageSourceType
+  isImageSourceType,
 } from '../selectors';
 import { getTemplate } from '../../utils/templates';
 
@@ -25,8 +25,8 @@ describe('selectors.js', () => {
   it('isImageSourceType', () => {
     const basicVmSettings = {
       imageSourceType: {
-        value: 'shouldReturnTrue'
-      }
+        value: 'shouldReturnTrue',
+      },
     };
     expect(isImageSourceType(basicVmSettings, undefined)).toBeFalsy();
     expect(isImageSourceType(basicVmSettings, 'shouldReturnTrue')).toBeTruthy();
@@ -42,8 +42,8 @@ describe('selectors.js', () => {
   it('isFlavorType', () => {
     const basicVmSettings = {
       flavor: {
-        value: 'shouldReturnTrue'
-      }
+        value: 'shouldReturnTrue',
+      },
     };
     expect(isFlavorType(basicVmSettings, undefined)).toBeFalsy();
     expect(isFlavorType(basicVmSettings, 'shouldReturnTrue')).toBeTruthy();
@@ -65,16 +65,16 @@ describe('selectors.js', () => {
     expect(
       getFlavorLabel({
         flavor: {
-          value
-        }
+          value,
+        },
       })
     ).toEqual(`${TEMPLATE_FLAVOR_LABEL}/${value}`);
 
     expect(
       getFlavorLabel({
         flavor: {
-          value: CUSTOM_FLAVOR
-        }
+          value: CUSTOM_FLAVOR,
+        },
       })
     ).toBeUndefined();
   });
@@ -87,8 +87,8 @@ describe('selectors.js', () => {
     expect(
       getWorkloadLabel({
         workloadProfile: {
-          value
-        }
+          value,
+        },
       })
     ).toEqual(`${TEMPLATE_WORKLOAD_LABEL}/${value}`);
   });
@@ -101,8 +101,8 @@ describe('selectors.js', () => {
     expect(
       getOsLabel({
         operatingSystem: {
-          value
-        }
+          value,
+        },
       })
     ).toEqual(`${TEMPLATE_OS_LABEL}/${value}`);
   });
@@ -123,8 +123,8 @@ describe('selectors.js', () => {
 
     const basicVmSettings = {
       workloadProfile: {
-        value: 'generic'
-      }
+        value: 'generic',
+      },
     };
 
     expect(getOperatingSystems(basicVmSettings, templates).sort()).toEqual(
@@ -136,7 +136,7 @@ describe('selectors.js', () => {
     expect(getOperatingSystems(basicVmSettings, templates).sort()).toEqual([...rhel]);
 
     basicVmSettings.flavor = {
-      value: 'medium'
+      value: 'medium',
     };
 
     expect(getOperatingSystems(basicVmSettings, templates)).toEqual([...rhel]);
@@ -147,7 +147,7 @@ describe('selectors.js', () => {
 
     basicVmSettings.flavor.value = 'small';
     basicVmSettings.workloadProfile = {
-      value: 'generic'
+      value: 'generic',
     };
 
     expect(getOperatingSystems(basicVmSettings, templates).sort()).toEqual([...fedora, ...rhel, ...ubuntu].sort());
@@ -161,8 +161,8 @@ describe('selectors.js', () => {
 
     const basicVmSettings = {
       workloadProfile: {
-        value: 'generic'
-      }
+        value: 'generic',
+      },
     };
 
     expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
@@ -172,7 +172,7 @@ describe('selectors.js', () => {
 
     delete basicVmSettings.workloadProfile;
     basicVmSettings.operatingSystem = {
-      value: 'fedora24'
+      value: 'fedora24',
     };
     expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor].sort());
 
@@ -180,7 +180,7 @@ describe('selectors.js', () => {
     expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
 
     basicVmSettings.workloadProfile = {
-      value: 'high-performance'
+      value: 'high-performance',
     };
     expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor].sort());
   });
@@ -193,8 +193,8 @@ describe('selectors.js', () => {
 
     const basicVmSettings = {
       operatingSystem: {
-        value: 'fedora24'
-      }
+        value: 'fedora24',
+      },
     };
     expect(getWorkloadProfiles(basicVmSettings, templates)).toEqual([generic]);
 
@@ -203,7 +203,7 @@ describe('selectors.js', () => {
 
     basicVmSettings.operatingSystem.value = 'rhel7.0';
     basicVmSettings.flavor = {
-      value: 'medium'
+      value: 'medium',
     };
     expect(getWorkloadProfiles(basicVmSettings, templates)).toEqual([highPerformance]);
 

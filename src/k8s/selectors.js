@@ -4,7 +4,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
-  TEMPLATE_TYPE_BASE
+  TEMPLATE_TYPE_BASE,
 } from '../constants';
 
 import { getTemplatesLabelValues, getTemplatesWithLabels, getTemplate } from '../utils/templates';
@@ -12,7 +12,7 @@ import {
   IMAGE_SOURCE_TYPE_KEY,
   OPERATING_SYSTEM_KEY,
   FLAVOR_KEY,
-  WORKLOAD_PROFILE_KEY
+  WORKLOAD_PROFILE_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 import { PersistentVolumeClaimModel, VirtualMachineModel } from '../models';
 
@@ -27,7 +27,7 @@ export const getOsLabel = basicSettings => getLabel(basicSettings, TEMPLATE_OS_L
 export const getOperatingSystems = (basicSettings, templates) => {
   const templatesWithLabels = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
     getWorkloadLabel(basicSettings),
-    getFlavorLabel(basicSettings)
+    getFlavorLabel(basicSettings),
   ]);
   return getTemplatesLabelValues(templatesWithLabels, TEMPLATE_OS_LABEL);
 };
@@ -35,7 +35,7 @@ export const getOperatingSystems = (basicSettings, templates) => {
 export const getWorkloadProfiles = (basicSettings, templates) => {
   const templatesWithLabels = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
     getOsLabel(basicSettings),
-    getFlavorLabel(basicSettings)
+    getFlavorLabel(basicSettings),
   ]);
   return getTemplatesLabelValues(templatesWithLabels, TEMPLATE_WORKLOAD_LABEL);
 };
@@ -53,7 +53,7 @@ export const getFlavorLabel = basicSettings => {
 export const getFlavors = (basicSettings, templates) => {
   const templatesWithLabels = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
     getWorkloadLabel(basicSettings),
-    getOsLabel(basicSettings)
+    getOsLabel(basicSettings),
   ]);
   const flavors = getTemplatesLabelValues(templatesWithLabels, TEMPLATE_FLAVOR_LABEL);
   flavors.push(CUSTOM_FLAVOR);

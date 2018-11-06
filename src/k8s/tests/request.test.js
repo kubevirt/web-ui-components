@@ -14,7 +14,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
   TEMPLATE_OS_LABEL,
-  ANNOTATION_USED_TEMPLATE
+  ANNOTATION_USED_TEMPLATE,
 } from '../../constants';
 
 import {
@@ -33,7 +33,7 @@ import {
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
   OPERATING_SYSTEM_KEY,
-  WORKLOAD_PROFILE_KEY
+  WORKLOAD_PROFILE_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
 
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
@@ -42,55 +42,55 @@ import { persistentVolumeClaims } from '../../components/Wizard/NewVmWizard/fixt
 
 const basicSettings = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_REGISTRY
+    value: PROVISION_SOURCE_REGISTRY,
   },
   [REGISTRY_IMAGE_KEY]: {
-    value: 'imageURL'
+    value: 'imageURL',
   },
   [FLAVOR_KEY]: {
-    value: 'small'
+    value: 'small',
   },
   [OPERATING_SYSTEM_KEY]: {
-    value: 'rhel7.0'
+    value: 'rhel7.0',
   },
   [WORKLOAD_PROFILE_KEY]: {
-    value: 'generic'
-  }
+    value: 'generic',
+  },
 };
 
 const basicSettingsWithNetwork = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_REGISTRY
+    value: PROVISION_SOURCE_REGISTRY,
   },
   [REGISTRY_IMAGE_KEY]: {
-    value: 'imageURL'
+    value: 'imageURL',
   },
   [FLAVOR_KEY]: {
-    value: 'small'
+    value: 'small',
   },
   [OPERATING_SYSTEM_KEY]: {
-    value: 'rhel7.0'
-  }
+    value: 'rhel7.0',
+  },
 };
 
 const attachStorageDisks = [
   {
     id: 1,
     isBootable: true,
-    attachStorage: persistentVolumeClaims[2]
-  }
+    attachStorage: persistentVolumeClaims[2],
+  },
 ];
 
 const attachStorageDisksWithLinuxUserTemplate = [
@@ -100,141 +100,141 @@ const attachStorageDisksWithLinuxUserTemplate = [
     templateStorage: {
       pvc: linuxUserTemplate.objects[1],
       disk: linuxUserTemplate.objects[0].spec.template.spec.domain.devices.disks[0],
-      volume: linuxUserTemplate.objects[0].spec.template.spec.volumes[0]
-    }
-  }
+      volume: linuxUserTemplate.objects[0].spec.template.spec.volumes[0],
+    },
+  },
 ];
 
 const basicSettingsCloudInit = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_REGISTRY
+    value: PROVISION_SOURCE_REGISTRY,
   },
   [REGISTRY_IMAGE_KEY]: {
-    value: 'imageURL'
+    value: 'imageURL',
   },
   [FLAVOR_KEY]: {
-    value: 'small'
+    value: 'small',
   },
   [OPERATING_SYSTEM_KEY]: {
-    value: 'rhel7.0'
+    value: 'rhel7.0',
   },
   [CLOUD_INIT_KEY]: {
-    value: true
+    value: true,
   },
   [HOST_NAME_KEY]: {
-    value: 'hostname'
+    value: 'hostname',
   },
   [AUTHKEYS_KEY]: {
-    value: 'keys'
-  }
+    value: 'keys',
+  },
 };
 
 const vmFromURL = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [DESCRIPTION_KEY]: {
-    value: 'desc'
+    value: 'desc',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_URL
+    value: PROVISION_SOURCE_URL,
   },
   [IMAGE_URL_KEY]: {
-    value: 'httpURL'
+    value: 'httpURL',
   },
   [FLAVOR_KEY]: {
-    value: 'small'
+    value: 'small',
   },
   operatingSystem: {
-    value: 'rhel7.0'
-  }
+    value: 'rhel7.0',
+  },
 };
 
 const vmPXE = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [DESCRIPTION_KEY]: {
-    value: 'desc'
+    value: 'desc',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_PXE
+    value: PROVISION_SOURCE_PXE,
   },
   [FLAVOR_KEY]: {
-    value: 'small'
+    value: 'small',
   },
   [START_VM_KEY]: {
-    value: true
+    value: true,
   },
   operatingSystem: {
-    value: 'rhel7.0'
-  }
+    value: 'rhel7.0',
+  },
 };
 
 const customFlavor = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [DESCRIPTION_KEY]: {
-    value: 'desc'
+    value: 'desc',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_REGISTRY
+    value: PROVISION_SOURCE_REGISTRY,
   },
   [REGISTRY_IMAGE_KEY]: {
-    value: 'imageURL'
+    value: 'imageURL',
   },
   [FLAVOR_KEY]: {
-    value: CUSTOM_FLAVOR
+    value: CUSTOM_FLAVOR,
   },
   [CPU_KEY]: {
-    value: '1'
+    value: '1',
   },
   [MEMORY_KEY]: {
-    value: '1'
+    value: '1',
   },
   [START_VM_KEY]: {
-    value: true
+    value: true,
   },
   operatingSystem: {
-    value: 'rhel7.0'
-  }
+    value: 'rhel7.0',
+  },
 };
 
 const vmUserTemplate = {
   [NAME_KEY]: {
-    value: 'name'
+    value: 'name',
   },
   [NAMESPACE_KEY]: {
-    value: 'namespace'
+    value: 'namespace',
   },
   [IMAGE_SOURCE_TYPE_KEY]: {
-    value: 'Template'
+    value: 'Template',
   },
   [USER_TEMPLATE_KEY]: {
-    value: linuxUserTemplate.metadata.name
+    value: linuxUserTemplate.metadata.name,
   },
   [CPU_KEY]: {
-    value: 3
+    value: 3,
   },
   [MEMORY_KEY]: {
-    value: 3
-  }
+    value: 3,
+  },
 };
 
 const networks = { networks: [] };
@@ -243,9 +243,9 @@ const podNetworks = {
   networks: [
     {
       name: 'podNetworkName',
-      network: POD_NETWORK
-    }
-  ]
+      network: POD_NETWORK,
+    },
+  ],
 };
 
 const pxeNetworks = {
@@ -254,30 +254,30 @@ const pxeNetworks = {
     {
       name: 'pxeNetworkName',
       network: 'networkConfig',
-      isBootable: true
-    }
-  ]
+      isBootable: true,
+    },
+  ],
 };
 
 const windowsSettings = {
   name: {
-    value: 'name'
+    value: 'name',
   },
   namespace: {
-    value: 'namespace'
+    value: 'namespace',
   },
   imageSourceType: {
-    value: PROVISION_SOURCE_REGISTRY
+    value: PROVISION_SOURCE_REGISTRY,
   },
   registryImage: {
-    value: 'imageURL'
+    value: 'imageURL',
   },
   flavor: {
-    value: 'medium'
+    value: 'medium',
   },
   operatingSystem: {
-    value: 'win2k12r2'
-  }
+    value: 'win2k12r2',
+  },
 };
 
 const processTemplate = template =>

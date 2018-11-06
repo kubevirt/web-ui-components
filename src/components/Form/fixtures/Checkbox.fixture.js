@@ -6,6 +6,6 @@ export default {
     id: '1',
     checked: true,
     title: 'Checked checkbox',
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };

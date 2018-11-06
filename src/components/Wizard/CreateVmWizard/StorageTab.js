@@ -86,7 +86,7 @@ const resolveBootability = (rows, sourceType) => {
     return rows.map(row => {
       const result = {
         ...row,
-        isBootable
+        isBootable,
       };
       if (isBootable) {
         // only the first one is bootable
@@ -108,13 +108,13 @@ const resolveAttachedStorage = (storage, persistentVolumeClaims, storageClasses,
     // just for visualisation
     name: getName(attachStorage),
     size: getGibStorageSize(units, attachStorage),
-    storageClass: getName(storageClasses.find(clazz => getName(clazz) === attachStorageClassName))
+    storageClass: getName(storageClasses.find(clazz => getName(clazz) === attachStorageClassName)),
   };
 };
 
 const resolveTemplateStorage = (storage, units) => {
   const {
-    templateStorage: { pvc, disk }
+    templateStorage: { pvc, disk },
   } = storage;
 
   return {
@@ -122,7 +122,7 @@ const resolveTemplateStorage = (storage, units) => {
     // just for visualisation
     name: disk.name,
     size: getGibStorageSize(units, pvc),
-    storageClass: getStorageClassName(pvc)
+    storageClass: getStorageClassName(pvc),
   };
 };
 
@@ -143,19 +143,19 @@ const resolveInitialStorages = (
       result = {
         ...resolveAttachedStorage(disk, persistentVolumeClaims, storageClasses, units),
         renderConfig: 1,
-        editable: true
+        editable: true,
       };
     } else if (disk.templateStorage) {
       result = {
         ...resolveTemplateStorage(disk, units),
         id: nextId++,
-        renderConfig: 2
+        renderConfig: 2,
       };
     } else {
       result = {
         ...disk,
         renderConfig: 0,
-        editable: true
+        editable: true,
       };
     }
 
@@ -196,7 +196,7 @@ const publishResults = (rows, publish, sourceType) => {
       result = {
         name,
         size,
-        storageClass
+        storageClass,
       };
     }
 
@@ -204,7 +204,7 @@ const publishResults = (rows, publish, sourceType) => {
       ...result,
       id,
       isBootable,
-      errors
+      errors,
     };
 
     if (valid && errors) {
@@ -237,7 +237,7 @@ class StorageTab extends React.Component {
       // eslint-disable-next-line react/no-unused-state
       nextId: Math.max(...rows.map(disk => disk.id || 0), 0) + 1,
       rows,
-      editing: false
+      editing: false,
     };
 
     publishResults(rows, this.props.onChange, this.props.sourceType); // resolved new validation and boot order
@@ -279,9 +279,9 @@ class StorageTab extends React.Component {
           editable: true,
           edit: true, // trigger immediate edit
           renderConfig,
-          ...values
-        }
-      ]
+          ...values,
+        },
+      ],
     }));
   };
 
@@ -295,15 +295,15 @@ class StorageTab extends React.Component {
         label: 'Disk Name',
         props: {
           style: {
-            width: '50%'
-          }
-        }
+            width: '50%',
+          },
+        },
       },
       property: 'name',
       renderConfigs: [
         {
           id: 'name-edit',
-          type: 'text'
+          type: 'text',
         },
         {
           id: 'name-attach-edit',
@@ -312,35 +312,35 @@ class StorageTab extends React.Component {
             .filter(pvc => pvc.metadata.namespace === this.props.namespace)
             .map(getName)
             .filter(pvc => !this.state.rows.some(row => row.name === pvc)),
-          initialValue: '--- Select Storage ---'
-        }
-      ]
+          initialValue: '--- Select Storage ---',
+        },
+      ],
     },
     {
       header: {
         label: 'Size (GB)',
         props: {
           style: {
-            width: '23%'
-          }
-        }
+            width: '23%',
+          },
+        },
       },
       property: 'size',
       renderConfigs: [
         {
           id: 'size-edit',
-          type: 'positive-number'
-        }
-      ]
+          type: 'positive-number',
+        },
+      ],
     },
     {
       header: {
         label: 'Storage Class',
         props: {
           style: {
-            width: '23%'
-          }
-        }
+            width: '23%',
+          },
+        },
       },
       property: 'storageClass',
 
@@ -349,17 +349,17 @@ class StorageTab extends React.Component {
           id: 'storage-edit',
           type: 'dropdown',
           choices: this.props.storageClasses.map(getName),
-          initialValue: '--- Select ---'
-        }
-      ]
+          initialValue: '--- Select ---',
+        },
+      ],
     },
     {
       header: {
         props: {
           style: {
-            width: '4%'
-          }
-        }
+            width: '4%',
+          },
+        },
       },
 
       renderConfigs: Array(3).fill({
@@ -368,12 +368,12 @@ class StorageTab extends React.Component {
         actions: [
           {
             actionType: DELETE_ACTION,
-            text: 'Remove Disk'
-          }
+            text: 'Remove Disk',
+          },
         ],
-        visibleOnEdit: false
-      })
-    }
+        visibleOnEdit: false,
+      }),
+    },
   ];
 
   getActionButtons = () => [
@@ -381,8 +381,8 @@ class StorageTab extends React.Component {
       onClick: this.attachStorage,
       id: 'attach-storage-btn',
       text: 'Attach Storage',
-      disabled: this.state.editing
-    }
+      disabled: this.state.editing,
+    },
     /*
     {
       className: 'create-disk',
@@ -401,8 +401,8 @@ class StorageTab extends React.Component {
       type: 'dropdown',
       defaultValue: '--- Select Bootable Disk ---',
       choices: disks.map(disk => disk.name),
-      required: true
-    }
+      required: true,
+    },
   });
 
   onFormChange = newValue => {
@@ -425,8 +425,8 @@ class StorageTab extends React.Component {
       const values = {
         bootableDisk: {
           value: bootableDisk ? bootableDisk.name : undefined,
-          validMsg: this.state.rows.length === 0 ? 'A bootable disk could not be found' : undefined
-        }
+          validMsg: this.state.rows.length === 0 ? 'A bootable disk could not be found' : undefined,
+        },
       };
 
       bootableForm = (
@@ -460,7 +460,7 @@ class StorageTab extends React.Component {
 }
 
 StorageTab.defaultProps = {
-  initialStorages: []
+  initialStorages: [],
 };
 
 StorageTab.propTypes = {
@@ -470,7 +470,7 @@ StorageTab.propTypes = {
   onChange: PropTypes.func.isRequired,
   units: PropTypes.object.isRequired,
   sourceType: PropTypes.string.isRequired,
-  namespace: PropTypes.string.isRequired
+  namespace: PropTypes.string.isRequired,
 };
 
 export default StorageTab;

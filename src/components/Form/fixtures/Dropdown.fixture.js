@@ -6,6 +6,6 @@ export default {
     id: '1',
     value: 'This is dropdown button',
     choices: [{ name: 'choice1' }, { name: 'choice2' }],
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };

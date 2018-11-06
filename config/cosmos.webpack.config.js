@@ -13,8 +13,8 @@ const sassOptions = {
     `${paths.nodeModules}/bootstrap-sass/assets/stylesheets`,
     `${paths.nodeModules}/font-awesome-sass/assets/stylesheets`,
     `${paths.nodeModules}/patternfly/dist/sass`,
-    `${paths.nodeModules}/patternfly-react/dist/sass`
-  ]
+    `${paths.nodeModules}/patternfly-react/dist/sass`,
+  ],
 };
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
         test: /\.js$/,
         include: paths.src,
         loader: 'babel-loader',
-        options: babelOptions
+        options: babelOptions,
       },
       {
         test: /\.scss$/,
@@ -36,14 +36,14 @@ module.exports = {
           { loader: 'css-loader' },
           {
             loader: 'sass-loader',
-            options: sassOptions
-          }
-        ]
+            options: sassOptions,
+          },
+        ],
       },
       {
         test: /\.(jpg|jpeg|png|gif|svg|eot|otf|ttf|woff|woff2)$/,
-        loader: 'file-loader'
-      }
-    ]
-  }
+        loader: 'file-loader',
+      },
+    ],
+  },
 };

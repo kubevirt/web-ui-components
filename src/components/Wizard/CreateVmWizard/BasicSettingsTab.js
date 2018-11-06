@@ -10,7 +10,7 @@ import {
   getOperatingSystems,
   getWorkloadProfiles,
   isFlavorType,
-  isImageSourceType
+  isImageSourceType,
 } from '../../../k8s/selectors';
 
 import {
@@ -19,7 +19,7 @@ import {
   PROVISION_SOURCE_REGISTRY,
   PROVISION_SOURCE_TEMPLATE,
   PROVISION_SOURCE_URL,
-  TEMPLATE_TYPE_VM
+  TEMPLATE_TYPE_VM,
 } from '../../../constants';
 import {
   NAME_KEY,
@@ -37,7 +37,7 @@ import {
   START_VM_KEY,
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
-  AUTHKEYS_KEY
+  AUTHKEYS_KEY,
 } from './constants';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
@@ -54,7 +54,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       type: 'dropdown',
       defaultValue: '--- Select Namespace ---',
       choices: namespaces.map(getName),
-      required: true
+      required: true,
     };
   }
 
@@ -62,12 +62,12 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [NAME_KEY]: {
       id: 'vm-name',
       title: 'Name',
-      required: true
+      required: true,
     },
     [DESCRIPTION_KEY]: {
       id: 'vm-description',
       title: 'Description',
-      type: 'textarea'
+      type: 'textarea',
     },
     [NAMESPACE_KEY]: namespaceDropdown,
     [IMAGE_SOURCE_TYPE_KEY]: {
@@ -76,19 +76,19 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       type: 'dropdown',
       defaultValue: '--- Select Provision Source ---',
       choices: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE],
-      required: true
+      required: true,
     },
     [REGISTRY_IMAGE_KEY]: {
       id: 'provision-source-registry',
       title: 'Registry Image',
       required: true,
-      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY)
+      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY),
     },
     [IMAGE_URL_KEY]: {
       id: 'provision-source-url',
       title: 'URL',
       required: true,
-      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL)
+      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
     },
     [USER_TEMPLATE_KEY]: {
       id: 'template-dropdown',
@@ -97,7 +97,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Template ---',
       choices: getTemplate(templates, TEMPLATE_TYPE_VM).map(getName),
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      required: true
+      required: true,
     },
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
@@ -106,7 +106,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Operating System ---',
       choices: operatingSystems,
       required: true,
-      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
+      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
     },
     [FLAVOR_KEY]: {
       id: 'flavor-dropdown',
@@ -115,7 +115,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Flavor ---',
       choices: flavors,
       required: true,
-      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE)
+      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
     },
     [MEMORY_KEY]: {
       id: 'resources-memory',
@@ -123,7 +123,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings =>
         isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
+      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number'),
     },
     [CPU_KEY]: {
       id: 'resources-cpu',
@@ -131,7 +131,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings =>
         isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number')
+      validate: currentValue => (isPositiveNumber(currentValue) ? undefined : 'must be a number'),
     },
     [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',
@@ -145,13 +145,13 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
         <p key={profile}>
           <b>{profile}</b>: {profile}
         </p>
-      ))
+      )),
     },
     [START_VM_KEY]: {
       id: 'start-vm',
       title: 'Start virtual machine on creation',
       type: 'checkbox',
-      noBottom: true
+      noBottom: true,
     },
     /*
       [CREATE_TEMPLATE_KEY]: {
@@ -163,21 +163,21 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [CLOUD_INIT_KEY]: {
       id: 'use-cloud-init',
       title: 'Use cloud-init',
-      type: 'checkbox'
+      type: 'checkbox',
     },
     [HOST_NAME_KEY]: {
       id: 'cloud-init-hostname',
       title: 'Hostname',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
-      required: true
+      required: true,
     },
     [AUTHKEYS_KEY]: {
       id: 'cloud-init-ssh',
       title: 'Authenticated SSH Keys',
       type: 'textarea',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
-      required: true
-    }
+      required: true,
+    },
   };
 };
 
@@ -213,7 +213,7 @@ const validateWizard = (formFields, values) => {
 
 const asValueObject = (value, validMsg) => ({
   value,
-  validMsg
+  validMsg,
 });
 
 const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onChange }, value, target, formFields) => {
@@ -223,7 +223,7 @@ const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onCh
 
   const newBasicSettings = {
     ...basicSettings,
-    [target]: value
+    [target]: value,
   };
 
   if (target === IMAGE_SOURCE_TYPE_KEY && value.value === PROVISION_SOURCE_TEMPLATE) {
@@ -288,7 +288,7 @@ class BasicSettingsTab extends React.Component {
 }
 
 BasicSettingsTab.defaultProps = {
-  selectedNamespace: undefined
+  selectedNamespace: undefined,
 };
 
 BasicSettingsTab.propTypes = {
@@ -297,7 +297,7 @@ BasicSettingsTab.propTypes = {
   selectedNamespace: PropTypes.object, // used only in initialization
   basicSettings: PropTypes.object.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default BasicSettingsTab;

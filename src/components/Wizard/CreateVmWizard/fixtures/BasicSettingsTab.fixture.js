@@ -4,44 +4,44 @@ import { templates } from '../../../../constants';
 
 export const basicSettings = {
   name: {
-    value: null
+    value: null,
   },
   namespace: {
-    value: null
+    value: null,
   },
   imageSourceType: {
-    value: null
+    value: null,
   },
   operatingSystem: {
-    value: null
+    value: null,
   },
   flavor: {
-    value: null
+    value: null,
   },
   workloadProfile: {
-    value: null
-  }
+    value: null,
+  },
 };
 
 export const validBasicSettings = {
   name: {
-    value: 'name'
+    value: 'name',
   },
   namespace: {
-    value: 'namespace'
+    value: 'namespace',
   },
   imageSourceType: {
-    value: 'PXE'
+    value: 'PXE',
   },
   operatingSystem: {
-    value: 'operatingSystem'
+    value: 'operatingSystem',
   },
   flavor: {
-    value: 'flavor'
+    value: 'flavor',
   },
   workloadProfile: {
-    value: 'workloadProfile'
-  }
+    value: 'workloadProfile',
+  },
 };
 
 export default {
@@ -50,6 +50,6 @@ export default {
     templates,
     namespaces,
     basicSettings,
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };

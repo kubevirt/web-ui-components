@@ -30,12 +30,12 @@ const ResultTab = ({ result, success }) => {
 
 ResultTab.defaultProps = {
   result: null,
-  success: null
+  success: null,
 };
 
 ResultTab.propTypes = {
   result: PropTypes.string,
-  success: PropTypes.bool
+  success: PropTypes.bool,
 };
 
 export default ResultTab;

@@ -6,7 +6,7 @@ import { ButtonWithIcon } from '../../Button/ButtonWithIcon';
 
 export class NewVmWizard extends React.Component {
   state = {
-    createVM: false
+    createVM: false,
   };
 
   openCreateVmWizard = () => this.setState({ createVM: true });
@@ -57,5 +57,5 @@ NewVmWizard.propTypes = {
   networkConfigs: PropTypes.array.isRequired,
   persistentVolumeClaims: PropTypes.array.isRequired,
   storageClasses: PropTypes.array.isRequired,
-  units: PropTypes.object.isRequired
+  units: PropTypes.object.isRequired,
 };
