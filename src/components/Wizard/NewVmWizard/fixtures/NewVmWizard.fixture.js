@@ -1,5 +1,5 @@
 import { NewVmWizard } from '..';
-import { templates } from '../../../../constants';
+import { templates, networkConfigs } from '../../../../constants';
 import { ProcessedTemplatesModel } from '../../../../models';
 
 export const namespaces = [
@@ -108,6 +108,7 @@ export default {
     namespaces,
     storageClasses,
     persistentVolumeClaims,
+    networkConfigs,
     k8sCreate,
     units,
   },
