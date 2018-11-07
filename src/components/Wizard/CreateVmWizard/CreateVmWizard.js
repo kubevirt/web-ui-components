@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Wizard } from 'patternfly-react';
-import { partition } from 'lodash';
 
 import BasicSettingsTab from './BasicSettingsTab';
 import StorageTab from './StorageTab';
@@ -34,19 +33,13 @@ const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SE
 
 const onUserTemplateChangedInStorageTab = ({ templates }, stepData, newUserTemplate) => {
   const withoutDiscardedTemplateStorage = stepData.value.filter(storage => !storage.templateStorage);
-  let newTemplateBootableStorages = [];
-  let newTemplateStorages = [];
+
+  const rows = [...withoutDiscardedTemplateStorage];
 
   if (newUserTemplate) {
-    [newTemplateStorages, newTemplateBootableStorages] = partition(
-      getTemplateStorages(templates, newUserTemplate),
-      storage => storage.templateStorage.disk.bootOrder == null
-    );
-    newTemplateBootableStorages.sort((a, b) => a.templateStorage.disk.bootOrder - b.templateStorage.disk.bootOrder);
+    const templateStorages = getTemplateStorages(templates, newUserTemplate);
+    rows.push(...templateStorages);
   }
-
-  // prefer boot order from template
-  const rows = [...newTemplateBootableStorages, ...withoutDiscardedTemplateStorage, ...newTemplateStorages];
 
   return {
     ...stepData,

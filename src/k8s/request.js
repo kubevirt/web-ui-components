@@ -42,7 +42,7 @@ import {
   OPERATING_SYSTEM_KEY,
   WORKLOAD_PROFILE_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
-import { VirtualMachineModel, ProcessedTemplatesModel, PersistentVolumeClaimModel } from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel } from '../models';
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import {
   getOsLabel,
@@ -50,8 +50,6 @@ import {
   getFlavorLabel,
   getTemplateAnnotations,
   settingsValue,
-  selectPVCs,
-  selectAllExceptPVCs,
   selectVm,
 } from './selectors';
 
@@ -65,13 +63,6 @@ export const createVM = (k8sCreate, templates, basicSettings, { networks }, stor
     const vm = selectVm(objects);
     addMetadata(vm, template, getSetting);
     modifyVmObject(vm, template, getSetting, networks, additionalStorage);
-
-    if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE) {
-      selectPVCs(objects).forEach(pvc => {
-        pvc.metadata.namespace = getSetting(NAMESPACE_KEY);
-        k8sCreate(PersistentVolumeClaimModel, pvc);
-      });
-    }
     return k8sCreate(VirtualMachineModel, vm);
   });
 };
@@ -88,16 +79,15 @@ const resolveTemplate = (templates, basicSettings, getSetting, storage) => {
     const vm = selectVm(chosenTemplate.objects);
     // clear
     removeDisksAndVolumes(vm);
-    const newObjects = selectAllExceptPVCs(chosenTemplate.objects);
 
     // add the ones selected by the user again
-    storage.filter(disk => disk.templateStorage).forEach(({ templateStorage: { pvc, disk, volume }, isBootable }) => {
-      newObjects.push(pvc);
-      addVolume(vm, volume);
-      addBootableDisk(vm, disk, isBootable, getSetting);
-    });
-
-    chosenTemplate.objects = newObjects;
+    storage
+      .filter(disk => disk.templateStorage)
+      .forEach(({ templateStorage: { dataVolume, disk, volume }, isBootable }) => {
+        addDataVolumeTemplate(vm, dataVolume);
+        addVolume(vm, volume);
+        addBootableDisk(vm, disk, isBootable, getSetting);
+      });
   } else {
     const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getOsLabel(basicSettings),
@@ -561,4 +551,5 @@ const addAnnotation = (vm, key, value) => {
 const removeDisksAndVolumes = vm => {
   delete vm.spec.template.spec.domain.devices.disks;
   delete vm.spec.template.spec.volumes;
+  delete vm.spec.dataVolumeTemplates;
 };

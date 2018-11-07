@@ -98,7 +98,7 @@ const attachStorageDisksWithLinuxUserTemplate = [
   {
     id: 2,
     templateStorage: {
-      pvc: linuxUserTemplate.objects[1],
+      dataVolume: linuxUserTemplate.objects[0].spec.dataVolumeTemplates[0],
       disk: linuxUserTemplate.objects[0].spec.template.spec.domain.devices.disks[0],
       volume: linuxUserTemplate.objects[0].spec.template.spec.volumes[0],
     },
@@ -313,9 +313,9 @@ const testTemplateStorage = (vm, volumeIndex, disksIndex, bootOrder) => {
   const { volume, disk } = storage.templateStorage;
 
   expect(vm.spec.template.spec.volumes[volumeIndex].name).toBe(volume.name);
-  expect(vm.spec.template.spec.volumes[volumeIndex].persistentVolumeClaim.claimName).toBe(
-    volume.persistentVolumeClaim.claimName
-  );
+  expect(vm.spec.template.spec.volumes[volumeIndex].dataVolume).toBeDefined();
+  expect(vm.spec.dataVolumeTemplates[0].metadata.name).toBe(volume.dataVolume.name);
+
   expect(vm.spec.template.spec.domain.devices.disks[disksIndex].name).toBe(disk.name);
   expect(vm.spec.template.spec.domain.devices.disks[disksIndex].volumeName).toBe(disk.volumeName);
   expect(vm.spec.template.spec.domain.devices.disks[disksIndex].bootOrder).toBe(
