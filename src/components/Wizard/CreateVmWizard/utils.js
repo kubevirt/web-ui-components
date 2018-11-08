@@ -1,10 +1,9 @@
 import { get } from 'lodash';
-import { getName, getDisks, getVolumes, getDataVolumes } from '../../../utils/selectors';
+import { getDisks, getVolumes, getDataVolumes } from '../../../utils/selectors';
 
 import { selectVm } from '../../../k8s/selectors';
 
-export const getTemplateStorages = (templates, userTemplate) => {
-  const { objects } = templates.find(template => getName(template) === userTemplate);
+export const getTemplateStorages = ({ objects }) => {
   const vm = selectVm(objects);
 
   return getDisks(vm).map(disk => {

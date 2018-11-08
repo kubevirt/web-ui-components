@@ -1,10 +1,3 @@
-export const BASIC_SETTINGS_TAB_IDX = 0;
-export const NETWORK_TAB_IDX = 1;
-export const STORAGE_TAB_IDX = 2;
-export const RESULTS_TAB_IDX = 3;
-
-export const ALL_TABS = [BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, STORAGE_TAB_IDX, RESULTS_TAB_IDX];
-
 // BasicSettingsTab
 export const NAME_KEY = 'name';
 export const NAMESPACE_KEY = 'namespace';
@@ -24,3 +17,8 @@ export const CREATE_TEMPLATE_KEY = 'createTemplate ';
 export const CLOUD_INIT_KEY = 'cloudInit';
 export const HOST_NAME_KEY = 'hostname';
 export const AUTHKEYS_KEY = 'authKeys';
+
+export const BASIC_SETTINGS_TAB_KEY = 'basicSettings';
+export const NETWORKS_TAB_KEY = 'network';
+export const STORAGE_TAB_KEY = 'storage';
+export const RESULT_TAB_KEY = 'result';

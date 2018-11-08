@@ -25,18 +25,22 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
   steps={
     Array [
       Object {
+        "key": "basicSettings",
         "render": [Function],
         "title": "Basic Settings",
       },
       Object {
+        "key": "network",
         "render": [Function],
         "title": "Networking",
       },
       Object {
+        "key": "storage",
         "render": [Function],
         "title": "Storage",
       },
       Object {
+        "key": "result",
         "render": [Function],
         "title": "Result",
       },
