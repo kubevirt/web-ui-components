@@ -207,7 +207,8 @@ const setNetworks = (vm, template, getSetting, networks) => {
 
   if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE) {
     addAnnotation(vm, ANNOTATION_PXE_INTERFACE, networks.find(network => network.isBootable).name);
-    addAnnotation(vm, ANNOTATION_FIRST_BOOT, 'true');
+    const startOnCreation = getSetting(START_VM_KEY, false);
+    addAnnotation(vm, ANNOTATION_FIRST_BOOT, `${!startOnCreation}`);
   }
 };
 

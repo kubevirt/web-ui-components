@@ -175,9 +175,6 @@ const vmPXE = {
   [FLAVOR_KEY]: {
     value: 'small'
   },
-  [START_VM_KEY]: {
-    value: true
-  },
   operatingSystem: {
     value: 'rhel7.0'
   }
@@ -340,7 +337,7 @@ const everyDiskHasVolue = vm => {
   });
 };
 
-const testPXE = vm => {
+const testPXE = (vm, firstBoot = true) => {
   expect(vm.metadata.name).toBe(settingsValue(basicSettings, NAME_KEY));
   expect(vm.metadata.namespace).toBe(settingsValue(basicSettings, NAMESPACE_KEY));
   expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
@@ -353,7 +350,7 @@ const testPXE = vm => {
   expect(vm.spec.template.spec.networks[1].multus.networkName).toEqual(pxeNetworks.networks[1].network);
 
   expect(vm.metadata.annotations['cnv.ui.pxeInterface']).toEqual(pxeNetworks.networks[1].name);
-  expect(vm.metadata.annotations['cnv.ui.firstBoot']).toBeTruthy();
+  expect(vm.metadata.annotations['cnv.ui.firstBoot']).toEqual(`${firstBoot}`);
   return vm;
 };
 
@@ -498,6 +495,18 @@ describe('request.js', () => {
       testFirstAttachedStorage(vm, 0, 0, 2);
       return vm;
     }));
+
+  it('PXE with start on creation', () => {
+    const vmPXEStart = { ...vmPXE };
+    vmPXEStart[START_VM_KEY] = {
+      value: true
+    };
+    return createVM(k8sCreate, templates, vmPXEStart, pxeNetworks, attachStorageDisks).then(vm => {
+      testPXE(vm, false);
+      testFirstAttachedStorage(vm, 0, 0, 2);
+      return vm;
+    });
+  });
 
   it('VM has os/flavor/workload metadata', () =>
     createVM(k8sCreate, templates, basicSettings, pxeNetworks, attachStorageDisks).then(vm => {
