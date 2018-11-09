@@ -67,6 +67,12 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "required": true,
         "title": "URL",
       },
+      "imageURLSize": Object {
+        "isVisible": [Function],
+        "required": true,
+        "title": "Disk Size (GB)",
+        "type": "positive-number",
+      },
       "memory": Object {
         "id": "resources-memory",
         "isVisible": [Function],

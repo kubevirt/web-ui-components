@@ -41,6 +41,7 @@ import {
   NAME_KEY,
   OPERATING_SYSTEM_KEY,
   WORKLOAD_PROFILE_KEY,
+  IMAGE_URL_SIZE_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 import { VirtualMachineModel, ProcessedTemplatesModel } from '../models';
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
@@ -329,7 +330,7 @@ const addImageSourceDisks = (vm, imageSourceType, defaultDisk, getSetting) => {
             accessModes: [PVC_ACCESSMODE_RWO],
             resources: {
               requests: {
-                storage: '10Gi',
+                storage: `${getSetting(IMAGE_URL_SIZE_KEY)}Gi`,
               },
             },
           },
