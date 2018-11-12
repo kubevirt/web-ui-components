@@ -1,6 +1,7 @@
 import BasicSettingsTab from '../BasicSettingsTab';
 import { namespaces } from './CreateVmWizard.fixture';
-import { templates } from '../../../../constants';
+import { templates, PROVISION_SOURCE_REGISTRY } from '../../../../constants';
+import { REGISTRY_IMAGE_KEY } from '../constants';
 
 export const basicSettings = {
   name: {
@@ -31,7 +32,10 @@ export const validBasicSettings = {
     value: 'namespace',
   },
   imageSourceType: {
-    value: 'PXE',
+    value: PROVISION_SOURCE_REGISTRY,
+  },
+  [REGISTRY_IMAGE_KEY]: {
+    value: 'pathtoimage',
   },
   operatingSystem: {
     value: 'operatingSystem',

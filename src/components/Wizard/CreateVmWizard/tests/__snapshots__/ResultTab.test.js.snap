@@ -12,19 +12,9 @@ exports[`<ResultTab /> renders fail correctly 1`] = `
 `;
 
 exports[`<ResultTab /> renders progress correctly 1`] = `
-<div
-  className="wizard-pf-process blank-slate-pf"
-  key="progress"
->
-  <div
-    className="spinner spinner-lg blank-slate-pf-icon"
-  />
-  <h3
-    className="blank-slate-pf-main-action"
-  >
-    Creation of VM in progress
-  </h3>
-</div>
+<Loading
+  text="Creation of VM in progress"
+/>
 `;
 
 exports[`<ResultTab /> renders success correctly 1`] = `
