@@ -12,6 +12,7 @@ export const DESCRIPTION_KEY = 'description';
 export const IMAGE_SOURCE_TYPE_KEY = 'imageSourceType';
 export const REGISTRY_IMAGE_KEY = 'registryImage';
 export const IMAGE_URL_KEY = 'imageURL';
+export const IMAGE_URL_SIZE_KEY = 'imageURLSize';
 export const USER_TEMPLATE_KEY = 'userTemplate';
 export const OPERATING_SYSTEM_KEY = 'operatingSystem';
 export const FLAVOR_KEY = 'flavor';

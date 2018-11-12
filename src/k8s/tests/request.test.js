@@ -34,6 +34,7 @@ import {
   AUTHKEYS_KEY,
   OPERATING_SYSTEM_KEY,
   WORKLOAD_PROFILE_KEY,
+  IMAGE_URL_SIZE_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
 
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
@@ -150,6 +151,9 @@ const vmFromURL = {
   },
   [IMAGE_URL_KEY]: {
     value: 'httpURL',
+  },
+  [IMAGE_URL_SIZE_KEY]: {
+    value: '15',
   },
   [FLAVOR_KEY]: {
     value: 'small',
@@ -377,6 +381,9 @@ describe('request.js', () => {
 
       expect(vm.spec.dataVolumeTemplates[0].metadata.name).toBe(dataVolumeName);
       expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(settingsValue(vmFromURL, IMAGE_URL_KEY));
+      expect(vm.spec.dataVolumeTemplates[0].spec.pvc.resources.requests.storage).toBe(
+        `${settingsValue(vmFromURL, IMAGE_URL_SIZE_KEY)}Gi`
+      );
       return vm;
     }));
   it('from PXE', () => createVM(k8sCreate, templates, vmPXE, pxeNetworks).then(testPXE));

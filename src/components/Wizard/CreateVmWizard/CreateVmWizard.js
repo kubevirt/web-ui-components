@@ -25,6 +25,7 @@ import {
   STEP_STORAGE,
   STEP_RESULT,
   NEXT,
+  IMAGE_URL_SIZE_KEY,
 } from './constants';
 
 import { getTemplateStorages } from './utils';
@@ -93,7 +94,13 @@ export class CreateVmWizard extends React.Component {
     activeStepIndex: BASIC_SETTINGS_TAB_IDX,
     stepData: [
       {
-        value: {}, // Basic Settings
+        // Basic Settings
+        value: {
+          [IMAGE_URL_SIZE_KEY]: {
+            value: 10,
+            valid: true,
+          },
+        },
         valid: false,
       },
       {

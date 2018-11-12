@@ -38,6 +38,7 @@ import {
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
+  IMAGE_URL_SIZE_KEY,
 } from './constants';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
@@ -87,6 +88,12 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [IMAGE_URL_KEY]: {
       id: 'provision-source-url',
       title: 'URL',
+      required: true,
+      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
+    },
+    [IMAGE_URL_SIZE_KEY]: {
+      title: 'Disk Size (GB)',
+      type: 'positive-number',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
     },
