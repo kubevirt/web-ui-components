@@ -44,6 +44,9 @@ export const TEMPLATE_WORKLOAD_LABEL = 'workload.template.cnv.io';
 
 export const VIRTIO_BUS = 'virtio';
 
+export const BOOT_ORDER_FIRST = 1;
+export const BOOT_ORDER_SECOND = 2;
+
 export const baseTemplates = [fedora28, ubuntu1804, rhel75, rhelHighPerformance, windows];
 export const networkConfigs = [network1, network2];
 export const userTemplates = [linuxUserTemplate, windowsUserTemplate];

@@ -23,6 +23,8 @@ import {
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
   ANNOTATION_USED_TEMPLATE,
+  BOOT_ORDER_FIRST,
+  BOOT_ORDER_SECOND,
 } from '../constants';
 import {
   NAMESPACE_KEY,
@@ -186,7 +188,7 @@ const setNetworks = (vm, template, getSetting, networks) => {
       nic.macAddress = network.mac;
     }
     if (getSetting(IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_PXE && network.isBootable) {
-      nic.bootOrder = 1;
+      nic.bootOrder = BOOT_ORDER_FIRST;
     }
     if (interfaceModel) {
       nic.model = interfaceModel;
@@ -507,10 +509,10 @@ const addBootableDisk = (vm, diskSpec, isBootable, getSetting) => {
   if (isBootable) {
     switch (getSetting(IMAGE_SOURCE_TYPE_KEY)) {
       case PROVISION_SOURCE_PXE:
-        diskSpec.bootOrder = 2;
+        diskSpec.bootOrder = BOOT_ORDER_SECOND;
         break;
       case PROVISION_SOURCE_TEMPLATE:
-        diskSpec.bootOrder = 1;
+        diskSpec.bootOrder = BOOT_ORDER_FIRST;
         break;
       default:
         break;
