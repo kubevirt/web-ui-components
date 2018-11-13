@@ -3,16 +3,11 @@ import { shallow } from 'enzyme';
 import { WizardPattern } from 'patternfly-react';
 import { CreateVmWizard } from '../CreateVmWizard';
 import { templates, networkConfigs } from '../../../../constants';
-import {
-  namespaces,
-  persistentVolumeClaims,
-  storageClasses,
-  units,
-} from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
 import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, STORAGE_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
+import { namespaces, persistentVolumeClaims, storageClasses, units } from '../fixtures/CreateVmWizard.fixture';
 
 jest.mock('../../../../k8s/request');
 

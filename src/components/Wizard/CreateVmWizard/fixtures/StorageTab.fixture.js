@@ -1,5 +1,5 @@
 import StorageTab from '../StorageTab';
-import { persistentVolumeClaims, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { units, persistentVolumeClaims, storageClasses } from './CreateVmWizard.fixture';
 import { PROVISION_SOURCE_URL } from '../../../../constants';
 
 export const rows = [

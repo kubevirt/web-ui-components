@@ -39,7 +39,7 @@ import {
 
 import { linuxUserTemplate } from '../mock_user_templates/linux.template';
 
-import { persistentVolumeClaims } from '../../components/Wizard/NewVmWizard/fixtures/NewVmWizard.fixture';
+import { persistentVolumeClaims } from '../../components/Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
 
 const basicSettings = {
   [NAME_KEY]: {
