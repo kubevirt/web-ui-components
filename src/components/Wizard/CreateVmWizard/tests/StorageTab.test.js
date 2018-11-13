@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import StorageTab from '../StorageTab';
 
-import { persistentVolumeClaims, storageClasses, units } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { units, persistentVolumeClaims, storageClasses } from '../fixtures/CreateVmWizard.fixture';
 import { rows } from '../fixtures/StorageTab.fixture';
 import { PROVISION_SOURCE_URL } from '../../../../constants';
 

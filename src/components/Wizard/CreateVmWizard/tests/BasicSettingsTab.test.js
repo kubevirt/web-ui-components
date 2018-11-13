@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import BasicSettingsTab, { getFormFields } from '../BasicSettingsTab';
-import { namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { namespaces } from '../fixtures/CreateVmWizard.fixture';
 import { templates, PROVISION_SOURCE_TEMPLATE, TEMPLATE_TYPE_VM } from '../../../../constants';
 import { getTemplate } from '../../../../utils/templates';
 import { getName } from '../../../../utils/selectors';

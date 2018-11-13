@@ -1,5 +1,5 @@
 import BasicSettingsTab from '../BasicSettingsTab';
-import { namespaces } from '../../NewVmWizard/fixtures/NewVmWizard.fixture';
+import { namespaces } from './CreateVmWizard.fixture';
 import { templates } from '../../../../constants';
 
 export const basicSettings = {
