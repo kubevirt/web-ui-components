@@ -24,11 +24,3 @@ export const CREATE_TEMPLATE_KEY = 'createTemplate ';
 export const CLOUD_INIT_KEY = 'cloudInit';
 export const HOST_NAME_KEY = 'hostname';
 export const AUTHKEYS_KEY = 'authKeys';
-
-// UI strings
-export const CREATE_VM = 'Create Virtual Machine';
-export const STEP_BASIC_SETTINGS = 'Basic Settings';
-export const STEP_NETWORK = 'Networking';
-export const STEP_STORAGE = 'Storage';
-export const STEP_RESULT = 'Result';
-export const NEXT = 'Next';

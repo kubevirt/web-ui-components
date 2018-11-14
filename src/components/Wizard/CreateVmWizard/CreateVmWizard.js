@@ -18,14 +18,9 @@ import {
   RESULTS_TAB_IDX,
   NAMESPACE_KEY,
   USER_TEMPLATE_KEY,
-  CREATE_VM,
-  STEP_BASIC_SETTINGS,
-  STEP_NETWORK,
-  STEP_STORAGE,
-  STEP_RESULT,
-  NEXT,
   IMAGE_URL_SIZE_KEY,
 } from './constants';
+import { CREATE_VM, STEP_BASIC_SETTINGS, STEP_NETWORK, STEP_STORAGE, STEP_RESULT, NEXT } from './strings';
 
 import { getTemplateStorages } from './utils';
 import { loadingWizardTab } from '../loadingWizardTab';
