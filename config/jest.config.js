@@ -43,7 +43,7 @@ module.exports = {
     'src/components/**/*.js',
     '!src/components/**/fixtures/**/*.js',
     '!src/components/**/index.js',
-    'tools/validations/*.js',
+    '!tools/',
   ],
 
   // coverage output settings
