@@ -176,14 +176,12 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       id: 'cloud-init-hostname',
       title: 'Hostname',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
-      required: true,
     },
     [AUTHKEYS_KEY]: {
       id: 'cloud-init-ssh',
       title: 'Authenticated SSH Keys',
       type: 'textarea',
       isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
-      required: true,
     },
   };
 };

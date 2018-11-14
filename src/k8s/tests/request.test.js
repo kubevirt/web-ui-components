@@ -1,4 +1,5 @@
 import { get, cloneDeep } from 'lodash';
+import { safeDump } from 'js-yaml';
 import { createVM } from '../request';
 import { settingsValue } from '../selectors';
 
@@ -365,6 +366,16 @@ const testMetadata = (vm, os, workload, flavor, template) => {
   expect(vm.metadata.annotations[ANNOTATION_USED_TEMPLATE]).toEqual(template);
 };
 
+const testCloudConfig = (vm, cloudInit) => {
+  expect(vm.metadata.name).toBe(settingsValue(basicSettings, NAME_KEY));
+  expect(vm.metadata.namespace).toBe(settingsValue(basicSettings, NAMESPACE_KEY));
+  expect(vm.spec.template.spec.domain.devices.disks[1].name).toBe('cloudinitdisk');
+  expect(vm.spec.template.spec.domain.devices.disks[1].volumeName).toBe('cloudinitvolume');
+
+  expect(vm.spec.template.spec.volumes[1].name).toBe('cloudinitvolume');
+  expect(vm.spec.template.spec.volumes[1].cloudInitNoCloud.userData).toBe(`#cloud-config\n${safeDump(cloudInit)}`);
+};
+
 describe('request.js', () => {
   it('registryImage', () => createVM(k8sCreate, templates, basicSettings, networks).then(testRegistryImage));
   it('from URL', () =>
@@ -416,16 +427,47 @@ describe('request.js', () => {
       testFirstAttachedStorage(vm, 1, 1, 1);
       return vm;
     }));
-  it('with CloudInit', () =>
-    createVM(k8sCreate, templates, basicSettingsCloudInit, networks).then(vm => {
-      expect(vm.metadata.name).toBe(settingsValue(basicSettings, NAME_KEY));
-      expect(vm.metadata.namespace).toBe(settingsValue(basicSettings, NAMESPACE_KEY));
-      expect(vm.spec.template.spec.domain.devices.disks[1].name).toBe('cloudinitdisk');
-      expect(vm.spec.template.spec.domain.devices.disks[1].volumeName).toBe('cloudinitvolume');
+  it('with CloudInit', () => {
+    const cloudInit = {
+      users: [
+        {
+          name: 'root',
+          'ssh-authorized-keys': basicSettingsCloudInit[AUTHKEYS_KEY].value,
+        },
+      ],
+      hostname: basicSettingsCloudInit[HOST_NAME_KEY].value,
+    };
+    return createVM(k8sCreate, templates, basicSettingsCloudInit, networks).then(vm => testCloudConfig(vm, cloudInit));
+  });
+  it('with CloudInit - only hostname', () => {
+    const onlyHostname = cloneDeep(basicSettingsCloudInit);
+    delete onlyHostname[AUTHKEYS_KEY];
 
-      expect(vm.spec.template.spec.volumes[1].name).toBe('cloudinitvolume');
-      return vm;
-    }));
+    const cloudInit = {
+      hostname: onlyHostname[HOST_NAME_KEY].value,
+    };
+    return createVM(k8sCreate, templates, onlyHostname, networks).then(vm => testCloudConfig(vm, cloudInit));
+  });
+  it('with CloudInit - only ssh', () => {
+    const onlySSH = cloneDeep(basicSettingsCloudInit);
+    delete onlySSH[HOST_NAME_KEY];
+
+    const cloudInit = {
+      users: [
+        {
+          name: 'root',
+          'ssh-authorized-keys': onlySSH[AUTHKEYS_KEY].value,
+        },
+      ],
+    };
+    return createVM(k8sCreate, templates, onlySSH, networks).then(vm => testCloudConfig(vm, cloudInit));
+  });
+  it('with CloudInit - no config', () => {
+    const noConfig = cloneDeep(basicSettingsCloudInit);
+    delete noConfig[HOST_NAME_KEY];
+    delete noConfig[AUTHKEYS_KEY];
+    return createVM(k8sCreate, templates, noConfig, networks).then(vm => testCloudConfig(vm, {}));
+  });
   it('without CloudInit - disk and volume is not present', () =>
     createVM(k8sCreate, templates, basicSettings, networks).then(vm => {
       expect(vm.spec.template.spec.domain.devices.disks.some(disk => disk.name === 'cloudinitdisk')).toBeFalsy();
