@@ -48,17 +48,27 @@ const fixInt = (value, oldValue, keyCode) => {
   return '0';
 };
 
+const isInputValid = (allowedKeys, keyCode, targetValue, additionalValidation) => {
+  if (allowedKeys.includes(keyCode)) {
+    return additionalValidation ? additionalValidation(keyCode, targetValue) : true;
+  }
+  return false;
+};
+
 export const Integer = ({ id, value, defaultValue, onChange, onBlur, positive, nonNegative }) => {
   let allowedKeys;
   let validRegex;
   let fixAfterValue;
   let min;
+  let additionalValidation;
 
   if (positive) {
     allowedKeys = NON_NEGATIVE_INTEGER_KEYS;
     validRegex = POSITIVE_INT_REGEX;
     fixAfterValue = fixPrecedingZerosPositiveInt;
     min = 1;
+    additionalValidation = (keyCode, targetValue) =>
+      !(targetValue === '' && (keyCode === KEY_CODES[0] || keyCode === KEY_CODES.NUMPAD[0]));
   } else if (nonNegative) {
     allowedKeys = NON_NEGATIVE_INTEGER_KEYS;
     validRegex = NON_NEGATIVE_INT_REGEX;
@@ -73,7 +83,7 @@ export const Integer = ({ id, value, defaultValue, onChange, onBlur, positive, n
   const onKeydown = e => {
     const { keyCode, target } = e;
 
-    if (!allowedKeys.includes(keyCode)) {
+    if (!isInputValid(allowedKeys, keyCode, target.value, additionalValidation)) {
       e.preventDefault();
       return false;
     }

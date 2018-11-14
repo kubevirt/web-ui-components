@@ -125,34 +125,6 @@ describe('<BasicSettingsTab />', () => {
     );
   });
 
-  it('cpu field validation is triggered', () => {
-    testFormChange(
-      'cpu',
-      'someCpu',
-      {
-        cpu: {
-          validMsg: 'CPUs must be a number',
-          value: 'someCpu',
-        },
-      },
-      false
-    );
-  });
-
-  it('memory field validation is triggered', () => {
-    testFormChange(
-      'memory',
-      'someMemory',
-      {
-        memory: {
-          validMsg: 'Memory (GB) must be a number',
-          value: 'someMemory',
-        },
-      },
-      false
-    );
-  });
-
   it('is invalid when one required fields is missing', () => {
     const onChange = jest.fn();
     const component = shallow(testCreateVmWizard(validBasicSettings, onChange));

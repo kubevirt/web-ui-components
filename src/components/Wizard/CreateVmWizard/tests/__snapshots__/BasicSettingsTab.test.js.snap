@@ -22,7 +22,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "isVisible": [Function],
         "required": true,
         "title": "CPUs",
-        "validate": [Function],
+        "type": "positive-number",
       },
       "description": Object {
         "id": "vm-description",
@@ -78,7 +78,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "isVisible": [Function],
         "required": true,
         "title": "Memory (GB)",
-        "validate": [Function],
+        "type": "positive-number",
       },
       "name": Object {
         "id": "vm-name",
