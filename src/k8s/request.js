@@ -234,15 +234,20 @@ const addCloudInit = (vm, getSetting) => {
     };
     addDisk(vm, cloudInitDisk);
 
-    const userDataObject = {
-      users: [
+    const userDataObject = {};
+
+    if (getSetting(AUTHKEYS_KEY)) {
+      userDataObject.users = [
         {
           name: 'root',
           'ssh-authorized-keys': getSetting(AUTHKEYS_KEY),
         },
-      ],
-      hostname: getSetting(HOST_NAME_KEY),
-    };
+      ];
+    }
+
+    if (getSetting(HOST_NAME_KEY)) {
+      userDataObject.hostname = getSetting(HOST_NAME_KEY);
+    }
 
     const userData = safeDump(userDataObject);
 

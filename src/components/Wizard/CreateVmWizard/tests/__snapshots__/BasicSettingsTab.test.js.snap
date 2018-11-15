@@ -8,7 +8,6 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       "authKeys": Object {
         "id": "cloud-init-ssh",
         "isVisible": [Function],
-        "required": true,
         "title": "Authenticated SSH Keys",
         "type": "textarea",
       },
@@ -45,7 +44,6 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       "hostname": Object {
         "id": "cloud-init-hostname",
         "isVisible": [Function],
-        "required": true,
         "title": "Hostname",
       },
       "imageSourceType": Object {
