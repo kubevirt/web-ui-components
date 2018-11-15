@@ -97,7 +97,6 @@ export class CreateVmWizard extends React.Component {
         value: {
           [IMAGE_URL_SIZE_KEY]: {
             value: 10,
-            valid: true,
           },
         },
         valid: false,

@@ -20,6 +20,7 @@ import {
   HEADER_NIC_NAME,
   HEADER_NETWORK,
 } from './strings';
+import { getValidationObject } from '../../../utils/validations';
 
 const validateNetwork = network => {
   const errors = Array(4).fill(null);
@@ -292,7 +293,7 @@ export class NetworksTab extends React.Component {
       const values = {
         pxeNetwork: {
           value: bootableNetwork ? bootableNetwork.name : undefined,
-          validMsg: pxeNetworks.length === 0 ? PXE_NIC_NOT_FOUND_ERROR : undefined,
+          validation: pxeNetworks.length === 0 ? getValidationObject(PXE_NIC_NOT_FOUND_ERROR) : undefined,
         },
       };
 
