@@ -5,7 +5,6 @@ import { Wizard } from 'patternfly-react';
 import BasicSettingsTab from './BasicSettingsTab';
 import StorageTab from './StorageTab';
 import ResultTab from './ResultTab';
-import { getNamespace } from '../../../utils/selectors';
 
 import { createVM } from '../../../k8s/request';
 import { POD_NETWORK, PROVISION_SOURCE_PXE, PROVISION_SOURCE_TEMPLATE } from '../../../constants';
@@ -29,6 +28,11 @@ import {
 } from './constants';
 
 import { getTemplateStorages } from './utils';
+import { loadingWizardTab } from '../loadingWizardTab';
+
+const LoadingBasicWizardTab = loadingWizardTab(BasicSettingsTab);
+const LoadingStorageTab = loadingWizardTab(StorageTab);
+const LoadingNetworksTab = loadingWizardTab(NetworksTab);
 
 const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_IDX].value, key);
 
@@ -199,46 +203,56 @@ export class CreateVmWizard extends React.Component {
   wizardStepsNewVM = [
     {
       title: STEP_BASIC_SETTINGS,
-      render: () => (
-        <BasicSettingsTab
-          key="1"
-          namespaces={this.props.namespaces}
-          selectedNamespace={this.props.selectedNamespace}
-          templates={this.props.templates}
-          basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_IDX].value}
-          onChange={this.onStepDataChanged}
-        />
-      ),
+      render: () => {
+        const loadingData = {
+          namespaces: this.props.namespaces,
+          templates: this.props.templates,
+        };
+        return (
+          <LoadingBasicWizardTab
+            key="1"
+            selectedNamespace={this.props.selectedNamespace}
+            basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_IDX].value}
+            onChange={this.onStepDataChanged}
+            loadingData={loadingData}
+          />
+        );
+      },
     },
     {
       title: STEP_NETWORK,
-      render: () => (
-        <NetworksTab
-          onChange={this.onStepDataChanged}
-          networkConfigs={this.props.networkConfigs}
-          networks={this.state.stepData[NETWORK_TAB_IDX].value.networks || []}
-          pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_IDX].value, PROVISION_SOURCE_PXE)}
-          namespace={this.state.stepData[0].value.namespace.value}
-        />
-      ),
+      render: () => {
+        const loadingData = {
+          networkConfigs: this.props.networkConfigs,
+        };
+        return (
+          <LoadingNetworksTab
+            onChange={this.onStepDataChanged}
+            networkConfigs={this.props.networkConfigs}
+            networks={this.state.stepData[NETWORK_TAB_IDX].value.networks || []}
+            pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_IDX].value, PROVISION_SOURCE_PXE)}
+            namespace={this.state.stepData[0].value.namespace.value}
+            loadingData={loadingData}
+          />
+        );
+      },
     },
     {
       title: STEP_STORAGE,
       render: () => {
-        const namespace = getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY);
-        const persistentVolumeClaims = this.props.persistentVolumeClaims.filter(
-          storage => namespace && getNamespace(storage) === namespace
-        );
         const sourceType = getBasicSettingsValue(this.state.stepData, IMAGE_SOURCE_TYPE_KEY);
+        const loadingData = {
+          storageClasses: this.props.storageClasses,
+          persistentVolumeClaims: this.props.persistentVolumeClaims,
+        };
         return (
-          <StorageTab
-            storageClasses={this.props.storageClasses}
-            persistentVolumeClaims={persistentVolumeClaims}
+          <LoadingStorageTab
             initialStorages={this.state.stepData[STORAGE_TAB_IDX].value}
             onChange={this.onStepDataChanged}
             units={this.props.units}
             sourceType={sourceType}
             namespace={this.state.stepData[0].value.namespace.value}
+            loadingData={loadingData}
           />
         );
       },
@@ -276,16 +290,21 @@ export class CreateVmWizard extends React.Component {
 
 CreateVmWizard.defaultProps = {
   selectedNamespace: undefined,
+  templates: undefined,
+  namespaces: undefined,
+  networkConfigs: undefined,
+  persistentVolumeClaims: undefined,
+  storageClasses: undefined,
 };
 
 CreateVmWizard.propTypes = {
   onHide: PropTypes.func.isRequired,
-  templates: PropTypes.array.isRequired,
-  namespaces: PropTypes.array.isRequired,
+  templates: PropTypes.array,
+  namespaces: PropTypes.array,
   selectedNamespace: PropTypes.object,
   k8sCreate: PropTypes.func.isRequired,
-  networkConfigs: PropTypes.array.isRequired,
-  persistentVolumeClaims: PropTypes.array.isRequired,
-  storageClasses: PropTypes.array.isRequired,
+  networkConfigs: PropTypes.array,
+  persistentVolumeClaims: PropTypes.array,
+  storageClasses: PropTypes.array,
   units: PropTypes.object.isRequired,
 };

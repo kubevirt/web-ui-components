@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Loading /> renders correctly 1`] = `
+<div
+  className="wizard-pf-process blank-slate-pf"
+  key="progress"
+>
+  <div
+    className="spinner spinner-lg blank-slate-pf-icon"
+  />
+  <h3
+    className="blank-slate-pf-main-action"
+  >
+    loading text
+  </h3>
+</div>
+`;

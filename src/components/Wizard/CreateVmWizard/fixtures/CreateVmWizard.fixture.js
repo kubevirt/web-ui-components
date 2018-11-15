@@ -129,4 +129,18 @@ export default [
       units,
     },
   },
+  {
+    component: CreateVmWizard,
+    name: 'loading',
+    props: {
+      onHide: () => {},
+      templates: null,
+      namespaces: null,
+      k8sCreate,
+      networkConfigs: null,
+      persistentVolumeClaims: null,
+      storageClasses: null,
+      units,
+    },
+  },
 ];

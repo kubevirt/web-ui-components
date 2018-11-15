@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'patternfly-react';
+import { Loading } from '../../Loading';
 
 const ResultTab = ({ result, success }) => {
   let value;
   if (success == null) {
-    value = (
-      <div className="wizard-pf-process blank-slate-pf" key="progress">
-        <div className="spinner spinner-lg blank-slate-pf-icon" />
-        <h3 className="blank-slate-pf-main-action">Creation of VM in progress</h3>
-      </div>
-    );
+    value = <Loading text="Creation of VM in progress" />;
   } else if (success) {
     value = (
       <div className="wizard-pf-complete blank-slate-pf" key="success">

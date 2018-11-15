@@ -1,51 +1,116 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { WizardPattern } from 'patternfly-react';
 import { CreateVmWizard } from '../CreateVmWizard';
-import { templates, networkConfigs } from '../../../../constants';
+import { Loading } from '../../../Loading';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
-import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, STORAGE_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
-import { namespaces, persistentVolumeClaims, storageClasses, units } from '../fixtures/CreateVmWizard.fixture';
+import {
+  BASIC_SETTINGS_TAB_IDX,
+  NETWORK_TAB_IDX,
+  STORAGE_TAB_IDX,
+  RESULTS_TAB_IDX,
+  ALL_TABS,
+  CREATE_VM,
+  NEXT,
+} from '../constants';
+import CreateVmWizardFixutre from '../fixtures/CreateVmWizard.fixture';
+import BasicSettingsTab from '../BasicSettingsTab';
+import { NetworksTab } from '../NetworksTab';
+import StorageTab from '../StorageTab';
+import ResultTab from '../ResultTab';
 
 jest.mock('../../../../k8s/request');
 
-const testCreateVmWizard = () => (
-  <CreateVmWizard
-    onHide={() => {}}
-    templates={templates}
-    namespaces={namespaces}
-    k8sCreate={() => {}}
-    persistentVolumeClaims={persistentVolumeClaims}
-    storageClasses={storageClasses}
-    units={units}
-    networkConfigs={networkConfigs}
-  />
-);
+const LOADING = 'loading';
+
+const testCreateVmWizard = type => {
+  let props;
+  const [loaded, , loading] = CreateVmWizardFixutre;
+  switch (type) {
+    case LOADING:
+      ({ props } = loading);
+      break;
+    default:
+      ({ props } = loaded);
+      break;
+  }
+  return <CreateVmWizard {...props} />;
+};
+
+const getBackButton = component => component.find('.btn').findWhere(btn => btn.text() === 'Back');
+const getNextButton = component => component.find('.btn-primary');
 
 const testWalkThrough = () => {
-  const component = shallow(testCreateVmWizard());
+  const component = mount(testCreateVmWizard(LOADING));
+
+  expect(component.find(Loading)).toHaveLength(1);
+  expect(component.find(BasicSettingsTab)).toHaveLength(0);
+
+  const namespaces = [...CreateVmWizardFixutre[0].props.namespaces];
+  const templates = [...CreateVmWizardFixutre[0].props.templates];
+  component.setProps({ namespaces, templates });
+
+  expect(component.find(Loading)).toHaveLength(0);
+  expect(component.find(BasicSettingsTab)).toHaveLength(1);
 
   component.instance().onStepDataChanged(validBasicSettings, true);
+  component.update();
   expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
 
-  component.instance().onStepChanged(NETWORK_TAB_IDX); // should allow going forward
+  expect(getNextButton(component).text()).toEqual(NEXT);
+  getNextButton(component).simulate('click');
+
+  component.update();
+
+  expect(component.find(Loading)).toHaveLength(1);
+  expect(component.find(NetworksTab)).toHaveLength(0);
+
+  const networkConfigs = [...CreateVmWizardFixutre[0].props.networkConfigs];
+  component.setProps({ networkConfigs });
+
+  expect(component.find(Loading)).toHaveLength(0);
+  expect(component.find(NetworksTab)).toHaveLength(1);
+
   expect(component.state().activeStepIndex).toEqual(NETWORK_TAB_IDX);
 
-  component.instance().onStepChanged(BASIC_SETTINGS_TAB_IDX); // try to go back
-  expect(component.state().activeStepIndex).toEqual(BASIC_SETTINGS_TAB_IDX);
+  getBackButton(component).simulate('click');
+  component.update();
 
-  component.instance().onStepChanged(NETWORK_TAB_IDX); // forward
-  expect(component.find(WizardPattern).props().nextText).toBe('Next');
-  component.instance().onStepChanged(STORAGE_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(BASIC_SETTINGS_TAB_IDX);
+  expect(component.find(BasicSettingsTab)).toHaveLength(1);
+  expect(component.find(NetworksTab)).toHaveLength(0);
+
+  getNextButton(component).simulate('click');
+  component.update();
+
+  expect(component.find(BasicSettingsTab)).toHaveLength(0);
+  expect(component.find(NetworksTab)).toHaveLength(1);
+  expect(getNextButton(component).text()).toEqual(NEXT);
+
+  getNextButton(component).simulate('click');
+  component.update();
 
   expect(component.state().activeStepIndex).toEqual(STORAGE_TAB_IDX);
-  expect(component.find(WizardPattern).props().nextText).toBe('Create Virtual Machine');
+  expect(component.find(Loading)).toHaveLength(1);
+  expect(component.find(StorageTab)).toHaveLength(0);
+
+  const persistentVolumeClaims = [...CreateVmWizardFixutre[0].props.persistentVolumeClaims];
+  const storageClasses = [...CreateVmWizardFixutre[0].props.storageClasses];
+  component.setProps({ persistentVolumeClaims, storageClasses });
+
+  expect(component.find(Loading)).toHaveLength(0);
+  expect(component.find(StorageTab)).toHaveLength(1);
+
+  expect(component.state().activeStepIndex).toEqual(STORAGE_TAB_IDX);
+  expect(getNextButton(component).text()).toBe(CREATE_VM);
   expect(component.instance().lastStepReached()).toBeFalsy();
 
   component.instance().onStepDataChanged([{}], false); // create empty disk
-  expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
+  component.update();
+
+  expect(getBackButton(component).props('disabled')).toBeTruthy();
   component.instance().onStepDataChanged(
     [
       {
@@ -70,13 +135,17 @@ const testWalkThrough = () => {
   );
 
   expect(createVM).not.toHaveBeenCalled();
-  component.instance().onStepChanged(RESULTS_TAB_IDX); // create vm
+  getNextButton(component).simulate('click');
+  component.update();
+
+  expect(component.find(ResultTab)).toHaveLength(1);
   expect(component.state().activeStepIndex).toEqual(RESULTS_TAB_IDX);
   expect(component.instance().lastStepReached()).toBeTruthy();
   expect(createVM).toHaveBeenCalled();
-  expect(component.find(WizardPattern).props().previousStepDisabled).toBeTruthy();
-  component.instance().onStepChanged(BASIC_SETTINGS_TAB_IDX); // should not allow going backwards
-  expect(component.state().activeStepIndex).toEqual(RESULTS_TAB_IDX);
+  expect(getBackButton(component).props('disabled')).toBeTruthy();
+  getBackButton(component).simulate('click'); // should not allow going backwards
+  expect(component.find(ResultTab)).toHaveLength(1);
+  expect(component.find(StorageTab)).toHaveLength(0);
 };
 
 describe('<CreateVmWizard />', () => {
