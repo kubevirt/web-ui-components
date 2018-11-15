@@ -4,20 +4,36 @@ import { FormFactory } from '../../Form';
 import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK } from '../../../constants';
+import {
+  SELECT_NETWORK,
+  SELECT_PXE_NIC,
+  PXE_NIC_NOT_FOUND_ERROR,
+  REMOVE_NIC_BUTTON,
+  CREATE_NIC_BUTTON,
+  PXE_INFO,
+  ERROR_NETWORK_NOT_SELECTED,
+  ERROR_EMPTY_ENTITY,
+  ERROR_EMPTY_NAME,
+  ERROR_NETWORK_NOT_FOUND,
+  PXE_NIC,
+  HEADER_MAC,
+  HEADER_NIC_NAME,
+  HEADER_NETWORK,
+} from './strings';
 
 const validateNetwork = network => {
   const errors = Array(4).fill(null);
 
   if (!network || network.id == null) {
-    errors[0] = 'Empty entity.'; // row error on index 0
+    errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
 
   if (!network.name) {
-    errors[1] = 'Name is empty';
+    errors[1] = ERROR_EMPTY_NAME;
   }
 
   if (network.id !== 1 && !network.network) {
-    errors[3] = 'Network config must be selected';
+    errors[3] = ERROR_NETWORK_NOT_SELECTED;
   }
 
   return errors;
@@ -31,7 +47,7 @@ export const validateNetworksNamespace = (networkConfigs, namespace, networks) =
     }
     network.errors[3] = availableNetworkConfigs.some(nc => nc.metadata.name === network.network)
       ? null
-      : 'Network config not found';
+      : ERROR_NETWORK_NOT_FOUND;
   });
 };
 
@@ -154,7 +170,7 @@ export class NetworksTab extends React.Component {
   getColumns = () => [
     {
       header: {
-        label: 'NIC Name',
+        label: HEADER_NIC_NAME,
         props: {
           style: {
             width: '32%',
@@ -171,7 +187,7 @@ export class NetworksTab extends React.Component {
     },
     {
       header: {
-        label: 'MAC Address',
+        label: HEADER_MAC,
         props: {
           style: {
             width: '32%',
@@ -188,7 +204,7 @@ export class NetworksTab extends React.Component {
     },
     {
       header: {
-        label: 'Network Configuration',
+        label: HEADER_NETWORK,
         props: {
           style: {
             width: '32%',
@@ -205,7 +221,7 @@ export class NetworksTab extends React.Component {
             .map(networkConfig => networkConfig.metadata.name)
             .concat(POD_NETWORK)
             .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
-          initialValue: '--- Select Network Definition ---',
+          initialValue: SELECT_NETWORK,
         },
       ],
     },
@@ -224,7 +240,7 @@ export class NetworksTab extends React.Component {
           actions: [
             {
               actionType: DELETE_ACTION,
-              text: 'Remove NIC',
+              text: REMOVE_NIC_BUTTON,
             },
           ],
           visibleOnEdit: false,
@@ -238,7 +254,7 @@ export class NetworksTab extends React.Component {
       className: 'create-network',
       onClick: this.createNic,
       id: 'create-network-btn',
-      text: 'Create NIC',
+      text: CREATE_NIC_BUTTON,
       disabled: this.state.editing,
     },
   ];
@@ -246,12 +262,12 @@ export class NetworksTab extends React.Component {
   getFormFields = pxeNetworks => ({
     pxeNetwork: {
       id: 'pxe-nic-dropdown',
-      title: 'PXE NIC',
+      title: PXE_NIC,
       type: 'dropdown',
-      defaultValue: '--- Select PXE NIC ---',
+      defaultValue: SELECT_PXE_NIC,
       choices: pxeNetworks.map(n => n.name),
       required: true,
-      help: 'Pod network is not PXE bootable',
+      help: PXE_INFO,
     },
   });
 
@@ -276,7 +292,7 @@ export class NetworksTab extends React.Component {
       const values = {
         pxeNetwork: {
           value: bootableNetwork ? bootableNetwork.name : undefined,
-          validMsg: pxeNetworks.length === 0 ? 'A PXE-capable NIC could not be found' : undefined,
+          validMsg: pxeNetworks.length === 0 ? PXE_NIC_NOT_FOUND_ERROR : undefined,
         },
       };
 

@@ -6,15 +6,8 @@ import { Loading } from '../../../Loading';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
-import {
-  BASIC_SETTINGS_TAB_IDX,
-  NETWORK_TAB_IDX,
-  STORAGE_TAB_IDX,
-  RESULTS_TAB_IDX,
-  ALL_TABS,
-  CREATE_VM,
-  NEXT,
-} from '../constants';
+import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, STORAGE_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
+import { CREATE_VM, NEXT } from '../strings';
 import CreateVmWizardFixutre from '../fixtures/CreateVmWizard.fixture';
 import BasicSettingsTab from '../BasicSettingsTab';
 import { NetworksTab } from '../NetworksTab';
