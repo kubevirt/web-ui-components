@@ -1,12 +1,12 @@
-import { fedora28 } from '../k8s/mock_templates/fedora28.template';
-import { rhel75 } from '../k8s/mock_templates/rhel75.template';
-import { ubuntu1804 } from '../k8s/mock_templates/ubuntu1804.template';
-import { rhelHighPerformance } from '../k8s/mock_templates/rhel-high-p.template';
-import { windows } from '../k8s/mock_templates/windows.template';
-import { linuxUserTemplate } from '../k8s/mock_user_templates/linux.template';
-import { windowsUserTemplate } from '../k8s/mock_user_templates/windows.template';
-import { network1 } from '../k8s/mock_network/network.template';
-import { network2 } from '../k8s/mock_network/network2.template';
+import { fedora28 } from '../k8s/mock_templates/fedora28.mock';
+import { rhel75 } from '../k8s/mock_templates/rhel75.mock';
+import { ubuntu1804 } from '../k8s/mock_templates/ubuntu1804.mock';
+import { rhelHighPerformance } from '../k8s/mock_templates/rhel-high-p.mock';
+import { windows } from '../k8s/mock_templates/windows.mock';
+import { linuxUserTemplate } from '../k8s/mock_user_templates/linux.mock';
+import { windowsUserTemplate } from '../k8s/mock_user_templates/windows.mock';
+import { network1 } from '../k8s/mock_network/network.mock';
+import { network2 } from '../k8s/mock_network/network2.mock';
 
 export const ANNOTATION_DEFAULT_DISK = 'defaults.template.cnv.io/disk';
 export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.cnv.io/network';
