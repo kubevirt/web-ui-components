@@ -34,7 +34,8 @@
     "patternfly-react": "2.x",
     "prop-types": "15.x",
     "react": "16.3.x",
-    "react-dom": "16.3.x"
+    "react-dom": "16.3.x",
+    "react-router-dom": "4.x"
   },
   "devDependencies": {
     "@babel/cli": "7.x",
@@ -83,6 +84,7 @@
     "react-dnd": "2.6.x",
     "react-dnd-html5-backend": "5.0.x",
     "react-dom": "16.3.x",
+    "react-router-dom": "4.x",
     "reactabular-dnd": "8.16.x",
     "require-all": "3.x",
     "sass-loader": "7.x",
