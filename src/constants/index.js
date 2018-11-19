@@ -55,3 +55,27 @@ export const baseTemplates = [fedora28, ubuntu1804, rhel75, rhelHighPerformance,
 export const networkConfigs = [network1, network2];
 export const userTemplates = [linuxUserTemplate, windowsUserTemplate];
 export const templates = [...baseTemplates, ...userTemplates];
+
+export const VM_STATUS_OFF = 'VM_STATUS_OFF';
+export const VM_STATUS_RUNNING = 'VM_STATUS_RUNNING';
+export const VM_STATUS_STARTING = 'VM_STATUS_STARTING';
+export const VM_STATUS_POD_ERROR = 'VM_STATUS_POD_ERROR';
+export const VM_STATUS_ERROR = 'VM_STATUS_ERROR';
+export const VM_STATUS_UNKNOWN = 'VM_STATUS_UNKNOWN';
+export const VM_STATUS_ERROR_COMMON = 'VM_STATUS_ERROR_COMMON'; // VM_STATUS_ERROR and VM_STATUS_POD_ERROR are filtered together
+
+export const VM_STATUS_ALL = [
+  VM_STATUS_RUNNING,
+  VM_STATUS_STARTING,
+  VM_STATUS_OFF,
+  VM_STATUS_ERROR_COMMON,
+  VM_STATUS_UNKNOWN,
+];
+
+export const VM_STATUS_TO_TEXT = {
+  [VM_STATUS_RUNNING]: 'Running',
+  [VM_STATUS_STARTING]: 'Starting',
+  [VM_STATUS_OFF]: 'Off',
+  [VM_STATUS_UNKNOWN]: 'Unknown',
+  [VM_STATUS_ERROR_COMMON]: 'Error',
+};
