@@ -1,20 +1,16 @@
-export const linuxUserTemplate = {
-  apiVersion: 'v1',
+export const urlNoNetworkTemplate = {
+  apiVersion: 'template.openshift.io/v1',
   kind: 'Template',
   metadata: {
-    name: 'linux-template',
-    namespace: 'openshift',
-    annotations: {
-      description: 'OCP KubeVirt Red Hat Enterprise Linux 7.4 VM template',
-      tags: 'kubevirt,ocp,template,linux,virtualmachine',
-      iconClass: 'icon-other-linux',
-    },
     labels: {
+      'flavor.template.cnv.io/small': 'true',
+      'os.template.cnv.io/fedora29': 'true',
       'template.cnv.io/type': 'vm',
-      'kubevirt.io/os': 'rhel7.4',
-      'miq.github.io/kubevirt-is-vm-template': 'true',
-      'import-vm-apb/transaction_id': 'someid',
+      'template.cnv.ui': 'default_fedora-generic',
+      'workload.template.cnv.io/generic': 'true',
     },
+    name: 'url-template-nonetwork',
+    namespace: 'myproject',
   },
   objects: [
     {
@@ -29,11 +25,10 @@ export const linuxUserTemplate = {
           {
             metadata: {
               // eslint-disable-next-line no-template-curly-in-string
-              name: 'vm-${NAME}-dv-01',
+              name: 'rootdisk-${NAME}',
             },
             spec: {
               pvc: {
-                storageClassName: 'storagename',
                 accessModes: ['ReadWriteOnce'],
                 resources: {
                   requests: {
@@ -42,50 +37,47 @@ export const linuxUserTemplate = {
                 },
               },
               source: {
-                pvc: {
-                  namespace: 'somenmspc',
-                  name: 'somenm',
+                http: {
+                  url: 'fooUrl',
                 },
               },
             },
           },
         ],
-        running: false,
         template: {
           spec: {
             domain: {
               cpu: {
-                // eslint-disable-next-line no-template-curly-in-string
-                cores: '${{CPU_CORES}}',
-              },
-              resources: {
-                requests: {
-                  // eslint-disable-next-line no-template-curly-in-string
-                  memory: '${MEMORY}',
-                },
-              },
-              machine: {
-                type: 'q35',
+                cores: 2,
               },
               devices: {
+                autoattachPodInterface: false,
                 disks: [
                   {
-                    name: 'disk0',
+                    bootOrder: 1,
                     disk: {
                       bus: 'virtio',
                     },
-                    volumeName: 'volume-1',
+                    name: 'rootdisk',
+                    volumeName: 'rootdisk',
                   },
                 ],
+                rng: {},
+              },
+              resources: {
+                requests: {
+                  memory: '2G',
+                },
               },
             },
+            terminationGracePeriodSeconds: 0,
             volumes: [
               {
-                name: 'volume-1',
                 dataVolume: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  name: 'vm-${NAME}-dv-01',
+                  name: 'rootdisk-${NAME}',
                 },
+                name: 'rootdisk',
               },
             ],
           },
@@ -95,18 +87,8 @@ export const linuxUserTemplate = {
   ],
   parameters: [
     {
-      name: 'NAME',
       description: 'Name for the new VM',
-    },
-    {
-      name: 'MEMORY',
-      description: 'Amount of memory',
-      value: '2GB',
-    },
-    {
-      name: 'CPU_CORES',
-      description: 'Amount of cores',
-      value: '2',
+      name: 'NAME',
     },
   ],
 };

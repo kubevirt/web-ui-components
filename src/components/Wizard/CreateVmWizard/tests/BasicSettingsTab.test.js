@@ -1,34 +1,65 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import cloneDeep from 'lodash/cloneDeep';
+import { shallow, mount } from 'enzyme';
+import { MenuItem } from 'patternfly-react';
 import BasicSettingsTab, { getFormFields } from '../BasicSettingsTab';
 import { namespaces } from '../fixtures/CreateVmWizard.fixture';
-import { templates, PROVISION_SOURCE_TEMPLATE, TEMPLATE_TYPE_VM } from '../../../../constants';
-import { getTemplate } from '../../../../utils/templates';
-import { getName } from '../../../../utils/selectors';
+import { baseTemplates } from '../../../../k8s/mock_templates';
+import {
+  userTemplates,
+  urlTemplate,
+  containerTemplate,
+  pxeTemplate,
+  containerCloudTemplate,
+  urlCustomFlavorTemplate,
+} from '../../../../k8s/mock_user_templates';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
-import { NAMESPACE_KEY, NAME_KEY } from '../constants';
+import {
+  NAMESPACE_KEY,
+  USER_TEMPLATE_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
+  IMAGE_URL_KEY,
+  REGISTRY_IMAGE_KEY,
+  CLOUD_INIT_KEY,
+  HOST_NAME_KEY,
+  AUTHKEYS_KEY,
+  CPU_KEY,
+  FLAVOR_KEY,
+  MEMORY_KEY,
+} from '../constants';
 import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
+import {
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_URL,
+  CUSTOM_FLAVOR,
+} from '../../../../constants';
+import { getName, getMemory, getCpu } from '../../../../utils/selectors';
+import { getTemplateProvisionSource } from '../../../../utils/templates';
+import { Dropdown } from '../../../Form';
+import { NO_TEMPLATE } from '../strings';
 
-const testCreateVmWizard = (basicSettings = {}, onChange = null, selectedNamespace = undefined) => (
+const templates = [...baseTemplates, ...userTemplates];
+
+const testBasicSettingsTab = (basicSettings = {}, onChange = null, selectedNamespace = undefined, template = false) => (
   <BasicSettingsTab
     templates={templates}
     namespaces={namespaces}
     selectedNamespace={selectedNamespace}
     basicSettings={basicSettings}
     onChange={onChange || jest.fn()}
+    createVmTemplate={template}
   />
 );
 
-const expectMockToBeCalledWith = (fn, a, b) => {
-  expect(fn.mock.calls[0][0]).toEqual(a);
-  expect(fn.mock.calls[0][1]).toEqual(b);
+const expectMockToBeCalledWith = (fn, a, b, call = 0) => {
+  expect(fn.mock.calls[call][0]).toEqual(a);
+  expect(fn.mock.calls[call][1]).toEqual(b);
 };
 
 const testFormChange = (what, value, result, valid) => {
   const onChange = jest.fn();
-  const component = shallow(testCreateVmWizard({}, onChange));
+  const component = shallow(testBasicSettingsTab({}, onChange));
 
   onFormChange(component, value, what);
 
@@ -40,16 +71,63 @@ const onFormChange = (component, value, what) => {
   component.instance().onFormChange(formFields, value, what);
 };
 
+const checkDisabledDropdown = (component, template, disabled) => {
+  component.setProps({
+    basicSettings: {
+      ...component.props().basicSettings,
+      [USER_TEMPLATE_KEY]: {
+        value: getName(template),
+      },
+    },
+  });
+
+  expect(
+    component
+      .find({ id: 'image-source-type-dropdown' })
+      .find(Dropdown)
+      .props().disabled
+  ).toEqual(disabled.image);
+  expect(
+    component
+      .find({ id: 'operating-system-dropdown' })
+      .find(Dropdown)
+      .props().disabled
+  ).toEqual(disabled.os);
+  expect(
+    component
+      .find({ id: 'flavor-dropdown' })
+      .find(Dropdown)
+      .props().disabled
+  ).toEqual(disabled.flavor);
+  expect(
+    component
+      .find({ id: 'workload-profile-dropdown' })
+      .find(Dropdown)
+      .props().disabled
+  ).toEqual(disabled.workload);
+};
+
+const clickOnUserTemplate = (component, templateName) => {
+  const templatesDropdown = component.find('#template-dropdown').find(Dropdown);
+  const userTemplateItem = templatesDropdown
+    .find(MenuItem)
+    .findWhere(i => i.text() === templateName)
+    .find(MenuItem);
+  expect(userTemplateItem.exists()).toBeTruthy();
+
+  userTemplateItem.find('a').simulate('click');
+};
+
 describe('<BasicSettingsTab />', () => {
   it('renders correctly', () => {
-    const component = shallow(testCreateVmWizard());
+    const component = shallow(testBasicSettingsTab());
     expect(component).toMatchSnapshot();
   });
 
   it('defaults to selectedNamespace', () => {
     const onChange = jest.fn();
     const namespace = namespaces[1];
-    shallow(testCreateVmWizard({}, onChange, namespace));
+    shallow(testBasicSettingsTab({}, onChange, namespace));
 
     expectMockToBeCalledWith(
       onChange,
@@ -68,7 +146,7 @@ describe('<BasicSettingsTab />', () => {
     const basicSettings = {};
     const selectedNamespace = namespaces[1];
 
-    const component = shallow(testCreateVmWizard(basicSettings, onChange));
+    const component = shallow(testBasicSettingsTab(basicSettings, onChange));
 
     expect(onChange).not.toHaveBeenCalled();
 
@@ -133,12 +211,24 @@ describe('<BasicSettingsTab />', () => {
 
   it('is valid when all required fields are filled', () => {
     const onChange = jest.fn();
-    const component = shallow(testCreateVmWizard(validBasicSettings, onChange));
+    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
     onFormChange(component, validBasicSettings.name.value, 'name'); // trigger validation
 
-    const validSettings = cloneDeep(validBasicSettings);
-    validSettings[NAME_KEY].validation = null;
-    expectMockToBeCalledWith(onChange, validSettings, true);
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        flavor: {
+          value: 'small',
+          validation: undefined,
+        },
+        name: {
+          ...validBasicSettings.name,
+          validation: null,
+        },
+      },
+      true
+    );
   });
 
   it('required property is validated', () => {
@@ -157,13 +247,17 @@ describe('<BasicSettingsTab />', () => {
 
   it('is invalid when one required fields is missing', () => {
     const onChange = jest.fn();
-    const component = shallow(testCreateVmWizard(validBasicSettings, onChange));
+    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
     onFormChange(component, '', NAMESPACE_KEY);
 
     expectMockToBeCalledWith(
       onChange,
       {
         ...validBasicSettings,
+        flavor: {
+          value: 'small',
+          validation: undefined,
+        },
         namespace: {
           validation: getValidationObject('Namespace is required'),
           value: '',
@@ -173,23 +267,250 @@ describe('<BasicSettingsTab />', () => {
     );
   });
 
-  it('selects template for template provision source', () => {
+  it('reads provision source from user template', () => {
     const onChange = jest.fn();
-    const component = shallow(testCreateVmWizard(validBasicSettings, onChange));
-    onFormChange(component, PROVISION_SOURCE_TEMPLATE, 'imageSourceType');
+    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+
+    onFormChange(component, getName(urlTemplate), USER_TEMPLATE_KEY);
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(urlTemplate),
+          validation: undefined,
+        },
+        [PROVISION_SOURCE_TYPE_KEY]: {
+          validation: undefined,
+          value: PROVISION_SOURCE_URL,
+        },
+        [IMAGE_URL_KEY]: {
+          validation: undefined,
+          value: getTemplateProvisionSource(urlTemplate).source,
+        },
+      },
+      true
+    );
+
+    onFormChange(component, getName(containerTemplate), USER_TEMPLATE_KEY);
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(containerTemplate),
+          validation: undefined,
+        },
+        [PROVISION_SOURCE_TYPE_KEY]: {
+          validation: undefined,
+          value: PROVISION_SOURCE_REGISTRY,
+        },
+        [REGISTRY_IMAGE_KEY]: {
+          validation: undefined,
+          value: getTemplateProvisionSource(containerTemplate).source,
+        },
+      },
+      true,
+      1
+    );
+
+    onFormChange(component, getName(pxeTemplate), USER_TEMPLATE_KEY);
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(pxeTemplate),
+          validation: undefined,
+        },
+        [PROVISION_SOURCE_TYPE_KEY]: {
+          validation: undefined,
+          value: PROVISION_SOURCE_PXE,
+        },
+      },
+      true,
+      2
+    );
+  });
+
+  it('reads cloud init settings from user template', () => {
+    const onChange = jest.fn();
+    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+
+    onFormChange(component, getName(containerCloudTemplate), USER_TEMPLATE_KEY);
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(containerCloudTemplate),
+          validation: undefined,
+        },
+        [PROVISION_SOURCE_TYPE_KEY]: {
+          validation: undefined,
+          value: PROVISION_SOURCE_REGISTRY,
+        },
+        [REGISTRY_IMAGE_KEY]: {
+          value: 'fooContainer',
+          validation: undefined,
+        },
+        [CLOUD_INIT_KEY]: {
+          validation: undefined,
+          value: true,
+        },
+        [HOST_NAME_KEY]: {
+          validation: undefined,
+          value: 'fooHostname',
+        },
+        [AUTHKEYS_KEY]: {
+          validation: undefined,
+          value: 'fooSSH',
+        },
+      },
+      true
+    );
+  });
+
+  it('reads flavor from user template', () => {
+    const onChange = jest.fn();
+    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+
+    onFormChange(component, getName(containerCloudTemplate), USER_TEMPLATE_KEY);
 
     expectMockToBeCalledWith(
       onChange,
       {
         ...validBasicSettings,
-        imageSourceType: {
-          value: PROVISION_SOURCE_TEMPLATE,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(containerCloudTemplate),
+          validation: undefined,
         },
-        userTemplate: {
-          value: getName(getTemplate(templates, TEMPLATE_TYPE_VM)[0]),
+        [PROVISION_SOURCE_TYPE_KEY]: {
+          validation: undefined,
+          value: PROVISION_SOURCE_REGISTRY,
+        },
+        [REGISTRY_IMAGE_KEY]: {
+          value: getTemplateProvisionSource(containerCloudTemplate).source,
+          validation: undefined,
+        },
+        [CLOUD_INIT_KEY]: {
+          validation: undefined,
+          value: true,
+        },
+        [HOST_NAME_KEY]: {
+          validation: undefined,
+          value: 'fooHostname',
+        },
+        [AUTHKEYS_KEY]: {
+          validation: undefined,
+          value: 'fooSSH',
         },
       },
-      false
+      true
     );
+
+    onFormChange(component, getName(urlCustomFlavorTemplate), USER_TEMPLATE_KEY);
+
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(urlCustomFlavorTemplate),
+          validation: undefined,
+        },
+        [PROVISION_SOURCE_TYPE_KEY]: {
+          validation: undefined,
+          value: PROVISION_SOURCE_URL,
+        },
+        [IMAGE_URL_KEY]: {
+          value: getTemplateProvisionSource(urlCustomFlavorTemplate).source,
+          validation: undefined,
+        },
+        [FLAVOR_KEY]: {
+          value: CUSTOM_FLAVOR,
+          validation: undefined,
+        },
+        [CPU_KEY]: {
+          value: getCpu(urlCustomFlavorTemplate.objects[0]),
+          validation: undefined,
+        },
+        [MEMORY_KEY]: {
+          value: parseInt(getMemory(urlCustomFlavorTemplate.objects[0]), 10),
+          validation: undefined,
+        },
+      },
+      true,
+      1
+    );
+  });
+
+  it('provides no user template choice', () => {
+    const onChange = jest.fn();
+    const component = mount(testBasicSettingsTab(validBasicSettings, onChange));
+
+    clickOnUserTemplate(component, getName(userTemplates[0]));
+
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: getName(userTemplates[0]),
+          validation: undefined,
+        },
+        [REGISTRY_IMAGE_KEY]: {
+          value: 'fooContainer',
+        },
+      },
+      true
+    );
+
+    clickOnUserTemplate(component, NO_TEMPLATE);
+
+    expectMockToBeCalledWith(
+      onChange,
+      {
+        ...validBasicSettings,
+        [USER_TEMPLATE_KEY]: {
+          value: undefined,
+          validation: undefined,
+        },
+      },
+      true,
+      1
+    );
+  });
+
+  it('disables provision source, workload and os for user template', () => {
+    const component = mount(testBasicSettingsTab(validBasicSettings));
+
+    checkDisabledDropdown(component, containerTemplate, {
+      image: true,
+      os: true,
+      flavor: false,
+      workload: true,
+    });
+
+    checkDisabledDropdown(component, urlCustomFlavorTemplate, {
+      image: true,
+      os: true,
+      flavor: true,
+      workload: true,
+    });
+
+    checkDisabledDropdown(component, undefined, {
+      image: false,
+      os: false,
+      flavor: false,
+      workload: false,
+    });
+  });
+});
+
+describe('<BasicSettingsTab /> for Create VM Template', () => {
+  it('renders correctly', () => {
+    const component = shallow(testBasicSettingsTab({}, null, null, true));
+    expect(component).toMatchSnapshot();
   });
 });

@@ -1,6 +1,7 @@
 import StorageTab from '../StorageTab';
 import { units, persistentVolumeClaims, storageClasses } from './CreateVmWizard.fixture';
 import { PROVISION_SOURCE_URL } from '../../../../constants';
+import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC } from '../constants';
 
 export const rows = [
   {
@@ -10,23 +11,22 @@ export const rows = [
     size: '15',
     storageClass: 'iscsi',
     renderConfig: 0,
+    storageType: STORAGE_TYPE_DATAVOLUME,
   },
   {
     id: 2,
     isBootable: false,
     renderConfig: 1,
-    attachStorage: {
-      id: 'disk-two',
-      name: 'disk Two',
-      size: '15',
-      storageClass: 'glusterfs',
-    },
+    name: 'disk Two',
+    size: '15',
+    storageClass: 'glusterfs',
+    storageType: STORAGE_TYPE_PVC,
   },
   {
     id: 3,
     isBootable: false,
     renderConfig: 1,
-    attachStorage: {},
+    storageType: STORAGE_TYPE_PVC,
   },
 ];
 

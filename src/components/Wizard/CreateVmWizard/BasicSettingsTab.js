@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { FormFactory } from '../../Form/FormFactory';
-import { getName } from '../../../utils/selectors';
-import { getTemplate } from '../../../utils/templates';
+import { getName, getMemory, getCpu, getCloudInitData } from '../../../utils/selectors';
+import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
 import {
   getFlavors,
@@ -11,13 +11,16 @@ import {
   getWorkloadProfiles,
   isFlavorType,
   isImageSourceType,
+  selectVm,
+  getTemplateFlavors,
+  getTemplateWorkloadProfiles,
+  getTemplateOperatingSystems,
 } from '../../../k8s/selectors';
 
 import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_REGISTRY,
-  PROVISION_SOURCE_TEMPLATE,
   PROVISION_SOURCE_URL,
   TEMPLATE_TYPE_VM,
   VALIDATION_ERROR_TYPE,
@@ -26,7 +29,7 @@ import {
   NAME_KEY,
   NAMESPACE_KEY,
   DESCRIPTION_KEY,
-  IMAGE_SOURCE_TYPE_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
   REGISTRY_IMAGE_KEY,
   IMAGE_URL_KEY,
   USER_TEMPLATE_KEY,
@@ -39,16 +42,21 @@ import {
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
-  IMAGE_URL_SIZE_KEY,
 } from './constants';
-import { ERROR_IS_REQUIRED } from './strings';
+import { ERROR_IS_REQUIRED, NO_TEMPLATE } from './strings';
 
-export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
-  const workloadProfiles = getWorkloadProfiles(basicSettings, templates);
-  const operatingSystems = getOperatingSystems(basicSettings, templates);
-  const flavors = getFlavors(basicSettings, templates);
+export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate) => {
+  const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
+  const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
+  const operatingSystems = getOperatingSystems(basicSettings, templates, userTemplate);
+  const flavors = getFlavors(basicSettings, templates, userTemplate);
+  const imageSources = [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY];
+  const userTemplateNames = getTemplate(templates, TEMPLATE_TYPE_VM).map(getName);
+  userTemplateNames.push(NO_TEMPLATE);
 
   let namespaceDropdown;
+  let startVmCheckbox;
+  let userTemplateDropdown;
 
   if (!selectedNamespace) {
     namespaceDropdown = {
@@ -58,6 +66,22 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Namespace ---',
       choices: namespaces.map(getName),
       required: true,
+    };
+  }
+
+  if (!createTemplate) {
+    startVmCheckbox = {
+      id: 'start-vm',
+      title: 'Start virtual machine on creation',
+      type: 'checkbox',
+      noBottom: true,
+    };
+    userTemplateDropdown = {
+      id: 'template-dropdown',
+      title: 'Template',
+      type: 'dropdown',
+      defaultValue: '--- Select Template ---',
+      choices: userTemplateNames,
     };
   }
 
@@ -74,40 +98,29 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       type: 'textarea',
     },
     [NAMESPACE_KEY]: namespaceDropdown,
-    [IMAGE_SOURCE_TYPE_KEY]: {
+    [USER_TEMPLATE_KEY]: userTemplateDropdown,
+    [PROVISION_SOURCE_TYPE_KEY]: {
       id: 'image-source-type-dropdown',
       title: 'Provision Source',
       type: 'dropdown',
       defaultValue: '--- Select Provision Source ---',
-      choices: [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_TEMPLATE],
+      choices: imageSources,
       required: true,
+      disabled: userTemplate !== undefined,
     },
     [REGISTRY_IMAGE_KEY]: {
       id: 'provision-source-registry',
       title: 'Registry Image',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY),
+      disabled: userTemplate !== undefined,
     },
     [IMAGE_URL_KEY]: {
       id: 'provision-source-url',
       title: 'URL',
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
-    },
-    [IMAGE_URL_SIZE_KEY]: {
-      title: 'Disk Size (GB)',
-      type: 'positive-number',
-      required: true,
-      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
-    },
-    [USER_TEMPLATE_KEY]: {
-      id: 'template-dropdown',
-      title: 'Template',
-      type: 'dropdown',
-      defaultValue: '--- Select Template ---',
-      choices: getTemplate(templates, TEMPLATE_TYPE_VM).map(getName),
-      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
-      required: true,
+      disabled: userTemplate !== undefined,
     },
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
@@ -116,7 +129,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Operating System ---',
       choices: operatingSystems,
       required: true,
-      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
+      disabled: userTemplate !== undefined,
     },
     [FLAVOR_KEY]: {
       id: 'flavor-dropdown',
@@ -125,23 +138,21 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Flavor ---',
       choices: flavors,
       required: true,
-      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
+      disabled: userTemplate !== undefined && flavors.length === 1,
     },
     [MEMORY_KEY]: {
       id: 'resources-memory',
       title: 'Memory (GB)',
       type: 'positive-number',
       required: true,
-      isVisible: basicVmSettings =>
-        isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
+      isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
     },
     [CPU_KEY]: {
       id: 'resources-cpu',
       title: 'CPUs',
       type: 'positive-number',
       required: true,
-      isVisible: basicVmSettings =>
-        isFlavorType(basicVmSettings, CUSTOM_FLAVOR) || isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
+      isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
     },
     [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',
@@ -150,19 +161,14 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Workload Profile ---',
       choices: workloadProfiles,
       required: true,
-      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_TEMPLATE),
       help: workloadProfiles.map(profile => (
         <p key={profile}>
           <b>{profile}</b>: {profile}
         </p>
       )),
+      disabled: userTemplate !== undefined,
     },
-    [START_VM_KEY]: {
-      id: 'start-vm',
-      title: 'Start virtual machine on creation',
-      type: 'checkbox',
-      noBottom: true,
-    },
+    [START_VM_KEY]: startVmCheckbox,
     /*
       [CREATE_TEMPLATE_KEY]: {
         title: 'Create new template from configuration',
@@ -232,22 +238,88 @@ const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onCh
     formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace);
   }
 
-  const newBasicSettings = {
-    ...basicSettings,
-    [target]: value,
-  };
+  const newBasicSettings = { ...basicSettings };
 
-  if (target === IMAGE_SOURCE_TYPE_KEY && value.value === PROVISION_SOURCE_TEMPLATE) {
-    const currentUserTemplate = get(newBasicSettings.userTemplate, 'value');
-    if (!currentUserTemplate) {
+  if (target) {
+    newBasicSettings[target] = value;
+  }
+
+  if (target === USER_TEMPLATE_KEY) {
+    if (value.value === NO_TEMPLATE) {
+      newBasicSettings[target] = asValueObject(undefined);
+    } else {
       const allTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
       if (allTemplates.length > 0) {
-        newBasicSettings.userTemplate = asValueObject(getName(allTemplates[0]));
+        const userTemplate = allTemplates.find(template => template.metadata.name === value.value);
+        updateTemplateData(userTemplate, newBasicSettings);
       }
     }
   }
 
-  onChange(newBasicSettings, validateWizard(formFields, newBasicSettings)); // not valid
+  onChange(newBasicSettings, validateWizard(formFields, newBasicSettings));
+};
+
+const updateTemplateData = (userTemplate, newBasicSettings) => {
+  if (userTemplate) {
+    const vm = selectVm(userTemplate.objects);
+
+    // update flavor
+    const [flavor] = getTemplateFlavors([userTemplate]);
+    newBasicSettings[FLAVOR_KEY] = asValueObject(flavor);
+    if (flavor === CUSTOM_FLAVOR) {
+      newBasicSettings.cpu = asValueObject(getCpu(vm));
+      const memory = getMemory(vm);
+      newBasicSettings.memory = memory ? asValueObject(parseInt(memory, 10)) : undefined;
+    }
+
+    // update os
+    const [os] = getTemplateOperatingSystems([userTemplate]);
+    newBasicSettings[OPERATING_SYSTEM_KEY] = asValueObject(os);
+
+    // update workload profile
+    const [workload] = getTemplateWorkloadProfiles([userTemplate]);
+    newBasicSettings[WORKLOAD_PROFILE_KEY] = asValueObject(workload);
+
+    // update cloud-init
+    const cloudInit = getCloudInitData(vm);
+    if (cloudInit) {
+      newBasicSettings[CLOUD_INIT_KEY] = asValueObject(true);
+
+      const { userData } = cloudInit;
+
+      newBasicSettings[HOST_NAME_KEY] = asValueObject(userData.hostname || '');
+
+      const users = userData.users || [];
+      const rootUser = users.find(user => user.name === 'root');
+      newBasicSettings[AUTHKEYS_KEY] = asValueObject(rootUser['ssh-authorized-keys'] || '');
+    } else if (get(newBasicSettings[CLOUD_INIT_KEY], 'value')) {
+      newBasicSettings[CLOUD_INIT_KEY] = asValueObject(false);
+    }
+
+    // update provision source
+    const provisionSource = getTemplateProvisionSource(userTemplate);
+    if (provisionSource) {
+      newBasicSettings[PROVISION_SOURCE_TYPE_KEY] = asValueObject(provisionSource.type);
+      switch (provisionSource.type) {
+        case PROVISION_SOURCE_REGISTRY:
+          newBasicSettings[REGISTRY_IMAGE_KEY] = asValueObject(provisionSource.source);
+          break;
+        case PROVISION_SOURCE_URL:
+          newBasicSettings[IMAGE_URL_KEY] = asValueObject(provisionSource.source);
+          break;
+        case PROVISION_SOURCE_PXE:
+          break;
+        default:
+          // eslint-disable-next-line
+          console.warn(`Unknown provision source ${provisionSource.type}`);
+          break;
+      }
+    } else {
+      // eslint-disable-next-line
+      console.warn(`Cannot detect provision source for template ${getName(userTemplate)}`);
+    }
+  }
+  return newBasicSettings;
 };
 
 class BasicSettingsTab extends React.Component {
@@ -284,8 +356,8 @@ class BasicSettingsTab extends React.Component {
   };
 
   render() {
-    const { basicSettings, namespaces, templates, selectedNamespace } = this.props;
-    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace);
+    const { basicSettings, namespaces, templates, selectedNamespace, createTemplate } = this.props;
+    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate);
 
     return (
       <FormFactory
@@ -299,6 +371,7 @@ class BasicSettingsTab extends React.Component {
 
 BasicSettingsTab.defaultProps = {
   selectedNamespace: undefined,
+  createTemplate: false,
 };
 
 BasicSettingsTab.propTypes = {
@@ -308,6 +381,7 @@ BasicSettingsTab.propTypes = {
   basicSettings: PropTypes.object.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   onChange: PropTypes.func.isRequired,
+  createTemplate: PropTypes.bool,
 };
 
 export default BasicSettingsTab;

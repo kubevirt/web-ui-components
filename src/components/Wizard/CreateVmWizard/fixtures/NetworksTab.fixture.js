@@ -1,12 +1,13 @@
 import { NetworksTab } from '..';
-import { networkConfigs } from '../../../../constants';
+import { PROVISION_SOURCE_PXE } from '../../../../constants';
+import { networkConfigs } from '../../../../k8s/mock_network';
 
 export default {
   component: NetworksTab,
   props: {
     onChange: () => {},
     networks: [],
-    pxeBoot: true,
+    sourceType: PROVISION_SOURCE_PXE,
     networkConfigs,
     namespace: 'default',
   },

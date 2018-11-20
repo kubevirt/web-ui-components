@@ -1,29 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { findIndex } from 'lodash';
 import { Wizard } from 'patternfly-react';
 
 import BasicSettingsTab from './BasicSettingsTab';
 import StorageTab from './StorageTab';
 import ResultTab from './ResultTab';
 
-import { createVM } from '../../../k8s/request';
-import { POD_NETWORK, PROVISION_SOURCE_PXE, PROVISION_SOURCE_TEMPLATE } from '../../../constants';
+import { createVm, createVmTemplate } from '../../../k8s/request';
+import { POD_NETWORK, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_PXE } from '../../../constants';
 import { NetworksTab } from './NetworksTab';
-import { isImageSourceType, settingsValue } from '../../../k8s/selectors';
+import { settingsValue } from '../../../k8s/selectors';
 import {
-  IMAGE_SOURCE_TYPE_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
   USER_TEMPLATE_KEY,
-  IMAGE_URL_SIZE_KEY,
   BASIC_SETTINGS_TAB_KEY,
   NETWORKS_TAB_KEY,
   STORAGE_TAB_KEY,
   RESULT_TAB_KEY,
+  STORAGE_TYPE_REGISTRY,
+  STORAGE_TYPE_DATAVOLUME,
+  NETWORK_TYPE_POD,
 } from './constants';
-import { CREATE_VM, STEP_BASIC_SETTINGS, STEP_NETWORK, STEP_STORAGE, STEP_RESULT, NEXT } from './strings';
-
-import { getTemplateStorages } from './utils';
+import {
+  CREATE_VM,
+  CREATE_VM_TEMPLATE,
+  STEP_BASIC_SETTINGS,
+  STEP_NETWORK,
+  STEP_STORAGE,
+  STEP_RESULT,
+  NEXT,
+} from './strings';
 import { loadingWizardTab } from '../loadingWizardTab';
-import { getUserTemplate } from '../../../utils/templates';
+import {
+  getUserTemplate,
+  getTemplateStorages,
+  getTemplateInterfaces,
+  hasAutoAttachPodInterface,
+} from '../../../utils/templates';
 
 const LoadingBasicWizardTab = loadingWizardTab(BasicSettingsTab);
 const LoadingStorageTab = loadingWizardTab(StorageTab);
@@ -37,7 +51,9 @@ const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
   const rows = [...withoutDiscardedTemplateStorage];
 
   if (newUserTemplate) {
-    const templateStorages = getTemplateStorages(newUserTemplate);
+    const templateStorages = getTemplateStorages(newUserTemplate).map(storage => ({
+      templateStorage: storage,
+    }));
     rows.push(...templateStorages);
   }
 
@@ -50,19 +66,107 @@ const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
   };
 };
 
+const onUserTemplateChangedInNetworksTab = (stepData, newUserTemplate) => {
+  const withoutDiscardedTemplateNetworks = stepData[NETWORKS_TAB_KEY].value.filter(network => !network.templateNetwork);
+
+  const rows = [...withoutDiscardedTemplateNetworks];
+  if (!rows.find(row => row.rootNetwork)) {
+    rows.push(podNetwork);
+  }
+
+  if (newUserTemplate) {
+    const templateInterfaces = getTemplateInterfaces(newUserTemplate);
+    const networks = templateInterfaces.map(i => ({
+      templateNetwork: i,
+    }));
+
+    // do not add root interface if there already is one or autoAttachPodInterface is set to false
+    if (networks.some(network => network.templateNetwork.network.pod) || !hasAutoAttachPodInterface(newUserTemplate)) {
+      const index = findIndex(rows, network => network.rootNetwork);
+      rows.splice(index, 1);
+    }
+
+    rows.push(...networks);
+  }
+
+  return {
+    ...stepData,
+    [NETWORKS_TAB_KEY]: {
+      ...stepData[NETWORKS_TAB_KEY],
+      value: rows,
+    },
+  };
+};
+
+const rootDisk = {
+  rootStorage: {},
+  name: 'rootdisk',
+  isBootable: true,
+};
+
+export const rootRegistryDisk = {
+  ...rootDisk,
+  storageType: STORAGE_TYPE_REGISTRY,
+};
+
+export const rootDataVolumeDisk = {
+  ...rootDisk,
+  storageType: STORAGE_TYPE_DATAVOLUME,
+  size: 10,
+};
+
+const onImageSourceTypeChangedInStorageTab = stepData => {
+  const withoutRootStorage = stepData[STORAGE_TAB_KEY].value.filter(storage => !storage.rootStorage);
+  const rows = [...withoutRootStorage];
+  const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
+  if (!(basicSettings[USER_TEMPLATE_KEY] && basicSettings[USER_TEMPLATE_KEY].value)) {
+    let storage;
+    const provisionSource = basicSettings[PROVISION_SOURCE_TYPE_KEY].value;
+    switch (provisionSource) {
+      case PROVISION_SOURCE_URL:
+        storage = rootDataVolumeDisk;
+        break;
+      case PROVISION_SOURCE_REGISTRY:
+        storage = rootRegistryDisk;
+        break;
+      case PROVISION_SOURCE_PXE:
+        break;
+      default:
+        // eslint-disable-next-line
+        console.warn(`Unknown provision source ${provisionSource}`);
+        break;
+    }
+    if (storage) {
+      rows.push(storage);
+    }
+  }
+  return {
+    ...stepData,
+    [STORAGE_TAB_KEY]: {
+      ...stepData[STORAGE_TAB_KEY],
+      value: rows,
+    },
+  };
+};
+
 const onUserTemplateChanged = (props, stepData) => {
   const userTemplateName = getBasicSettingsValue(stepData, USER_TEMPLATE_KEY);
   const userTemplate = userTemplateName ? getUserTemplate(props.templates, userTemplateName) : undefined;
-  return onUserTemplateChangedInStorageTab(stepData, userTemplate);
+  const newStepData = onUserTemplateChangedInStorageTab(stepData, userTemplate);
+  return onUserTemplateChangedInNetworksTab(newStepData, userTemplate);
 };
 
-const onImageSourceTypeChanged = (props, stepData) => {
-  const userTemplateName =
-    getBasicSettingsValue(stepData, IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE
-      ? getBasicSettingsValue(stepData, USER_TEMPLATE_KEY)
-      : undefined;
-  const userTemplate = userTemplateName ? getUserTemplate(props.templates, userTemplateName) : undefined;
-  return onUserTemplateChangedInStorageTab(stepData, userTemplate);
+const onImageSourceTypeChanged = (props, stepData) => onImageSourceTypeChangedInStorageTab(stepData);
+
+const podNetwork = {
+  rootNetwork: {},
+  id: 0,
+  name: 'eth0',
+  mac: '',
+  network: POD_NETWORK,
+  editable: true,
+  edit: false,
+  networkType: NETWORK_TYPE_POD,
 };
 
 export class CreateVmWizard extends React.Component {
@@ -71,26 +175,11 @@ export class CreateVmWizard extends React.Component {
     stepData: {
       [BASIC_SETTINGS_TAB_KEY]: {
         // Basic Settings
-        value: {
-          [IMAGE_URL_SIZE_KEY]: {
-            value: 10,
-          },
-        },
+        value: {},
         valid: false,
       },
       [NETWORKS_TAB_KEY]: {
-        value: {
-          networks: [
-            {
-              id: 1,
-              name: 'eth0',
-              mac: '',
-              network: POD_NETWORK,
-              editable: true,
-              edit: false,
-            },
-          ],
-        },
+        value: [podNetwork],
         valid: true,
       },
       [STORAGE_TAB_KEY]: {
@@ -114,7 +203,7 @@ export class CreateVmWizard extends React.Component {
       callback: onUserTemplateChanged,
     },
     {
-      field: IMAGE_SOURCE_TYPE_KEY,
+      field: PROVISION_SOURCE_TYPE_KEY,
       callback: onImageSourceTypeChanged,
     },
   ];
@@ -143,7 +232,8 @@ export class CreateVmWizard extends React.Component {
   };
 
   finish() {
-    createVM(
+    const create = this.props.createTemplate ? createVmTemplate : createVm;
+    create(
       this.props.k8sCreate,
       this.props.templates,
       this.state.stepData[BASIC_SETTINGS_TAB_KEY].value,
@@ -183,6 +273,7 @@ export class CreateVmWizard extends React.Component {
             basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value}
             onChange={(value, valid) => this.onStepDataChanged(BASIC_SETTINGS_TAB_KEY, value, valid)}
             loadingData={loadingData}
+            createTemplate={this.props.createTemplate}
           />
         );
       },
@@ -194,12 +285,13 @@ export class CreateVmWizard extends React.Component {
         const loadingData = {
           networkConfigs: this.props.networkConfigs,
         };
+        const sourceType = getBasicSettingsValue(this.state.stepData, PROVISION_SOURCE_TYPE_KEY);
         return (
           <LoadingNetworksTab
             onChange={(value, valid) => this.onStepDataChanged(NETWORKS_TAB_KEY, value, valid)}
             networkConfigs={this.props.networkConfigs}
-            networks={this.state.stepData[NETWORKS_TAB_KEY].value.networks || []}
-            pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_KEY].value, PROVISION_SOURCE_PXE)}
+            networks={this.state.stepData[NETWORKS_TAB_KEY].value || []}
+            sourceType={sourceType}
             namespace={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value.namespace.value}
             loadingData={loadingData}
           />
@@ -210,11 +302,11 @@ export class CreateVmWizard extends React.Component {
       title: STEP_STORAGE,
       key: STORAGE_TAB_KEY,
       render: () => {
-        const sourceType = getBasicSettingsValue(this.state.stepData, IMAGE_SOURCE_TYPE_KEY);
         const loadingData = {
           storageClasses: this.props.storageClasses,
           persistentVolumeClaims: this.props.persistentVolumeClaims,
         };
+        const sourceType = getBasicSettingsValue(this.state.stepData, PROVISION_SOURCE_TYPE_KEY);
         return (
           <LoadingStorageTab
             initialStorages={this.state.stepData[STORAGE_TAB_KEY].value}
@@ -232,7 +324,9 @@ export class CreateVmWizard extends React.Component {
       key: RESULT_TAB_KEY,
       render: () => {
         const stepData = this.state.stepData[RESULT_TAB_KEY];
-        return <ResultTab result={stepData.value} success={stepData.valid} />;
+        return (
+          <ResultTab result={stepData.value} success={stepData.valid} createTemplate={this.props.createTemplate} />
+        );
       },
     },
   ];
@@ -240,6 +334,8 @@ export class CreateVmWizard extends React.Component {
   render() {
     const beforeLastStepReached = this.state.activeStepIndex === this.wizardStepsNewVM.length - 2;
     const lastStepReached = this.lastStepReached();
+
+    const createVmText = this.props.createTemplate ? CREATE_VM_TEMPLATE : CREATE_VM;
 
     return (
       <Wizard.Pattern
@@ -252,8 +348,8 @@ export class CreateVmWizard extends React.Component {
         cancelButtonDisabled={lastStepReached}
         stepButtonsDisabled={lastStepReached}
         nextStepDisabled={!this.state.stepData[this.wizardStepsNewVM[this.state.activeStepIndex].key].valid}
-        nextText={beforeLastStepReached ? CREATE_VM : NEXT}
-        title={CREATE_VM}
+        nextText={beforeLastStepReached ? createVmText : NEXT}
+        title={createVmText}
       />
     );
   }
@@ -266,6 +362,7 @@ CreateVmWizard.defaultProps = {
   networkConfigs: undefined,
   persistentVolumeClaims: undefined,
   storageClasses: undefined,
+  createTemplate: false,
 };
 
 CreateVmWizard.propTypes = {
@@ -278,4 +375,5 @@ CreateVmWizard.propTypes = {
   persistentVolumeClaims: PropTypes.array,
   storageClasses: PropTypes.array,
   units: PropTypes.object.isRequired,
+  createTemplate: PropTypes.bool,
 };
