@@ -38,7 +38,7 @@ import {
   IMAGE_URL_SIZE_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
 
-import { linuxUserTemplate } from '../mock_user_templates/linux.template';
+import { linuxUserTemplate } from '../mock_user_templates/linux.mock';
 
 import { persistentVolumeClaims } from '../../components/Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
 
