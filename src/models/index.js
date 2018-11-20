@@ -17,3 +17,16 @@ export const ProcessedTemplatesModel = {
   apiGroup: 'template.openshift.io',
   namespaced: true,
 };
+
+export const VirtualMachineInstanceMigrationModel = {
+  label: 'Virtual Machine Instance Migration',
+  labelPlural: 'Virtual Machine Instance Migrations',
+  apiVersion: 'v1alpha2',
+  path: 'virtualmachineinstancemigrations',
+  apiGroup: 'kubevirt.io',
+  plural: 'virtualmachineinstancemigrations',
+  abbr: 'VMIM',
+  namespaced: true,
+  kind: 'VirtualMachineInstanceMigration',
+  id: 'virtualmachineinstancemigration',
+};

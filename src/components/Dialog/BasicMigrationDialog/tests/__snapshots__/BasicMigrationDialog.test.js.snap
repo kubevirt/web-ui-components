@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BasicMigrationDialog /> renders correctly 1`] = `
+<MessageDialog
+  accessibleDescription="migrateConfirmationDialogContent"
+  accessibleName="migrateConfirmationDialog"
+  className=""
+  enforceFocus={true}
+  footer={null}
+  icon={null}
+  onHide={[Function]}
+  primaryAction={[Function]}
+  primaryActionButtonBsStyle="primary"
+  primaryActionButtonContent="Migrate"
+  primaryContent="Do you wish to migrate blue vmi to another node?"
+  secondaryAction={[Function]}
+  secondaryActionButtonBsStyle="default"
+  secondaryActionButtonContent="Cancel"
+  secondaryContent={null}
+  show={true}
+  title="Migrate Virtual Machine"
+/>
+`;

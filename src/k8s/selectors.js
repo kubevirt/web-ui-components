@@ -67,3 +67,5 @@ export const isFlavorType = (basicSettings, type) => settingsValue(basicSettings
 export const getTemplateAnnotations = (template, name) => get(template.metadata.annotations, [name]);
 
 export const selectVm = objects => objects.find(obj => obj.kind === VirtualMachineModel.kind);
+
+export const getModelApi = model => `${model.apiGroup}/${model.apiVersion}`;
