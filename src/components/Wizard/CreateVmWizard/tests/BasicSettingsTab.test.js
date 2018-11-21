@@ -1,12 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import cloneDeep from 'lodash/cloneDeep';
 import BasicSettingsTab, { getFormFields } from '../BasicSettingsTab';
 import { namespaces } from '../fixtures/CreateVmWizard.fixture';
 import { templates, PROVISION_SOURCE_TEMPLATE, TEMPLATE_TYPE_VM } from '../../../../constants';
 import { getTemplate } from '../../../../utils/templates';
 import { getName } from '../../../../utils/selectors';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
-import { NAMESPACE_KEY } from '../constants';
+import { NAMESPACE_KEY, NAME_KEY } from '../constants';
+import { DNS1123_START_ERROR } from '../../../../utils/strings';
+import { getValidationObject } from '../../../../utils/validations';
 
 const testCreateVmWizard = (basicSettings = {}, onChange = null, selectedNamespace = undefined) => (
   <BasicSettingsTab
@@ -20,7 +23,7 @@ const testCreateVmWizard = (basicSettings = {}, onChange = null, selectedNamespa
 
 const expectMockToBeCalledWith = (fn, a, b) => {
   expect(fn.mock.calls[0][0]).toEqual(a);
-  expect(fn.mock.calls[0][1]).toBe(b);
+  expect(fn.mock.calls[0][1]).toEqual(b);
 };
 
 const testFormChange = (what, value, result, valid) => {
@@ -52,7 +55,7 @@ describe('<BasicSettingsTab />', () => {
       onChange,
       {
         namespace: {
-          validMsg: undefined,
+          validation: undefined,
           value: namespace.metadata.name,
         },
       },
@@ -81,7 +84,7 @@ describe('<BasicSettingsTab />', () => {
       onChange,
       {
         namespace: {
-          validMsg: undefined,
+          validation: undefined,
           value: selectedNamespace.metadata.name,
         },
       },
@@ -92,11 +95,36 @@ describe('<BasicSettingsTab />', () => {
   it('validates incomplete form', () => {
     testFormChange(
       'name',
-      'someName',
+      'somename',
       {
         name: {
-          validMsg: undefined,
-          value: 'someName',
+          validation: null,
+          value: 'somename',
+        },
+      },
+      false
+    );
+  });
+
+  it('validates name field', () => {
+    testFormChange(
+      'name',
+      'somename',
+      {
+        name: {
+          validation: null,
+          value: 'somename',
+        },
+      },
+      false
+    );
+    testFormChange(
+      'name',
+      '_name',
+      {
+        name: {
+          validation: getValidationObject(`Name ${DNS1123_START_ERROR}`),
+          value: '_name',
         },
       },
       false
@@ -108,7 +136,9 @@ describe('<BasicSettingsTab />', () => {
     const component = shallow(testCreateVmWizard(validBasicSettings, onChange));
     onFormChange(component, validBasicSettings.name.value, 'name'); // trigger validation
 
-    expectMockToBeCalledWith(onChange, validBasicSettings, true);
+    const validSettings = cloneDeep(validBasicSettings);
+    validSettings[NAME_KEY].validation = null;
+    expectMockToBeCalledWith(onChange, validSettings, true);
   });
 
   it('required property is validated', () => {
@@ -117,7 +147,7 @@ describe('<BasicSettingsTab />', () => {
       '',
       {
         name: {
-          validMsg: 'Name is required',
+          validation: getValidationObject('Name is required'),
           value: '',
         },
       },
@@ -135,7 +165,7 @@ describe('<BasicSettingsTab />', () => {
       {
         ...validBasicSettings,
         namespace: {
-          validMsg: 'Namespace is required',
+          validation: getValidationObject('Namespace is required'),
           value: '',
         },
       },

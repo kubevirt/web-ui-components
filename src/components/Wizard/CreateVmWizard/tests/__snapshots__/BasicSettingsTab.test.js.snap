@@ -82,6 +82,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "id": "vm-name",
         "required": true,
         "title": "Name",
+        "validate": [Function],
       },
       "namespace": Object {
         "choices": Array [

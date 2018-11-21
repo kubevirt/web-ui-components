@@ -13,26 +13,44 @@ import {
   getPvcResources,
   getDataVolumeResources,
 } from '../../../utils/selectors';
+import { getValidationObject } from '../../../utils/validations';
 
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
+import {
+  ERROR_NO_BOOTABLE_DISK,
+  ERROR_EMPTY_ENTITY,
+  ERROR_EMPTY_NAME,
+  ERROR_NO_STORAGE_SELECTED,
+  ERROR_NO_STORAGE_CLASS_SELECTED,
+  ERROR_POSITIVE_SIZE,
+  ERROR_STORAGE_NOT_VALID,
+  ERROR_DISK_NOT_FOUND,
+  HEADER_DISK_NAME,
+  HEADER_SIZE,
+  HEADER_STORAGE_CLASS,
+  REMOVE_DISK_BUTTON,
+  ATTACH_STORAGE_BUTTON,
+  BOOTABLE_DISK,
+  SELECT_BOOTABLE_DISK,
+} from './strings';
 
 const validatePvc = pvc => {
   const errors = Array(4).fill(null);
 
   if (!pvc || pvc.id == null) {
-    errors[0] = 'Empty entity'; // row error on index 0
+    errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
 
   if (!pvc.name) {
-    errors[1] = 'Name is empty';
+    errors[1] = ERROR_EMPTY_NAME;
   }
 
   if (!pvc.size || pvc.size <= 0) {
-    errors[2] = 'Size must be positive';
+    errors[2] = ERROR_POSITIVE_SIZE;
   }
 
   if (!pvc.storageClass) {
-    errors[3] = 'Storage Class not selected';
+    errors[3] = ERROR_NO_STORAGE_CLASS_SELECTED;
   }
 
   return errors;
@@ -41,14 +59,14 @@ const validatePvc = pvc => {
 const validateAttachStorage = (storage, storages) => {
   const errors = Array(4).fill(null);
   if (!storage || storage.id == null) {
-    errors[0] = 'Empty entity.'; // row error on index 0
+    errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
 
   const attachStorageName = getName(storage.attachStorage);
   if (!attachStorageName) {
-    errors[1] = 'No storage is selected';
+    errors[1] = ERROR_NO_STORAGE_SELECTED;
   } else if (!storages || !storages.find(clazz => getName(clazz) === attachStorageName)) {
-    errors[1] = 'Selected storage is not valid';
+    errors[1] = ERROR_STORAGE_NOT_VALID;
   }
 
   return errors;
@@ -62,7 +80,7 @@ const validateDiskNamespace = (storages, pvcs, namespace) => {
     }
     storage.errors[1] = availablePvcs.some(pvc => pvc.metadata.name === getName(storage.attachStorage))
       ? null
-      : 'Disk configuration not found';
+      : ERROR_DISK_NOT_FOUND;
   });
 };
 
@@ -295,7 +313,7 @@ class StorageTab extends React.Component {
   getColumns = () => [
     {
       header: {
-        label: 'Disk Name',
+        label: HEADER_DISK_NAME,
         props: {
           style: {
             width: '50%',
@@ -321,7 +339,7 @@ class StorageTab extends React.Component {
     },
     {
       header: {
-        label: 'Size (GB)',
+        label: HEADER_SIZE,
         props: {
           style: {
             width: '23%',
@@ -338,7 +356,7 @@ class StorageTab extends React.Component {
     },
     {
       header: {
-        label: 'Storage Class',
+        label: HEADER_STORAGE_CLASS,
         props: {
           style: {
             width: '23%',
@@ -371,7 +389,7 @@ class StorageTab extends React.Component {
         actions: [
           {
             actionType: DELETE_ACTION,
-            text: 'Remove Disk',
+            text: REMOVE_DISK_BUTTON,
           },
         ],
         visibleOnEdit: false,
@@ -383,7 +401,7 @@ class StorageTab extends React.Component {
     {
       onClick: this.attachStorage,
       id: 'attach-storage-btn',
-      text: 'Attach Storage',
+      text: ATTACH_STORAGE_BUTTON,
       disabled: this.state.editing,
     },
     /*
@@ -400,9 +418,9 @@ class StorageTab extends React.Component {
   getFormFields = disks => ({
     bootableDisk: {
       id: 'bootable-disk-dropdown',
-      title: 'Bootable Disk',
+      title: BOOTABLE_DISK,
       type: 'dropdown',
-      defaultValue: '--- Select Bootable Disk ---',
+      defaultValue: SELECT_BOOTABLE_DISK,
       choices: disks.map(disk => disk.name),
       required: this.props.sourceType === PROVISION_SOURCE_TEMPLATE,
     },
@@ -428,9 +446,9 @@ class StorageTab extends React.Component {
       const values = {
         bootableDisk: {
           value: bootableDisk ? bootableDisk.name : undefined,
-          validMsg:
+          validation:
             this.props.sourceType === PROVISION_SOURCE_TEMPLATE && this.state.rows.length === 0
-              ? 'A bootable disk could not be found'
+              ? getValidationObject(ERROR_NO_BOOTABLE_DISK)
               : undefined,
         },
       };

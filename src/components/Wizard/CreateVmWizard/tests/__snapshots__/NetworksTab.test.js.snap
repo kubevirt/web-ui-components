@@ -119,7 +119,10 @@ exports[`<NetworksTab /> renders correctly 1`] = `
     fieldsValues={
       Object {
         "pxeNetwork": Object {
-          "validMsg": "A PXE-capable NIC could not be found",
+          "validation": Object {
+            "message": "A PXE-capable NIC could not be found",
+            "type": "error",
+          },
           "value": undefined,
         },
       }

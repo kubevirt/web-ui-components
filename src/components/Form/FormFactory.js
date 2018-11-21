@@ -72,7 +72,7 @@ export const FormFactory = ({
     .map(key => {
       const field = fields[key];
       const values = fieldsValues[key];
-      const validMsg = get(values, 'validMsg', null);
+      const validation = get(values, 'validation');
       const value = get(values, 'value');
 
       const child = getFormElement({
@@ -85,7 +85,7 @@ export const FormFactory = ({
       return (
         <FormGroup
           key={key}
-          validationState={validMsg ? 'error' : null}
+          validationState={validation ? validation.type : null}
           className={field.noBottom ? 'form-group-no-bottom' : undefined}
         >
           <Col sm={labelSize} className={textPosition}>
@@ -98,7 +98,7 @@ export const FormFactory = ({
           </Col>
           <Col sm={controlSize}>
             {child}
-            <HelpBlock>{validMsg}</HelpBlock>
+            <HelpBlock>{validation ? validation.message : null}</HelpBlock>
           </Col>
         </FormGroup>
       );

@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { FormFactory } from '../../Form/FormFactory';
 import { getName } from '../../../utils/selectors';
 import { getTemplate } from '../../../utils/templates';
+import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
 import {
   getFlavors,
   getOperatingSystems,
@@ -19,6 +20,7 @@ import {
   PROVISION_SOURCE_TEMPLATE,
   PROVISION_SOURCE_URL,
   TEMPLATE_TYPE_VM,
+  VALIDATION_ERROR_TYPE,
 } from '../../../constants';
 import {
   NAME_KEY,
@@ -39,6 +41,7 @@ import {
   AUTHKEYS_KEY,
   IMAGE_URL_SIZE_KEY,
 } from './constants';
+import { ERROR_IS_REQUIRED } from './strings';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace) => {
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates);
@@ -63,6 +66,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       id: 'vm-name',
       title: 'Name',
       required: true,
+      validate: validateDNS1123SubdomainValue,
     },
     [DESCRIPTION_KEY]: {
       id: 'vm-description',
@@ -206,7 +210,10 @@ const validateWizard = (formFields, values) => {
 
   // check if all fields are valid
   for (const key in values) {
-    if (get(values[key], 'validMsg') && (formFields[key].isVisible ? formFields[key].isVisible(values) : true)) {
+    if (
+      get(values[key], 'validation.type') === VALIDATION_ERROR_TYPE &&
+      (formFields[key].isVisible ? formFields[key].isVisible(values) : true)
+    ) {
       wizardValid = false;
       break;
     }
@@ -215,9 +222,9 @@ const validateWizard = (formFields, values) => {
   return wizardValid;
 };
 
-const asValueObject = (value, validMsg) => ({
+const asValueObject = (value, validation) => ({
   value,
-  validMsg,
+  validation,
 });
 
 const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onChange }, value, target, formFields) => {
@@ -261,20 +268,19 @@ class BasicSettingsTab extends React.Component {
   }
 
   onFormChange = (formFields, newValue, target) => {
-    let validMsg;
+    let validation;
 
-    if (formFields[target].validate) {
-      validMsg = formFields[target].validate(newValue);
-    }
     if (formFields[target].required && newValue.trim().length === 0) {
-      validMsg = 'is required';
+      validation = getValidationObject(ERROR_IS_REQUIRED);
+    } else if (formFields[target].validate) {
+      validation = formFields[target].validate(newValue);
     }
 
-    if (validMsg) {
-      validMsg = `${formFields[target].title} ${validMsg}`;
+    if (validation) {
+      validation.message = `${formFields[target].title} ${validation.message}`;
     }
 
-    publish(this.props, asValueObject(newValue, validMsg), target, formFields);
+    publish(this.props, asValueObject(newValue, validation), target, formFields);
   };
 
   render() {
