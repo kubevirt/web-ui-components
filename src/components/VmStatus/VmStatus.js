@@ -16,21 +16,31 @@ import {
 import { getSubPagePath } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
 
-export const getVmStatusDetail = (vm, launcherPod) => {
+const NOT_HANDLED = null;
+
+const isRunning = vm => {
   if (!get(vm, 'spec.running', false)) {
     return { status: VM_STATUS_OFF };
   }
+  return NOT_HANDLED;
+};
 
+const isReady = vm => {
   if (get(vm, 'status.ready', false)) {
     // we are all set
     return { status: VM_STATUS_RUNNING };
   }
+  return NOT_HANDLED;
+};
 
+const isCreated = (vm, launcherPod) => {
   if (get(vm, 'status.created', false)) {
     // created but not yet ready
     if (launcherPod) {
       // pod created, so check for it's potential error
-      const notReadyCondition = get(launcherPod, 'status.conditions', []).find(condition => condition.status !== 'True');
+      const notReadyCondition = get(launcherPod, 'status.conditions', []).find(
+        condition => condition.status !== 'True'
+      );
       if (notReadyCondition) {
         // at least one pod condition not met, let the user analyze issue via Pod events
         return { status: VM_STATUS_POD_ERROR, message: notReadyCondition.message };
@@ -39,19 +49,23 @@ export const getVmStatusDetail = (vm, launcherPod) => {
     }
     return { status: VM_STATUS_POD_ERROR };
   }
+  return NOT_HANDLED;
+};
 
-  // probably an issue with the VM definition
+const isVmError = vm => {
+  // is an issue with the VM definition?
   const condition = get(vm, 'status.conditions[0]');
   if (condition) {
     // Do we need to analyze additional conditions in the array? Probably not.
     if (condition.type === 'Failure') {
       return { status: VM_STATUS_ERROR, message: condition.message };
     }
-    // fall-through to default
   }
-
-  return { status: VM_STATUS_UNKNOWN };
+  return NOT_HANDLED;
 };
+
+export const getVmStatusDetail = (vm, launcherPod) =>
+  isRunning(vm) || isReady(vm) || isCreated(vm, launcherPod) || isVmError(vm) || { status: VM_STATUS_UNKNOWN };
 
 export const getVmStatus = (vm, launcherPod) => {
   const vmStatus = getVmStatusDetail(vm, launcherPod).status;
