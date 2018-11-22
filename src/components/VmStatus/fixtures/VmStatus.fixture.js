@@ -26,6 +26,22 @@ const podFixture = {
   },
 };
 
+const podNotScheduledFixture = {
+  metadata: {
+    name: 'virt-launcher-my-vm-x9c99',
+    namespace: 'my-namespace',
+  },
+  status: {
+    conditions: [
+      { type: 'Initialized', status: 'True' },
+      { type: 'Ready', status: 'False', message: 'fail description for Ready' },
+      { type: 'ContainersReady', status: 'False', message: 'fail description for ContainersReady' },
+      { type: 'PodScheduled', status: 'False', reason: 'Unschedulable' },
+    ],
+    containerStatuses: {},
+  },
+};
+
 const podFixtureNoConditions = {
   metadata: {
     name: 'virt-launcher-my-vm-x9c99',
@@ -60,63 +76,52 @@ export const vmFixtures = [
   },
 
   {
-    // requires pod
     metadata,
     spec: { running: true },
     status: {
       created: true,
       ready: false,
     },
-    conditions: [
-      {
-        type: 'Failure',
-        message: 'Failure backend description',
-      },
-    ],
 
     podFixture, // helper, not part of the API object
-    expected: VM_STATUS_ERROR_COMMON,
-    expectedDetail: VM_STATUS_POD_ERROR,
+    expected: VM_STATUS_STARTING,
   },
 
   {
-    // requires pod
     metadata,
     spec: { running: true },
     status: {
       created: true,
       ready: false,
     },
-    conditions: [
-      {
-        type: 'Failure',
-        message: 'Failure backend description',
-      },
-    ],
 
     podFixture: undefined, // pod not yet created
-    expected: VM_STATUS_ERROR_COMMON,
-    expectedDetail: VM_STATUS_POD_ERROR,
+    expected: VM_STATUS_STARTING,
   },
 
   {
-    // requires pod
     metadata,
     spec: { running: true },
     status: {
       created: true,
       ready: false,
-
-      conditions: [
-        {
-          type: 'Failure',
-          message: 'Failure backend description',
-        },
-      ],
     },
 
-    podFixture: podFixtureNoConditions,
+    podFixture: podFixtureNoConditions, // helper, not part of the API object
     expected: VM_STATUS_STARTING,
+  },
+
+  {
+    metadata,
+    spec: { running: true },
+    status: {
+      created: true,
+      ready: false,
+    },
+
+    podFixture: podNotScheduledFixture, // helper, not part of the API object
+    expected: VM_STATUS_ERROR_COMMON,
+    expectedDetail: VM_STATUS_POD_ERROR,
   },
 
   {
@@ -135,6 +140,25 @@ export const vmFixtures = [
     spec: { running: true },
     status: {
       created: false,
+      ready: false,
+
+      conditions: [
+        {
+          type: 'Failure',
+          message: 'Failure backend description',
+        },
+      ],
+    },
+    expected: VM_STATUS_ERROR_COMMON,
+    expectedDetail: VM_STATUS_ERROR,
+  },
+
+  {
+    // issue in VM definition
+    metadata,
+    spec: { running: true },
+    status: {
+      created: true,
       ready: false,
 
       conditions: [

@@ -18,6 +18,8 @@ import { PodModel, VirtualMachineModel } from '../../models';
 
 const NOT_HANDLED = null;
 
+const getConditionOfType = (pod, type) => get(pod, 'status.conditions', []).find(condition => condition.type === type);
+
 const isRunning = vm => {
   if (!get(vm, 'spec.running', false)) {
     return { status: VM_STATUS_OFF };
@@ -33,21 +35,26 @@ const isReady = vm => {
   return NOT_HANDLED;
 };
 
-const isCreated = (vm, launcherPod) => {
+const isCreated = (vm, launcherPod = null) => {
   if (get(vm, 'status.created', false)) {
     // created but not yet ready
+    let message;
     if (launcherPod) {
       // pod created, so check for it's potential error
+      const podScheduledCond = getConditionOfType(launcherPod, 'PodScheduled');
+      if (podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable') {
+        return { status: VM_STATUS_POD_ERROR, message: 'Pod scheduling failed.' };
+      }
+
       const notReadyCondition = get(launcherPod, 'status.conditions', []).find(
         condition => condition.status !== 'True'
       );
       if (notReadyCondition) {
-        // at least one pod condition not met, let the user analyze issue via Pod events
-        return { status: VM_STATUS_POD_ERROR, message: notReadyCondition.message };
+        // at least one pod condition not met. This can be just tentative, let the user analyze progress via Pod events
+        ({ message } = notReadyCondition);
       }
-      return { status: VM_STATUS_STARTING }; // Pod is not yet created. This state is most probably tentative and will be changed soon.
     }
-    return { status: VM_STATUS_POD_ERROR };
+    return { status: VM_STATUS_STARTING, message };
   }
   return NOT_HANDLED;
 };
@@ -65,7 +72,7 @@ const isVmError = vm => {
 };
 
 export const getVmStatusDetail = (vm, launcherPod) =>
-  isRunning(vm) || isReady(vm) || isCreated(vm, launcherPod) || isVmError(vm) || { status: VM_STATUS_UNKNOWN };
+  isRunning(vm) || isReady(vm) || isVmError(vm) || isCreated(vm, launcherPod) || { status: VM_STATUS_UNKNOWN };
 
 export const getVmStatus = (vm, launcherPod) => {
   const vmStatus = getVmStatusDetail(vm, launcherPod).status;
@@ -91,22 +98,46 @@ StateValue.defaultProps = {
 const StateRunning = () => <StateValue iconClass="pficon pficon-on-running">Running</StateValue>;
 const StateOff = () => <StateValue iconClass="pficon pficon-off">Off</StateValue>;
 const StateUnknown = () => <StateValue iconClass="pficon pficon-unknown">Unknown</StateValue>;
-const StateStarting = () => <StateValue iconClass="pficon pficon-pending">Starting</StateValue>;
+
+const StateStarting = ({ linkTo, message }) => (
+  <StateValue iconClass="pficon pficon-pending">
+    {linkTo ? (
+      <Link to={linkTo} title={message}>
+        Starting
+      </Link>
+    ) : (
+      'Starting'
+    )}
+  </StateValue>
+);
+StateStarting.propTypes = {
+  linkTo: PropTypes.string,
+  message: PropTypes.string,
+};
+StateStarting.defaultProps = {
+  message: undefined,
+  linkTo: undefined,
+};
 
 const StateError = ({ linkTo, message, children }) => (
   <StateValue iconClass="pficon pficon-error-circle-o">
-    <Link to={linkTo} title={message}>
-      {children}
-    </Link>
+    {linkTo ? (
+      <Link to={linkTo} title={message}>
+        {children}
+      </Link>
+    ) : (
+      children
+    )}
   </StateValue>
 );
 StateError.propTypes = {
   children: PropTypes.string.isRequired,
-  linkTo: PropTypes.string.isRequired,
+  linkTo: PropTypes.string,
   message: PropTypes.string,
 };
 StateError.defaultProps = {
   message: undefined,
+  linkTo: undefined,
 };
 
 export const VmStatus = ({ vm, launcherPod }) => {
@@ -117,7 +148,7 @@ export const VmStatus = ({ vm, launcherPod }) => {
     case VM_STATUS_RUNNING:
       return <StateRunning />;
     case VM_STATUS_STARTING:
-      return <StateStarting />;
+      return <StateStarting linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message} />;
     case VM_STATUS_POD_ERROR:
       return (
         <StateError linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message}>
@@ -126,7 +157,7 @@ export const VmStatus = ({ vm, launcherPod }) => {
       );
     case VM_STATUS_ERROR:
       return (
-        <StateError linkTo={getSubPagePath(launcherPod, VirtualMachineModel, 'events')} message={statusDetail.message}>
+        <StateError linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} message={statusDetail.message}>
           VM Error
         </StateError>
       );
