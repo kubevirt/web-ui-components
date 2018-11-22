@@ -16,7 +16,7 @@ import {
 import { getSubPagePath } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
 
-export const getVmStatusDetail = (vm, pod) => {
+export const getVmStatusDetail = (vm, launcherPod) => {
   if (!get(vm, 'spec.running', false)) {
     return { status: VM_STATUS_OFF };
   }
@@ -28,9 +28,9 @@ export const getVmStatusDetail = (vm, pod) => {
 
   if (get(vm, 'status.created', false)) {
     // created but not yet ready
-    if (pod) {
+    if (launcherPod) {
       // pod created, so check for it's potential error
-      const notReadyCondition = get(pod, 'status.conditions', []).find(condition => condition.status !== 'True');
+      const notReadyCondition = get(launcherPod, 'status.conditions', []).find(condition => condition.status !== 'True');
       if (notReadyCondition) {
         // at least one pod condition not met, let the user analyze issue via Pod events
         return { status: VM_STATUS_POD_ERROR, message: notReadyCondition.message };
@@ -53,8 +53,8 @@ export const getVmStatusDetail = (vm, pod) => {
   return { status: VM_STATUS_UNKNOWN };
 };
 
-export const getVmStatus = (vm, pod) => {
-  const vmStatus = getVmStatusDetail(vm, pod).status;
+export const getVmStatus = (vm, launcherPod) => {
+  const vmStatus = getVmStatusDetail(vm, launcherPod).status;
   return vmStatus === VM_STATUS_ERROR || vmStatus === VM_STATUS_POD_ERROR ? VM_STATUS_ERROR_COMMON : vmStatus;
 };
 
@@ -95,8 +95,8 @@ StateError.defaultProps = {
   message: undefined,
 };
 
-export const VmStatus = ({ vm, pod }) => {
-  const statusDetail = getVmStatusDetail(vm, pod);
+export const VmStatus = ({ vm, launcherPod }) => {
+  const statusDetail = getVmStatusDetail(vm, launcherPod);
   switch (statusDetail.status) {
     case VM_STATUS_OFF:
       return <StateOff />;
@@ -106,13 +106,13 @@ export const VmStatus = ({ vm, pod }) => {
       return <StateStarting />;
     case VM_STATUS_POD_ERROR:
       return (
-        <StateError linkTo={getSubPagePath(pod, PodModel, 'events')} message={statusDetail.message}>
+        <StateError linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message}>
           Pod Error
         </StateError>
       );
     case VM_STATUS_ERROR:
       return (
-        <StateError linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} message={statusDetail.message}>
+        <StateError linkTo={getSubPagePath(launcherPod, VirtualMachineModel, 'events')} message={statusDetail.message}>
           VM Error
         </StateError>
       );
@@ -122,10 +122,10 @@ export const VmStatus = ({ vm, pod }) => {
 };
 
 VmStatus.defaultProps = {
-  pod: undefined,
+  launcherPod: undefined,
 };
 
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
-  pod: PropTypes.object,
+  launcherPod: PropTypes.object,
 };
