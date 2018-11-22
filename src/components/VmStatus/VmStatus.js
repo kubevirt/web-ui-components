@@ -7,8 +7,10 @@ import {
   VM_STATUS_STARTING,
   VM_STATUS_RUNNING,
   VM_STATUS_OFF,
+  VM_STATUS_IMPORTING,
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
+  VM_STATUS_IMPORT_ERROR,
   VM_STATUS_ERROR_COMMON,
   VM_STATUS_UNKNOWN,
 } from '../../constants';
@@ -19,6 +21,15 @@ import { PodModel, VirtualMachineModel } from '../../models';
 const NOT_HANDLED = null;
 
 const getConditionOfType = (pod, type) => get(pod, 'status.conditions', []).find(condition => condition.type === type);
+
+const getNotRedyConditionMessage = pod => {
+  const notReadyCondition = get(pod, 'status.conditions', []).find(condition => condition.status !== 'True');
+  if (notReadyCondition) {
+    // at least one pod condition not met. This can be just tentative, let the user analyze progress via Pod events
+    return notReadyCondition.message || `Step: ${notReadyCondition.type}`;
+  }
+  return undefined;
+};
 
 const isRunning = vm => {
   if (!get(vm, 'spec.running', false)) {
@@ -45,14 +56,7 @@ const isCreated = (vm, launcherPod = null) => {
       if (podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable') {
         return { status: VM_STATUS_POD_ERROR, message: 'Pod scheduling failed.' };
       }
-
-      const notReadyCondition = get(launcherPod, 'status.conditions', []).find(
-        condition => condition.status !== 'True'
-      );
-      if (notReadyCondition) {
-        // at least one pod condition not met. This can be just tentative, let the user analyze progress via Pod events
-        ({ message } = notReadyCondition);
-      }
+      message = getNotRedyConditionMessage(launcherPod);
     }
     return { status: VM_STATUS_STARTING, message };
   }
@@ -71,12 +75,29 @@ const isVmError = vm => {
   return NOT_HANDLED;
 };
 
-export const getVmStatusDetail = (vm, launcherPod) =>
-  isRunning(vm) || isReady(vm) || isVmError(vm) || isCreated(vm, launcherPod) || { status: VM_STATUS_UNKNOWN };
+const isBeingImported = (vm, importerPod) => {
+  if (importerPod && !get(vm, 'status.created', false)) {
+    const podScheduledCond = getConditionOfType(importerPod, 'PodScheduled');
+    if (podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable') {
+      return { status: VM_STATUS_IMPORT_ERROR, message: 'Importer pod scheduling failed.' };
+    }
+    return { status: VM_STATUS_IMPORTING, message: getNotRedyConditionMessage(importerPod) };
+  }
+  return NOT_HANDLED;
+};
 
-export const getVmStatus = (vm, launcherPod) => {
-  const vmStatus = getVmStatusDetail(vm, launcherPod).status;
-  return vmStatus === VM_STATUS_ERROR || vmStatus === VM_STATUS_POD_ERROR ? VM_STATUS_ERROR_COMMON : vmStatus;
+export const getVmStatusDetail = (vm, launcherPod, importerPod) =>
+  isRunning(vm) ||
+  isReady(vm) ||
+  isVmError(vm) ||
+  isCreated(vm, launcherPod) ||
+  isBeingImported(vm, importerPod) || { status: VM_STATUS_UNKNOWN };
+
+export const getVmStatus = (vm, launcherPod, importerPod) => {
+  const vmStatus = getVmStatusDetail(vm, launcherPod, importerPod).status;
+  return vmStatus === VM_STATUS_ERROR || vmStatus === VM_STATUS_POD_ERROR || vmStatus === VM_STATUS_IMPORT_ERROR
+    ? VM_STATUS_ERROR_COMMON
+    : vmStatus;
 };
 
 const StateValue = ({ iconClass, children }) => (
@@ -140,8 +161,8 @@ StateError.defaultProps = {
   linkTo: undefined,
 };
 
-export const VmStatus = ({ vm, launcherPod }) => {
-  const statusDetail = getVmStatusDetail(vm, launcherPod);
+export const VmStatus = ({ vm, launcherPod, importerPod }) => {
+  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPod);
   switch (statusDetail.status) {
     case VM_STATUS_OFF:
       return <StateOff />;
@@ -153,6 +174,12 @@ export const VmStatus = ({ vm, launcherPod }) => {
       return (
         <StateError linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message}>
           Pod Error
+        </StateError>
+      );
+    case VM_STATUS_IMPORT_ERROR:
+      return (
+        <StateError linkTo={getSubPagePath(importerPod, PodModel, 'events')} message={statusDetail.message}>
+          Importer Error
         </StateError>
       );
     case VM_STATUS_ERROR:
@@ -168,9 +195,11 @@ export const VmStatus = ({ vm, launcherPod }) => {
 
 VmStatus.defaultProps = {
   launcherPod: undefined,
+  importerPod: undefined,
 };
 
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
   launcherPod: PropTypes.object,
+  importerPod: PropTypes.object,
 };

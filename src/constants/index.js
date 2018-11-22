@@ -59,8 +59,10 @@ export const templates = [...baseTemplates, ...userTemplates];
 export const VM_STATUS_OFF = 'VM_STATUS_OFF';
 export const VM_STATUS_RUNNING = 'VM_STATUS_RUNNING';
 export const VM_STATUS_STARTING = 'VM_STATUS_STARTING';
+export const VM_STATUS_IMPORTING = 'VM_STATUS_IMPORTING';
 export const VM_STATUS_POD_ERROR = 'VM_STATUS_POD_ERROR';
 export const VM_STATUS_ERROR = 'VM_STATUS_ERROR';
+export const VM_STATUS_IMPORT_ERROR = 'VM_STATUS_IMPORT_ERROR';
 export const VM_STATUS_UNKNOWN = 'VM_STATUS_UNKNOWN';
 export const VM_STATUS_ERROR_COMMON = 'VM_STATUS_ERROR_COMMON'; // VM_STATUS_ERROR and VM_STATUS_POD_ERROR are filtered together
 
@@ -76,6 +78,7 @@ export const VM_STATUS_TO_TEXT = {
   [VM_STATUS_RUNNING]: 'Running',
   [VM_STATUS_STARTING]: 'Starting',
   [VM_STATUS_OFF]: 'Off',
+  [VM_STATUS_IMPORTING]: 'Importing',
   [VM_STATUS_UNKNOWN]: 'Unknown',
   [VM_STATUS_ERROR_COMMON]: 'Error',
 };

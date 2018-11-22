@@ -14,13 +14,29 @@ exports[`<VmStatus vm pod /> renders correctly 1`] = `<StateOff />`;
 
 exports[`<VmStatus vm pod /> renders correctly 2`] = `<StateRunning />`;
 
-exports[`<VmStatus vm pod /> renders correctly 3`] = `<StateStarting />`;
+exports[`<VmStatus vm pod /> renders correctly 3`] = `
+<StateStarting
+  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  message="fail description for Ready"
+/>
+`;
 
 exports[`<VmStatus vm pod /> renders correctly 4`] = `<StateStarting />`;
 
-exports[`<VmStatus vm pod /> renders correctly 5`] = `<StateStarting />`;
+exports[`<VmStatus vm pod /> renders correctly 5`] = `
+<StateStarting
+  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+/>
+`;
 
-exports[`<VmStatus vm pod /> renders correctly 6`] = `<StateStarting />`;
+exports[`<VmStatus vm pod /> renders correctly 6`] = `
+<StateError
+  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  message="Pod scheduling failed."
+>
+  Pod Error
+</StateError>
+`;
 
 exports[`<VmStatus vm pod /> renders correctly 7`] = `<StateUnknown />`;
 
@@ -39,5 +55,14 @@ exports[`<VmStatus vm pod /> renders correctly 9`] = `
   message="Failure backend description"
 >
   VM Error
+</StateError>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 10`] = `
+<StateError
+  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  message="Importer pod scheduling failed."
+>
+  Importer Error
 </StateError>
 `;

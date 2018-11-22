@@ -4,6 +4,7 @@ import {
   VM_STATUS_UNKNOWN,
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
+  VM_STATUS_IMPORT_ERROR,
   VM_STATUS_ERROR_COMMON,
   VM_STATUS_OFF,
   VM_STATUS_STARTING,
@@ -112,6 +113,7 @@ export const vmFixtures = [
   },
 
   {
+    // 5
     metadata,
     spec: { running: true },
     status: {
@@ -170,6 +172,17 @@ export const vmFixtures = [
     },
     expected: VM_STATUS_ERROR_COMMON,
     expectedDetail: VM_STATUS_ERROR,
+  },
+
+  {
+    // 9
+    metadata,
+    spec: { running: true },
+    status: {},
+
+    importerPodFixture: podNotScheduledFixture, // helper, not part of the API object
+    expected: VM_STATUS_ERROR_COMMON,
+    expectedDetail: VM_STATUS_IMPORT_ERROR,
   },
 ];
 
