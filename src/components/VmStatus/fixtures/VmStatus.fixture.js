@@ -23,7 +23,7 @@ const podFixture = {
       { type: 'ContainersReady', status: 'False', message: 'fail description for ContainersReady' },
       { type: 'PodScheduled', status: 'True' },
     ],
-    containerStatuses: {},
+    containerStatuses: [],
   },
 };
 
@@ -39,7 +39,42 @@ const podNotScheduledFixture = {
       { type: 'ContainersReady', status: 'False', message: 'fail description for ContainersReady' },
       { type: 'PodScheduled', status: 'False', reason: 'Unschedulable' },
     ],
-    containerStatuses: {},
+    containerStatuses: [],
+  },
+};
+
+const podPullBackOff = {
+  metadata: {
+    name: 'virt-launcher-my-vm-x9c99',
+    namespace: 'my-namespace',
+  },
+  status: {
+    conditions: [
+      { type: 'Initialized', status: 'True' },
+      { type: 'Ready', status: 'False', message: 'fail description for Ready' },
+      { type: 'ContainersReady', status: 'False', message: 'fail description for ContainersReady' },
+      { type: 'PodScheduled', status: 'True' },
+    ],
+    containerStatuses: [
+      {
+        name: 'compute',
+        state: {
+          terminated: {
+            exitCode: 2,
+            reason: 'Error',
+          },
+        },
+      },
+      {
+        name: 'volumerootvolume',
+        state: {
+          waiting: {
+            reason: 'ImagePullBackOff',
+            message: 'Back-off pulling image message',
+          },
+        },
+      },
+    ],
   },
 };
 
@@ -50,7 +85,7 @@ const podFixtureNoConditions = {
   },
   status: {
     conditions: [],
-    containerStatuses: {},
+    containerStatuses: [],
   },
 };
 
@@ -175,7 +210,6 @@ export const vmFixtures = [
   },
 
   {
-    // 9
     metadata,
     spec: { running: true },
     status: {},
@@ -183,6 +217,19 @@ export const vmFixtures = [
     importerPodFixture: podNotScheduledFixture, // helper, not part of the API object
     expected: VM_STATUS_ERROR_COMMON,
     expectedDetail: VM_STATUS_IMPORT_ERROR,
+  },
+
+  {
+    // 10
+    metadata,
+    spec: { running: true },
+    status: {
+      created: true,
+    },
+
+    podFixture: podPullBackOff,
+    expected: VM_STATUS_ERROR_COMMON,
+    expectedDetail: VM_STATUS_POD_ERROR,
   },
 ];
 

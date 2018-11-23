@@ -66,3 +66,12 @@ exports[`<VmStatus vm pod /> renders correctly 10`] = `
   Importer Error
 </StateError>
 `;
+
+exports[`<VmStatus vm pod /> renders correctly 11`] = `
+<StateError
+  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  message="Back-off pulling image message"
+>
+  Pod Error
+</StateError>
+`;
