@@ -5,10 +5,10 @@ import {
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
-  VM_STATUS_ERROR_COMMON,
   VM_STATUS_OFF,
   VM_STATUS_STARTING,
   VM_STATUS_RUNNING,
+  VM_STATUS_OTHER,
 } from '../../../index';
 
 const podFixture = {
@@ -120,7 +120,8 @@ export const vmFixtures = [
     },
 
     podFixture, // helper, not part of the API object
-    expected: VM_STATUS_STARTING,
+    expectedDetail: VM_STATUS_STARTING,
+    expected: VM_STATUS_OTHER,
   },
 
   {
@@ -132,7 +133,8 @@ export const vmFixtures = [
     },
 
     podFixture: undefined, // pod not yet created
-    expected: VM_STATUS_STARTING,
+    expectedDetail: VM_STATUS_STARTING,
+    expected: VM_STATUS_OTHER,
   },
 
   {
@@ -144,7 +146,8 @@ export const vmFixtures = [
     },
 
     podFixture: podFixtureNoConditions, // helper, not part of the API object
-    expected: VM_STATUS_STARTING,
+    expectedDetail: VM_STATUS_STARTING,
+    expected: VM_STATUS_OTHER,
   },
 
   {
@@ -157,7 +160,7 @@ export const vmFixtures = [
     },
 
     podFixture: podNotScheduledFixture, // helper, not part of the API object
-    expected: VM_STATUS_ERROR_COMMON,
+    expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_POD_ERROR,
   },
 
@@ -168,7 +171,8 @@ export const vmFixtures = [
       created: false,
       ready: false,
     },
-    expected: VM_STATUS_UNKNOWN,
+    expectedDetail: VM_STATUS_UNKNOWN,
+    expected: VM_STATUS_OTHER,
   },
 
   {
@@ -186,7 +190,7 @@ export const vmFixtures = [
         },
       ],
     },
-    expected: VM_STATUS_ERROR_COMMON,
+    expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_ERROR,
   },
 
@@ -205,7 +209,7 @@ export const vmFixtures = [
         },
       ],
     },
-    expected: VM_STATUS_ERROR_COMMON,
+    expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_ERROR,
   },
 
@@ -215,7 +219,7 @@ export const vmFixtures = [
     status: {},
 
     importerPodFixture: podNotScheduledFixture, // helper, not part of the API object
-    expected: VM_STATUS_ERROR_COMMON,
+    expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_IMPORT_ERROR,
   },
 
@@ -228,7 +232,7 @@ export const vmFixtures = [
     },
 
     podFixture: podPullBackOff,
-    expected: VM_STATUS_ERROR_COMMON,
+    expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_POD_ERROR,
   },
 ];

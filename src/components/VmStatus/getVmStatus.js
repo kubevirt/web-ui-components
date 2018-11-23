@@ -2,13 +2,13 @@ import { get } from 'lodash';
 import {
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
-  VM_STATUS_ERROR_COMMON,
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_IMPORTING,
   VM_STATUS_OFF,
   VM_STATUS_RUNNING,
   VM_STATUS_STARTING,
   VM_STATUS_UNKNOWN,
+  VM_STATUS_OTHER,
 } from '../../constants';
 
 const NOT_HANDLED = null;
@@ -107,7 +107,5 @@ export const getVmStatusDetail = (vm, launcherPod, importerPod) =>
 
 export const getVmStatus = (vm, launcherPod, importerPod) => {
   const vmStatus = getVmStatusDetail(vm, launcherPod, importerPod).status;
-  return vmStatus === VM_STATUS_ERROR || vmStatus === VM_STATUS_POD_ERROR || vmStatus === VM_STATUS_IMPORT_ERROR
-    ? VM_STATUS_ERROR_COMMON
-    : vmStatus;
+  return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_STATUS_OTHER;
 };
