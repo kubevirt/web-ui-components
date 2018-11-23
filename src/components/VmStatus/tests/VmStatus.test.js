@@ -14,7 +14,7 @@ describe('getVmStatusDetail()', () => {
   it('macthes API objects correctly', () => {
     for (let index = 0; index < vmFixtures.length; index++) {
       const fixture = vmFixtures[index];
-      expect(getVmStatusDetail(fixture, fixture.podFixture, fixture.importerPodFixture).status).toBe(
+      expect(getVmStatusDetail(fixture, fixture.podFixture, fixture.importerPodFixture, fixture.migration).status).toBe(
         fixture.expectedDetail || fixture.expected
       );
     }
@@ -26,9 +26,18 @@ describe('<VmStatus vm pod />', () => {
     for (let index = 0; index < vmFixtures.length; index++) {
       const fixture = vmFixtures[index];
       expect(
-        shallow(<VmStatus vm={fixture} launcherPod={fixture.podFixture} importerPod={fixture.importerPodFixture} />)
+        shallow(
+          <VmStatus
+            vm={fixture}
+            launcherPod={fixture.podFixture}
+            importerPod={fixture.importerPodFixture}
+            migration={fixture.migration}
+          />
+        )
       ).toMatchSnapshot();
-      expect(getVmStatus(fixture, fixture.podFixture, fixture.importerPodFixture)).toBe(fixture.expected);
+      expect(getVmStatus(fixture, fixture.podFixture, fixture.importerPodFixture, fixture.migration)).toBe(
+        fixture.expected
+      );
     }
   });
 });

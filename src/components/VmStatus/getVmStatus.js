@@ -4,6 +4,7 @@ import {
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_IMPORTING,
+  VM_STATUS_MIGRATING,
   VM_STATUS_OFF,
   VM_STATUS_RUNNING,
   VM_STATUS_STARTING,
@@ -98,14 +99,24 @@ const isBeingImported = (vm, importerPod) => {
   return NOT_HANDLED;
 };
 
-export const getVmStatusDetail = (vm, launcherPod, importerPod) =>
+const isBeingMigrated = (vm, migration) => {
+  if (migration) {
+    if (!get(migration, 'status.ready') && !get(migration, 'status.failed')) {
+      return { status: VM_STATUS_MIGRATING, message: get(migration, 'status.phase') };
+    }
+  }
+  return NOT_HANDLED;
+};
+
+export const getVmStatusDetail = (vm, launcherPod, importerPod, migration) =>
+  isBeingMigrated(vm, migration) || // must be precceding isRunning() since vm.status.ready is true for a migrating VM
   isRunning(vm) ||
   isReady(vm) ||
   isVmError(vm) ||
   isCreated(vm, launcherPod) ||
   isBeingImported(vm, importerPod) || { status: VM_STATUS_UNKNOWN };
 
-export const getVmStatus = (vm, launcherPod, importerPod) => {
-  const vmStatus = getVmStatusDetail(vm, launcherPod, importerPod).status;
+export const getVmStatus = (vm, launcherPod, importerPod, migration) => {
+  const vmStatus = getVmStatusDetail(vm, launcherPod, importerPod, migration).status;
   return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_STATUS_OTHER;
 };

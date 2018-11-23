@@ -10,6 +10,7 @@ import {
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
+  VM_STATUS_MIGRATING,
 } from '../../constants';
 
 import { getSubPagePath } from '../../utils';
@@ -43,6 +44,7 @@ StateValue.defaultProps = {
 const StateRunning = () => <StateValue iconClass="pficon pficon-on-running">Running</StateValue>;
 const StateOff = () => <StateValue iconClass="pficon pficon-off">Off</StateValue>;
 const StateUnknown = () => <StateValue iconClass="pficon pficon-unknown">Unknown</StateValue>;
+const StateMigrating = () => <StateValue iconClass="pficon pficon-migration">Migrating</StateValue>;
 const StateStarting = ({ ...props }) => (
   <StateValue iconClass="pficon pficon-pending" {...props}>
     Starting
@@ -62,8 +64,8 @@ StateError.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
-export const VmStatus = ({ vm, launcherPod, importerPod }) => {
-  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPod);
+export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
+  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPod, migration);
   switch (statusDetail.status) {
     case VM_STATUS_OFF:
       return <StateOff />;
@@ -73,6 +75,8 @@ export const VmStatus = ({ vm, launcherPod, importerPod }) => {
       return <StateStarting linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message} />;
     case VM_STATUS_IMPORTING:
       return <StateImporting linkTo={getSubPagePath(importerPod, PodModel, 'events')} />;
+    case VM_STATUS_MIGRATING:
+      return <StateMigrating />; // TODO: add linkTo once migration monitoring page is available
     case VM_STATUS_POD_ERROR:
       return (
         <StateError linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message}>
@@ -99,10 +103,12 @@ export const VmStatus = ({ vm, launcherPod, importerPod }) => {
 VmStatus.defaultProps = {
   launcherPod: undefined,
   importerPod: undefined,
+  migration: undefined,
 };
 
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
   launcherPod: PropTypes.object,
   importerPod: PropTypes.object,
+  migration: PropTypes.object,
 };

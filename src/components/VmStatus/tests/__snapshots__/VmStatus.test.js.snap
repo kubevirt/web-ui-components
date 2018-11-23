@@ -75,3 +75,7 @@ exports[`<VmStatus vm pod /> renders correctly 11`] = `
   Pod Error
 </StateError>
 `;
+
+exports[`<VmStatus vm pod /> renders correctly 12`] = `<StateMigrating />`;
+
+exports[`<VmStatus vm pod /> renders correctly 13`] = `<StateRunning />`;

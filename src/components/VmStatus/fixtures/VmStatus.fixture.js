@@ -7,6 +7,7 @@ import {
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_OFF,
   VM_STATUS_STARTING,
+  VM_STATUS_MIGRATING,
   VM_STATUS_RUNNING,
   VM_STATUS_OTHER,
 } from '../../../index';
@@ -235,17 +236,42 @@ export const vmFixtures = [
     expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_POD_ERROR,
   },
-];
 
-/* Skip due to missing reference on <Link> ; TODO: fix if ever needed
-export default vmFixtures.map(vmFixt => ({
-  component: VmStatus,
-  props: {
-    vm: vmFixt,
-    pod: vmFixt.podFixture
-  }
-}));
-*/
+  {
+    metadata,
+    spec: { running: true },
+    status: {
+      created: true,
+      ready: true,
+    },
+
+    migration: {
+      status: {
+        completed: false,
+        phase: 'Scheduling',
+      },
+    },
+    expected: VM_STATUS_OTHER,
+    expectedDetail: VM_STATUS_MIGRATING,
+  },
+
+  {
+    metadata,
+    spec: { running: true },
+    status: {
+      created: true,
+      ready: true,
+    },
+
+    migration: {
+      status: {
+        failed: true,
+        phase: 'Whatever',
+      },
+    },
+    expected: VM_STATUS_RUNNING,
+  },
+];
 
 export default [
   {
