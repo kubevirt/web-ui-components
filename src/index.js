@@ -6,3 +6,4 @@ export * from './components/Wizard/CreateVmWizard';
 export * from './k8s/request';
 export * from './constants';
 export * from './utils';
+export * from './components/VmStatus';

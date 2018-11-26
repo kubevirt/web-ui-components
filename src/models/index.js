@@ -1,3 +1,9 @@
+/*
+ * Copy & paste from
+ *   - web-ui/frontend/public/models/index.ts
+ *   - web-ui/frontend/public/kubevirt/models/vm.ts
+ */
+
 export const VirtualMachineModel = {
   label: 'Virtual Machine',
   labelPlural: 'Virtual Machines',
@@ -29,4 +35,16 @@ export const VirtualMachineInstanceMigrationModel = {
   namespaced: true,
   kind: 'VirtualMachineInstanceMigration',
   id: 'virtualmachineinstancemigration',
+};
+
+export const PodModel = {
+  apiVersion: 'v1',
+  label: 'Pod',
+  path: 'pods',
+  plural: 'pods',
+  abbr: 'P',
+  namespaced: true,
+  kind: 'Pod',
+  id: 'pod',
+  labelPlural: 'Pods',
 };
