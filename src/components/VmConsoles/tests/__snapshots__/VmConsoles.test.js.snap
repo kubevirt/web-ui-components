@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VmConsoles /> renders correctly for a down VM 1`] = `
+<VmIsDown
+  onStartVm={[Function]}
+  vm={
+    Object {
+      "metadata": Object {
+        "name": "my-vm",
+      },
+      "spec": Object {
+        "running": false,
+      },
+    }
+  }
+/>
+`;
+
+exports[`<VmConsoles /> renders correctly for a starting VM 1`] = `
+<VmIsStarting
+  LoadingComponent={[Function]}
+/>
+`;

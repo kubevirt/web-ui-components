@@ -120,3 +120,6 @@ export const getVmStatus = (vm, launcherPod, importerPod, migration) => {
   const vmStatus = getVmStatusDetail(vm, launcherPod, importerPod, migration).status;
   return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_STATUS_OTHER;
 };
+
+export const isVmiRunning = vmi => get(vmi, 'status.phase') === 'Running';
+export const isVmStarting = (vm, vmi) => get(vm, 'spec.running') && !isVmiRunning(vmi);
