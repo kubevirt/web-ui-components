@@ -32,6 +32,7 @@
   },
   "peerDependencies": {
     "patternfly-react": "2.x",
+    "@patternfly/react-console": "1.7.7",
     "prop-types": "15.x",
     "react": "16.3.x",
     "react-dom": "16.3.x",
@@ -76,6 +77,7 @@
     "lodash": "4.x",
     "node-sass": "4.x",
     "patternfly-react": "2.x",
+    "@patternfly/react-console": "1.7.7",
     "prettier": "1.x",
     "prop-types": "15.x",
     "react": "16.3.x",
