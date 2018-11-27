@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SerialConsoleConnector /> renders correctly - dummy shallow test only 1`] = `
+<SerialConsole
+  autoFit={false}
+  cols={80}
+  id="serial-console-todo"
+  onConnect={[Function]}
+  onData={[Function]}
+  onDisconnect={[Function]}
+  onResize={[Function]}
+  onTitleChanged={[Function]}
+  rows={25}
+  status="loading"
+  textConnect="Connect"
+  textDisconnected="Click Connect to open serial console."
+  textDisconnectedTitle="Disconnected from serial console"
+  textLoading="Loading ..."
+  topClassName=""
+/>
+`;
