@@ -11,7 +11,7 @@ const { debug, info, error } = console;
  * Kubevirt serial console is accessed via WebSocket proxy in k8s API.
  * Protocol used is "plain.kubevirt.io", means binary and single channel - forwarding of unix socket only (see subresource.go in kubevirt).
  */
-class SerialConcolseConnector extends React.Component {
+class SerialConsoleConnector extends React.Component {
   state = {
     status: LOADING,
     passKeys: false,
@@ -128,7 +128,7 @@ class SerialConcolseConnector extends React.Component {
     );
   }
 }
-SerialConcolseConnector.propTypes = {
+SerialConsoleConnector.propTypes = {
   vmi: PropTypes.object.isRequired,
   host: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
@@ -136,4 +136,4 @@ SerialConcolseConnector.propTypes = {
   WSFactory: PropTypes.func.isRequired, // reference to OKD utility
 };
 
-export default SerialConcolseConnector;
+export default SerialConsoleConnector;

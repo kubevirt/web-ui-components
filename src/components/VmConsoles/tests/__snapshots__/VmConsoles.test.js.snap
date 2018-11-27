@@ -1,23 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<VmConsoles /> renders correctly for a down VM 1`] = `
-<VmIsDown
-  onStartVm={[Function]}
-  vm={
-    Object {
-      "metadata": Object {
-        "name": "my-vm",
-      },
-      "spec": Object {
-        "running": false,
-      },
-    }
-  }
-/>
+<div
+  class="co-m-pane__body"
+>
+  <div
+    class="vm-consoles-loading"
+  >
+    This Virtual Machine is down. Please 
+    <button
+      class="btn btn-link"
+      type="button"
+    >
+      start
+    </button>
+     it to access its console.
+  </div>
+</div>
+`;
+
+exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
+<div
+  class="co-m-pane__body"
+>
+  <div
+    class="container-fluid"
+  >
+    <form
+      class="form-horizontal"
+    >
+      <div
+        class="console-selector-pf form-group"
+      >
+        <div
+          class=""
+        >
+          <div
+            class="dropdown btn-group"
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="dropdown-toggle btn btn-default"
+              id="console-type-selector"
+              role="button"
+              type="button"
+            >
+              VNC Console 
+              <span
+                class="caret"
+              />
+            </button>
+            <ul
+              aria-labelledby="console-type-selector"
+              class="dropdown-menu"
+              role="menu"
+            >
+              <li
+                class=""
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  role="menuitem"
+                  tabindex="-1"
+                >
+                  Serial Console
+                </a>
+              </li>
+              <li
+                class=""
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  role="menuitem"
+                  tabindex="-1"
+                >
+                  VNC Console
+                </a>
+              </li>
+            </ul>
+          </div>
+          <label
+            class="console-selector-pf-disconnect-switch checkbox-inline"
+            title=""
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            Disconnect before switching
+          </label>
+        </div>
+      </div>
+    </form>
+    <div
+      class="row"
+    >
+      <div
+        class=""
+      >
+        <div>
+          <div
+            class="vnc-console"
+          >
+            <div
+              class="toolbar-pf-action-right"
+            />
+            <div
+              class="toolbar-pf-results row"
+            >
+              <div
+                class="col-sm-12"
+              >
+                <div
+                  class="vnc-console-connecting"
+                >
+                  Connecting
+                </div>
+                <div />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
 
 exports[`<VmConsoles /> renders correctly for a starting VM 1`] = `
-<VmIsStarting
-  LoadingComponent={[Function]}
-/>
+<div
+  class="co-m-pane__body"
+>
+  <div
+    class="vm-consoles-loading"
+  >
+    <div
+      class="dummy-loading-component"
+    />
+    This Virtual Machine is still starting up. The console will be available soon.
+  </div>
+</div>
 `;

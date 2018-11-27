@@ -14,6 +14,15 @@ const vmiStarting = {
   },
 };
 
+const vmiRunning = {
+  metadata: {
+    name: 'my-vm',
+  },
+  status: {
+    phase: 'Running',
+  },
+};
+
 const vmOff = {
   metadata: {
     name: 'my-vm',
@@ -49,6 +58,15 @@ export const startingVmProps = {
 
   getVncConnectionDetails: helpers.noop,
   getSerialConsoleConnectionDetails: helpers.noop,
+  onStartVm: helpers.noop,
+  WSFactory: helpers.noop,
+  LoadingComponent,
+};
+
+export const runningVmProps = {
+  vm: vmRunning,
+  vmi: vmiRunning,
+
   onStartVm: helpers.noop,
   WSFactory: helpers.noop,
   LoadingComponent,
