@@ -1,18 +1,29 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { findIndex } from 'lodash';
 import { WizardPattern } from 'patternfly-react';
 import { CreateVmWizard } from '../CreateVmWizard';
 import { Loading } from '../../../Loading';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVM } from '../../../../k8s/request';
-import { BASIC_SETTINGS_TAB_IDX, NETWORK_TAB_IDX, STORAGE_TAB_IDX, RESULTS_TAB_IDX, ALL_TABS } from '../constants';
 import { CREATE_VM, NEXT } from '../strings';
 import CreateVmWizardFixutre from '../fixtures/CreateVmWizard.fixture';
 import BasicSettingsTab from '../BasicSettingsTab';
 import { NetworksTab } from '../NetworksTab';
 import StorageTab from '../StorageTab';
 import ResultTab from '../ResultTab';
+import {
+  NETWORKS_TAB_KEY,
+  BASIC_SETTINGS_TAB_KEY,
+  STORAGE_TAB_KEY,
+  RESULT_TAB_KEY,
+  USER_TEMPLATE_KEY,
+  IMAGE_SOURCE_TYPE_KEY,
+} from '../constants';
+import { PROVISION_SOURCE_TEMPLATE, userTemplates } from '../../../../constants';
+import { getName } from '../../../../utils/selectors';
+import { selectVm } from '../../../../k8s/selectors';
 
 jest.mock('../../../../k8s/request');
 
@@ -35,6 +46,21 @@ const testCreateVmWizard = type => {
 const getBackButton = component => component.find('.btn').findWhere(btn => btn.text() === 'Back');
 const getNextButton = component => component.find('.btn-primary');
 
+const getStepIndex = (steps, key) => findIndex(steps, step => step.key === key);
+
+const checkStorages = (component, userTemplate) => {
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(1);
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage.disk).toEqual(
+    selectVm(userTemplate.objects).spec.template.spec.domain.devices.disks[0]
+  );
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage.dataVolume).toEqual(
+    selectVm(userTemplate.objects).spec.dataVolumeTemplates[0]
+  );
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage.volume).toEqual(
+    selectVm(userTemplate.objects).spec.template.spec.volumes[0]
+  );
+};
+
 const testWalkThrough = () => {
   const component = mount(testCreateVmWizard(LOADING));
 
@@ -48,7 +74,7 @@ const testWalkThrough = () => {
   expect(component.find(Loading)).toHaveLength(0);
   expect(component.find(BasicSettingsTab)).toHaveLength(1);
 
-  component.instance().onStepDataChanged(validBasicSettings, true);
+  component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, validBasicSettings, true);
   component.update();
   expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
 
@@ -66,12 +92,16 @@ const testWalkThrough = () => {
   expect(component.find(Loading)).toHaveLength(0);
   expect(component.find(NetworksTab)).toHaveLength(1);
 
-  expect(component.state().activeStepIndex).toEqual(NETWORK_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(
+    getStepIndex(component.instance().wizardStepsNewVM, NETWORKS_TAB_KEY)
+  );
 
   getBackButton(component).simulate('click');
   component.update();
 
-  expect(component.state().activeStepIndex).toEqual(BASIC_SETTINGS_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(
+    getStepIndex(component.instance().wizardStepsNewVM, BASIC_SETTINGS_TAB_KEY)
+  );
   expect(component.find(BasicSettingsTab)).toHaveLength(1);
   expect(component.find(NetworksTab)).toHaveLength(0);
 
@@ -85,7 +115,9 @@ const testWalkThrough = () => {
   getNextButton(component).simulate('click');
   component.update();
 
-  expect(component.state().activeStepIndex).toEqual(STORAGE_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(
+    getStepIndex(component.instance().wizardStepsNewVM, STORAGE_TAB_KEY)
+  );
   expect(component.find(Loading)).toHaveLength(1);
   expect(component.find(StorageTab)).toHaveLength(0);
 
@@ -96,15 +128,18 @@ const testWalkThrough = () => {
   expect(component.find(Loading)).toHaveLength(0);
   expect(component.find(StorageTab)).toHaveLength(1);
 
-  expect(component.state().activeStepIndex).toEqual(STORAGE_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(
+    getStepIndex(component.instance().wizardStepsNewVM, STORAGE_TAB_KEY)
+  );
   expect(getNextButton(component).text()).toBe(CREATE_VM);
   expect(component.instance().lastStepReached()).toBeFalsy();
 
-  component.instance().onStepDataChanged([{}], false); // create empty disk
+  component.instance().onStepDataChanged(STORAGE_TAB_KEY, [{}], false); // create empty disk
   component.update();
 
   expect(getBackButton(component).props('disabled')).toBeTruthy();
   component.instance().onStepDataChanged(
+    STORAGE_TAB_KEY,
     [
       {
         id: 1,
@@ -132,7 +167,9 @@ const testWalkThrough = () => {
   component.update();
 
   expect(component.find(ResultTab)).toHaveLength(1);
-  expect(component.state().activeStepIndex).toEqual(RESULTS_TAB_IDX);
+  expect(component.state().activeStepIndex).toEqual(
+    getStepIndex(component.instance().wizardStepsNewVM, RESULT_TAB_KEY)
+  );
   expect(component.instance().lastStepReached()).toBeTruthy();
   expect(createVM).toHaveBeenCalled();
   expect(getBackButton(component).props('disabled')).toBeTruthy();
@@ -168,20 +205,19 @@ describe('<CreateVmWizard />', () => {
     const component = shallow(testCreateVmWizard());
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
     expect(component.find(WizardPattern).props().nextText).toBe('Next');
-    expect(component.find(WizardPattern).props().steps).toHaveLength(ALL_TABS.length);
-    expect(component.instance().getLastStepIndex()).toBe(ALL_TABS.length - 1);
   });
 
   it('changes next step disability', () => {
     const component = shallow(testCreateVmWizard());
 
-    component.instance().onStepDataChanged(validBasicSettings, true);
-    expect(component.state().stepData[0].value).toEqual(validBasicSettings);
-    expect(component.state().stepData[0].valid).toBeTruthy();
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, validBasicSettings, true);
+    expect(component.state().stepData[BASIC_SETTINGS_TAB_KEY].value).toEqual(validBasicSettings);
+    expect(component.state().stepData[BASIC_SETTINGS_TAB_KEY].valid).toBeTruthy();
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
 
     // new required field will become visible
     component.instance().onStepDataChanged(
+      BASIC_SETTINGS_TAB_KEY,
       {
         ...validBasicSettings,
         imageSourceType: {
@@ -201,5 +237,49 @@ describe('<CreateVmWizard />', () => {
   it('fails creating the vm', () => {
     createVM.mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error('VM not created'))));
     testWalkThrough();
+  });
+
+  it('reads storages from user teplate', () => {
+    const component = shallow(testCreateVmWizard());
+
+    expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
+
+    const userTemplateSource = {
+      [IMAGE_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_TEMPLATE,
+      },
+    };
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, userTemplateSource, true);
+    expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
+
+    let withTemplateSource = {
+      ...userTemplateSource,
+      [USER_TEMPLATE_KEY]: {
+        value: getName(userTemplates[0]),
+      },
+    };
+
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    checkStorages(component, userTemplates[0]);
+
+    withTemplateSource = {
+      ...userTemplateSource,
+      [USER_TEMPLATE_KEY]: {
+        value: getName(userTemplates[1]),
+      },
+    };
+
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    checkStorages(component, userTemplates[1]);
+
+    withTemplateSource = {
+      ...userTemplateSource,
+      [USER_TEMPLATE_KEY]: {
+        value: 'unknown-template',
+      },
+    };
+
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
   });
 });

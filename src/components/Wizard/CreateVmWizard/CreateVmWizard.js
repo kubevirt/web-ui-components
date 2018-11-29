@@ -11,88 +11,65 @@ import { POD_NETWORK, PROVISION_SOURCE_PXE, PROVISION_SOURCE_TEMPLATE } from '..
 import { NetworksTab } from './NetworksTab';
 import { isImageSourceType, settingsValue } from '../../../k8s/selectors';
 import {
-  BASIC_SETTINGS_TAB_IDX,
-  NETWORK_TAB_IDX,
-  STORAGE_TAB_IDX,
   IMAGE_SOURCE_TYPE_KEY,
-  RESULTS_TAB_IDX,
-  NAMESPACE_KEY,
   USER_TEMPLATE_KEY,
   IMAGE_URL_SIZE_KEY,
+  BASIC_SETTINGS_TAB_KEY,
+  NETWORKS_TAB_KEY,
+  STORAGE_TAB_KEY,
+  RESULT_TAB_KEY,
 } from './constants';
 import { CREATE_VM, STEP_BASIC_SETTINGS, STEP_NETWORK, STEP_STORAGE, STEP_RESULT, NEXT } from './strings';
 
 import { getTemplateStorages } from './utils';
 import { loadingWizardTab } from '../loadingWizardTab';
+import { getUserTemplate } from '../../../utils/templates';
 
 const LoadingBasicWizardTab = loadingWizardTab(BasicSettingsTab);
 const LoadingStorageTab = loadingWizardTab(StorageTab);
 const LoadingNetworksTab = loadingWizardTab(NetworksTab);
 
-const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_IDX].value, key);
+const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_KEY].value, key);
 
-const onUserTemplateChangedInStorageTab = ({ templates }, stepData, newUserTemplate) => {
-  const withoutDiscardedTemplateStorage = stepData.value.filter(storage => !storage.templateStorage);
+const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
+  const withoutDiscardedTemplateStorage = stepData[STORAGE_TAB_KEY].value.filter(storage => !storage.templateStorage);
 
   const rows = [...withoutDiscardedTemplateStorage];
 
   if (newUserTemplate) {
-    const templateStorages = getTemplateStorages(templates, newUserTemplate);
+    const templateStorages = getTemplateStorages(newUserTemplate);
     rows.push(...templateStorages);
   }
 
   return {
     ...stepData,
-    value: rows,
+    [STORAGE_TAB_KEY]: {
+      ...stepData[STORAGE_TAB_KEY],
+      value: rows,
+    },
   };
 };
 
-const onUserTemplateChanged = (props, stepData, stepIdx, basicSettings) => {
-  let userTemplate;
-  switch (stepIdx) {
-    case STORAGE_TAB_IDX:
-      userTemplate = settingsValue(basicSettings, USER_TEMPLATE_KEY);
-      return onUserTemplateChangedInStorageTab(props, stepData, userTemplate);
-    default:
-      return stepData;
-  }
+const onUserTemplateChanged = (props, stepData) => {
+  const userTemplateName = getBasicSettingsValue(stepData, USER_TEMPLATE_KEY);
+  const userTemplate = userTemplateName ? getUserTemplate(props.templates, userTemplateName) : undefined;
+  return onUserTemplateChangedInStorageTab(stepData, userTemplate);
 };
 
-const onImageSourceTypeChanged = (props, stepData, stepIdx, basicSettings) => {
-  let userTemplate;
-  switch (stepIdx) {
-    case STORAGE_TAB_IDX:
-      userTemplate =
-        settingsValue(basicSettings, IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE
-          ? settingsValue(basicSettings, USER_TEMPLATE_KEY)
-          : undefined;
-      return onUserTemplateChangedInStorageTab(props, stepData, userTemplate);
-    default:
-      return stepData;
-  }
-};
-
-const onNamespaceChanged = (props, stepData, stepIdx) => {
-  switch (stepIdx) {
-    case STORAGE_TAB_IDX:
-      if (stepData.value.length > 0) {
-        return {
-          ...stepData,
-          // cannot asses validity when namespace changes (if disks present)
-          valid: false,
-        };
-      }
-      return stepData;
-    default:
-      return stepData;
-  }
+const onImageSourceTypeChanged = (props, stepData) => {
+  const userTemplateName =
+    getBasicSettingsValue(stepData, IMAGE_SOURCE_TYPE_KEY) === PROVISION_SOURCE_TEMPLATE
+      ? getBasicSettingsValue(stepData, USER_TEMPLATE_KEY)
+      : undefined;
+  const userTemplate = userTemplateName ? getUserTemplate(props.templates, userTemplateName) : undefined;
+  return onUserTemplateChangedInStorageTab(stepData, userTemplate);
 };
 
 export class CreateVmWizard extends React.Component {
   state = {
-    activeStepIndex: BASIC_SETTINGS_TAB_IDX,
-    stepData: [
-      {
+    activeStepIndex: 0,
+    stepData: {
+      [BASIC_SETTINGS_TAB_KEY]: {
         // Basic Settings
         value: {
           [IMAGE_URL_SIZE_KEY]: {
@@ -101,7 +78,7 @@ export class CreateVmWizard extends React.Component {
         },
         valid: false,
       },
-      {
+      [NETWORKS_TAB_KEY]: {
         value: {
           networks: [
             {
@@ -116,55 +93,49 @@ export class CreateVmWizard extends React.Component {
         },
         valid: true,
       },
-      {
+      [STORAGE_TAB_KEY]: {
         value: [], // Storages
         valid: true, // empty Storages are valid
       },
-      {
+      [RESULT_TAB_KEY]: {
         value: '',
         valid: null, // result of the request
       },
-    ],
+    },
   };
 
-  getLastStepIndex = () => this.state.stepData.length - 1;
+  getLastStepIndex = () => this.wizardStepsNewVM.length - 1;
 
   lastStepReached = () => this.state.activeStepIndex === this.getLastStepIndex();
 
-  onStepDataChanged = (value, valid) => {
-    this.setState((state, props) => {
-      const oldStepData = state.stepData;
-      let stepData = [...oldStepData];
+  callbacks = [
+    {
+      field: USER_TEMPLATE_KEY,
+      callback: onUserTemplateChanged,
+    },
+    {
+      field: IMAGE_SOURCE_TYPE_KEY,
+      callback: onImageSourceTypeChanged,
+    },
+  ];
 
-      stepData[state.activeStepIndex] = {
+  onStepDataChanged = (key, value, valid) => {
+    this.setState((state, props) => {
+      let stepData = { ...state.stepData };
+
+      stepData[key] = {
         value,
         valid,
       };
 
-      if (state.activeStepIndex === BASIC_SETTINGS_TAB_IDX) {
-        // callbacks for changes on fields resolve new step data
-        stepData = [
-          {
-            field: NAMESPACE_KEY,
-            callback: onNamespaceChanged,
-          },
-          {
-            field: USER_TEMPLATE_KEY,
-            callback: onUserTemplateChanged,
-          },
-          {
-            field: IMAGE_SOURCE_TYPE_KEY,
-            callback: onImageSourceTypeChanged,
-          },
-        ].reduce((newStepData, { field, callback }) => {
-          const oldValue = getBasicSettingsValue(oldStepData, field);
-          const newValue = getBasicSettingsValue(newStepData, field);
-
-          if (oldValue === newValue) {
-            return newStepData;
+      if (key === BASIC_SETTINGS_TAB_KEY) {
+        this.callbacks.forEach(callback => {
+          const oldValue = getBasicSettingsValue(state.stepData, callback.field);
+          const newValue = getBasicSettingsValue(stepData, callback.field);
+          if (oldValue !== newValue) {
+            stepData = callback.callback(props, stepData);
           }
-          return newStepData.map((v, idx) => callback(props, v, idx, newStepData[BASIC_SETTINGS_TAB_IDX].value));
-        }, stepData);
+        });
       }
 
       return { stepData };
@@ -172,20 +143,22 @@ export class CreateVmWizard extends React.Component {
   };
 
   finish() {
-    const stepValuesWithoutResult = this.state.stepData
-      .filter((value, idx) => idx !== RESULTS_TAB_IDX)
-      .map(stepData => stepData.value);
-
-    createVM(this.props.k8sCreate, this.props.templates, ...stepValuesWithoutResult)
-      .then(result => this.onStepDataChanged(JSON.stringify(result, null, 1), true))
-      .catch(error => this.onStepDataChanged(error.message, false));
+    createVM(
+      this.props.k8sCreate,
+      this.props.templates,
+      this.state.stepData[BASIC_SETTINGS_TAB_KEY].value,
+      this.state.stepData[NETWORKS_TAB_KEY].value,
+      this.state.stepData[STORAGE_TAB_KEY].value
+    )
+      .then(result => this.onStepDataChanged(RESULT_TAB_KEY, JSON.stringify(result, null, 1), true))
+      .catch(error => this.onStepDataChanged(RESULT_TAB_KEY, error.message, false));
   }
 
   onStepChanged = newActiveStepIndex => {
     if (
       !this.lastStepReached() && // do not allow going back once last step is reached
       (newActiveStepIndex < this.state.activeStepIndex || // allow going back to past steps
-        this.state.stepData.slice(0, newActiveStepIndex).reduce((validity, item) => validity && item.valid, true))
+        this.state.stepData[this.wizardStepsNewVM[newActiveStepIndex - 1].key].valid)
     ) {
       if (newActiveStepIndex === this.getLastStepIndex()) {
         this.finish();
@@ -197,6 +170,7 @@ export class CreateVmWizard extends React.Component {
   wizardStepsNewVM = [
     {
       title: STEP_BASIC_SETTINGS,
+      key: BASIC_SETTINGS_TAB_KEY,
       render: () => {
         const loadingData = {
           namespaces: this.props.namespaces,
@@ -206,8 +180,8 @@ export class CreateVmWizard extends React.Component {
           <LoadingBasicWizardTab
             key="1"
             selectedNamespace={this.props.selectedNamespace}
-            basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_IDX].value}
-            onChange={this.onStepDataChanged}
+            basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value}
+            onChange={(value, valid) => this.onStepDataChanged(BASIC_SETTINGS_TAB_KEY, value, valid)}
             loadingData={loadingData}
           />
         );
@@ -215,17 +189,18 @@ export class CreateVmWizard extends React.Component {
     },
     {
       title: STEP_NETWORK,
+      key: NETWORKS_TAB_KEY,
       render: () => {
         const loadingData = {
           networkConfigs: this.props.networkConfigs,
         };
         return (
           <LoadingNetworksTab
-            onChange={this.onStepDataChanged}
+            onChange={(value, valid) => this.onStepDataChanged(NETWORKS_TAB_KEY, value, valid)}
             networkConfigs={this.props.networkConfigs}
-            networks={this.state.stepData[NETWORK_TAB_IDX].value.networks || []}
-            pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_IDX].value, PROVISION_SOURCE_PXE)}
-            namespace={this.state.stepData[0].value.namespace.value}
+            networks={this.state.stepData[NETWORKS_TAB_KEY].value.networks || []}
+            pxeBoot={isImageSourceType(this.state.stepData[BASIC_SETTINGS_TAB_KEY].value, PROVISION_SOURCE_PXE)}
+            namespace={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value.namespace.value}
             loadingData={loadingData}
           />
         );
@@ -233,6 +208,7 @@ export class CreateVmWizard extends React.Component {
     },
     {
       title: STEP_STORAGE,
+      key: STORAGE_TAB_KEY,
       render: () => {
         const sourceType = getBasicSettingsValue(this.state.stepData, IMAGE_SOURCE_TYPE_KEY);
         const loadingData = {
@@ -241,11 +217,11 @@ export class CreateVmWizard extends React.Component {
         };
         return (
           <LoadingStorageTab
-            initialStorages={this.state.stepData[STORAGE_TAB_IDX].value}
-            onChange={this.onStepDataChanged}
+            initialStorages={this.state.stepData[STORAGE_TAB_KEY].value}
+            onChange={(value, valid) => this.onStepDataChanged(STORAGE_TAB_KEY, value, valid)}
             units={this.props.units}
             sourceType={sourceType}
-            namespace={this.state.stepData[0].value.namespace.value}
+            namespace={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value.namespace.value}
             loadingData={loadingData}
           />
         );
@@ -253,15 +229,16 @@ export class CreateVmWizard extends React.Component {
     },
     {
       title: STEP_RESULT,
+      key: RESULT_TAB_KEY,
       render: () => {
-        const stepData = this.state.stepData[RESULTS_TAB_IDX];
+        const stepData = this.state.stepData[RESULT_TAB_KEY];
         return <ResultTab result={stepData.value} success={stepData.valid} />;
       },
     },
   ];
 
   render() {
-    const beforeLastStepReached = this.state.activeStepIndex === this.state.stepData.length - 2;
+    const beforeLastStepReached = this.state.activeStepIndex === this.wizardStepsNewVM.length - 2;
     const lastStepReached = this.lastStepReached();
 
     return (
@@ -274,7 +251,7 @@ export class CreateVmWizard extends React.Component {
         previousStepDisabled={lastStepReached}
         cancelButtonDisabled={lastStepReached}
         stepButtonsDisabled={lastStepReached}
-        nextStepDisabled={!this.state.stepData[this.state.activeStepIndex].valid}
+        nextStepDisabled={!this.state.stepData[this.wizardStepsNewVM[this.state.activeStepIndex].key].valid}
         nextText={beforeLastStepReached ? CREATE_VM : NEXT}
         title={CREATE_VM}
       />

@@ -1,5 +1,5 @@
 import { remove, pull, get } from 'lodash';
-import { TEMPLATE_TYPE_BASE, TEMPLATE_TYPE_LABEL, baseTemplates } from '../constants';
+import { TEMPLATE_TYPE_BASE, TEMPLATE_TYPE_LABEL, baseTemplates, TEMPLATE_TYPE_VM } from '../constants';
 
 export const getTemplatesWithLabels = (templates, labels) => {
   const filteredTemplates = [...templates];
@@ -40,4 +40,9 @@ export const getTemplate = (templates, type) => {
     return labels[TEMPLATE_TYPE_LABEL] === type;
   });
   return type === TEMPLATE_TYPE_BASE && filteredTemplates.length === 0 ? baseTemplates : filteredTemplates;
+};
+
+export const getUserTemplate = (templates, userTemplateName) => {
+  const userTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
+  return userTemplates.find(template => template.metadata.name === userTemplateName);
 };
