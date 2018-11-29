@@ -31,7 +31,7 @@
     "coveralls": "shx cat coverage/lcov.info | coveralls"
   },
   "peerDependencies": {
-    "@patternfly/react-console": "1.8.1",
+    "@patternfly/react-console": "1.9.1",
     "patternfly-react": "2.x",
     "prop-types": "15.x",
     "react": "16.3.x",
@@ -45,7 +45,7 @@
     "@babel/polyfill": "7.x",
     "@babel/preset-env": "7.x",
     "@babel/preset-react": "7.x",
-    "@patternfly/react-console": "1.8.1",
+    "@patternfly/react-console": "1.9.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.x",
     "babel-jest": "23.x",
