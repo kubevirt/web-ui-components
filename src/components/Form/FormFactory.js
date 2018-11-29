@@ -4,6 +4,7 @@ import { FormGroup, Col, ControlLabel, HelpBlock, Form, FieldLevelHelp } from 'p
 import { get } from 'lodash';
 
 import { Dropdown, Checkbox, Text, TextArea, Integer } from '.';
+import { VALIDATION_INFO_TYPE } from '../../constants';
 
 export const getFormElement = props => {
   const { type, id, value, title, onChange, onBlur, choices, defaultValue, isControlled } = props;
@@ -85,7 +86,7 @@ export const FormFactory = ({
       return (
         <FormGroup
           key={key}
-          validationState={validation ? validation.type : null}
+          validationState={validation && validation.type !== VALIDATION_INFO_TYPE ? validation.type : null}
           className={field.noBottom ? 'form-group-no-bottom' : undefined}
         >
           <Col sm={labelSize} className={textPosition}>
