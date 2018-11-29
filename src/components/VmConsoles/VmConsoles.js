@@ -65,7 +65,7 @@ export const VmConsoles = ({
     <div className="co-m-pane__body">
       <AccessConsoles preselectedType={VNC_CONSOLE_TYPE}>
         <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serialConDetails} />
-        <VncConsole {...vncConDetails} />
+        <VncConsole type={VNC_CONSOLE_TYPE} {...vncConDetails} />
       </AccessConsoles>
     </div>
   );
