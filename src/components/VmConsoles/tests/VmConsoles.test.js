@@ -19,23 +19,43 @@ describe('<VmConsoles />', () => {
       host: 'my.hostname.com',
       port: '443',
       path: `path/to/${vmi.metadata.name}/vnc`,
+
+      manual: {
+        address: 'vnc.address.com',
+        port: 1234,
+        tlsPort: 1235,
+      },
     }));
 
     const getSerialConsoleConnectionDetails = jest.fn(vmi => ({
       vmi,
       host: 'my.hostname.com',
       path: `path/to/${vmi.metadata.name}/console`,
+
+      manual: {
+        address: 'serial.address.com',
+        port: 1236,
+        tlsPort: 1237,
+      },
+    }));
+
+    const getRdpConnectionDetails = jest.fn(vmi => ({
+      manual: {
+        address: 'resp.address.com',
+      },
     }));
 
     const component = render(
       <VmConsoles
         getVncConnectionDetails={getVncConnectionDetails}
         getSerialConsoleConnectionDetails={getSerialConsoleConnectionDetails}
+        getRdpConnectionDetails={getRdpConnectionDetails}
         {...runningVmProps}
       />
     );
     expect(getVncConnectionDetails).toHaveBeenCalledTimes(1);
     expect(getSerialConsoleConnectionDetails).toHaveBeenCalledTimes(1);
+    expect(getRdpConnectionDetails).toHaveBeenCalledTimes(1);
 
     expect(component).toMatchSnapshot();
   });

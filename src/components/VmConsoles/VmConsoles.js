@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { AccessConsoles, VncConsole } from '@patternfly/react-console';
+import { AccessConsoles, VncConsole, DesktopViewer } from '@patternfly/react-console';
 import { Button } from 'patternfly-react';
 
 import { isVmiRunning, isVmStarting } from '../VmStatus';
@@ -48,6 +48,7 @@ export const VmConsoles = ({
   onStartVm,
   getVncConnectionDetails,
   getSerialConsoleConnectionDetails,
+  getRdpConnectionDetails,
   WSFactory,
   LoadingComponent,
 }) => {
@@ -58,14 +59,16 @@ export const VmConsoles = ({
       <VmIsDown vm={vm} onStartVm={onStartVm} />
     );
   }
-
+  // TODO: increase patternfly/react-console dependency version
   const vncConDetails = getVncConnectionDetails(vmi);
   const serialConDetails = getSerialConsoleConnectionDetails(vmi);
+  const rdpConDetails = getRdpConnectionDetails(vmi);
   return (
     <div className="co-m-pane__body">
       <AccessConsoles preselectedType={VNC_CONSOLE_TYPE}>
         <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serialConDetails} />
-        <VncConsole type={VNC_CONSOLE_TYPE} {...vncConDetails} />
+        <VncConsole {...vncConDetails} />
+        <DesktopViewer spice={serialConDetails.manual} vnc={vncConDetails.manual} rdp={rdpConDetails.manual} />
       </AccessConsoles>
     </div>
   );
