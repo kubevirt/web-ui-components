@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { FormControl } from 'patternfly-react';
 import { eventValueHandler } from './utils';
 
-export const TextArea = ({ id, value, defaultValue, onChange, onBlur }) => (
+export const TextArea = ({ id, value, disabled, defaultValue, onChange, onBlur }) => (
   <FormControl
+    id={id}
     componentClass="textarea"
     value={value}
     defaultValue={defaultValue}
     onBlur={eventValueHandler(onBlur)}
     onChange={eventValueHandler(onChange)}
+    disabled={disabled}
   />
 );
 
@@ -19,6 +21,7 @@ TextArea.defaultProps = {
   defaultValue: undefined,
   onChange: undefined,
   onBlur: undefined,
+  disabled: false,
 };
 
 TextArea.propTypes = {
@@ -27,4 +30,5 @@ TextArea.propTypes = {
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  disabled: PropTypes.bool,
 };

@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import { Dropdown, Checkbox, Text, TextArea, Integer } from '.';
 
 export const getFormElement = props => {
-  const { type, id, value, title, onChange, onBlur, choices, defaultValue, isControlled } = props;
+  const { type, id, value, title, onChange, onBlur, choices, defaultValue, isControlled, disabled } = props;
   switch (type) {
     case 'textarea':
       return (
@@ -17,10 +17,20 @@ export const getFormElement = props => {
           defaultValue={isControlled ? undefined : defaultValue}
           onBlur={onBlur}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'dropdown':
-      return <Dropdown id={id} value={value || defaultValue} onChange={onChange} onBlur={onBlur} choices={choices} />;
+      return (
+        <Dropdown
+          id={id}
+          value={value || defaultValue}
+          onChange={onChange}
+          onBlur={onBlur}
+          choices={choices}
+          disabled={disabled}
+        />
+      );
     case 'checkbox':
       return (
         <Checkbox
@@ -30,6 +40,7 @@ export const getFormElement = props => {
           checked={isControlled ? value || false : undefined}
           onBlur={onBlur}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'positive-number':
@@ -42,6 +53,7 @@ export const getFormElement = props => {
           onBlur={onBlur}
           onChange={onChange}
           positive
+          disabled={disabled}
         />
       );
     default:
@@ -53,6 +65,7 @@ export const getFormElement = props => {
           defaultValue={isControlled ? undefined : defaultValue}
           onBlur={onBlur}
           onChange={onChange}
+          disabled={disabled}
         />
       );
   }

@@ -4,6 +4,7 @@ exports[`<Integer /> renders correctly 1`] = `
 <FormControl
   bsClass="form-control"
   componentClass="input"
+  disabled={false}
   id="1"
   onBlur={null}
   onChange={[Function]}
@@ -17,6 +18,7 @@ exports[`<Integer /> renders nonNegative correctly 1`] = `
 <FormControl
   bsClass="form-control"
   componentClass="input"
+  disabled={false}
   id="1"
   min={0}
   onBlur={null}
@@ -31,6 +33,7 @@ exports[`<Integer /> renders positive correctly 1`] = `
 <FormControl
   bsClass="form-control"
   componentClass="input"
+  disabled={false}
   id="1"
   min={1}
   onBlur={null}

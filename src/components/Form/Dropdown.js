@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ButtonGroup, DropdownButton, MenuItem } from 'patternfly-react';
 import { valueHandler } from './utils';
 
-export const Dropdown = ({ id, value, onChange, onBlur, choices }) => (
+export const Dropdown = ({ id, value, disabled, onChange, onBlur, choices }) => (
   <ButtonGroup justified key={id}>
     <DropdownButton
       id={id}
@@ -12,6 +12,7 @@ export const Dropdown = ({ id, value, onChange, onBlur, choices }) => (
       title={value}
       onSelect={valueHandler(onChange)}
       onBlur={valueHandler(onBlur)}
+      disabled={disabled}
     >
       {choices.map(choice => {
         const isObject = typeof choice === 'object';
@@ -32,6 +33,7 @@ Dropdown.defaultProps = {
   id: null,
   onChange: null,
   onBlur: null,
+  disabled: false,
 };
 
 Dropdown.propTypes = {
@@ -40,4 +42,5 @@ Dropdown.propTypes = {
   choices: PropTypes.array.isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  disabled: PropTypes.bool,
 };
