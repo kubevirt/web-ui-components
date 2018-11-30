@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import {
+  VM_STATUS_VMI_WAITING,
   VM_STATUS_STARTING,
   VM_STATUS_RUNNING,
   VM_STATUS_OFF,
@@ -45,6 +46,11 @@ const StateRunning = () => <StateValue iconClass="pficon pficon-on-running">Runn
 const StateOff = () => <StateValue iconClass="pficon pficon-off">Off</StateValue>;
 const StateUnknown = () => <StateValue iconClass="pficon pficon-unknown">Unknown</StateValue>;
 const StateMigrating = () => <StateValue iconClass="pficon pficon-migration">Migrating</StateValue>;
+const StateVmiWaiting = ({ ...props }) => (
+  <StateValue iconClass="pficon pficon-pending" {...props}>
+    Pending
+  </StateValue>
+);
 const StateStarting = ({ ...props }) => (
   <StateValue iconClass="pficon pficon-pending" {...props}>
     Starting
@@ -71,6 +77,8 @@ export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
       return <StateOff />;
     case VM_STATUS_RUNNING:
       return <StateRunning />;
+    case VM_STATUS_VMI_WAITING:
+      return <StateVmiWaiting linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} />;
     case VM_STATUS_STARTING:
       return <StateStarting linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message} />;
     case VM_STATUS_IMPORTING:
