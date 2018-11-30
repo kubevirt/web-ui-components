@@ -1,7 +1,24 @@
 import React from 'react';
-import { render, shallow } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
+import { shape } from 'prop-types';
+
+import { render } from 'enzyme';
+
 import { VmStatus, getVmStatusDetail, getVmStatus } from '../index';
 import { vmFixtures } from '../fixtures/VmStatus.fixture';
+
+const router = {
+  history: new BrowserRouter().history,
+  route: {
+    location: {},
+    match: {},
+  },
+};
+
+const createContext = () => ({
+  context: { router },
+  childContextTypes: { router: shape({}) },
+});
 
 describe('<VmStatus vm />', () => {
   it('renders correctly', () => {
@@ -26,13 +43,14 @@ describe('<VmStatus vm pod />', () => {
     for (let index = 0; index < vmFixtures.length; index++) {
       const fixture = vmFixtures[index];
       expect(
-        shallow(
+        render(
           <VmStatus
             vm={fixture}
             launcherPod={fixture.podFixture}
             importerPod={fixture.importerPodFixture}
             migration={fixture.migration}
-          />
+          />,
+          createContext()
         )
       ).toMatchSnapshot();
       expect(getVmStatus(fixture, fixture.podFixture, fixture.importerPodFixture, fixture.migration)).toBe(

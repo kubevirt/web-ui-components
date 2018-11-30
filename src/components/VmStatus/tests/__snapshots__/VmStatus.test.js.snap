@@ -10,88 +10,198 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 1`] = `<StateOff />`;
-
-exports[`<VmStatus vm pod /> renders correctly 2`] = `<StateRunning />`;
-
-exports[`<VmStatus vm pod /> renders correctly 3`] = `
-<StateStarting
-  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-  message="fail description for Ready"
-/>
+exports[`<VmStatus vm pod /> renders correctly 1`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-off"
+  />,
+  "Off",
+]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 4`] = `<StateStarting />`;
+exports[`<VmStatus vm pod /> renders correctly 2`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-on-running"
+  />,
+  "Running",
+]
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 3`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-pending"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="fail description for Ready"
+  >
+    Starting
+  </a>,
+]
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 4`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-pending"
+  />,
+  "Starting",
+]
+`;
 
 exports[`<VmStatus vm pod /> renders correctly 5`] = `
-<StateStarting
-  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-/>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-pending"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  >
+    Starting
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 6`] = `
-<StateError
-  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-  message="Pod scheduling failed."
->
-  Pod Error
-</StateError>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-error-circle-o"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Pod scheduling failed."
+  >
+    Pod Error
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 7`] = `
-<StateVmiWaiting
-  linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-/>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-pending"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 8`] = `
-<StateVmiWaiting
-  linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-/>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-pending"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 9`] = `
-<StateError
-  linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  message="Failure backend description"
->
-  VM Error
-</StateError>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-error-circle-o"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 10`] = `
-<StateError
-  linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  message="Failure backend description"
->
-  VM Error
-</StateError>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-error-circle-o"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 11`] = `
-<StateError
-  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-  message="Importer pod scheduling failed."
->
-  Importer Error
-</StateError>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-error-circle-o"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Importer pod scheduling failed."
+  >
+    Importer Error
+  </a>,
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 12`] = `
-<StateError
-  linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-  message="Back-off pulling image message"
->
-  Pod Error
-</StateError>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-error-circle-o"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Back-off pulling image message"
+  >
+    Pod Error
+  </a>,
+]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 13`] = `<StateMigrating />`;
+exports[`<VmStatus vm pod /> renders correctly 13`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-migration"
+  />,
+  "Migrating",
+]
+`;
 
-exports[`<VmStatus vm pod /> renders correctly 14`] = `<StateRunning />`;
+exports[`<VmStatus vm pod /> renders correctly 14`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-on-running"
+  />,
+  "Running",
+]
+`;
 
 exports[`<VmStatus vm pod /> renders correctly 15`] = `
-<StateImporting
-  linkTo="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
-/>
+Array [
+  <span
+    aria-hidden="true"
+    class="vm-status-icon pficon pficon-import"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+  >
+    Importing
+  </a>,
+]
 `;
