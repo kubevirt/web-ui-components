@@ -59,6 +59,7 @@ export const templates = [...baseTemplates, ...userTemplates];
 export const VM_STATUS_OFF = 'VM_STATUS_OFF';
 export const VM_STATUS_RUNNING = 'VM_STATUS_RUNNING';
 export const VM_STATUS_STARTING = 'VM_STATUS_STARTING';
+export const VM_STATUS_VMI_WAITING = 'VM_STATUS_VMI_WAITING';
 export const VM_STATUS_IMPORTING = 'VM_STATUS_IMPORTING';
 export const VM_STATUS_POD_ERROR = 'VM_STATUS_POD_ERROR';
 export const VM_STATUS_ERROR = 'VM_STATUS_ERROR';

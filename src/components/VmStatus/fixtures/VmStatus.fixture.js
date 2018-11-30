@@ -1,7 +1,6 @@
 import { VmStatus } from '../VmStatus';
 
 import {
-  VM_STATUS_UNKNOWN,
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
@@ -10,6 +9,8 @@ import {
   VM_STATUS_MIGRATING,
   VM_STATUS_RUNNING,
   VM_STATUS_OTHER,
+  VM_STATUS_VMI_WAITING,
+  VM_STATUS_IMPORTING,
 } from '../../../index';
 
 const podFixture = {
@@ -41,6 +42,16 @@ const podNotScheduledFixture = {
       { type: 'PodScheduled', status: 'False', reason: 'Unschedulable' },
     ],
     containerStatuses: [],
+  },
+};
+
+const importPod = {
+  metadata: {
+    name: 'importer-datavolume-my-vm-x9c99',
+    namespace: 'my-namespace',
+  },
+  status: {
+    conditions: [{ type: 'PodScheduled', status: 'True' }],
   },
 };
 
@@ -139,6 +150,7 @@ export const vmFixtures = [
   },
 
   {
+    // 5
     metadata,
     spec: { running: true },
     status: {
@@ -152,7 +164,6 @@ export const vmFixtures = [
   },
 
   {
-    // 5
     metadata,
     spec: { running: true },
     status: {
@@ -172,7 +183,15 @@ export const vmFixtures = [
       created: false,
       ready: false,
     },
-    expectedDetail: VM_STATUS_UNKNOWN,
+    expectedDetail: VM_STATUS_VMI_WAITING,
+    expected: VM_STATUS_OTHER,
+  },
+
+  {
+    metadata,
+    spec: { running: true },
+    status: {},
+    expectedDetail: VM_STATUS_VMI_WAITING,
     expected: VM_STATUS_OTHER,
   },
 
@@ -196,6 +215,7 @@ export const vmFixtures = [
   },
 
   {
+    // 10
     // issue in VM definition
     metadata,
     spec: { running: true },
@@ -225,7 +245,6 @@ export const vmFixtures = [
   },
 
   {
-    // 10
     metadata,
     spec: { running: true },
     status: {
@@ -270,6 +289,17 @@ export const vmFixtures = [
       },
     },
     expected: VM_STATUS_RUNNING,
+  },
+
+  {
+    // 15
+    metadata,
+    spec: { running: true },
+    status: {},
+
+    importerPodFixture: importPod,
+    expected: VM_STATUS_OTHER,
+    expectedDetail: VM_STATUS_IMPORTING,
   },
 ];
 

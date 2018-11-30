@@ -38,15 +38,16 @@ exports[`<VmStatus vm pod /> renders correctly 6`] = `
 </StateError>
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 7`] = `<StateUnknown />`;
+exports[`<VmStatus vm pod /> renders correctly 7`] = `
+<StateVmiWaiting
+  linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+/>
+`;
 
 exports[`<VmStatus vm pod /> renders correctly 8`] = `
-<StateError
+<StateVmiWaiting
   linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  message="Failure backend description"
->
-  VM Error
-</StateError>
+/>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 9`] = `
@@ -60,6 +61,15 @@ exports[`<VmStatus vm pod /> renders correctly 9`] = `
 
 exports[`<VmStatus vm pod /> renders correctly 10`] = `
 <StateError
+  linkTo="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  message="Failure backend description"
+>
+  VM Error
+</StateError>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 11`] = `
+<StateError
   linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
   message="Importer pod scheduling failed."
 >
@@ -67,7 +77,7 @@ exports[`<VmStatus vm pod /> renders correctly 10`] = `
 </StateError>
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 11`] = `
+exports[`<VmStatus vm pod /> renders correctly 12`] = `
 <StateError
   linkTo="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
   message="Back-off pulling image message"
@@ -76,6 +86,12 @@ exports[`<VmStatus vm pod /> renders correctly 11`] = `
 </StateError>
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 12`] = `<StateMigrating />`;
+exports[`<VmStatus vm pod /> renders correctly 13`] = `<StateMigrating />`;
 
-exports[`<VmStatus vm pod /> renders correctly 13`] = `<StateRunning />`;
+exports[`<VmStatus vm pod /> renders correctly 14`] = `<StateRunning />`;
+
+exports[`<VmStatus vm pod /> renders correctly 15`] = `
+<StateImporting
+  linkTo="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+/>
+`;
