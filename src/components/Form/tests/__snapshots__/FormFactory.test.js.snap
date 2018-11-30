@@ -144,12 +144,14 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
+                disabled={false}
                 onChange={[Function]}
                 value="textField"
               >
                 <FormControl
                   bsClass="form-control"
                   componentClass="input"
+                  disabled={false}
                   onBlur={null}
                   onChange={[Function]}
                   type="text"
@@ -157,6 +159,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 >
                   <input
                     className="form-control"
+                    disabled={false}
                     onBlur={null}
                     onChange={[Function]}
                     type="text"
@@ -214,12 +217,14 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
+                disabled={false}
                 onChange={[Function]}
                 value="requiredField"
               >
                 <FormControl
                   bsClass="form-control"
                   componentClass="input"
+                  disabled={false}
                   onBlur={null}
                   onChange={[Function]}
                   type="text"
@@ -227,6 +232,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 >
                   <input
                     className="form-control"
+                    disabled={false}
                     onBlur={null}
                     onChange={[Function]}
                     type="text"
@@ -294,6 +300,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                     },
                   ]
                 }
+                disabled={false}
                 id="dropdown"
                 onBlur={null}
                 onChange={[Function]}
@@ -312,6 +319,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                     <DropdownButton
                       bsStyle="default"
                       className="form-dropdown"
+                      disabled={false}
                       id="dropdown"
                       onBlur={null}
                       onSelect={[Function]}
@@ -320,6 +328,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                       <DropdownButton
                         bsStyle="default"
                         className="form-dropdown"
+                        disabled={false}
                         id="dropdown"
                         onBlur={null}
                         onSelect={[Function]}
@@ -327,6 +336,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                       >
                         <Uncontrolled(Dropdown)
                           bsStyle="default"
+                          disabled={false}
                           id="dropdown"
                           onSelect={[Function]}
                         >
@@ -334,6 +344,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                             bsClass="dropdown"
                             bsStyle="default"
                             componentClass={[Function]}
+                            disabled={false}
                             id="dropdown"
                             onSelect={[Function]}
                             onToggle={[Function]}
@@ -354,6 +365,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                   bsRole="toggle"
                                   bsStyle="default"
                                   className="form-dropdown"
+                                  disabled={false}
                                   id="dropdown"
                                   key=".0"
                                   onBlur={null}
@@ -542,18 +554,21 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <TextArea
+                disabled={false}
                 onChange={[Function]}
                 value="textarea"
               >
                 <FormControl
                   bsClass="form-control"
                   componentClass="textarea"
+                  disabled={false}
                   onBlur={null}
                   onChange={[Function]}
                   value="textarea"
                 >
                   <textarea
                     className="form-control"
+                    disabled={false}
                     onBlur={null}
                     onChange={[Function]}
                     value="textarea"
@@ -599,6 +614,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
             >
               <Checkbox
                 checked={true}
+                disabled={false}
                 onChange={[Function]}
                 title="checkboxFieldTitle"
               >
@@ -649,6 +665,7 @@ exports[`getFormElement renders correctly 1`] = `
 <FormControl
   bsClass="form-control"
   componentClass="input"
+  disabled={false}
   id="test-id"
   min={1}
   onBlur={null}
