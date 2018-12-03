@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { get } from 'lodash';
+
 import { AccessConsoles, VncConsole, DesktopViewer } from '@patternfly/react-console';
 import { Button } from 'patternfly-react';
 
@@ -46,9 +48,9 @@ export const VmConsoles = ({
   vm,
   vmi,
   onStartVm,
-  getVncConnectionDetails,
-  getSerialConsoleConnectionDetails,
-  getRdpConnectionDetails,
+  vnc,
+  serial,
+  rdp,
   WSFactory,
   LoadingComponent,
 }) => {
@@ -60,15 +62,12 @@ export const VmConsoles = ({
     );
   }
   // TODO: increase patternfly/react-console dependency version
-  const vncConDetails = getVncConnectionDetails(vmi);
-  const serialConDetails = getSerialConsoleConnectionDetails(vmi);
-  const rdpConDetails = getRdpConnectionDetails(vmi);
   return (
     <div className="co-m-pane__body">
       <AccessConsoles preselectedType={VNC_CONSOLE_TYPE}>
         <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serialConDetails} />
-        <VncConsole {...vncConDetails} />
-        <DesktopViewer spice={serialConDetails.manual} vnc={vncConDetails.manual} rdp={rdpConDetails.manual} />
+        <VncConsole {...vnc} />
+        <DesktopViewer vnc={get(vnc.manual)} rdp={rdp.manual} />
       </AccessConsoles>
     </div>
   );
@@ -77,8 +76,9 @@ VmConsoles.propTypes = {
   vm: PropTypes.object.isRequired,
   vmi: PropTypes.object,
 
-  getVncConnectionDetails: PropTypes.func.isRequired,
-  getSerialConsoleConnectionDetails: PropTypes.func.isRequired,
+  vnc: PropTypes.object,
+  serial: PropTypes.object,
+  rdp: PropTypes.object,
   onStartVm: PropTypes.func.isRequired,
 
   LoadingComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
@@ -86,4 +86,8 @@ VmConsoles.propTypes = {
 };
 VmConsoles.defaultProps = {
   vmi: undefined,
+
+  vnc: undefined,
+  serial: undefined,
+  rdp: undefined,
 };
