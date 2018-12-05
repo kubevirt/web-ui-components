@@ -12,7 +12,6 @@ export const MEMORY_KEY = 'memory';
 export const CPU_KEY = 'cpu';
 export const WORKLOAD_PROFILE_KEY = 'workloadProfile';
 export const START_VM_KEY = 'startVM';
-export const CREATE_TEMPLATE_KEY = 'createTemplate ';
 export const CLOUD_INIT_KEY = 'cloudInit';
 export const HOST_NAME_KEY = 'hostname';
 export const AUTHKEYS_KEY = 'authKeys';

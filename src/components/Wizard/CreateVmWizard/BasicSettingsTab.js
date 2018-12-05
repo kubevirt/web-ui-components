@@ -169,13 +169,6 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       disabled: userTemplate !== undefined,
     },
     [START_VM_KEY]: startVmCheckbox,
-    /*
-      [CREATE_TEMPLATE_KEY]: {
-        title: 'Create new template from configuration',
-        type: 'checkbox',
-        noBottom: true
-      },
-      */
     [CLOUD_INIT_KEY]: {
       id: 'use-cloud-init',
       title: 'Use cloud-init',
