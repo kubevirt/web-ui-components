@@ -44,16 +44,7 @@ VmIsStarting.propTypes = {
 /**
  * Actual component for consoles.
  */
-export const VmConsoles = ({
-  vm,
-  vmi,
-  onStartVm,
-  vnc,
-  serial,
-  rdp,
-  WSFactory,
-  LoadingComponent,
-}) => {
+export const VmConsoles = ({ vm, vmi, onStartVm, vnc, serial, rdp, WSFactory, LoadingComponent }) => {
   if (!isVmiRunning(vmi)) {
     return isVmStarting(vm, vmi) ? (
       <VmIsStarting LoadingComponent={LoadingComponent} />
@@ -65,9 +56,9 @@ export const VmConsoles = ({
   return (
     <div className="co-m-pane__body">
       <AccessConsoles preselectedType={VNC_CONSOLE_TYPE}>
-        <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serialConDetails} />
+        <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serial} />
         <VncConsole {...vnc} />
-        <DesktopViewer vnc={get(vnc.manual)} rdp={rdp.manual} />
+        <DesktopViewer vnc={get(vnc, 'manual')} rdp={get(rdp, 'manual')} />
       </AccessConsoles>
     </div>
   );

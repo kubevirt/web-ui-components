@@ -14,49 +14,39 @@ describe('<VmConsoles />', () => {
     expect(component).toMatchSnapshot();
   });
   it('renders correctly for a running VM', () => {
-    const getVncConnectionDetails = jest.fn(vmi => ({
+    const vnc = {
+      vmi: runningVmProps.vmi,
       encrypt: true,
       host: 'my.hostname.com',
       port: '443',
-      path: `path/to/${vmi.metadata.name}/vnc`,
+      path: `path/to/vmname/vnc`,
 
       manual: {
         address: 'vnc.address.com',
         port: 1234,
         tlsPort: 1235,
       },
-    }));
+    };
 
-    const getSerialConsoleConnectionDetails = jest.fn(vmi => ({
-      vmi,
+    const serial = {
+      vmi: runningVmProps.vmi,
       host: 'my.hostname.com',
-      path: `path/to/${vmi.metadata.name}/console`,
+      path: `path/to/vmname/console`,
 
       manual: {
         address: 'serial.address.com',
         port: 1236,
         tlsPort: 1237,
       },
-    }));
+    };
 
-    const getRdpConnectionDetails = jest.fn(vmi => ({
+    const rdp = {
       manual: {
         address: 'resp.address.com',
       },
-    }));
+    };
 
-    const component = render(
-      <VmConsoles
-        getVncConnectionDetails={getVncConnectionDetails}
-        getSerialConsoleConnectionDetails={getSerialConsoleConnectionDetails}
-        getRdpConnectionDetails={getRdpConnectionDetails}
-        {...runningVmProps}
-      />
-    );
-    expect(getVncConnectionDetails).toHaveBeenCalledTimes(1);
-    expect(getSerialConsoleConnectionDetails).toHaveBeenCalledTimes(1);
-    expect(getRdpConnectionDetails).toHaveBeenCalledTimes(1);
-
+    const component = render(<VmConsoles vnc={vnc} serial={serial} rdp={rdp} {...runningVmProps} />);
     expect(component).toMatchSnapshot();
   });
 });
