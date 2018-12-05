@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TemplateSource /> renders correctly 1`] = `
+<div
+  className="template-source__overlay"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="myproject-container-template"
+        placement="right"
+      >
+        fooContainer
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={false}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <div>
+      Registry
+    </div>
+  </OverlayTrigger>
+</div>
+`;
