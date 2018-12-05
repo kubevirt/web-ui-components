@@ -1,6 +1,10 @@
 import { CreateVmWizard } from '..';
-import { networkConfigs, templates } from '../../../../constants';
 import { ProcessedTemplatesModel } from '../../../../models';
+import { networkConfigs } from '../../../../k8s/mock_network';
+import { baseTemplates } from '../../../../k8s/mock_templates';
+import { userTemplates } from '../../../../k8s/mock_user_templates';
+
+const templates = [...baseTemplates, ...userTemplates];
 
 export const namespaces = [
   {
@@ -19,21 +23,25 @@ export const storageClasses = [
   {
     metadata: {
       name: 'nfs',
+      namespace: 'default',
     },
   },
   {
     metadata: {
       name: 'iscsi',
+      namespace: 'default',
     },
   },
   {
     metadata: {
       name: 'glusterfs',
+      namespace: 'default',
     },
   },
   {
     metadata: {
       name: 'azuredisk',
+      namespace: 'default',
     },
   },
 ];
@@ -141,6 +149,21 @@ export default [
       persistentVolumeClaims: null,
       storageClasses: null,
       units,
+    },
+  },
+  {
+    component: CreateVmWizard,
+    name: 'Create Vm Template',
+    props: {
+      onHide: () => {},
+      templates,
+      namespaces,
+      k8sCreate,
+      networkConfigs,
+      persistentVolumeClaims,
+      storageClasses,
+      units,
+      createTemplate: true,
     },
   },
 ];

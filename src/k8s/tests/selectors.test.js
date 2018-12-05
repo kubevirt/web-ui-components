@@ -5,9 +5,6 @@ import {
   TEMPLATE_WORKLOAD_LABEL,
   TEMPLATE_TYPE_BASE,
   TEMPLATE_TYPE_VM,
-  templates,
-  userTemplates,
-  baseTemplates,
 } from '../../constants';
 import {
   isFlavorType,
@@ -20,22 +17,27 @@ import {
   isImageSourceType,
 } from '../selectors';
 import { getTemplate } from '../../utils/templates';
+import { baseTemplates } from '../mock_templates';
+import { userTemplates } from '../mock_user_templates';
+import { PROVISION_SOURCE_TYPE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
+
+const templates = [...baseTemplates, ...userTemplates];
 
 describe('selectors.js', () => {
   it('isImageSourceType', () => {
     const basicVmSettings = {
-      imageSourceType: {
+      [PROVISION_SOURCE_TYPE_KEY]: {
         value: 'shouldReturnTrue',
       },
     };
     expect(isImageSourceType(basicVmSettings, undefined)).toBeFalsy();
     expect(isImageSourceType(basicVmSettings, 'shouldReturnTrue')).toBeTruthy();
 
-    basicVmSettings.imageSourceType.value = 'shouldReturnFalse';
+    basicVmSettings[PROVISION_SOURCE_TYPE_KEY].value = 'shouldReturnFalse';
     expect(isImageSourceType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    basicVmSettings.imageSourceType.value = undefined;
+    basicVmSettings[PROVISION_SOURCE_TYPE_KEY].value = undefined;
     expect(isImageSourceType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    basicVmSettings.imageSourceType = undefined;
+    basicVmSettings[PROVISION_SOURCE_TYPE_KEY] = undefined;
     expect(isImageSourceType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
     expect(isImageSourceType(undefined, 'thisIsNotTheValue')).toBeFalsy();
   });

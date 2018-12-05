@@ -48,3 +48,16 @@ export const PodModel = {
   id: 'pod',
   labelPlural: 'Pods',
 };
+
+export const TemplateModel = {
+  label: 'Template',
+  labelPlural: 'Templates',
+  apiVersion: 'v1',
+  path: 'templates',
+  apiGroup: 'template.openshift.io',
+  plural: 'templates',
+  namespaced: true,
+  abbr: 'Template',
+  kind: 'Template',
+  id: 'template',
+};

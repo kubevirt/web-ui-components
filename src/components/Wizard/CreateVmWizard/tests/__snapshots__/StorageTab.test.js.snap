@@ -6,10 +6,17 @@ exports[`<StorageTab /> renders correctly 1`] = `
     actionButtons={
       Array [
         Object {
+          "className": "create-disk",
           "disabled": false,
-          "id": "attach-storage-btn",
+          "id": "create-storage-btn",
           "onClick": [Function],
-          "text": "Attach Storage",
+          "text": "Create Disk",
+        },
+        Object {
+          "disabled": false,
+          "id": "attach-disk-btn",
+          "onClick": [Function],
+          "text": "Attach Disk",
         },
       ]
     }
@@ -39,6 +46,18 @@ exports[`<StorageTab /> renders correctly 1`] = `
               "initialValue": "--- Select Storage ---",
               "type": "dropdown",
             },
+            Object {
+              "id": "name-edit",
+              "type": "text",
+            },
+            Object {
+              "id": "name-edit",
+              "type": "text",
+            },
+            Object {
+              "id": "name-edit",
+              "type": "text",
+            },
           ],
         },
         Object {
@@ -56,6 +75,13 @@ exports[`<StorageTab /> renders correctly 1`] = `
               "id": "size-edit",
               "type": "positive-number",
             },
+            undefined,
+            undefined,
+            undefined,
+            Object {
+              "id": "size-edit",
+              "type": "positive-number",
+            },
           ],
         },
         Object {
@@ -69,6 +95,20 @@ exports[`<StorageTab /> renders correctly 1`] = `
           },
           "property": "storageClass",
           "renderConfigs": Array [
+            Object {
+              "choices": Array [
+                "nfs",
+                "iscsi",
+                "glusterfs",
+                "azuredisk",
+              ],
+              "id": "storage-edit",
+              "initialValue": "--- Select ---",
+              "type": "dropdown",
+            },
+            undefined,
+            undefined,
+            undefined,
             Object {
               "choices": Array [
                 "nfs",
@@ -133,6 +173,37 @@ exports[`<StorageTab /> renders correctly 1`] = `
     onRowDeleteOrMove={[Function]}
     onRowUpdate={[Function]}
     rows={Array []}
+  />
+  <FormFactory
+    controlSize={10}
+    fields={
+      Object {
+        "bootableDisk": Object {
+          "choices": Array [],
+          "defaultValue": "--- Select Bootable Disk ---",
+          "disabled": true,
+          "id": "bootable-disk-dropdown",
+          "required": true,
+          "title": "Bootable Disk",
+          "type": "dropdown",
+        },
+      }
+    }
+    fieldsValues={
+      Object {
+        "bootableDisk": Object {
+          "validation": Object {
+            "message": "A bootable disk could not be found",
+            "type": "error",
+          },
+          "value": undefined,
+        },
+      }
+    }
+    formClassName="pxe-form"
+    labelSize={2}
+    onFormChange={[Function]}
+    textPosition="text-left"
   />
 </Fragment>
 `;

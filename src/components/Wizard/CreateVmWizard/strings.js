@@ -1,4 +1,5 @@
 export const CREATE_VM = 'Create Virtual Machine';
+export const CREATE_VM_TEMPLATE = `${CREATE_VM} Template`;
 export const STEP_BASIC_SETTINGS = 'Basic Settings';
 export const STEP_NETWORK = 'Networking';
 export const STEP_STORAGE = 'Storage';
@@ -7,6 +8,9 @@ export const NEXT = 'Next';
 export const ERROR_EMPTY_ENTITY = 'Empty entity';
 export const ERROR_EMPTY_NAME = 'Name is empty';
 export const ERROR_IS_REQUIRED = 'is required';
+
+// BasicSettingsTab
+export const NO_TEMPLATE = '--- No Template ---';
 
 // NetworksTab
 export const SELECT_NETWORK = '--- Select Network Definition ---';
@@ -33,6 +37,7 @@ export const HEADER_DISK_NAME = 'Disk Name';
 export const HEADER_SIZE = 'Size (GB)';
 export const HEADER_STORAGE_CLASS = 'Storage Class';
 export const REMOVE_DISK_BUTTON = 'Remove Disk';
-export const ATTACH_STORAGE_BUTTON = 'Attach Storage';
+export const ATTACH_DISK_BUTTON = 'Attach Disk';
+export const CREATE_DISK_BUTTON = 'Create Disk';
 export const BOOTABLE_DISK = 'Bootable Disk';
 export const SELECT_BOOTABLE_DISK = '--- Select Bootable Disk ---';

@@ -1,5 +1,186 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
+<FormFactory
+  controlSize={5}
+  fields={
+    Object {
+      "authKeys": Object {
+        "id": "cloud-init-ssh",
+        "isVisible": [Function],
+        "title": "Authenticated SSH Keys",
+        "type": "textarea",
+      },
+      "cloudInit": Object {
+        "id": "use-cloud-init",
+        "title": "Use cloud-init",
+        "type": "checkbox",
+      },
+      "cpu": Object {
+        "id": "resources-cpu",
+        "isVisible": [Function],
+        "required": true,
+        "title": "CPUs",
+        "type": "positive-number",
+      },
+      "description": Object {
+        "id": "vm-description",
+        "title": "Description",
+        "type": "textarea",
+      },
+      "flavor": Object {
+        "choices": Array [
+          "small",
+          "medium",
+          "Custom",
+        ],
+        "defaultValue": "--- Select Flavor ---",
+        "disabled": false,
+        "id": "flavor-dropdown",
+        "required": true,
+        "title": "Flavor",
+        "type": "dropdown",
+      },
+      "hostname": Object {
+        "id": "cloud-init-hostname",
+        "isVisible": [Function],
+        "title": "Hostname",
+      },
+      "imageURL": Object {
+        "disabled": false,
+        "id": "provision-source-url",
+        "isVisible": [Function],
+        "required": true,
+        "title": "URL",
+      },
+      "memory": Object {
+        "id": "resources-memory",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Memory (GB)",
+        "type": "positive-number",
+      },
+      "name": Object {
+        "id": "vm-name",
+        "required": true,
+        "title": "Name",
+        "validate": [Function],
+      },
+      "namespace": Object {
+        "choices": Array [
+          "default",
+          "myproject",
+        ],
+        "defaultValue": "--- Select Namespace ---",
+        "id": "namespace-dropdown",
+        "required": true,
+        "title": "Namespace",
+        "type": "dropdown",
+      },
+      "operatingSystem": Object {
+        "choices": Array [
+          "fedora29",
+          "fedora28",
+          "fedora27",
+          "fedora26",
+          "fedora25",
+          "fedora24",
+          "fedora23",
+          "rhel7.0",
+          "ubuntu18.04",
+          "win2k12r2",
+          "win2k8r2",
+          "win2k8",
+          "win10",
+        ],
+        "defaultValue": "--- Select Operating System ---",
+        "disabled": false,
+        "id": "operating-system-dropdown",
+        "required": true,
+        "title": "Operating System",
+        "type": "dropdown",
+      },
+      "provisionSourceType": Object {
+        "choices": Array [
+          "PXE",
+          "URL",
+          "Registry",
+        ],
+        "defaultValue": "--- Select Provision Source ---",
+        "disabled": false,
+        "id": "image-source-type-dropdown",
+        "required": true,
+        "title": "Provision Source",
+        "type": "dropdown",
+      },
+      "registryImage": Object {
+        "disabled": false,
+        "id": "provision-source-registry",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Registry Image",
+      },
+      "startVM": Object {
+        "id": "start-vm",
+        "noBottom": true,
+        "title": "Start virtual machine on creation",
+        "type": "checkbox",
+      },
+      "userTemplate": Object {
+        "choices": Array [
+          "container-template",
+          "container-template-cloud-init",
+          "container-template-multus",
+          "pxe-template",
+          "pxe-template-dv",
+          "pxe-template-pvc",
+          "url-template",
+          "url-template-custom-flavor",
+          "url-template-nonetwork",
+          "--- No Template ---",
+        ],
+        "defaultValue": "--- Select Template ---",
+        "id": "template-dropdown",
+        "title": "Template",
+        "type": "dropdown",
+      },
+      "workloadProfile": Object {
+        "choices": Array [
+          "generic",
+          "high-performance",
+        ],
+        "defaultValue": "--- Select Workload Profile ---",
+        "disabled": false,
+        "help": Array [
+          <p>
+            <b>
+              generic
+            </b>
+            : 
+            generic
+          </p>,
+          <p>
+            <b>
+              high-performance
+            </b>
+            : 
+            high-performance
+          </p>,
+        ],
+        "id": "workload-profile-dropdown",
+        "required": true,
+        "title": "Workload Profile",
+        "type": "dropdown",
+      },
+    }
+  }
+  fieldsValues={Object {}}
+  labelSize={3}
+  onFormChange={[Function]}
+  textPosition="text-right"
+/>
+`;
+
 exports[`<BasicSettingsTab /> renders correctly 1`] = `
 <FormFactory
   controlSize={5}
@@ -35,8 +216,8 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
           "Custom",
         ],
         "defaultValue": "--- Select Flavor ---",
+        "disabled": false,
         "id": "flavor-dropdown",
-        "isVisible": [Function],
         "required": true,
         "title": "Flavor",
         "type": "dropdown",
@@ -46,30 +227,12 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "isVisible": [Function],
         "title": "Hostname",
       },
-      "imageSourceType": Object {
-        "choices": Array [
-          "PXE",
-          "URL",
-          "Registry",
-          "Template",
-        ],
-        "defaultValue": "--- Select Provision Source ---",
-        "id": "image-source-type-dropdown",
-        "required": true,
-        "title": "Provision Source",
-        "type": "dropdown",
-      },
       "imageURL": Object {
+        "disabled": false,
         "id": "provision-source-url",
         "isVisible": [Function],
         "required": true,
         "title": "URL",
-      },
-      "imageURLSize": Object {
-        "isVisible": [Function],
-        "required": true,
-        "title": "Disk Size (GB)",
-        "type": "positive-number",
       },
       "memory": Object {
         "id": "resources-memory",
@@ -104,21 +267,35 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
           "fedora25",
           "fedora24",
           "fedora23",
-          "ubuntu18.04",
           "rhel7.0",
+          "ubuntu18.04",
           "win2k12r2",
           "win2k8r2",
           "win2k8",
           "win10",
         ],
         "defaultValue": "--- Select Operating System ---",
+        "disabled": false,
         "id": "operating-system-dropdown",
-        "isVisible": [Function],
         "required": true,
         "title": "Operating System",
         "type": "dropdown",
       },
+      "provisionSourceType": Object {
+        "choices": Array [
+          "PXE",
+          "URL",
+          "Registry",
+        ],
+        "defaultValue": "--- Select Provision Source ---",
+        "disabled": false,
+        "id": "image-source-type-dropdown",
+        "required": true,
+        "title": "Provision Source",
+        "type": "dropdown",
+      },
       "registryImage": Object {
+        "disabled": false,
         "id": "provision-source-registry",
         "isVisible": [Function],
         "required": true,
@@ -132,13 +309,19 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       },
       "userTemplate": Object {
         "choices": Array [
-          "linux-template",
-          "windows-template",
+          "container-template",
+          "container-template-cloud-init",
+          "container-template-multus",
+          "pxe-template",
+          "pxe-template-dv",
+          "pxe-template-pvc",
+          "url-template",
+          "url-template-custom-flavor",
+          "url-template-nonetwork",
+          "--- No Template ---",
         ],
         "defaultValue": "--- Select Template ---",
         "id": "template-dropdown",
-        "isVisible": [Function],
-        "required": true,
         "title": "Template",
         "type": "dropdown",
       },
@@ -148,6 +331,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
           "high-performance",
         ],
         "defaultValue": "--- Select Workload Profile ---",
+        "disabled": false,
         "help": Array [
           <p>
             <b>
@@ -165,7 +349,6 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
           </p>,
         ],
         "id": "workload-profile-dropdown",
-        "isVisible": [Function],
         "required": true,
         "title": "Workload Profile",
         "type": "dropdown",

@@ -1,11 +1,20 @@
 import React from 'react';
+import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { MenuItem, HelpBlock } from 'patternfly-react';
-import { NetworksTab, validateNetworksNamespace, hasError, isBootableNetwork } from '../NetworksTab';
+import { NetworksTab, validateNetworksNamespace, isBootableNetwork } from '../NetworksTab';
 import NetworksTabFixture from '../fixtures/NetworksTab.fixture';
-import { POD_NETWORK } from '../../../../constants';
+import {
+  POD_NETWORK,
+  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_PXE,
+} from '../../../../constants';
 import { Dropdown } from '../../../Form';
 import { SELECT_NETWORK, SELECT_PXE_NIC, PXE_NIC_NOT_FOUND_ERROR } from '../strings';
+import { pxeTemplate } from '../../../../k8s/mock_user_templates';
+import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../constants';
+import { getTemplateInterfaces } from '../../../../utils/templates';
 
 const testNetworksTab = (onChange = () => {}) => <NetworksTab {...NetworksTabFixture.props} onChange={onChange} />;
 
@@ -32,6 +41,7 @@ const pxeRow = {
   renderConfig: 0,
   edit: false,
   editable: true,
+  networkType: NETWORK_TYPE_MULTUS,
 };
 
 const podRow = {
@@ -42,6 +52,7 @@ const podRow = {
   renderConfig: 0,
   edit: false,
   editable: true,
+  networkType: NETWORK_TYPE_POD,
 };
 
 const nullArray = Array(4).fill(null);
@@ -80,22 +91,6 @@ describe('<NetworksTab />', () => {
     expect(networks[1].errors).toBeUndefined();
     expect(networks[2].errors).toEqual(errorArray);
     expect(networks[3].errors).toEqual(errorArray);
-  });
-
-  it('hasError', () => {
-    const networkWithError = {
-      network: '',
-      errors: errorArray,
-    };
-    expect(hasError(networkWithError)).toBeTruthy();
-
-    const networkWithoutError = {
-      network: '',
-      errors: nullArray,
-    };
-
-    expect(hasError(networkWithoutError)).toBeFalsy();
-    expect(hasError({ network: '' })).toBeFalsy();
   });
 
   it('isBootableNetwork', () => {
@@ -203,8 +198,156 @@ describe('<NetworksTab />', () => {
   });
 
   it('does not require bootable network for non-PXE image sources', () => {
-    const component = mount(<NetworksTab {...NetworksTabFixture.props} pxeBoot={false} />);
+    const component = mount(<NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_REGISTRY} />);
     expect(component.find('#pxe-nic-dropdown')).toHaveLength(0);
     expect(component.find(HelpBlock)).toHaveLength(0);
+
+    component.setProps({
+      sourceType: PROVISION_SOURCE_URL,
+    });
+
+    expect(component.find('#pxe-nic-dropdown')).toHaveLength(0);
+    expect(component.find(HelpBlock)).toHaveLength(0);
+
+    component.setProps({
+      sourceType: PROVISION_SOURCE_REGISTRY,
+    });
+
+    expect(component.find('#pxe-nic-dropdown')).toHaveLength(0);
+    expect(component.find(HelpBlock)).toHaveLength(0);
+  });
+
+  it('initializes template networks', () => {
+    const templateInterfaces = getTemplateInterfaces(pxeTemplate);
+    const tNetworks = templateInterfaces.map(i => ({
+      templateNetwork: i,
+    }));
+    const component = shallow(<NetworksTab {...NetworksTabFixture.props} networks={tNetworks} />);
+
+    component.state().rows.forEach((row, index) => {
+      expect(row.name).toEqual(templateInterfaces[index].network.name);
+      expect(row.id).toEqual(index + 1);
+      expect(row.templateNetwork).toEqual(templateInterfaces[index]);
+    });
+
+    expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
+    expect(component.state().rows[0].network).toEqual(POD_NETWORK);
+    expect(component.state().rows[1].networkType).toEqual(NETWORK_TYPE_MULTUS);
+    expect(component.state().rows[1].network).toEqual(templateInterfaces[1].network.multus.networkName);
+  });
+
+  it('resolves bootable network', () => {
+    const templateInterfaces = getTemplateInterfaces(pxeTemplate);
+    const tNetworks = templateInterfaces.map(i => ({
+      templateNetwork: i,
+    }));
+
+    // multus network has bootOrder 1
+    let component = shallow(
+      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_PXE} networks={tNetworks} />
+    );
+
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[1].isBootable).toBeTruthy();
+
+    const withoutBootOrder = cloneDeep(tNetworks);
+    delete withoutBootOrder[1].templateNetwork.interface.bootOrder;
+
+    // multus network does not have bootOrder
+    component = shallow(
+      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_PXE} networks={withoutBootOrder} />
+    );
+
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[1].isBootable).toBeTruthy();
+
+    component = shallow(
+      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_REGISTRY} networks={tNetworks} />
+    );
+
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[1].isBootable).toBeFalsy();
+
+    component = shallow(
+      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_URL} networks={tNetworks} />
+    );
+
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[1].isBootable).toBeFalsy();
+  });
+
+  it('onRowUpdate sets boot order and network type', () => {
+    const rows = [pxeRow, podRow];
+    const component = shallow(
+      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_PXE} networks={rows} />
+    );
+
+    expect(component.state().rows[0].isBootable).toBeTruthy();
+    expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_MULTUS);
+    expect(component.state().rows[1].isBootable).toBeFalsy();
+    expect(component.state().rows[1].networkType).toEqual(NETWORK_TYPE_POD);
+
+    const udpatedRows = cloneDeep(rows);
+    udpatedRows[0].network = POD_NETWORK;
+
+    component.instance().onRowUpdate(udpatedRows, 0, true);
+
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
+    expect(component.state().rows[1].isBootable).toBeFalsy();
+    expect(component.state().rows[1].networkType).toEqual(NETWORK_TYPE_POD);
+
+    udpatedRows[1].network = NetworksTabFixture.props.networkConfigs[0].metadata.name;
+
+    component.instance().onRowUpdate(udpatedRows, 1, true);
+
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
+    expect(component.state().rows[1].isBootable).toBeTruthy();
+    expect(component.state().rows[1].networkType).toEqual(NETWORK_TYPE_MULTUS);
+  });
+
+  it('PXE NIC dropdown updates bootable network', () => {
+    const networkConfig2 = cloneDeep(NetworksTabFixture.props.networkConfigs[1]);
+    networkConfig2.metadata.namespace = NetworksTabFixture.props.networkConfigs[0].metadata.namespace;
+
+    const pxeRow2 = {
+      id: 2,
+      name: 'pxe-net2',
+      mac: '',
+      network: networkConfig2.metadata.name,
+      renderConfig: 0,
+      edit: false,
+      editable: true,
+      networkType: NETWORK_TYPE_MULTUS,
+    };
+
+    const rows = [pxeRow, podRow, pxeRow2];
+
+    const component = mount(
+      <NetworksTab
+        {...NetworksTabFixture.props}
+        networkConfigs={[NetworksTabFixture.props.networkConfigs[0], networkConfig2]}
+        sourceType={PROVISION_SOURCE_PXE}
+        networks={rows}
+      />
+    );
+
+    const pxeDropdown = component.find('#pxe-nic-dropdown');
+
+    expect(pxeDropdown.find(MenuItem).find('a')).toHaveLength(2);
+    expect(component.state().rows[0].isBootable).toBeTruthy();
+    expect(component.state().rows[1].isBootable).toBeFalsy();
+    expect(component.state().rows[2].isBootable).toBeFalsy();
+
+    pxeDropdown
+      .find(MenuItem)
+      .find('a')
+      .findWhere(item => item.text() === pxeRow2.name)
+      .simulate('click');
+    component.update();
+    expect(component.state().rows[0].isBootable).toBeFalsy();
+    expect(component.state().rows[1].isBootable).toBeFalsy();
+    expect(component.state().rows[2].isBootable).toBeTruthy();
   });
 });

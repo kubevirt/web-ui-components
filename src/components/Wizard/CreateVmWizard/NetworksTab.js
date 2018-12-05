@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormFactory } from '../../Form';
 import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
-import { POD_NETWORK } from '../../../constants';
+import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
 import {
   SELECT_NETWORK,
   SELECT_PXE_NIC,
@@ -21,6 +21,7 @@ import {
   HEADER_NETWORK,
 } from './strings';
 import { getValidationObject } from '../../../utils/validations';
+import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from './constants';
 
 const validateNetwork = network => {
   const errors = Array(4).fill(null);
@@ -56,37 +57,86 @@ export const hasError = network => (network.errors ? network.errors.some(error =
 
 export const isBootableNetwork = network => network.network !== POD_NETWORK && network.network !== '';
 
+const resolveBootableNetwork = (sourceType, rows) => {
+  if (sourceType === PROVISION_SOURCE_PXE && !rows.some(row => row.isBootable && !hasError(row))) {
+    const bootableNetworks = rows.filter(row => isBootableNetwork(row));
+    if (bootableNetworks.length > 0) {
+      let bootableNetwork;
+      bootableNetworks.filter(n => n.templateNetwork && n.templateNetwork.interface.bootOrder).forEach(n => {
+        const { bootOrder } = n.templateNetwork.interface;
+        if (!bootableNetwork || bootOrder < bootableNetwork.templateNetwork.interface.bootOrder) {
+          bootableNetwork = n;
+        }
+      });
+
+      if (!bootableNetwork) {
+        [bootableNetwork] = bootableNetworks;
+      }
+
+      bootableNetwork.isBootable = true;
+    }
+  }
+};
+
+const resolveInitialNetworks = (networks, networkConfigs, namespace, sourceType) => {
+  let nextId = Math.max(...networks.map(network => network.id || 0), 0) + 1;
+
+  const initialNetworks = networks.map(network => {
+    if (network.templateNetwork) {
+      const { templateNetwork } = network;
+      let networkType;
+      if (templateNetwork.network.pod) {
+        networkType = NETWORK_TYPE_POD;
+      } else if (templateNetwork.network.multus) {
+        networkType = NETWORK_TYPE_MULTUS;
+      }
+
+      return {
+        templateNetwork,
+        name: templateNetwork.interface.name,
+        mac: templateNetwork.interface.macAddress,
+        network: templateNetwork.network.pod ? POD_NETWORK : templateNetwork.network.multus.networkName, // TODO support others even if unknown
+        id: nextId++,
+        editable: true,
+        edit: false,
+        renderConfig: 0,
+        networkType,
+      };
+    }
+    return {
+      name: network.name,
+      mac: network.mac,
+      network: network.network,
+      id: nextId++,
+      editable: true,
+      edit: false,
+      networkType: network.networkType,
+      renderConfig: 0,
+    };
+  });
+
+  validateNetworksNamespace(networkConfigs, namespace, initialNetworks);
+  resolveBootableNetwork(sourceType, initialNetworks);
+  return initialNetworks;
+};
+
 export class NetworksTab extends React.Component {
   constructor(props) {
     super(props);
-    const rows = props.networks.map(({ id, name, mac, network, isBootable, errors }) => ({
-      id,
-      name,
-      mac,
-      network,
-      errors,
-      isBootable,
-      renderConfig: 0,
-      edit: false,
-      editable: true,
-    }));
+    const rows = resolveInitialNetworks(props.networks, props.networkConfigs, props.namespace, props.sourceType);
 
-    validateNetworksNamespace(props.networkConfigs, props.namespace, rows);
-    this.resolveBootableNetwork(props.pxeBoot, rows);
     this.publishResults(rows);
     this.state = {
       // eslint-disable-next-line
-      nextId: rows.length + 1,
+      nextId: Math.max(...rows.map(network => network.id || 0), 0) + 1,
       editing: false,
       rows,
     };
   }
 
-  checkPxeBootable = rows => (this.props.pxeBoot ? rows.some(row => row.isBootable) : true);
-
   publishResults = rows => {
-    let valid = this.checkPxeBootable(rows);
-    const nics = rows.map(({ id, isBootable, name, mac, network, errors }) => {
+    let valid = this.props.sourceType === PROVISION_SOURCE_PXE ? rows.some(row => row.isBootable) : true;
+    const nics = rows.map(({ templateNetwork, id, isBootable, name, mac, network, errors, networkType }) => {
       const result = {
         id,
         isBootable,
@@ -94,7 +144,12 @@ export class NetworksTab extends React.Component {
         mac,
         network,
         errors,
+        networkType,
       };
+
+      if (templateNetwork) {
+        result.templateNetwork = templateNetwork;
+      }
 
       if (valid && errors) {
         for (const error of errors) {
@@ -107,10 +162,7 @@ export class NetworksTab extends React.Component {
       return result;
     });
 
-    const value = {
-      networks: nics,
-    };
-    this.props.onChange(value, valid);
+    this.props.onChange(nics, valid);
   };
 
   onRowActivate = rows => {
@@ -122,31 +174,19 @@ export class NetworksTab extends React.Component {
     if (updatedRow.isBootable && updatedRow.network === POD_NETWORK) {
       updatedRow.isBootable = false;
     }
+    if (updatedRow.network === POD_NETWORK) {
+      updatedRow.networkType = NETWORK_TYPE_POD;
+    } else {
+      updatedRow.networkType = NETWORK_TYPE_MULTUS;
+    }
     updatedRow.errors = validateNetwork(updatedRow);
     this.rowsChanged(rows, editing);
   };
 
   rowsChanged = (rows, editing) => {
-    this.resolveBootableNetwork(this.props.pxeBoot, rows);
+    resolveBootableNetwork(this.props.sourceType, rows);
     this.publishResults(rows);
     this.setState({ rows, editing });
-  };
-
-  resolveBootableNetwork = (pxeBoot, rows) => {
-    if (pxeBoot && !rows.some(row => row.isBootable && !hasError(row))) {
-      const bootableNetworks = rows.filter(row => isBootableNetwork(row));
-      if (bootableNetworks.length > 0) {
-        let bootableFound = false;
-        bootableNetworks.forEach(network => {
-          if (!bootableFound && !hasError(network)) {
-            network.isBootable = true;
-            bootableFound = true;
-          } else {
-            network.isBootable = false;
-          }
-        });
-      }
-    }
   };
 
   createNic = () => {
@@ -266,7 +306,10 @@ export class NetworksTab extends React.Component {
       title: PXE_NIC,
       type: 'dropdown',
       defaultValue: SELECT_PXE_NIC,
-      choices: pxeNetworks.map(n => n.name),
+      choices: pxeNetworks.filter(n => !hasError(n)).map(n => ({
+        name: n.name,
+        id: n.id,
+      })),
       required: true,
       help: PXE_INFO,
     },
@@ -275,7 +318,7 @@ export class NetworksTab extends React.Component {
   onFormChange = newValue => {
     this.setState(state => {
       state.rows.forEach(row => {
-        row.isBootable = row.name === newValue;
+        row.isBootable = row.id === newValue;
       });
       this.publishResults(state.rows);
       return state.rows;
@@ -287,8 +330,8 @@ export class NetworksTab extends React.Component {
     const actionButtons = this.getActionButtons();
 
     let pxeForm;
-    if (this.props.pxeBoot) {
-      const pxeNetworks = this.state.rows.filter(row => isBootableNetwork(row) && !hasError(row));
+    if (this.props.sourceType === PROVISION_SOURCE_PXE) {
+      const pxeNetworks = this.state.rows.filter(row => isBootableNetwork(row));
       const bootableNetwork = pxeNetworks.find(row => row.isBootable);
       const values = {
         pxeNetwork: {
@@ -328,7 +371,7 @@ export class NetworksTab extends React.Component {
 NetworksTab.propTypes = {
   onChange: PropTypes.func.isRequired,
   networks: PropTypes.array.isRequired,
-  pxeBoot: PropTypes.bool.isRequired,
+  sourceType: PropTypes.string.isRequired,
   networkConfigs: PropTypes.array.isRequired,
   namespace: PropTypes.string.isRequired,
 };

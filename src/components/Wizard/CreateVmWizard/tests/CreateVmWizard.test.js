@@ -6,8 +6,8 @@ import { CreateVmWizard } from '../CreateVmWizard';
 import { Loading } from '../../../Loading';
 
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
-import { createVM } from '../../../../k8s/request';
-import { CREATE_VM, NEXT } from '../strings';
+import { createVm, createVmTemplate } from '../../../../k8s/request';
+import { CREATE_VM, NEXT, CREATE_VM_TEMPLATE } from '../strings';
 import CreateVmWizardFixutre from '../fixtures/CreateVmWizard.fixture';
 import BasicSettingsTab from '../BasicSettingsTab';
 import { NetworksTab } from '../NetworksTab';
@@ -19,17 +19,23 @@ import {
   STORAGE_TAB_KEY,
   RESULT_TAB_KEY,
   USER_TEMPLATE_KEY,
-  IMAGE_SOURCE_TYPE_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
 } from '../constants';
-import { PROVISION_SOURCE_TEMPLATE, userTemplates } from '../../../../constants';
+import {
+  containerTemplate,
+  pxeDataVolumeTemplate,
+  containerMultusTemplate,
+  urlNoNetworkTemplate,
+} from '../../../../k8s/mock_user_templates';
 import { getName } from '../../../../utils/selectors';
 import { selectVm } from '../../../../k8s/selectors';
+import { getTemplateInterfaces } from '../../../../utils/templates';
 
 jest.mock('../../../../k8s/request');
 
 const LOADING = 'loading';
 
-const testCreateVmWizard = type => {
+const testCreateVmWizard = (type, template) => {
   let props;
   const [loaded, , loading] = CreateVmWizardFixutre;
   switch (type) {
@@ -40,7 +46,7 @@ const testCreateVmWizard = type => {
       ({ props } = loaded);
       break;
   }
-  return <CreateVmWizard {...props} />;
+  return <CreateVmWizard {...props} createTemplate={template} />;
 };
 
 const getBackButton = component => component.find('.btn').findWhere(btn => btn.text() === 'Back');
@@ -50,19 +56,31 @@ const getStepIndex = (steps, key) => findIndex(steps, step => step.key === key);
 
 const checkStorages = (component, userTemplate) => {
   expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(1);
-  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage.disk).toEqual(
-    selectVm(userTemplate.objects).spec.template.spec.domain.devices.disks[0]
-  );
-  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage.dataVolume).toEqual(
-    selectVm(userTemplate.objects).spec.dataVolumeTemplates[0]
-  );
-  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage.volume).toEqual(
-    selectVm(userTemplate.objects).spec.template.spec.volumes[0]
-  );
+  const stateTemplateStorage = component.state('stepData')[STORAGE_TAB_KEY].value[0].templateStorage;
+  expect(stateTemplateStorage.disk).toEqual(selectVm(userTemplate.objects).spec.template.spec.domain.devices.disks[0]);
+  if (stateTemplateStorage.dataVolume) {
+    expect(stateTemplateStorage.dataVolume).toEqual(selectVm(userTemplate.objects).spec.dataVolumeTemplates[0]);
+  }
+  expect(stateTemplateStorage.volume).toEqual(selectVm(userTemplate.objects).spec.template.spec.volumes[0]);
 };
 
-const testWalkThrough = () => {
-  const component = mount(testCreateVmWizard(LOADING));
+const checkNetworks = (component, userTemplate) => {
+  const templateInterfaces = getTemplateInterfaces(userTemplate);
+  expect(component.state('stepData')[NETWORKS_TAB_KEY].value).toHaveLength(templateInterfaces.length);
+
+  component.state('stepData')[NETWORKS_TAB_KEY].value.forEach((i, index) => {
+    expect(i.templateNetwork).toEqual(templateInterfaces[index]);
+  });
+};
+
+const checkRootNetworkExists = component => {
+  expect(component.state('stepData')[NETWORKS_TAB_KEY].value).toHaveLength(1);
+  expect(component.state('stepData')[NETWORKS_TAB_KEY].value[0].rootNetwork).toBeTruthy();
+};
+
+const testWalkThrough = (template = false, createText = CREATE_VM, templatesDropdown = true, createFunc = createVm) => {
+  const component = mount(testCreateVmWizard(LOADING, template));
+  expect(component.find('.modal-title').text()).toEqual(createText);
 
   expect(component.find(Loading)).toHaveLength(1);
   expect(component.find(BasicSettingsTab)).toHaveLength(0);
@@ -73,6 +91,8 @@ const testWalkThrough = () => {
 
   expect(component.find(Loading)).toHaveLength(0);
   expect(component.find(BasicSettingsTab)).toHaveLength(1);
+
+  expect(component.find('#template-dropdown').exists()).toEqual(templatesDropdown);
 
   component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, validBasicSettings, true);
   component.update();
@@ -131,7 +151,7 @@ const testWalkThrough = () => {
   expect(component.state().activeStepIndex).toEqual(
     getStepIndex(component.instance().wizardStepsNewVM, STORAGE_TAB_KEY)
   );
-  expect(getNextButton(component).text()).toBe(CREATE_VM);
+  expect(getNextButton(component).text()).toBe(createText);
   expect(component.instance().lastStepReached()).toBeFalsy();
 
   component.instance().onStepDataChanged(STORAGE_TAB_KEY, [{}], false); // create empty disk
@@ -162,7 +182,7 @@ const testWalkThrough = () => {
     true
   );
 
-  expect(createVM).not.toHaveBeenCalled();
+  expect(createFunc).not.toHaveBeenCalled();
   getNextButton(component).simulate('click');
   component.update();
 
@@ -171,7 +191,7 @@ const testWalkThrough = () => {
     getStepIndex(component.instance().wizardStepsNewVM, RESULT_TAB_KEY)
   );
   expect(component.instance().lastStepReached()).toBeTruthy();
-  expect(createVM).toHaveBeenCalled();
+  expect(createFunc).toHaveBeenCalled();
   expect(getBackButton(component).props('disabled')).toBeTruthy();
   getBackButton(component).simulate('click'); // should not allow going backwards
   expect(component.find(ResultTab)).toHaveLength(1);
@@ -180,7 +200,7 @@ const testWalkThrough = () => {
 
 describe('<CreateVmWizard />', () => {
   beforeEach(() => {
-    createVM.mockClear();
+    createVm.mockClear();
   });
 
   it('renders correctly', () => {
@@ -194,7 +214,7 @@ describe('<CreateVmWizard />', () => {
   });
 
   it("onStepChanged doesn't update activeStepIndex due to invalid form", () => {
-    createVM.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM created' })));
+    createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM created' })));
     const component = shallow(testCreateVmWizard());
     expect(component.state().activeStepIndex).toEqual(0);
     component.instance().onStepChanged(1);
@@ -220,7 +240,7 @@ describe('<CreateVmWizard />', () => {
       BASIC_SETTINGS_TAB_KEY,
       {
         ...validBasicSettings,
-        imageSourceType: {
+        [PROVISION_SOURCE_TYPE_KEY]: {
           value: 'URL',
         },
       },
@@ -230,12 +250,12 @@ describe('<CreateVmWizard />', () => {
   });
 
   it('creates vm', () => {
-    createVM.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM created' })));
+    createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM created' })));
     testWalkThrough();
   });
 
   it('fails creating the vm', () => {
-    createVM.mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error('VM not created'))));
+    createVm.mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error('VM not created'))));
     testWalkThrough();
   });
 
@@ -245,8 +265,8 @@ describe('<CreateVmWizard />', () => {
     expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
 
     const userTemplateSource = {
-      [IMAGE_SOURCE_TYPE_KEY]: {
-        value: PROVISION_SOURCE_TEMPLATE,
+      [USER_TEMPLATE_KEY]: {
+        value: undefined,
       },
     };
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, userTemplateSource, true);
@@ -255,22 +275,22 @@ describe('<CreateVmWizard />', () => {
     let withTemplateSource = {
       ...userTemplateSource,
       [USER_TEMPLATE_KEY]: {
-        value: getName(userTemplates[0]),
+        value: getName(containerTemplate),
       },
     };
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
-    checkStorages(component, userTemplates[0]);
+    checkStorages(component, containerTemplate);
 
     withTemplateSource = {
       ...userTemplateSource,
       [USER_TEMPLATE_KEY]: {
-        value: getName(userTemplates[1]),
+        value: getName(pxeDataVolumeTemplate),
       },
     };
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
-    checkStorages(component, userTemplates[1]);
+    checkStorages(component, pxeDataVolumeTemplate);
 
     withTemplateSource = {
       ...userTemplateSource,
@@ -281,5 +301,56 @@ describe('<CreateVmWizard />', () => {
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
     expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
+  });
+
+  it('reads networks from user teplate', () => {
+    const component = shallow(testCreateVmWizard());
+
+    checkRootNetworkExists(component);
+    const noTemplateSource = {
+      [USER_TEMPLATE_KEY]: {
+        value: undefined,
+      },
+    };
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noTemplateSource, true);
+    checkRootNetworkExists(component);
+
+    const podNetworkTemplateSource = {
+      [USER_TEMPLATE_KEY]: {
+        value: getName(containerTemplate),
+      },
+    };
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, podNetworkTemplateSource, true);
+    checkNetworks(component, containerTemplate);
+
+    const multusNetworkTemplateSource = {
+      [USER_TEMPLATE_KEY]: {
+        value: getName(containerMultusTemplate),
+      },
+    };
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, multusNetworkTemplateSource, true);
+    checkNetworks(component, containerMultusTemplate);
+
+    const noPodNetworkTemplateSource = {
+      [USER_TEMPLATE_KEY]: {
+        value: getName(urlNoNetworkTemplate),
+      },
+    };
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noPodNetworkTemplateSource, true);
+    checkNetworks(component, urlNoNetworkTemplate);
+
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noTemplateSource, true);
+    checkRootNetworkExists(component);
+  });
+});
+
+describe('<CreateVmWizard /> for Create VM Template', () => {
+  beforeEach(() => {
+    createVmTemplate.mockClear();
+  });
+
+  it('creates Vm Template', () => {
+    createVmTemplate.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM Template created' })));
+    testWalkThrough(true, CREATE_VM_TEMPLATE, false, createVmTemplate);
   });
 });

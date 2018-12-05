@@ -1,7 +1,9 @@
 import BasicSettingsTab from '../BasicSettingsTab';
 import { namespaces } from './CreateVmWizard.fixture';
-import { templates, PROVISION_SOURCE_REGISTRY } from '../../../../constants';
-import { REGISTRY_IMAGE_KEY } from '../constants';
+import { PROVISION_SOURCE_REGISTRY } from '../../../../constants';
+import { REGISTRY_IMAGE_KEY, PROVISION_SOURCE_TYPE_KEY } from '../constants';
+import { baseTemplates } from '../../../../k8s/mock_templates';
+import { userTemplates } from '../../../../k8s/mock_user_templates';
 
 export const basicSettings = {
   name: {
@@ -10,7 +12,7 @@ export const basicSettings = {
   namespace: {
     value: null,
   },
-  imageSourceType: {
+  [PROVISION_SOURCE_TYPE_KEY]: {
     value: null,
   },
   operatingSystem: {
@@ -27,31 +29,38 @@ export const basicSettings = {
 export const validBasicSettings = {
   name: {
     value: 'name',
+    validation: undefined,
   },
   namespace: {
     value: 'namespace',
+    validation: undefined,
   },
-  imageSourceType: {
+  [PROVISION_SOURCE_TYPE_KEY]: {
     value: PROVISION_SOURCE_REGISTRY,
+    validation: undefined,
   },
   [REGISTRY_IMAGE_KEY]: {
     value: 'pathtoimage',
+    validation: undefined,
   },
   operatingSystem: {
-    value: 'operatingSystem',
+    value: 'fedora29',
+    validation: undefined,
   },
   flavor: {
-    value: 'flavor',
+    value: 'small',
+    validation: undefined,
   },
   workloadProfile: {
-    value: 'workloadProfile',
+    value: 'generic',
+    validation: undefined,
   },
 };
 
 export default {
   component: BasicSettingsTab,
   props: {
-    templates,
+    templates: [...baseTemplates, ...userTemplates],
     namespaces,
     basicSettings,
     onChange: () => {},
