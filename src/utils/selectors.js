@@ -23,6 +23,11 @@ export const getVolumes = vm => get(vm, 'spec.template.spec.volumes', []);
 export const getDataVolumes = vm => get(vm, 'spec.dataVolumeTemplates', []);
 export const getMemory = vm => get(vm, 'spec.template.spec.domain.resources.requests.memory');
 export const getCpu = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
+export const getOperatingSystem = vm => get(vm, 'metadata.labels["os.template.cnv.io"]');
+export const getWorkloadProfile = vm => get(vm, 'metadata.labels["workload.template.cnv.io"]');
+export const getFlavor = vm => get(vm, 'metadata.labels["flavor.template.cnv.io"]');
+export const getVmTemplate = vm => get(vm, 'metadata.annotations["template.cnv.ui"]');
+export const getDescription = vm => get(vm, 'metadata.annotations.description');
 export const getCloudInitData = vm => {
   const volumes = getVolumes(vm);
   const cloudInitVolume = volumes.find(volume => volume.cloudInitNoCloud && volume.cloudInitNoCloud.userData);
@@ -38,3 +43,5 @@ export const getCloudInitData = vm => {
   }
   return null;
 };
+
+export const getNodeName = pod => get(pod, 'spec.nodeName');
