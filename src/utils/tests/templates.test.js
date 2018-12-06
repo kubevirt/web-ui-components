@@ -5,7 +5,7 @@ import {
   TEMPLATE_TYPE_VM,
   TEMPLATE_TYPE_LABEL,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
 } from '../../constants';
 import { fedora28 } from '../../k8s/mock_templates/fedora28.mock';
@@ -94,7 +94,7 @@ describe('templates.js', () => {
     });
 
     expect(getTemplateProvisionSource(containerTemplate)).toEqual({
-      type: PROVISION_SOURCE_REGISTRY,
+      type: PROVISION_SOURCE_CONTAINER,
       source: 'fooContainer',
     });
 

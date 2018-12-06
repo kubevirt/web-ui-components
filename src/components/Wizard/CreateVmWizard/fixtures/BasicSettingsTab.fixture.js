@@ -1,7 +1,7 @@
 import BasicSettingsTab from '../BasicSettingsTab';
 import { namespaces } from './CreateVmWizard.fixture';
-import { PROVISION_SOURCE_REGISTRY } from '../../../../constants';
-import { REGISTRY_IMAGE_KEY, PROVISION_SOURCE_TYPE_KEY } from '../constants';
+import { PROVISION_SOURCE_CONTAINER } from '../../../../constants';
+import { CONTAINER_IMAGE_KEY, PROVISION_SOURCE_TYPE_KEY } from '../constants';
 import { baseTemplates } from '../../../../k8s/mock_templates';
 import { userTemplates } from '../../../../k8s/mock_user_templates';
 
@@ -36,10 +36,10 @@ export const validBasicSettings = {
     validation: undefined,
   },
   [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_REGISTRY,
+    value: PROVISION_SOURCE_CONTAINER,
     validation: undefined,
   },
-  [REGISTRY_IMAGE_KEY]: {
+  [CONTAINER_IMAGE_KEY]: {
     value: 'pathtoimage',
     validation: undefined,
   },

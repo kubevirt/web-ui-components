@@ -8,7 +8,12 @@ import StorageTab from './StorageTab';
 import ResultTab from './ResultTab';
 
 import { createVm, createVmTemplate } from '../../../k8s/request';
-import { POD_NETWORK, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_PXE } from '../../../constants';
+import {
+  POD_NETWORK,
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_PXE,
+} from '../../../constants';
 import { NetworksTab } from './NetworksTab';
 import { settingsValue } from '../../../k8s/selectors';
 import {
@@ -18,7 +23,7 @@ import {
   NETWORKS_TAB_KEY,
   STORAGE_TAB_KEY,
   RESULT_TAB_KEY,
-  STORAGE_TYPE_REGISTRY,
+  STORAGE_TYPE_CONTAINER,
   STORAGE_TYPE_DATAVOLUME,
   NETWORK_TYPE_POD,
 } from './constants';
@@ -104,9 +109,9 @@ const rootDisk = {
   isBootable: true,
 };
 
-export const rootRegistryDisk = {
+export const rootContainerDisk = {
   ...rootDisk,
-  storageType: STORAGE_TYPE_REGISTRY,
+  storageType: STORAGE_TYPE_CONTAINER,
 };
 
 export const rootDataVolumeDisk = {
@@ -126,8 +131,8 @@ const onImageSourceTypeChangedInStorageTab = stepData => {
       case PROVISION_SOURCE_URL:
         storage = rootDataVolumeDisk;
         break;
-      case PROVISION_SOURCE_REGISTRY:
-        storage = rootRegistryDisk;
+      case PROVISION_SOURCE_CONTAINER:
+        storage = rootContainerDisk;
         break;
       case PROVISION_SOURCE_PXE:
         break;

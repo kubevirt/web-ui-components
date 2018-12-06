@@ -16,6 +16,13 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "title": "Use cloud-init",
         "type": "checkbox",
       },
+      "containerImage": Object {
+        "disabled": false,
+        "id": "provision-source-container",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Container Image",
+      },
       "cpu": Object {
         "id": "resources-cpu",
         "isVisible": [Function],
@@ -104,7 +111,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "choices": Array [
           "PXE",
           "URL",
-          "Registry",
+          "Container",
         ],
         "defaultValue": "--- Select Provision Source ---",
         "disabled": false,
@@ -112,13 +119,6 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "required": true,
         "title": "Provision Source",
         "type": "dropdown",
-      },
-      "registryImage": Object {
-        "disabled": false,
-        "id": "provision-source-registry",
-        "isVisible": [Function],
-        "required": true,
-        "title": "Registry Image",
       },
       "startVM": Object {
         "id": "start-vm",
@@ -197,6 +197,13 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "title": "Use cloud-init",
         "type": "checkbox",
       },
+      "containerImage": Object {
+        "disabled": false,
+        "id": "provision-source-container",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Container Image",
+      },
       "cpu": Object {
         "id": "resources-cpu",
         "isVisible": [Function],
@@ -285,7 +292,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "choices": Array [
           "PXE",
           "URL",
-          "Registry",
+          "Container",
         ],
         "defaultValue": "--- Select Provision Source ---",
         "disabled": false,
@@ -293,13 +300,6 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "required": true,
         "title": "Provision Source",
         "type": "dropdown",
-      },
-      "registryImage": Object {
-        "disabled": false,
-        "id": "provision-source-registry",
-        "isVisible": [Function],
-        "required": true,
-        "title": "Registry Image",
       },
       "startVM": Object {
         "id": "start-vm",

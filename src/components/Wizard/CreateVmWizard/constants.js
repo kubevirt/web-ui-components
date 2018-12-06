@@ -3,7 +3,7 @@ export const NAME_KEY = 'name';
 export const NAMESPACE_KEY = 'namespace';
 export const DESCRIPTION_KEY = 'description';
 export const PROVISION_SOURCE_TYPE_KEY = 'provisionSourceType';
-export const REGISTRY_IMAGE_KEY = 'registryImage';
+export const CONTAINER_IMAGE_KEY = 'containerImage';
 export const IMAGE_URL_KEY = 'imageURL';
 export const USER_TEMPLATE_KEY = 'userTemplate';
 export const OPERATING_SYSTEM_KEY = 'operatingSystem';
@@ -28,4 +28,4 @@ export const NETWORK_TYPE_POD = 'pod';
 // StorageTab
 export const STORAGE_TYPE_PVC = 'pvc';
 export const STORAGE_TYPE_DATAVOLUME = 'datavolume';
-export const STORAGE_TYPE_REGISTRY = 'registry';
+export const STORAGE_TYPE_CONTAINER = 'container';
