@@ -28,7 +28,7 @@ import {
   NAMESPACE_KEY,
   DESCRIPTION_KEY,
   PROVISION_SOURCE_TYPE_KEY,
-  REGISTRY_IMAGE_KEY,
+  CONTAINER_IMAGE_KEY,
   IMAGE_URL_KEY,
   USER_TEMPLATE_KEY,
   FLAVOR_KEY,
@@ -43,7 +43,7 @@ import {
   WORKLOAD_PROFILE_KEY,
   STORAGE_TYPE_PVC,
   STORAGE_TYPE_DATAVOLUME,
-  STORAGE_TYPE_REGISTRY,
+  STORAGE_TYPE_CONTAINER,
   NETWORK_TYPE_MULTUS,
   NETWORK_TYPE_POD,
 } from '../components/Wizard/CreateVmWizard/constants';
@@ -278,9 +278,9 @@ const addStorages = (vm, template, storages, getSetting) => {
           addDataVolume(vm, storage, getSetting);
           break;
         // TODO What about unknown types ( ie from user-edited template ), just add disk & volume copied from template?
-        case STORAGE_TYPE_REGISTRY:
+        case STORAGE_TYPE_CONTAINER:
         default:
-          addRegistryVolume(vm, storage, getSetting);
+          addContainerVolume(vm, storage, getSetting);
       }
       addDisk(vm, defaultDisk, storage, getSetting);
     });
@@ -413,16 +413,16 @@ const addPvcVolume = (vm, storage) => {
   addVolume(vm, volume);
 };
 
-const addRegistryVolume = (vm, storage, getSetting) => {
+const addContainerVolume = (vm, storage, getSetting) => {
   const volume = {
     ...(storage.templateStorage ? storage.templateStorage.volume : {}),
     name: storage.name,
-    registryDisk: {
-      ...(storage.templateStorage ? storage.templateStorage.volume.registryDisk : {}),
+    containerDisk: {
+      ...(storage.templateStorage ? storage.templateStorage.volume.containerDisk : {}),
     },
   };
   if (storage.rootStorage) {
-    volume.registryDisk.image = getSetting(REGISTRY_IMAGE_KEY);
+    volume.containerDisk.image = getSetting(CONTAINER_IMAGE_KEY);
   }
   addVolume(vm, volume);
 };

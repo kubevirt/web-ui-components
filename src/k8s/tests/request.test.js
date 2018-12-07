@@ -12,7 +12,7 @@ import { ProcessedTemplatesModel, TemplateModel, VirtualMachineModel } from '../
 import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   TEMPLATE_PARAM_VM_NAME,
   POD_NETWORK,
@@ -30,7 +30,7 @@ import {
   NAME_KEY,
   NAMESPACE_KEY,
   PROVISION_SOURCE_TYPE_KEY,
-  REGISTRY_IMAGE_KEY,
+  CONTAINER_IMAGE_KEY,
   IMAGE_URL_KEY,
   USER_TEMPLATE_KEY,
   FLAVOR_KEY,
@@ -44,7 +44,7 @@ import {
   WORKLOAD_PROFILE_KEY,
   STORAGE_TYPE_PVC,
   STORAGE_TYPE_DATAVOLUME,
-  STORAGE_TYPE_REGISTRY,
+  STORAGE_TYPE_CONTAINER,
   NETWORK_TYPE_MULTUS,
   NETWORK_TYPE_POD,
   DESCRIPTION_KEY,
@@ -54,11 +54,11 @@ import { baseTemplates } from '../mock_templates';
 import { userTemplates, urlTemplate } from '../mock_user_templates';
 
 import { persistentVolumeClaims } from '../../components/Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
-import { rootRegistryDisk, rootDataVolumeDisk } from '../../components/Wizard/CreateVmWizard/CreateVmWizard';
+import { rootContainerDisk, rootDataVolumeDisk } from '../../components/Wizard/CreateVmWizard/CreateVmWizard';
 
 const templates = [...baseTemplates, ...userTemplates];
 
-const basicSettingsRegistry = {
+const basicSettingsContainer = {
   [NAME_KEY]: {
     value: 'name',
   },
@@ -66,9 +66,9 @@ const basicSettingsRegistry = {
     value: 'namespace',
   },
   [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_REGISTRY,
+    value: PROVISION_SOURCE_CONTAINER,
   },
-  [REGISTRY_IMAGE_KEY]: {
+  [CONTAINER_IMAGE_KEY]: {
     value: 'imageURL',
   },
   [FLAVOR_KEY]: {
@@ -83,7 +83,7 @@ const basicSettingsRegistry = {
 };
 
 const basicSettingsUrl = {
-  ...basicSettingsRegistry,
+  ...basicSettingsContainer,
   [PROVISION_SOURCE_TYPE_KEY]: {
     value: PROVISION_SOURCE_URL,
   },
@@ -93,14 +93,14 @@ const basicSettingsUrl = {
 };
 
 const basicSettingsPxe = {
-  ...basicSettingsRegistry,
+  ...basicSettingsContainer,
   [PROVISION_SOURCE_TYPE_KEY]: {
     value: PROVISION_SOURCE_PXE,
   },
 };
 
 const basicSettingsCloudInit = {
-  ...basicSettingsRegistry,
+  ...basicSettingsContainer,
   [CLOUD_INIT_KEY]: {
     value: true,
   },
@@ -113,7 +113,7 @@ const basicSettingsCloudInit = {
 };
 
 const basicSettingsCustomFlavor = {
-  ...basicSettingsRegistry,
+  ...basicSettingsContainer,
   [FLAVOR_KEY]: {
     value: CUSTOM_FLAVOR,
   },
@@ -152,8 +152,8 @@ const basicSettingsUserTemplate = {
   },
 };
 
-const basicSettingsRegistryWindows = {
-  ...basicSettingsRegistry,
+const basicSettingsContainerWindows = {
+  ...basicSettingsContainer,
   [FLAVOR_KEY]: {
     value: 'medium',
   },
@@ -220,7 +220,7 @@ const testStorage = (vm, storageIndex, bootOrder, expectedStorageName, expectedS
     expect(vm.spec.template.spec.volumes[storageIndex].dataVolume.name).toBe(
       `${expectedStorageName}-${vm.metadata.name}`
     );
-    expect(vm.spec.template.spec.volumes[storageIndex].registryDisk).toBeUndefined();
+    expect(vm.spec.template.spec.volumes[storageIndex].containerDisk).toBeUndefined();
     expect(vm.spec.template.spec.volumes[storageIndex].persistentVolumeClaim).toBeUndefined();
 
     expect(vm.spec.dataVolumeTemplates[expectedStorageType.index].metadata.name).toBe(
@@ -228,24 +228,24 @@ const testStorage = (vm, storageIndex, bootOrder, expectedStorageName, expectedS
     );
   } else if (expectedStorageType.type === STORAGE_TYPE_PVC) {
     expect(vm.spec.template.spec.volumes[storageIndex].dataVolume).toBeUndefined();
-    expect(vm.spec.template.spec.volumes[storageIndex].registryDisk).toBeUndefined();
+    expect(vm.spec.template.spec.volumes[storageIndex].containerDisk).toBeUndefined();
     expect(vm.spec.template.spec.volumes[storageIndex].persistentVolumeClaim.claimName).toBe(expectedStorageName);
-  } else if (expectedStorageType.type === STORAGE_TYPE_REGISTRY) {
+  } else if (expectedStorageType.type === STORAGE_TYPE_CONTAINER) {
     expect(vm.spec.template.spec.volumes[storageIndex].dataVolume).toBeUndefined();
-    expect(vm.spec.template.spec.volumes[storageIndex].registryDisk.image).toBe(expectedStorageType.image);
+    expect(vm.spec.template.spec.volumes[storageIndex].containerDisk.image).toBe(expectedStorageType.image);
     expect(vm.spec.template.spec.volumes[storageIndex].persistentVolumeClaim).toBeUndefined();
   }
 };
 
-const testRegistryImage = vm => {
-  expect(vm.metadata.name).toBe(settingsValue(basicSettingsRegistry, NAME_KEY));
-  expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
-  expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootRegistryDisk.name);
-  expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe(rootRegistryDisk.name);
+const testContainerImage = vm => {
+  expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+  expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
+  expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootContainerDisk.name);
+  expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe(rootContainerDisk.name);
 
-  expect(vm.spec.template.spec.volumes[0].name).toBe(rootRegistryDisk.name);
-  expect(vm.spec.template.spec.volumes[0].registryDisk.image).toBe(
-    settingsValue(basicSettingsRegistry, REGISTRY_IMAGE_KEY)
+  expect(vm.spec.template.spec.volumes[0].name).toBe(rootContainerDisk.name);
+  expect(vm.spec.template.spec.volumes[0].containerDisk.image).toBe(
+    settingsValue(basicSettingsContainer, CONTAINER_IMAGE_KEY)
   );
   return vm;
 };
@@ -257,8 +257,8 @@ const everyDiskHasVolue = vm => {
 };
 
 const testPXE = (vm, firstBoot = true) => {
-  expect(vm.metadata.name).toBe(settingsValue(basicSettingsRegistry, NAME_KEY));
-  expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
+  expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+  expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
   expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
   expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
   expect(vm.spec.template.spec.domain.devices.interfaces[1].bootOrder).toBe(1);
@@ -281,8 +281,8 @@ const testMetadata = (vm, os, workload, flavor, template) => {
 };
 
 const testCloudConfig = (vm, cloudInit) => {
-  expect(vm.metadata.name).toBe(settingsValue(basicSettingsRegistry, NAME_KEY));
-  expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
+  expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+  expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
   expect(vm.spec.template.spec.domain.devices.disks[1].name).toBe(CLOUDINIT_DISK);
   expect(vm.spec.template.spec.domain.devices.disks[1].volumeName).toBe(CLOUDINIT_DISK);
 
@@ -291,12 +291,12 @@ const testCloudConfig = (vm, cloudInit) => {
 };
 
 describe('request.js - provision sources', () => {
-  it('Registry Image', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistry, [], [rootRegistryDisk]).then(testRegistryImage));
+  it('Container Image', () =>
+    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk]).then(testContainerImage));
   it('URL', () =>
     createVm(k8sCreate, templates, basicSettingsUrl, [], [rootDataVolumeDisk]).then(vm => {
-      expect(vm.metadata.name).toBe(settingsValue(basicSettingsRegistry, NAME_KEY));
-      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
+      expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
 
       expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootDataVolumeDisk.name);
       expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe(rootDataVolumeDisk.name);
@@ -312,8 +312,8 @@ describe('request.js - provision sources', () => {
   it('PXE', () => createVm(k8sCreate, templates, basicSettingsPxe, [podNetwork, multusNetwork]).then(testPXE));
   it('User Template', () =>
     createVm(k8sCreate, templates, basicSettingsUserTemplate, [], [pvcDisk, templateDataVolumeDisk]).then(vm => {
-      expect(vm.metadata.name).toBe(settingsValue(basicSettingsRegistry, NAME_KEY));
-      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
+      expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
       expect(vm.spec.template.spec.domain.cpu.cores).toBe(2);
       expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('2G');
 
@@ -330,9 +330,9 @@ describe('request.js - provision sources', () => {
 
 describe('request.js - networks', () => {
   it('with non bootable networks', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistry, [podNetwork]).then(vm => {
-      expect(vm.metadata.name).toBe(settingsValue(basicSettingsRegistry, NAME_KEY));
-      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
+    createVm(k8sCreate, templates, basicSettingsContainer, [podNetwork]).then(vm => {
+      expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
       expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
@@ -346,7 +346,7 @@ describe('request.js - networks', () => {
       return vm;
     }));
   it('default network model is used for all networks', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistryWindows, [podNetwork, multusNetwork]).then(vm => {
+    createVm(k8sCreate, templates, basicSettingsContainerWindows, [podNetwork, multusNetwork]).then(vm => {
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(2);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].model).toEqual('e1000e');
@@ -403,7 +403,7 @@ describe('request.js - cloudInit', () => {
       ],
       hostname: basicSettingsCloudInit[HOST_NAME_KEY].value,
     };
-    return createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootRegistryDisk]).then(vm =>
+    return createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootContainerDisk]).then(vm =>
       testCloudConfig(vm, cloudInit)
     );
   });
@@ -414,7 +414,7 @@ describe('request.js - cloudInit', () => {
     const cloudInit = {
       hostname: onlyHostname[HOST_NAME_KEY].value,
     };
-    return createVm(k8sCreate, templates, onlyHostname, [], [rootRegistryDisk]).then(vm =>
+    return createVm(k8sCreate, templates, onlyHostname, [], [rootContainerDisk]).then(vm =>
       testCloudConfig(vm, cloudInit)
     );
   });
@@ -430,16 +430,16 @@ describe('request.js - cloudInit', () => {
         },
       ],
     };
-    return createVm(k8sCreate, templates, onlySSH, [], [rootRegistryDisk]).then(vm => testCloudConfig(vm, cloudInit));
+    return createVm(k8sCreate, templates, onlySSH, [], [rootContainerDisk]).then(vm => testCloudConfig(vm, cloudInit));
   });
   it('with CloudInit - no config', () => {
     const noConfig = cloneDeep(basicSettingsCloudInit);
     delete noConfig[HOST_NAME_KEY];
     delete noConfig[AUTHKEYS_KEY];
-    return createVm(k8sCreate, templates, noConfig, [], [rootRegistryDisk]).then(vm => testCloudConfig(vm, {}));
+    return createVm(k8sCreate, templates, noConfig, [], [rootContainerDisk]).then(vm => testCloudConfig(vm, {}));
   });
   it('without CloudInit - disk and volume is not present', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistry, [], [rootRegistryDisk]).then(vm => {
+    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk]).then(vm => {
       expect(vm.spec.template.spec.domain.devices.disks.some(disk => disk.name === 'cloudinitdisk')).toBeFalsy();
       expect(vm.spec.template.spec.volumes.some(volume => volume.name === 'cloudinitvolume')).toBeFalsy();
       expect(vm.spec.template.spec.volumes.some(volume => volume.hasOwnProperty('cloudInitNoCloud'))).toBeFalsy();
@@ -460,12 +460,12 @@ describe('request.js - flavors', () => {
 
 describe('request.js - storages', () => {
   it('every disk has volume', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistry, [], [rootRegistryDisk]).then(vm => everyDiskHasVolue(vm)));
+    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk]).then(vm => everyDiskHasVolue(vm)));
   it('every disk has volume - cloud init', () =>
-    createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootRegistryDisk]).then(vm => everyDiskHasVolue(vm)));
-  it('registryImage with attached disks', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistry, [], [rootRegistryDisk, pvcDisk]).then(vm => {
-      testRegistryImage(vm);
+    createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootContainerDisk]).then(vm => everyDiskHasVolue(vm)));
+  it('ContainerImage with attached disks', () =>
+    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk, pvcDisk]).then(vm => {
+      testContainerImage(vm);
       testStorage(vm, 1, -1, pvcDisk.name, { type: STORAGE_TYPE_PVC });
       return vm;
     }));
@@ -501,21 +501,21 @@ describe('request.js - storages', () => {
 
 describe('request.js - metadata', () => {
   it('adds description to VM ', () => {
-    const withDescription = cloneDeep(basicSettingsRegistry);
+    const withDescription = cloneDeep(basicSettingsContainer);
     withDescription[DESCRIPTION_KEY] = {
       value: 'foo description',
     };
-    return createVm(k8sCreate, templates, withDescription, [], [rootRegistryDisk]).then(vm =>
+    return createVm(k8sCreate, templates, withDescription, [], [rootContainerDisk]).then(vm =>
       expect(vm.metadata.annotations.description).toEqual(settingsValue(withDescription, DESCRIPTION_KEY))
     );
   });
   it('VM has os/flavor/workload metadata', () =>
-    createVm(k8sCreate, templates, basicSettingsRegistry, [podNetwork, multusNetwork], [pvcDisk]).then(vm => {
+    createVm(k8sCreate, templates, basicSettingsContainer, [podNetwork, multusNetwork], [pvcDisk]).then(vm => {
       testMetadata(
         vm,
-        basicSettingsRegistry[OPERATING_SYSTEM_KEY].value,
-        basicSettingsRegistry[WORKLOAD_PROFILE_KEY].value,
-        basicSettingsRegistry[FLAVOR_KEY].value,
+        basicSettingsContainer[OPERATING_SYSTEM_KEY].value,
+        basicSettingsContainer[WORKLOAD_PROFILE_KEY].value,
+        basicSettingsContainer[FLAVOR_KEY].value,
         'default_rhel-generic'
       );
       return vm;
@@ -535,23 +535,25 @@ describe('request.js - metadata', () => {
 
 describe('request.js - Create Vm Template', () => {
   it('creates VM Template', () =>
-    createVmTemplate(k8sCreate, templates, basicSettingsRegistry, [], [rootRegistryDisk]).then(vmTemplate => {
-      expect(vmTemplate.metadata.name).toEqual(settingsValue(basicSettingsRegistry, NAME_KEY));
+    createVmTemplate(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk]).then(vmTemplate => {
+      expect(vmTemplate.metadata.name).toEqual(settingsValue(basicSettingsContainer, NAME_KEY));
       expect(vmTemplate.metadata.description).toBeUndefined();
-      expect(vmTemplate.metadata.namespace).toEqual(settingsValue(basicSettingsRegistry, NAMESPACE_KEY));
+      expect(vmTemplate.metadata.namespace).toEqual(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
       expect(vmTemplate.kind).toEqual(TemplateModel.kind);
       expect(vmTemplate.apiVersion).toEqual(`${TemplateModel.apiGroup}/${TemplateModel.apiVersion}`);
       expect(vmTemplate.metadata.labels[TEMPLATE_TYPE_LABEL]).toEqual(TEMPLATE_TYPE_VM);
       expect(
-        vmTemplate.metadata.labels[`${TEMPLATE_OS_LABEL}/${settingsValue(basicSettingsRegistry, OPERATING_SYSTEM_KEY)}`]
-      ).toEqual('true');
-      expect(
         vmTemplate.metadata.labels[
-          `${TEMPLATE_WORKLOAD_LABEL}/${settingsValue(basicSettingsRegistry, WORKLOAD_PROFILE_KEY)}`
+          `${TEMPLATE_OS_LABEL}/${settingsValue(basicSettingsContainer, OPERATING_SYSTEM_KEY)}`
         ]
       ).toEqual('true');
       expect(
-        vmTemplate.metadata.labels[`${TEMPLATE_FLAVOR_LABEL}/${settingsValue(basicSettingsRegistry, FLAVOR_KEY)}`]
+        vmTemplate.metadata.labels[
+          `${TEMPLATE_WORKLOAD_LABEL}/${settingsValue(basicSettingsContainer, WORKLOAD_PROFILE_KEY)}`
+        ]
+      ).toEqual('true');
+      expect(
+        vmTemplate.metadata.labels[`${TEMPLATE_FLAVOR_LABEL}/${settingsValue(basicSettingsContainer, FLAVOR_KEY)}`]
       ).toEqual('true');
 
       expect(vmTemplate.objects).toHaveLength(1);
@@ -566,11 +568,11 @@ describe('request.js - Create Vm Template', () => {
       return vmTemplate;
     }));
   it('adds description to VM Template', () => {
-    const withDescription = cloneDeep(basicSettingsRegistry);
+    const withDescription = cloneDeep(basicSettingsContainer);
     withDescription[DESCRIPTION_KEY] = {
       value: 'foo description',
     };
-    return createVmTemplate(k8sCreate, templates, withDescription, [], [rootRegistryDisk]).then(vmTemplate => {
+    return createVmTemplate(k8sCreate, templates, withDescription, [], [rootContainerDisk]).then(vmTemplate => {
       expect(vmTemplate.metadata.annotations.description).toEqual(settingsValue(withDescription, DESCRIPTION_KEY));
       expect(get(vmTemplate.objects[0].metadata, 'annotations.description')).toBeUndefined();
       return vmTemplate;

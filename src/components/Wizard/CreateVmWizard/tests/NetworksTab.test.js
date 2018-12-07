@@ -6,7 +6,7 @@ import { NetworksTab, validateNetworksNamespace, isBootableNetwork } from '../Ne
 import NetworksTabFixture from '../fixtures/NetworksTab.fixture';
 import {
   POD_NETWORK,
-  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_PXE,
 } from '../../../../constants';
@@ -198,7 +198,7 @@ describe('<NetworksTab />', () => {
   });
 
   it('does not require bootable network for non-PXE image sources', () => {
-    const component = mount(<NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_REGISTRY} />);
+    const component = mount(<NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_CONTAINER} />);
     expect(component.find('#pxe-nic-dropdown')).toHaveLength(0);
     expect(component.find(HelpBlock)).toHaveLength(0);
 
@@ -210,7 +210,7 @@ describe('<NetworksTab />', () => {
     expect(component.find(HelpBlock)).toHaveLength(0);
 
     component.setProps({
-      sourceType: PROVISION_SOURCE_REGISTRY,
+      sourceType: PROVISION_SOURCE_CONTAINER,
     });
 
     expect(component.find('#pxe-nic-dropdown')).toHaveLength(0);
@@ -262,7 +262,7 @@ describe('<NetworksTab />', () => {
     expect(component.state().rows[1].isBootable).toBeTruthy();
 
     component = shallow(
-      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_REGISTRY} networks={tNetworks} />
+      <NetworksTab {...NetworksTabFixture.props} sourceType={PROVISION_SOURCE_CONTAINER} networks={tNetworks} />
     );
 
     expect(component.state().rows[0].isBootable).toBeFalsy();

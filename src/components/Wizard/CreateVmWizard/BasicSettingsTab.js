@@ -20,7 +20,7 @@ import {
 import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   TEMPLATE_TYPE_VM,
   VALIDATION_ERROR_TYPE,
@@ -30,7 +30,7 @@ import {
   NAMESPACE_KEY,
   DESCRIPTION_KEY,
   PROVISION_SOURCE_TYPE_KEY,
-  REGISTRY_IMAGE_KEY,
+  CONTAINER_IMAGE_KEY,
   IMAGE_URL_KEY,
   USER_TEMPLATE_KEY,
   OPERATING_SYSTEM_KEY,
@@ -50,7 +50,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
   const operatingSystems = getOperatingSystems(basicSettings, templates, userTemplate);
   const flavors = getFlavors(basicSettings, templates, userTemplate);
-  const imageSources = [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY];
+  const imageSources = [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER];
   const userTemplateNames = getTemplate(templates, TEMPLATE_TYPE_VM).map(getName);
   userTemplateNames.push(NO_TEMPLATE);
 
@@ -108,11 +108,11 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       disabled: userTemplate !== undefined,
     },
-    [REGISTRY_IMAGE_KEY]: {
-      id: 'provision-source-registry',
-      title: 'Registry Image',
+    [CONTAINER_IMAGE_KEY]: {
+      id: 'provision-source-container',
+      title: 'Container Image',
       required: true,
-      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_REGISTRY),
+      isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_CONTAINER),
       disabled: userTemplate !== undefined,
     },
     [IMAGE_URL_KEY]: {
@@ -294,8 +294,8 @@ const updateTemplateData = (userTemplate, newBasicSettings) => {
     if (provisionSource) {
       newBasicSettings[PROVISION_SOURCE_TYPE_KEY] = asValueObject(provisionSource.type);
       switch (provisionSource.type) {
-        case PROVISION_SOURCE_REGISTRY:
-          newBasicSettings[REGISTRY_IMAGE_KEY] = asValueObject(provisionSource.source);
+        case PROVISION_SOURCE_CONTAINER:
+          newBasicSettings[CONTAINER_IMAGE_KEY] = asValueObject(provisionSource.source);
           break;
         case PROVISION_SOURCE_URL:
           newBasicSettings[IMAGE_URL_KEY] = asValueObject(provisionSource.source);

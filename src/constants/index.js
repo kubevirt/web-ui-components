@@ -13,13 +13,10 @@ export const OS_LABEL = 'kubevirt.io/os';
 export const POD_NETWORK = 'Pod Networking';
 
 export const PROVISION_SOURCE_PXE = 'PXE';
-export const PROVISION_SOURCE_REGISTRY = 'Registry';
+export const PROVISION_SOURCE_CONTAINER = 'Container';
 export const PROVISION_SOURCE_URL = 'URL';
 
 export const PVC_ACCESSMODE_RWO = 'ReadWriteOnce';
-
-export const REGISTRY_DISK = 'registrydisk';
-export const REGISTRY_VOLUME = 'registryvolume';
 
 export const TEMPLATE_API_VERSION = 'template.openshift.io/v1';
 export const TEMPLATE_FLAVOR_LABEL = 'flavor.template.cnv.io';

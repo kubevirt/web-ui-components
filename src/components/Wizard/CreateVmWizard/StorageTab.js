@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get, findIndex } from 'lodash';
 
-import { PROVISION_SOURCE_PXE, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_URL } from '../../../constants';
+import { PROVISION_SOURCE_PXE, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL } from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
 import { FormFactory } from '../../Form/FormFactory';
 import {
@@ -30,7 +30,7 @@ import {
   BOOTABLE_DISK,
   SELECT_BOOTABLE_DISK,
 } from './strings';
-import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_REGISTRY } from './constants';
+import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_CONTAINER } from './constants';
 
 const validateDataVolumeStorage = storage => {
   const errors = Array(4).fill(null);
@@ -63,7 +63,7 @@ const validatePvcStorage = storage => {
   return errors;
 };
 
-const validateRegistryStorage = storage => {
+const validateContainerStorage = storage => {
   const errors = Array(4).fill(null);
   if (!storage || storage.id == null) {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
@@ -120,8 +120,8 @@ const resolveBootability = (rows, sourceType) => {
   if (!rows.some(row => row.isBootable && !hasError(row))) {
     let bootableDisks;
     switch (sourceType) {
-      case PROVISION_SOURCE_REGISTRY:
-        bootableDisks = rows.filter(row => row.storageType === STORAGE_TYPE_REGISTRY);
+      case PROVISION_SOURCE_CONTAINER:
+        bootableDisks = rows.filter(row => row.storageType === STORAGE_TYPE_CONTAINER);
         break;
       case PROVISION_SOURCE_URL:
         bootableDisks = rows.filter(row => row.storageType === STORAGE_TYPE_DATAVOLUME);
@@ -189,10 +189,10 @@ const resolveTemplateStorage = (storage, persistentVolumeClaims, storageClasses,
     templateStorage.storageType = STORAGE_TYPE_DATAVOLUME;
     templateStorage.renderConfig =
       sourceType === PROVISION_SOURCE_URL && storage.templateStorage.disk.bootOrder === 1 ? 4 : 0;
-  } else if (storage.templateStorage.volume.registryDisk) {
-    templateStorage.storageType = STORAGE_TYPE_REGISTRY;
+  } else if (storage.templateStorage.volume.containerDisk) {
+    templateStorage.storageType = STORAGE_TYPE_CONTAINER;
     templateStorage.renderConfig =
-      sourceType === PROVISION_SOURCE_REGISTRY && storage.templateStorage.disk.bootOrder === 1 ? 3 : 2;
+      sourceType === PROVISION_SOURCE_CONTAINER && storage.templateStorage.disk.bootOrder === 1 ? 3 : 2;
   }
   return templateStorage;
 };
@@ -219,7 +219,7 @@ const resolveInitialStorages = (
       };
     } else {
       switch (storage.storageType) {
-        case STORAGE_TYPE_REGISTRY:
+        case STORAGE_TYPE_CONTAINER:
           result = {
             ...result,
             ...storage,
@@ -256,15 +256,15 @@ const validateStorage = row => {
       return validatePvcStorage(row);
     case STORAGE_TYPE_DATAVOLUME:
       return validateDataVolumeStorage(row);
-    case STORAGE_TYPE_REGISTRY:
-      return validateRegistryStorage(row);
+    case STORAGE_TYPE_CONTAINER:
+      return validateContainerStorage(row);
     default:
       return Array(4).fill(null);
   }
 };
 
 const publishResults = (rows, otherStorages, publish) => {
-  // TODO bootable device is required for URL, Registry
+  // TODO bootable device is required for URL, Container
   let valid = true;
   const storages = rows.map(
     ({ templateStorage, rootStorage, storageType, id, name, size, storageClass, isBootable, errors }) => {
@@ -533,8 +533,8 @@ class StorageTab extends React.Component {
         name: disk.name,
         id: disk.id,
       })),
-      disabled: sourceType === PROVISION_SOURCE_REGISTRY || sourceType === PROVISION_SOURCE_URL,
-      required: sourceType === PROVISION_SOURCE_REGISTRY || sourceType === PROVISION_SOURCE_URL,
+      disabled: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
+      required: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
     },
   });
 

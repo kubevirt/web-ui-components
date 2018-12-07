@@ -4,7 +4,7 @@ import {
   TEMPLATE_TYPE_LABEL,
   TEMPLATE_TYPE_VM,
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
 } from '../constants';
 import { getDisks, getVolumes, getDataVolumes, getInterfaces, getNetworks } from './selectors';
@@ -103,10 +103,10 @@ export const getTemplateProvisionSource = ({ objects }) => {
   const bootDisk = getDisks(vm).find(disk => disk.bootOrder === 1);
   if (bootDisk) {
     const bootVolume = getVolumes(vm).find(volume => volume.name === bootDisk.volumeName);
-    if (bootVolume && bootVolume.registryDisk) {
+    if (bootVolume && bootVolume.containerDisk) {
       return {
-        type: PROVISION_SOURCE_REGISTRY,
-        source: bootVolume.registryDisk.image,
+        type: PROVISION_SOURCE_CONTAINER,
+        source: bootVolume.containerDisk.image,
       };
     }
     if (bootVolume && bootVolume.dataVolume) {

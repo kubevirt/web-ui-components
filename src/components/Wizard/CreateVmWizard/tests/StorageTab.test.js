@@ -5,8 +5,8 @@ import { MenuItem } from 'patternfly-react';
 import StorageTab from '../StorageTab';
 
 import { units, persistentVolumeClaims, storageClasses } from '../fixtures/CreateVmWizard.fixture';
-import { PROVISION_SOURCE_URL, PROVISION_SOURCE_REGISTRY, PROVISION_SOURCE_PXE } from '../../../../constants';
-import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_REGISTRY } from '../constants';
+import { PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_PXE } from '../../../../constants';
+import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } from '../constants';
 import { ERROR_EMPTY_NAME, ERROR_POSITIVE_SIZE } from '../strings';
 
 const testStorageTab = (onChange, initialDisks, sourceType = PROVISION_SOURCE_URL) => (
@@ -54,21 +54,21 @@ const dataVolumeTemplateStorage = {
   },
 };
 
-const registryStorage = {
+const containerStorage = {
   id: 2,
   isBootable: false,
-  name: 'registryStorage',
-  storageType: STORAGE_TYPE_REGISTRY,
+  name: 'containerStorage',
+  storageType: STORAGE_TYPE_CONTAINER,
 };
 
-const registryTemplateStorage = {
+const containerTemplateStorage = {
   templateStorage: {
     disk: {
-      name: 'registryTemplateStorage',
+      name: 'containerTemplateStorage',
       bootOrder: 1,
     },
     volume: {
-      registryDisk: {},
+      containerDisk: {},
     },
   },
 };
@@ -132,7 +132,7 @@ describe('<StorageTab />', () => {
 
   it('reads initial disks', () => {
     const onChange = jest.fn();
-    const component = shallow(testStorageTab(onChange, [dataVolumeStorage, pvcStorage, registryStorage]));
+    const component = shallow(testStorageTab(onChange, [dataVolumeStorage, pvcStorage, containerStorage]));
 
     expect(component.state().rows).toHaveLength(3);
 
@@ -144,7 +144,7 @@ describe('<StorageTab />', () => {
   it('resolves template disks', () => {
     const onChange = jest.fn();
     const component = shallow(
-      testStorageTab(onChange, [dataVolumeTemplateStorage, registryTemplateStorage, pvcTemplateStorage])
+      testStorageTab(onChange, [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage])
     );
 
     expect(component.state().rows).toHaveLength(3);
@@ -158,14 +158,14 @@ describe('<StorageTab />', () => {
     expect(dataVolume.storageType).toEqual(STORAGE_TYPE_DATAVOLUME);
     expect(dataVolume.templateStorage).toEqual(dataVolumeTemplateStorage.templateStorage);
 
-    const registry = component.state().rows[1];
-    expect(registry.isBootable).toBeFalsy();
-    expect(registry.id).toEqual(2);
-    expect(registry.name).toEqual(registryTemplateStorage.templateStorage.disk.name);
-    expect(registry.size).toBeUndefined();
-    expect(registry.storageClass).toBeUndefined();
-    expect(registry.storageType).toEqual(STORAGE_TYPE_REGISTRY);
-    expect(registry.templateStorage).toEqual(registryTemplateStorage.templateStorage);
+    const container = component.state().rows[1];
+    expect(container.isBootable).toBeFalsy();
+    expect(container.id).toEqual(2);
+    expect(container.name).toEqual(containerTemplateStorage.templateStorage.disk.name);
+    expect(container.size).toBeUndefined();
+    expect(container.storageClass).toBeUndefined();
+    expect(container.storageType).toEqual(STORAGE_TYPE_CONTAINER);
+    expect(container.templateStorage).toEqual(containerTemplateStorage.templateStorage);
 
     const pvc = component.state().rows[2];
     expect(pvc.isBootable).toBeFalsy();
@@ -180,29 +180,29 @@ describe('<StorageTab />', () => {
   it('resolves bootable disks according to provision source', () => {
     checkBootableStorage(
       PROVISION_SOURCE_URL,
-      [dataVolumeTemplateStorage, registryTemplateStorage, pvcTemplateStorage],
+      [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage],
       [true, false, false]
     );
 
     checkBootableStorage(
-      PROVISION_SOURCE_REGISTRY,
-      [dataVolumeTemplateStorage, registryTemplateStorage, pvcTemplateStorage],
+      PROVISION_SOURCE_CONTAINER,
+      [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage],
       [false, true, false]
     );
 
     checkBootableStorage(
       PROVISION_SOURCE_PXE,
-      [dataVolumeTemplateStorage, registryTemplateStorage, pvcTemplateStorage],
+      [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage],
       [true, false, false]
     );
 
     // no storage has boot order, the first bootable storage is chosen
     const dvNoBoot = cloneDeep(dataVolumeTemplateStorage);
     delete dvNoBoot.templateStorage.disk.bootOrder;
-    const registryNoBoot = cloneDeep(registryTemplateStorage);
-    delete registryNoBoot.templateStorage.disk.bootOrder;
+    const containerNoBoot = cloneDeep(containerTemplateStorage);
+    delete containerNoBoot.templateStorage.disk.bootOrder;
 
-    checkBootableStorage(PROVISION_SOURCE_PXE, [dvNoBoot, registryNoBoot, pvcTemplateStorage], [true, false, false]);
+    checkBootableStorage(PROVISION_SOURCE_PXE, [dvNoBoot, containerNoBoot, pvcTemplateStorage], [true, false, false]);
   });
 
   it('calls onChange when rows change', () => {
@@ -211,7 +211,7 @@ describe('<StorageTab />', () => {
     const component = shallow(testStorageTab(onChange, [dataVolumeStorage, pvcStorage, pvcTemplateStorage]));
     expect(onChange).toHaveBeenCalledTimes(1);
 
-    component.instance().rowsChanged([registryStorage], false);
+    component.instance().rowsChanged([containerStorage], false);
 
     expect(onChange).toHaveBeenCalledTimes(2);
   });
@@ -264,7 +264,7 @@ describe('<StorageTab />', () => {
 
   it('onRowUpdate validates storage', () => {
     const onChange = jest.fn();
-    const storages = [dataVolumeTemplateStorage, registryTemplateStorage, pvcTemplateStorage];
+    const storages = [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage];
     const component = shallow(testStorageTab(onChange, storages, PROVISION_SOURCE_URL));
 
     const updatedDataVolumeRow = component.state().rows[0];
@@ -277,12 +277,12 @@ describe('<StorageTab />', () => {
     component.update();
     expect(component.state().rows[0].errors).toEqual([null, ERROR_EMPTY_NAME, ERROR_POSITIVE_SIZE, null]);
 
-    const updatedRegistryRow = component.state().rows[1];
-    updatedRegistryRow.name = '';
+    const updatedContainerRow = component.state().rows[1];
+    updatedContainerRow.name = '';
 
-    newStorages = [component.state().rows[0], updatedRegistryRow, component.state().rows[2]];
+    newStorages = [component.state().rows[0], updatedContainerRow, component.state().rows[2]];
 
-    component.instance().onRowUpdate(newStorages, updatedRegistryRow.id, true);
+    component.instance().onRowUpdate(newStorages, updatedContainerRow.id, true);
     component.update();
     expect(component.state().rows[1].errors).toEqual([null, ERROR_EMPTY_NAME, null, null]);
 

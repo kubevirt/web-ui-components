@@ -69,7 +69,7 @@ export const containerCloudTemplate = {
             volumes: [
               {
                 name: 'rootdisk',
-                registryDisk: {
+                containerDisk: {
                   image: 'fooContainer',
                 },
               },

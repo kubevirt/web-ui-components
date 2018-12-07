@@ -18,7 +18,7 @@ import {
   USER_TEMPLATE_KEY,
   PROVISION_SOURCE_TYPE_KEY,
   IMAGE_URL_KEY,
-  REGISTRY_IMAGE_KEY,
+  CONTAINER_IMAGE_KEY,
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
@@ -30,7 +30,7 @@ import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
 import {
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_REGISTRY,
+  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   CUSTOM_FLAVOR,
 } from '../../../../constants';
@@ -303,9 +303,9 @@ describe('<BasicSettingsTab />', () => {
         },
         [PROVISION_SOURCE_TYPE_KEY]: {
           validation: undefined,
-          value: PROVISION_SOURCE_REGISTRY,
+          value: PROVISION_SOURCE_CONTAINER,
         },
-        [REGISTRY_IMAGE_KEY]: {
+        [CONTAINER_IMAGE_KEY]: {
           validation: undefined,
           value: getTemplateProvisionSource(containerTemplate).source,
         },
@@ -348,9 +348,9 @@ describe('<BasicSettingsTab />', () => {
         },
         [PROVISION_SOURCE_TYPE_KEY]: {
           validation: undefined,
-          value: PROVISION_SOURCE_REGISTRY,
+          value: PROVISION_SOURCE_CONTAINER,
         },
-        [REGISTRY_IMAGE_KEY]: {
+        [CONTAINER_IMAGE_KEY]: {
           value: 'fooContainer',
           validation: undefined,
         },
@@ -387,9 +387,9 @@ describe('<BasicSettingsTab />', () => {
         },
         [PROVISION_SOURCE_TYPE_KEY]: {
           validation: undefined,
-          value: PROVISION_SOURCE_REGISTRY,
+          value: PROVISION_SOURCE_CONTAINER,
         },
-        [REGISTRY_IMAGE_KEY]: {
+        [CONTAINER_IMAGE_KEY]: {
           value: getTemplateProvisionSource(containerCloudTemplate).source,
           validation: undefined,
         },
@@ -459,7 +459,7 @@ describe('<BasicSettingsTab />', () => {
           value: getName(userTemplates[0]),
           validation: undefined,
         },
-        [REGISTRY_IMAGE_KEY]: {
+        [CONTAINER_IMAGE_KEY]: {
           value: 'fooContainer',
         },
       },

@@ -65,7 +65,7 @@ export const containerMultusTemplate = {
             volumes: [
               {
                 name: 'rootdisk',
-                registryDisk: {
+                containerDisk: {
                   image: 'fooContainer',
                 },
               },
