@@ -25,7 +25,7 @@ exports[`<TemplateSource /> renders correctly 1`] = `
     }
   >
     <div>
-      Registry
+      Container
     </div>
   </OverlayTrigger>
 </div>
