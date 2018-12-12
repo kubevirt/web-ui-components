@@ -37,6 +37,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 "invisibleField": Object {
                   "value": "invisibleField",
                 },
+                "labelField": Object {
+                  "type": "labelValue",
+                },
                 "requiredField": Object {
                   "value": "requiredField",
                 },
@@ -57,6 +60,10 @@ exports[`<FormFactory /> renders correctly 1`] = `
           ],
         },
         "title": "invisibleField",
+      },
+      "labelField": Object {
+        "title": "labelTitle",
+        "type": "label",
       },
       "requiredField": Object {
         "required": true,
@@ -80,6 +87,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
       },
       "invisibleField": Object {
         "value": "invisibleField",
+      },
+      "labelField": Object {
+        "type": "labelValue",
       },
       "requiredField": Object {
         "value": "requiredField",
@@ -309,16 +319,17 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 <ButtonGroup
                   block={false}
                   bsClass="btn-group"
+                  className="kubevirt-dropdownGroup"
                   justified={true}
                   key="dropdown"
                   vertical={false}
                 >
                   <div
-                    className="btn-group btn-group-justified"
+                    className="kubevirt-dropdownGroup btn-group btn-group-justified"
                   >
                     <DropdownButton
                       bsStyle="default"
-                      className="form-dropdown"
+                      className="kubevirt-dropdown"
                       disabled={false}
                       id="dropdown"
                       onBlur={null}
@@ -327,7 +338,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                     >
                       <DropdownButton
                         bsStyle="default"
-                        className="form-dropdown"
+                        className="kubevirt-dropdown"
                         disabled={false}
                         id="dropdown"
                         onBlur={null}
@@ -364,7 +375,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                   bsClass="dropdown-toggle"
                                   bsRole="toggle"
                                   bsStyle="default"
-                                  className="form-dropdown"
+                                  className="kubevirt-dropdown"
                                   disabled={false}
                                   id="dropdown"
                                   key=".0"
@@ -381,7 +392,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                     block={false}
                                     bsClass="btn"
                                     bsStyle="default"
-                                    className="form-dropdown dropdown-toggle"
+                                    className="kubevirt-dropdown dropdown-toggle"
                                     disabled={false}
                                     id="dropdown"
                                     onBlur={null}
@@ -392,7 +403,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                     <button
                                       aria-expanded={false}
                                       aria-haspopup={true}
-                                      className="form-dropdown dropdown-toggle btn btn-default"
+                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
                                       disabled={false}
                                       id="dropdown"
                                       onBlur={null}
@@ -645,6 +656,56 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   </div>
                 </Checkbox>
               </Checkbox>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+      <FormGroup
+        bsClass="form-group"
+        key="labelField"
+        validationState={null}
+      >
+        <div
+          className="form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <ControlLabel
+                bsClass="control-label"
+                className={null}
+                srOnly={false}
+              >
+                <label
+                  className="control-label"
+                >
+                  labelTitle
+                </label>
+              </ControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <div />
               <HelpBlock
                 bsClass="help-block"
               >

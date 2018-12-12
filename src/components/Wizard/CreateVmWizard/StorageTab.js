@@ -541,7 +541,7 @@ class StorageTab extends React.Component {
   onFormChange = newValue => {
     this.setState(state => {
       state.rows.forEach(row => {
-        row.isBootable = row.id === newValue;
+        row.isBootable = row.id === newValue.value;
       });
       publishResults(state.rows, state.otherStorages, this.props.onChange);
       return state.rows;

@@ -1,6 +1,6 @@
 import { get } from 'lodash';
-import { getDisks, getInterfaces } from './selectors';
-import { ANNOTATION_FIRST_BOOT, BOOT_ORDER_FIRST, BOOT_ORDER_SECOND } from '../constants';
+import { getDisks, getInterfaces, getName } from './selectors';
+import { ANNOTATION_FIRST_BOOT, BOOT_ORDER_FIRST, BOOT_ORDER_SECOND, PVC_ACCESSMODE_RWO } from '../constants';
 
 export function prefixedId(idPrefix, id) {
   return idPrefix && id ? `${idPrefix}-${id}` : null;
@@ -53,4 +53,92 @@ export const getPxeBootPatch = vm => {
     }
   }
   return patches;
+};
+
+export const getAddDiskPatch = (vm, storage) => {
+  const disk = {
+    name: storage.name,
+    volumeName: storage.name,
+  };
+  if (storage.bus) {
+    disk.disk = {
+      bus: storage.bus,
+    };
+  }
+  const volume = {
+    name: storage.name,
+    dataVolume: {
+      name: `${storage.name}-${getName(vm)}`,
+    },
+  };
+  const dataVolumeTemplate = {
+    metadata: {
+      name: `${storage.name}-${getName(vm)}`,
+    },
+    spec: {
+      pvc: {
+        accessModes: [PVC_ACCESSMODE_RWO],
+        resources: {
+          requests: {
+            storage: `${storage.size}Gi`,
+          },
+        },
+      },
+      source: {
+        blank: {},
+      },
+    },
+  };
+  if (storage.storageClass) {
+    dataVolumeTemplate.spec.pvc.storageClassName = storage.storageClass;
+  }
+
+  const patch = [];
+
+  const hasDisk = get(vm, 'spec.template.spec.domain.devices.disks', false);
+  if (hasDisk) {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/domain/devices/disks/0',
+      value: disk,
+    });
+  } else {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/domain/devices/disks',
+      value: [disk],
+    });
+  }
+
+  const hasVolume = get(vm, 'spec.template.spec.volumes', false);
+  if (hasVolume) {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/volumes/0',
+      value: volume,
+    });
+  } else {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/volumes',
+      value: [volume],
+    });
+  }
+
+  const hasDataVolume = get(vm, 'spec.dataVolumeTemplates', false);
+  if (hasDataVolume) {
+    patch.push({
+      op: 'add',
+      path: '/spec/dataVolumeTemplates/0',
+      value: dataVolumeTemplate,
+    });
+  } else {
+    patch.push({
+      op: 'add',
+      path: '/spec/dataVolumeTemplates',
+      value: [dataVolumeTemplate],
+    });
+  }
+
+  return patch;
 };

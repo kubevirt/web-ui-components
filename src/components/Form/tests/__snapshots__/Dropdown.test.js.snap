@@ -21,16 +21,17 @@ exports[`<DropdownControl /> renders correctly 1`] = `
   <ButtonGroup
     block={false}
     bsClass="btn-group"
+    className="kubevirt-dropdownGroup"
     justified={true}
     key="1"
     vertical={false}
   >
     <div
-      className="btn-group btn-group-justified"
+      className="kubevirt-dropdownGroup btn-group btn-group-justified"
     >
       <DropdownButton
         bsStyle="default"
-        className="form-dropdown"
+        className="kubevirt-dropdown"
         disabled={false}
         id="1"
         onBlur={null}
@@ -39,7 +40,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
       >
         <DropdownButton
           bsStyle="default"
-          className="form-dropdown"
+          className="kubevirt-dropdown"
           disabled={false}
           id="1"
           onBlur={null}
@@ -76,7 +77,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                     bsClass="dropdown-toggle"
                     bsRole="toggle"
                     bsStyle="default"
-                    className="form-dropdown"
+                    className="kubevirt-dropdown"
                     disabled={false}
                     id="1"
                     key=".0"
@@ -93,7 +94,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                       block={false}
                       bsClass="btn"
                       bsStyle="default"
-                      className="form-dropdown dropdown-toggle"
+                      className="kubevirt-dropdown dropdown-toggle"
                       disabled={false}
                       id="1"
                       onBlur={null}
@@ -104,7 +105,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                       <button
                         aria-expanded={false}
                         aria-haspopup={true}
-                        className="form-dropdown dropdown-toggle btn btn-default"
+                        className="kubevirt-dropdown dropdown-toggle btn btn-default"
                         disabled={false}
                         id="1"
                         onBlur={null}

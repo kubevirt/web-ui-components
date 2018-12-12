@@ -1,18 +1,13 @@
-.modal .form-dropdown {
+.kubevirt-dropdown {
   text-align: left;
 }
 
-.modal .form-dropdown .caret {
+.kubevirt-dropdown .caret {
   position: absolute;
   right: 5px;
   top: 5px;
 }
 
-.modal .dropdown-menu {
+.kubevirt-dropdownGroup .dropdown-menu {
   width: 100%;
-  display: none;
-}
-
-.modal .open > .dropdown-menu {
-  display: block;
 }

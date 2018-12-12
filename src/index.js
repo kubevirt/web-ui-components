@@ -10,3 +10,4 @@ export * from './utils';
 export * from './components/VmStatus';
 export * from './components/VmConsoles';
 export * from './components/TemplateSource';
+export * from './components/CreateDiskRow';

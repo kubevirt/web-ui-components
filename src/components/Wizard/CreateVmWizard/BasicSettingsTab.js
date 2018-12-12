@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { FormFactory } from '../../Form/FormFactory';
 import { getName, getMemory, getCpu, getCloudInitData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
-import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
+import { validateDNS1123SubdomainValue } from '../../../utils/validations';
 import {
   getFlavors,
   getOperatingSystems,
@@ -43,7 +43,7 @@ import {
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
 } from './constants';
-import { ERROR_IS_REQUIRED, NO_TEMPLATE } from './strings';
+import { NO_TEMPLATE } from './strings';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate) => {
   const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
@@ -332,22 +332,6 @@ class BasicSettingsTab extends React.Component {
     }
   }
 
-  onFormChange = (formFields, newValue, target) => {
-    let validation;
-
-    if (formFields[target].required && newValue.trim().length === 0) {
-      validation = getValidationObject(ERROR_IS_REQUIRED);
-    } else if (formFields[target].validate) {
-      validation = formFields[target].validate(newValue);
-    }
-
-    if (validation) {
-      validation.message = `${formFields[target].title} ${validation.message}`;
-    }
-
-    publish(this.props, asValueObject(newValue, validation), target, formFields);
-  };
-
   render() {
     const { basicSettings, namespaces, templates, selectedNamespace, createTemplate } = this.props;
     const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate);
@@ -356,7 +340,7 @@ class BasicSettingsTab extends React.Component {
       <FormFactory
         fields={formFields}
         fieldsValues={basicSettings}
-        onFormChange={(newValue, target) => this.onFormChange(formFields, newValue, target)}
+        onFormChange={(newValue, target) => publish(this.props, newValue, target, formFields)}
       />
     );
   }

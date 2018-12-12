@@ -45,6 +45,10 @@ export default {
         type: 'checkbox',
         title: 'checkboxFieldTitle',
       },
+      labelField: {
+        type: 'label',
+        title: 'labelTitle',
+      },
     },
     fieldsValues: {
       textField: {
@@ -64,6 +68,9 @@ export default {
       },
       checkboxField: {
         value: true,
+      },
+      labelField: {
+        type: 'labelValue',
       },
     },
     onFormChange: () => {},
