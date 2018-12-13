@@ -6,13 +6,14 @@ exports[`<StorageTab /> renders correctly 1`] = `
     actionButtons={
       Array [
         Object {
-          "className": "create-disk",
+          "className": "kubevirt-create-vm-wizard__button-create-disk",
           "disabled": false,
           "id": "create-storage-btn",
           "onClick": [Function],
           "text": "Create Disk",
         },
         Object {
+          "className": "kubevirt-create-vm-wizard__button-attach-disk",
           "disabled": false,
           "id": "attach-disk-btn",
           "onClick": [Function],
@@ -168,7 +169,6 @@ exports[`<StorageTab /> renders correctly 1`] = `
         },
       ]
     }
-    error=""
     onRowActivate={[Function]}
     onRowDeleteOrMove={[Function]}
     onRowUpdate={[Function]}
@@ -200,7 +200,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
         },
       }
     }
-    formClassName="pxe-form"
+    formClassName="kubevirt-create-vm-wizard__pxe-form"
     labelSize={2}
     onFormChange={[Function]}
     textPosition="text-left"

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl } from 'patternfly-react';
+import { FormControl, noop } from 'patternfly-react';
+
 import { eventValueHandler } from './utils';
 import { getSequence, setNativeValue } from '../../utils/utils';
 import { isMinus, KEY_CODES, INPUT_NAVIGATION_KEYS } from '../../constants/keys';
@@ -121,18 +122,17 @@ export const Integer = ({ id, value, disabled, defaultValue, onChange, onBlur, p
 };
 
 Integer.defaultProps = {
-  id: undefined,
   value: undefined,
   defaultValue: undefined,
-  onChange: undefined,
-  onBlur: undefined,
+  onChange: noop,
+  onBlur: noop,
   positive: false,
   nonNegative: false, // is ignored when positive == true
   disabled: false,
 };
 
 Integer.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,

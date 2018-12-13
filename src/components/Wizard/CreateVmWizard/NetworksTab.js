@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { FormFactory } from '../../Form';
 import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
+import { getValidationObject } from '../../../utils/validations';
+import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from './constants';
+
 import {
   SELECT_NETWORK,
   SELECT_PXE_NIC,
@@ -20,8 +24,6 @@ import {
   HEADER_NIC_NAME,
   HEADER_NETWORK,
 } from './strings';
-import { getValidationObject } from '../../../utils/validations';
-import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from './constants';
 
 const validateNetwork = network => {
   const errors = Array(4).fill(null);
@@ -292,7 +294,7 @@ export class NetworksTab extends React.Component {
 
   getActionButtons = () => [
     {
-      className: 'create-network',
+      className: 'kubevirt-create-vm-wizard__button-create-network',
       onClick: this.createNic,
       id: 'create-network-btn',
       text: CREATE_NIC_BUTTON,
@@ -348,7 +350,7 @@ export class NetworksTab extends React.Component {
           textPosition="text-left"
           labelSize={2}
           controlSize={10}
-          formClassName="pxe-form"
+          formClassName="kubevirt-create-vm-wizard__pxe-form"
         />
       );
     }

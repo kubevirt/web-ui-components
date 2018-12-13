@@ -6,7 +6,7 @@ exports[`<TextAreaControl /> renders correctly 1`] = `
   componentClass="textarea"
   disabled={false}
   id="1"
-  onBlur={null}
+  onBlur={[Function]}
   onChange={[Function]}
   value="val"
 />

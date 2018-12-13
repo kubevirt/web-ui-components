@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import * as dnd from 'reactabular-dnd';
 import { get, findIndex, cloneDeep } from 'lodash';
+
 import {
   TablePfProvider,
   inlineEditFormatterFactory,
@@ -12,9 +14,11 @@ import {
   DropdownKebab,
   HelpBlock,
 } from 'patternfly-react';
+
 import { getFormElement } from '../Form/FormFactory';
 import { prefixedId } from '../../utils/utils';
-import InlineEditRow from './InlineEditRow';
+import { InlineEditRow } from './InlineEditRow';
+
 import {
   ON_MOVE,
   ON_ACTIVATE,
@@ -155,7 +159,7 @@ class EditableDraggableTable extends React.Component {
 
       result =
         isEditing && !renderConfig.visibleOnEdit ? null : (
-          <DropdownKebab className="row-actions" id={id} key={id} pullRight>
+          <DropdownKebab className="kubevirt-editable-table__row-actions" id={id} key={id} pullRight>
             {renderConfig.actions.map((action, idx) =>
               this.getActionButton(action, additionalData, prefixedId(idx, id))
             )}
@@ -211,12 +215,12 @@ class EditableDraggableTable extends React.Component {
       if (errors && additionalData.columnIndex + 1 < errors.length) {
         const error = errors[additionalData.columnIndex + 1];
         if (error) {
-          let additionalClass;
-          if (!data && isBootable) {
-            additionalClass = 'bootable-style';
-          }
           errorField = (
-            <div className={`form-group minimal-formgroup has-error ${additionalClass}`}>
+            <div
+              className={classNames('form-group has-error kubevirt-editable-table__cell-error', {
+                'kubevirt-editable-table__cell-error--bootable': !data && isBootable,
+              })}
+            >
               <HelpBlock>{error}</HelpBlock>
             </div>
           );
@@ -225,7 +229,7 @@ class EditableDraggableTable extends React.Component {
 
       return (
         <td
-          className="editable editable-draggable-table-elem"
+          className="editable kubevirt-editable-table__cell"
           onClick={() => this.inlineEditController.onActivate(additionalData)}
         >
           <div className="static">
@@ -242,7 +246,7 @@ class EditableDraggableTable extends React.Component {
 
       const onChange = v => this.inlineEditController.onChange(v, additionalData);
       return (
-        <td className="editable editable-draggable-table-elem editable editing">
+        <td className="editable editing kubevirt-editable-table__cell">
           {getFormElement({
             ...renderConfig,
             id: prefixedId(renderConfig.id, additionalData.rowKey),
@@ -332,6 +336,7 @@ class EditableDraggableTable extends React.Component {
         columns={columns}
         renderers={renderers}
         key="TablePfProvider"
+        className="kubevirt-editable-table"
       >
         <Table.Header key="Table.Header" />
         <Table.Body key="Table.Body" rows={this.props.rows} rowKey="id" onRow={this.onRow} />

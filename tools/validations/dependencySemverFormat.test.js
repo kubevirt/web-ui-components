@@ -1,6 +1,6 @@
 const paths = require('../../config/paths');
-const tested = require('./dependencySemverFormat');
 
+const getTestedModule = () => require('./dependencySemverFormat');
 const consoleLog = jest.spyOn(global.console, 'log').mockImplementation(() => {});
 
 beforeEach(() => {
@@ -21,7 +21,9 @@ test('allowed semver formats', () => {
     },
   }));
 
+  const tested = getTestedModule();
   const result = tested();
+
   expect(result).toBe(true);
   expect(consoleLog).not.toHaveBeenCalled();
 });
@@ -39,7 +41,9 @@ test('disallowed semver formats', () => {
     },
   }));
 
+  const tested = getTestedModule();
   const result = tested();
+
   expect(result).toBe(false);
   expect(consoleLog).toHaveBeenCalled();
 });

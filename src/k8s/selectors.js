@@ -1,4 +1,8 @@
 import { get, has } from 'lodash';
+
+import { getTemplatesLabelValues, getTemplatesWithLabels, getTemplate } from '../utils/templates';
+import { VirtualMachineModel } from '../models';
+
 import {
   CUSTOM_FLAVOR,
   TEMPLATE_FLAVOR_LABEL,
@@ -8,14 +12,12 @@ import {
   TEMPLATE_TYPE_VM,
 } from '../constants';
 
-import { getTemplatesLabelValues, getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import {
   PROVISION_SOURCE_TYPE_KEY,
   OPERATING_SYSTEM_KEY,
   FLAVOR_KEY,
   WORKLOAD_PROFILE_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
-import { VirtualMachineModel } from '../models';
 
 export const settingsValue = (basicSettings, key, defaultValue) => get(basicSettings, [key, 'value'], defaultValue);
 

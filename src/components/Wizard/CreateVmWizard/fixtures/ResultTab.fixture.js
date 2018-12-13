@@ -1,4 +1,4 @@
-import ResultTab from '../ResultTab';
+import { ResultTab } from '../ResultTab';
 
 export default [
   {

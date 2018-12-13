@@ -1,4 +1,4 @@
-import { CreateDiskRow } from '..';
+import { CreateDiskRow } from '../CreateDiskRow';
 
 export default {
   component: CreateDiskRow,
@@ -8,6 +8,6 @@ export default {
     onAccept: () => {},
     onCancel: () => {},
     storageClasses: [],
-    LoadingComponent: () => {},
+    LoadingComponent: () => null,
   },
 };

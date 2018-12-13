@@ -5,7 +5,7 @@ exports[`<TableFactory /> renders correctly 1`] = `
   <ButtonGroup
     block={false}
     bsClass="btn-group"
-    className="pull-right actions"
+    className="pull-right kubevirt-editable-table-actions"
     justified={false}
     vertical={false}
   />

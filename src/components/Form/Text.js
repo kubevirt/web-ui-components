@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl } from 'patternfly-react';
+import { FormControl, noop } from 'patternfly-react';
+
 import { eventValueHandler } from './utils';
 
 export const Text = ({ id, value, disabled, defaultValue, onChange, onBlur }) => (
@@ -17,16 +18,15 @@ export const Text = ({ id, value, disabled, defaultValue, onChange, onBlur }) =>
 );
 
 Text.defaultProps = {
-  id: undefined,
   value: undefined,
   defaultValue: undefined,
-  onChange: undefined,
-  onBlur: undefined,
+  onChange: noop,
+  onBlur: noop,
   disabled: false,
 };
 
 Text.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   value: PropTypes.string,
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,

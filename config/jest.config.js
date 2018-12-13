@@ -42,12 +42,12 @@ module.exports = {
   // files for which to collect coverage information
   collectCoverageFrom: [
     'src/**/*.js',
-    '!src/**/fixtures/**/*.js',
     '!src/**/index.js',
     '!src/**/*.mock.js',
+    '!src/**/fixtures/**/*.js',
     '!src/cosmos/*',
     '!src/jest/*',
-    '!tools/',
+    'tools/validations/*.js',
   ],
 
   // coverage output settings

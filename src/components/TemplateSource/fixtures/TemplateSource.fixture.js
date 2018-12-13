@@ -6,6 +6,7 @@ export default [
     component: TemplateSource,
     props: {
       template: urlTemplate,
+      tooltipPlacement: 'bottom',
     },
   },
 ];

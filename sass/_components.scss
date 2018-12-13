@@ -1,15 +1,22 @@
-@import './components/HelloWorld';
-@import './components/ButtonWithIcon';
-@import './components/CreateVmWizard';
-@import './components/Dropdown';
-@import './components/EditableDraggableTable';
-@import './components/FormFactory';
-@import './components/NewVmWizard';
-@import './components/ResultTab';
-@import './components/NetworksTab';
-@import './components/StorageTab';
-@import './components/VmStatus';
-@import './components/VmConsoles';
-@import './components/TemplateSource';
-@import './components/CreateDiskRow';
-@import './components/VmDetails';
+/*
+  KubeVirt UI component styles. Refer to stylelint configuration for details
+  on project-specific BEM (Block Element Modifier) format for CSS classes.
+*/
+
+@import './components/CreateDiskRow/create-disk-row';
+@import './components/Form/dropdown';
+@import './components/Form/form-group';
+@import './components/Form/list-form-factory';
+@import './components/Table/editable-table-actions';
+@import './components/Table/editable-table';
+@import './components/TemplateSource/template-source';
+@import './components/VmConsoles/vm-consoles';
+@import './components/VmDetails/vm-details';
+@import './components/VmStatus/vm-status';
+@import './components/Wizard/create-vm-wizard';
+@import './components/Wizard/wizard';
+
+/*
+  TODO: these styles should be backported to the corresponding PF-React package
+*/
+@import './patternfly-tweaks/vnc-console';

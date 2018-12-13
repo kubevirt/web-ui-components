@@ -1,4 +1,4 @@
-import { Integer } from '..';
+import { Integer } from '../Integer';
 
 export default {
   component: Integer,

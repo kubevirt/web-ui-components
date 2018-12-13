@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, Alert } from 'patternfly-react';
-import EditableDraggableTable from './EditableDraggableTable';
+
+import { default as EditableDraggableTable } from './EditableDraggableTable';
 import { ON_CONFIRM, ON_DELETE, ON_MOVE, ON_CANCEL, ON_CHANGE, ON_ACTIVATE } from './constants';
 
 const onChange = (rows, { editing, type, id }, onRowUpdate, onRowDeleteOrMove, onRowActivate) => {
@@ -38,7 +39,7 @@ export const TableFactory = props => {
 
   return (
     <React.Fragment>
-      <ButtonGroup className="pull-right actions">{actionButtons}</ButtonGroup>
+      <ButtonGroup className="pull-right kubevirt-editable-table-actions">{actionButtons}</ButtonGroup>
       <EditableDraggableTable columns={props.columns} rows={props.rows} onChange={onTableChange} />
       {error}
     </React.Fragment>

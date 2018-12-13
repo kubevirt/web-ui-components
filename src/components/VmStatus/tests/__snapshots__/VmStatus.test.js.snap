@@ -4,7 +4,7 @@ exports[`<VmStatus vm /> renders correctly 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-off"
+    class="kubevirt-vm-status__icon pficon pficon-off"
   />,
   "Off",
 ]
@@ -14,7 +14,7 @@ exports[`<VmStatus vm pod /> renders correctly 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-off"
+    class="kubevirt-vm-status__icon pficon pficon-off"
   />,
   "Off",
 ]
@@ -24,7 +24,7 @@ exports[`<VmStatus vm pod /> renders correctly 2`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-on-running"
+    class="kubevirt-vm-status__icon pficon pficon-on-running"
   />,
   "Running",
 ]
@@ -34,7 +34,7 @@ exports[`<VmStatus vm pod /> renders correctly 3`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-pending"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
   />,
   <a
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
@@ -49,7 +49,7 @@ exports[`<VmStatus vm pod /> renders correctly 4`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-pending"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
   />,
   "Starting",
 ]
@@ -59,7 +59,7 @@ exports[`<VmStatus vm pod /> renders correctly 5`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-pending"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
   />,
   <a
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
@@ -73,7 +73,7 @@ exports[`<VmStatus vm pod /> renders correctly 6`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-error-circle-o"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
   />,
   <a
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
@@ -88,7 +88,7 @@ exports[`<VmStatus vm pod /> renders correctly 7`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-pending"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
   />,
   <a
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
@@ -102,7 +102,7 @@ exports[`<VmStatus vm pod /> renders correctly 8`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-pending"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
   />,
   <a
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
@@ -116,7 +116,7 @@ exports[`<VmStatus vm pod /> renders correctly 9`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-error-circle-o"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
   />,
   <a
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
@@ -131,7 +131,7 @@ exports[`<VmStatus vm pod /> renders correctly 10`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-error-circle-o"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
   />,
   <a
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
@@ -146,7 +146,7 @@ exports[`<VmStatus vm pod /> renders correctly 11`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-error-circle-o"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
   />,
   <a
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
@@ -161,7 +161,7 @@ exports[`<VmStatus vm pod /> renders correctly 12`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-error-circle-o"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
   />,
   <a
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
@@ -176,7 +176,7 @@ exports[`<VmStatus vm pod /> renders correctly 13`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-migration"
+    class="kubevirt-vm-status__icon pficon pficon-migration"
   />,
   "Migrating",
 ]
@@ -186,7 +186,7 @@ exports[`<VmStatus vm pod /> renders correctly 14`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-on-running"
+    class="kubevirt-vm-status__icon pficon pficon-on-running"
   />,
   "Running",
 ]
@@ -196,7 +196,7 @@ exports[`<VmStatus vm pod /> renders correctly 15`] = `
 Array [
   <span
     aria-hidden="true"
-    class="vm-status-icon pficon pficon-import"
+    class="kubevirt-vm-status__icon pficon pficon-import"
   />,
   <a
     href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"

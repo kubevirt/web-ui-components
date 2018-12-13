@@ -5,6 +5,10 @@ import { get, findIndex } from 'lodash';
 import { PROVISION_SOURCE_PXE, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL } from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
 import { FormFactory } from '../../Form/FormFactory';
+import { getValidationObject } from '../../../utils/validations';
+import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
+import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_CONTAINER } from './constants';
+
 import {
   getName,
   getGibStorageSize,
@@ -13,8 +17,7 @@ import {
   getPvcResources,
   getDataVolumeResources,
 } from '../../../utils/selectors';
-import { getValidationObject } from '../../../utils/validations';
-import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
+
 import {
   ERROR_NO_BOOTABLE_DISK,
   ERROR_EMPTY_ENTITY,
@@ -30,7 +33,6 @@ import {
   BOOTABLE_DISK,
   SELECT_BOOTABLE_DISK,
 } from './strings';
-import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_CONTAINER } from './constants';
 
 const validateDataVolumeStorage = storage => {
   const errors = Array(4).fill(null);
@@ -299,7 +301,7 @@ const publishResults = (rows, otherStorages, publish) => {
   publish(storages, valid);
 };
 
-class StorageTab extends React.Component {
+export class StorageTab extends React.Component {
   constructor(props) {
     super(props);
     const rows = resolveInitialStorages(
@@ -509,13 +511,14 @@ class StorageTab extends React.Component {
 
   getActionButtons = () => [
     {
-      className: 'create-disk',
+      className: 'kubevirt-create-vm-wizard__button-create-disk',
       onClick: this.createDisk,
       id: 'create-storage-btn',
       text: CREATE_DISK_BUTTON,
       disabled: this.state.editing,
     },
     {
+      className: 'kubevirt-create-vm-wizard__button-attach-disk',
       onClick: this.attachDisk,
       id: 'attach-disk-btn',
       text: ATTACH_DISK_BUTTON,
@@ -571,7 +574,7 @@ class StorageTab extends React.Component {
         textPosition="text-left"
         labelSize={2}
         controlSize={10}
-        formClassName="pxe-form"
+        formClassName="kubevirt-create-vm-wizard__pxe-form"
       />
     );
 
@@ -584,7 +587,6 @@ class StorageTab extends React.Component {
           onRowUpdate={this.onRowUpdate}
           onRowDeleteOrMove={this.rowsChanged}
           onRowActivate={this.onRowActivate}
-          error=""
         />
         {bootableForm}
       </React.Fragment>
@@ -605,5 +607,3 @@ StorageTab.propTypes = {
   sourceType: PropTypes.string.isRequired,
   namespace: PropTypes.string.isRequired,
 };
-
-export default StorageTab;

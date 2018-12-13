@@ -52,5 +52,12 @@ module.exports = {
         ignoreClassFields: true,
       },
     ],
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always-and-inside-groups',
+        groups: [['builtin', 'external'], ['internal', 'parent', 'sibling', 'index']],
+      },
+    ],
   },
 };

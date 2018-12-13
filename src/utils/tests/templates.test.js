@@ -1,4 +1,11 @@
 import cloneDeep from 'lodash/cloneDeep';
+
+import { fedora28 } from '../../k8s/mock_templates/fedora28.mock';
+import { rhel75 } from '../../k8s/mock_templates/rhel75.mock';
+import { ubuntu1804 } from '../../k8s/mock_templates/ubuntu1804.mock';
+import { windows } from '../../k8s/mock_templates/windows.mock';
+import { baseTemplates } from '../../k8s/mock_templates';
+
 import {
   TEMPLATE_WORKLOAD_LABEL,
   TEMPLATE_TYPE_BASE,
@@ -8,10 +15,7 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
 } from '../../constants';
-import { fedora28 } from '../../k8s/mock_templates/fedora28.mock';
-import { rhel75 } from '../../k8s/mock_templates/rhel75.mock';
-import { ubuntu1804 } from '../../k8s/mock_templates/ubuntu1804.mock';
-import { windows } from '../../k8s/mock_templates/windows.mock';
+
 import {
   getTemplatesWithLabels,
   getTemplatesLabelValues,
@@ -22,7 +26,7 @@ import {
   hasAutoAttachPodInterface,
   getTemplateProvisionSource,
 } from '../templates';
-import { baseTemplates } from '../../k8s/mock_templates';
+
 import {
   userTemplates,
   containerTemplate,

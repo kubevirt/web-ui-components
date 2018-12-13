@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'enzyme';
+
 import { cloudInitTestVmi } from '../../../../k8s/mock_vmi/cloudInitTestVmi.vmi';
-import { VmDetails } from '../index';
+import { VmDetails } from '../VmDetails';
 import { vmFixtures } from '../fixtures/VmDetails.fixture';
 
 describe('<VmDetails vm NodeLink />', () => {

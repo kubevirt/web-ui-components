@@ -6,7 +6,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
     actionButtons={
       Array [
         Object {
-          "className": "create-network",
+          "className": "kubevirt-create-vm-wizard__button-create-network",
           "disabled": false,
           "id": "create-network-btn",
           "onClick": [Function],
@@ -127,7 +127,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
         },
       }
     }
-    formClassName="pxe-form"
+    formClassName="kubevirt-create-vm-wizard__pxe-form"
     labelSize={2}
     onFormChange={[Function]}
     textPosition="text-left"

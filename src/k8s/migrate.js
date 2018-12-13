@@ -1,4 +1,4 @@
-import { VirtualMachineInstanceMigrationModel } from '../models/index';
+import { VirtualMachineInstanceMigrationModel } from '../models';
 import { getName, getNamespace } from '../utils/selectors';
 import { getModelApi } from './selectors';
 import { prefixedId } from '../utils/utils';

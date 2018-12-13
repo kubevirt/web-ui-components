@@ -1,2 +1,2 @@
-export * from './VmStatus';
+export { VmStatus } from './VmStatus';
 export * from './getVmStatus';

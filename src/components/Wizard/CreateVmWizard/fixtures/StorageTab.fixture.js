@@ -1,4 +1,4 @@
-import StorageTab from '../StorageTab';
+import { StorageTab } from '../StorageTab';
 import { units, persistentVolumeClaims, storageClasses } from './CreateVmWizard.fixture';
 import { PROVISION_SOURCE_URL } from '../../../../constants';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC } from '../constants';

@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { get } from 'lodash';
-
 import { AccessConsoles, VncConsole, DesktopViewer } from '@patternfly/react-console';
 import { Button, ExpandCollapse } from 'patternfly-react';
 
 import { isVmiRunning, isVmStarting } from '../VmStatus';
-import SerialConsoleConnector from './SerialConsoleConnector';
+import { SerialConsoleConnector } from './SerialConsoleConnector';
 import { isWindows } from '../../utils';
 import { DEFAULT_RDP_PORT, TEMPLATE_VM_NAME_LABEL } from '../../constants';
 
@@ -128,12 +126,10 @@ export const VmConsoles = ({ vm, vmi, onStartVm, vnc, serial, rdp, WSFactory, Lo
 VmConsoles.propTypes = {
   vm: PropTypes.object.isRequired,
   vmi: PropTypes.object,
-
   vnc: PropTypes.object,
   serial: PropTypes.object,
   rdp: PropTypes.object,
   onStartVm: PropTypes.func.isRequired,
-
   LoadingComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   WSFactory: PropTypes.func.isRequired,
 };

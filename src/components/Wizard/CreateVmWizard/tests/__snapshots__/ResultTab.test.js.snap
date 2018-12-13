@@ -35,7 +35,7 @@ exports[`<ResultTab /> renders success correctly 1`] = `
     Creation of VM was successful
   </h3>
   <pre
-    className="blank-slate-pf-secondary-action description"
+    className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success"
   >
     Created VM
   </pre>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+
 import { loadingWizardTab } from '../loadingWizardTab';
 import { Loading } from '../../Loading';
 

@@ -1,1 +1,1 @@
-export * from './CreateDiskRow';
+export { CreateDiskRow } from './CreateDiskRow';

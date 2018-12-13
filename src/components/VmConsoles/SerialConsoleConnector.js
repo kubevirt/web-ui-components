@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { AccessConsoles, SerialConsole } from '@patternfly/react-console';
 
 const { CONNECTED, DISCONNECTED, LOADING } = AccessConsoles.constants;
-
 const { debug, info, error } = console;
 
 /**
  * Kubevirt serial console is accessed via WebSocket proxy in k8s API.
  * Protocol used is "plain.kubevirt.io", means binary and single channel - forwarding of unix socket only (see subresource.go in kubevirt).
  */
-class SerialConsoleConnector extends React.Component {
+export class SerialConsoleConnector extends React.Component {
   state = {
     status: LOADING,
     passKeys: false,
@@ -135,5 +134,3 @@ SerialConsoleConnector.propTypes = {
 
   WSFactory: PropTypes.func.isRequired, // reference to OKD utility
 };
-
-export default SerialConsoleConnector;

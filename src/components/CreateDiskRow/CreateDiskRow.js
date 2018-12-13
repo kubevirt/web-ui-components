@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Button, Icon } from 'patternfly-react';
+
 import { ListFormFactory } from '../Form/FormFactory';
 import { getName } from '../../utils/selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
@@ -70,7 +71,7 @@ const getActions = (diskColumns, storage, LoadingComponent, onAccept, onCancel) 
   storage.creating ? (
     <LoadingComponent />
   ) : (
-    <div className="createDiskRow__actionButtons">
+    <div className="kubevirt-create-disk-row__action-buttons">
       <Button onClick={onCancel}>
         <Icon type="pf" name="close" />
       </Button>

@@ -2,6 +2,8 @@
  * Copy & paste from
  *   - web-ui/frontend/public/models/index.ts
  *   - web-ui/frontend/public/kubevirt/models/vm.ts
+ *
+ * TODO: we should find a way to avoid duplicating this code
  */
 
 export const VirtualMachineModel = {

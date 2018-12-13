@@ -2,8 +2,8 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { MenuItem } from 'patternfly-react';
-import StorageTab from '../StorageTab';
 
+import { StorageTab } from '../StorageTab';
 import { units, persistentVolumeClaims, storageClasses } from '../fixtures/CreateVmWizard.fixture';
 import { PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_PXE } from '../../../../constants';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } from '../constants';

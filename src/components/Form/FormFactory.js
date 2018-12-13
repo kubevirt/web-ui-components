@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { FormGroup, Col, ControlLabel, HelpBlock, Form, FieldLevelHelp } from 'patternfly-react';
 import { get } from 'lodash';
 
@@ -119,6 +120,7 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
       const values = fieldsValues[key];
       const validation = get(values, 'validation');
       const value = get(values, 'value');
+      const hasValidationMessage = !!get(validation, 'message');
 
       const child = getFormElement({
         ...field,
@@ -127,22 +129,13 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
         onChange: newValue => onChange(field, newValue, key, onFormChange),
       });
 
-      let formGroupClassName;
-      if (horizontal) {
-        formGroupClassName = field.noBottom ? 'kubevirt-formGroup--noBottom' : undefined;
-      } else {
-        formGroupClassName = get(validation, 'message')
-          ? 'kubevirt-listFormFactory__formGroup--help'
-          : 'kubevirt-listFormFactory__formGroup--noHelp';
-      }
-
       const label = horizontal && (
         <Col sm={labelSize} className={textPosition}>
           {field.type !== 'checkbox' && (
             <React.Fragment>
               <ControlLabel className={field.required ? 'required-pf' : null}>{field.title}</ControlLabel>
               {field.help && (
-                <FieldLevelHelp className="kubevirt-fieldLevelHelp" placement="right" content={field.help} />
+                <FieldLevelHelp className="kubevirt-form-group__field-help" placement="right" content={field.help} />
               )}
             </React.Fragment>
           )}
@@ -153,7 +146,11 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
         <FormGroup
           key={key}
           validationState={validation && validation.type !== VALIDATION_INFO_TYPE ? validation.type : null}
-          className={formGroupClassName}
+          className={classNames('kubevirt-form-group', {
+            'kubevirt-form-group--no-bottom': horizontal && field.noBottom,
+            'kubevirt-form-group--help': !horizontal && hasValidationMessage,
+            'kubevirt-form-group--no-help': !horizontal && !hasValidationMessage,
+          })}
         >
           {label}
           <Col sm={controlSize}>
@@ -166,19 +163,22 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
 
 export const ListFormFactory = ({ fields, fieldsValues, onFormChange, actions, columnSizes }) => {
   const formGroups = getFormGroups({ fields, fieldsValues, onFormChange });
-  const form = formGroups.map((formGroup, index) => {
-    const columClassName = index === formGroups.length - 1 ? 'kubevirt-listFormFactory__lastColumn' : undefined;
-    return (
-      <Col key={`col-${index}`} {...columnSizes} className={columClassName}>
-        {formGroup}
-      </Col>
-    );
-  });
+  const form = formGroups.map((formGroup, index) => (
+    <Col
+      key={`col-${index}`}
+      {...columnSizes}
+      className={classNames('kubevirt-list-form-factory__column', {
+        'kubevirt-list-form-factory__column--last': index === formGroups.length - 1,
+      })}
+    >
+      {formGroup}
+    </Col>
+  ));
 
   return (
     <React.Fragment>
       {form}
-      <div className="kubevirt-listFormFactory__actions">{actions}</div>
+      <div className="kubevirt-list-form-factory__actions">{actions}</div>
     </React.Fragment>
   );
 };

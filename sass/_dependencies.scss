@@ -1,3 +1,9 @@
+/*
+  KubeVirt UI style dependencies. Intended for use by Cosmos playground
+  when testing React components an in isolated environment which simulates
+  the consuming application.
+*/
+
 $font-path: '~patternfly/dist/fonts/';
 $icon-font-path: '~patternfly/dist/fonts/';
 $img-path: '~patternfly/dist/img/';
