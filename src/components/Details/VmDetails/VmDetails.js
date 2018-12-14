@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { isNull } from 'lodash';
 import { FieldLevelHelp } from 'patternfly-react';
-import { PodModel } from '../../../models';
 import { VmStatus } from '../../VmStatus';
 import {
   getCloudInitData,
@@ -18,35 +17,7 @@ import {
 
 const DASHES = '---';
 
-const cloudInitInUse = vm => getCloudInitData(vm) !== null;
-
-const getFlattenForKind = (kind, resources) => get(resources, kind, {}).data;
-
-const findPod = (data, name) => {
-  const pods = data.filter(p => p.metadata.name.startsWith(`virt-launcher-${name}-`));
-  const runningPod = pods.find(p => get(p, 'status.phase') === 'Running' || get(p, 'status.phase') === 'Pending');
-
-  return runningPod || pods.find(p => get(p, 'status.phase') === 'Failed' || get(p, 'status.phase') === 'Unknown');
-};
-
-const FirehoseResourceLink = props => {
-  if (props.loaded) {
-    const data = getFlattenForKind(props.kind, props.resources);
-
-    if (data) {
-      let resource = data[0];
-      if (props.filter) {
-        resource = props.filter(data);
-      }
-      if (resource) {
-        const { name, namespace, uid } = resource.metadata;
-        const kind = resource.metadata.kind ? resource.metadata.kind : PodModel.kind;
-        return <props.ResourceLink kind={kind} name={name} namespace={namespace} title={uid} />;
-      }
-    }
-  }
-  return DASHES;
-};
+const cloudInitInUse = vm => !isNull(getCloudInitData(vm));
 
 const OnOffReporter = props => {
   const statusText = props.on ? 'On' : 'Off';
@@ -82,7 +53,7 @@ VmStatusReporter.propTypes = {
 };
 
 export const VmDetails = props => {
-  const { launcherPod, importerPod, migration, loaded, NodeLink, resources, ResourceLink, vm } = props;
+  const { launcherPod, importerPod, migration, NodeLink, vm, PodResourceLink, NamespaceResourceLink } = props;
   const nodeName = getNodeName(launcherPod);
   const description = getDescription(vm);
 
@@ -139,19 +110,11 @@ export const VmDetails = props => {
                   <dt>FQDN</dt>
                   <dd>{launcherPod ? launcherPod.spec.hostname : DASHES}</dd>
 
-                  <dt>Project</dt>
-                  <dd>Project Information</dd>
+                  <dt>Namespace</dt>
+                  <dd>{NamespaceResourceLink}</dd>
 
                   <dt>Pod</dt>
-                  <dd>
-                    <FirehoseResourceLink
-                      loaded={loaded}
-                      resources={resources}
-                      kind={PodModel.kind}
-                      filter={data => findPod(data, vm.metadata.name)}
-                      ResourceLink={ResourceLink}
-                    />
-                  </dd>
+                  <dd>{PodResourceLink}</dd>
                 </div>
 
                 {/* Details column 3 */}
@@ -162,7 +125,7 @@ export const VmDetails = props => {
                   </dd>
 
                   <dt>Node</dt>
-                  <dd>{nodeName ? <NodeLink name={nodeName} /> : DASHES}</dd>
+                  <dd>{<NodeLink name={nodeName} />}</dd>
 
                   <dt>Flavor</dt>
                   <dd>
@@ -181,20 +144,20 @@ export const VmDetails = props => {
 };
 
 VmDetails.propTypes = {
-  loaded: PropTypes.bool,
-  resources: PropTypes.object,
   vm: PropTypes.object.isRequired,
-  NodeLink: PropTypes.func.isRequired,
-  ResourceLink: PropTypes.func.isRequired,
   launcherPod: PropTypes.object,
   importerPod: PropTypes.object,
   migration: PropTypes.object,
+  NodeLink: PropTypes.func,
+  NamespaceResourceLink: PropTypes.object,
+  PodResourceLink: PropTypes.object,
 };
 
 VmDetails.defaultProps = {
-  loaded: false,
-  resources: {},
   launcherPod: undefined,
   importerPod: undefined,
   migration: undefined,
+  NodeLink: DASHES,
+  NamespaceResourceLink: DASHES,
+  PodResourceLink: DASHES,
 };
