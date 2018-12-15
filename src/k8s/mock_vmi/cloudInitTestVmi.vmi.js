@@ -96,17 +96,12 @@ export const cloudInitTestVmi = {
     ],
   },
   status: {
-    conditions: [
-      {
-        lastProbeTime: null,
-        lastTransitionTime: '2018-11-12T20:49:28Z',
-        message:
-          "0/1 nodes are available: 1 Insufficient devices.kubevirt.io/kvm, 1 Insufficient devices.kubevirt.io/tun, 1 node(s) didn't match node selector.",
-        reason: 'Unschedulable',
-        status: 'False',
-        type: 'PodScheduled',
-      },
+    interfaces: [
+      { ipAddress: '172.17.0.15', mac: '02:42:ac:11:00:0d', name: 'default' },
+      { ipAddress: '172.17.0.16', mac: '02:42:ac:11:00:0e', name: 'backup1' },
+      { ipAddress: '172.17.0.17', mac: '02:42:ac:11:00:0f', name: 'backup2' },
     ],
-    phase: 'Scheduling',
+    nodeName: 'localhost',
+    phase: 'Running',
   },
 };

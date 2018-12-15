@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { isNull } from 'lodash';
+import { has, isNull } from 'lodash';
 import { FieldLevelHelp } from 'patternfly-react';
 import { VmStatus } from '../../VmStatus';
 import {
@@ -52,10 +52,20 @@ VmStatusReporter.propTypes = {
   vm: PropTypes.object.isRequired,
 };
 
+export const getVmIpAddresses = vmi => {
+  let ipAddresses = [];
+  if (has(vmi, 'status.interfaces')) {
+    ipAddresses = vmi.status.interfaces.map(iface => iface.ipAddress);
+  }
+
+  return ipAddresses;
+};
+
 export const VmDetails = props => {
-  const { launcherPod, importerPod, migration, NodeLink, vm, PodResourceLink, NamespaceResourceLink } = props;
+  const { launcherPod, importerPod, migration, NodeLink, vm, vmi, PodResourceLink, NamespaceResourceLink } = props;
   const nodeName = getNodeName(launcherPod);
   const description = getDescription(vm);
+  const ipAddresses = getVmIpAddresses(vmi);
 
   // TODO Fix FieldLevelHelp content for Status
   return (
@@ -95,7 +105,7 @@ export const VmDetails = props => {
                     <dd>{getOperatingSystem(vm) || DASHES}</dd>
 
                     <dt>IP Addresses</dt>
-                    <dd>IP Address List</dd>
+                    <dd>{ipAddresses.length > 0 ? ipAddresses.toString() : DASHES}</dd>
 
                     <dt>Workload Profile</dt>
                     <dd>{getWorkloadProfile(vm) || DASHES}</dd>
@@ -145,15 +155,17 @@ export const VmDetails = props => {
 
 VmDetails.propTypes = {
   vm: PropTypes.object.isRequired,
+  vmi: PropTypes.object,
   launcherPod: PropTypes.object,
   importerPod: PropTypes.object,
   migration: PropTypes.object,
   NodeLink: PropTypes.func,
-  NamespaceResourceLink: PropTypes.object,
-  PodResourceLink: PropTypes.object,
+  NamespaceResourceLink: PropTypes.any,
+  PodResourceLink: PropTypes.any,
 };
 
 VmDetails.defaultProps = {
+  vmi: undefined,
   launcherPod: undefined,
   importerPod: undefined,
   migration: undefined,
