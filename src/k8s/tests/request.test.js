@@ -218,13 +218,13 @@ const testStorage = (vm, storageIndex, bootOrder, expectedStorageName, expectedS
 
   if (expectedStorageType.type === STORAGE_TYPE_DATAVOLUME) {
     expect(vm.spec.template.spec.volumes[storageIndex].dataVolume.name).toBe(
-      `${expectedStorageName}-${vm.metadata.name}`
+      `${expectedStorageName}-${vm.metadata.name}`.toLowerCase()
     );
     expect(vm.spec.template.spec.volumes[storageIndex].containerDisk).toBeUndefined();
     expect(vm.spec.template.spec.volumes[storageIndex].persistentVolumeClaim).toBeUndefined();
 
     expect(vm.spec.dataVolumeTemplates[expectedStorageType.index].metadata.name).toBe(
-      `${expectedStorageName}-${vm.metadata.name}`
+      `${expectedStorageName}-${vm.metadata.name}`.toLowerCase()
     );
   } else if (expectedStorageType.type === STORAGE_TYPE_PVC) {
     expect(vm.spec.template.spec.volumes[storageIndex].dataVolume).toBeUndefined();
@@ -494,6 +494,18 @@ describe('request.js - storages', () => {
     return createVm(k8sCreate, templates, basicSettingsPxe, [podNetwork, multusNetwork], [bootablePvcDisk]).then(vm => {
       testPXE(vm);
       testStorage(vm, 0, 2, pvcDisk.name, { type: STORAGE_TYPE_PVC });
+      return vm;
+    });
+  });
+
+  it('Datavolume is created with lowercase name', () => {
+    const uppercaseSettings = cloneDeep(basicSettingsUrl);
+    uppercaseSettings[NAME_KEY].value = 'UppercaseName';
+    return createVm(k8sCreate, templates, uppercaseSettings, [], [rootDataVolumeDisk]).then(vm => {
+      testStorage(vm, 0, 1, rootDataVolumeDisk.name, {
+        type: STORAGE_TYPE_DATAVOLUME,
+        index: 0,
+      });
       return vm;
     });
   });

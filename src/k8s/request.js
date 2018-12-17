@@ -433,7 +433,7 @@ const addDataVolume = (vm, storage, getSetting) => {
     name: storage.name,
     dataVolume: {
       ...(storage.templateStorage ? storage.templateStorage.volume.dataVolume : {}),
-      name: `${storage.name}-${getSetting(NAME_KEY)}`,
+      name: `${storage.name}-${getSetting(NAME_KEY)}`.toLowerCase(),
     },
   };
   addVolume(vm, volume);
@@ -462,7 +462,7 @@ const addDataVolumeTemplate = (vm, storage, getSetting) => {
     ...(storage.templateStorage ? storage.templateStorage.dataVolume : {}),
     metadata: {
       ...(storage.templateStorage ? storage.templateStorage.dataVolume.metadata : {}),
-      name: `${storage.name}-${getSetting(NAME_KEY)}`,
+      name: `${storage.name}-${getSetting(NAME_KEY)}`.toLowerCase(),
     },
     spec: {
       ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec : {}),
