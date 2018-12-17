@@ -14,6 +14,7 @@ import {
   getVmTemplate,
   getWorkloadProfile,
 } from '../../../utils';
+import { CUSTOM_FLAVOR } from '../../../constants';
 
 const DASHES = '---';
 
@@ -59,6 +60,36 @@ export const getVmIpAddresses = vmi => {
   }
 
   return ipAddresses;
+};
+
+const Flavor = props => {
+  const { vm } = props;
+  const flavor = getFlavor(vm);
+  if (!flavor) {
+    return DASHES;
+  }
+  const isCustomFlavor = flavor === CUSTOM_FLAVOR;
+
+  let resourceElement = null;
+  if (isCustomFlavor) {
+    const cpu = getCpu(vm);
+    const memory = getMemory(vm);
+    let resourceStr = '';
+    resourceStr += cpu ? `${cpu} CPU` : '';
+    resourceStr += memory ? `, ${memory} Memory` : '';
+    resourceElement = <div>{resourceStr}</div>;
+  }
+
+  return (
+    <Fragment>
+      <div>{flavor}</div>
+      {resourceElement}
+    </Fragment>
+  );
+};
+
+Flavor.propTypes = {
+  vm: PropTypes.object.isRequired,
 };
 
 export const VmDetails = props => {
@@ -138,11 +169,7 @@ export const VmDetails = props => {
                   <dd>{<NodeLink name={nodeName} />}</dd>
 
                   <dt>Flavor</dt>
-                  <dd>
-                    <div>{getFlavor(vm)}</div>
-                    <br />
-                    <div>{`${getCpu(vm)} CPU, ${getMemory(vm)} MB`}</div>
-                  </dd>
+                  <dd>{<Flavor vm={vm} />}</dd>
                 </div>
               </div>
             </div>
