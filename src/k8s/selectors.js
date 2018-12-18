@@ -10,6 +10,7 @@ import {
   TEMPLATE_WORKLOAD_LABEL,
   TEMPLATE_TYPE_BASE,
   TEMPLATE_TYPE_VM,
+  TEMPLATE_OS_NAME_ANNOTATION,
 } from '../constants';
 
 import {
@@ -21,8 +22,14 @@ import {
 
 export const settingsValue = (basicSettings, key, defaultValue) => get(basicSettings, [key, 'value'], defaultValue);
 
-export const getLabel = (basicSettings, labelPrefix, value) =>
-  has(basicSettings, value) ? `${labelPrefix}/${settingsValue(basicSettings, value)}` : undefined;
+export const getLabel = (basicSettings, labelPrefix, value) => {
+  const val = settingsValue(basicSettings, value);
+  if (val == null) {
+    return undefined;
+  }
+  const isObject = typeof val === 'object';
+  return `${labelPrefix}/${isObject ? val.id : val}`;
+};
 
 export const getWorkloadLabel = basicSettings => getLabel(basicSettings, TEMPLATE_WORKLOAD_LABEL, WORKLOAD_PROFILE_KEY);
 export const getOsLabel = basicSettings => getLabel(basicSettings, TEMPLATE_OS_LABEL, OPERATING_SYSTEM_KEY);
@@ -82,7 +89,19 @@ export const getFlavors = (basicSettings, templates, userTemplate) => {
 
 export const getTemplateFlavors = templates => getTemplatesLabelValues(templates, TEMPLATE_FLAVOR_LABEL);
 
-export const getTemplateOperatingSystems = templates => getTemplatesLabelValues(templates, TEMPLATE_OS_LABEL);
+export const getTemplateOperatingSystems = templates => {
+  const osIds = getTemplatesLabelValues(templates, TEMPLATE_OS_LABEL);
+  return osIds.map(osId => {
+    const nameAnnotation = `${TEMPLATE_OS_NAME_ANNOTATION}/${osId}`;
+    const template = templates.find(t =>
+      Object.keys(t.metadata.annotations || []).find(annotation => annotation === nameAnnotation)
+    );
+    return {
+      id: osId,
+      name: get(template, ['metadata', 'annotations', nameAnnotation]),
+    };
+  });
+};
 
 export const getTemplateWorkloadProfiles = templates => getTemplatesLabelValues(templates, TEMPLATE_WORKLOAD_LABEL);
 

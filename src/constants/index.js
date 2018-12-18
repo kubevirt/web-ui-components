@@ -31,6 +31,7 @@ export const TEMPLATE_TYPE_VM = 'vm';
 export const TEMPLATE_TYPE_BASE = 'base';
 export const TEMPLATE_WORKLOAD_LABEL = 'workload.template.cnv.io';
 export const TEMPLATE_VM_NAME_LABEL = 'vm.cnv.io/name';
+export const TEMPLATE_OS_NAME_ANNOTATION = 'name.os.template.cnv.io';
 
 export const VIRTIO_BUS = 'virtio';
 
