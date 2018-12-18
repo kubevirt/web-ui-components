@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { has, isNull } from 'lodash';
-import { FieldLevelHelp } from 'patternfly-react';
 import { VmStatus } from '../../VmStatus';
 import {
   getCloudInitData,
@@ -98,7 +97,6 @@ export const VmDetails = props => {
   const description = getDescription(vm);
   const ipAddresses = getVmIpAddresses(vmi);
 
-  // TODO Fix FieldLevelHelp content for Status
   return (
     <Fragment>
       <div className="co-m-pane__body">
@@ -119,10 +117,7 @@ export const VmDetails = props => {
                 {/* Details column 1 */}
                 <div className="col-sm-4">
                   <dl>
-                    <dt>
-                      Status
-                      <FieldLevelHelp content={"This is the VM's status"} />
-                    </dt>
+                    <dt>Status</dt>
                     <dd>
                       <VmStatus
                         vm={props.vm}
