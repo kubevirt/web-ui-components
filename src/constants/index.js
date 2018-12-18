@@ -4,6 +4,9 @@ export const ANNOTATION_FIRST_BOOT = 'cnv.ui.firstBoot';
 export const ANNOTATION_PXE_INTERFACE = 'cnv.ui.pxeInterface';
 export const ANNOTATION_USED_TEMPLATE = 'template.cnv.ui';
 
+export const ANNOTATION_CLONE_REQUEST = 'k8s.io/CloneRequest';
+export const LABEL_CLONE_APP = 'Host-Assisted-Cloning';
+
 export const CLOUDINIT_DISK = 'cloudinitdisk';
 export const CLOUDINIT_NOCLOUD = 'cloudInitNoCloud';
 export const CUSTOM_FLAVOR = 'Custom';

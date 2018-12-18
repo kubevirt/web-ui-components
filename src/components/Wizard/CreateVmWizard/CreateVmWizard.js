@@ -237,7 +237,10 @@ export class CreateVmWizard extends React.Component {
   };
 
   finish() {
-    const create = this.props.createTemplate ? createVmTemplate : createVm;
+    const create = this.props.createTemplate
+      ? createVmTemplate
+      : (k8sCreate, templates, basicSettings, networks, storage) =>
+          createVm(k8sCreate, templates, basicSettings, networks, storage, this.props.persistentVolumeClaims);
     create(
       this.props.k8sCreate,
       this.props.templates,
@@ -245,7 +248,10 @@ export class CreateVmWizard extends React.Component {
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value
     )
-      .then(result => this.onStepDataChanged(RESULT_TAB_KEY, JSON.stringify(result, null, 1), true))
+      .then(results => {
+        const vmResult = results[results.length - 1];
+        return this.onStepDataChanged(RESULT_TAB_KEY, JSON.stringify(vmResult, null, 1), true);
+      })
       .catch(error => this.onStepDataChanged(RESULT_TAB_KEY, error.message, false));
   }
 

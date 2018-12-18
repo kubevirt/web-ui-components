@@ -23,6 +23,8 @@ import {
   TEMPLATE_TYPE_LABEL,
   TEMPLATE_PARAM_VM_NAME_DESC,
   TEMPLATE_TYPE_VM,
+  ANNOTATION_CLONE_REQUEST,
+  LABEL_CLONE_APP,
 } from '../constants';
 import {
   NAMESPACE_KEY,
@@ -47,7 +49,7 @@ import {
   NETWORK_TYPE_MULTUS,
   NETWORK_TYPE_POD,
 } from '../components/Wizard/CreateVmWizard/constants';
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel } from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, PersistentVolumeClaimModel } from '../models';
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import {
   getOsLabel,
@@ -57,6 +59,9 @@ import {
   settingsValue,
   selectVm,
 } from './selectors';
+import { getName, getNamespace } from '../utils/selectors';
+
+const IS_TEMPLATE = 'isTemplate';
 
 export const createVmTemplate = (k8sCreate, templates, basicSettings, networks, storage) => {
   const getSetting = param => {
@@ -65,6 +70,8 @@ export const createVmTemplate = (k8sCreate, templates, basicSettings, networks, 
         return `\${${TEMPLATE_PARAM_VM_NAME}}`;
       case DESCRIPTION_KEY:
         return undefined;
+      case IS_TEMPLATE:
+        return true;
       default:
         return settingsValue(basicSettings, param);
     }
@@ -78,7 +85,7 @@ export const createVmTemplate = (k8sCreate, templates, basicSettings, networks, 
   return k8sCreate(TemplateModel, vmTemplate);
 };
 
-export const createVm = (k8sCreate, templates, basicSettings, networks, storage) => {
+export const createVm = (k8sCreate, templates, basicSettings, networks, storage, persistentVolumeClaims) => {
   const getSetting = settingsValue.bind(undefined, basicSettings);
   const template = getModifiedVmTemplate(templates, basicSettings, getSetting, networks, storage);
   return k8sCreate(ProcessedTemplatesModel, template).then(({ objects }) => {
@@ -91,9 +98,43 @@ export const createVm = (k8sCreate, templates, basicSettings, networks, storage)
       vm.metadata.namespace = namespace;
     }
 
-    return k8sCreate(VirtualMachineModel, vm);
+    const promises = getPvcClones(storage, getSetting, persistentVolumeClaims).map(pvcClone =>
+      k8sCreate(PersistentVolumeClaimModel, pvcClone)
+    );
+    const vmCreatePromise = k8sCreate(VirtualMachineModel, vm);
+    promises.push(vmCreatePromise);
+
+    return Promise.all(promises);
   });
 };
+
+const getPvcClones = (storage, getSetting, persistentVolumeClaims) =>
+  storage.filter(s => s.storageType === STORAGE_TYPE_PVC).map(pvcStorage => {
+    const pvc = persistentVolumeClaims.find(
+      p => getName(p) === pvcStorage.name && getNamespace(p) === getSetting(NAMESPACE_KEY)
+    );
+
+    const pvcClone = {
+      kind: PersistentVolumeClaimModel.kind,
+      apiVersion: PersistentVolumeClaimModel.apiVersion,
+      metadata: {
+        name: `${getName(pvc)}-${getSetting(NAME_KEY)}`,
+        namespace: getSetting(NAMESPACE_KEY),
+        annotations: {
+          [ANNOTATION_CLONE_REQUEST]: `${getNamespace(pvc)}/${getName(pvc)}`,
+        },
+        labels: {
+          app: LABEL_CLONE_APP,
+        },
+      },
+      spec: { ...pvc.spec },
+    };
+
+    // delete bound pv name
+    delete pvcClone.spec.volumeName;
+
+    return pvcClone;
+  });
 
 const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage) => {
   const template = resolveTemplate(templates, basicSettings, getSetting);
@@ -271,7 +312,7 @@ const addStorages = (vm, template, storages, getSetting) => {
     storages.forEach(storage => {
       switch (storage.storageType) {
         case STORAGE_TYPE_PVC:
-          addPvcVolume(vm, storage);
+          addPvcVolume(vm, storage, getSetting);
           break;
         case STORAGE_TYPE_DATAVOLUME:
           addDataVolumeTemplate(vm, storage, getSetting);
@@ -401,13 +442,14 @@ const addDisk = (vm, defaultDisk, storage, getSetting) => {
   disks.push(diskSpec);
 };
 
-const addPvcVolume = (vm, storage) => {
+const addPvcVolume = (vm, storage, getSetting) => {
+  const claimName = getSetting(IS_TEMPLATE) ? storage.name : `${storage.name}-${getSetting(NAME_KEY)}`;
   const volume = {
     ...(storage.templateStorage ? storage.templateStorage.volume : {}),
     name: storage.name,
     persistentVolumeClaim: {
       ...(storage.templateStorage ? storage.templateStorage.volume.persistentVolumeClaim : {}),
-      claimName: storage.name,
+      claimName,
     },
   };
   addVolume(vm, volume);

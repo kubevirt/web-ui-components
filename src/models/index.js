@@ -61,3 +61,15 @@ export const TemplateModel = {
   kind: 'Template',
   id: 'template',
 };
+
+export const PersistentVolumeClaimModel = {
+  label: 'Persistent Volume Claim',
+  apiVersion: 'v1',
+  path: 'persistentvolumeclaims',
+  plural: 'persistentvolumeclaims',
+  abbr: 'PVC',
+  namespaced: true,
+  kind: 'PersistentVolumeClaim',
+  id: 'persistentvolumeclaim',
+  labelPlural: 'Persistent Volume Claims',
+};
