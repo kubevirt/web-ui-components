@@ -14,7 +14,7 @@ import {
 } from '../../../../k8s/mock_user_templates';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import {
-  NAMESPACE_KEY,
+  NAME_KEY,
   USER_TEMPLATE_KEY,
   PROVISION_SOURCE_TYPE_KEY,
   IMAGE_URL_KEY,
@@ -59,7 +59,7 @@ const expectMockToBeCalledWith = (fn, a, b, call = 0) => {
 
 const testFormChange = (what, value, result, valid) => {
   const onChange = jest.fn();
-  const component = shallow(testBasicSettingsTab({}, onChange));
+  const component = mount(testBasicSettingsTab({}, onChange));
 
   onFormChange(component, value, what);
 
@@ -68,7 +68,17 @@ const testFormChange = (what, value, result, valid) => {
 
 const onFormChange = (component, value, what) => {
   const formFields = getFormFields(validBasicSettings, namespaces, templates);
-  component.instance().onFormChange(formFields, value, what);
+
+  const field = component.find(`#${formFields[what].id}`);
+  if (formFields[what].type === 'dropdown') {
+    field
+      .find(MenuItem)
+      .findWhere(item => item.text() === value)
+      .find('a')
+      .simulate('click');
+  } else {
+    field.find('input').simulate('change', { target: { value } });
+  }
 };
 
 const checkDisabledDropdown = (component, template, disabled) => {
@@ -211,7 +221,7 @@ describe('<BasicSettingsTab />', () => {
 
   it('is valid when all required fields are filled', () => {
     const onChange = jest.fn();
-    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+    const component = mount(testBasicSettingsTab(validBasicSettings, onChange));
     onFormChange(component, validBasicSettings.name.value, 'name'); // trigger validation
 
     expectMockToBeCalledWith(
@@ -247,8 +257,9 @@ describe('<BasicSettingsTab />', () => {
 
   it('is invalid when one required fields is missing', () => {
     const onChange = jest.fn();
-    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
-    onFormChange(component, '', NAMESPACE_KEY);
+    const component = mount(testBasicSettingsTab(validBasicSettings, onChange));
+
+    onFormChange(component, '', NAME_KEY);
 
     expectMockToBeCalledWith(
       onChange,
@@ -258,8 +269,8 @@ describe('<BasicSettingsTab />', () => {
           value: 'small',
           validation: undefined,
         },
-        namespace: {
-          validation: getValidationObject('Namespace is required'),
+        name: {
+          validation: getValidationObject('Name is required'),
           value: '',
         },
       },
@@ -269,7 +280,7 @@ describe('<BasicSettingsTab />', () => {
 
   it('reads provision source from user template', () => {
     const onChange = jest.fn();
-    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+    const component = mount(testBasicSettingsTab(validBasicSettings, onChange));
 
     onFormChange(component, getName(urlTemplate), USER_TEMPLATE_KEY);
     expectMockToBeCalledWith(
@@ -335,7 +346,7 @@ describe('<BasicSettingsTab />', () => {
 
   it('reads cloud init settings from user template', () => {
     const onChange = jest.fn();
-    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+    const component = mount(testBasicSettingsTab(validBasicSettings, onChange));
 
     onFormChange(component, getName(containerCloudTemplate), USER_TEMPLATE_KEY);
     expectMockToBeCalledWith(
@@ -373,7 +384,7 @@ describe('<BasicSettingsTab />', () => {
 
   it('reads flavor from user template', () => {
     const onChange = jest.fn();
-    const component = shallow(testBasicSettingsTab(validBasicSettings, onChange));
+    const component = mount(testBasicSettingsTab(validBasicSettings, onChange));
 
     onFormChange(component, getName(containerCloudTemplate), USER_TEMPLATE_KEY);
 

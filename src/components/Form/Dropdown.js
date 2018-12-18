@@ -4,11 +4,11 @@ import { ButtonGroup, DropdownButton, MenuItem } from 'patternfly-react';
 import { valueHandler } from './utils';
 
 export const Dropdown = ({ id, value, disabled, onChange, onBlur, choices }) => (
-  <ButtonGroup justified key={id}>
+  <ButtonGroup justified key={id} className="kubevirt-dropdownGroup">
     <DropdownButton
       id={id}
       bsStyle="default"
-      className="form-dropdown"
+      className="kubevirt-dropdown"
       title={value}
       onSelect={valueHandler(onChange)}
       onBlur={valueHandler(onBlur)}

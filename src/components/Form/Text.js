@@ -6,6 +6,7 @@ import { eventValueHandler } from './utils';
 export const Text = ({ id, value, disabled, defaultValue, onChange, onBlur }) => (
   <FormControl
     id={id}
+    key={id}
     type="text"
     value={value}
     defaultValue={defaultValue}

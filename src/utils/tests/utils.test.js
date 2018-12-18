@@ -1,11 +1,12 @@
-import { ANNOTATION_FIRST_BOOT, BOOT_ORDER_SECOND, BOOT_ORDER_FIRST } from '../../constants';
-import { getPxeBootPatch } from '../utils';
+import { ANNOTATION_FIRST_BOOT, BOOT_ORDER_SECOND, BOOT_ORDER_FIRST, PVC_ACCESSMODE_RWO } from '../../constants';
+import { getPxeBootPatch, getAddDiskPatch } from '../utils';
 
 const getVM = firstBoot => ({
   metadata: {
     annotations: {
       [ANNOTATION_FIRST_BOOT]: `${firstBoot}`,
     },
+    name: 'fooVM',
   },
   spec: {
     template: {
@@ -28,6 +29,59 @@ const getVM = firstBoot => ({
     },
   },
 });
+
+const storageNoClass = {
+  name: 'foo',
+  size: '5',
+  bus: 'fooBus',
+};
+
+const storage = {
+  ...storageNoClass,
+  storageClass: 'fooStorageClass',
+};
+
+const disk = {
+  name: storageNoClass.name,
+  disk: {
+    bus: storageNoClass.bus,
+  },
+  volumeName: storageNoClass.name,
+};
+
+const volume = {
+  name: storageNoClass.name,
+  dataVolume: {
+    name: `${storageNoClass.name}-fooVM`,
+  },
+};
+
+const dataVolumeTemplate = {
+  metadata: {
+    name: `${storageNoClass.name}-fooVM`,
+  },
+  spec: {
+    pvc: {
+      accessModes: [PVC_ACCESSMODE_RWO],
+      resources: {
+        requests: {
+          storage: `${storageNoClass.size}Gi`,
+        },
+      },
+    },
+    source: {
+      blank: {},
+    },
+  },
+};
+
+const compareAddPatch = (patch, expectedPath, expectedValue) => {
+  expect(patch).toEqual({
+    op: 'add',
+    path: expectedPath,
+    value: expectedValue,
+  });
+};
 
 describe('utils.js tests', () => {
   it('PXE boot patch - set ANNOTATION_FIRST_BOOT to false', () => {
@@ -59,5 +113,30 @@ describe('utils.js tests', () => {
     delete vm.spec.template.spec.domain.devices.disks;
     const patch = getPxeBootPatch(vm);
     expect(patch).toEqual([]);
+  });
+  it('Add disk patch', () => {
+    const vm = getVM(false);
+
+    const patch = getAddDiskPatch(vm, storageNoClass);
+    expect(patch).toHaveLength(3);
+    compareAddPatch(patch[0], '/spec/template/spec/domain/devices/disks/0', disk);
+    compareAddPatch(patch[1], '/spec/template/spec/volumes', [volume]);
+    compareAddPatch(patch[2], '/spec/dataVolumeTemplates', [dataVolumeTemplate]);
+
+    const dataVolWithClass = {
+      ...dataVolumeTemplate,
+      spec: {
+        ...dataVolumeTemplate.spec,
+        pvc: {
+          ...dataVolumeTemplate.spec.pvc,
+          storageClassName: storage.storageClass,
+        },
+      },
+    };
+    const patchWithClass = getAddDiskPatch(vm, storage);
+    expect(patchWithClass).toHaveLength(3);
+    compareAddPatch(patchWithClass[0], '/spec/template/spec/domain/devices/disks/0', disk);
+    compareAddPatch(patchWithClass[1], '/spec/template/spec/volumes', [volume]);
+    compareAddPatch(patchWithClass[2], '/spec/dataVolumeTemplates', [dataVolWithClass]);
   });
 });

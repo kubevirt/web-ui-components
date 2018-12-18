@@ -1,8 +1,28 @@
-.modal .form-group-no-bottom {
+.kubevirt-formGroup--noBottom {
   margin-bottom: 2px;
 }
 
-.modal .popover {
+.kubevirt-fieldLevelHelp .popover {
   max-width: 400px;
 }
 
+.kubevirt-listFormFactory__lastColumn {
+  padding-right: 50px;
+}
+
+.kubevirt-listFormFactory__actions {
+  position: absolute;
+  right: 0;
+}
+
+.kubevirt-listFormFactory__formGroup--help {
+  margin-bottom: 0;
+}
+
+.kubevirt-listFormFactory__formGroup--noHelp {
+  margin-bottom: 23px;
+}
+
+.kubevirt-listFormFactory__actionButton {
+  width: 27px;
+}
