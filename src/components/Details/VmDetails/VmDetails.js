@@ -108,7 +108,7 @@ export const VmDetails = props => {
               <div>
                 <VmStatusReporter vm={vm} />
               </div>
-              {!description || <div style={{ marginTop: '10px' }}>{description}</div>}
+              {!description || <div style={{ marginTop: '10px', marginRight: '40px' }}>{description}</div>}
             </div>
 
             {/* Details columns */}
