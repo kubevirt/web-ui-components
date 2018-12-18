@@ -101,7 +101,7 @@ const isBeingImported = (vm, importerPod) => {
   return NOT_HANDLED;
 };
 
-const isBeingMigrated = (vm, migration) => {
+export const isBeingMigrated = (vm, migration) => {
   if (migration) {
     if (!get(migration, 'status.ready') && !get(migration, 'status.failed')) {
       return { status: VM_STATUS_MIGRATING, message: get(migration, 'status.phase') };
