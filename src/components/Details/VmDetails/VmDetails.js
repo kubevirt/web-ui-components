@@ -83,7 +83,7 @@ export const VmDetails = props => {
   return (
     <Fragment>
       <div className="co-m-pane__body">
-        <h1 className="co-m-pane__heading">Overview</h1>
+        <h1 className="co-m-pane__heading">Virtual Machine Overview</h1>
         <div>
           <div className="row">
             {/* Name/Description column */}
