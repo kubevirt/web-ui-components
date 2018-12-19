@@ -35,23 +35,6 @@ OnOffReporter.propTypes = {
   on: PropTypes.bool.isRequired,
 };
 
-const VmStatusReporter = props => {
-  const vmIsRunning = props.vm.spec.running;
-  const statusText = vmIsRunning ? 'on' : 'off';
-  const statusIcon = vmIsRunning ? 'pficon pficon-on' : 'pficon pficon-off';
-  const statusColor = vmIsRunning ? '#3f9c35' : '#a30000';
-
-  return (
-    <span style={{ color: `${statusColor}` }}>
-      <span className={statusIcon} /> {props.vm.metadata.name} is {statusText}
-    </span>
-  );
-};
-
-VmStatusReporter.propTypes = {
-  vm: PropTypes.object.isRequired,
-};
-
 export const getVmIpAddresses = vmi => {
   let ipAddresses = [];
   if (has(vmi, 'status.interfaces')) {
@@ -104,10 +87,12 @@ export const VmDetails = props => {
         <div>
           <div className="row">
             {/* Description column */}
+            <dl>
+              <dt>Name</dt>
+              <dd>{vm.metadata.name}</dd>
+            </dl>
+
             <div className="col-sm-4">
-              <div>
-                <VmStatusReporter vm={vm} />
-              </div>
               {!description || <div style={{ marginTop: '10px', marginRight: '40px' }}>{description}</div>}
             </div>
 
