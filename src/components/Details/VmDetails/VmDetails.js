@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { has, isNull } from 'lodash';
+import { has } from 'lodash';
 import { VmStatus } from '../../VmStatus';
 import {
-  getCloudInitData,
   getCpu,
   getDescription,
   getFlavor,
@@ -16,24 +15,6 @@ import {
 import { CUSTOM_FLAVOR } from '../../../constants';
 
 const DASHES = '---';
-
-const cloudInitInUse = vm => !isNull(getCloudInitData(vm));
-
-const OnOffReporter = props => {
-  const statusText = props.on ? 'On' : 'Off';
-  const statusIcon = props.on ? 'pficon pficon-on' : 'pficon pficon-off';
-  const statusColor = props.on ? '#3f9c35' : '#a30000';
-
-  return (
-    <span>
-      <span style={{ color: `${statusColor}` }} className={statusIcon} /> {statusText}
-    </span>
-  );
-};
-
-OnOffReporter.propTypes = {
-  on: PropTypes.bool.isRequired,
-};
 
 export const getVmIpAddresses = vmi => {
   let ipAddresses = [];
@@ -141,11 +122,6 @@ export const VmDetails = props => {
 
                 {/* Details column 3 */}
                 <div className="col-sm-4">
-                  <dt>Cloud Init</dt>
-                  <dd>
-                    <OnOffReporter on={cloudInitInUse(vm)} />
-                  </dd>
-
                   <dt>Node</dt>
                   <dd>{<NodeLink name={nodeName} />}</dd>
 
