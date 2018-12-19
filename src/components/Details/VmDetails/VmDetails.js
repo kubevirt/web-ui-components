@@ -143,9 +143,9 @@ VmDetails.propTypes = {
   launcherPod: PropTypes.object,
   importerPod: PropTypes.object,
   migration: PropTypes.object,
-  NodeLink: PropTypes.func,
-  NamespaceResourceLink: PropTypes.any,
-  PodResourceLink: PropTypes.any,
+  NodeLink: PropTypes.func.isRequired,
+  NamespaceResourceLink: PropTypes.node,
+  PodResourceLink: PropTypes.node,
 };
 
 VmDetails.defaultProps = {
@@ -153,7 +153,6 @@ VmDetails.defaultProps = {
   launcherPod: undefined,
   importerPod: undefined,
   migration: undefined,
-  NodeLink: DASHES,
   NamespaceResourceLink: DASHES,
   PodResourceLink: DASHES,
 };
