@@ -86,14 +86,15 @@ export const VmDetails = props => {
         <h1 className="co-m-pane__heading">Overview</h1>
         <div>
           <div className="row">
-            {/* Description column */}
-            <dl>
-              <dt>Name</dt>
-              <dd>{vm.metadata.name}</dd>
-            </dl>
-
+            {/* Name/Description column */}
             <div className="col-sm-4">
-              {!description || <div style={{ marginTop: '10px', marginRight: '40px' }}>{description}</div>}
+              <dl>
+                <dt>Name</dt>
+                <dd>{vm.metadata.name}</dd>
+
+                <dt>Description</dt>
+                <dd>{<div className="description-text">{description || 'VM has no description'}</div>}</dd>
+              </dl>
             </div>
 
             {/* Details columns */}
