@@ -123,7 +123,7 @@ export const VmDetails = props => {
                 {/* Details column 3 */}
                 <div className="col-sm-4">
                   <dt>Node</dt>
-                  <dd>{<NodeLink name={nodeName} />}</dd>
+                  <dd>{nodeName ? <NodeLink name={nodeName} /> : DASHES}</dd>
 
                   <dt>Flavor</dt>
                   <dd>{<Flavor vm={vm} />}</dd>
