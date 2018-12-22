@@ -16,6 +16,13 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "title": "Use cloud-init",
         "type": "checkbox",
       },
+      "cloudInitCustomScript": Object {
+        "className": "kubevirt-create-vm-wizard__custom-cloud-script-textarea",
+        "id": "cloud-init-custom-script",
+        "isVisible": [Function],
+        "title": "Custom Script",
+        "type": "textarea",
+      },
       "containerImage": Object {
         "disabled": false,
         "id": "provision-source-container",
@@ -124,6 +131,12 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "id": "start-vm",
         "noBottom": true,
         "title": "Start virtual machine on creation",
+        "type": "checkbox",
+      },
+      "useCloudInitCustomScript": Object {
+        "id": "use-cloud-init-custom-script",
+        "isVisible": [Function],
+        "title": "Use custom script",
         "type": "checkbox",
       },
       "userTemplate": Object {
@@ -197,6 +210,13 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "title": "Use cloud-init",
         "type": "checkbox",
       },
+      "cloudInitCustomScript": Object {
+        "className": "kubevirt-create-vm-wizard__custom-cloud-script-textarea",
+        "id": "cloud-init-custom-script",
+        "isVisible": [Function],
+        "title": "Custom Script",
+        "type": "textarea",
+      },
       "containerImage": Object {
         "disabled": false,
         "id": "provision-source-container",
@@ -305,6 +325,12 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "id": "start-vm",
         "noBottom": true,
         "title": "Start virtual machine on creation",
+        "type": "checkbox",
+      },
+      "useCloudInitCustomScript": Object {
+        "id": "use-cloud-init-custom-script",
+        "isVisible": [Function],
+        "title": "Use custom script",
         "type": "checkbox",
       },
       "userTemplate": Object {

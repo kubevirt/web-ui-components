@@ -33,6 +33,7 @@ export const getFormElement = props => {
           value={isControlled ? value || '' : undefined}
           defaultValue={isControlled ? undefined : defaultValue}
           onBlur={onBlur}
+          className={className}
           onChange={onChange}
           disabled={disabled}
         />

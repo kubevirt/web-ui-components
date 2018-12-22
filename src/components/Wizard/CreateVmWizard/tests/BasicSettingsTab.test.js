@@ -8,11 +8,11 @@ import { baseTemplates } from '../../../../k8s/mock_templates';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
-import { getName, getMemory, getCpu } from '../../../../utils/selectors';
+import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../../utils/selectors';
 import { getTemplateProvisionSource } from '../../../../utils/templates';
 import { Dropdown } from '../../../Form';
 import { NO_TEMPLATE } from '../strings';
-
+import { selectVm } from '../../../../k8s/selectors';
 import {
   userTemplates,
   urlTemplate,
@@ -29,8 +29,8 @@ import {
   IMAGE_URL_KEY,
   CONTAINER_IMAGE_KEY,
   CLOUD_INIT_KEY,
-  HOST_NAME_KEY,
-  AUTHKEYS_KEY,
+  USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
+  CLOUD_INIT_CUSTOM_SCRIPT_KEY,
   CPU_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
@@ -373,13 +373,13 @@ describe('<BasicSettingsTab />', () => {
           validation: undefined,
           value: true,
         },
-        [HOST_NAME_KEY]: {
+        [USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
           validation: undefined,
-          value: 'fooHostname',
+          value: true,
         },
-        [AUTHKEYS_KEY]: {
+        [CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
           validation: undefined,
-          value: 'fooSSH',
+          value: getCloudInitUserData(selectVm(containerCloudTemplate.objects)),
         },
       },
       true
@@ -412,13 +412,13 @@ describe('<BasicSettingsTab />', () => {
           validation: undefined,
           value: true,
         },
-        [HOST_NAME_KEY]: {
+        [USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
           validation: undefined,
-          value: 'fooHostname',
+          value: true,
         },
-        [AUTHKEYS_KEY]: {
+        [CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
           validation: undefined,
-          value: 'fooSSH',
+          value: getCloudInitUserData(selectVm(containerCloudTemplate.objects)),
         },
       },
       true

@@ -1,5 +1,4 @@
 import { get } from 'lodash';
-import { safeLoad } from 'js-yaml';
 
 import {
   ANNOTATION_USED_TEMPLATE,
@@ -36,7 +35,7 @@ export const getWorkloadProfile = vm => getLabelValue(vm, TEMPLATE_WORKLOAD_LABE
 export const getFlavor = vm => getLabelValue(vm, TEMPLATE_FLAVOR_LABEL);
 export const getVmTemplate = vm => getLabelValue(vm, ANNOTATION_USED_TEMPLATE);
 export const getDescription = vm => get(vm, 'metadata.annotations.description');
-export const getCloudInitData = vm => {
+export const getCloudInitVolume = vm => {
   const volumes = getVolumes(vm);
   const cloudInitVolume = volumes.find(volume => volume.cloudInitNoCloud && volume.cloudInitNoCloud.userData);
 
@@ -44,13 +43,17 @@ export const getCloudInitData = vm => {
     // make sure volume is used by disk
     const disks = getDisks(vm);
     if (disks.find(disk => disk.volumeName === cloudInitVolume.name)) {
-      return {
-        userData: safeLoad(cloudInitVolume.cloudInitNoCloud.userData),
-      };
+      return cloudInitVolume;
     }
   }
   return null;
 };
+
+export const getCloudInitUserData = vm => {
+  const volume = getCloudInitVolume(vm);
+  return volume && volume.cloudInitNoCloud.userData;
+};
+
 export const getLabelValue = (vm, label) => {
   const labels = get(vm, 'metadata.labels', {});
   const labelKey = Object.keys(labels).find(key => key.startsWith(label));

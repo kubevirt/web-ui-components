@@ -13,8 +13,10 @@ export const CPU_KEY = 'cpu';
 export const WORKLOAD_PROFILE_KEY = 'workloadProfile';
 export const START_VM_KEY = 'startVM';
 export const CLOUD_INIT_KEY = 'cloudInit';
+export const USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY = 'useCloudInitCustomScript';
 export const HOST_NAME_KEY = 'hostname';
 export const AUTHKEYS_KEY = 'authKeys';
+export const CLOUD_INIT_CUSTOM_SCRIPT_KEY = 'cloudInitCustomScript';
 
 export const BASIC_SETTINGS_TAB_KEY = 'basicSettings';
 export const NETWORKS_TAB_KEY = 'network';
