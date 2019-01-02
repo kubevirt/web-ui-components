@@ -1,4 +1,4 @@
-import { forEach, get, has } from 'lodash';
+import { get } from 'lodash';
 import { safeLoad } from 'js-yaml';
 import {
   ANNOTATION_USED_TEMPLATE,
@@ -50,24 +50,18 @@ export const getCloudInitData = vm => {
   return null;
 };
 export const getLabelValue = (vm, label) => {
-  let value;
-  if (has(vm, 'metadata.labels')) {
-    forEach(Object.keys(vm.metadata.labels), key => {
-      if (key.startsWith(label)) {
-        const keyParts = key.split('/');
-        if (keyParts.length === 1) {
-          value = vm.metadata.labels[key];
-        } else if (keyParts.length === 2) {
-          const [, labelValue] = keyParts;
-          value = labelValue;
-        }
-        return false;
-      }
-      return true;
-    });
+  const labels = get(vm, 'metadata.labels', {});
+  const labelKey = Object.keys(labels).find(key => key.startsWith(label));
+  if (!labelKey) {
+    return null;
   }
-
-  return value;
+  if (labelKey.includes('/')) {
+    const labelParts = labelKey.split('/');
+    return labelParts[labelParts.length - 1];
+  }
+  return labels[labelKey];
 };
 
 export const getNodeName = pod => get(pod, 'spec.nodeName');
+
+export const getVmiIpAddresses = vmi => get(vmi, 'status.interfaces', []).map(i => i.ipAddress);
