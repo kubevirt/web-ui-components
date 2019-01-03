@@ -84,9 +84,40 @@ export const vmFixtures = {
   },
 };
 
-export default {
-  component: VmDetails,
-  props: {
-    vm: vmFixtures.downVm,
+export default [
+  {
+    component: VmDetails,
+    name: 'offline VM',
+    props: {
+      vm: vmFixtures.downVm,
+    },
   },
-};
+  {
+    component: VmDetails,
+    name: 'running VM',
+    props: {
+      vm: vmFixtures.runningVm,
+    },
+  },
+  {
+    component: VmDetails,
+    name: 'VM with description',
+    props: {
+      vm: vmFixtures.vmWithDescription,
+    },
+  },
+  {
+    component: VmDetails,
+    name: 'VM with flavor workload os',
+    props: {
+      vm: vmFixtures.vmWithLabels,
+    },
+  },
+  {
+    component: VmDetails,
+    name: 'VM with custom flavor',
+    props: {
+      vm: vmFixtures.customVm,
+    },
+  },
+];

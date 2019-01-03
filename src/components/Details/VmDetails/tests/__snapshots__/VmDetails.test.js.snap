@@ -9,81 +9,85 @@ exports[`<VmDetails vm NodeLink /> renders correctly 1`] = `
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-off"
-                />
-                Off
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-off"
+              />
+              Off
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -102,10 +106,13 @@ exports[`<VmDetails vm NodeLink /> renders correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -118,7 +125,7 @@ exports[`<VmDetails vm NodeLink /> renders correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -135,81 +142,85 @@ exports[`<VmDetails vm NodeLink /> renders off status correctly 1`] = `
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-off"
-                />
-                Off
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-off"
+              />
+              Off
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -228,10 +239,13 @@ exports[`<VmDetails vm NodeLink /> renders off status correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -244,7 +258,7 @@ exports[`<VmDetails vm NodeLink /> renders off status correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -261,81 +275,85 @@ exports[`<VmDetails vm NodeLink /> renders on status correctly 1`] = `
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-on-running"
-                />
-                Running
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-on-running"
+              />
+              Running
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -354,10 +372,13 @@ exports[`<VmDetails vm NodeLink /> renders on status correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -370,7 +391,7 @@ exports[`<VmDetails vm NodeLink /> renders on status correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -387,81 +408,85 @@ exports[`<VmDetails vm vmi NodeLink /> renders IP addresses correctly 1`] = `
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-on-running"
-                />
-                Running
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                172.17.0.15,172.17.0.16,172.17.0.17
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-on-running"
+              />
+              Running
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              172.17.0.15, 172.17.0.16, 172.17.0.17
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -480,10 +505,13 @@ exports[`<VmDetails vm vmi NodeLink /> renders IP addresses correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -496,7 +524,7 @@ exports[`<VmDetails vm vmi NodeLink /> renders IP addresses correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -513,81 +541,85 @@ exports[`VmDetails for VM with Custom flavor does not render CPU and Memory sett
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-off"
-                />
-                Off
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-off"
+              />
+              Off
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -606,10 +638,13 @@ exports[`VmDetails for VM with Custom flavor does not render CPU and Memory sett
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -624,7 +659,7 @@ exports[`VmDetails for VM with Custom flavor does not render CPU and Memory sett
                 small
               </div>
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -641,81 +676,85 @@ exports[`VmDetails for VM with Custom flavor renders CPU and Memory settings for
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-on-running"
-                />
-                Running
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-on-running"
+              />
+              Running
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -734,10 +773,13 @@ exports[`VmDetails for VM with Custom flavor renders CPU and Memory settings for
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -755,7 +797,7 @@ exports[`VmDetails for VM with Custom flavor renders CPU and Memory settings for
                 2 CPU, 4G Memory
               </div>
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -772,81 +814,85 @@ exports[`VmDetails with description renders description correctly 1`] = `
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            This VM has a description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              This VM has a description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-off"
-                />
-                Off
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                ---
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-off"
+              />
+              Off
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              ---
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -865,10 +911,13 @@ exports[`VmDetails with description renders description correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -881,7 +930,7 @@ exports[`VmDetails with description renders description correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -898,81 +947,85 @@ exports[`VmDetails with labels renders values from labels correctly 1`] = `
   >
     Virtual Machine Overview
   </h1>
-  <div>
+  <div
+    class="row"
+  >
     <div
-      class="row"
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          my-vm
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-details__description"
+          >
+            VM has no description
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
     >
       <div
-        class="col-sm-4"
-      >
-        <dl>
-          <dt>
-            Name
-          </dt>
-          <dd>
-            my-vm
-          </dd>
-          <dt>
-            Description
-          </dt>
-          <dd>
-            <div
-              class="description-text"
-            >
-              VM has no description
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div
-        class="col-sm-8"
+        class="row"
       >
         <div
-          class="row"
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
         >
-          <div
-            class="col-sm-4"
-          >
-            <dl>
-              <dt>
-                Status
-              </dt>
-              <dd>
-                <span
-                  aria-hidden="true"
-                  class="vm-status-icon pficon pficon-on-running"
-                />
-                Running
-              </dd>
-              <dt>
-                Operating System
-              </dt>
-              <dd>
-                fedora29
-              </dd>
-              <dt>
-                IP Addresses
-              </dt>
-              <dd>
-                ---
-              </dd>
-              <dt>
-                Workload Profile
-              </dt>
-              <dd>
-                generic
-              </dd>
-              <dt>
-                Template
-              </dt>
-              <dd>
-                default_fedora-generic
-              </dd>
-            </dl>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          <dl>
+            <dt>
+              Status
+            </dt>
+            <dd>
+              <span
+                aria-hidden="true"
+                class="vm-status-icon pficon pficon-on-running"
+              />
+              Running
+            </dd>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              fedora29
+            </dd>
+            <dt>
+              IP Addresses
+            </dt>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              generic
+            </dd>
+            <dt>
+              Template
+            </dt>
+            <dd>
+              default_fedora-generic
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
             <dt>
               FQDN
             </dt>
@@ -991,10 +1044,13 @@ exports[`VmDetails with labels renders values from labels correctly 1`] = `
             <dd>
               ---
             </dd>
-          </div>
-          <div
-            class="col-sm-4"
-          >
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
             <dt>
               Node
             </dt>
@@ -1009,7 +1065,7 @@ exports[`VmDetails with labels renders values from labels correctly 1`] = `
                 small
               </div>
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
