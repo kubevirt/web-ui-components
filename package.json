@@ -38,7 +38,7 @@
     "react-router-dom": "4.x"
   },
   "dependencies": {
-    "@patternfly/react-console": "1.9.1",
+    "@patternfly/react-console": "1.10.5",
     "js-yaml": "3.x",
     "lodash": "4.x",
     "react-dnd": "2.6.x",

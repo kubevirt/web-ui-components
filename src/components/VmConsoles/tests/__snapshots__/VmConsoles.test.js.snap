@@ -24,7 +24,7 @@ exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
   class="co-m-pane__body"
 >
   <div
-    class="container-fluid"
+    class="access-consoles-pf container-fluid"
   >
     <form
       class="form-horizontal"
@@ -65,7 +65,7 @@ exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
                   role="menuitem"
                   tabindex="-1"
                 >
-                  Serial Console
+                  VNC Console
                 </a>
               </li>
               <li
@@ -77,7 +77,7 @@ exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
                   role="menuitem"
                   tabindex="-1"
                 >
-                  VNC Console
+                  Serial Console
                 </a>
               </li>
             </ul>
