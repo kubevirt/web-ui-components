@@ -15,6 +15,11 @@ import {
 
 const NOT_HANDLED = null;
 
+const isMigrationStatus = (migration, status) => {
+  const phase = get(migration, 'status.phase');
+  return phase && phase.toLowerCase() === status.toLowerCase();
+};
+
 const getConditionOfType = (pod, type) => get(pod, 'status.conditions', []).find(condition => condition.type === type);
 
 const getNotRedyConditionMessage = pod => {
@@ -103,7 +108,7 @@ const isBeingImported = (vm, importerPod) => {
 
 export const isBeingMigrated = (vm, migration) => {
   if (migration) {
-    if (!get(migration, 'status.ready') && !get(migration, 'status.failed')) {
+    if (!isMigrationStatus(migration, 'succeeded') && !isMigrationStatus(migration, 'failed')) {
       return { status: VM_STATUS_MIGRATING, message: get(migration, 'status.phase') };
     }
   }
