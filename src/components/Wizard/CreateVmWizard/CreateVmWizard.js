@@ -249,8 +249,8 @@ export class CreateVmWizard extends React.Component {
       this.state.stepData[STORAGE_TAB_KEY].value
     )
       .then(results => {
-        const vmResult = results[results.length - 1];
-        return this.onStepDataChanged(RESULT_TAB_KEY, JSON.stringify(vmResult, null, 1), true);
+        const result = Array.isArray(results) ? results[results.length - 1] : results;
+        return this.onStepDataChanged(RESULT_TAB_KEY, JSON.stringify(result, null, 1), true);
       })
       .catch(error => this.onStepDataChanged(RESULT_TAB_KEY, error.message, false));
   }
