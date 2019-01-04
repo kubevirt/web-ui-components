@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonGroup, DropdownButton, MenuItem, noop } from 'patternfly-react';
 
-import { valueHandler } from './utils';
-
 export const Dropdown = ({ id, value, disabled, onChange, onBlur, choices }) => (
   <ButtonGroup justified key={id}>
     <DropdownButton
@@ -11,8 +9,8 @@ export const Dropdown = ({ id, value, disabled, onChange, onBlur, choices }) => 
       bsStyle="default"
       className="kubevirt-dropdown"
       title={value}
-      onSelect={valueHandler(onChange)}
-      onBlur={valueHandler(onBlur)}
+      onSelect={onChange}
+      onBlur={onBlur}
       disabled={disabled}
     >
       {choices.map(choice => {

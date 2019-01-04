@@ -1,5 +1,5 @@
 import { getVmiIpAddresses } from '../selectors';
-import { cloudInitTestVmi } from '../../k8s/mock_vmi/cloudInitTestVmi.vmi';
+import { cloudInitTestVmi } from '../../k8s/mock_vmi/cloudInitTestVmi.mock';
 
 describe('getVmiIpAddresses()', () => {
   it('returns multiple IP addresses correctly', () => {

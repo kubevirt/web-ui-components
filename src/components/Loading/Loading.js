@@ -9,5 +9,9 @@ export const Loading = ({ text }) => (
 );
 
 Loading.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
+};
+
+Loading.defaultProps = {
+  text: 'Loading',
 };

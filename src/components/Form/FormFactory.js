@@ -129,18 +129,19 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
         onChange: newValue => onChange(field, newValue, key, onFormChange),
       });
 
-      const label = horizontal && (
-        <Col sm={labelSize} className={textPosition}>
-          {field.type !== 'checkbox' && (
-            <React.Fragment>
-              <ControlLabel className={field.required ? 'required-pf' : null}>{field.title}</ControlLabel>
-              {field.help && (
-                <FieldLevelHelp className="kubevirt-form-group__field-help" placement="right" content={field.help} />
-              )}
-            </React.Fragment>
-          )}
-        </Col>
-      );
+      const label = horizontal &&
+        field.title && (
+          <Col sm={labelSize} className={textPosition}>
+            {field.type !== 'checkbox' && (
+              <React.Fragment>
+                <ControlLabel className={field.required ? 'required-pf' : null}>{field.title}</ControlLabel>
+                {field.help && (
+                  <FieldLevelHelp className="kubevirt-form-group__field-help" placement="right" content={field.help} />
+                )}
+              </React.Fragment>
+            )}
+          </Col>
+        );
 
       return (
         <FormGroup
@@ -160,6 +161,9 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
         </FormGroup>
       );
     });
+
+export const InlineFormFactory = ({ fields, fieldsValues, onFormChange }) =>
+  getFormGroups({ fields, fieldsValues, onFormChange, horizontal: true });
 
 export const ListFormFactory = ({ fields, fieldsValues, onFormChange, actions, columnSizes }) => {
   const formGroups = getFormGroups({ fields, fieldsValues, onFormChange });

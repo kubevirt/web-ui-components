@@ -34,7 +34,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
         disabled={false}
         id="1"
         onBlur={[Function]}
-        onSelect={[Function]}
+        onSelect={[MockFunction]}
         title="This is dropdown button"
       >
         <DropdownButton
@@ -43,14 +43,14 @@ exports[`<DropdownControl /> renders correctly 1`] = `
           disabled={false}
           id="1"
           onBlur={[Function]}
-          onSelect={[Function]}
+          onSelect={[MockFunction]}
           title="This is dropdown button"
         >
           <Uncontrolled(Dropdown)
             bsStyle="default"
             disabled={false}
             id="1"
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
           >
             <Dropdown
               bsClass="dropdown"
@@ -58,7 +58,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
               componentClass={[Function]}
               disabled={false}
               id="1"
-              onSelect={[Function]}
+              onSelect={[MockFunction]}
               onToggle={[Function]}
             >
               <ButtonGroup

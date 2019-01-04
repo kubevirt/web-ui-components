@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Description /> renders correctly 1`] = `
+<InlineEdit
+  LoadingComponent={[Function]}
+  editing={false}
+  fieldsValues={
+    Object {
+      "description": Object {
+        "value": "vm description",
+      },
+    }
+  }
+  formFields={
+    Object {
+      "description": Object {
+        "id": "description-textarea",
+        "type": "textarea",
+      },
+    }
+  }
+  onFormChange={[Function]}
+  updating={false}
+>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacus nibh, convallis vel nunc id,tempus vulputate augue. Proin eget nisl vel ante tincidunt accumsan vel at elit. Fusce eget tincidunt sem. Fusce cursus orci vitae nisl hendrerit mollis. Nullam at nulla ut ipsum malesuada laoreet a sit amet est.
+</InlineEdit>
+`;
