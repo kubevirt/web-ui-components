@@ -9,6 +9,7 @@ import { Button, ExpandCollapse } from 'patternfly-react';
 import { isVmiRunning, isVmStarting } from '../VmStatus';
 import SerialConsoleConnector from './SerialConsoleConnector';
 import { isWindows } from '../../utils';
+import { DEFAULT_RDP_PORT, TEMPLATE_VM_NAME_LABEL } from '../../constants';
 
 const { VNC_CONSOLE_TYPE, SERIAL_CONSOLE_TYPE } = AccessConsoles.constants;
 
@@ -59,18 +60,18 @@ const RdpServiceNotConfigured = ({ vm }) => (
           For better experience accessing Windows console, it is recommended to use the RDP. To do so, create a service:
           <ul>
             <li>
-              exposing the <b>3389/tcp</b> port of the virtual machine
+              exposing the <b>{DEFAULT_RDP_PORT}/tcp</b> port of the virtual machine
             </li>
             <li>
-              using selector: <b>vm.cnv.io/name: {vm.metadata.name}</b>
+              using selector: <b>{TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}</b>
             </li>
             <li>
               Example: virtctl expose virtualmachine {vm.metadata.name} --name {vm.metadata.name}
-              -rdp --port [UNIQUE_PORT] --target-port 3389 --type NodePort
+              -rdp --port [UNIQUE_PORT] --target-port {DEFAULT_RDP_PORT} --type NodePort
             </li>
           </ul>
           Make sure, the VM object has <b>spec.template.metadata.labels</b> set to{' '}
-          <b>vm.cnv.io/name: {vm.metadata.name}</b>
+          <b>{TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}</b>
         </span>
       </div>
     </ExpandCollapse>

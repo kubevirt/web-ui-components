@@ -62,3 +62,5 @@ export const VM_STATUS_TO_TEXT = {
   [VM_STATUS_OFF]: 'Off',
   [VM_STATUS_OTHER]: 'Other',
 };
+
+export const DEFAULT_RDP_PORT = 3389;
