@@ -43,6 +43,7 @@ describe('<VmConsoles />', () => {
     const rdp = {
       manual: {
         address: 'resp.address.com',
+        port: 3389,
       },
     };
 

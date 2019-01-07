@@ -80,6 +80,18 @@ exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
                   Serial Console
                 </a>
               </li>
+              <li
+                class=""
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  role="menuitem"
+                  tabindex="-1"
+                >
+                  Desktop Viewer
+                </a>
+              </li>
             </ul>
           </div>
           <label

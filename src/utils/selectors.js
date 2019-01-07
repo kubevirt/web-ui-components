@@ -5,6 +5,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
+  OS_WINDOWS_PREFIX,
 } from '../constants';
 
 export const getName = value => get(value, 'metadata.name');
@@ -62,6 +63,7 @@ export const getLabelValue = (vm, label) => {
   return labels[labelKey];
 };
 
+export const isWindows = vm => (getOperatingSystem(vm) || '').startsWith(OS_WINDOWS_PREFIX);
 export const getNodeName = pod => get(pod, 'spec.nodeName');
 
 export const getVmiIpAddresses = vmi => get(vmi, 'status.interfaces', []).map(i => i.ipAddress);
