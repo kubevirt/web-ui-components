@@ -30,7 +30,7 @@ export const TEMPLATE_TYPE_LABEL = 'template.cnv.io/type';
 export const TEMPLATE_TYPE_VM = 'vm';
 export const TEMPLATE_TYPE_BASE = 'base';
 export const TEMPLATE_WORKLOAD_LABEL = 'workload.template.cnv.io';
-export const TEMPLATE_VM_NAME_LABEL = 'vm.cnv.io/name'; // TODO: add to Create VM Dialog to vm.spec.template.,etadata.labels[TEMPLATE_VM_NAME_LABEL]: my-vm-name
+export const TEMPLATE_VM_NAME_LABEL = 'vm.cnv.io/name';
 
 export const VIRTIO_BUS = 'virtio';
 

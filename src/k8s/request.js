@@ -25,6 +25,7 @@ import {
   TEMPLATE_TYPE_VM,
   ANNOTATION_CLONE_REQUEST,
   LABEL_CLONE_APP,
+  TEMPLATE_VM_NAME_LABEL,
 } from '../constants';
 import {
   NAMESPACE_KEY,
@@ -217,6 +218,7 @@ const addMetadata = (vm, template, getSetting) => {
   addLabel(vm, `${TEMPLATE_WORKLOAD_LABEL}/${workload}`, 'true');
 
   addLabel(vm, ANNOTATION_USED_TEMPLATE, `${template.metadata.namespace}_${template.metadata.name}`);
+  addTemplateLabel(vm, TEMPLATE_VM_NAME_LABEL, vm.metadata.name); // for pairing service-vm (like for RDP)
 };
 
 const modifyVmObject = (vm, template, getSetting, networks, storages) => {
@@ -426,6 +428,22 @@ const getLabels = vm => {
   return vm.metadata.labels;
 };
 
+const getTemplateLabels = vm => {
+  if (!vm.spec) {
+    vm.spec = {};
+  }
+  if (!vm.spec.template) {
+    vm.spec.template = {};
+  }
+  if (!vm.spec.template.metadata) {
+    vm.spec.template.metadata = {};
+  }
+  if (!vm.spec.template.metadata.labels) {
+    vm.spec.template.metadata.labels = {};
+  }
+  return vm.spec.template.metadata.labels;
+};
+
 const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {
     ...(storage.templateStorage ? storage.templateStorage.disk : defaultDisk),
@@ -576,6 +594,11 @@ const addAnnotation = (vm, key, value) => {
 
 const addLabel = (vm, key, value) => {
   const labels = getLabels(vm);
+  labels[key] = value;
+};
+
+const addTemplateLabel = (vm, key, value) => {
+  const labels = getTemplateLabels(vm);
   labels[key] = value;
 };
 
