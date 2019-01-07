@@ -48,7 +48,8 @@ export const cloudInitTestVm = {
             ],
             interfaces: [
               {
-                bridge: { name: 'eth0' },
+                bridge: {},
+                name: 'eth0',
               },
             ],
             rng: {},

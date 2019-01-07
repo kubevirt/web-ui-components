@@ -7,6 +7,7 @@ import {
   BOOT_ORDER_SECOND,
   PVC_ACCESSMODE_RWO,
   TEMPLATE_FLAVOR_LABEL,
+  POD_NETWORK,
 } from '../constants';
 
 export function prefixedId(idPrefix, id) {
@@ -318,5 +319,62 @@ export const getUpdateFlavorPatch = (vm, flavor, cpu, memory) => {
   if (memory !== vmMemory) {
     patch.push(getMemoryPatch(vm, memory));
   }
+
+  return patch;
+};
+
+export const getAddNicPatch = (vm, nic) => {
+  const i = {
+    name: nic.name,
+    model: nic.model,
+    bridge: {},
+  };
+  if (nic.mac) {
+    i.macAddress = nic.mac;
+  }
+
+  const network = {
+    name: nic.name,
+  };
+  if (nic.network === POD_NETWORK) {
+    network.pod = {};
+  } else {
+    network.multus = {
+      networkName: nic.network,
+    };
+  }
+
+  const patch = [];
+
+  const hasInterfaces = get(vm, 'spec.template.spec.domain.devices.interfaces', false);
+  if (hasInterfaces) {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/domain/devices/interfaces/0',
+      value: i,
+    });
+  } else {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/domain/devices/interfaces',
+      value: [i],
+    });
+  }
+
+  const hasNetworks = get(vm, 'spec.template.spec.networks', false);
+  if (hasNetworks) {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/networks/0',
+      value: network,
+    });
+  } else {
+    patch.push({
+      op: 'add',
+      path: '/spec/template/spec/networks',
+      value: [network],
+    });
+  }
+
   return patch;
 };

@@ -3,7 +3,9 @@
 */
 
 // components
+export * from './components/CancelAcceptButtons';
 export * from './components/CreateDiskRow';
+export * from './components/CreateNicRow';
 export * from './components/Details';
 export * from './components/Dialog';
 export * from './components/Form';
