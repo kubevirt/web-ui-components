@@ -22,7 +22,9 @@ const VmIsDown = ({ vm, onStartVm }) => {
 
   return (
     <div className="co-m-pane__body">
-      <div className="vm-consoles-loading">This Virtual Machine is down. Please {action} it to access its console.</div>
+      <div className="kubevirt-vm-consoles__loading">
+        This Virtual Machine is down. Please {action} it to access its console.
+      </div>
     </div>
   );
 };
@@ -33,7 +35,7 @@ VmIsDown.propTypes = {
 
 const VmIsStarting = ({ LoadingComponent }) => (
   <div className="co-m-pane__body">
-    <div className="vm-consoles-loading">
+    <div className="kubevirt-vm-consoles__loading">
       <LoadingComponent />
       This Virtual Machine is still starting up. The console will be available soon.
     </div>
@@ -44,14 +46,14 @@ VmIsStarting.propTypes = {
 };
 
 const RdpServiceNotConfigured = ({ vm }) => (
-  <div className="vm-consoles-no-rdp">
+  <div className="kubevirt-vm-consoles__rdp">
     <ExpandCollapse
       bordered={false}
       align={ExpandCollapse.ALIGN_CENTER}
       textCollapsed="No RDP Service found"
       textExpanded="No RDP Service found"
     >
-      <div className="vm-consoles-no-rdp-content">
+      <div className="kubevirt-vm-consoles__rdp-content">
         <span>
           This is a Windows virtual machine but no Service for the RDP (Remote Desktop Protocol) can be found.
         </span>
@@ -60,10 +62,18 @@ const RdpServiceNotConfigured = ({ vm }) => (
           For better experience accessing Windows console, it is recommended to use the RDP. To do so, create a service:
           <ul>
             <li>
-              exposing the <b>{DEFAULT_RDP_PORT}/tcp</b> port of the virtual machine
+              exposing the{' '}
+              <b>
+                {DEFAULT_RDP_PORT}
+                /tcp
+              </b>{' '}
+              port of the virtual machine
             </li>
             <li>
-              using selector: <b>{TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}</b>
+              using selector:{' '}
+              <b>
+                {TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}
+              </b>
             </li>
             <li>
               Example: virtctl expose virtualmachine {vm.metadata.name} --name {vm.metadata.name}
@@ -71,7 +81,9 @@ const RdpServiceNotConfigured = ({ vm }) => (
             </li>
           </ul>
           Make sure, the VM object has <b>spec.template.metadata.labels</b> set to{' '}
-          <b>{TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}</b>
+          <b>
+            {TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}
+          </b>
         </span>
       </div>
     </ExpandCollapse>
