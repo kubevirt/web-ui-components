@@ -62,6 +62,10 @@ const RdpServiceNotConfigured = ({ vm }) => (
             <li>
               using selector: <b>vm.cnv.io/name: {vm.metadata.name}</b>
             </li>
+            <li>
+              Example: virtctl expose virtualmachine {vm.metadata.name} --name {vm.metadata.name}
+              -rdp --port [UNIQUE_PORT] --target-port 3389 --type NodePort
+            </li>
           </ul>
           Make sure, the VM object has <b>spec.template.metadata.labels</b> set to{' '}
           <b>vm.cnv.io/name: {vm.metadata.name}</b>
