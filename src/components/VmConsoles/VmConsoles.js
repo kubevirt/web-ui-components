@@ -51,10 +51,12 @@ const RdpServiceNotConfigured = ({ vm }) => (
       textExpanded="No RDP Service found"
     >
       <div className="vm-consoles-no-rdp-content">
-        <p>This is a Windows virtual machine but no Service for the RDP (Remote Desktop Protocol) can be found.</p>
-        <p>For better experience accessing Windows console, it is recommended to use the RDP.</p>
-        <p>
-          To do so, create a service:
+        <span>
+          This is a Windows virtual machine but no Service for the RDP (Remote Desktop Protocol) can be found.
+        </span>
+        <br />
+        <span>
+          For better experience accessing Windows console, it is recommended to use the RDP. To do so, create a service:
           <ul>
             <li>
               exposing the <b>3389/tcp</b> port of the virtual machine
@@ -69,7 +71,7 @@ const RdpServiceNotConfigured = ({ vm }) => (
           </ul>
           Make sure, the VM object has <b>spec.template.metadata.labels</b> set to{' '}
           <b>vm.cnv.io/name: {vm.metadata.name}</b>
-        </p>
+        </span>
       </div>
     </ExpandCollapse>
   </div>
