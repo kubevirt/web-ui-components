@@ -266,7 +266,6 @@ export const vmFixtures = [
 
     migration: {
       status: {
-        completed: false,
         phase: 'Scheduling',
       },
     },
@@ -284,8 +283,7 @@ export const vmFixtures = [
 
     migration: {
       status: {
-        failed: true,
-        phase: 'Whatever',
+        phase: 'Failed',
       },
     },
     expected: VM_STATUS_RUNNING,
