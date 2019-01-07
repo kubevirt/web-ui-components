@@ -5,7 +5,7 @@ exports[`<VmConsoles /> renders correctly for a down VM 1`] = `
   class="co-m-pane__body"
 >
   <div
-    class="vm-consoles-loading"
+    class="kubevirt-vm-consoles__loading"
   >
     This Virtual Machine is down. Please 
     <button
@@ -80,6 +80,18 @@ exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
                   Serial Console
                 </a>
               </li>
+              <li
+                class=""
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  role="menuitem"
+                  tabindex="-1"
+                >
+                  Desktop Viewer
+                </a>
+              </li>
             </ul>
           </div>
           <label
@@ -135,7 +147,7 @@ exports[`<VmConsoles /> renders correctly for a starting VM 1`] = `
   class="co-m-pane__body"
 >
   <div
-    class="vm-consoles-loading"
+    class="kubevirt-vm-consoles__loading"
   >
     <div
       class="dummy-loading-component"
