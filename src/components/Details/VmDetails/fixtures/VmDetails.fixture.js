@@ -1,4 +1,5 @@
 import { VmDetails } from '../VmDetails';
+import { fedora28 } from '../../../../k8s/mock_templates/fedora28.mock';
 
 const metadata = {
   name: 'my-vm',
@@ -90,6 +91,14 @@ export default [
     name: 'offline VM',
     props: {
       vm: vmFixtures.downVm,
+      k8sPatch: () =>
+        new Promise(resolve => {
+          resolve();
+        }),
+      k8sGet: () =>
+        new Promise(resolve => {
+          resolve(fedora28);
+        }),
     },
   },
   {
@@ -97,6 +106,15 @@ export default [
     name: 'running VM',
     props: {
       vm: vmFixtures.runningVm,
+      k8sPatch: () =>
+        new Promise(resolve => {
+          resolve();
+        }),
+      k8sGet: () =>
+        new Promise(resolve => {
+          resolve(fedora28);
+        }),
+      NodeLink: () => true,
     },
   },
   {
@@ -104,6 +122,15 @@ export default [
     name: 'VM with description',
     props: {
       vm: vmFixtures.vmWithDescription,
+      k8sPatch: () =>
+        new Promise(resolve => {
+          resolve();
+        }),
+      k8sGet: () =>
+        new Promise(resolve => {
+          resolve(fedora28);
+        }),
+      NodeLink: () => true,
     },
   },
   {
@@ -111,6 +138,15 @@ export default [
     name: 'VM with flavor workload os',
     props: {
       vm: vmFixtures.vmWithLabels,
+      k8sPatch: () =>
+        new Promise(resolve => {
+          resolve();
+        }),
+      k8sGet: () =>
+        new Promise(resolve => {
+          resolve(fedora28);
+        }),
+      NodeLink: () => true,
     },
   },
   {
@@ -118,6 +154,15 @@ export default [
     name: 'VM with custom flavor',
     props: {
       vm: vmFixtures.customVm,
+      k8sPatch: () =>
+        new Promise(resolve => {
+          resolve();
+        }),
+      k8sGet: () =>
+        new Promise(resolve => {
+          resolve(fedora28);
+        }),
+      NodeLink: () => true,
     },
   },
 ];

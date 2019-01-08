@@ -34,7 +34,17 @@ export const getCpu = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
 export const getOperatingSystem = vm => getLabelValue(vm, TEMPLATE_OS_LABEL);
 export const getWorkloadProfile = vm => getLabelValue(vm, TEMPLATE_WORKLOAD_LABEL);
 export const getFlavor = vm => getLabelValue(vm, TEMPLATE_FLAVOR_LABEL);
-export const getVmTemplate = vm => getLabelValue(vm, ANNOTATION_USED_TEMPLATE);
+export const getVmTemplate = vm => {
+  const vmTemplate = getLabelValue(vm, ANNOTATION_USED_TEMPLATE);
+  if (vmTemplate) {
+    const templateParts = vmTemplate.split('_');
+    return {
+      name: templateParts[1],
+      namespace: templateParts[0],
+    };
+  }
+  return null;
+};
 export const getDescription = vm => get(vm, 'metadata.annotations.description');
 export const getCloudInitData = vm => {
   const volumes = getVolumes(vm);

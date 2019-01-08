@@ -1,123 +1,235 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Row, Col } from 'patternfly-react';
+import { Row, Col, Button, Alert } from 'patternfly-react';
 
 import { VmStatus } from '../../VmStatus';
 
 import {
   getCpu,
-  getDescription,
-  getFlavor,
   getMemory,
   getNodeName,
   getOperatingSystem,
   getVmTemplate,
   getWorkloadProfile,
   getVmiIpAddresses,
+  getUpdateDescriptionPatch,
+  getUpdateFlavorPatch,
 } from '../../../utils';
+import { VirtualMachineModel } from '../../../models';
+import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
+import { settingsValue, selectVm } from '../../../k8s/selectors';
+import { Flavor } from '../Flavor';
+import { Description } from '../Description';
+import { Loading } from '../../Loading';
 
-const DASHES = '---';
-
-const Flavor = props => {
-  const { vm } = props;
-  const flavor = getFlavor(vm);
-  if (!flavor) {
-    return DASHES;
+export class VmDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editing: false,
+      updating: false,
+      k8sError: null,
+      form: {},
+    };
   }
-  const cpu = getCpu(vm);
-  const memory = getMemory(vm);
-  const cpuStr = cpu ? `${cpu} CPU` : '';
-  const memoryStr = memory ? `${memory} Memory` : '';
-  const resourceStr = cpuStr && memoryStr ? `${cpuStr}, ${memoryStr}` : `${cpuStr}${memoryStr}`;
-  const resourceElement = resourceStr ? <div>{resourceStr}</div> : undefined;
 
-  return (
-    <Fragment>
-      <div>{flavor}</div>
-      {resourceElement}
-    </Fragment>
-  );
-};
+  toggleEditing = editing =>
+    this.setState({
+      editing,
+    });
 
-Flavor.propTypes = {
-  vm: PropTypes.object.isRequired,
-};
+  onFormChange = (formKey, newValue, key, valid) =>
+    this.setState(state => ({
+      form: {
+        ...state.form,
+        [formKey]: {
+          ...state.form[formKey],
+          [key]: newValue,
+          valid,
+        },
+      },
+    }));
 
-export const VmDetails = props => {
-  const { launcherPod, importerPod, migration, NodeLink, vm, vmi, PodResourceLink, NamespaceResourceLink } = props;
-  const nodeName = getNodeName(launcherPod);
-  const description = getDescription(vm);
-  const ipAddresses = getVmiIpAddresses(vmi);
+  onLoadError = error =>
+    this.setState({
+      k8sError: error,
+    });
 
-  return (
-    <div className="co-m-pane__body">
-      <h1 className="co-m-pane__heading">Virtual Machine Overview</h1>
-      <Row>
-        <Col lg={4} md={4} sm={4} xs={4} id="name-description-column">
-          <dl>
-            <dt>Name</dt>
-            <dd>{vm.metadata.name}</dd>
-            <dt>Description</dt>
-            <dd>
-              <div className="kubevirt-vm-details__description">{description || 'VM has no description'}</div>
-            </dd>
-          </dl>
-        </Col>
+  updateVmDetails = () => {
+    this.setState({
+      editing: false,
+    });
+    const vmPatch = [];
 
-        <Col lg={8} md={8} sm={8} xs={8} id="details-column">
-          <Row>
-            <Col lg={4} md={4} sm={4} xs={4} id="details-column-1">
-              <dl>
-                <dt>Status</dt>
-                <dd>
-                  <VmStatus vm={props.vm} launcherPod={launcherPod} importerPod={importerPod} migration={migration} />
-                </dd>
+    const descriptionForm = this.state.form.description;
+    const flavorForm = this.state.form.flavor;
 
-                <dt>Operating System</dt>
-                <dd>{getOperatingSystem(vm) || DASHES}</dd>
+    const descriptionPatch = getUpdateDescriptionPatch(this.props.vm, settingsValue(descriptionForm, 'description'));
+    vmPatch.push(...descriptionPatch);
 
-                <dt>IP Addresses</dt>
-                <dd>{ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}</dd>
+    const flavor = settingsValue(flavorForm, 'flavor');
+    let cpu;
+    let memory;
+    if (flavor !== CUSTOM_FLAVOR) {
+      const templateVm = selectVm(flavorForm.template.objects);
+      cpu = getCpu(templateVm);
+      memory = getMemory(templateVm);
+    } else {
+      cpu = settingsValue(flavorForm, 'cpu');
+      memory = `${settingsValue(flavorForm, 'memory')}G`;
+    }
 
-                <dt>Workload Profile</dt>
-                <dd>{getWorkloadProfile(vm) || DASHES}</dd>
+    const flavorPatch = getUpdateFlavorPatch(this.props.vm, flavor, cpu, memory);
+    vmPatch.push(...flavorPatch);
 
-                <dt>Template</dt>
-                <dd>{getVmTemplate(vm) || DASHES}</dd>
-              </dl>
-            </Col>
+    if (vmPatch.length > 0) {
+      this.setState({
+        updating: true,
+        k8sError: null,
+      });
+      const updatePromise = this.props.k8sPatch(VirtualMachineModel, this.props.vm, vmPatch);
+      updatePromise
+        .then(() => this.setState({ updating: false }))
+        .catch(error =>
+          this.setState({ updating: false, k8sError: error.message || 'An error occurred. Please try again.' })
+        );
+    }
+  };
 
-            <Col lg={4} md={4} sm={4} xs={4} id="details-column-2">
-              <dl>
-                <dt>FQDN</dt>
-                <dd>{get(launcherPod, 'spec.hostname', DASHES)}</dd>
+  onErrorDismiss = () =>
+    this.setState({
+      k8sError: null,
+    });
 
-                <dt>Namespace</dt>
-                <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+  isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
-                <dt>Pod</dt>
-                <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
-              </dl>
-            </Col>
+  render() {
+    const {
+      launcherPod,
+      importerPod,
+      migration,
+      NodeLink,
+      vm,
+      vmi,
+      PodResourceLink,
+      NamespaceResourceLink,
+      LoadingComponent,
+      k8sGet,
+    } = this.props;
+    const nodeName = getNodeName(launcherPod);
+    const ipAddresses = getVmiIpAddresses(vmi);
+    const template = getVmTemplate(vm);
+    const editButton = (
+      <Button disabled={this.state.updating} onClick={() => this.toggleEditing(true)}>
+        Edit
+      </Button>
+    );
+    const cancelSaveButton = (
+      <Fragment>
+        <Button onClick={() => this.toggleEditing(false)}>Cancel</Button>
+        <Button bsStyle="primary" disabled={!this.isFormValid()} onClick={this.updateVmDetails}>
+          Save
+        </Button>
+      </Fragment>
+    );
 
-            <Col lg={4} md={4} sm={4} xs={4} id="details-column-3">
-              <dl>
-                <dt>Node</dt>
-                <dd>{nodeName ? <NodeLink name={nodeName} /> : DASHES}</dd>
+    return (
+      <div className="co-m-pane__body">
+        <h1 className="co-m-pane__heading">
+          Virtual Machine Overview
+          <div>{this.state.editing ? cancelSaveButton : editButton}</div>
+        </h1>
+        {this.state.k8sError && <Alert onDismiss={this.onErrorDismiss}>{this.state.k8sError}</Alert>}
+        <Row>
+          <Col lg={4} md={4} sm={4} xs={4} id="name-description-column">
+            <dl>
+              <dt>Name</dt>
+              <dd>{vm.metadata.name}</dd>
+              <dt>Description</dt>
+              <dd>
+                <div className="kubevirt-vm-details__description">
+                  <Description
+                    editing={this.state.editing}
+                    updating={this.state.updating}
+                    LoadingComponent={LoadingComponent}
+                    formValues={this.state.form.description}
+                    onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
+                    vm={vm}
+                  />
+                </div>
+              </dd>
+            </dl>
+          </Col>
 
-                <dt>Flavor</dt>
-                <dd>
-                  <Flavor vm={vm} />
-                </dd>
-              </dl>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </div>
-  );
-};
+          <Col lg={8} md={8} sm={8} xs={8} id="details-column">
+            <Row>
+              <Col lg={4} md={4} sm={4} xs={4} id="details-column-1">
+                <dl>
+                  <dt>Status</dt>
+                  <dd>
+                    <VmStatus
+                      vm={this.props.vm}
+                      launcherPod={launcherPod}
+                      importerPod={importerPod}
+                      migration={migration}
+                    />
+                  </dd>
+
+                  <dt>Operating System</dt>
+                  <dd>{getOperatingSystem(vm) || DASHES}</dd>
+
+                  <dt>IP Addresses</dt>
+                  <dd>{ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}</dd>
+
+                  <dt>Workload Profile</dt>
+                  <dd>{getWorkloadProfile(vm) || DASHES}</dd>
+
+                  <dt>Template</dt>
+                  <dd>{template ? `${template.namespace}/${template.name}` : DASHES}</dd>
+                </dl>
+              </Col>
+
+              <Col lg={4} md={4} sm={4} xs={4} id="details-column-2">
+                <dl>
+                  <dt>FQDN</dt>
+                  <dd>{get(launcherPod, 'spec.hostname', DASHES)}</dd>
+
+                  <dt>Namespace</dt>
+                  <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+
+                  <dt>Pod</dt>
+                  <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+                </dl>
+              </Col>
+
+              <Col lg={4} md={4} sm={4} xs={4} id="details-column-3">
+                <dl>
+                  <dt>Node</dt>
+                  <dd>{nodeName && NodeLink ? <NodeLink name={nodeName} /> : DASHES}</dd>
+
+                  <dt>Flavor</dt>
+                  <dd>
+                    <Flavor
+                      vm={vm}
+                      editing={this.state.editing}
+                      updating={this.state.updating}
+                      LoadingComponent={LoadingComponent}
+                      onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
+                      k8sGet={k8sGet}
+                      formValues={this.state.form.flavor}
+                      onLoadError={this.onLoadError}
+                    />
+                  </dd>
+                </dl>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+}
 
 VmDetails.propTypes = {
   vm: PropTypes.object.isRequired,
@@ -125,9 +237,12 @@ VmDetails.propTypes = {
   launcherPod: PropTypes.object,
   importerPod: PropTypes.object,
   migration: PropTypes.object,
-  NodeLink: PropTypes.func.isRequired,
+  NodeLink: PropTypes.func,
   NamespaceResourceLink: PropTypes.func,
   PodResourceLink: PropTypes.func,
+  k8sPatch: PropTypes.func.isRequired,
+  k8sGet: PropTypes.func.isRequired,
+  LoadingComponent: PropTypes.func,
 };
 
 VmDetails.defaultProps = {
@@ -137,4 +252,6 @@ VmDetails.defaultProps = {
   migration: undefined,
   NamespaceResourceLink: undefined,
   PodResourceLink: undefined,
+  LoadingComponent: Loading,
+  NodeLink: undefined,
 };

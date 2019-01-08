@@ -1,9 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import { BasicMigrationDialog } from '../BasicMigrationDialog';
+import { BasicMigrationDialog } from '..';
+
 import { k8sCreate } from '../../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
-import { blueVmi } from '../../../../k8s/mock_vmi/blue.vmi';
+import { blueVmi } from '../../../../k8s/mock_vmi/blue.mock';
 import { migrate } from '../../../../k8s/migrate';
 
 jest.mock('../../../../k8s/migrate');

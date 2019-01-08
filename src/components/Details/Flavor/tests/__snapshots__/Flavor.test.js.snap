@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Flavor /> renders correctly 1`] = `
+<InlineEdit
+  LoadingComponent={[Function]}
+  editing={false}
+  fieldsValues={Object {}}
+  formFields={
+    Object {
+      "cpu": Object {
+        "id": "flavor-cpu",
+        "isVisible": [Function],
+        "required": true,
+        "title": "CPU",
+        "type": "positive-number",
+      },
+      "flavor": Object {
+        "choices": Array [
+          "Custom",
+        ],
+        "id": "flavor-dropdown",
+        "type": "dropdown",
+      },
+      "memory": Object {
+        "id": "flavor-memory",
+        "isVisible": [Function],
+        "required": true,
+        "title": "Memory (GB)",
+        "type": "positive-number",
+      },
+    }
+  }
+  onFormChange={[Function]}
+  updating={false}
+>
+  <div />
+  <div>
+    2 CPU, 2G Memory
+  </div>
+</InlineEdit>
+`;
