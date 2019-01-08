@@ -1,4 +1,4 @@
-import { CreateVmWizard } from '..';
+import { CreateVmWizard } from '../CreateVmWizard';
 import { ProcessedTemplatesModel } from '../../../../models';
 import { networkConfigs } from '../../../../k8s/mock_network';
 import { baseTemplates } from '../../../../k8s/mock_templates';

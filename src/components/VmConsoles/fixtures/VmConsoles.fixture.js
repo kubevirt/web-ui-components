@@ -1,7 +1,7 @@
 import React from 'react';
+import { noop } from 'patternfly-react';
 
-import { helpers } from 'patternfly-react';
-import { VmConsoles } from '../index';
+import { VmConsoles } from '../VmConsoles';
 
 const LoadingComponent = () => <div className="dummy-loading-component" />;
 
@@ -44,33 +44,30 @@ const vmRunning = {
 export const downVmProps = {
   vm: vmOff,
   vmi: undefined,
-
-  getVncConnectionDetails: helpers.noop,
-  getSerialConsoleConnectionDetails: helpers.noop,
-  getRdpConnectionDetails: helpers.noop,
-  onStartVm: helpers.noop,
-  WSFactory: helpers.noop,
+  getVncConnectionDetails: noop,
+  getSerialConsoleConnectionDetails: noop,
+  getRdpConnectionDetails: noop,
+  onStartVm: noop,
+  WSFactory: noop,
   LoadingComponent,
 };
 
 export const startingVmProps = {
   vm: vmRunning,
   vmi: vmiStarting,
-
-  getVncConnectionDetails: helpers.noop,
-  getSerialConsoleConnectionDetails: helpers.noop,
-  getRdpConnectionDetails: helpers.noop,
-  onStartVm: helpers.noop,
-  WSFactory: helpers.noop,
+  getVncConnectionDetails: noop,
+  getSerialConsoleConnectionDetails: noop,
+  getRdpConnectionDetails: noop,
+  onStartVm: noop,
+  WSFactory: noop,
   LoadingComponent,
 };
 
 export const runningVmProps = {
   vm: vmRunning,
   vmi: vmiRunning,
-
-  onStartVm: helpers.noop,
-  WSFactory: helpers.noop,
+  onStartVm: noop,
+  WSFactory: noop,
   LoadingComponent,
 };
 

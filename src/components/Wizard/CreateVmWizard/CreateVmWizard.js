@@ -3,19 +3,21 @@ import PropTypes from 'prop-types';
 import { findIndex } from 'lodash';
 import { Wizard } from 'patternfly-react';
 
-import BasicSettingsTab from './BasicSettingsTab';
-import StorageTab from './StorageTab';
-import ResultTab from './ResultTab';
-
+import { BasicSettingsTab } from './BasicSettingsTab';
+import { StorageTab } from './StorageTab';
+import { ResultTab } from './ResultTab';
+import { NetworksTab } from './NetworksTab';
+import { loadingWizardTab } from '../loadingWizardTab';
+import { settingsValue } from '../../../k8s/selectors';
 import { createVm, createVmTemplate } from '../../../k8s/request';
+
 import {
   POD_NETWORK,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
 } from '../../../constants';
-import { NetworksTab } from './NetworksTab';
-import { settingsValue } from '../../../k8s/selectors';
+
 import {
   PROVISION_SOURCE_TYPE_KEY,
   USER_TEMPLATE_KEY,
@@ -27,6 +29,7 @@ import {
   STORAGE_TYPE_DATAVOLUME,
   NETWORK_TYPE_POD,
 } from './constants';
+
 import {
   CREATE_VM,
   CREATE_VM_TEMPLATE,
@@ -36,7 +39,7 @@ import {
   STEP_RESULT,
   NEXT,
 } from './strings';
-import { loadingWizardTab } from '../loadingWizardTab';
+
 import {
   getUserTemplate,
   getTemplateStorages,
@@ -361,18 +364,19 @@ export class CreateVmWizard extends React.Component {
         nextStepDisabled={!this.state.stepData[this.wizardStepsNewVM[this.state.activeStepIndex].key].valid}
         nextText={beforeLastStepReached ? createVmText : NEXT}
         title={createVmText}
+        dialogClassName="modal-lg wizard-pf kubevirt-wizard kubevirt-create-vm-wizard"
       />
     );
   }
 }
 
 CreateVmWizard.defaultProps = {
-  selectedNamespace: undefined,
-  templates: undefined,
-  namespaces: undefined,
-  networkConfigs: undefined,
-  persistentVolumeClaims: undefined,
-  storageClasses: undefined,
+  templates: null,
+  namespaces: null,
+  selectedNamespace: null,
+  networkConfigs: null,
+  persistentVolumeClaims: null,
+  storageClasses: null,
   createTemplate: false,
 };
 

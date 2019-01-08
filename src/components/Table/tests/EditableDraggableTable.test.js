@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+
+import { default as EditableDraggableTable } from '../EditableDraggableTable';
 import { rows, columns } from '../fixtures/EditableDraggableTable.fixture';
-import EditableDraggableTable from '../EditableDraggableTable';
 
 const testEditableDraggableTable = (rowsArg = [], onChange = null) => (
   <EditableDraggableTable columns={columns} rows={rowsArg} onChange={onChange || jest.fn()} />

@@ -20,7 +20,7 @@ import { getVmStatusDetail } from './getVmStatus';
 
 const StateValue = ({ iconClass, children, linkTo, message }) => (
   <Fragment>
-    <span className={`vm-status-icon ${iconClass}`} aria-hidden="true" />
+    <span className={`kubevirt-vm-status__icon ${iconClass}`} aria-hidden="true" />
     {linkTo ? (
       <Link to={linkTo} title={message}>
         {children}
@@ -38,8 +38,8 @@ StateValue.propTypes = {
 };
 StateValue.defaultProps = {
   children: null,
-  message: undefined,
   linkTo: undefined,
+  message: undefined,
 };
 
 const StateRunning = () => <StateValue iconClass="pficon pficon-on-running">Running</StateValue>;
@@ -106,12 +106,6 @@ export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
     default:
       return <StateUnknown />; // Let's hope this state is tentative and will fit former conditions soon
   }
-};
-
-VmStatus.defaultProps = {
-  launcherPod: undefined,
-  importerPod: undefined,
-  migration: undefined,
 };
 
 VmStatus.propTypes = {

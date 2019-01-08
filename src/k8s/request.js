@@ -1,5 +1,10 @@
 import { cloneDeep, get } from 'lodash';
 import { safeDump } from 'js-yaml';
+
+import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
+import { getName, getNamespace } from '../utils/selectors';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, PersistentVolumeClaimModel } from '../models';
+
 import {
   CLOUDINIT_DISK,
   ANNOTATION_DEFAULT_DISK,
@@ -27,6 +32,7 @@ import {
   LABEL_CLONE_APP,
   TEMPLATE_VM_NAME_LABEL,
 } from '../constants';
+
 import {
   NAMESPACE_KEY,
   DESCRIPTION_KEY,
@@ -50,8 +56,7 @@ import {
   NETWORK_TYPE_MULTUS,
   NETWORK_TYPE_POD,
 } from '../components/Wizard/CreateVmWizard/constants';
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, PersistentVolumeClaimModel } from '../models';
-import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
+
 import {
   getOsLabel,
   getWorkloadLabel,
@@ -60,7 +65,6 @@ import {
   settingsValue,
   selectVm,
 } from './selectors';
-import { getName, getNamespace } from '../utils/selectors';
 
 const IS_TEMPLATE = 'isTemplate';
 

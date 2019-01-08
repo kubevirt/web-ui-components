@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { FormControl, KEY_CODES as PF_KEY_CODES } from 'patternfly-react';
+
 import { Integer } from '../Integer';
 import { KEY_CODES } from '../../../constants/keys';
 

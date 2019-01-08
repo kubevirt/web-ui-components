@@ -1,6 +1,13 @@
 import { get, cloneDeep } from 'lodash';
 import { safeDump } from 'js-yaml';
+
 import { createVm, createVmTemplate } from '../request';
+import { ProcessedTemplatesModel, TemplateModel, VirtualMachineModel, PersistentVolumeClaimModel } from '../../models';
+import { baseTemplates } from '../mock_templates';
+import { userTemplates, urlTemplate } from '../mock_user_templates';
+import { persistentVolumeClaims } from '../../components/Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
+import { rootContainerDisk, rootDataVolumeDisk } from '../../components/Wizard/CreateVmWizard/CreateVmWizard';
+
 import {
   settingsValue,
   getTemplateFlavors,
@@ -8,7 +15,6 @@ import {
   getTemplateOperatingSystems,
 } from '../selectors';
 
-import { ProcessedTemplatesModel, TemplateModel, VirtualMachineModel, PersistentVolumeClaimModel } from '../../models';
 import {
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_PXE,
@@ -51,12 +57,6 @@ import {
   NETWORK_TYPE_POD,
   DESCRIPTION_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
-
-import { baseTemplates } from '../mock_templates';
-import { userTemplates, urlTemplate } from '../mock_user_templates';
-
-import { persistentVolumeClaims } from '../../components/Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
-import { rootContainerDisk, rootDataVolumeDisk } from '../../components/Wizard/CreateVmWizard/CreateVmWizard';
 
 const templates = [...baseTemplates, ...userTemplates];
 

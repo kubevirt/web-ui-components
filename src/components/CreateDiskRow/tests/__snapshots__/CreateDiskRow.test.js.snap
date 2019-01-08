@@ -4,7 +4,7 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
 <ListFormFactory
   actions={
     <div
-      className="createDiskRow__actionButtons"
+      className="kubevirt-create-disk-row__action-buttons"
     >
       <Button
         active={false}

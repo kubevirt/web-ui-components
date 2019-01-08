@@ -2,17 +2,21 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { findIndex } from 'lodash';
 import { WizardPattern } from 'patternfly-react';
+
 import { CreateVmWizard } from '../CreateVmWizard';
 import { Loading } from '../../../Loading';
-
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVm, createVmTemplate } from '../../../../k8s/request';
 import { CREATE_VM, NEXT, CREATE_VM_TEMPLATE } from '../strings';
 import CreateVmWizardFixutre from '../fixtures/CreateVmWizard.fixture';
-import BasicSettingsTab from '../BasicSettingsTab';
+import { BasicSettingsTab } from '../BasicSettingsTab';
 import { NetworksTab } from '../NetworksTab';
-import StorageTab from '../StorageTab';
-import ResultTab from '../ResultTab';
+import { StorageTab } from '../StorageTab';
+import { ResultTab } from '../ResultTab';
+import { getName } from '../../../../utils/selectors';
+import { selectVm } from '../../../../k8s/selectors';
+import { getTemplateInterfaces } from '../../../../utils/templates';
+
 import {
   NETWORKS_TAB_KEY,
   BASIC_SETTINGS_TAB_KEY,
@@ -21,15 +25,13 @@ import {
   USER_TEMPLATE_KEY,
   PROVISION_SOURCE_TYPE_KEY,
 } from '../constants';
+
 import {
   containerTemplate,
   pxeDataVolumeTemplate,
   containerMultusTemplate,
   urlNoNetworkTemplate,
 } from '../../../../k8s/mock_user_templates';
-import { getName } from '../../../../utils/selectors';
-import { selectVm } from '../../../../k8s/selectors';
-import { getTemplateInterfaces } from '../../../../utils/templates';
 
 jest.mock('../../../../k8s/request');
 

@@ -1,4 +1,5 @@
-import { shallow } from 'enzyme/build/index';
+import { shallow } from 'enzyme';
+
 import createTestContext from '../../../cosmos/enzyme';
 import fixture, { getPositiveNumber } from '../fixtures/FormFactory.fixture';
 

@@ -2,19 +2,21 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { MenuItem, HelpBlock } from 'patternfly-react';
+
 import { NetworksTab, validateNetworksNamespace, isBootableNetwork } from '../NetworksTab';
 import NetworksTabFixture from '../fixtures/NetworksTab.fixture';
+import { Dropdown } from '../../../Form';
+import { SELECT_NETWORK, SELECT_PXE_NIC, PXE_NIC_NOT_FOUND_ERROR } from '../strings';
+import { pxeTemplate } from '../../../../k8s/mock_user_templates';
+import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../constants';
+import { getTemplateInterfaces } from '../../../../utils/templates';
+
 import {
   POD_NETWORK,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_PXE,
 } from '../../../../constants';
-import { Dropdown } from '../../../Form';
-import { SELECT_NETWORK, SELECT_PXE_NIC, PXE_NIC_NOT_FOUND_ERROR } from '../strings';
-import { pxeTemplate } from '../../../../k8s/mock_user_templates';
-import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../constants';
-import { getTemplateInterfaces } from '../../../../utils/templates';
 
 const testNetworksTab = (onChange = () => {}) => <NetworksTab {...NetworksTabFixture.props} onChange={onChange} />;
 

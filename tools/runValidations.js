@@ -1,13 +1,13 @@
 const chalk = require('chalk');
 const requireAll = require('require-all');
-const { checkMark } = require('./common');
+const { checkMark, isJs, isTest } = require('./common');
 
 function loadValidations() {
   return requireAll({
     dirname: `${__dirname}/validations`,
     recursive: false,
     filter: filename => {
-      if (filename.endsWith('.js') && !filename.endsWith('.test.js')) {
+      if (isJs(filename) && !isTest(filename)) {
         return filename.replace(/\.js$/, '');
       }
       return false;

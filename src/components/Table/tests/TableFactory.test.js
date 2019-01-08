@@ -1,8 +1,9 @@
 import React from 'react';
+import { noop } from 'patternfly-react';
 import { shallow } from 'enzyme';
+
 import { TableFactory } from '../TableFactory';
 
-const noop = () => {};
 const testTableFactory = () => (
   <TableFactory onRowUpdate={noop} onRowActivate={noop} onRowDeleteOrMove={noop} columns={[]} rows={[]} />
 );

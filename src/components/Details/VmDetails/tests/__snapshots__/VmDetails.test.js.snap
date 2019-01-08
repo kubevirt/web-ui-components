@@ -53,7 +53,7 @@ exports[`<VmDetails vm NodeLink /> renders correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-off"
+                class="kubevirt-vm-status__icon pficon pficon-off"
               />
               Off
             </dd>
@@ -186,7 +186,7 @@ exports[`<VmDetails vm NodeLink /> renders off status correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-off"
+                class="kubevirt-vm-status__icon pficon pficon-off"
               />
               Off
             </dd>
@@ -319,7 +319,7 @@ exports[`<VmDetails vm NodeLink /> renders on status correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-on-running"
+                class="kubevirt-vm-status__icon pficon pficon-on-running"
               />
               Running
             </dd>
@@ -452,7 +452,7 @@ exports[`<VmDetails vm vmi NodeLink /> renders IP addresses correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-on-running"
+                class="kubevirt-vm-status__icon pficon pficon-on-running"
               />
               Running
             </dd>
@@ -585,7 +585,7 @@ exports[`VmDetails for VM with Custom flavor does not render CPU and Memory sett
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-off"
+                class="kubevirt-vm-status__icon pficon pficon-off"
               />
               Off
             </dd>
@@ -720,7 +720,7 @@ exports[`VmDetails for VM with Custom flavor renders CPU and Memory settings for
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-on-running"
+                class="kubevirt-vm-status__icon pficon pficon-on-running"
               />
               Running
             </dd>
@@ -858,7 +858,7 @@ exports[`VmDetails with description renders description correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-off"
+                class="kubevirt-vm-status__icon pficon pficon-off"
               />
               Off
             </dd>
@@ -991,7 +991,7 @@ exports[`VmDetails with labels renders values from labels correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="vm-status-icon pficon pficon-on-running"
+                class="kubevirt-vm-status__icon pficon pficon-on-running"
               />
               Running
             </dd>

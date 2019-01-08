@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+
 import { FormFactory } from '../../Form/FormFactory';
 import { getName, getMemory, getCpu, getCloudInitData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue } from '../../../utils/validations';
+import { NO_TEMPLATE } from './strings';
+
 import {
   getFlavors,
   getOperatingSystems,
@@ -25,6 +28,7 @@ import {
   TEMPLATE_TYPE_VM,
   VALIDATION_ERROR_TYPE,
 } from '../../../constants';
+
 import {
   NAME_KEY,
   NAMESPACE_KEY,
@@ -43,7 +47,6 @@ import {
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
 } from './constants';
-import { NO_TEMPLATE } from './strings';
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate) => {
   const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
@@ -315,7 +318,7 @@ const updateTemplateData = (userTemplate, newBasicSettings) => {
   return newBasicSettings;
 };
 
-class BasicSettingsTab extends React.Component {
+export class BasicSettingsTab extends React.Component {
   constructor(props) {
     super(props);
     if (props.selectedNamespace) {
@@ -360,5 +363,3 @@ BasicSettingsTab.propTypes = {
   onChange: PropTypes.func.isRequired,
   createTemplate: PropTypes.bool,
 };
-
-export default BasicSettingsTab;

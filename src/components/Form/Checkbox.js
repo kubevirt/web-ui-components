@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox as PfCheckbox } from 'patternfly-react';
+import { Checkbox as PfCheckbox, noop } from 'patternfly-react';
+
 import { checkboxHandler } from './utils';
 
 export const Checkbox = ({ id, title, disabled, checked, onChange, onBlur }) => (
@@ -16,16 +17,15 @@ export const Checkbox = ({ id, title, disabled, checked, onChange, onBlur }) => 
 );
 
 Checkbox.defaultProps = {
-  id: undefined,
   title: '',
   checked: false,
-  onChange: undefined,
-  onBlur: undefined,
+  onChange: noop,
+  onBlur: noop,
   disabled: false,
 };
 
 Checkbox.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func,

@@ -1,4 +1,4 @@
-import BasicSettingsTab from '../BasicSettingsTab';
+import { BasicSettingsTab } from '../BasicSettingsTab';
 import { namespaces } from './CreateVmWizard.fixture';
 import { PROVISION_SOURCE_CONTAINER } from '../../../../constants';
 import { CONTAINER_IMAGE_KEY, PROVISION_SOURCE_TYPE_KEY } from '../constants';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'enzyme';
 
-import { VmConsoles } from '../index';
+import { VmConsoles } from '../VmConsoles';
 import { downVmProps, startingVmProps, runningVmProps } from '../fixtures/VmConsoles.fixture';
 
 describe('<VmConsoles />', () => {

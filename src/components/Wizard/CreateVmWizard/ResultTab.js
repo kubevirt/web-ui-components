@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'patternfly-react';
+
 import { Loading } from '../../Loading';
 
 const getCreationText = createTemplate => `Creation of VM ${createTemplate ? 'Template ' : ''}`;
 
-const ResultTab = ({ result, success, createTemplate }) => {
+export const ResultTab = ({ result, success, createTemplate }) => {
   let value;
   const loadingText = `${getCreationText(createTemplate)}in progress`;
   const successText = `${getCreationText(createTemplate)}was successful`;
@@ -18,7 +19,7 @@ const ResultTab = ({ result, success, createTemplate }) => {
           <span className="glyphicon glyphicon-ok-circle" />
         </div>
         <h3 className="blank-slate-pf-main-action">{successText}</h3>
-        <pre className="blank-slate-pf-secondary-action description">{result}</pre>
+        <pre className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success">{result}</pre>
       </div>
     );
   } else {
@@ -39,5 +40,3 @@ ResultTab.propTypes = {
   success: PropTypes.bool,
   createTemplate: PropTypes.bool,
 };
-
-export default ResultTab;

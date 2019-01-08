@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Table } from 'patternfly-react';
-import InlineEditRow from '../InlineEditRow';
+
+import { InlineEditRow } from '../InlineEditRow';
 
 const testProp = 'testProp';
 

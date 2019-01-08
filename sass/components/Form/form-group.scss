@@ -1,0 +1,24 @@
+.kubevirt-form-group .dropdown > .dropdown-menu {
+  display: none;
+  z-index: 1001;
+}
+
+.kubevirt-form-group .dropdown.open > .dropdown-menu {
+  display: block;
+}
+
+.kubevirt-form-group--no-bottom {
+  margin-bottom: 2px;
+}
+
+.kubevirt-form-group--help {
+  margin-bottom: 0;
+}
+
+.kubevirt-form-group--no-help {
+  margin-bottom: 23px;
+}
+
+.kubevirt-form-group__field-help .popover {
+  max-width: 400px;
+}

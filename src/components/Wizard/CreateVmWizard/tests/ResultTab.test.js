@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ResultTab from '../ResultTab';
+
+import { ResultTab } from '../ResultTab';
 
 describe('<ResultTab />', () => {
   it('renders progress correctly', () => {

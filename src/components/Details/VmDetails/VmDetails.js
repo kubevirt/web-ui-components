@@ -2,7 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Row, Col } from 'patternfly-react';
+
 import { VmStatus } from '../../VmStatus';
+
 import {
   getCpu,
   getDescription,

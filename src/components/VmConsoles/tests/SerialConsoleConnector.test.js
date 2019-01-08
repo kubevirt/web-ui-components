@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import SerialConsoleConnector from '../SerialConsoleConnector';
+import { SerialConsoleConnector } from '../SerialConsoleConnector';
 import { dummyFixture } from '../fixtures/SerialConsoleConnector.fixture';
 
 describe('<SerialConsoleConnector />', () => {

@@ -2,7 +2,7 @@
 
 exports[`<TemplateSource /> renders correctly 1`] = `
 <div
-  className="template-source__overlay"
+  className="kubevirt-template-source__overlay"
 >
   <OverlayTrigger
     defaultOverlayShown={false}

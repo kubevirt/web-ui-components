@@ -1,9 +1,18 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { MenuItem } from 'patternfly-react';
-import BasicSettingsTab, { getFormFields } from '../BasicSettingsTab';
+
+import { BasicSettingsTab, getFormFields } from '../BasicSettingsTab';
 import { namespaces } from '../fixtures/CreateVmWizard.fixture';
 import { baseTemplates } from '../../../../k8s/mock_templates';
+import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
+import { DNS1123_START_ERROR } from '../../../../utils/strings';
+import { getValidationObject } from '../../../../utils/validations';
+import { getName, getMemory, getCpu } from '../../../../utils/selectors';
+import { getTemplateProvisionSource } from '../../../../utils/templates';
+import { Dropdown } from '../../../Form';
+import { NO_TEMPLATE } from '../strings';
+
 import {
   userTemplates,
   urlTemplate,
@@ -12,7 +21,7 @@ import {
   containerCloudTemplate,
   urlCustomFlavorTemplate,
 } from '../../../../k8s/mock_user_templates';
-import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
+
 import {
   NAME_KEY,
   USER_TEMPLATE_KEY,
@@ -26,18 +35,13 @@ import {
   FLAVOR_KEY,
   MEMORY_KEY,
 } from '../constants';
-import { DNS1123_START_ERROR } from '../../../../utils/strings';
-import { getValidationObject } from '../../../../utils/validations';
+
 import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   CUSTOM_FLAVOR,
 } from '../../../../constants';
-import { getName, getMemory, getCpu } from '../../../../utils/selectors';
-import { getTemplateProvisionSource } from '../../../../utils/templates';
-import { Dropdown } from '../../../Form';
-import { NO_TEMPLATE } from '../strings';
 
 const templates = [...baseTemplates, ...userTemplates];
 

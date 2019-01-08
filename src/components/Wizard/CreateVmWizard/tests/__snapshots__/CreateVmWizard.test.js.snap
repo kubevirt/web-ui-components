@@ -8,6 +8,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
   cancelButtonDisabled={false}
   cancelText="Cancel"
   closeText="Close"
+  dialogClassName="modal-lg wizard-pf kubevirt-wizard kubevirt-create-vm-wizard"
   loading={false}
   loadingMessage="Loading..."
   loadingTitle="Loading Wizard..."

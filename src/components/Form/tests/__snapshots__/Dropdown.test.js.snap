@@ -14,27 +14,26 @@ exports[`<DropdownControl /> renders correctly 1`] = `
   }
   disabled={false}
   id="1"
-  onBlur={null}
+  onBlur={[Function]}
   onChange={[MockFunction]}
   value="This is dropdown button"
 >
   <ButtonGroup
     block={false}
     bsClass="btn-group"
-    className="kubevirt-dropdownGroup"
     justified={true}
     key="1"
     vertical={false}
   >
     <div
-      className="kubevirt-dropdownGroup btn-group btn-group-justified"
+      className="btn-group btn-group-justified"
     >
       <DropdownButton
         bsStyle="default"
         className="kubevirt-dropdown"
         disabled={false}
         id="1"
-        onBlur={null}
+        onBlur={[Function]}
         onSelect={[Function]}
         title="This is dropdown button"
       >
@@ -43,7 +42,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
           className="kubevirt-dropdown"
           disabled={false}
           id="1"
-          onBlur={null}
+          onBlur={[Function]}
           onSelect={[Function]}
           title="This is dropdown button"
         >
@@ -81,7 +80,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                     disabled={false}
                     id="1"
                     key=".0"
-                    onBlur={null}
+                    onBlur={[Function]}
                     onClick={[Function]}
                     onKeyDown={[Function]}
                     open={false}
@@ -97,7 +96,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                       className="kubevirt-dropdown dropdown-toggle"
                       disabled={false}
                       id="1"
-                      onBlur={null}
+                      onBlur={[Function]}
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       role="button"
@@ -108,7 +107,7 @@ exports[`<DropdownControl /> renders correctly 1`] = `
                         className="kubevirt-dropdown dropdown-toggle btn btn-default"
                         disabled={false}
                         id="1"
-                        onBlur={null}
+                        onBlur={[Function]}
                         onClick={[Function]}
                         onKeyDown={[Function]}
                         role="button"

@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { safeLoad } from 'js-yaml';
+
 import {
   ANNOTATION_USED_TEMPLATE,
   TEMPLATE_FLAVOR_LABEL,

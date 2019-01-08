@@ -4,9 +4,9 @@
 const chalk = require('chalk');
 const { crossMark } = require('../common');
 const paths = require('../../config/paths');
+const pkg = require(paths.packageJson);
 
 module.exports = () => {
-  const pkg = require(paths.packageJson);
   const deps = { ...pkg.dependencies, ...pkg.devDependencies, ...pkg.peerDependencies };
   const badDeps = [];
 

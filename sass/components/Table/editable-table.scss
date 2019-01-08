@@ -1,0 +1,16 @@
+.kubevirt-editable-table__row-actions {
+  padding: 3px;
+}
+
+.kubevirt-editable-table__cell {
+  min-height: 24px;
+}
+
+.kubevirt-editable-table__cell-error {
+  margin: 0;
+  padding: 0;
+}
+
+.kubevirt-editable-table__cell-error--bootable {
+  margin-top: 2em;
+}

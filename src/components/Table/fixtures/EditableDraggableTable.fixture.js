@@ -1,15 +1,15 @@
-import EditableDraggableTable from '../EditableDraggableTable';
+import { default as EditableDraggableTable } from '../EditableDraggableTable';
 
 export const rows = [
   {
     id: 1,
-    one: 'First Column',
-    two: 'Second Column',
+    one: 'Cell 1-one',
+    two: 'Cell 1-two',
   },
   {
     id: 2,
-    one: 'F Column',
-    two: 'S Column',
+    one: 'Cell 2-one',
+    two: 'Cell 2-two',
   },
 ];
 

@@ -1,4 +1,9 @@
 import { remove, pull, get } from 'lodash';
+
+import { getDisks, getVolumes, getDataVolumes, getInterfaces, getNetworks } from './selectors';
+import { selectVm } from '../k8s/selectors';
+import { baseTemplates } from '../k8s/mock_templates';
+
 import {
   TEMPLATE_TYPE_BASE,
   TEMPLATE_TYPE_LABEL,
@@ -7,9 +12,6 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
 } from '../constants';
-import { getDisks, getVolumes, getDataVolumes, getInterfaces, getNetworks } from './selectors';
-import { selectVm } from '../k8s/selectors';
-import { baseTemplates } from '../k8s/mock_templates';
 
 export const getTemplatesWithLabels = (templates, labels) => {
   const filteredTemplates = [...templates];

@@ -1,5 +1,4 @@
-import { FormFactory } from '..';
-import { getFormElement } from '../FormFactory';
+import { FormFactory, getFormElement } from '../FormFactory';
 
 export const getPositiveNumber = () =>
   getFormElement({
@@ -14,13 +13,16 @@ export default {
   props: {
     fields: {
       textField: {
+        id: 'text',
         title: 'textField',
       },
       requiredField: {
+        id: 'required',
         title: 'requiredField',
         required: true,
       },
       invisibleField: {
+        id: 'invisible',
         title: 'invisibleField',
         isVisible: () => false,
       },
@@ -39,13 +41,16 @@ export default {
         ],
       },
       textAreaField: {
+        id: 'textarea',
         type: 'textarea',
       },
       checkboxField: {
+        id: 'checkbox',
         type: 'checkbox',
         title: 'checkboxFieldTitle',
       },
       labelField: {
+        id: 'label',
         type: 'label',
         title: 'labelTitle',
       },

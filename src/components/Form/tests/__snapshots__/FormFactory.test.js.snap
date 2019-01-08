@@ -6,6 +6,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
   fields={
     Object {
       "checkboxField": Object {
+        "id": "checkbox",
         "title": "checkboxFieldTitle",
         "type": "checkbox",
       },
@@ -24,6 +25,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
         "type": "dropdown",
       },
       "invisibleField": Object {
+        "id": "invisible",
         "isVisible": [MockFunction] {
           "calls": Array [
             Array [
@@ -62,17 +64,21 @@ exports[`<FormFactory /> renders correctly 1`] = `
         "title": "invisibleField",
       },
       "labelField": Object {
+        "id": "label",
         "title": "labelTitle",
         "type": "label",
       },
       "requiredField": Object {
+        "id": "required",
         "required": true,
         "title": "requiredField",
       },
       "textAreaField": Object {
+        "id": "textarea",
         "type": "textarea",
       },
       "textField": Object {
+        "id": "text",
         "title": "textField",
       },
     }
@@ -117,11 +123,12 @@ exports[`<FormFactory /> renders correctly 1`] = `
     >
       <FormGroup
         bsClass="form-group"
+        className="kubevirt-form-group"
         key="textField"
         validationState={null}
       >
         <div
-          className="form-group"
+          className="kubevirt-form-group form-group"
         >
           <Col
             bsClass="col"
@@ -155,6 +162,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
             >
               <Text
                 disabled={false}
+                id="text"
+                key="text"
+                onBlur={[Function]}
                 onChange={[Function]}
                 value="textField"
               >
@@ -162,7 +172,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   bsClass="form-control"
                   componentClass="input"
                   disabled={false}
-                  onBlur={null}
+                  id="text"
+                  key="text"
+                  onBlur={[Function]}
                   onChange={[Function]}
                   type="text"
                   value="textField"
@@ -170,7 +182,8 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   <input
                     className="form-control"
                     disabled={false}
-                    onBlur={null}
+                    id="text"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     type="text"
                     value="textField"
@@ -190,11 +203,12 @@ exports[`<FormFactory /> renders correctly 1`] = `
       </FormGroup>
       <FormGroup
         bsClass="form-group"
+        className="kubevirt-form-group"
         key="requiredField"
         validationState={null}
       >
         <div
-          className="form-group"
+          className="kubevirt-form-group form-group"
         >
           <Col
             bsClass="col"
@@ -228,6 +242,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
             >
               <Text
                 disabled={false}
+                id="required"
+                key="required"
+                onBlur={[Function]}
                 onChange={[Function]}
                 value="requiredField"
               >
@@ -235,7 +252,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   bsClass="form-control"
                   componentClass="input"
                   disabled={false}
-                  onBlur={null}
+                  id="required"
+                  key="required"
+                  onBlur={[Function]}
                   onChange={[Function]}
                   type="text"
                   value="requiredField"
@@ -243,7 +262,8 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   <input
                     className="form-control"
                     disabled={false}
-                    onBlur={null}
+                    id="required"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     type="text"
                     value="requiredField"
@@ -263,11 +283,12 @@ exports[`<FormFactory /> renders correctly 1`] = `
       </FormGroup>
       <FormGroup
         bsClass="form-group"
+        className="kubevirt-form-group"
         key="dropdownField"
         validationState={null}
       >
         <div
-          className="form-group"
+          className="kubevirt-form-group form-group"
         >
           <Col
             bsClass="col"
@@ -312,27 +333,26 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 }
                 disabled={false}
                 id="dropdown"
-                onBlur={null}
+                onBlur={[Function]}
                 onChange={[Function]}
                 value="dropdownField"
               >
                 <ButtonGroup
                   block={false}
                   bsClass="btn-group"
-                  className="kubevirt-dropdownGroup"
                   justified={true}
                   key="dropdown"
                   vertical={false}
                 >
                   <div
-                    className="kubevirt-dropdownGroup btn-group btn-group-justified"
+                    className="btn-group btn-group-justified"
                   >
                     <DropdownButton
                       bsStyle="default"
                       className="kubevirt-dropdown"
                       disabled={false}
                       id="dropdown"
-                      onBlur={null}
+                      onBlur={[Function]}
                       onSelect={[Function]}
                       title="dropdownField"
                     >
@@ -341,7 +361,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                         className="kubevirt-dropdown"
                         disabled={false}
                         id="dropdown"
-                        onBlur={null}
+                        onBlur={[Function]}
                         onSelect={[Function]}
                         title="dropdownField"
                       >
@@ -379,7 +399,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                   disabled={false}
                                   id="dropdown"
                                   key=".0"
-                                  onBlur={null}
+                                  onBlur={[Function]}
                                   onClick={[Function]}
                                   onKeyDown={[Function]}
                                   open={false}
@@ -395,7 +415,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                     className="kubevirt-dropdown dropdown-toggle"
                                     disabled={false}
                                     id="dropdown"
-                                    onBlur={null}
+                                    onBlur={[Function]}
                                     onClick={[Function]}
                                     onKeyDown={[Function]}
                                     role="button"
@@ -406,7 +426,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                       className="kubevirt-dropdown dropdown-toggle btn btn-default"
                                       disabled={false}
                                       id="dropdown"
-                                      onBlur={null}
+                                      onBlur={[Function]}
                                       onClick={[Function]}
                                       onKeyDown={[Function]}
                                       role="button"
@@ -530,11 +550,12 @@ exports[`<FormFactory /> renders correctly 1`] = `
       </FormGroup>
       <FormGroup
         bsClass="form-group"
+        className="kubevirt-form-group"
         key="textAreaField"
         validationState={null}
       >
         <div
-          className="form-group"
+          className="kubevirt-form-group form-group"
         >
           <Col
             bsClass="col"
@@ -566,6 +587,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
             >
               <TextArea
                 disabled={false}
+                id="textarea"
+                key="textarea"
+                onBlur={[Function]}
                 onChange={[Function]}
                 value="textarea"
               >
@@ -573,14 +597,16 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   bsClass="form-control"
                   componentClass="textarea"
                   disabled={false}
-                  onBlur={null}
+                  id="textarea"
+                  onBlur={[Function]}
                   onChange={[Function]}
                   value="textarea"
                 >
                   <textarea
                     className="form-control"
                     disabled={false}
-                    onBlur={null}
+                    id="textarea"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     value="textarea"
                   />
@@ -599,11 +625,12 @@ exports[`<FormFactory /> renders correctly 1`] = `
       </FormGroup>
       <FormGroup
         bsClass="form-group"
+        className="kubevirt-form-group"
         key="checkboxField"
         validationState={null}
       >
         <div
-          className="form-group"
+          className="kubevirt-form-group form-group"
         >
           <Col
             bsClass="col"
@@ -626,6 +653,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
               <Checkbox
                 checked={true}
                 disabled={false}
+                id="checkbox"
+                key="checkbox"
+                onBlur={[Function]}
                 onChange={[Function]}
                 title="checkboxFieldTitle"
               >
@@ -633,8 +663,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   bsClass="checkbox"
                   checked={true}
                   disabled={false}
+                  id="checkbox"
                   inline={false}
-                  onBlur={null}
+                  onBlur={[Function]}
                   onChange={[Function]}
                   title=""
                 >
@@ -647,7 +678,8 @@ exports[`<FormFactory /> renders correctly 1`] = `
                       <input
                         checked={true}
                         disabled={false}
-                        onBlur={null}
+                        id="checkbox"
+                        onBlur={[Function]}
                         onChange={[Function]}
                         type="checkbox"
                       />
@@ -669,11 +701,12 @@ exports[`<FormFactory /> renders correctly 1`] = `
       </FormGroup>
       <FormGroup
         bsClass="form-group"
+        className="kubevirt-form-group"
         key="labelField"
         validationState={null}
       >
         <div
-          className="form-group"
+          className="kubevirt-form-group form-group"
         >
           <Col
             bsClass="col"
@@ -705,7 +738,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
             <div
               className="col-sm-5"
             >
-              <div />
+              <div
+                key="label"
+              />
               <HelpBlock
                 bsClass="help-block"
               >
@@ -729,7 +764,7 @@ exports[`getFormElement renders correctly 1`] = `
   disabled={false}
   id="test-id"
   min={1}
-  onBlur={null}
+  onBlur={[Function]}
   onChange={[Function]}
   onKeyDown={[Function]}
   type="number"

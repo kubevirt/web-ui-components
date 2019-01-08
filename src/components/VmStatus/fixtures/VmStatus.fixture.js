@@ -11,7 +11,7 @@ import {
   VM_STATUS_OTHER,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_IMPORTING,
-} from '../../../index';
+} from '../../../constants';
 
 const podFixture = {
   metadata: {

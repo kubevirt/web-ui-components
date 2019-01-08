@@ -1,4 +1,4 @@
-import { Dropdown } from '..';
+import { Dropdown } from '../Dropdown';
 
 export default {
   component: Dropdown,

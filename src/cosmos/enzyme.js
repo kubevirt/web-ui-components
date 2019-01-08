@@ -1,4 +1,5 @@
 import createContext from 'react-cosmos-test/enzyme';
+
 import paths from '../../config/paths';
 
 export default function createTestContext(args) {

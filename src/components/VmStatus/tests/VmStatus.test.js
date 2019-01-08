@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { shape } from 'prop-types';
-
 import { render } from 'enzyme';
 
-import { VmStatus, getVmStatusDetail, getVmStatus } from '../index';
+import { VmStatus } from '../VmStatus';
+import { getVmStatusDetail, getVmStatus } from '../getVmStatus';
 import { vmFixtures } from '../fixtures/VmStatus.fixture';
 
 const router = {
