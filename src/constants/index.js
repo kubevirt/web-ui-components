@@ -66,3 +66,6 @@ export const VM_STATUS_TO_TEXT = {
 
 export const DEFAULT_RDP_PORT = 3389;
 export const DASHES = '---';
+
+export const CDI_KUBEVIRT_IO = 'cdi.kubevirt.io';
+export const STORAGE_IMPORT_PVC_NAME = 'storage.import.importPvcName';

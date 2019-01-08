@@ -9,6 +9,7 @@ import {
   TEMPLATE_OS_NAME_ANNOTATION,
 } from '../constants';
 
+export const getId = value => `${getNamespace()}/${getName()}`;
 export const getName = value => get(value, 'metadata.name');
 export const getNamespace = value => get(value, 'metadata.namespace');
 
