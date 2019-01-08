@@ -8,7 +8,13 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   POD_NETWORK,
 } from '../../constants';
-import { getPxeBootPatch, getAddDiskPatch, getUpdateDescriptionPatch, getUpdateFlavorPatch, getAddNicPatch } from '../utils';
+import {
+  getPxeBootPatch,
+  getAddDiskPatch,
+  getUpdateDescriptionPatch,
+  getUpdateFlavorPatch,
+  getAddNicPatch,
+} from '../utils';
 import { cloudInitTestVm } from '../../k8s/mock_vm/cloudInitTestVm.mock';
 
 const getVM = firstBoot => ({
@@ -91,7 +97,8 @@ const comparePatch = (patch, path, value, op = 'add') => {
     path,
     value,
   });
-}
+};
+
 const nic = {
   name: 'fooNic',
   mac: 'fooMac',
@@ -349,8 +356,8 @@ describe('utils.js tests', () => {
 
     let patch = getAddNicPatch(vmWithoutNetworks, nic);
     expect(patch).toHaveLength(2);
-    compareAddPatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
-    compareAddPatch(patch[1], '/spec/template/spec/networks', [network]);
+    comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
+    comparePatch(patch[1], '/spec/template/spec/networks', [network]);
 
     const vmWithoutInterfaces = getVM(false);
     delete vmWithoutInterfaces.spec.template.spec.domain.devices.interfaces;
@@ -358,8 +365,8 @@ describe('utils.js tests', () => {
 
     patch = getAddNicPatch(vmWithoutInterfaces, nic);
     expect(patch).toHaveLength(2);
-    compareAddPatch(patch[0], '/spec/template/spec/domain/devices/interfaces', [intface]);
-    compareAddPatch(patch[1], '/spec/template/spec/networks/0', network);
+    comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces', [intface]);
+    comparePatch(patch[1], '/spec/template/spec/networks/0', network);
 
     const nicWithoutMac = cloneDeep(nic);
     delete nicWithoutMac.mac;
@@ -368,12 +375,12 @@ describe('utils.js tests', () => {
 
     patch = getAddNicPatch(vmWithoutNetworks, nicWithoutMac);
     expect(patch).toHaveLength(2);
-    compareAddPatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intfaceWithoutMac);
-    compareAddPatch(patch[1], '/spec/template/spec/networks', [network]);
+    comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intfaceWithoutMac);
+    comparePatch(patch[1], '/spec/template/spec/networks', [network]);
 
     patch = getAddNicPatch(vmWithoutNetworks, podNic);
     expect(patch).toHaveLength(2);
-    compareAddPatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
-    compareAddPatch(patch[1], '/spec/template/spec/networks', [podNetwork]);
+    comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
+    comparePatch(patch[1], '/spec/template/spec/networks', [podNetwork]);
   });
 });

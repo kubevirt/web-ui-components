@@ -8,7 +8,7 @@ import { CreateNicRow } from '..';
 import { Dropdown } from '../../Form/Dropdown';
 import CreateNicRowFixture from '../fixtures/CreateNicRow.fixture';
 import { networkConfigs } from '../../../k8s/mock_network';
-import { cloudInitTestVm } from '../../../k8s/mock_vm/cloudInitTestVm.vm';
+import { cloudInitTestVm } from '../../../k8s/mock_vm/cloudInitTestVm.mock';
 import { getName } from '../../../utils';
 import { Loading } from '../../Loading';
 import { POD_NETWORK } from '../../../constants';

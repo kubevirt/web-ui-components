@@ -10,6 +10,7 @@ import { HEADER_NIC_NAME, HEADER_MAC, SELECT_NETWORK } from '../Wizard/CreateVmW
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../Wizard/CreateVmWizard/constants';
 import { Loading } from '../Loading';
 import { CancelAcceptButtons } from '../CancelAcceptButtons';
+import { settingsValue } from '../../k8s/selectors';
 
 const columnSizes = {
   lg: 3,
@@ -84,7 +85,7 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
   return {
     name: {
       id: 'nic-name',
-      value: get(nic, 'name.value'),
+      value: settingsValue(nic, 'name'),
       validate: validateDNS1123SubdomainValue,
       required: true,
       title: HEADER_NIC_NAME,
@@ -93,12 +94,12 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
     model: {
       id: 'nic-model',
       type: 'label',
-      value: get(nic.bus, 'value'),
+      value: settingsValue(nic, 'bus'),
     },
     network,
     mac: {
       id: 'mac-address',
-      value: get(nic, 'mac.value'),
+      value: settingsValue(nic, 'mac'),
       title: HEADER_MAC,
       disabled: nic.creating,
     },
