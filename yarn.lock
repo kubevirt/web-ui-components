@@ -710,9 +710,9 @@
   resolved "https://registry.yarnpkg.com/@novnc/novnc/-/novnc-1.0.0.tgz#76b0e89e6f8738ca8154195baf5b8e6a80bc9105"
 
 "@patternfly/react-console@1.x":
-  version "1.10.6"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-console/-/react-console-1.10.6.tgz#a036494e934a10f6c6128716c61c7cc9beff8dbc"
-  integrity sha512-QNGSL2QvaDT/rmZhkinZ6HEH5HFNY/sDUeTCSI3/sS4kxJHSot8lVfZFxU+cP9bQRSembhr3Z76cFp2Jk7N3Qg==
+  version "1.10.8"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-console/-/react-console-1.10.8.tgz#b2617001b033b28f570c9c7cb805f8c01c4511f8"
+  integrity sha512-HBPYVNxO8tif7b4mamCTraZUf2kyyDhGL7/1WE1Dn5+VNsCkvfcf2RU6as7qabdbP79XIx9Y3kkdphMxdBXwGQ==
   dependencies:
     "@novnc/novnc" "^1.0.0"
     blob-polyfill "^3.0.20180112"
