@@ -441,7 +441,7 @@ describe('request.js - cloudInit', () => {
     const cloudInit = {
       users: [
         {
-          name: 'root',
+          name: 'default',
           'ssh-authorized-keys': basicSettingsCloudInit[AUTHKEYS_KEY].value,
         },
       ],
@@ -469,7 +469,7 @@ describe('request.js - cloudInit', () => {
     const cloudInit = {
       users: [
         {
-          name: 'root',
+          name: 'default',
           'ssh-authorized-keys': onlySSH[AUTHKEYS_KEY].value,
         },
       ],

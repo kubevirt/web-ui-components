@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { FormFactory } from '../../Form/FormFactory';
-import { getName, getMemory, getCpu, getCloudInitData } from '../../../utils/selectors';
+import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue } from '../../../utils/validations';
 import {
@@ -55,6 +55,8 @@ import {
   WORKLOAD_PROFILE_KEY,
   START_VM_KEY,
   CLOUD_INIT_KEY,
+  USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
+  CLOUD_INIT_CUSTOM_SCRIPT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
 } from './constants';
@@ -203,16 +205,35 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       title: 'Use cloud-init',
       type: 'checkbox',
     },
+    [USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
+      id: 'use-cloud-init-custom-script',
+      title: 'Use custom script',
+      type: 'checkbox',
+      isVisible: basicVmSettings => settingsValue(basicVmSettings, CLOUD_INIT_KEY, false),
+    },
     [HOST_NAME_KEY]: {
       id: 'cloud-init-hostname',
       title: 'Hostname',
-      isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
+      isVisible: basicVmSettings =>
+        settingsValue(basicVmSettings, CLOUD_INIT_KEY, false) &&
+        !settingsValue(basicVmSettings, USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY, false),
     },
     [AUTHKEYS_KEY]: {
       id: 'cloud-init-ssh',
       title: 'Authenticated SSH Keys',
       type: 'textarea',
-      isVisible: basicVmSettings => get(basicVmSettings, 'cloudInit.value', false),
+      isVisible: basicVmSettings =>
+        settingsValue(basicVmSettings, CLOUD_INIT_KEY, false) &&
+        !settingsValue(basicVmSettings, USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY, false),
+    },
+    [CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
+      id: 'cloud-init-custom-script',
+      title: 'Custom Script',
+      type: 'textarea',
+      className: 'kubevirt-create-vm-wizard__custom-cloud-script-textarea',
+      isVisible: basicVmSettings =>
+        settingsValue(basicVmSettings, CLOUD_INIT_KEY, false) &&
+        settingsValue(basicVmSettings, USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY, false),
     },
   };
 };
@@ -303,19 +324,14 @@ const updateTemplateData = (userTemplate, newBasicSettings) => {
     newBasicSettings[WORKLOAD_PROFILE_KEY] = asValueObject(workload);
 
     // update cloud-init
-    const cloudInit = getCloudInitData(vm);
-    if (cloudInit) {
+    const cloudInitUserData = getCloudInitUserData(vm);
+    if (cloudInitUserData) {
       newBasicSettings[CLOUD_INIT_KEY] = asValueObject(true);
-
-      const { userData } = cloudInit;
-
-      newBasicSettings[HOST_NAME_KEY] = asValueObject(userData.hostname || '');
-
-      const users = userData.users || [];
-      const rootUser = users.find(user => user.name === 'root');
-      newBasicSettings[AUTHKEYS_KEY] = asValueObject(rootUser['ssh-authorized-keys'] || '');
+      newBasicSettings[USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY] = asValueObject(true);
+      newBasicSettings[CLOUD_INIT_CUSTOM_SCRIPT_KEY] = asValueObject(cloudInitUserData || '');
     } else if (get(newBasicSettings[CLOUD_INIT_KEY], 'value')) {
       newBasicSettings[CLOUD_INIT_KEY] = asValueObject(false);
+      newBasicSettings[USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY] = asValueObject(false);
     }
 
     // update provision source

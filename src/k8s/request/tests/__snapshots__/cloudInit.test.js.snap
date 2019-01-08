@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cloudInit.js creates predefined userData 1`] = `
+Object {
+  "cloudInitNoCloud": Object {
+    "userData": "#cloud-config
+users:
+  - name: default
+    ssh-authorized-keys: >-
+      ssh-rsa
+      AAAAB3NzaC1yc2EAAAADAQABAAACAQDbHPmk/9EQfmJPebLT7PT7dUYhdmqxTbjoSIxOAYUUt6WGbgD6YbyqM4nMWnzNjH/mto994HphNK/auWuQcpgD+QEwV2601lfela2tdjIetMBhxO2blMJPFI12xDrANW68yuyDR4PceHTBvpOrHm1lk/hB4fnGK2iuFe6WU5TGAUDLiG48u0TfEwJK7ROeDMzfpkJ8OkFEyUN/ixtSYoCC4FlG2H5MCUT4l1XuwOtX+W54QyyGYv2iKvqVB93evNDsA8L4zoijvy8BQevtLGpVg3A89sFtjFhjy5kSZb3MTcHuzLEMU3zfcY3F1/ngQwViBQU3zbZepOwhsLq8SqMUiuAf+VtabVYlObnac4ARaTL5GEDbDjHr5mqCWEvFzQXbFbbozA2LWDMRade0T9tGbaSJMQC8wpDCiEu/DLXgoKaosnEaQ4SlYu3t8OFD6Cn+FZWjhQGey+DcHa12qSLWsL6VuEP+7SA2G6mcsJtnFDw3PxlcRVMDGhP/UPxkMsfmPfWZEFV2xMgQUF1SsSbodWMK2XYHKKMTdCSqN6BacghiACcY/FJoP+DbDWX2V90GqTZJF+Ljl7zsGoLMrKGm85jn+QIAabNQxh9vdfdV9YeVdRURet0TyRCJNsNhMh/kEOh39LHs1rlEPlDMcKBINxbnfmMCvrfSo67Qfbdrw==
+      testCloudInit@testCloudInit
+hostname: blue.castle
+",
+  },
+  "name": "cloudinitdisk",
+}
+`;
+
+exports[`cloudInit.js creates predefined userData 2`] = `
+Object {
+  "name": "cloudinitdisk",
+}
+`;
+
+exports[`cloudInit.js sets userData 1`] = `
+Object {
+  "cloudInitNoCloud": Object {
+    "userData": "#!/usr/bin/env bash
+echo hello!",
+  },
+  "name": "cloudinitdisk",
+}
+`;
+
+exports[`cloudInit.js sets userData 2`] = `
+Object {
+  "disk": Object {
+    "bus": "virtio",
+  },
+  "name": "cloudinitdisk",
+  "volumeName": "cloudinitdisk",
+}
+`;

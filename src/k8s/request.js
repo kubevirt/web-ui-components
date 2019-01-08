@@ -1,12 +1,10 @@
 import { cloneDeep, get } from 'lodash';
-import { safeDump } from 'js-yaml';
 
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
-import { getName, getNamespace } from '../utils/selectors';
+import { getName, getNamespace, getCloudInitVolume } from '../utils/selectors';
 import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, PersistentVolumeClaimModel } from '../models';
 
 import {
-  CLOUDINIT_DISK,
   ANNOTATION_DEFAULT_DISK,
   ANNOTATION_DEFAULT_NETWORK,
   TEMPLATE_PARAM_VM_NAME,
@@ -45,6 +43,8 @@ import {
   CPU_KEY,
   START_VM_KEY,
   CLOUD_INIT_KEY,
+  USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
+  CLOUD_INIT_CUSTOM_SCRIPT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
   NAME_KEY,
@@ -65,6 +65,7 @@ import {
   settingsValue,
   selectVm,
 } from './selectors';
+import { CloudInit } from './request/cloudInit';
 
 const IS_TEMPLATE = 'isTemplate';
 
@@ -272,41 +273,27 @@ const addNetworks = (vm, template, getSetting, networks) => {
   }
 };
 
-// TODO what about user-edited cloudinit in template
 const addCloudInit = (vm, defaultDisk, getSetting) => {
   if (getSetting(CLOUD_INIT_KEY)) {
-    const cloudInitDisk = {
-      name: CLOUDINIT_DISK,
-    };
-    addDisk(vm, defaultDisk, cloudInitDisk, getSetting);
+    const existingCloudInitVolume = getCloudInitVolume(vm);
+    const cloudInit = new CloudInit({
+      volume: existingCloudInitVolume,
+    });
 
-    const userDataObject = {};
-
-    if (getSetting(AUTHKEYS_KEY)) {
-      userDataObject.users = [
-        {
-          name: 'root',
-          'ssh-authorized-keys': getSetting(AUTHKEYS_KEY),
-        },
-      ];
+    if (getSetting(USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY)) {
+      cloudInit.setUserData(getSetting(CLOUD_INIT_CUSTOM_SCRIPT_KEY));
+    } else {
+      cloudInit.setPredefinedUserData({
+        hostname: getSetting(HOST_NAME_KEY),
+        sshAuthorizedKeys: getSetting(AUTHKEYS_KEY),
+      });
     }
 
-    if (getSetting(HOST_NAME_KEY)) {
-      userDataObject.hostname = getSetting(HOST_NAME_KEY);
+    const { volume, disk } = cloudInit.build();
+    if (volume !== existingCloudInitVolume) {
+      addDisk(vm, defaultDisk, disk, getSetting);
+      addVolume(vm, volume);
     }
-
-    const userData = safeDump(userDataObject);
-
-    const userDataWithMagicHeader = `#cloud-config\n${userData}`;
-
-    const cloudInitVolume = {
-      name: CLOUDINIT_DISK,
-      cloudInitNoCloud: {
-        userData: userDataWithMagicHeader,
-      },
-    };
-
-    addVolume(vm, cloudInitVolume);
   }
 };
 
@@ -324,10 +311,13 @@ const addStorages = (vm, template, storages, getSetting) => {
           addDataVolumeTemplate(vm, storage, getSetting);
           addDataVolume(vm, storage, getSetting);
           break;
-        // TODO What about unknown types ( ie from user-edited template ), just add disk & volume copied from template?
         case STORAGE_TYPE_CONTAINER:
-        default:
           addContainerVolume(vm, storage, getSetting);
+          break;
+        default:
+          if (storage.templateStorage) {
+            addVolume(vm, storage.templateStorage.volume);
+          }
       }
       addDisk(vm, defaultDisk, storage, getSetting);
     });
