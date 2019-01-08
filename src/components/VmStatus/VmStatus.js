@@ -42,7 +42,11 @@ StateValue.defaultProps = {
   message: undefined,
 };
 
-const StateRunning = () => <StateValue iconClass="pficon pficon-on-running">Running</StateValue>;
+const StateRunning = ({ ...props }) => (
+  <StateValue iconClass="pficon pficon-on-running" {...props}>
+    Running
+  </StateValue>
+);
 const StateOff = () => <StateValue iconClass="pficon pficon-off">Off</StateValue>;
 const StateUnknown = () => <StateValue iconClass="pficon pficon-unknown">Unknown</StateValue>;
 const StateMigrating = () => <StateValue iconClass="pficon pficon-migration">Migrating</StateValue>;
@@ -76,7 +80,7 @@ export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
     case VM_STATUS_OFF:
       return <StateOff />;
     case VM_STATUS_RUNNING:
-      return <StateRunning />;
+      return <StateRunning linkTo={getSubPagePath(launcherPod, PodModel)} />;
     case VM_STATUS_VMI_WAITING:
       return <StateVmiWaiting linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} />;
     case VM_STATUS_STARTING:
