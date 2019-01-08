@@ -6,7 +6,17 @@ import { FormFactory } from '../../Form/FormFactory';
 import { getName, getMemory, getCpu, getCloudInitData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue } from '../../../utils/validations';
-import { NO_TEMPLATE } from './strings';
+import {
+  NO_TEMPLATE,
+  HELP_PROVISION_SOURCE_URL,
+  HELP_PROVISION_SOURCE_PXE,
+  HELP_PROVISION_SOURCE_CONTAINER,
+  HELP_OS,
+  HELP_FLAVOR,
+  HELP_MEMORY,
+  HELP_CPU,
+  HELP_WORKLOAD,
+} from './strings';
 
 import {
   getFlavors,
@@ -18,6 +28,7 @@ import {
   getTemplateFlavors,
   getTemplateWorkloadProfiles,
   getTemplateOperatingSystems,
+  settingsValue,
 } from '../../../k8s/selectors';
 
 import {
@@ -47,6 +58,20 @@ import {
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
 } from './constants';
+
+const getProvisionSourceHelp = basicSettings => {
+  const provisionSource = settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY);
+  switch (provisionSource) {
+    case PROVISION_SOURCE_URL:
+      return HELP_PROVISION_SOURCE_URL;
+    case PROVISION_SOURCE_PXE:
+      return HELP_PROVISION_SOURCE_PXE;
+    case PROVISION_SOURCE_CONTAINER:
+      return HELP_PROVISION_SOURCE_CONTAINER;
+    default:
+      return null;
+  }
+};
 
 export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate) => {
   const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
@@ -110,6 +135,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       choices: imageSources,
       required: true,
       disabled: userTemplate !== undefined,
+      help: getProvisionSourceHelp(basicSettings),
     },
     [CONTAINER_IMAGE_KEY]: {
       id: 'provision-source-container',
@@ -133,6 +159,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       choices: operatingSystems,
       required: true,
       disabled: userTemplate !== undefined,
+      help: HELP_OS,
     },
     [FLAVOR_KEY]: {
       id: 'flavor-dropdown',
@@ -142,6 +169,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       choices: flavors,
       required: true,
       disabled: userTemplate !== undefined && flavors.length === 1,
+      help: HELP_FLAVOR,
     },
     [MEMORY_KEY]: {
       id: 'resources-memory',
@@ -149,6 +177,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       type: 'positive-number',
       required: true,
       isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
+      help: HELP_MEMORY,
     },
     [CPU_KEY]: {
       id: 'resources-cpu',
@@ -156,6 +185,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       type: 'positive-number',
       required: true,
       isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
+      help: HELP_CPU,
     },
     [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',
@@ -164,11 +194,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Workload Profile ---',
       choices: workloadProfiles,
       required: true,
-      help: workloadProfiles.map(profile => (
-        <p key={profile}>
-          <b>{profile}</b>: {profile}
-        </p>
-      )),
+      help: HELP_WORKLOAD,
       disabled: userTemplate !== undefined,
     },
     [START_VM_KEY]: startVmCheckbox,
