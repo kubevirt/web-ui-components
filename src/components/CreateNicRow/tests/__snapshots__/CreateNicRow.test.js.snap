@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CreateDiskRow /> renders correctly 1`] = `
+exports[`<CreateNicRow /> renders correctly 1`] = `
 <ListFormFactory
   actions={
     <CancelAcceptButtons
@@ -19,32 +19,36 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
   }
   fields={
     Object {
-      "bus": Object {
-        "id": "disk-bus",
+      "mac": Object {
+        "disabled": undefined,
+        "id": "mac-address",
+        "title": "MAC Address",
+        "value": undefined,
+      },
+      "model": Object {
+        "id": "nic-model",
         "type": "label",
         "value": undefined,
       },
       "name": Object {
         "disabled": undefined,
-        "id": "disk-name",
+        "id": "nic-name",
         "required": true,
-        "title": "Name",
+        "title": "NIC Name",
         "validate": [Function],
         "value": undefined,
       },
-      "size": Object {
-        "disabled": undefined,
-        "id": "disk-size",
+      "network": Object {
+        "choices": Array [
+          Object {
+            "name": "Pod Networking",
+            "networkType": "pod",
+          },
+        ],
+        "defaultValue": "--- Select Network Definition ---",
+        "disabled": false,
+        "id": "network-type",
         "required": true,
-        "title": "Size",
-        "type": "positive-number",
-        "value": undefined,
-      },
-      "storageClass": Object {
-        "choices": Array [],
-        "defaultValue": "--- No Storage Class Available ---",
-        "disabled": true,
-        "id": "disk-storage-class",
         "type": "dropdown",
         "value": undefined,
       },

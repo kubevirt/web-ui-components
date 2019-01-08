@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Button, Icon } from 'patternfly-react';
 
 import { ListFormFactory } from '../Form/FormFactory';
 import { getName } from '../../utils/selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
 import { VALIDATION_ERROR_TYPE } from '../../constants';
+import { CancelAcceptButtons } from '../CancelAcceptButtons';
 
 const columnSizes = {
   lg: 3,
@@ -71,14 +71,7 @@ const getActions = (diskColumns, storage, LoadingComponent, onAccept, onCancel) 
   storage.creating ? (
     <LoadingComponent />
   ) : (
-    <div className="kubevirt-create-disk-row__action-buttons">
-      <Button onClick={onCancel}>
-        <Icon type="pf" name="close" />
-      </Button>
-      <Button onClick={onAccept} disabled={!isValid(diskColumns, storage)} bsStyle="primary">
-        <Icon type="fa" name="check" />
-      </Button>
-    </div>
+    <CancelAcceptButtons onAccept={onAccept} onCancel={onCancel} disabled={!isValid(diskColumns, storage)} />
   );
 
 export const CreateDiskRow = ({ storage, onChange, onAccept, onCancel, storageClasses, LoadingComponent }) => {
