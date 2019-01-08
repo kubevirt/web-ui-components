@@ -17,13 +17,11 @@ import {
   getUpdateFlavorPatch,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
-import { CUSTOM_FLAVOR } from '../../../constants';
+import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
 import { settingsValue, selectVm } from '../../../k8s/selectors';
 import { Flavor } from '../Flavor';
 import { Description } from '../Description';
-import { Loading } from '../../Loading/Loading';
-
-const DASHES = '---';
+import { Loading } from '../../Loading';
 
 export class VmDetails extends React.Component {
   constructor(props) {

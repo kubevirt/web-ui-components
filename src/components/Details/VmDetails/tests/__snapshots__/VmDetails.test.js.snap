@@ -39,7 +39,7 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>
@@ -184,7 +184,7 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>
@@ -332,7 +332,7 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>
@@ -477,7 +477,7 @@ exports[`<VmDetails /> renders correctly 1`] = `
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>
@@ -767,7 +767,7 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>
@@ -912,7 +912,7 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>
@@ -1057,7 +1057,7 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             class="kubevirt-vm-details__description"
           >
             <div>
-              VM has no description
+              ---
             </div>
           </div>
         </dd>

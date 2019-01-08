@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import { getDescription } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit';
-import { Loading } from '../../Loading/Loading';
+import { Loading } from '../../Loading';
+import { DASHES } from '../../../constants';
 
 const descriptionFormFields = {
   description: {
@@ -26,7 +27,7 @@ export const Description = ({ formValues, vm, editing, updating, LoadingComponen
       LoadingComponent={LoadingComponent}
       onFormChange={(newValue, key) => onFormChange(newValue, key, true)}
     >
-      {getDescription(vm) || 'VM has no description'}
+      {getDescription(vm) || DASHES}
     </InlineEdit>
   );
 };
