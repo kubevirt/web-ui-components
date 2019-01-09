@@ -4,9 +4,9 @@ import {
   DNS1123_CONTAINS_ERROR,
   DNS1123_EMPTY_ERROR,
   DNS1123_TOO_LONG_ERROR,
-  DNS1123_LOWERCASE_INFO,
+  DNS1123_UPPERCASE_ERROR,
 } from './strings';
-import { VALIDATION_ERROR_TYPE, VALIDATION_INFO_TYPE } from '../constants';
+import { VALIDATION_ERROR_TYPE } from '../constants';
 
 export const isPositiveNumber = value => value && value.match(/^[1-9]\d*$/);
 
@@ -22,6 +22,9 @@ export const validateDNS1123SubdomainValue = value => {
   if (!value) {
     return getValidationObject(DNS1123_EMPTY_ERROR);
   }
+  if (value.toLowerCase() !== value) {
+    return getValidationObject(DNS1123_UPPERCASE_ERROR);
+  }
   if (value.length > 253) {
     return getValidationObject(DNS1123_TOO_LONG_ERROR);
   }
@@ -35,9 +38,6 @@ export const validateDNS1123SubdomainValue = value => {
     if (!value.charAt(i).match('[-a-zA-Z0-9.]')) {
       return getValidationObject(`${DNS1123_CONTAINS_ERROR} ${value.charAt(i)}`);
     }
-  }
-  if (value.toLowerCase() !== value) {
-    return getValidationObject(DNS1123_LOWERCASE_INFO, VALIDATION_INFO_TYPE);
   }
   return null;
 };
