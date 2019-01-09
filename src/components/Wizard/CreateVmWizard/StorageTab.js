@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get, findIndex } from 'lodash';
 
-import { PROVISION_SOURCE_PXE, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL } from '../../../constants';
+import {
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_URL,
+  VALIDATION_ERROR_TYPE,
+} from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
 import { FormFactory } from '../../Form/FormFactory';
-import { getValidationObject } from '../../../utils/validations';
+import { getValidationObject, validateDNS1123SubdomainValue } from '../../../utils/validations';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_CONTAINER } from './constants';
 
@@ -21,7 +26,6 @@ import {
 import {
   ERROR_NO_BOOTABLE_DISK,
   ERROR_EMPTY_ENTITY,
-  ERROR_EMPTY_NAME,
   ERROR_POSITIVE_SIZE,
   ERROR_DISK_NOT_FOUND,
   HEADER_DISK_NAME,
@@ -41,8 +45,9 @@ const validateDataVolumeStorage = storage => {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
 
-  if (!storage.name) {
-    errors[1] = ERROR_EMPTY_NAME;
+  const nameValidation = validateDNS1123SubdomainValue(storage.name);
+  if (get(nameValidation, 'type') === VALIDATION_ERROR_TYPE) {
+    errors[1] = `Name ${nameValidation.message}`;
   }
 
   if (!storage.size || storage.size <= 0) {
@@ -58,8 +63,9 @@ const validatePvcStorage = storage => {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
 
-  if (!storage.name) {
-    errors[1] = ERROR_EMPTY_NAME;
+  const nameValidation = validateDNS1123SubdomainValue(storage.name);
+  if (get(nameValidation, 'type') === VALIDATION_ERROR_TYPE) {
+    errors[1] = `Name ${nameValidation.message}`;
   }
 
   return errors;
@@ -71,8 +77,9 @@ const validateContainerStorage = storage => {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
 
-  if (!storage.name) {
-    errors[1] = ERROR_EMPTY_NAME;
+  const nameValidation = validateDNS1123SubdomainValue(storage.name);
+  if (get(nameValidation, 'type') === VALIDATION_ERROR_TYPE) {
+    errors[1] = `Name ${nameValidation.message}`;
   }
 
   return errors;

@@ -5,9 +5,8 @@ import {
   DNS1123_CONTAINS_ERROR,
   DNS1123_EMPTY_ERROR,
   DNS1123_TOO_LONG_ERROR,
-  DNS1123_LOWERCASE_INFO,
+  DNS1123_UPPERCASE_ERROR,
 } from '../strings';
-import { VALIDATION_INFO_TYPE } from '../../constants';
 
 describe('validation.js - isPositiveNumber tests', () => {
   it('returns false for NaN', () => {
@@ -41,9 +40,7 @@ describe('validation.js - validateDNS1123SubdomainValue tests', () => {
     expect(validateDNS1123SubdomainValue('a'.repeat(253))).toBeNull();
   });
   it('returns warning for uppercase value', () => {
-    expect(validateDNS1123SubdomainValue('Aabc')).toEqual(
-      getValidationObject(DNS1123_LOWERCASE_INFO, VALIDATION_INFO_TYPE)
-    );
+    expect(validateDNS1123SubdomainValue('Aabc')).toEqual(getValidationObject(DNS1123_UPPERCASE_ERROR));
   });
   it('returns message for too long value', () => {
     expect(validateDNS1123SubdomainValue('a'.repeat(254))).toEqual(getValidationObject(DNS1123_TOO_LONG_ERROR));
