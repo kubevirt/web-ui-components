@@ -55,10 +55,9 @@ This project uses the [BEM (Block Element Modifier)](http://getbem.com/naming/) 
 for CSS classes. Refer to [stylelint configuration](../config/stylelint.config.js) for details
 on project-specific BEM format.
 
-For each React component group, there may be multiple logical BEM-style selectors. Taking
-`src/components/Form/FormFactory` as an example, this component's render output includes
-PF-React's `FormGroup` with CSS class `kubevirt-form-group` added to it. In other words,
-different logical parts of the given component may use different CSS classes.
+Each file at `sass/components/<GroupName>` represents a specific BEM block. For example,
+`sass/components/Form/dropdown.scss` should only include CSS selectors that start with
+`.kubevirt-dropdown`.
 
 ## Cosmos
 
@@ -107,6 +106,12 @@ module.exports = () => {
 
 ```sh
 yarn test
+```
+
+### Do a development build without any pre-checks?
+
+```sh
+yarn dev
 ```
 
 ### Run specific tests?
