@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Row, Col, Button, Alert } from 'patternfly-react';
+import { Row, Col, Button, Alert, FieldLevelHelp } from 'patternfly-react';
 
-import { VmStatuses } from '../../VmStatus';
-
+import { VmStatuses, getVmStatusDetail } from '../../VmStatus';
 import {
   getCpu,
   getMemory,
@@ -18,7 +17,7 @@ import {
   getOperatingSystemName,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
-import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
+import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';
 import { settingsValue, selectVm } from '../../../k8s/selectors';
 import { Flavor } from '../Flavor';
 import { Description } from '../Description';
@@ -35,7 +34,7 @@ export class VmDetails extends React.Component {
     };
   }
 
-  toggleEditing = editing =>
+  setEditing = editing =>
     this.setState({
       editing,
     });
@@ -60,9 +59,7 @@ export class VmDetails extends React.Component {
     });
 
   updateVmDetails = () => {
-    this.setState({
-      editing: false,
-    });
+    this.setEditing(false);
     const vmPatch = [];
 
     const descriptionForm = get(this.state.form.description, 'value');
@@ -109,6 +106,18 @@ export class VmDetails extends React.Component {
 
   isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
+  componentDidUpdate() {
+    const { launcherPod, importerPods, migration, vm } = this.props;
+    if (this.state.editing && !this.isVmOff(vm, launcherPod, importerPods, migration)) {
+      this.setEditing(false);
+    }
+  }
+
+  isVmOff = (vm, launcherPod, importerPods, migration) => {
+    const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
+    return statusDetail.status === VM_STATUS_OFF;
+  };
+
   render() {
     const {
       launcherPod,
@@ -122,17 +131,25 @@ export class VmDetails extends React.Component {
       LoadingComponent,
       k8sGet,
     } = this.props;
+    const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
     const nodeName = getNodeName(launcherPod);
     const ipAddresses = getVmiIpAddresses(vmi);
     const template = getVmTemplate(vm);
     const editButton = (
-      <Button disabled={this.state.updating} onClick={() => this.toggleEditing(true)}>
-        Edit
-      </Button>
+      <Fragment>
+        {!vmIsOff && (
+          <div className="kubevirt-vm-details__edit-info">
+            <FieldLevelHelp placement="top" content="Please turn off the VM before editing" />
+          </div>
+        )}
+        <Button disabled={this.state.updating || !vmIsOff} onClick={() => this.setEditing(true)}>
+          Edit
+        </Button>
+      </Fragment>
     );
     const cancelSaveButton = (
       <Fragment>
-        <Button onClick={() => this.toggleEditing(false)}>Cancel</Button>
+        <Button onClick={() => this.setEditing(false)}>Cancel</Button>
         <Button bsStyle="primary" disabled={!this.isFormValid()} onClick={this.updateVmDetails}>
           Save
         </Button>
