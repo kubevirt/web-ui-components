@@ -14,6 +14,7 @@ import {
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
+  ANNOTATION_USED_TEMPLATE,
 } from '../../constants';
 
 import {
@@ -25,6 +26,7 @@ import {
   getTemplateInterfaces,
   hasAutoAttachPodInterface,
   getTemplateProvisionSource,
+  retrieveVmTemplate,
 } from '../templates';
 
 import {
@@ -104,6 +106,58 @@ describe('templates.js', () => {
 
     expect(getTemplateProvisionSource(pxeTemplate)).toEqual({
       type: PROVISION_SOURCE_PXE,
+    });
+  });
+
+  it('retrieveVmTemplate', () => {
+    const template = {
+      metadata: {
+        name: 'fooTemplate',
+        namespace: 'fooNamespace',
+      },
+    };
+    const vm = {
+      metadata: {
+        labels: {
+          [ANNOTATION_USED_TEMPLATE]: 'fooNamespace_fooTemaplte',
+        },
+      },
+    };
+    const k8sGet = () => new Promise(resolve => resolve(template));
+    return retrieveVmTemplate(k8sGet, vm).then(result => {
+      expect(result).toEqual(template);
+      return result;
+    });
+  });
+  it('retrieveVmTemplate vm has no template', () => {
+    const vm = {};
+    const k8sGet = () => new Promise(resolve => resolve());
+    return retrieveVmTemplate(k8sGet, vm).then(result => {
+      expect(result).toEqual(null);
+      return result;
+    });
+  });
+  it('retrieveVmTemplate vm has template from mocked templates', () => {
+    const vm = {
+      metadata: {
+        labels: {
+          [ANNOTATION_USED_TEMPLATE]: 'default_fedora-generic',
+        },
+      },
+    };
+    // eslint-disable-next-line prefer-promise-reject-errors
+    const k8sGet = () => new Promise((resolve, reject) => reject({ json: { code: 404 } }));
+    return retrieveVmTemplate(k8sGet, vm).then(result => {
+      expect(result).toEqual(fedora28);
+      return result;
+    });
+  });
+  it('retrieveVmTemplate template does not exist', () => {
+    // eslint-disable-next-line prefer-promise-reject-errors
+    const k8sGet = () => new Promise((resolve, reject) => reject({ json: { code: 404 } }));
+    return retrieveVmTemplate(k8sGet, {}).catch(error => {
+      expect(error).toBeDefined();
+      return error;
     });
   });
 });

@@ -44,8 +44,10 @@ export class VmDetails extends React.Component {
       form: {
         ...state.form,
         [formKey]: {
-          ...state.form[formKey],
-          [key]: newValue,
+          value: {
+            ...(get(state.form[formKey], 'value') || {}),
+            [key]: newValue,
+          },
           valid,
         },
       },
@@ -62,8 +64,8 @@ export class VmDetails extends React.Component {
     });
     const vmPatch = [];
 
-    const descriptionForm = this.state.form.description;
-    const flavorForm = this.state.form.flavor;
+    const descriptionForm = get(this.state.form.description, 'value');
+    const flavorForm = get(this.state.form.flavor, 'value');
 
     const descriptionPatch = getUpdateDescriptionPatch(this.props.vm, settingsValue(descriptionForm, 'description'));
     vmPatch.push(...descriptionPatch);
@@ -71,7 +73,7 @@ export class VmDetails extends React.Component {
     const flavor = settingsValue(flavorForm, 'flavor');
     let cpu;
     let memory;
-    if (flavor !== CUSTOM_FLAVOR) {
+    if (flavor !== CUSTOM_FLAVOR && flavorForm.template) {
       const templateVm = selectVm(flavorForm.template.objects);
       cpu = getCpu(templateVm);
       memory = getMemory(templateVm);
@@ -80,8 +82,10 @@ export class VmDetails extends React.Component {
       memory = `${settingsValue(flavorForm, 'memory')}G`;
     }
 
-    const flavorPatch = getUpdateFlavorPatch(this.props.vm, flavor, cpu, memory);
-    vmPatch.push(...flavorPatch);
+    if (flavor && cpu && memory) {
+      const flavorPatch = getUpdateFlavorPatch(this.props.vm, flavor, cpu, memory);
+      vmPatch.push(...flavorPatch);
+    }
 
     if (vmPatch.length > 0) {
       this.setState({
@@ -153,7 +157,7 @@ export class VmDetails extends React.Component {
                     editing={this.state.editing}
                     updating={this.state.updating}
                     LoadingComponent={LoadingComponent}
-                    formValues={this.state.form.description}
+                    formValues={get(this.state.form.description, 'value')}
                     onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
                     vm={vm}
                   />
@@ -217,7 +221,7 @@ export class VmDetails extends React.Component {
                       LoadingComponent={LoadingComponent}
                       onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
                       k8sGet={k8sGet}
-                      formValues={this.state.form.flavor}
+                      formValues={get(this.state.form.flavor, 'value')}
                       onLoadError={this.onLoadError}
                     />
                   </dd>

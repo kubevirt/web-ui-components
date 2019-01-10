@@ -1,6 +1,15 @@
 import { remove, pull, get } from 'lodash';
 
-import { getDisks, getVolumes, getDataVolumes, getInterfaces, getNetworks } from './selectors';
+import {
+  getDisks,
+  getVolumes,
+  getDataVolumes,
+  getInterfaces,
+  getNetworks,
+  getVmTemplate,
+  getName,
+  getNamespace,
+} from './selectors';
 import { selectVm } from '../k8s/selectors';
 import { baseTemplates } from '../k8s/mock_templates';
 
@@ -12,6 +21,7 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
 } from '../constants';
+import { TemplateModel } from '../models';
 
 export const getTemplatesWithLabels = (templates, labels) => {
   const filteredTemplates = [...templates];
@@ -123,3 +133,25 @@ export const getTemplateProvisionSource = ({ objects }) => {
   }
   return null;
 };
+
+export const retrieveVmTemplate = (k8sGet, vm) =>
+  new Promise((resolve, reject) => {
+    const template = getVmTemplate(vm);
+    if (!template) {
+      resolve(null);
+    }
+    const getTemplatePromise = k8sGet(TemplateModel, template.name, template.namespace);
+    getTemplatePromise.then(result => resolve(result)).catch(error => {
+      let mockedTemplate;
+      if (get(error, 'json.code') === 404) {
+        // maybe common-templates are not installed, fallback on mocked templates
+        mockedTemplate = baseTemplates.find(
+          bTemplate => getNamespace(bTemplate) === template.namespace && getName(bTemplate) === template.name
+        );
+      }
+      if (mockedTemplate) {
+        resolve(mockedTemplate);
+      }
+      reject(error);
+    });
+  });

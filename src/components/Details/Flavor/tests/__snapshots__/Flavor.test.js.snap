@@ -33,7 +33,9 @@ exports[`<Flavor /> renders correctly 1`] = `
   onFormChange={[Function]}
   updating={false}
 >
-  <div />
+  <div>
+    small
+  </div>
   <div>
     2 CPU, 2G Memory
   </div>
