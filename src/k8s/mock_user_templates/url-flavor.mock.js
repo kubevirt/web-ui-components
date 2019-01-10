@@ -9,6 +9,9 @@ export const urlCustomFlavorTemplate = {
       'template.cnv.ui': 'default_fedora-generic',
       'workload.template.cnv.io/generic': 'true',
     },
+    annotations: {
+      'name.os.template.cnv.io/fedora29': 'Fedora 29',
+    },
     name: 'url-template-custom-flavor',
     namespace: 'myproject',
   },

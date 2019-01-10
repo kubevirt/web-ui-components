@@ -320,7 +320,7 @@ export class NetworksTab extends React.Component {
   onFormChange = newValue => {
     this.setState(state => {
       state.rows.forEach(row => {
-        row.isBootable = row.id === newValue.value;
+        row.isBootable = row.id === newValue.value.id;
       });
       this.publishResults(state.rows);
       return state.rows;

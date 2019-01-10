@@ -15,6 +15,7 @@ import {
   getVmiIpAddresses,
   getUpdateDescriptionPatch,
   getUpdateFlavorPatch,
+  getOperatingSystemName,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
@@ -177,7 +178,7 @@ export class VmDetails extends React.Component {
                   </dd>
 
                   <dt>Operating System</dt>
-                  <dd>{getOperatingSystem(vm) || DASHES}</dd>
+                  <dd>{getOperatingSystemName(vm) || getOperatingSystem(vm) || DASHES}</dd>
 
                   <dt>IP Addresses</dt>
                   <dd>{ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}</dd>

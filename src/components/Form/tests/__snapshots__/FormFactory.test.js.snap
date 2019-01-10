@@ -333,7 +333,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 }
                 disabled={false}
                 id="dropdown"
-                onBlur={[Function]}
                 onChange={[Function]}
                 value="dropdownField"
               >
@@ -352,7 +351,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                       className="kubevirt-dropdown"
                       disabled={false}
                       id="dropdown"
-                      onBlur={[Function]}
                       onSelect={[Function]}
                       title="dropdownField"
                     >
@@ -361,7 +359,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                         className="kubevirt-dropdown"
                         disabled={false}
                         id="dropdown"
-                        onBlur={[Function]}
                         onSelect={[Function]}
                         title="dropdownField"
                       >
@@ -399,7 +396,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                   disabled={false}
                                   id="dropdown"
                                   key=".0"
-                                  onBlur={[Function]}
                                   onClick={[Function]}
                                   onKeyDown={[Function]}
                                   open={false}
@@ -415,7 +411,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                     className="kubevirt-dropdown dropdown-toggle"
                                     disabled={false}
                                     id="dropdown"
-                                    onBlur={[Function]}
                                     onClick={[Function]}
                                     onKeyDown={[Function]}
                                     role="button"
@@ -426,7 +421,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                       className="kubevirt-dropdown dropdown-toggle btn btn-default"
                                       disabled={false}
                                       id="dropdown"
-                                      onBlur={[Function]}
                                       onClick={[Function]}
                                       onKeyDown={[Function]}
                                       role="button"
@@ -463,7 +457,11 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                         bsClass="dropdown"
                                         disabled={false}
                                         divider={false}
-                                        eventKey="value1"
+                                        eventKey={
+                                          Object {
+                                            "name": "value1",
+                                          }
+                                        }
                                         header={false}
                                         key=".$value1"
                                         onKeyDown={[Function]}
@@ -496,7 +494,11 @@ exports[`<FormFactory /> renders correctly 1`] = `
                                         bsClass="dropdown"
                                         disabled={false}
                                         divider={false}
-                                        eventKey="value2"
+                                        eventKey={
+                                          Object {
+                                            "name": "value2",
+                                          }
+                                        }
                                         header={false}
                                         key=".$value2"
                                         onKeyDown={[Function]}

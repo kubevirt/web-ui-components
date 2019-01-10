@@ -15,6 +15,7 @@ export const rhelHighPerformance = {
       'openshift.io/support-url': 'https://github.com/fabiand/common-templates/issues',
       'template.openshift.io/bindable': 'false',
       'defaults.template.cnv.io/disk': 'rootdisk',
+      'name.os.template.cnv.io/rhel7.0': 'Red Hat Enterprise Linux 7.0',
     },
     labels: {
       'os.template.cnv.io/rhel7.0': 'true',

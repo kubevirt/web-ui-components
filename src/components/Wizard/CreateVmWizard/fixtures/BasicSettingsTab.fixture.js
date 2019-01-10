@@ -44,7 +44,10 @@ export const validBasicSettings = {
     validation: undefined,
   },
   operatingSystem: {
-    value: 'fedora29',
+    value: {
+      id: 'fedora29',
+      name: 'Fedora 29',
+    },
     validation: undefined,
   },
   flavor: {

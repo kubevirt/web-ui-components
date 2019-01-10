@@ -29,6 +29,7 @@ import {
   ANNOTATION_CLONE_REQUEST,
   LABEL_CLONE_APP,
   TEMPLATE_VM_NAME_LABEL,
+  TEMPLATE_OS_NAME_ANNOTATION,
 } from '../constants';
 
 import {
@@ -217,13 +218,15 @@ const addMetadata = (vm, template, getSetting) => {
   addLabel(vm, `${TEMPLATE_FLAVOR_LABEL}/${flavor}`, 'true');
 
   const os = getSetting(OPERATING_SYSTEM_KEY);
-  addLabel(vm, `${TEMPLATE_OS_LABEL}/${os}`, 'true');
+  addLabel(vm, `${TEMPLATE_OS_LABEL}/${os.id}`, 'true');
 
   const workload = getSetting(WORKLOAD_PROFILE_KEY);
   addLabel(vm, `${TEMPLATE_WORKLOAD_LABEL}/${workload}`, 'true');
 
   addLabel(vm, ANNOTATION_USED_TEMPLATE, `${template.metadata.namespace}_${template.metadata.name}`);
   addTemplateLabel(vm, TEMPLATE_VM_NAME_LABEL, vm.metadata.name); // for pairing service-vm (like for RDP)
+
+  addAnnotation(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${os.id}`, os.name);
 };
 
 const modifyVmObject = (vm, template, getSetting, networks, storages) => {

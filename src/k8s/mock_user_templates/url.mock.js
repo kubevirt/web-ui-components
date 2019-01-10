@@ -4,6 +4,7 @@ export const urlTemplate = {
   metadata: {
     annotations: {
       description: 'foo description',
+      'name.os.template.cnv.io/fedora29': 'Fedora 29',
     },
     labels: {
       'flavor.template.cnv.io/small': 'true',

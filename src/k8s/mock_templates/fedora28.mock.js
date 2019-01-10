@@ -15,6 +15,13 @@ export const fedora28 = {
       'openshift.io/support-url': 'https://github.com/fabiand/common-templates/issues',
       'template.openshift.io/bindable': 'false',
       'defaults.template.cnv.io/disk': 'rootdisk',
+      'name.os.template.cnv.io/fedora29': 'Fedora 29',
+      'name.os.template.cnv.io/fedora28': 'Fedora 28',
+      'name.os.template.cnv.io/fedora27': 'Fedora 27',
+      'name.os.template.cnv.io/fedora26': 'Fedora 26',
+      'name.os.template.cnv.io/fedora25': 'Fedora 25',
+      'name.os.template.cnv.io/fedora24': 'Fedora 24',
+      'name.os.template.cnv.io/fedora23': 'Fedora 23',
     },
     labels: {
       'os.template.cnv.io/fedora29': 'true',

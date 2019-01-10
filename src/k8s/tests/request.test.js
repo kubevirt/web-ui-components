@@ -32,6 +32,7 @@ import {
   TEMPLATE_PARAM_VM_NAME_DESC,
   ANNOTATION_CLONE_REQUEST,
   LABEL_CLONE_APP,
+  TEMPLATE_OS_NAME_ANNOTATION,
 } from '../../constants';
 
 import {
@@ -77,7 +78,10 @@ const basicSettingsContainer = {
     value: 'small',
   },
   [OPERATING_SYSTEM_KEY]: {
-    value: 'rhel7.0',
+    value: {
+      id: 'rhel7.0',
+      name: 'Red Hat Enterprise Linux 7.0',
+    },
   },
   [WORKLOAD_PROFILE_KEY]: {
     value: 'generic',
@@ -160,7 +164,10 @@ const basicSettingsContainerWindows = {
     value: 'medium',
   },
   [OPERATING_SYSTEM_KEY]: {
-    value: 'win2k12r2',
+    value: {
+      id: 'win2k12r2',
+      name: 'Microsoft Windows Server 2012 R2',
+    },
   },
 };
 
@@ -284,9 +291,10 @@ const testPXE = (results, firstBoot = true) => {
 const testMetadata = (results, os, workload, flavor, template) => {
   const vm = results[results.length - 1];
   expect(vm.metadata.labels[`${TEMPLATE_FLAVOR_LABEL}/${flavor}`]).toEqual('true');
-  expect(vm.metadata.labels[`${TEMPLATE_OS_LABEL}/${os}`]).toEqual('true');
+  expect(vm.metadata.labels[`${TEMPLATE_OS_LABEL}/${os.id}`]).toEqual('true');
   expect(vm.metadata.labels[`${TEMPLATE_WORKLOAD_LABEL}/${workload}`]).toEqual('true');
   expect(vm.metadata.labels[ANNOTATION_USED_TEMPLATE]).toEqual(template);
+  expect(vm.metadata.annotations[`${TEMPLATE_OS_NAME_ANNOTATION}/${os.id}`]).toEqual(os.name);
 };
 
 const testCloudConfig = (results, cloudInit) => {
@@ -660,7 +668,7 @@ describe('request.js - Create Vm Template', () => {
       expect(vmTemplate.metadata.labels[TEMPLATE_TYPE_LABEL]).toEqual(TEMPLATE_TYPE_VM);
       expect(
         vmTemplate.metadata.labels[
-          `${TEMPLATE_OS_LABEL}/${settingsValue(basicSettingsContainer, OPERATING_SYSTEM_KEY)}`
+          `${TEMPLATE_OS_LABEL}/${settingsValue(basicSettingsContainer, OPERATING_SYSTEM_KEY).id}`
         ]
       ).toEqual('true');
       expect(

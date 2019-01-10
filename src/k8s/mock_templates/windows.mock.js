@@ -19,6 +19,10 @@ export const windows = {
       'defaults.template.cnv.io/network': 'default',
       'template.cnv.io/editable':
         '/objects[0].spec.template.spec.domain.cpu.cores\n/objects[0].spec.template.spec.domain.resources.requests.memory\n/objects[0].spec.template.spec.domain.devices.disks\n/objects[0].spec.template.spec.volumes\n/objects[0].spec.template.spec.networks\n',
+      'name.os.template.cnv.io/win10': 'Microsoft Windows 10',
+      'name.os.template.cnv.io/win2k8': 'Microsoft Windows Server 2008',
+      'name.os.template.cnv.io/win2k8r2': 'Microsoft Windows Server 2008 R2',
+      'name.os.template.cnv.io/win2k12r2': 'Microsoft Windows Server 2012 R2',
     },
     labels: {
       'os.template.cnv.io/win2k12r2': 'true',

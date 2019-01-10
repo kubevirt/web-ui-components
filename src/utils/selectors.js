@@ -6,6 +6,7 @@ import {
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
   OS_WINDOWS_PREFIX,
+  TEMPLATE_OS_NAME_ANNOTATION,
 } from '../constants';
 
 export const getName = value => get(value, 'metadata.name');
@@ -31,6 +32,8 @@ export const getDataVolumes = vm => get(vm, 'spec.dataVolumeTemplates', []);
 export const getMemory = vm => get(vm, 'spec.template.spec.domain.resources.requests.memory');
 export const getCpu = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
 export const getOperatingSystem = vm => getLabelValue(vm, TEMPLATE_OS_LABEL);
+export const getOperatingSystemName = vm =>
+  getAnnotationValue(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${getOperatingSystem(vm)}`);
 export const getWorkloadProfile = vm => getLabelValue(vm, TEMPLATE_WORKLOAD_LABEL);
 export const getFlavor = vm => getLabelValue(vm, TEMPLATE_FLAVOR_LABEL);
 export const getVmTemplate = vm => {
@@ -66,15 +69,27 @@ export const getCloudInitUserData = vm => {
 
 export const getLabelValue = (vm, label) => {
   const labels = get(vm, 'metadata.labels', {});
-  const labelKey = Object.keys(labels).find(key => key.startsWith(label));
-  if (!labelKey) {
-    return null;
+  return readValueFromObject(labels, label, true);
+};
+
+export const getAnnotationValue = (vm, annotation) => {
+  const annotations = get(vm, 'metadata.annotations', {});
+  return readValueFromObject(annotations, annotation, false);
+};
+
+const readValueFromObject = (objects, key, split) => {
+  if (objects) {
+    const objectKey = Object.keys(objects).find(objKey => objKey.startsWith(key));
+    if (!objectKey) {
+      return null;
+    }
+    if (split && objectKey.includes('/')) {
+      const objectParts = objectKey.split('/');
+      return objectParts[objectParts.length - 1];
+    }
+    return objects[objectKey];
   }
-  if (labelKey.includes('/')) {
-    const labelParts = labelKey.split('/');
-    return labelParts[labelParts.length - 1];
-  }
-  return labels[labelKey];
+  return null;
 };
 
 export const isWindows = vm => (getOperatingSystem(vm) || '').startsWith(OS_WINDOWS_PREFIX);

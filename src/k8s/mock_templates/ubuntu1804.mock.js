@@ -15,6 +15,7 @@ export const ubuntu1804 = {
       'openshift.io/support-url': 'https://github.com/fabiand/common-templates/issues',
       'template.openshift.io/bindable': 'false',
       'defaults.template.cnv.io/disk': 'rootdisk',
+      'name.os.template.cnv.io/ubuntu18.04': 'Ubuntu 18.04 LTS',
     },
     labels: {
       'os.template.cnv.io/ubuntu18.04': 'true',
