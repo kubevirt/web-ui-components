@@ -69,6 +69,12 @@ import { CloudInit } from './request/cloudInit';
 
 const IS_TEMPLATE = 'isTemplate';
 
+const FALLBACK_DISK = {
+  disk: {
+    bus: 'virtio',
+  },
+};
+
 export const createVmTemplate = (k8sCreate, templates, basicSettings, networks, storage) => {
   const getSetting = param => {
     switch (param) {
@@ -298,7 +304,7 @@ const addCloudInit = (vm, defaultDisk, getSetting) => {
 };
 
 const addStorages = (vm, template, storages, getSetting) => {
-  const defaultDisk = getDefaultDisk(vm, template) || {};
+  const defaultDisk = getDefaultDisk(vm, template);
   removeDisksAndVolumes(vm);
 
   if (storages) {
@@ -327,7 +333,7 @@ const addStorages = (vm, template, storages, getSetting) => {
 
 const getDefaultDisk = (vm, template) => {
   const defaultDiskName = getTemplateAnnotations(template, ANNOTATION_DEFAULT_DISK);
-  return getDevice(vm, 'disks', defaultDiskName);
+  return getDevice(vm, 'disks', defaultDiskName) || FALLBACK_DISK;
 };
 
 const getDefaultInterface = (vm, template) => {
