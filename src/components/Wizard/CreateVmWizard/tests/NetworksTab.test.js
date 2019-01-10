@@ -118,7 +118,7 @@ describe('<NetworksTab />', () => {
         .at(0)
         .find('input')
         .props().defaultValue
-    ).toEqual('eth0');
+    ).toEqual('nic0');
 
     expect(
       columns
