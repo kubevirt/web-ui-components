@@ -101,7 +101,7 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
       id: 'mac-address',
       value: settingsValue(nic, 'mac'),
       title: HEADER_MAC,
-      disabled: nic.creating,
+      disabled: nic.creating || get(settingsValue(nic, 'network'), 'networkType') === NETWORK_TYPE_POD,
     },
   };
 };
@@ -120,6 +120,14 @@ const getActions = (nicColumns, nic, LoadingComponent, onAccept, onCancel) =>
     <CancelAcceptButtons onAccept={onAccept} onCancel={onCancel} disabled={!isValid(nicColumns, nic)} />
   );
 
+const onFormChange = (newValue, key, onChange) => {
+  if (key === 'network' && get(newValue, 'value.networkType') === NETWORK_TYPE_POD) {
+    // reset mac value
+    onChange({ value: '' }, 'mac');
+  }
+  onChange(newValue, key);
+};
+
 export const CreateNicRow = ({ nic, onChange, onAccept, onCancel, networks, LoadingComponent }) => {
   const nicColumns = getNicColumns(nic, networks, LoadingComponent);
   const actions = getActions(nicColumns, nic, LoadingComponent, onAccept, onCancel);
@@ -128,7 +136,7 @@ export const CreateNicRow = ({ nic, onChange, onAccept, onCancel, networks, Load
       fields={nicColumns}
       fieldsValues={nic}
       actions={actions}
-      onFormChange={onChange}
+      onFormChange={(newValue, key) => onFormChange(newValue, key, onChange)}
       columnSizes={columnSizes}
     />
   );

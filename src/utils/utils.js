@@ -7,8 +7,8 @@ import {
   BOOT_ORDER_SECOND,
   PVC_ACCESSMODE_RWO,
   TEMPLATE_FLAVOR_LABEL,
-  POD_NETWORK,
 } from '../constants';
+import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
 
 export function prefixedId(idPrefix, id) {
   return idPrefix && id ? `${idPrefix}-${id}` : null;
@@ -336,11 +336,11 @@ export const getAddNicPatch = (vm, nic) => {
   const network = {
     name: nic.name,
   };
-  if (nic.network === POD_NETWORK) {
+  if (get(nic.network, 'networkType') === NETWORK_TYPE_POD) {
     network.pod = {};
   } else {
     network.multus = {
-      networkName: nic.network,
+      networkName: get(nic.network, 'name'),
     };
   }
 

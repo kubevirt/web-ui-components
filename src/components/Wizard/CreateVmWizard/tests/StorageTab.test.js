@@ -115,7 +115,7 @@ describe('<StorageTab />', () => {
     const component = shallow(testStorageTab());
 
     expect(component.state().rows).toHaveLength(0);
-    component.instance().createDisk();
+    component.instance().create(STORAGE_TYPE_DATAVOLUME);
 
     expect(component.state().rows).toHaveLength(1);
     expect(component.state().rows[0].storageType).toEqual(STORAGE_TYPE_DATAVOLUME);
@@ -125,7 +125,7 @@ describe('<StorageTab />', () => {
     const component = shallow(testStorageTab());
 
     expect(component.state().rows).toHaveLength(0);
-    component.instance().attachDisk();
+    component.instance().create(STORAGE_TYPE_PVC);
 
     expect(component.state().rows).toHaveLength(1);
     expect(component.state().rows[0].storageType).toEqual(STORAGE_TYPE_PVC);

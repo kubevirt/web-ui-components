@@ -187,7 +187,6 @@ const resolveTemplateStorage = (storage, persistentVolumeClaims, storageClasses,
       );
     }
     templateStorage.storageType = STORAGE_TYPE_PVC;
-    templateStorage.renderConfig = 1;
   } else if (storage.templateStorage.volume.dataVolume) {
     if (!templateStorage.size) {
       templateStorage.size = getGibStorageSize(units, getDataVolumeResources(storage.templateStorage.dataVolume));
@@ -196,12 +195,8 @@ const resolveTemplateStorage = (storage, persistentVolumeClaims, storageClasses,
       templateStorage.storageClass = getDataVolumeStorageClassName(storage.templateStorage.dataVolume);
     }
     templateStorage.storageType = STORAGE_TYPE_DATAVOLUME;
-    templateStorage.renderConfig =
-      sourceType === PROVISION_SOURCE_URL && storage.templateStorage.disk.bootOrder === 1 ? 4 : 0;
   } else if (storage.templateStorage.volume.containerDisk) {
     templateStorage.storageType = STORAGE_TYPE_CONTAINER;
-    templateStorage.renderConfig =
-      sourceType === PROVISION_SOURCE_CONTAINER && storage.templateStorage.disk.bootOrder === 1 ? 3 : 2;
   }
   return templateStorage;
 };
@@ -232,14 +227,12 @@ const resolveInitialStorages = (
           result = {
             ...result,
             ...storage,
-            renderConfig: storage.rootStorage ? 3 : 2,
           };
           break;
         case STORAGE_TYPE_DATAVOLUME:
           result = {
             ...result,
             ...storage,
-            renderConfig: storage.rootStorage ? 4 : 0,
           };
           break;
         case STORAGE_TYPE_PVC:
@@ -247,7 +240,6 @@ const resolveInitialStorages = (
           result = {
             ...result,
             ...resolvePvcStorage(storage, persistentVolumeClaims, storageClasses, units),
-            renderConfig: 1,
           };
       }
     }
@@ -356,7 +348,7 @@ export class StorageTab extends React.Component {
     this.setState({ rows, editing });
   };
 
-  create = (renderConfig, storageType) => {
+  create = storageType => {
     this.setState(state => ({
       nextId: state.nextId + 1,
       rows: [
@@ -366,16 +358,11 @@ export class StorageTab extends React.Component {
           isBootable: false,
           editable: true,
           edit: true, // trigger immediate edit
-          renderConfig,
           storageType,
         },
       ],
     }));
   };
-
-  createDisk = () => this.create(0, STORAGE_TYPE_DATAVOLUME);
-
-  attachDisk = () => this.create(1, STORAGE_TYPE_PVC);
 
   getColumns = () => [
     {
@@ -388,33 +375,21 @@ export class StorageTab extends React.Component {
         },
       },
       property: 'name',
-      renderConfigs: [
-        {
-          id: 'name-edit',
-          type: 'text',
-        },
-        {
-          id: 'name-attach-edit',
-          type: 'dropdown',
-          choices: this.props.persistentVolumeClaims
-            .filter(pvc => pvc.metadata.namespace === this.props.namespace)
-            .map(getName)
-            .filter(pvc => !this.state.rows.some(row => row.name === pvc)),
-          initialValue: '--- Select Storage ---',
-        },
-        {
-          id: 'name-edit',
-          type: 'text',
-        },
-        {
-          id: 'name-edit',
-          type: 'text',
-        },
-        {
-          id: 'name-edit',
-          type: 'text',
-        },
-      ],
+      renderConfig: storage =>
+        storage.storageType === STORAGE_TYPE_PVC
+          ? {
+              id: 'name-attach-edit',
+              type: 'dropdown',
+              choices: this.props.persistentVolumeClaims
+                .filter(pvc => pvc.metadata.namespace === this.props.namespace)
+                .map(getName)
+                .filter(pvc => !this.state.rows.some(row => row.name === pvc)),
+              initialValue: '--- Select Storage ---',
+            }
+          : {
+              id: 'name-edit',
+              type: 'text',
+            },
     },
     {
       header: {
@@ -426,19 +401,13 @@ export class StorageTab extends React.Component {
         },
       },
       property: 'size',
-      renderConfigs: [
-        {
-          id: 'size-edit',
-          type: 'positive-number',
-        },
-        undefined,
-        undefined,
-        undefined,
-        {
-          id: 'size-edit',
-          type: 'positive-number',
-        },
-      ],
+      renderConfig: storage =>
+        storage.storageType === STORAGE_TYPE_DATAVOLUME
+          ? {
+              id: 'size-edit',
+              type: 'positive-number',
+            }
+          : null,
     },
     {
       header: {
@@ -451,23 +420,15 @@ export class StorageTab extends React.Component {
       },
       property: 'storageClass',
 
-      renderConfigs: [
-        {
-          id: 'storage-edit',
-          type: 'dropdown',
-          choices: this.props.storageClasses.map(getName),
-          initialValue: '--- Select ---',
-        },
-        undefined,
-        undefined,
-        undefined,
-        {
-          id: 'storage-edit',
-          type: 'dropdown',
-          choices: this.props.storageClasses.map(getName),
-          initialValue: '--- Select ---',
-        },
-      ],
+      renderConfig: storage =>
+        storage.storageType === STORAGE_TYPE_DATAVOLUME
+          ? {
+              id: 'storage-edit',
+              type: 'dropdown',
+              choices: this.props.storageClasses.map(getName),
+              initialValue: '--- Select ---',
+            }
+          : null,
     },
     {
       header: {
@@ -477,56 +438,34 @@ export class StorageTab extends React.Component {
           },
         },
       },
-
-      renderConfigs: [
-        {
-          id: 'actions',
-          type: ACTIONS_TYPE,
-          actions: [
-            {
-              actionType: DELETE_ACTION,
-              text: REMOVE_DISK_BUTTON,
+      type: ACTIONS_TYPE,
+      renderConfig: storage =>
+        storage.rootStorage
+          ? null
+          : {
+              id: 'actions',
+              actions: [
+                {
+                  actionType: DELETE_ACTION,
+                  text: REMOVE_DISK_BUTTON,
+                },
+              ],
+              visibleOnEdit: false,
             },
-          ],
-          visibleOnEdit: false,
-        },
-        {
-          id: 'actions',
-          type: ACTIONS_TYPE,
-          actions: [
-            {
-              actionType: DELETE_ACTION,
-              text: REMOVE_DISK_BUTTON,
-            },
-          ],
-          visibleOnEdit: false,
-        },
-        {
-          id: 'actions',
-          type: ACTIONS_TYPE,
-          actions: [
-            {
-              actionType: DELETE_ACTION,
-              text: REMOVE_DISK_BUTTON,
-            },
-          ],
-          visibleOnEdit: false,
-        },
-      ],
     },
   ];
 
   getActionButtons = () => [
     {
       className: 'kubevirt-create-vm-wizard__button-create-disk',
-      onClick: this.createDisk,
+      onClick: () => this.create(STORAGE_TYPE_DATAVOLUME),
       id: 'create-storage-btn',
       text: CREATE_DISK_BUTTON,
       disabled: this.state.editing,
     },
     {
       className: 'kubevirt-create-vm-wizard__button-attach-disk',
-      onClick: this.attachDisk,
+      onClick: () => this.create(STORAGE_TYPE_PVC),
       id: 'attach-disk-btn',
       text: ATTACH_DISK_BUTTON,
       disabled: this.state.editing,

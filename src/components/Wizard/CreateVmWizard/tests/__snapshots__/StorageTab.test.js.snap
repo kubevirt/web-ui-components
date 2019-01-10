@@ -33,33 +33,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "name",
-          "renderConfigs": Array [
-            Object {
-              "id": "name-edit",
-              "type": "text",
-            },
-            Object {
-              "choices": Array [
-                "disk-one",
-                "disk-three",
-              ],
-              "id": "name-attach-edit",
-              "initialValue": "--- Select Storage ---",
-              "type": "dropdown",
-            },
-            Object {
-              "id": "name-edit",
-              "type": "text",
-            },
-            Object {
-              "id": "name-edit",
-              "type": "text",
-            },
-            Object {
-              "id": "name-edit",
-              "type": "text",
-            },
-          ],
+          "renderConfig": [Function],
         },
         Object {
           "header": Object {
@@ -71,19 +45,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "size",
-          "renderConfigs": Array [
-            Object {
-              "id": "size-edit",
-              "type": "positive-number",
-            },
-            undefined,
-            undefined,
-            undefined,
-            Object {
-              "id": "size-edit",
-              "type": "positive-number",
-            },
-          ],
+          "renderConfig": [Function],
         },
         Object {
           "header": Object {
@@ -95,33 +57,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "storageClass",
-          "renderConfigs": Array [
-            Object {
-              "choices": Array [
-                "nfs",
-                "iscsi",
-                "glusterfs",
-                "azuredisk",
-              ],
-              "id": "storage-edit",
-              "initialValue": "--- Select ---",
-              "type": "dropdown",
-            },
-            undefined,
-            undefined,
-            undefined,
-            Object {
-              "choices": Array [
-                "nfs",
-                "iscsi",
-                "glusterfs",
-                "azuredisk",
-              ],
-              "id": "storage-edit",
-              "initialValue": "--- Select ---",
-              "type": "dropdown",
-            },
-          ],
+          "renderConfig": [Function],
         },
         Object {
           "header": Object {
@@ -131,41 +67,8 @@ exports[`<StorageTab /> renders correctly 1`] = `
               },
             },
           },
-          "renderConfigs": Array [
-            Object {
-              "actions": Array [
-                Object {
-                  "actionType": "delete",
-                  "text": "Remove Disk",
-                },
-              ],
-              "id": "actions",
-              "type": "actions",
-              "visibleOnEdit": false,
-            },
-            Object {
-              "actions": Array [
-                Object {
-                  "actionType": "delete",
-                  "text": "Remove Disk",
-                },
-              ],
-              "id": "actions",
-              "type": "actions",
-              "visibleOnEdit": false,
-            },
-            Object {
-              "actions": Array [
-                Object {
-                  "actionType": "delete",
-                  "text": "Remove Disk",
-                },
-              ],
-              "id": "actions",
-              "type": "actions",
-              "visibleOnEdit": false,
-            },
-          ],
+          "renderConfig": [Function],
+          "type": "actions",
         },
       ]
     }

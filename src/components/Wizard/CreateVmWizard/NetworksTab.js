@@ -101,7 +101,6 @@ const resolveInitialNetworks = (networks, networkConfigs, namespace, sourceType)
         id: nextId++,
         editable: true,
         edit: false,
-        renderConfig: 0,
         networkType,
       };
     }
@@ -113,7 +112,6 @@ const resolveInitialNetworks = (networks, networkConfigs, namespace, sourceType)
       editable: true,
       edit: false,
       networkType: network.networkType,
-      renderConfig: 0,
     };
   });
 
@@ -204,7 +202,6 @@ export class NetworksTab extends React.Component {
           name: `eth${state.nextId - 1}`,
           mac: '',
           network: '',
-          renderConfig: 0,
         },
       ],
     }));
@@ -221,12 +218,10 @@ export class NetworksTab extends React.Component {
         },
       },
       property: 'name',
-      renderConfigs: [
-        {
-          id: 'name-edit',
-          type: 'text',
-        },
-      ],
+      renderConfig: () => ({
+        id: 'name-edit',
+        type: 'text',
+      }),
     },
     {
       header: {
@@ -238,12 +233,13 @@ export class NetworksTab extends React.Component {
         },
       },
       property: 'mac',
-      renderConfigs: [
-        {
-          id: 'mac-edit',
-          type: 'text',
-        },
-      ],
+      renderConfig: row =>
+        row.networkType === NETWORK_TYPE_POD
+          ? null
+          : {
+              id: 'mac-edit',
+              type: 'text',
+            },
     },
     {
       header: {
@@ -255,18 +251,16 @@ export class NetworksTab extends React.Component {
         },
       },
       property: 'network',
-      renderConfigs: [
-        {
-          id: 'network-edit',
-          type: 'dropdown',
-          choices: this.props.networkConfigs
-            .filter(networkConfig => networkConfig.metadata.namespace === this.props.namespace)
-            .map(networkConfig => networkConfig.metadata.name)
-            .concat(POD_NETWORK)
-            .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
-          initialValue: SELECT_NETWORK,
-        },
-      ],
+      renderConfig: () => ({
+        id: 'network-edit',
+        type: 'dropdown',
+        choices: this.props.networkConfigs
+          .filter(networkConfig => networkConfig.metadata.namespace === this.props.namespace)
+          .map(networkConfig => networkConfig.metadata.name)
+          .concat(POD_NETWORK)
+          .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
+        initialValue: SELECT_NETWORK,
+      }),
     },
     {
       header: {
@@ -276,19 +270,17 @@ export class NetworksTab extends React.Component {
           },
         },
       },
-      renderConfigs: [
-        {
-          id: 'actions',
-          type: ACTIONS_TYPE,
-          actions: [
-            {
-              actionType: DELETE_ACTION,
-              text: REMOVE_NIC_BUTTON,
-            },
-          ],
-          visibleOnEdit: false,
-        },
-      ],
+      type: ACTIONS_TYPE,
+      renderConfig: () => ({
+        id: 'actions',
+        actions: [
+          {
+            actionType: DELETE_ACTION,
+            text: REMOVE_NIC_BUTTON,
+          },
+        ],
+        visibleOnEdit: false,
+      }),
     },
   ];
 
