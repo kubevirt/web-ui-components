@@ -17,6 +17,14 @@ const expectMockWasCalledWith = (fn, jsonPatch, call = 0) => {
   expect(fn.mock.calls[call][2]).toEqual(jsonPatch);
 };
 
+const flushPromises = () => new Promise(resolve => setImmediate(resolve));
+
+const awaitVmDetails = testFunc =>
+  flushPromises().then(() => {
+    testFunc();
+    return testFunc;
+  });
+
 const getCpuInput = component =>
   component
     .find(InlineEdit)
@@ -92,33 +100,38 @@ describe('<VmDetails />', () => {
 
 describe('<VmDetails /> enzyme', () => {
   it('edit button triggers editing', () => {
-    const component = mount(testVmDetails(vmFixtures.customVm));
-    expect(component.find(InlineFormFactory).exists()).toBeFalsy();
-    clickButton(component, 'Edit');
-    component.update();
-    expect(component.find(InlineFormFactory)).toHaveLength(2);
-    expect(
-      component
-        .find(Button)
-        .findWhere(button => button.text() === 'Cancel')
-        .exists()
-    ).toBeTruthy();
-    expect(
-      component
-        .find(Button)
-        .findWhere(button => button.text() === 'Save')
-        .exists()
-    ).toBeTruthy();
+    const component = mount(testVmDetails(vmFixtures.vmWithLabels));
+    return awaitVmDetails(() => {
+      expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+      clickButton(component, 'Edit');
+      component.update();
+      expect(component.find(InlineFormFactory)).toHaveLength(2);
+      expect(
+        component
+          .find(Button)
+          .findWhere(button => button.text() === 'Cancel')
+          .exists()
+      ).toBeTruthy();
+      expect(
+        component
+          .find(Button)
+          .findWhere(button => button.text() === 'Save')
+          .exists()
+      ).toBeTruthy();
+    });
   });
   it('disables edit mode when clicked on cancel', () => {
-    const component = mount(testVmDetails(vmFixtures.customVm));
-    expect(component.find(InlineFormFactory).exists()).toBeFalsy();
-    clickButton(component, 'Edit');
-    component.update();
-    expect(component.find(InlineFormFactory)).toHaveLength(2);
-    clickButton(component, 'Cancel');
-    component.update();
-    expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+    const component = mount(testVmDetails(vmFixtures.vmWithLabels));
+    return awaitVmDetails(() => {
+      expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+      clickButton(component, 'Edit');
+      component.update();
+      expect(component.find(InlineFormFactory)).toHaveLength(2);
+      clickButton(component, 'Cancel');
+      component.update();
+      expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+      return component;
+    });
   });
   it('updates VM description after clicking save button', () => {
     const k8sPatchMock = jest.fn().mockReturnValue(
@@ -127,27 +140,29 @@ describe('<VmDetails /> enzyme', () => {
       })
     );
     const component = mount(
-      testVmDetails(vmFixtures.customVm, {
+      testVmDetails(vmFixtures.vmWithLabels, {
         k8sPatch: k8sPatchMock,
       })
     );
-    clickButton(component, 'Edit');
-    component.update();
+    return awaitVmDetails(() => {
+      clickButton(component, 'Edit');
+      component.update();
 
-    const descriptionField = component.find(Description).find(TextArea);
-    setInput(descriptionField, 'My new value');
-    component.update();
+      const descriptionField = component.find(Description).find(TextArea);
+      setInput(descriptionField, 'My new value');
+      component.update();
 
-    clickButton(component, 'Save');
+      clickButton(component, 'Save');
 
-    expectMockWasCalledWith(k8sPatchMock, [
-      {
-        op: 'add',
-        path: '/metadata/annotations',
-        value: { description: 'My new value' },
-      },
-    ]);
-    expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+      expectMockWasCalledWith(k8sPatchMock, [
+        {
+          op: 'add',
+          path: '/metadata/annotations',
+          value: { description: 'My new value' },
+        },
+      ]);
+      expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+    });
   });
 
   it('updates VM flavor after clicking save button', () => {
@@ -157,56 +172,68 @@ describe('<VmDetails /> enzyme', () => {
       })
     );
     const component = mount(
-      testVmDetails(vmFixtures.customVm, {
+      testVmDetails(vmFixtures.vmWithLabels, {
         k8sPatch: k8sPatchMock,
       })
     );
+    return awaitVmDetails(() => {
+      clickButton(component, 'Edit');
+      component.update();
 
-    clickButton(component, 'Edit');
-    component.update();
+      selectFlavor(component, CUSTOM_FLAVOR);
+      setInput(getCpuInput(component), 1);
+      setInput(getMemoryInput(component), '1');
 
-    selectFlavor(component, CUSTOM_FLAVOR);
-    setInput(getCpuInput(component), 1);
-    setInput(getMemoryInput(component), '1');
+      component.update();
 
-    component.update();
+      clickButton(component, 'Save');
 
-    clickButton(component, 'Save');
-
-    expectMockWasCalledWith(k8sPatchMock, [
-      {
-        op: 'replace',
-        path: '/spec/template/spec/domain/cpu/cores',
-        value: 1,
-      },
-      {
-        op: 'replace',
-        path: '/spec/template/spec/domain/resources/requests/memory',
-        value: '1G',
-      },
-    ]);
-    expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+      expectMockWasCalledWith(k8sPatchMock, [
+        {
+          op: 'remove',
+          path: '/metadata/labels/flavor.template.cnv.io~1small',
+        },
+        {
+          op: 'add',
+          path: '/metadata/labels/flavor.template.cnv.io~1Custom',
+          value: 'true',
+        },
+        {
+          op: 'replace',
+          path: '/spec/template/spec/domain/cpu/cores',
+          value: 1,
+        },
+        {
+          op: 'replace',
+          path: '/spec/template/spec/domain/resources/requests/memory',
+          value: '1G',
+        },
+      ]);
+      expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+    });
   });
 
   it('disables save when form is invalid', () => {
-    const component = mount(testVmDetails(vmFixtures.customVm));
-    expect(component.find(InlineFormFactory).exists()).toBeFalsy();
-    clickButton(component, 'Edit');
-    component.update();
+    const component = mount(testVmDetails(vmFixtures.vmWithLabels));
+    return awaitVmDetails(() => {
+      expect(component.find(InlineFormFactory).exists()).toBeFalsy();
+      clickButton(component, 'Edit');
+      component.update();
 
-    selectFlavor(component, CUSTOM_FLAVOR);
-    component.update();
+      selectFlavor(component, CUSTOM_FLAVOR);
+      component.update();
 
-    setInput(getCpuInput(component), '');
-    component.update();
+      setInput(getCpuInput(component), '');
+      component.update();
 
-    expect(getButton(component, 'Save').props().disabled).toBeTruthy();
+      expect(getButton(component, 'Save').props().disabled).toBeTruthy();
 
-    setInput(getCpuInput(component), '1');
+      setInput(getCpuInput(component), '1');
 
-    setInput(getMemoryInput(component), '1');
-    component.update();
+      setInput(getMemoryInput(component), '1');
+      component.update();
 
-    expect(getButton(component, 'Save').props().disabled).toBeFalsy();
+      expect(getButton(component, 'Save').props().disabled).toBeFalsy();
+    });
   });
 });

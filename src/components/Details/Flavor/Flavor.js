@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
-import { getCpu, getFlavor, getMemory, getVmTemplate } from '../../../utils';
+import { getCpu, getFlavor, getMemory, retrieveVmTemplate } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
-import { TemplateModel } from '../../../models';
 import { CUSTOM_FLAVOR, VALIDATION_ERROR_TYPE } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
 import { Loading } from '../../Loading/Loading';
@@ -23,7 +23,7 @@ export class Flavor extends React.Component {
     const cpu = getCpu(this.props.vm);
     const memory = getMemory(this.props.vm);
     const memoryInt = memory ? parseInt(memory, 10) : undefined;
-    this.props.onFormChange({ value: flavor }, 'flavor');
+    this.props.onFormChange({ value: flavor }, 'flavor', flavor !== CUSTOM_FLAVOR);
     if (flavor === CUSTOM_FLAVOR) {
       this.props.onFormChange({ value: cpu }, 'cpu', !!cpu);
       this.props.onFormChange({ value: memoryInt }, 'memory', !!memoryInt);
@@ -31,28 +31,25 @@ export class Flavor extends React.Component {
   };
 
   componentDidMount() {
-    const template = getVmTemplate(this.props.vm);
-    if (template) {
-      this.setState({
-        loadingTemplate: true,
-      });
-      const getTemplatePromise = this.props.k8sGet(TemplateModel, template.name, template.namespace);
-      getTemplatePromise
-        .then(result => {
-          this.props.onFormChange(result, 'template');
-          return this.setState({
-            loadingTemplate: false,
-            template: result,
-          });
-        })
-        .catch(error => {
-          this.props.onLoadError(error.message || 'An error occurred while loading vm flavors. Please try again.');
-          this.setState({
-            loadingTemplate: false,
-            template: null,
-          });
+    this.setState({
+      loadingTemplate: true,
+    });
+    const promise = retrieveVmTemplate(this.props.k8sGet, this.props.vm);
+    promise
+      .then(result => {
+        this.onFormChange(this.flavorFormFields(), result, 'template');
+        return this.setState({
+          loadingTemplate: false,
+          template: result,
         });
-    }
+      })
+      .catch(error => {
+        this.props.onLoadError(error.message || 'An error occurred while loading vm flavors. Please try again.');
+        return this.setState({
+          loadingTemplate: false,
+          template: null,
+        });
+      });
   }
 
   getFlavorDescription = () => {
@@ -86,27 +83,32 @@ export class Flavor extends React.Component {
       title: 'CPU',
       type: 'positive-number',
       required: true,
-      isVisible: formFields => settingsValue(formFields, 'flavor') === CUSTOM_FLAVOR,
+      isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
     },
     memory: {
       id: 'flavor-memory',
       title: 'Memory (GB)',
       type: 'positive-number',
       required: true,
-      isVisible: formFields => settingsValue(formFields, 'flavor') === CUSTOM_FLAVOR,
+      isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
     },
   });
 
-  onFormChange = (newValue, key) => {
-    let valid = true;
-    if (this.props.formValues) {
-      valid =
-        valid &&
-        !Object.keys(this.props.formValues)
-          .filter(formValueKey => formValueKey !== key)
-          .some(formValueKey => formValueKey.validation && formValueKey.validation.type === VALIDATION_ERROR_TYPE);
-    }
-    valid = valid && newValue.validation ? newValue.validation.type !== VALIDATION_ERROR_TYPE : true;
+  isFormFieldValid = (formFields, formValues) =>
+    Object.keys(formFields)
+      .filter(key => (formFields[key].isVisible ? formFields[key].isVisible(formValues) : true))
+      .every(
+        key =>
+          get(formValues[key], 'validation.type') !== VALIDATION_ERROR_TYPE &&
+          (formFields[key].required ? settingsValue(formValues, key) : true)
+      );
+
+  onFormChange = (formFields, newValue, key) => {
+    const newFormValues = {
+      ...this.props.formValues,
+      [key]: newValue,
+    };
+    const valid = this.isFormFieldValid(formFields, newFormValues);
     this.props.onFormChange(newValue, key, valid);
   };
 
@@ -120,10 +122,10 @@ export class Flavor extends React.Component {
         editing={editing}
         updating={updating || (editing && this.state.loadingTemplate)}
         LoadingComponent={LoadingComponent}
-        onFormChange={this.onFormChange}
+        onFormChange={(newValue, key) => this.onFormChange(formFields, newValue, key)}
         fieldsValues={this.props.formValues}
       >
-        <div>{settingsValue(this.props.formValues, 'flavor')}</div>
+        <div>{getFlavor(this.props.vm) || CUSTOM_FLAVOR}</div>
         {this.getFlavorDescription()}
       </InlineEdit>
     );

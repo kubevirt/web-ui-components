@@ -38,10 +38,22 @@ export const vmFixtures = {
         'workload.template.cnv.io/generic': 'true',
       },
     },
-    spec: { running: true },
-    status: {
-      ready: true,
-      created: true,
+    spec: {
+      template: {
+        spec: {
+          domain: {
+            cpu: {
+              cores: 2,
+            },
+            resources: {
+              requests: {
+                memory: '2G',
+              },
+            },
+          },
+        },
+      },
+      running: false,
     },
   },
   customVm: {

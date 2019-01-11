@@ -134,7 +134,9 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  small
+                </div>
               </div>
             </dd>
           </dl>
@@ -279,7 +281,9 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  Custom
+                </div>
                 <div>
                   2 CPU, 4G Memory
                 </div>
@@ -427,7 +431,9 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  Custom
+                </div>
               </div>
             </dd>
           </dl>
@@ -572,7 +578,9 @@ exports[`<VmDetails /> renders correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  Custom
+                </div>
               </div>
             </dd>
           </dl>
@@ -717,7 +725,9 @@ exports[`<VmDetails /> renders description correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  Custom
+                </div>
               </div>
             </dd>
           </dl>
@@ -862,7 +872,9 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  Custom
+                </div>
               </div>
             </dd>
           </dl>
@@ -1007,7 +1019,9 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  Custom
+                </div>
               </div>
             </dd>
           </dl>
@@ -1081,9 +1095,9 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             <dd>
               <span
                 aria-hidden="true"
-                class="kubevirt-vm-status__icon pficon pficon-on-running"
+                class="kubevirt-vm-status__icon pficon pficon-off"
               />
-              Running
+              Off
             </dd>
             <dt>
               Operating System
@@ -1152,7 +1166,12 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div />
+                <div>
+                  small
+                </div>
+                <div>
+                  2 CPU, 2G Memory
+                </div>
               </div>
             </dd>
           </dl>
