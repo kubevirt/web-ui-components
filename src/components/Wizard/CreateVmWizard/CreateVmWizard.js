@@ -169,7 +169,7 @@ const onImageSourceTypeChanged = (props, stepData) => onImageSourceTypeChangedIn
 const podNetwork = {
   rootNetwork: {},
   id: 0,
-  name: 'eth0',
+  name: 'nic0',
   mac: '',
   network: POD_NETWORK,
   editable: true,

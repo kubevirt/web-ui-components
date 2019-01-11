@@ -201,7 +201,7 @@ export class NetworksTab extends React.Component {
           isBootable: false,
           editable: true,
           edit: true, // trigger immediate edit,
-          name: `eth${state.nextId - 1}`,
+          name: `nic${state.nextId - 1}`,
           mac: '',
           network: '',
           renderConfig: 0,
