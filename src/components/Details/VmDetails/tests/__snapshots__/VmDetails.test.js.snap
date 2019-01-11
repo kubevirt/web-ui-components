@@ -213,9 +213,9 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
               <div>
                 <span
                   aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-on-running"
+                  class="kubevirt-vm-status__icon pficon pficon-off"
                 />
-                Running
+                Off
               </div>
             </dd>
             <dt>
@@ -310,8 +310,22 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
   >
     Virtual Machine Overview
     <div>
+      <div
+        class="kubevirt-vm-details__edit-info"
+      >
+        <button
+          class="popover-pf-info btn btn-link"
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            class="pficon pficon-info"
+          />
+        </button>
+      </div>
       <button
         class="btn btn-default"
+        disabled=""
         type="button"
       >
         Edit
@@ -906,8 +920,22 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
   >
     Virtual Machine Overview
     <div>
+      <div
+        class="kubevirt-vm-details__edit-info"
+      >
+        <button
+          class="popover-pf-info btn btn-link"
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            class="pficon pficon-info"
+          />
+        </button>
+      </div>
       <button
         class="btn btn-default"
+        disabled=""
         type="button"
       >
         Edit

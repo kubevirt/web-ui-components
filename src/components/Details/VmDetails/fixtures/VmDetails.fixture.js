@@ -79,11 +79,7 @@ export const vmFixtures = {
           },
         },
       },
-      running: true,
-    },
-    status: {
-      ready: true,
-      created: true,
+      running: false,
     },
   },
   vmWithSmallFlavor: {
