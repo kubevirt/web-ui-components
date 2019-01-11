@@ -12,11 +12,16 @@ import {
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_MIGRATING,
+  CDI_KUBEVIRT_IO,
+  STORAGE_IMPORT_PVC_NAME,
 } from '../../constants';
 
 import { getSubPagePath } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
 import { getVmStatusDetail } from './getVmStatus';
+import { getId } from '../../utils/selectors';
+
+const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 
 const StateValue = ({ iconClass, children, linkTo, message }) => (
   <Fragment>
@@ -60,9 +65,10 @@ const StateStarting = ({ ...props }) => (
     Starting
   </StateValue>
 );
-const StateImporting = ({ ...props }) => (
+const StateImporting = ({ additionalText, ...props }) => (
   <StateValue iconClass="pficon pficon-import" {...props}>
     Importing
+    {additionalText}
   </StateValue>
 );
 const StateError = ({ children, ...props }) => (
@@ -70,12 +76,48 @@ const StateError = ({ children, ...props }) => (
     {children}
   </StateValue>
 );
-StateError.propTypes = {
-  children: PropTypes.string.isRequired,
+
+export const VmStatuses = props => {
+  const { vm, launcherPod, importerPods, migration } = props;
+  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
+  if (importerPods && importerPods.length > 1) {
+    switch (statusDetail.status) {
+      case VM_STATUS_IMPORTING:
+      case VM_STATUS_IMPORT_ERROR:
+        return (
+          <React.Fragment>
+            {importerPods.map(pod => (
+              <div key={getId(pod)}>
+                <VmStatus {...props} importerPods={[pod]} verbose />
+              </div>
+            ))}
+          </React.Fragment>
+        );
+      default:
+    }
+  }
+  return (
+    <div key={importerPods && importerPods.length > 0 ? getId(importerPods[0]) : '6d0c77-has-no-importer-pods'}>
+      <VmStatus {...props} />
+    </div>
+  );
 };
 
-export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
-  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPod, migration);
+VmStatuses.defaultProps = {
+  launcherPod: undefined,
+  importerPods: undefined,
+  migration: undefined,
+};
+
+VmStatuses.propTypes = {
+  vm: PropTypes.object.isRequired,
+  launcherPod: PropTypes.object,
+  importerPods: PropTypes.array,
+  migration: PropTypes.object,
+};
+
+export const VmStatus = ({ vm, launcherPod, importerPods, migration, verbose }) => {
+  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
   switch (statusDetail.status) {
     case VM_STATUS_OFF:
       return <StateOff />;
@@ -86,7 +128,12 @@ export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
     case VM_STATUS_STARTING:
       return <StateStarting linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message} />;
     case VM_STATUS_IMPORTING:
-      return <StateImporting linkTo={getSubPagePath(importerPod, PodModel, 'events')} />;
+      return (
+        <StateImporting
+          linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')}
+          additionalText={verbose ? getAdditionalImportText(statusDetail.pod) : ''}
+        />
+      );
     case VM_STATUS_MIGRATING:
       return <StateMigrating />; // TODO: add linkTo once migration monitoring page is available
     case VM_STATUS_POD_ERROR:
@@ -97,8 +144,9 @@ export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
       );
     case VM_STATUS_IMPORT_ERROR:
       return (
-        <StateError linkTo={getSubPagePath(importerPod, PodModel, 'events')} message={statusDetail.message}>
+        <StateError linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} message={statusDetail.message}>
           Importer Error
+          {verbose ? getAdditionalImportText(statusDetail.pod) : ''}
         </StateError>
       );
     case VM_STATUS_ERROR:
@@ -112,9 +160,15 @@ export const VmStatus = ({ vm, launcherPod, importerPod, migration }) => {
   }
 };
 
+VmStatus.defaultProps = {
+  launcherPod: undefined,
+  importerPods: undefined,
+  migration: undefined,
+};
+
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
   launcherPod: PropTypes.object,
-  importerPod: PropTypes.object,
+  importerPods: PropTypes.array,
   migration: PropTypes.object,
 };

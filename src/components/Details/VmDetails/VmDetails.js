@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Row, Col, Button, Alert } from 'patternfly-react';
 
-import { VmStatus } from '../../VmStatus';
+import { VmStatuses } from '../../VmStatus';
 
 import {
   getCpu,
@@ -112,7 +112,7 @@ export class VmDetails extends React.Component {
   render() {
     const {
       launcherPod,
-      importerPod,
+      importerPods,
       migration,
       NodeLink,
       vm,
@@ -173,10 +173,10 @@ export class VmDetails extends React.Component {
                 <dl>
                   <dt>Status</dt>
                   <dd>
-                    <VmStatus
+                    <VmStatuses
                       vm={this.props.vm}
                       launcherPod={launcherPod}
-                      importerPod={importerPod}
+                      importerPods={importerPods}
                       migration={migration}
                     />
                   </dd>
@@ -240,7 +240,7 @@ VmDetails.propTypes = {
   vm: PropTypes.object.isRequired,
   vmi: PropTypes.object,
   launcherPod: PropTypes.object,
-  importerPod: PropTypes.object,
+  importerPods: PropTypes.array,
   migration: PropTypes.object,
   NodeLink: PropTypes.func,
   NamespaceResourceLink: PropTypes.func,
@@ -253,7 +253,7 @@ VmDetails.propTypes = {
 VmDetails.defaultProps = {
   vmi: undefined,
   launcherPod: undefined,
-  importerPod: undefined,
+  importerPods: undefined,
   migration: undefined,
   NamespaceResourceLink: undefined,
   PodResourceLink: undefined,

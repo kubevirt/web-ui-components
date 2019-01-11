@@ -11,6 +11,8 @@ import {
   VM_STATUS_OTHER,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_IMPORTING,
+  CDI_KUBEVIRT_IO,
+  STORAGE_IMPORT_PVC_NAME,
 } from '../../../constants';
 
 const podFixture = {
@@ -33,6 +35,9 @@ const podNotScheduledFixture = {
   metadata: {
     name: 'virt-launcher-my-vm-x9c99',
     namespace: 'my-namespace',
+    labels: {
+      [`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]: 'testdisk',
+    },
   },
   status: {
     conditions: [
@@ -49,6 +54,9 @@ const importPod = {
   metadata: {
     name: 'importer-datavolume-my-vm-x9c99',
     namespace: 'my-namespace',
+    labels: {
+      [`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]: 'testdisk',
+    },
   },
   status: {
     conditions: [{ type: 'PodScheduled', status: 'True' }],
@@ -239,7 +247,7 @@ export const vmFixtures = [
     spec: { running: true },
     status: {},
 
-    importerPodFixture: podNotScheduledFixture, // helper, not part of the API object
+    importerPodsFixture: [podNotScheduledFixture], // helper, not part of the API object
     expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_IMPORT_ERROR,
   },
@@ -295,9 +303,19 @@ export const vmFixtures = [
     spec: { running: true },
     status: {},
 
-    importerPodFixture: importPod,
+    importerPodsFixture: [importPod],
     expected: VM_STATUS_OTHER,
     expectedDetail: VM_STATUS_IMPORTING,
+  },
+
+  {
+    metadata,
+    spec: { running: true },
+    status: {},
+
+    importerPodsFixture: [importPod, podNotScheduledFixture],
+    expected: VM_STATUS_OTHER,
+    expectedDetail: VM_STATUS_IMPORT_ERROR,
   },
 ];
 

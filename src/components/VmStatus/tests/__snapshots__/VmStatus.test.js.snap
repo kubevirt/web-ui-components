@@ -150,7 +150,7 @@ Array [
   />,
   <a
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Importer pod scheduling failed."
+    title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
   >
     Importer Error
   </a>,
@@ -203,5 +203,246 @@ Array [
   >
     Importing
   </a>,
+]
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 16`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />,
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="importer-datavolume-my-vm-x9c99: undefined
+
+virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
+  >
+    Importer Error
+  </a>,
+]
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 1`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-off"
+  />
+  Off
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 2`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-on-running"
+  />
+  Running
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 3`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="fail description for Ready"
+  >
+    Starting
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 4`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  Starting
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 5`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  >
+    Starting
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 6`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Pod scheduling failed."
+  >
+    Pod Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 7`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 8`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 9`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 10`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 11`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
+  >
+    Importer Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 12`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Back-off pulling image message"
+  >
+    Pod Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 13`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-migration"
+  />
+  Migrating
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 14`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-on-running"
+  />
+  Running
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 15`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+  >
+    Importing
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 16`] = `
+Array [
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-import"
+    />
+    <a
+      href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+    >
+      Importing (testdisk)
+    </a>
+  </div>,
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    />
+    <a
+      href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+      title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
+    >
+      Importer Error (testdisk)
+    </a>
+  </div>,
 ]
 `;

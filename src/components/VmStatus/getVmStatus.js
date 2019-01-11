@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, includes } from 'lodash';
 
 import {
   VM_STATUS_POD_ERROR,
@@ -15,6 +15,8 @@ import {
 } from '../../constants';
 
 const NOT_HANDLED = null;
+
+const failingContainerStatus = ['ImagePullBackOff', 'ErrImagePull', 'CrashLoopBackOff'];
 
 const isMigrationStatus = (migration, status) => {
   const phase = get(migration, 'status.phase');
@@ -34,15 +36,17 @@ const getNotRedyConditionMessage = pod => {
 
 const getFailingContainerStatus = pod =>
   get(pod, 'status.containerStatuses', []).find(
-    container =>
-      !container.ready &&
-      (get(container, 'state.waiting.reason') === 'ImagePullBackOff' ||
-        get(container, 'state.waiting.reason') === 'ErrImagePull')
+    container => !container.ready && includes(failingContainerStatus, get(container, 'state.waiting.reason'))
   );
 
 const getContainerStatusReason = containerStatus => {
   const status = Object.getOwnPropertyNames(containerStatus.state).find(pn => !!containerStatus.state[pn].reason);
   return status ? containerStatus.state[status].message : undefined;
+};
+
+const isSchedulable = pod => {
+  const podScheduledCond = getConditionOfType(pod, 'PodScheduled');
+  return !(podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable');
 };
 
 const isRunning = vm => {
@@ -67,8 +71,7 @@ const isCreated = (vm, launcherPod = null) => {
     let message;
     if (launcherPod) {
       // pod created, so check for it's potential error
-      const podScheduledCond = getConditionOfType(launcherPod, 'PodScheduled');
-      if (podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable') {
+      if (!isSchedulable(launcherPod)) {
         return { status: VM_STATUS_POD_ERROR, message: 'Pod scheduling failed.' };
       }
 
@@ -96,13 +99,42 @@ const isVmError = vm => {
   return NOT_HANDLED;
 };
 
-const isBeingImported = (vm, importerPod) => {
-  if (importerPod && !get(vm, 'status.created', false)) {
-    const podScheduledCond = getConditionOfType(importerPod, 'PodScheduled');
-    if (podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable') {
-      return { status: VM_STATUS_IMPORT_ERROR, message: 'Importer pod scheduling failed.' };
-    }
-    return { status: VM_STATUS_IMPORTING, message: getNotRedyConditionMessage(importerPod) };
+const isBeingImported = (vm, importerPods) => {
+  if (importerPods && importerPods.length > 0 && !get(vm, 'status.created', false)) {
+    const importerPodsStatuses = importerPods.map(pod => {
+      if (!isSchedulable(pod)) {
+        return {
+          status: VM_STATUS_IMPORT_ERROR,
+          message: 'Importer pod scheduling failed.',
+          pod,
+        };
+      }
+
+      const failingContainer = getFailingContainerStatus(pod);
+      if (failingContainer) {
+        return {
+          status: VM_STATUS_IMPORT_ERROR,
+          message: getContainerStatusReason(failingContainer),
+          pod,
+        };
+      }
+      return {
+        status: VM_STATUS_IMPORTING,
+        message: getNotRedyConditionMessage(pod),
+        pod,
+      };
+    });
+    const importErrorStatus = importerPodsStatuses.find(status => status.status === VM_STATUS_IMPORT_ERROR);
+    const message = importerPodsStatuses
+      .map(podStatus => `${podStatus.pod.metadata.name}: ${podStatus.message}`)
+      .join('\n\n');
+
+    return {
+      status: importErrorStatus ? importErrorStatus.status : VM_STATUS_IMPORTING,
+      message,
+      pod: importErrorStatus ? importErrorStatus.pod : importerPods[0],
+      importerPodsStatuses,
+    };
   }
   return NOT_HANDLED;
 };
@@ -124,17 +156,17 @@ const isWaitingForVmi = vm => {
   return NOT_HANDLED;
 };
 
-export const getVmStatusDetail = (vm, launcherPod, importerPod, migration) =>
+export const getVmStatusDetail = (vm, launcherPod, importerPods, migration) =>
   isBeingMigrated(vm, migration) || // must be precceding isRunning() since vm.status.ready is true for a migrating VM
   isRunning(vm) ||
   isReady(vm) ||
   isVmError(vm) ||
   isCreated(vm, launcherPod) ||
-  isBeingImported(vm, importerPod) ||
+  isBeingImported(vm, importerPods) ||
   isWaitingForVmi(vm) || { status: VM_STATUS_UNKNOWN };
 
-export const getVmStatus = (vm, launcherPod, importerPod, migration) => {
-  const vmStatus = getVmStatusDetail(vm, launcherPod, importerPod, migration).status;
+export const getVmStatus = (vm, launcherPod, importerPods, migration) => {
+  const vmStatus = getVmStatusDetail(vm, launcherPod, importerPods, migration).status;
   return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_STATUS_OTHER;
 };
 
