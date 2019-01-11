@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import { getCpu, getFlavor, getMemory, retrieveVmTemplate } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
-import { CUSTOM_FLAVOR, VALIDATION_ERROR_TYPE } from '../../../constants';
+import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
 import { Loading } from '../../Loading/Loading';
+import { validateForm } from '../../Form/FormFactory';
 
 export class Flavor extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ export class Flavor extends React.Component {
     const promise = retrieveVmTemplate(this.props.k8sGet, this.props.vm);
     promise
       .then(result => {
-        this.onFormChange(this.flavorFormFields(), result, 'template');
+        this.props.onFormChange(result, 'template', validateForm(this.flavorFormFields(), this.props.formValues));
         return this.setState({
           loadingTemplate: false,
           template: result,
@@ -94,26 +94,8 @@ export class Flavor extends React.Component {
     },
   });
 
-  isFormFieldValid = (formFields, formValues) =>
-    Object.keys(formFields)
-      .filter(key => (formFields[key].isVisible ? formFields[key].isVisible(formValues) : true))
-      .every(
-        key =>
-          get(formValues[key], 'validation.type') !== VALIDATION_ERROR_TYPE &&
-          (formFields[key].required ? settingsValue(formValues, key) : true)
-      );
-
-  onFormChange = (formFields, newValue, key) => {
-    const newFormValues = {
-      ...this.props.formValues,
-      [key]: newValue,
-    };
-    const valid = this.isFormFieldValid(formFields, newFormValues);
-    this.props.onFormChange(newValue, key, valid);
-  };
-
   render() {
-    const { editing, updating, LoadingComponent } = this.props;
+    const { editing, updating, LoadingComponent, onFormChange } = this.props;
     const formFields = this.flavorFormFields();
 
     return (
@@ -122,7 +104,7 @@ export class Flavor extends React.Component {
         editing={editing}
         updating={updating || (editing && this.state.loadingTemplate)}
         LoadingComponent={LoadingComponent}
-        onFormChange={(newValue, key) => this.onFormChange(formFields, newValue, key)}
+        onFormChange={onFormChange}
         fieldsValues={this.props.formValues}
       >
         <div>{getFlavor(this.props.vm) || CUSTOM_FLAVOR}</div>

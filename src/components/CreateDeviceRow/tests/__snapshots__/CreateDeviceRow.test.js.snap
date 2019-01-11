@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CreateDeviceRow /> renders correctly 1`] = `
+<ListFormFactory
+  actions={
+    <CancelAcceptButtons
+      disabled={true}
+      onAccept={[Function]}
+      onCancel={[Function]}
+    />
+  }
+  columnSizes={
+    Object {
+      "lg": 2,
+    }
+  }
+  fields={
+    Object {
+      "dropdown": Object {
+        "choices": Array [
+          "fooValue1",
+          "fooValue",
+        ],
+        "defaultValue": "--- Device Dropdown ---",
+        "id": "device-dropdown",
+        "type": "dropdown",
+      },
+      "name": Object {
+        "id": "device-name",
+        "required": true,
+        "title": "DEVICE NAME",
+      },
+    }
+  }
+  fieldsValues={
+    Object {
+      "dropdown": Object {
+        "value": "fooValue",
+      },
+      "name": Object {
+        "value": "fooName",
+      },
+    }
+  }
+  onFormChange={[Function]}
+/>
+`;

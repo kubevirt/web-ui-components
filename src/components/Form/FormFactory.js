@@ -5,9 +5,10 @@ import { FormGroup, Col, ControlLabel, HelpBlock, Form, FieldLevelHelp } from 'p
 import { get } from 'lodash';
 
 import { Dropdown, Checkbox, Text, TextArea, Integer } from '.';
-import { VALIDATION_INFO_TYPE } from '../../constants';
+import { VALIDATION_INFO_TYPE, VALIDATION_ERROR_TYPE } from '../../constants';
 import { getValidationObject } from '../../utils/validations';
 import { ERROR_IS_REQUIRED } from '../Wizard/CreateVmWizard/strings';
+import { settingsValue } from '../../k8s/selectors';
 
 export const getFormElement = props => {
   const {
@@ -90,20 +91,50 @@ export const getFormElement = props => {
   }
 };
 
-const onChange = (field, value, key, onFormChange) => {
+export const validateForm = (formFields, formValues) => {
+  let formValid = true;
+
+  const visibleFieldKeys = Object.keys(formFields).filter(
+    key => formFields[key] && (formFields[key].isVisible ? formFields[key].isVisible(formValues) : true)
+  );
+
+  // check if all required fields are defined
+  const requiredKeys = visibleFieldKeys.filter(key => formFields[key].required);
+  formValid = requiredKeys.every(key => settingsValue(formValues, key));
+
+  if (formValid) {
+    // check if all fields are valid
+    formValid = visibleFieldKeys.every(key => get(formValues[key], 'validation.type') !== VALIDATION_ERROR_TYPE);
+  }
+
+  return formValid;
+};
+
+const onChange = (formFields, formValues, value, key, onFormChange) => {
   let validation;
 
-  if (field.required && String(value).trim().length === 0) {
+  const changedField = formFields[key];
+  if (changedField.required && String(value).trim().length === 0) {
     validation = getValidationObject(ERROR_IS_REQUIRED);
-  } else if (field.validate) {
-    validation = field.validate(value);
+  } else if (changedField.validate) {
+    validation = changedField.validate(value);
   }
 
   if (validation) {
-    validation.message = `${field.title} ${validation.message}`;
+    validation.message = `${changedField.title} ${validation.message}`;
   }
 
-  onFormChange({ value, validation }, key);
+  const newFormValues = {
+    ...formValues,
+    [key]: {
+      value,
+      validation,
+    },
+  };
+
+  const formValid = validateForm(formFields, newFormValues);
+
+  onFormChange({ value, validation }, key, formValid);
 };
 
 const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, labelSize, controlSize, horizontal }) =>
@@ -120,7 +151,7 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
         ...field,
         value,
         isControlled: true,
-        onChange: newValue => onChange(field, newValue, key, onFormChange),
+        onChange: newValue => onChange(fields, fieldsValues, newValue, key, onFormChange),
       });
 
       const label = horizontal &&
