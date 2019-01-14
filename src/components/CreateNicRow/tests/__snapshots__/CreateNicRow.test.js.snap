@@ -20,7 +20,7 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
   fields={
     Object {
       "mac": Object {
-        "disabled": undefined,
+        "disabled": false,
         "id": "mac-address",
         "title": "MAC Address",
         "value": undefined,

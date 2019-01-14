@@ -173,13 +173,9 @@ class EditableDraggableTable extends React.Component {
   isDropdown = additionalData => get(this.getRenderConfig(additionalData), 'type') === 'dropdown';
 
   getRenderConfig = additionalData => {
-    const { renderConfigs } = additionalData.column;
-    const renderConfigIdx = additionalData.rowData.renderConfig;
+    const { renderConfig } = additionalData.column;
 
-    if (renderConfigs && Number.isInteger(renderConfigIdx) && renderConfigIdx < renderConfigs.length) {
-      return renderConfigs[renderConfigIdx];
-    }
-    return null;
+    return renderConfig ? renderConfig(additionalData.rowData) : null;
   };
 
   resolveRenderedValue = (value, additionalData, editable) => {
@@ -302,22 +298,13 @@ class EditableDraggableTable extends React.Component {
 
   render() {
     // setup our custom formatter for the cells
-    const columns = this.props.columns.map(column => {
-      const config = this.getRenderConfig({
-        column,
-        rowData: { renderConfig: 0 },
-      });
-
-      return {
-        ...column,
-        cell: {
-          ...column.cell,
-          formatters: [
-            config && config.type === ACTIONS_TYPE ? this.inlineEditButtonsFormatter : this.inlineEditFormatter,
-          ],
-        },
-      };
-    });
+    const columns = this.props.columns.map(column => ({
+      ...column,
+      cell: {
+        ...column.cell,
+        formatters: [column.type === ACTIONS_TYPE ? this.inlineEditButtonsFormatter : this.inlineEditFormatter],
+      },
+    }));
 
     const renderers = {
       body: {

@@ -16,6 +16,7 @@ import {
   getAddNicPatch,
 } from '../utils';
 import { cloudInitTestVm } from '../../k8s/mock_vm/cloudInitTestVm.mock';
+import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
 
 const getVM = firstBoot => ({
   metadata: {
@@ -102,14 +103,20 @@ const comparePatch = (patch, path, value, op = 'add') => {
 const nic = {
   name: 'fooNic',
   mac: 'fooMac',
-  network: 'fooNetwork',
+  network: {
+    name: 'fooNetwork',
+    networkType: NETWORK_TYPE_MULTUS,
+  },
   model: 'fooModel',
 };
 
 const podNic = {
   name: 'fooNic',
   mac: 'fooMac',
-  network: POD_NETWORK,
+  network: {
+    name: POD_NETWORK,
+    networkType: NETWORK_TYPE_POD,
+  },
   model: 'fooModel',
 };
 
@@ -123,7 +130,7 @@ const intface = {
 const network = {
   name: nic.name,
   multus: {
-    networkName: nic.network,
+    networkName: nic.network.name,
   },
 };
 
