@@ -39,6 +39,5 @@ Object {
     "bus": "virtio",
   },
   "name": "cloudinitdisk",
-  "volumeName": "cloudinitdisk",
 }
 `;

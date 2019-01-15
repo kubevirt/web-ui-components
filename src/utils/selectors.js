@@ -56,7 +56,7 @@ export const getCloudInitVolume = vm => {
   if (cloudInitVolume) {
     // make sure volume is used by disk
     const disks = getDisks(vm);
-    if (disks.find(disk => disk.volumeName === cloudInitVolume.name)) {
+    if (disks.find(disk => disk.name === cloudInitVolume.name)) {
       return cloudInitVolume;
     }
   }

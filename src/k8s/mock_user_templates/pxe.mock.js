@@ -17,7 +17,7 @@ export const pxeTemplate = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         annotations: {

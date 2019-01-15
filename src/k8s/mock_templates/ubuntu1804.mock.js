@@ -26,7 +26,7 @@ export const ubuntu1804 = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachineInstancePreset',
       metadata: {
         name: 'ubuntu1804',
@@ -40,7 +40,7 @@ export const ubuntu1804 = {
       },
     },
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
@@ -62,7 +62,6 @@ export const ubuntu1804 = {
                       bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootvolume',
                   },
                 ],
               },
@@ -75,7 +74,7 @@ export const ubuntu1804 = {
             terminationGracePeriodSeconds: 0,
             volumes: [
               {
-                name: 'rootvolume',
+                name: 'rootdisk',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
                   claimName: '${PVCNAME}',

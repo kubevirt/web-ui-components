@@ -11,7 +11,7 @@ export const CLOUDINIT_DISK = 'cloudinitdisk';
 export const CLOUDINIT_NOCLOUD = 'cloudInitNoCloud';
 export const CUSTOM_FLAVOR = 'Custom';
 export const FLAVOR_LABEL = 'kubevirt.io/flavor';
-export const KUBEVIRT_API_VERSION = 'kubevirt.io/v1alpha2';
+export const KUBEVIRT_API_VERSION = 'kubevirt.io/v1alpha3';
 export const OS_LABEL = 'kubevirt.io/os';
 export const POD_NETWORK = 'Pod Networking';
 

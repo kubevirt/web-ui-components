@@ -17,7 +17,7 @@ export const pxeDataVolumeTemplate = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         annotations: {
@@ -63,7 +63,6 @@ export const pxeDataVolumeTemplate = {
                       bus: 'virtio',
                     },
                     name: 'fooDvDisk',
-                    volumeName: 'fooDvDisk',
                   },
                 ],
                 interfaces: [

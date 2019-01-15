@@ -1,5 +1,5 @@
 export const cloudInitTestVm = {
-  apiVersion: 'kubevirt.io/v1alpha2',
+  apiVersion: 'kubevirt.io/v1alpha3',
   kind: 'VirtualMachine',
   metadata: {
     annotations: {
@@ -20,7 +20,7 @@ export const cloudInitTestVm = {
     name: 'cloudinit-test-vm',
     namespace: 'default',
     resourceVersion: '10390764',
-    selfLink: '/apis/kubevirt.io/v1alpha2/namespaces/default/virtualmachines/cloudinit-test-vm',
+    selfLink: '/apis/kubevirt.io/v1alpha3/namespaces/default/virtualmachines/cloudinit-test-vm',
     uid: 'bcc1d0b1-e1d0-11e8-82b4-54ee7586b9c3',
   },
   spec: {
@@ -36,14 +36,12 @@ export const cloudInitTestVm = {
                   bus: 'virtio',
                 },
                 name: 'rootdisk',
-                volumeName: 'rootvolume',
               },
               {
                 disk: {
                   bus: 'virtio',
                 },
                 name: 'cloudinitdisk',
-                volumeName: 'cloudinitvolume',
               },
             ],
             interfaces: [
@@ -67,11 +65,11 @@ export const cloudInitTestVm = {
         terminationGracePeriodSeconds: 0,
         volumes: [
           {
-            name: 'rootvolume',
+            name: 'rootdisk',
             registryDisk: { image: 'kubevirt/cirros-registry-disk-demo' },
           },
           {
-            name: 'cloudinitvolume',
+            name: 'cloudinitdisk',
             cloudInitNoCloud: {
               userData:
                 '#cloud-config\n' +

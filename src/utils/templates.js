@@ -75,7 +75,7 @@ export const getTemplateStorages = ({ objects }) => {
   const volumes = getVolumes(vm);
   const dataVolumes = getDataVolumes(vm);
   return getDisks(vm).map(disk => {
-    const volume = volumes.find(v => v.name === disk.volumeName);
+    const volume = volumes.find(v => v.name === disk.name);
     const storage = {
       disk,
       volume,
@@ -114,7 +114,7 @@ export const getTemplateProvisionSource = ({ objects }) => {
   }
   const bootDisk = getDisks(vm).find(disk => disk.bootOrder === 1);
   if (bootDisk) {
-    const bootVolume = getVolumes(vm).find(volume => volume.name === bootDisk.volumeName);
+    const bootVolume = getVolumes(vm).find(volume => volume.name === bootDisk.name);
     if (bootVolume && bootVolume.containerDisk) {
       return {
         type: PROVISION_SOURCE_CONTAINER,

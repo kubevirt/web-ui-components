@@ -17,7 +17,7 @@ export const urlNoNetworkTemplate = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
@@ -62,7 +62,6 @@ export const urlNoNetworkTemplate = {
                       bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootdisk',
                   },
                 ],
                 rng: {},

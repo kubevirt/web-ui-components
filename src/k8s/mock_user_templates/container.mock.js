@@ -17,7 +17,7 @@ export const containerTemplate = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
@@ -38,7 +38,6 @@ export const containerTemplate = {
                       bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootdisk',
                   },
                 ],
                 interfaces: [

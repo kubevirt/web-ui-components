@@ -26,7 +26,7 @@ export const rhel75 = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         // eslint-disable-next-line no-template-curly-in-string
@@ -53,14 +53,12 @@ export const rhel75 = {
                       bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootvolume',
                   },
                   {
                     disk: {
                       bus: 'virtio',
                     },
                     name: 'cloudinitdisk',
-                    volumeName: 'cloudinitvolume',
                   },
                 ],
               },
@@ -68,7 +66,7 @@ export const rhel75 = {
             terminationGracePeriodSeconds: 0,
             volumes: [
               {
-                name: 'rootvolume',
+                name: 'rootdisk',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
                   claimName: '${PVCNAME}',
@@ -78,7 +76,7 @@ export const rhel75 = {
                 cloudInitNoCloud: {
                   userData: '# configure default password\npassword: fedora\nchpasswd: { expire: False }',
                 },
-                name: 'cloudinitvolume',
+                name: 'cloudinitdisk',
               },
             ],
           },
