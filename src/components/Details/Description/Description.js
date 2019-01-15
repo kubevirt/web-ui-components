@@ -25,7 +25,7 @@ export const Description = ({ formValues, vm, editing, updating, LoadingComponen
       editing={editing}
       updating={updating}
       LoadingComponent={LoadingComponent}
-      onFormChange={(newValue, key) => onFormChange(newValue, key, true)}
+      onFormChange={onFormChange}
     >
       {getDescription(vm) || DASHES}
     </InlineEdit>

@@ -1,14 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateDiskRow /> renders correctly 1`] = `
-<ListFormFactory
-  actions={
-    <CancelAcceptButtons
-      disabled={true}
-      onAccept={[Function]}
-      onCancel={[Function]}
-    />
-  }
+<CreateDeviceRow
+  LoadingComponent={[Function]}
   columnSizes={
     Object {
       "lg": 3,
@@ -17,12 +11,12 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
       "xs": 3,
     }
   }
-  fields={
+  device={Object {}}
+  deviceFields={
     Object {
       "bus": Object {
         "id": "disk-bus",
         "type": "label",
-        "value": undefined,
       },
       "name": Object {
         "disabled": undefined,
@@ -30,7 +24,6 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
         "required": true,
         "title": "Name",
         "validate": [Function],
-        "value": undefined,
       },
       "size": Object {
         "disabled": undefined,
@@ -38,7 +31,6 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
         "required": true,
         "title": "Size",
         "type": "positive-number",
-        "value": undefined,
       },
       "storageClass": Object {
         "choices": Array [],
@@ -46,11 +38,11 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
         "disabled": true,
         "id": "disk-storage-class",
         "type": "dropdown",
-        "value": undefined,
       },
     }
   }
-  fieldsValues={Object {}}
-  onFormChange={[Function]}
+  onAccept={[Function]}
+  onCancel={[Function]}
+  onChange={[Function]}
 />
 `;

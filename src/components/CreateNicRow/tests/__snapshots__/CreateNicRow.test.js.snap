@@ -1,14 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateNicRow /> renders correctly 1`] = `
-<ListFormFactory
-  actions={
-    <CancelAcceptButtons
-      disabled={true}
-      onAccept={[Function]}
-      onCancel={[Function]}
-    />
-  }
+<CreateDeviceRow
+  LoadingComponent={[Function]}
   columnSizes={
     Object {
       "lg": 3,
@@ -17,18 +11,17 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
       "xs": 3,
     }
   }
-  fields={
+  device={Object {}}
+  deviceFields={
     Object {
       "mac": Object {
         "disabled": false,
         "id": "mac-address",
         "title": "MAC Address",
-        "value": undefined,
       },
       "model": Object {
         "id": "nic-model",
         "type": "label",
-        "value": undefined,
       },
       "name": Object {
         "disabled": undefined,
@@ -36,7 +29,6 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
         "required": true,
         "title": "NIC Name",
         "validate": [Function],
-        "value": undefined,
       },
       "network": Object {
         "choices": Array [
@@ -50,11 +42,11 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
         "id": "network-type",
         "required": true,
         "type": "dropdown",
-        "value": undefined,
       },
     }
   }
-  fieldsValues={Object {}}
-  onFormChange={[Function]}
+  onAccept={[Function]}
+  onCancel={[Function]}
+  onChange={[Function]}
 />
 `;

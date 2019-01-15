@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import { FormFactory } from '../../Form/FormFactory';
+import { FormFactory, validateForm } from '../../Form/FormFactory';
 import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue } from '../../../utils/validations';
@@ -37,7 +37,6 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   TEMPLATE_TYPE_VM,
-  VALIDATION_ERROR_TYPE,
 } from '../../../constants';
 
 import {
@@ -238,54 +237,16 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
   };
 };
 
-const isFieldRequired = (formFields, key, basicVmSettings) => {
-  const field = formFields[key];
-  if (field && field.required) {
-    return field.isVisible ? field.isVisible(basicVmSettings) : true;
-  }
-  return false;
-};
-
-const validateWizard = (formFields, values) => {
-  let wizardValid = true;
-
-  // check if all required fields are defined
-  const requiredKeys = Object.keys(formFields).filter(key => isFieldRequired(formFields, key, values));
-  const requiredKeysInValues = Object.keys(values).filter(key => isFieldRequired(formFields, key, values));
-
-  if (requiredKeys.length !== requiredKeysInValues.length) {
-    wizardValid = false;
-  }
-
-  // check if all fields are valid
-  for (const key in values) {
-    if (
-      get(values[key], 'validation.type') === VALIDATION_ERROR_TYPE &&
-      (formFields[key].isVisible ? formFields[key].isVisible(values) : true)
-    ) {
-      wizardValid = false;
-      break;
-    }
-  }
-
-  return wizardValid;
-};
-
 const asValueObject = (value, validation) => ({
   value,
   validation,
 });
 
-const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onChange }, value, target, formFields) => {
-  if (!formFields) {
-    formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace);
-  }
-
-  const newBasicSettings = { ...basicSettings };
-
-  if (target) {
-    newBasicSettings[target] = value;
-  }
+const publish = ({ basicSettings, templates, onChange }, value, target, formValid, formFields) => {
+  const newBasicSettings = {
+    ...basicSettings,
+    [target]: value,
+  };
 
   if (target === USER_TEMPLATE_KEY) {
     if (value.value === NO_TEMPLATE) {
@@ -297,9 +258,10 @@ const publish = ({ basicSettings, namespaces, templates, selectedNamespace, onCh
         updateTemplateData(userTemplate, newBasicSettings);
       }
     }
+    formValid = validateForm(formFields, newBasicSettings);
   }
 
-  onChange(newBasicSettings, validateWizard(formFields, newBasicSettings));
+  onChange(newBasicSettings, formValid);
 };
 
 const updateTemplateData = (userTemplate, newBasicSettings) => {
@@ -364,7 +326,7 @@ export class BasicSettingsTab extends React.Component {
   constructor(props) {
     super(props);
     if (props.selectedNamespace) {
-      publish(props, asValueObject(getName(props.selectedNamespace)), NAMESPACE_KEY);
+      this.updateSelectedNamespace(props);
     }
   }
 
@@ -372,10 +334,17 @@ export class BasicSettingsTab extends React.Component {
     const newNamespace = this.props.selectedNamespace;
     const oldNamespace = prevProps.selectedNamespace;
 
-    if (newNamespace && getName(newNamespace) !== getName(oldNamespace)) {
-      publish(this.props, asValueObject(getName(newNamespace)), NAMESPACE_KEY);
+    if (getName(newNamespace) !== getName(oldNamespace)) {
+      this.updateSelectedNamespace(this.props);
     }
   }
+
+  updateSelectedNamespace = props => {
+    const { basicSettings, namespaces, selectedNamespace, templates, createTemplate } = props;
+    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate);
+    const valid = validateForm(formFields, basicSettings);
+    publish(props, asValueObject(getName(selectedNamespace)), NAMESPACE_KEY, valid, formFields);
+  };
 
   render() {
     const { basicSettings, namespaces, templates, selectedNamespace, createTemplate } = this.props;
@@ -385,7 +354,7 @@ export class BasicSettingsTab extends React.Component {
       <FormFactory
         fields={formFields}
         fieldsValues={basicSettings}
-        onFormChange={(newValue, target) => publish(this.props, newValue, target, formFields)}
+        onFormChange={(newValue, target, formValid) => publish(this.props, newValue, target, formValid, formFields)}
       />
     );
   }
