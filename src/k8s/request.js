@@ -451,7 +451,6 @@ const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {
     ...(storage.templateStorage ? storage.templateStorage.disk : defaultDisk),
     name: storage.name,
-    volumeName: storage.name,
   };
   if (storage.isBootable) {
     const imageSource = getSetting(PROVISION_SOURCE_TYPE_KEY);

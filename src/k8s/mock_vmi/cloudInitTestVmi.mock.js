@@ -1,8 +1,8 @@
 export const cloudInitTestVmi = {
-  apiVersion: 'kubevirt.io/v1alpha2',
+  apiVersion: 'kubevirt.io/v1alpha3',
   kind: 'VirtualMachineInstance',
   metadata: {
-    annotations: { 'presets.virtualmachines.kubevirt.io/presets-applied': 'kubevirt.io/v1alpha2' },
+    annotations: { 'presets.virtualmachines.kubevirt.io/presets-applied': 'kubevirt.io/v1alpha3' },
     clusterName: '',
     creationTimestamp: '2018-11-12T20:49:28Z',
     finalizers: ['foregroundDeleteVirtualMachine'],
@@ -12,7 +12,7 @@ export const cloudInitTestVmi = {
     namespace: 'myproject',
     ownerReferences: [
       {
-        apiVersion: 'kubevirt.io/v1alpha2',
+        apiVersion: 'kubevirt.io/v1alpha3',
         blockOwnerDeletion: true,
         controller: true,
         kind: 'VirtualMachine',
@@ -21,7 +21,7 @@ export const cloudInitTestVmi = {
       },
     ],
     resourceVersion: '11772039',
-    selfLink: '/apis/kubevirt.io/v1alpha2/namespaces/myproject/virtualmachineinstances/cloudinit-test-vmi',
+    selfLink: '/apis/kubevirt.io/v1alpha3/namespaces/myproject/virtualmachineinstances/cloudinit-test-vmi',
     uid: '725c602a-e6bc-11e8-94d4-54ee7586b9c3',
   },
   spec: {
@@ -34,14 +34,12 @@ export const cloudInitTestVmi = {
               bus: 'virtio',
             },
             name: 'rootdisk',
-            volumeName: 'rootvolume',
           },
           {
             disk: {
               bus: 'virtio',
             },
             name: 'cloudinitdisk',
-            volumeName: 'cloudinitvolume',
           },
         ],
         interfaces: [
@@ -73,11 +71,11 @@ export const cloudInitTestVmi = {
     terminationGracePeriodSeconds: 0,
     volumes: [
       {
-        name: 'rootvolume',
+        name: 'rootdisk',
         registryDisk: { image: 'kubevirt/cirros-registry-disk-demo' },
       },
       {
-        name: 'cloudinitvolume',
+        name: 'cloudinitdisk',
         cloudInitNoCloud: {
           userData:
             '#cloud-config\n' +

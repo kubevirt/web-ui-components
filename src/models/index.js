@@ -9,7 +9,7 @@
 export const VirtualMachineModel = {
   label: 'Virtual Machine',
   labelPlural: 'Virtual Machines',
-  apiVersion: 'v1alpha2',
+  apiVersion: 'v1alpha3',
   path: 'virtualmachines',
   apiGroup: 'kubevirt.io',
   plural: 'virtualmachines',
@@ -29,7 +29,7 @@ export const ProcessedTemplatesModel = {
 export const VirtualMachineInstanceMigrationModel = {
   label: 'Virtual Machine Instance Migration',
   labelPlural: 'Virtual Machine Instance Migrations',
-  apiVersion: 'v1alpha2',
+  apiVersion: 'v1alpha3',
   path: 'virtualmachineinstancemigrations',
   apiGroup: 'kubevirt.io',
   plural: 'virtualmachineinstancemigrations',

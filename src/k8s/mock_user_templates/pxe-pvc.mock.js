@@ -17,7 +17,7 @@ export const pxePvcTemplate = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         annotations: {
@@ -42,7 +42,6 @@ export const pxePvcTemplate = {
                       bus: 'virtio',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootdisk',
                   },
                 ],
                 interfaces: [

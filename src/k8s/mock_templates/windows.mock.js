@@ -36,7 +36,7 @@ export const windows = {
   },
   objects: [
     {
-      apiVersion: 'kubevirt.io/v1alpha2',
+      apiVersion: 'kubevirt.io/v1alpha3',
       kind: 'VirtualMachine',
       metadata: {
         labels: {
@@ -91,7 +91,6 @@ export const windows = {
                       bus: 'sata',
                     },
                     name: 'rootdisk',
-                    volumeName: 'rootvolume',
                   },
                 ],
                 interfaces: [
@@ -106,7 +105,7 @@ export const windows = {
             terminationGracePeriodSeconds: 0,
             volumes: [
               {
-                name: 'rootvolume',
+                name: 'rootdisk',
                 persistentVolumeClaim: {
                   // eslint-disable-next-line no-template-curly-in-string
                   claimName: '${PVCNAME}',

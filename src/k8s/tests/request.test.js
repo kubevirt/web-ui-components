@@ -219,7 +219,6 @@ export const k8sCreate = (model, resource) => {
 const testStorage = (results, storageIndex, bootOrder, expectedStorageName, expectedStorageType) => {
   const vm = results[results.length - 1];
   expect(vm.spec.template.spec.domain.devices.disks[storageIndex].name).toBe(expectedStorageName);
-  expect(vm.spec.template.spec.domain.devices.disks[storageIndex].volumeName).toBe(expectedStorageName);
   expect(vm.spec.template.spec.domain.devices.disks[storageIndex].bootOrder).toBe(
     bootOrder !== -1 ? bootOrder : undefined
   );
@@ -254,7 +253,6 @@ const testContainerImage = results => {
   expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
   expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
   expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootContainerDisk.name);
-  expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe(rootContainerDisk.name);
 
   expect(vm.spec.template.spec.volumes[0].name).toBe(rootContainerDisk.name);
   expect(vm.spec.template.spec.volumes[0].containerDisk.image).toBe(
@@ -263,10 +261,10 @@ const testContainerImage = results => {
   return results;
 };
 
-const everyDiskHasVolue = results => {
+const everyDiskHasVolume = results => {
   const vm = results[results.length - 1];
   vm.spec.template.spec.domain.devices.disks.forEach(disk => {
-    expect(vm.spec.template.spec.volumes.filter(volume => volume.name === disk.volumeName)).toHaveLength(1);
+    expect(vm.spec.template.spec.volumes.filter(volume => volume.name === disk.name)).toHaveLength(1);
   });
 };
 
@@ -302,7 +300,6 @@ const testCloudConfig = (results, cloudInit) => {
   expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
   expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
   expect(vm.spec.template.spec.domain.devices.disks[1].name).toBe(CLOUDINIT_DISK);
-  expect(vm.spec.template.spec.domain.devices.disks[1].volumeName).toBe(CLOUDINIT_DISK);
 
   expect(vm.spec.template.spec.volumes[1].name).toBe(CLOUDINIT_DISK);
   expect(vm.spec.template.spec.volumes[1].cloudInitNoCloud.userData).toBe(`#cloud-config\n${safeDump(cloudInit)}`);
@@ -320,7 +317,6 @@ describe('request.js - provision sources', () => {
       expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
 
       expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootDataVolumeDisk.name);
-      expect(vm.spec.template.spec.domain.devices.disks[0].volumeName).toBe(rootDataVolumeDisk.name);
 
       expect(vm.spec.template.spec.volumes[0].name).toBe(rootDataVolumeDisk.name);
       expect(vm.spec.template.spec.volumes[0].dataVolume.name).toBe(`${rootDataVolumeDisk.name}-${vm.metadata.name}`);
@@ -521,11 +517,11 @@ describe('request.js - flavors', () => {
 describe('request.js - storages', () => {
   it('every disk has volume', () =>
     createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
-      results => everyDiskHasVolue(results)
+      results => everyDiskHasVolume(results)
     ));
   it('every disk has volume - cloud init', () =>
     createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootContainerDisk], persistentVolumeClaims).then(
-      results => everyDiskHasVolue(results)
+      results => everyDiskHasVolume(results)
     ));
   it('ContainerImage with attached disks', () =>
     createVm(

@@ -66,7 +66,6 @@ export const getPxeBootPatch = vm => {
 export const getAddDiskPatch = (vm, storage) => {
   const disk = {
     name: storage.name,
-    volumeName: storage.name,
   };
   if (storage.bus) {
     disk.disk = {

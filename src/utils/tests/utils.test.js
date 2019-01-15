@@ -63,7 +63,6 @@ const disk = {
   disk: {
     bus: storageNoClass.bus,
   },
-  volumeName: storageNoClass.name,
 };
 
 const volume = {
