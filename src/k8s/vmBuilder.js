@@ -18,9 +18,9 @@ export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   };
   if (storage.isBootable) {
     const imageSource = getSetting(PROVISION_SOURCE_TYPE_KEY);
-    diskSpec.bootOrder = imageSource === PROVISION_SOURCE_PXE ? BOOT_ORDER_SECOND : BOOT_ORDER_FIRST;
+    diskSpec.bootOrder = imageSource === PROVISION_SOURCE_PXE ? assignBootOrderIndex(vm) : BOOT_ORDER_FIRST;
   } else {
-    delete diskSpec.bootOrder;
+    diskSpec.bootOrder = assignBootOrderIndex(vm);
   }
   const disks = getDisks(vm);
   disks.push(diskSpec);
@@ -86,7 +86,7 @@ export const addInterface = (vm, defaultInterface, network) => {
   if (network.isBootable) {
     interfaceSpec.bootOrder = BOOT_ORDER_FIRST;
   } else {
-    delete interfaceSpec.bootOrder;
+    interfaceSpec.bootOrder = assignBootOrderIndex(vm);
   }
 
   const interfaces = getInterfaces(vm);
@@ -281,4 +281,31 @@ export const getDataVolumeTemplateSpec = (storage, dvSource) => {
       source,
     },
   };
+};
+
+export const assignBootOrderIndex = (vm, currDevBootOrder = -1) => {
+  let bootOrder = currDevBootOrder;
+  if (currDevBootOrder !== BOOT_ORDER_FIRST) {
+    bootOrder = getNextAvailableBootOrderIndex(vm);
+  }
+  return bootOrder;
+};
+
+const getNextAvailableBootOrderIndex = vm => {
+  const disks = getDisks(vm);
+  const nics = getInterfaces(vm);
+  let largestIdx = -1;
+
+  disks.forEach(disk => {
+    const bootOrder = get(disk, 'bootOrder', -1);
+    largestIdx = bootOrder > largestIdx ? bootOrder : largestIdx;
+  });
+
+  nics.forEach(nic => {
+    const bootOrder = get(nic, 'bootOrder', -1);
+    largestIdx = bootOrder > largestIdx ? bootOrder : largestIdx;
+  });
+
+  // assigned indexes start at two as the first index is assigned directly by the user
+  return largestIdx !== -1 ? largestIdx + 1 : BOOT_ORDER_SECOND;
 };

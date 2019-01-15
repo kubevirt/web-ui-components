@@ -62,6 +62,7 @@ const storage = {
 
 const disk = {
   name: storageNoClass.name,
+  bootOrder: 3,
   disk: {
     bus: storageNoClass.bus,
   },
@@ -151,6 +152,7 @@ const podNic = {
 
 const intface = {
   name: nic.name,
+  bootOrder: 3,
   macAddress: nic.mac,
   model: nic.model,
   bridge: {},
@@ -378,34 +380,39 @@ describe('utils.js tests', () => {
       expectCpuMemWrapped(vm, '3', '4G', '3', '4G');
     });
   });
-  it('Add Nic patch', () => {
+  it('Add Nic patch - VM without networks', () => {
     const vmWithoutNetworks = getVM(false);
 
-    let patch = getAddNicPatch(vmWithoutNetworks, nic);
+    const patch = getAddNicPatch(vmWithoutNetworks, nic);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
     comparePatch(patch[1], '/spec/template/spec/networks', [network]);
-
+  });
+  it('AddNicPatch - VM without interfaces', () => {
     const vmWithoutInterfaces = getVM(false);
     delete vmWithoutInterfaces.spec.template.spec.domain.devices.interfaces;
     vmWithoutInterfaces.spec.template.spec.networks = {};
 
-    patch = getAddNicPatch(vmWithoutInterfaces, nic);
+    const patch = getAddNicPatch(vmWithoutInterfaces, nic);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces', [intface]);
     comparePatch(patch[1], '/spec/template/spec/networks/0', network);
-
+  });
+  it('AddNicPatch - VM without networks or MAC', () => {
+    const vmWithoutNetworks = getVM(false);
     const nicWithoutMac = cloneDeep(nic);
     delete nicWithoutMac.mac;
     const intfaceWithoutMac = cloneDeep(intface);
     delete intfaceWithoutMac.macAddress;
 
-    patch = getAddNicPatch(vmWithoutNetworks, nicWithoutMac);
+    const patch = getAddNicPatch(vmWithoutNetworks, nicWithoutMac);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intfaceWithoutMac);
     comparePatch(patch[1], '/spec/template/spec/networks', [network]);
-
-    patch = getAddNicPatch(vmWithoutNetworks, podNic);
+  });
+  it('AddNicPatch - VM without networks using podNic', () => {
+    const vmWithoutNetworks = getVM(false);
+    const patch = getAddNicPatch(vmWithoutNetworks, podNic);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
     comparePatch(patch[1], '/spec/template/spec/networks', [podNetwork]);

@@ -10,6 +10,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
 } from '../constants';
 import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
+import { assignBootOrderIndex } from '../k8s/vmBuilder';
 
 export const getPxeBootPatch = vm => {
   const patches = [];
@@ -47,6 +48,7 @@ export const getPxeBootPatch = vm => {
 export const getAddDiskPatch = (vm, storage) => {
   const disk = {
     name: storage.name,
+    bootOrder: assignBootOrderIndex(vm),
   };
   if (storage.bus) {
     disk.disk = {
@@ -312,6 +314,7 @@ export const getAddNicPatch = (vm, nic) => {
     name: nic.name,
     model: nic.model,
     bridge: {},
+    bootOrder: assignBootOrderIndex(vm),
   };
   if (nic.mac) {
     i.macAddress = nic.mac;
@@ -330,7 +333,7 @@ export const getAddNicPatch = (vm, nic) => {
 
   const patch = [];
 
-  const hasInterfaces = get(vm, 'spec.template.spec.domain.devices.interfaces', false);
+  const hasInterfaces = get(vm, 'spec.template.spec.domain.devices.interfaces', []).length > 0;
   if (hasInterfaces) {
     patch.push({
       op: 'add',
