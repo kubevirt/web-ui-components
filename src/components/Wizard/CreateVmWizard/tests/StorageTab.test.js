@@ -8,7 +8,7 @@ import { units, persistentVolumeClaims, storageClasses } from '../fixtures/Creat
 import { PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_PXE } from '../../../../constants';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } from '../constants';
 import { ERROR_POSITIVE_SIZE } from '../strings';
-import { DNS1123_EMPTY_ERROR, DNS1123_UPPERCASE_ERROR } from '../../../../utils/strings';
+import { EMPTY_ERROR, DNS1123_UPPERCASE_ERROR } from '../../../../utils/strings';
 
 const testStorageTab = (onChange, initialDisks, sourceType = PROVISION_SOURCE_URL) => (
   <StorageTab
@@ -276,7 +276,7 @@ describe('<StorageTab />', () => {
 
     component.instance().onRowUpdate(newStorages, updatedDataVolumeRow.id, true);
     component.update();
-    expect(component.state().rows[0].errors).toEqual([null, `Name ${DNS1123_EMPTY_ERROR}`, ERROR_POSITIVE_SIZE, null]);
+    expect(component.state().rows[0].errors).toEqual([null, `Name ${EMPTY_ERROR}`, ERROR_POSITIVE_SIZE, null]);
 
     const updatedContainerRow = component.state().rows[1];
     updatedContainerRow.name = '';
@@ -285,7 +285,7 @@ describe('<StorageTab />', () => {
 
     component.instance().onRowUpdate(newStorages, updatedContainerRow.id, true);
     component.update();
-    expect(component.state().rows[1].errors).toEqual([null, `Name ${DNS1123_EMPTY_ERROR}`, null, null]);
+    expect(component.state().rows[1].errors).toEqual([null, `Name ${EMPTY_ERROR}`, null, null]);
 
     const updatedPvcRow = component.state().rows[2];
     updatedPvcRow.name = '';
@@ -294,7 +294,7 @@ describe('<StorageTab />', () => {
 
     component.instance().onRowUpdate(newStorages, updatedPvcRow.id, true);
     component.update();
-    expect(component.state().rows[2].errors).toEqual([null, `Name ${DNS1123_EMPTY_ERROR}`, null, null]);
+    expect(component.state().rows[2].errors).toEqual([null, `Name ${EMPTY_ERROR}`, null, null]);
 
     const datavolumeWithUppercase = component.state().rows[0];
     datavolumeWithUppercase.name = 'Uppercase';

@@ -1,10 +1,14 @@
+/* eslint-disable no-new */
 import {
   DNS1123_START_ERROR,
   DNS1123_END_ERROR,
   DNS1123_CONTAINS_ERROR,
-  DNS1123_EMPTY_ERROR,
+  EMPTY_ERROR,
   DNS1123_TOO_LONG_ERROR,
   DNS1123_UPPERCASE_ERROR,
+  URL_INVALID_ERROR,
+  START_WHITESPACE_ERROR,
+  END_WHITESPACE_ERROR,
 } from './strings';
 import { VALIDATION_ERROR_TYPE } from '../constants';
 
@@ -20,7 +24,7 @@ export const getValidationObject = (message, type = VALIDATION_ERROR_TYPE) => ({
 // DNS-1123 subdomain
 export const validateDNS1123SubdomainValue = value => {
   if (!value) {
-    return getValidationObject(DNS1123_EMPTY_ERROR);
+    return getValidationObject(EMPTY_ERROR);
   }
   if (value.toLowerCase() !== value) {
     return getValidationObject(DNS1123_UPPERCASE_ERROR);
@@ -39,5 +43,41 @@ export const validateDNS1123SubdomainValue = value => {
       return getValidationObject(`${DNS1123_CONTAINS_ERROR} ${value.charAt(i)}`);
     }
   }
+  return null;
+};
+
+export const validateURL = value => {
+  if (!value) {
+    return getValidationObject(EMPTY_ERROR);
+  }
+
+  if (value.trimStart().length !== value.length) {
+    return getValidationObject(START_WHITESPACE_ERROR);
+  }
+
+  if (value.trimEnd().length !== value.length) {
+    return getValidationObject(END_WHITESPACE_ERROR);
+  }
+  try {
+    new URL(value);
+    return null;
+  } catch {
+    return getValidationObject(URL_INVALID_ERROR);
+  }
+};
+
+export const validateContainer = value => {
+  if (!value) {
+    return getValidationObject(EMPTY_ERROR);
+  }
+
+  if (value.trimStart().length !== value.length) {
+    return getValidationObject(START_WHITESPACE_ERROR);
+  }
+
+  if (value.trimEnd().length !== value.length) {
+    return getValidationObject(END_WHITESPACE_ERROR);
+  }
+
   return null;
 };

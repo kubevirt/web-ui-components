@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { FormFactory } from '../../Form/FormFactory';
 import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
-import { validateDNS1123SubdomainValue } from '../../../utils/validations';
+import { validateDNS1123SubdomainValue, validateURL, validateContainer } from '../../../utils/validations';
 import {
   NO_TEMPLATE,
   HELP_PROVISION_SOURCE_URL,
@@ -145,6 +145,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_CONTAINER),
       disabled: userTemplate !== undefined,
+      validate: validateContainer,
     },
     [IMAGE_URL_KEY]: {
       id: 'provision-source-url',
@@ -152,6 +153,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
       disabled: userTemplate !== undefined,
+      validate: validateURL,
     },
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',

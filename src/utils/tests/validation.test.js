@@ -1,12 +1,27 @@
-import { isPositiveNumber, validateDNS1123SubdomainValue, getValidationObject } from '../validations';
+import {
+  isPositiveNumber,
+  validateDNS1123SubdomainValue,
+  validateURL,
+  validateContainer,
+  getValidationObject,
+} from '../validations';
 import {
   DNS1123_START_ERROR,
   DNS1123_END_ERROR,
   DNS1123_CONTAINS_ERROR,
-  DNS1123_EMPTY_ERROR,
+  EMPTY_ERROR,
   DNS1123_TOO_LONG_ERROR,
   DNS1123_UPPERCASE_ERROR,
+  URL_INVALID_ERROR,
+  END_WHITESPACE_ERROR,
+  START_WHITESPACE_ERROR,
 } from '../strings';
+
+const validatesEmpty = validateFunction => {
+  expect(validateFunction('')).toEqual(getValidationObject(EMPTY_ERROR));
+  expect(validateFunction(null)).toEqual(getValidationObject(EMPTY_ERROR));
+  expect(validateFunction(undefined)).toEqual(getValidationObject(EMPTY_ERROR));
+};
 
 describe('validation.js - isPositiveNumber tests', () => {
   it('returns false for NaN', () => {
@@ -46,9 +61,7 @@ describe('validation.js - validateDNS1123SubdomainValue tests', () => {
     expect(validateDNS1123SubdomainValue('a'.repeat(254))).toEqual(getValidationObject(DNS1123_TOO_LONG_ERROR));
   });
   it('returns message for empty value', () => {
-    expect(validateDNS1123SubdomainValue('')).toEqual(getValidationObject(DNS1123_EMPTY_ERROR));
-    expect(validateDNS1123SubdomainValue(null)).toEqual(getValidationObject(DNS1123_EMPTY_ERROR));
-    expect(validateDNS1123SubdomainValue(undefined)).toEqual(getValidationObject(DNS1123_EMPTY_ERROR));
+    validatesEmpty(validateDNS1123SubdomainValue);
   });
   it('returns message for value which starts with invalid char', () => {
     expect(validateDNS1123SubdomainValue('_abc')).toEqual(getValidationObject(DNS1123_START_ERROR));
@@ -64,5 +77,40 @@ describe('validation.js - validateDNS1123SubdomainValue tests', () => {
     expect(validateDNS1123SubdomainValue('ab_c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} _`));
     expect(validateDNS1123SubdomainValue('ab/c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} /`));
     expect(validateDNS1123SubdomainValue('ab*c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} *`));
+  });
+});
+
+describe('validation.js - validateURL tests', () => {
+  it('returns undefined for valid value', () => {
+    expect(validateURL('http://hello.com')).toBeNull();
+    expect(validateURL('http://hello.com/path/to/iso?aa=5&n=a')).toBeNull();
+  });
+  it('returns message for empty value', () => {
+    validatesEmpty(validateURL);
+  });
+  it('returns message for value which starts or ends with whitespace character', () => {
+    expect(validateURL(' http://hello.com')).toEqual(getValidationObject(START_WHITESPACE_ERROR));
+    expect(validateURL('http://hello.com ')).toEqual(getValidationObject(END_WHITESPACE_ERROR));
+  });
+  it('returns message for invalid url', () => {
+    expect(validateURL('abc')).toEqual(getValidationObject(URL_INVALID_ERROR));
+    expect(validateURL('http://')).toEqual(getValidationObject(URL_INVALID_ERROR));
+  });
+});
+
+describe('validation.js - validateContainer tests', () => {
+  it('returns undefined for valid value', () => {
+    expect(validateContainer('kubevirt/fedora-cloud-registry-disk-demo')).toBeNull();
+  });
+  it('returns message for empty value', () => {
+    validatesEmpty(validateContainer);
+  });
+  it('returns message for value which starts or ends with whitespace character', () => {
+    expect(validateContainer(' kubevirt/fedora-cloud-registry-disk-demo')).toEqual(
+      getValidationObject(START_WHITESPACE_ERROR)
+    );
+    expect(validateContainer('kubevirt/fedora-cloud-registry-disk-demo ')).toEqual(
+      getValidationObject(END_WHITESPACE_ERROR)
+    );
   });
 });
