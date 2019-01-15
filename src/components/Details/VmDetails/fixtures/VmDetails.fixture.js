@@ -43,7 +43,9 @@ export const vmFixtures = {
         spec: {
           domain: {
             cpu: {
-              cores: 2,
+              sockets: 2,
+              threads: 1,
+              cores: 1,
             },
             resources: {
               requests: {
@@ -68,7 +70,9 @@ export const vmFixtures = {
         spec: {
           domain: {
             cpu: {
-              cores: 2,
+              sockets: 2,
+              threads: 1,
+              cores: 1,
               model: 'Conroe',
             },
             resources: {

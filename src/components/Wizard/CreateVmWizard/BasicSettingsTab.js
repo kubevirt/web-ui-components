@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { FormFactory, validateForm } from '../../Form/FormFactory';
-import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
+import { getName, getMemory, getCloudInitUserData, getCpuSockets } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue, validateURL, validateContainer } from '../../../utils/validations';
 import {
@@ -14,7 +14,7 @@ import {
   HELP_OS,
   HELP_FLAVOR,
   HELP_MEMORY,
-  HELP_CPU,
+  HELP_CPU_SOCKETS,
   HELP_WORKLOAD,
 } from './strings';
 
@@ -50,7 +50,7 @@ import {
   OPERATING_SYSTEM_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
-  CPU_KEY,
+  CPU_SOCKETS_KEY,
   WORKLOAD_PROFILE_KEY,
   START_VM_KEY,
   CLOUD_INIT_KEY,
@@ -182,13 +182,13 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
       help: HELP_MEMORY,
     },
-    [CPU_KEY]: {
-      id: 'resources-cpu',
-      title: 'CPUs',
+    [CPU_SOCKETS_KEY]: {
+      id: 'resources-sockets',
+      title: 'CPU Sockets',
       type: 'positive-number',
       required: true,
       isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
-      help: HELP_CPU,
+      help: HELP_CPU_SOCKETS,
     },
     [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',
@@ -274,7 +274,7 @@ const updateTemplateData = (userTemplate, newBasicSettings) => {
     const [flavor] = getTemplateFlavors([userTemplate]);
     newBasicSettings[FLAVOR_KEY] = asValueObject(flavor);
     if (flavor === CUSTOM_FLAVOR) {
-      newBasicSettings.cpu = asValueObject(getCpu(vm));
+      newBasicSettings[CPU_SOCKETS_KEY] = asValueObject(getCpuSockets(vm));
       const memory = getMemory(vm);
       newBasicSettings.memory = memory ? asValueObject(parseInt(memory, 10)) : undefined;
     }

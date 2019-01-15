@@ -41,7 +41,7 @@ import {
   USER_TEMPLATE_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
-  CPU_KEY,
+  CPU_SOCKETS_KEY,
   START_VM_KEY,
   CLOUD_INIT_KEY,
   USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
@@ -250,7 +250,7 @@ const modifyVmObject = (vm, template, getSetting, networks, storages) => {
 
 const setFlavor = (vm, getSetting) => {
   if (getSetting(FLAVOR_KEY) === CUSTOM_FLAVOR) {
-    vm.spec.template.spec.domain.cpu.cores = parseInt(getSetting(CPU_KEY), 10);
+    vm.spec.template.spec.domain.cpu.sockets = parseInt(getSetting(CPU_SOCKETS_KEY), 10);
     vm.spec.template.spec.domain.resources.requests.memory = `${getSetting(MEMORY_KEY)}G`;
   }
 };

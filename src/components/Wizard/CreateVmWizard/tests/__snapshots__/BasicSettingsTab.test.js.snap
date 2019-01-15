@@ -31,14 +31,6 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "title": "Container Image",
         "validate": [Function],
       },
-      "cpu": Object {
-        "help": "The number of virtual CPU cores that will be dedicated to the virtual machine.",
-        "id": "resources-cpu",
-        "isVisible": [Function],
-        "required": true,
-        "title": "CPUs",
-        "type": "positive-number",
-      },
       "description": Object {
         "id": "vm-description",
         "title": "Description",
@@ -172,6 +164,14 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "required": true,
         "title": "Provision Source",
         "type": "dropdown",
+      },
+      "sockets": Object {
+        "help": "The number of virtual CPU sockets that will be dedicated to the virtual machine.",
+        "id": "resources-sockets",
+        "isVisible": [Function],
+        "required": true,
+        "title": "CPU Sockets",
+        "type": "positive-number",
       },
       "startVM": Object {
         "id": "start-vm",
@@ -256,14 +256,6 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "title": "Container Image",
         "validate": [Function],
       },
-      "cpu": Object {
-        "help": "The number of virtual CPU cores that will be dedicated to the virtual machine.",
-        "id": "resources-cpu",
-        "isVisible": [Function],
-        "required": true,
-        "title": "CPUs",
-        "type": "positive-number",
-      },
       "description": Object {
         "id": "vm-description",
         "title": "Description",
@@ -397,6 +389,14 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "required": true,
         "title": "Provision Source",
         "type": "dropdown",
+      },
+      "sockets": Object {
+        "help": "The number of virtual CPU sockets that will be dedicated to the virtual machine.",
+        "id": "resources-sockets",
+        "isVisible": [Function],
+        "required": true,
+        "title": "CPU Sockets",
+        "type": "positive-number",
       },
       "startVM": Object {
         "id": "start-vm",

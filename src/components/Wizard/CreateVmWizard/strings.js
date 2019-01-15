@@ -11,7 +11,7 @@ export const ERROR_IS_REQUIRED = 'is required';
 
 // BasicSettingsTab
 export const NO_TEMPLATE = '--- No Template ---';
-export const HELP_CPU = 'The number of virtual CPU cores that will be dedicated to the virtual machine.';
+export const HELP_CPU_SOCKETS = 'The number of virtual CPU sockets that will be dedicated to the virtual machine.';
 export const HELP_MEMORY = 'The amount of memory that will be dedicated to the virtual machine.';
 export const HELP_PROVISION_SOURCE_URL =
   'An external URL to the .iso, .img, .qcow2 or .raw that the virtual machine should be created from.';

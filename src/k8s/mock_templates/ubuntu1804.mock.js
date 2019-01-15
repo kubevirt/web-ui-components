@@ -52,7 +52,9 @@ export const ubuntu1804 = {
           spec: {
             domain: {
               cpu: {
-                cores: 2,
+                sockets: 2,
+                threads: 1,
+                cores: 1,
                 model: 'Conroe',
               },
               devices: {

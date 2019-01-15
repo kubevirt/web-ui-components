@@ -31,7 +31,9 @@ export const getNetworks = vm => get(vm, 'spec.template.spec.networks', []);
 export const getVolumes = vm => get(vm, 'spec.template.spec.volumes', []);
 export const getDataVolumes = vm => get(vm, 'spec.dataVolumeTemplates', []);
 export const getMemory = vm => get(vm, 'spec.template.spec.domain.resources.requests.memory');
-export const getCpu = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
+export const getCpuCores = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
+export const getCpuSockets = vm => get(vm, 'spec.template.spec.domain.cpu.sockets');
+export const getCpuThreads = vm => get(vm, 'spec.template.spec.domain.cpu.threads');
 export const getOperatingSystem = vm => getLabelValue(vm, TEMPLATE_OS_LABEL);
 export const getOperatingSystemName = vm =>
   getAnnotationValue(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${getOperatingSystem(vm)}`);

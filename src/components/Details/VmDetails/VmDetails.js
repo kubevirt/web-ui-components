@@ -5,7 +5,7 @@ import { Row, Col, Button, Alert, FieldLevelHelp } from 'patternfly-react';
 
 import { VmStatuses, getVmStatusDetail } from '../../VmStatus';
 import {
-  getCpu,
+  getCpuSockets,
   getMemory,
   getNodeName,
   getOperatingSystem,
@@ -23,6 +23,7 @@ import { settingsValue, selectVm } from '../../../k8s/selectors';
 import { Flavor } from '../Flavor';
 import { Description } from '../Description';
 import { Loading } from '../../Loading';
+import { FLAVOR_KEY, CPU_SOCKETS_KEY, MEMORY_KEY } from '../../Wizard/CreateVmWizard/constants';
 
 export class VmDetails extends React.Component {
   constructor(props) {
@@ -69,20 +70,20 @@ export class VmDetails extends React.Component {
     const descriptionPatch = getUpdateDescriptionPatch(this.props.vm, settingsValue(descriptionForm, 'description'));
     vmPatch.push(...descriptionPatch);
 
-    const flavor = settingsValue(flavorForm, 'flavor');
-    let cpu;
+    const flavor = settingsValue(flavorForm, [FLAVOR_KEY]);
+    let cpuSockets;
     let memory;
     if (flavor !== CUSTOM_FLAVOR && flavorForm.template) {
       const templateVm = selectVm(flavorForm.template.objects);
-      cpu = getCpu(templateVm);
+      cpuSockets = getCpuSockets(templateVm);
       memory = getMemory(templateVm);
     } else {
-      cpu = settingsValue(flavorForm, 'cpu');
-      memory = `${settingsValue(flavorForm, 'memory')}G`;
+      cpuSockets = settingsValue(flavorForm, [CPU_SOCKETS_KEY]);
+      memory = `${settingsValue(flavorForm, [MEMORY_KEY])}G`;
     }
 
-    if (flavor && cpu && memory) {
-      const flavorPatch = getUpdateFlavorPatch(this.props.vm, flavor, cpu, memory);
+    if (flavor && cpuSockets && memory) {
+      const flavorPatch = getUpdateFlavorPatch(this.props.vm, flavor, cpuSockets, memory);
       vmPatch.push(...flavorPatch);
     }
 

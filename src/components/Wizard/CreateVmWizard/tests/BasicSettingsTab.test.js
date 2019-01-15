@@ -8,7 +8,7 @@ import { baseTemplates } from '../../../../k8s/mock_templates';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
-import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../../utils/selectors';
+import { getName, getMemory, getCloudInitUserData, getCpuSockets } from '../../../../utils/selectors';
 import { getTemplateProvisionSource } from '../../../../utils/templates';
 import { Dropdown } from '../../../Form';
 import { NO_TEMPLATE } from '../strings';
@@ -31,7 +31,7 @@ import {
   CLOUD_INIT_KEY,
   USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
   CLOUD_INIT_CUSTOM_SCRIPT_KEY,
-  CPU_KEY,
+  CPU_SOCKETS_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
 } from '../constants';
@@ -446,8 +446,8 @@ describe('<BasicSettingsTab />', () => {
           value: CUSTOM_FLAVOR,
           validation: undefined,
         },
-        [CPU_KEY]: {
-          value: getCpu(urlCustomFlavorTemplate.objects[0]),
+        [CPU_SOCKETS_KEY]: {
+          value: getCpuSockets(urlCustomFlavorTemplate.objects[0]),
           validation: undefined,
         },
         [MEMORY_KEY]: {

@@ -26,7 +26,11 @@ export const cloudInitTestVmi = {
   },
   spec: {
     domain: {
-      cpu: { cores: 2 },
+      cpu: {
+        sockets: 2,
+        threads: 1,
+        cores: 1,
+      },
       devices: {
         disks: [
           {

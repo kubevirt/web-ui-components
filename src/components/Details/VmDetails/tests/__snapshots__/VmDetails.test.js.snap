@@ -289,7 +289,7 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
                   Custom
                 </div>
                 <div>
-                  2 CPU, 4G Memory
+                  2 CPU Sockets, 4G Memory
                 </div>
               </div>
             </dd>
@@ -1210,7 +1210,7 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
                   small
                 </div>
                 <div>
-                  2 CPU, 2G Memory
+                  2 CPU Sockets, 2G Memory
                 </div>
               </div>
             </dd>

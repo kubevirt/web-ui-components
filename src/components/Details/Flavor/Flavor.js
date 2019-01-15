@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getCpu, getFlavor, getMemory, retrieveVmTemplate } from '../../../utils';
+import { getCpuSockets, getFlavor, getMemory, retrieveVmTemplate } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
 import { Loading } from '../../Loading/Loading';
 import { validateForm } from '../../Form/FormFactory';
+import { CPU_SOCKETS_KEY, FLAVOR_KEY, MEMORY_KEY } from '../../Wizard/CreateVmWizard/constants';
 
 export class Flavor extends React.Component {
   constructor(props) {
@@ -20,13 +21,13 @@ export class Flavor extends React.Component {
 
   resolveInitialValues = () => {
     const flavor = getFlavor(this.props.vm) || CUSTOM_FLAVOR;
-    const cpu = getCpu(this.props.vm);
+    const cpuSockets = getCpuSockets(this.props.vm);
     const memory = getMemory(this.props.vm);
     const memoryInt = memory ? parseInt(memory, 10) : undefined;
-    this.props.onFormChange({ value: flavor }, 'flavor', flavor !== CUSTOM_FLAVOR);
+    this.props.onFormChange({ value: flavor }, FLAVOR_KEY, flavor !== CUSTOM_FLAVOR);
     if (flavor === CUSTOM_FLAVOR) {
-      this.props.onFormChange({ value: cpu }, 'cpu', !!cpu);
-      this.props.onFormChange({ value: memoryInt }, 'memory', !!memoryInt);
+      this.props.onFormChange({ value: cpuSockets }, CPU_SOCKETS_KEY, !!cpuSockets);
+      this.props.onFormChange({ value: memoryInt }, MEMORY_KEY, !!memoryInt);
     }
   };
 
@@ -53,9 +54,9 @@ export class Flavor extends React.Component {
   }
 
   getFlavorDescription = () => {
-    const cpu = getCpu(this.props.vm);
+    const cpuSockets = getCpuSockets(this.props.vm);
     const memory = getMemory(this.props.vm);
-    const cpuStr = cpu ? `${cpu} CPU` : '';
+    const cpuStr = cpuSockets ? `${cpuSockets} CPU Sockets` : '';
     const memoryStr = memory ? `${memory} Memory` : '';
     const resourceStr = cpuStr && memoryStr ? `${cpuStr}, ${memoryStr}` : `${cpuStr}${memoryStr}`;
     return resourceStr ? <div>{resourceStr}</div> : undefined;
@@ -73,19 +74,19 @@ export class Flavor extends React.Component {
   };
 
   flavorFormFields = () => ({
-    flavor: {
+    [FLAVOR_KEY]: {
       id: 'flavor-dropdown',
       type: 'dropdown',
       choices: this.getFlavorChoices(),
     },
-    cpu: {
+    [CPU_SOCKETS_KEY]: {
       id: 'flavor-cpu',
-      title: 'CPU',
+      title: 'CPU Sockets',
       type: 'positive-number',
       required: true,
       isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
     },
-    memory: {
+    [MEMORY_KEY]: {
       id: 'flavor-memory',
       title: 'Memory (GB)',
       type: 'positive-number',

@@ -7,13 +7,6 @@ exports[`<Flavor /> renders correctly 1`] = `
   fieldsValues={Object {}}
   formFields={
     Object {
-      "cpu": Object {
-        "id": "flavor-cpu",
-        "isVisible": [Function],
-        "required": true,
-        "title": "CPU",
-        "type": "positive-number",
-      },
       "flavor": Object {
         "choices": Array [
           "Custom",
@@ -28,6 +21,13 @@ exports[`<Flavor /> renders correctly 1`] = `
         "title": "Memory (GB)",
         "type": "positive-number",
       },
+      "sockets": Object {
+        "id": "flavor-cpu",
+        "isVisible": [Function],
+        "required": true,
+        "title": "CPU Sockets",
+        "type": "positive-number",
+      },
     }
   }
   onFormChange={[Function]}
@@ -37,7 +37,7 @@ exports[`<Flavor /> renders correctly 1`] = `
     small
   </div>
   <div>
-    2 CPU, 2G Memory
+    2 CPU Sockets, 2G Memory
   </div>
 </InlineEdit>
 `;

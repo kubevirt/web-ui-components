@@ -200,7 +200,7 @@ describe('<VmDetails /> enzyme', () => {
         },
         {
           op: 'replace',
-          path: '/spec/template/spec/domain/cpu/cores',
+          path: '/spec/template/spec/domain/cpu/sockets',
           value: 1,
         },
         {

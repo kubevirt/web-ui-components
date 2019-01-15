@@ -44,7 +44,7 @@ import {
   USER_TEMPLATE_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
-  CPU_KEY,
+  CPU_SOCKETS_KEY,
   START_VM_KEY,
   CLOUD_INIT_KEY,
   HOST_NAME_KEY,
@@ -123,7 +123,7 @@ const basicSettingsCustomFlavor = {
   [FLAVOR_KEY]: {
     value: CUSTOM_FLAVOR,
   },
-  [CPU_KEY]: {
+  [CPU_SOCKETS_KEY]: {
     value: '1',
   },
   [MEMORY_KEY]: {
@@ -342,7 +342,7 @@ describe('request.js - provision sources', () => {
       const vm = results[results.length - 1];
       expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
       expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
-      expect(vm.spec.template.spec.domain.cpu.cores).toBe(2);
+      expect(vm.spec.template.spec.domain.cpu.sockets).toBe(2);
       expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('2G');
 
       expect(vm.spec.template.spec.volumes).toHaveLength(2);
@@ -508,7 +508,7 @@ describe('request.js - flavors', () => {
       const vm = results[results.length - 1];
       expect(vm.metadata.name).toBe(settingsValue(basicSettingsCustomFlavor, NAME_KEY));
       expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsCustomFlavor, NAMESPACE_KEY));
-      expect(vm.spec.template.spec.domain.cpu.cores).toBe(1);
+      expect(vm.spec.template.spec.domain.cpu.sockets).toBe(1);
       expect(vm.spec.template.spec.domain.resources.requests.memory).toBe('1G');
       return results;
     }));

@@ -225,7 +225,7 @@ describe('utils.js tests', () => {
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu/sockets`, 1, 'replace');
     comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
 
     patch = getUpdateFlavorPatch(cloudInitTestVm, 'small', '2', '2G');
@@ -233,7 +233,7 @@ describe('utils.js tests', () => {
 
     patch = getUpdateFlavorPatch(cloudInitTestVm, 'small', '3', '2G');
     expect(patch).toHaveLength(1);
-    comparePatch(patch[0], `/spec/template/spec/domain/cpu/cores`, 3, 'replace');
+    comparePatch(patch[0], `/spec/template/spec/domain/cpu/sockets`, 3, 'replace');
 
     patch = getUpdateFlavorPatch(cloudInitTestVm, 'small', '2', '1G');
     expect(patch).toHaveLength(1);
@@ -250,7 +250,7 @@ describe('utils.js tests', () => {
     patch = getUpdateFlavorPatch(vmWithNoFlavorLabel, 'Custom', '1', '3G');
     expect(patch).toHaveLength(3);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[1], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
+    comparePatch(patch[1], `/spec/template/spec/domain/cpu/sockets`, 1, 'replace');
     comparePatch(patch[2], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
 
     const vmWithNoLabels = cloneDeep(cloudInitTestVm);
@@ -260,27 +260,27 @@ describe('utils.js tests', () => {
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels`, {});
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu/sockets`, 1, 'replace');
     comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
 
-    const vmWithNoCores = cloneDeep(cloudInitTestVm);
-    delete vmWithNoCores.spec.template.spec.domain.cpu.cores;
+    const vmWithNoSockets = cloneDeep(cloudInitTestVm);
+    delete vmWithNoSockets.spec.template.spec.domain.cpu.sockets;
 
-    patch = getUpdateFlavorPatch(vmWithNoCores, 'Custom', '1', '3G');
+    patch = getUpdateFlavorPatch(vmWithNoSockets, 'Custom', '1', '3G');
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1);
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu/sockets`, 1);
     comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
 
-    const vmWithNoCpuCores = cloneDeep(cloudInitTestVm);
-    delete vmWithNoCpuCores.spec.template.spec.domain.cpu;
+    const vmWithNoCpu = cloneDeep(cloudInitTestVm);
+    delete vmWithNoCpu.spec.template.spec.domain.cpu;
 
-    patch = getUpdateFlavorPatch(vmWithNoCpuCores, 'Custom', '1', '3G');
+    patch = getUpdateFlavorPatch(vmWithNoCpu, 'Custom', '1', '3G');
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu`, { cores: 1 });
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu`, { sockets: 1 });
     comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
 
     const vmWithNoMemory = cloneDeep(cloudInitTestVm);
@@ -290,7 +290,7 @@ describe('utils.js tests', () => {
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu/sockets`, 1, 'replace');
     comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G');
 
     const vmWithNoRequests = cloneDeep(cloudInitTestVm);
@@ -300,7 +300,7 @@ describe('utils.js tests', () => {
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu/sockets`, 1, 'replace');
     comparePatch(patch[3], `/spec/template/spec/domain/resources/requests`, { memory: '3G' });
 
     const vmWithNoResources = cloneDeep(cloudInitTestVm);
@@ -310,7 +310,7 @@ describe('utils.js tests', () => {
     expect(patch).toHaveLength(4);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
+    comparePatch(patch[2], `/spec/template/spec/domain/cpu/sockets`, 1, 'replace');
     comparePatch(patch[3], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
 
     const vmWithNoDomain = cloneDeep(cloudInitTestVm);
@@ -321,7 +321,7 @@ describe('utils.js tests', () => {
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
     comparePatch(patch[2], `/spec/template/spec/domain`, {});
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
+    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { sockets: 1 });
     comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
 
     const vmWithNoTemplateSpec = cloneDeep(cloudInitTestVm);
@@ -332,7 +332,7 @@ describe('utils.js tests', () => {
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
     comparePatch(patch[2], `/spec/template/spec`, { domain: {} });
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
+    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { sockets: 1 });
     comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
 
     const vmWithNoTemplate = cloneDeep(cloudInitTestVm);
@@ -343,7 +343,7 @@ describe('utils.js tests', () => {
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
     comparePatch(patch[2], `/spec/template`, { spec: { domain: {} } });
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
+    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { sockets: 1 });
     comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
 
     const vmWithNoSpec = cloneDeep(cloudInitTestVm);
@@ -354,7 +354,7 @@ describe('utils.js tests', () => {
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
     comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
     comparePatch(patch[2], `/spec`, { template: { spec: { domain: {} } } });
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
+    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { sockets: 1 });
     comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
   });
   it('Add Nic patch', () => {

@@ -51,6 +51,8 @@ export const urlCustomFlavorTemplate = {
           spec: {
             domain: {
               cpu: {
+                sockets: 1,
+                threads: 1,
                 cores: 1,
               },
               devices: {

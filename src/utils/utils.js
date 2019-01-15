@@ -1,6 +1,6 @@
 import { get, has } from 'lodash';
 
-import { getDisks, getInterfaces, getName, getDescription, getFlavor, getCpu, getMemory } from './selectors';
+import { getDisks, getInterfaces, getName, getDescription, getFlavor, getCpuSockets, getMemory } from './selectors';
 import {
   ANNOTATION_FIRST_BOOT,
   BOOT_ORDER_FIRST,
@@ -230,20 +230,20 @@ const getLabelsPatch = vm => {
   return null;
 };
 
-const getCpuPatch = (vm, cpu) => {
+const getCpuSocketsPatch = (vm, cpuSockets) => {
   if (!has(vm.spec, 'template.spec.domain.cpu')) {
     return {
       op: 'add',
       path: '/spec/template/spec/domain/cpu',
       value: {
-        cores: parseInt(cpu, 10),
+        sockets: parseInt(cpuSockets, 10),
       },
     };
   }
   return {
-    op: has(vm.spec, 'template.spec.domain.cpu.cores') ? 'replace' : 'add',
-    path: '/spec/template/spec/domain/cpu/cores',
-    value: parseInt(cpu, 10),
+    op: has(vm.spec, 'template.spec.domain.cpu.sockets') ? 'replace' : 'add',
+    path: '/spec/template/spec/domain/cpu/sockets',
+    value: parseInt(cpuSockets, 10),
   };
 };
 
@@ -275,7 +275,7 @@ const getMemoryPatch = (vm, memory) => {
   };
 };
 
-export const getUpdateFlavorPatch = (vm, flavor, cpu, memory) => {
+export const getUpdateFlavorPatch = (vm, flavor, cpuSockets, memory) => {
   const patch = [];
   if (flavor !== getFlavor(vm)) {
     const labelKey = `${TEMPLATE_FLAVOR_LABEL}/${flavor}`.replace('~', '~0').replace('/', '~1');
@@ -301,18 +301,18 @@ export const getUpdateFlavorPatch = (vm, flavor, cpu, memory) => {
     });
   }
 
-  const vmCpu = getCpu(vm);
+  const vmCpuSockets = getCpuSockets(vm);
   const vmMemory = getMemory(vm);
 
-  if (parseInt(cpu, 10) !== vmCpu || memory !== vmMemory) {
+  if (parseInt(cpuSockets, 10) !== vmCpuSockets || memory !== vmMemory) {
     const domainPatch = getDomainPatch(vm);
     if (domainPatch) {
       patch.push(domainPatch);
     }
   }
 
-  if (parseInt(cpu, 10) !== vmCpu) {
-    patch.push(getCpuPatch(vm, cpu));
+  if (parseInt(cpuSockets, 10) !== vmCpuSockets) {
+    patch.push(getCpuSocketsPatch(vm, cpuSockets));
   }
 
   if (memory !== vmMemory) {
