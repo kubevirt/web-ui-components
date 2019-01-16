@@ -99,7 +99,6 @@ exports[`<VmConsoles /> renders correctly for a running VM 1`] = `
             title=""
           >
             <input
-              checked=""
               type="checkbox"
             />
             Disconnect before switching
