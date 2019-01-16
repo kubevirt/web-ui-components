@@ -115,7 +115,7 @@ export const VmConsoles = ({ vm, vmi, onStartVm, vnc, serial, rdp, WSFactory, Lo
   return (
     <div className="co-m-pane__body">
       {infoMessage}
-      <AccessConsoles preselectedType={VNC_CONSOLE_TYPE}>
+      <AccessConsoles preselectedType={VNC_CONSOLE_TYPE} disconnectByChange={false}>
         <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serial} />
         <VncConsole {...vnc} />
         {(vncManual || rdpManual) && <DesktopViewer vnc={vncManual} rdp={rdpManual} />}
