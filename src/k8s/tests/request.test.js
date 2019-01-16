@@ -88,9 +88,9 @@ const testDataVolumeStorage = (
 
 const testStorage = (vm, storageIndex, bootOrder, expectedName) => {
   expect(vm.spec.template.spec.domain.devices.disks[storageIndex].name).toBe(expectedName);
-  expect(vm.spec.template.spec.domain.devices.disks[storageIndex].bootOrder).toBe(
-    bootOrder !== -1 ? bootOrder : undefined
-  );
+  vm.spec.template.spec.domain.devices.disks.forEach(disk => {
+    expect(disk.bootOrder).toBeGreaterThanOrEqual(1);
+  });
   expect(vm.spec.template.spec.volumes[storageIndex].name).toBe(expectedName);
 };
 

@@ -309,3 +309,25 @@ const getNextAvailableBootOrderIndex = vm => {
   // assigned indexes start at two as the first index is assigned directly by the user
   return largestIdx !== -1 ? largestIdx + 1 : BOOT_ORDER_SECOND;
 };
+
+export const getBootableDevices = vm => {
+  const bootableDevices = [];
+
+  const disks = getDisks(vm);
+  disks.forEach(disk => {
+    const bootOrder = get(disk, 'bootOrder', null);
+    if (bootOrder) {
+      bootableDevices.push(disk);
+    }
+  });
+
+  const nics = getInterfaces(vm);
+  nics.forEach(nic => {
+    const bootOrder = get(nic, 'bootOrder', null);
+    if (bootOrder) {
+      bootableDevices.push(nic);
+    }
+  });
+
+  return bootableDevices;
+};

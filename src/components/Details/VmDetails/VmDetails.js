@@ -29,6 +29,8 @@ import { Flavor } from '../Flavor';
 import { Description } from '../Description';
 import { Loading } from '../../Loading';
 import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
+import { BootOrder } from '../BootOrder';
+import { getBootableDevices } from '../../../k8s/vmBuilder';
 
 export class VmDetails extends React.Component {
   constructor(props) {
@@ -147,7 +149,7 @@ export class VmDetails extends React.Component {
     const fqdn = vmIsOff || !hostName ? DASHES : hostName;
     const template = getVmTemplate(vm);
     const id = getId(vm);
-
+    const bootableDevices = getBootableDevices(vm);
     const editButton = (
       <Fragment>
         {!vmIsOff && (
@@ -240,6 +242,10 @@ export class VmDetails extends React.Component {
 
                   <dt>Pod</dt>
                   <dd id={prefixedId(id, 'pod')}>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+                  <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+
+                  <dt>Boot Order</dt>
+                  <dd>{bootableDevices.length > 0 ? <BootOrder bootableDevices={bootableDevices} /> : DASHES}</dd>
                 </dl>
               </Col>
 
