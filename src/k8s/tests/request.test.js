@@ -235,6 +235,7 @@ const testStorage = (results, storageIndex, bootOrder, expectedStorageName, expe
     expect(vm.spec.dataVolumeTemplates[expectedStorageType.index].metadata.name).toBe(
       `${expectedStorageName}-${vm.metadata.name}`
     );
+    expect(vm.spec.dataVolumeTemplates[expectedStorageType.index].status).toBeDefined();
   } else if (expectedStorageType.type === STORAGE_TYPE_PVC) {
     expect(vm.spec.template.spec.volumes[storageIndex].dataVolume).toBeUndefined();
     expect(vm.spec.template.spec.volumes[storageIndex].containerDisk).toBeUndefined();
@@ -324,6 +325,7 @@ describe('request.js - provision sources', () => {
       expect(vm.spec.dataVolumeTemplates[0].metadata.name).toBe(`${rootDataVolumeDisk.name}-${vm.metadata.name}`);
       expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(settingsValue(basicSettingsUrl, IMAGE_URL_KEY));
       expect(vm.spec.dataVolumeTemplates[0].spec.pvc.resources.requests.storage).toBe(`${rootDataVolumeDisk.size}Gi`);
+      expect(vm.spec.dataVolumeTemplates[0].status).toBeDefined();
       return results;
     }));
   it('PXE', () =>

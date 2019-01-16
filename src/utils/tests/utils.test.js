@@ -89,6 +89,7 @@ const dataVolumeTemplate = {
       blank: {},
     },
   },
+  status: {},
 };
 
 const comparePatch = (patch, path, value, op = 'add') => {

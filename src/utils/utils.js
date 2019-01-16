@@ -95,6 +95,7 @@ export const getAddDiskPatch = (vm, storage) => {
         blank: {},
       },
     },
+    status: {},
   };
   if (storage.storageClass) {
     dataVolumeTemplate.spec.pvc.storageClassName = storage.storageClass;

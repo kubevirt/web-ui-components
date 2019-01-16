@@ -546,6 +546,7 @@ const addDataVolumeTemplate = (vm, storage, getSetting) => {
         ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec.source : source),
       },
     },
+    status: {},
   };
 
   const dataVolumes = getDataVolumeTemplates(vm);
