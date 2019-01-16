@@ -15,6 +15,7 @@ import {
   getUpdateDescriptionPatch,
   getUpdateFlavorPatch,
   getOperatingSystemName,
+  getHostName,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';
@@ -133,7 +134,8 @@ export class VmDetails extends React.Component {
     } = this.props;
     const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
     const nodeName = getNodeName(launcherPod);
-    const ipAddresses = getVmiIpAddresses(vmi);
+    const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
+    const fqdn = vmIsOff ? DASHES : getHostName(launcherPod);
     const template = getVmTemplate(vm);
     const editButton = (
       <Fragment>
@@ -215,7 +217,7 @@ export class VmDetails extends React.Component {
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-2">
                 <dl>
                   <dt>FQDN</dt>
-                  <dd>{get(launcherPod, 'spec.hostname', DASHES)}</dd>
+                  <dd>{fqdn}</dd>
 
                   <dt>Namespace</dt>
                   <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
