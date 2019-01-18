@@ -1,4 +1,6 @@
 /* eslint-disable no-new */
+import { trimStart, trimEnd } from 'lodash';
+
 import {
   DNS1123_START_ERROR,
   DNS1123_END_ERROR,
@@ -51,11 +53,11 @@ export const validateURL = value => {
     return getValidationObject(EMPTY_ERROR);
   }
 
-  if (value.trimStart().length !== value.length) {
+  if (trimStart(value).length !== value.length) {
     return getValidationObject(START_WHITESPACE_ERROR);
   }
 
-  if (value.trimEnd().length !== value.length) {
+  if (trimEnd(value).length !== value.length) {
     return getValidationObject(END_WHITESPACE_ERROR);
   }
   try {
@@ -71,11 +73,11 @@ export const validateContainer = value => {
     return getValidationObject(EMPTY_ERROR);
   }
 
-  if (value.trimStart().length !== value.length) {
+  if (trimStart(value).length !== value.length) {
     return getValidationObject(START_WHITESPACE_ERROR);
   }
 
-  if (value.trimEnd().length !== value.length) {
+  if (trimEnd(value).length !== value.length) {
     return getValidationObject(END_WHITESPACE_ERROR);
   }
 
