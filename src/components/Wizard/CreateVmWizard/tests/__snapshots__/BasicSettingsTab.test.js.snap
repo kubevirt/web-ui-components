@@ -151,13 +151,14 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
             "name": "Microsoft Windows 10",
           },
         ],
-        "defaultValue": "--- Select Operating System ---",
+        "choicesLabelKey": "name",
+        "defaultValue": "",
         "disabled": false,
         "help": "The primary operating system that will run on the virtual machine.",
         "id": "operating-system-dropdown",
         "required": true,
         "title": "Operating System",
-        "type": "dropdown",
+        "type": "typeahead",
       },
       "provisionSourceType": Object {
         "choices": Array [
@@ -376,13 +377,14 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
             "name": "Microsoft Windows 10",
           },
         ],
-        "defaultValue": "--- Select Operating System ---",
+        "choicesLabelKey": "name",
+        "defaultValue": "",
         "disabled": false,
         "help": "The primary operating system that will run on the virtual machine.",
         "id": "operating-system-dropdown",
         "required": true,
         "title": "Operating System",
-        "type": "dropdown",
+        "type": "typeahead",
       },
       "provisionSourceType": Object {
         "choices": Array [

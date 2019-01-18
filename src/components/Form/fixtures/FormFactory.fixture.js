@@ -8,6 +8,16 @@ export const getPositiveNumber = () =>
     onChange: jest.fn(),
   });
 
+export const getTypeAhead = () =>
+  getFormElement({
+    type: 'typeahead',
+    id: 'typeahead-id',
+    value: 'value',
+    onChange: jest.fn(),
+    choicesLabelKey: 'name',
+    choices: [{ id: 1, name: 'value' }],
+  });
+
 export default {
   component: FormFactory,
   props: {

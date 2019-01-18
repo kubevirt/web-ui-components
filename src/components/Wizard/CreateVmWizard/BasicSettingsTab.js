@@ -157,9 +157,10 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
       title: 'Operating System',
-      type: 'dropdown',
-      defaultValue: '--- Select Operating System ---',
+      type: 'typeahead',
+      defaultValue: '',
       choices: operatingSystems,
+      choicesLabelKey: 'name',
       required: true,
       disabled: userTemplate !== undefined,
       help: HELP_OS,

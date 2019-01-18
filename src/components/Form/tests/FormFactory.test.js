@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 
 import createTestContext from '../../../cosmos/enzyme';
-import fixture, { getPositiveNumber } from '../fixtures/FormFactory.fixture';
+import fixture, { getPositiveNumber, getTypeAhead } from '../fixtures/FormFactory.fixture';
 
 const { mount, getWrapper } = createTestContext({ fixture });
 
@@ -28,6 +28,10 @@ describe('<FormFactory />', () => {
 describe('getFormElement', () => {
   it('renders correctly', () => {
     const component = shallow(getPositiveNumber());
+    expect(component).toMatchSnapshot();
+  });
+  it('renders correctly a type ahead', () => {
+    const component = shallow(getTypeAhead());
     expect(component).toMatchSnapshot();
   });
 });

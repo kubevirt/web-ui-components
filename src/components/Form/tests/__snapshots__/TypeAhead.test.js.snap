@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextAreaControl /> renders a default value 1`] = `
+<OnClickOutside(TypeaheadContainer(WrappedTypeahead))
+  defaultInputValue="Record 1"
+  disabled={false}
+  eventTypes={
+    Array [
+      "mousedown",
+      "touchstart",
+    ]
+  }
+  excludeScrollbar={false}
+  id="typeahead-1"
+  key="typeahead-1"
+  labelKey="name"
+  multiple={false}
+  onBlur={[Function]}
+  onChange={[Function]}
+  options={
+    Array [
+      Object {
+        "id": 1,
+        "name": "Record 1",
+      },
+      Object {
+        "id": 2,
+        "name": "Record 2",
+      },
+    ]
+  }
+  outsideClickIgnoreClass="ignore-react-onclickoutside"
+  placeholder="Select a record..."
+  preventDefault={false}
+  stopPropagation={false}
+/>
+`;
+
+exports[`<TextAreaControl /> renders correctly 1`] = `
+<OnClickOutside(TypeaheadContainer(WrappedTypeahead))
+  disabled={false}
+  eventTypes={
+    Array [
+      "mousedown",
+      "touchstart",
+    ]
+  }
+  excludeScrollbar={false}
+  id="typeahead-1"
+  key="typeahead-1"
+  labelKey="name"
+  multiple={false}
+  onBlur={[Function]}
+  onChange={[Function]}
+  options={
+    Array [
+      Object {
+        "id": 1,
+        "name": "Record 1",
+      },
+      Object {
+        "id": 2,
+        "name": "Record 2",
+      },
+    ]
+  }
+  outsideClickIgnoreClass="ignore-react-onclickoutside"
+  placeholder="Select a record..."
+  preventDefault={false}
+  stopPropagation={false}
+/>
+`;

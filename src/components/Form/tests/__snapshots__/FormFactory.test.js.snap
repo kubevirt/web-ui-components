@@ -752,3 +752,38 @@ exports[`getFormElement renders correctly 1`] = `
   type="number"
 />
 `;
+
+exports[`getFormElement renders correctly a type ahead 1`] = `
+<OnClickOutside(TypeaheadContainer(WrappedTypeahead))
+  disabled={false}
+  eventTypes={
+    Array [
+      "mousedown",
+      "touchstart",
+    ]
+  }
+  excludeScrollbar={false}
+  id="typeahead-id"
+  key="typeahead-id"
+  labelKey="name"
+  multiple={false}
+  onBlur={[Function]}
+  onChange={[MockFunction]}
+  options={
+    Array [
+      Object {
+        "id": 1,
+        "name": "value",
+      },
+    ]
+  }
+  outsideClickIgnoreClass="ignore-react-onclickoutside"
+  preventDefault={false}
+  selected={
+    Array [
+      "value",
+    ]
+  }
+  stopPropagation={false}
+/>
+`;

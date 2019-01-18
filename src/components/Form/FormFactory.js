@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { FormGroup, Col, ControlLabel, HelpBlock, Form, FieldLevelHelp } from 'patternfly-react';
 import { get } from 'lodash';
 
-import { Dropdown, Checkbox, Text, TextArea, Integer } from '.';
+import { Dropdown, Checkbox, Text, TextArea, Integer, TypeAhead } from '.';
 import { VALIDATION_INFO_TYPE, VALIDATION_ERROR_TYPE } from '../../constants';
 import { getValidationObject } from '../../utils/validations';
 import { ERROR_IS_REQUIRED } from '../Wizard/CreateVmWizard/strings';
@@ -19,9 +19,12 @@ export const getFormElement = props => {
     onChange,
     onBlur,
     choices,
+    choicesLabelKey,
     defaultValue,
     isControlled,
     disabled,
+    placeholder,
+    multiple,
     className,
     LoadingComponent,
   } = props;
@@ -65,6 +68,21 @@ export const getFormElement = props => {
           onBlur={onBlur}
           onChange={onChange}
           positive
+          disabled={disabled}
+        />
+      );
+    case 'typeahead':
+      return (
+        <TypeAhead
+          id={id}
+          labelKey={choicesLabelKey}
+          defaultValue={defaultValue}
+          placeholder={placeholder}
+          choices={choices}
+          multiple={multiple}
+          selected={value}
+          onChange={onChange}
+          onBlur={onBlur}
           disabled={disabled}
         />
       );

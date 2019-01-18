@@ -10,7 +10,7 @@ import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
 import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../../utils/selectors';
 import { getTemplateProvisionSource } from '../../../../utils/templates';
-import { Dropdown } from '../../../Form';
+import { Dropdown, TypeAhead } from '../../../Form';
 import { NO_TEMPLATE } from '../strings';
 import { selectVm } from '../../../../k8s/selectors';
 import {
@@ -104,7 +104,7 @@ const checkDisabledDropdown = (component, template, disabled) => {
   expect(
     component
       .find({ id: 'operating-system-dropdown' })
-      .find(Dropdown)
+      .find(TypeAhead)
       .props().disabled
   ).toEqual(disabled.os);
   expect(
