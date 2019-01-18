@@ -75,3 +75,17 @@ export const PersistentVolumeClaimModel = {
   id: 'persistentvolumeclaim',
   labelPlural: 'Persistent Volume Claims',
 };
+
+export const DataVolumeModel = {
+  label: 'Data Volume',
+  labelPlural: 'Data Volumes',
+  apiVersion: 'v1alpha1',
+  path: 'datavolumes',
+  apiGroup: 'cdi.kubevirt.io',
+  plural: 'datavolumes',
+  abbr: 'DV',
+  namespaced: true,
+  kind: 'DataVolume',
+  id: 'datavolume',
+  crd: true,
+};

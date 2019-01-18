@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getCpu, getFlavor, getMemory, retrieveVmTemplate } from '../../../utils';
+import { getCpu, getFlavor, getMemory, retrieveVmTemplate, getFlavorDescription } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
@@ -52,15 +52,6 @@ export class Flavor extends React.Component {
       });
   }
 
-  getFlavorDescription = () => {
-    const cpu = getCpu(this.props.vm);
-    const memory = getMemory(this.props.vm);
-    const cpuStr = cpu ? `${cpu} CPU` : '';
-    const memoryStr = memory ? `${memory} Memory` : '';
-    const resourceStr = cpuStr && memoryStr ? `${cpuStr}, ${memoryStr}` : `${cpuStr}${memoryStr}`;
-    return resourceStr ? <div>{resourceStr}</div> : undefined;
-  };
-
   getFlavorChoices = () => {
     const flavors = [];
     if (this.state.template) {
@@ -108,7 +99,7 @@ export class Flavor extends React.Component {
         fieldsValues={this.props.formValues}
       >
         <div>{getFlavor(this.props.vm) || CUSTOM_FLAVOR}</div>
-        {this.getFlavorDescription()}
+        <div>{getFlavorDescription(this.props.vm)}</div>
       </InlineEdit>
     );
   }

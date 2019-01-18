@@ -9,3 +9,5 @@ export const DNS1123_TOO_LONG_ERROR = 'cannot have more than 253 characters';
 export const DNS1123_UPPERCASE_ERROR = 'cannot contain uppercase letters';
 
 export const URL_INVALID_ERROR = 'has to be a valid URL';
+
+export const VIRTUAL_MACHINE_EXISTS = `is already used by another Virtual Machine`;

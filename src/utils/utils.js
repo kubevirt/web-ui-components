@@ -377,3 +377,23 @@ export const getAddNicPatch = (vm, nic) => {
 
   return patch;
 };
+
+export const getStartStopPatch = (vm, start) => {
+  const patch = [];
+  if (!has(vm, 'spec')) {
+    patch.push({
+      op: 'add',
+      path: '/spec',
+      value: {
+        running: start,
+      },
+    });
+  } else {
+    patch.push({
+      op: has(vm.spec, 'running') ? 'replace' : 'add',
+      path: '/spec/running',
+      value: start,
+    });
+  }
+  return patch;
+};

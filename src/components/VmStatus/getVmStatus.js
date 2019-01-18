@@ -49,7 +49,7 @@ const isSchedulable = pod => {
   return !(podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable');
 };
 
-const isRunning = vm => {
+export const isRunning = vm => {
   if (!get(vm, 'spec.running', false)) {
     return { status: VM_STATUS_OFF };
   }

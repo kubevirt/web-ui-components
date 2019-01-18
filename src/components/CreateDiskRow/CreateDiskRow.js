@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { CreateDeviceRow } from '../CreateDeviceRow';
 import { getName } from '../../utils/selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
+import { settingsValue } from '../../k8s/selectors';
+import { NAME_KEY } from '../Wizard/CreateVmWizard/constants';
 
 const columnSizes = {
   lg: 3,
@@ -25,15 +27,15 @@ const getDiskColumns = (storage, storageClasses, LoadingComponent) => {
   } else {
     storageClass = {
       id: 'disk-storage-class-loading',
-      type: 'loading',
-      LoadingComponent,
+      type: 'custom',
+      CustomComponent: LoadingComponent,
     };
   }
 
   return {
-    name: {
+    [NAME_KEY]: {
       id: 'disk-name',
-      validate: validateDNS1123SubdomainValue,
+      validate: settings => validateDNS1123SubdomainValue(settingsValue(settings, NAME_KEY)),
       required: true,
       title: 'Name',
       disabled: storage.creating,

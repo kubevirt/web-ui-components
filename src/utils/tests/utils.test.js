@@ -14,6 +14,7 @@ import {
   getUpdateDescriptionPatch,
   getUpdateFlavorPatch,
   getAddNicPatch,
+  getStartStopPatch,
 } from '../utils';
 import { cloudInitTestVm } from '../../k8s/mock_vm/cloudInitTestVm.mock';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
@@ -388,5 +389,30 @@ describe('utils.js tests', () => {
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
     comparePatch(patch[1], '/spec/template/spec/networks', [podNetwork]);
+  });
+  it('start stop vm patch', () => {
+    const vm = getVM(false);
+
+    vm.spec.running = true;
+
+    let patch = getStartStopPatch(vm, true);
+    expect(patch).toHaveLength(1);
+    comparePatch(patch[0], '/spec/running', true, 'replace');
+
+    patch = getStartStopPatch(vm, false);
+    expect(patch).toHaveLength(1);
+    comparePatch(patch[0], '/spec/running', false, 'replace');
+
+    delete vm.spec.running;
+
+    patch = getStartStopPatch(vm, false);
+    expect(patch).toHaveLength(1);
+    comparePatch(patch[0], '/spec/running', false);
+
+    delete vm.spec;
+
+    patch = getStartStopPatch(vm, false);
+    expect(patch).toHaveLength(1);
+    comparePatch(patch[0], '/spec', { running: false });
   });
 });

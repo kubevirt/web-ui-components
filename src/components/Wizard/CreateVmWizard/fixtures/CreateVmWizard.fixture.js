@@ -3,6 +3,7 @@ import { ProcessedTemplatesModel } from '../../../../models';
 import { networkConfigs } from '../../../../k8s/mock_network';
 import { baseTemplates } from '../../../../k8s/mock_templates';
 import { userTemplates } from '../../../../k8s/mock_user_templates';
+import { persistentVolumeClaims } from '../../../../k8s/mock_pvc';
 
 const templates = [...baseTemplates, ...userTemplates];
 
@@ -42,52 +43,6 @@ export const storageClasses = [
     metadata: {
       name: 'azuredisk',
       namespace: 'default',
-    },
-  },
-];
-
-export const persistentVolumeClaims = [
-  {
-    metadata: {
-      // should be the same namespaces as the vm
-      name: 'disk-one',
-      namespace: 'default',
-    },
-    spec: {
-      resources: {
-        requests: {
-          storage: '10gi',
-        },
-      },
-      storageClassName: 'nfs',
-    },
-  },
-  {
-    metadata: {
-      name: 'disk-two',
-      namespace: 'myproject',
-    },
-    spec: {
-      resources: {
-        requests: {
-          storage: '15gi',
-        },
-      },
-      storageClassName: 'glusterfs',
-    },
-  },
-  {
-    metadata: {
-      name: 'disk-three',
-      namespace: 'default',
-    },
-    spec: {
-      resources: {
-        requests: {
-          storage: '20gi',
-        },
-      },
-      storageClassName: 'iscsi',
     },
   },
 ];

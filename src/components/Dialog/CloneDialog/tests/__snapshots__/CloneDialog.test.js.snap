@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CloneDialog /> renders correctly 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={false}
+    closeLabel="Close"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="close"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="close"
+        type="pf"
+      />
+    </Button>
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      Clone Virtual Machine
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <FormFactory
+      controlSize={9}
+      fields={
+        Object {
+          "configuration": Object {
+            "CustomComponent": [Function],
+            "id": "vm-configuration",
+            "title": "Configuration",
+            "type": "custom",
+          },
+          "description": Object {
+            "id": "vm-description",
+            "title": "Description",
+            "type": "textarea",
+          },
+          "name": Object {
+            "id": "vm-name",
+            "required": true,
+            "title": "Name",
+            "validate": [Function],
+          },
+          "namespace": Object {
+            "choices": Array [
+              "default",
+              "myproject",
+            ],
+            "defaultValue": "--- Select Namespace ---",
+            "id": "namespace-dropdown",
+            "required": true,
+            "title": "Namespace",
+            "type": "dropdown",
+          },
+          "startVM": Object {
+            "id": "start-vm",
+            "noBottom": true,
+            "title": "Start virtual machine on clone",
+            "type": "checkbox",
+          },
+        }
+      }
+      fieldsValues={
+        Object {
+          "cloning": false,
+          "description": Object {
+            "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacus nibh, convallis vel nunc id,tempus vulputate augue. Proin eget nisl vel ante tincidunt accumsan vel at elit. Fusce eget tincidunt sem. Fusce cursus orci vitae nisl hendrerit mollis. Nullam at nulla ut ipsum malesuada laoreet a sit amet est.",
+          },
+          "name": Object {
+            "validation": null,
+            "value": "cloudinit-test-vm-clone",
+          },
+          "namespace": Object {
+            "value": "default",
+          },
+          "startVM": Object {
+            "value": false,
+          },
+          "valid": true,
+        }
+      }
+      labelSize={3}
+      onFormChange={[Function]}
+      textPosition="text-right"
+    />
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="btn-cancel"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Cancel
+    </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Clone Virtual Machine
+    </Button>
+  </ModalFooter>
+</Modal>
+`;
