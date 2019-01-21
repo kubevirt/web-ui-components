@@ -98,4 +98,7 @@ export const isWindows = vm => (getOperatingSystem(vm) || '').startsWith(OS_WIND
 export const getNodeName = pod => get(pod, 'spec.nodeName');
 export const getHostName = pod => get(pod, 'spec.hostname');
 
-export const getVmiIpAddresses = vmi => get(vmi, 'status.interfaces', []).map(i => i.ipAddress);
+export const getVmiIpAddresses = vmi =>
+  get(vmi, 'status.interfaces', [])
+    .map(i => i.ipAddress)
+    .filter(ip => ip && ip.trim().length > 0);

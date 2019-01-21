@@ -18,4 +18,14 @@ describe('getVmiIpAddresses()', () => {
     delete cloudInitTestVmi.status.interfaces;
     expect(getVmiIpAddresses(cloudInitTestVmi)).toHaveLength(0);
   });
+
+  it('removes empty and missing IP addresses', () => {
+    cloudInitTestVmi.status.interfaces = [
+      { ipAddress: '172.17.0.15', mac: '02:42:ac:11:00:0d', name: 'default' },
+      { ipAddress: '', mac: '02:42:ac:11:00:0c', name: 'nic-1' },
+      { ipAddress: ' ', mac: '02:42:ac:11:00:0e', name: 'nic-2' },
+      { mac: '02:42:ac:11:00:0f', name: 'nic-3' },
+    ];
+    expect(getVmiIpAddresses(cloudInitTestVmi)).toHaveLength(1);
+  });
 });
