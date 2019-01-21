@@ -418,7 +418,9 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd />
+            <dd>
+              ---
+            </dd>
             <dt>
               Namespace
             </dt>
@@ -1026,7 +1028,9 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd />
+            <dd>
+              ---
+            </dd>
             <dt>
               Namespace
             </dt>
