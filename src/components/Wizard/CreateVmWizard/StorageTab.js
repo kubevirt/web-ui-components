@@ -126,7 +126,10 @@ const findBootDisk = bootableDisks => {
 const hasError = disk => (disk.errors ? disk.errors.some(error => !!error) : false);
 
 const resolveBootability = (rows, sourceType) => {
-  if (!rows.some(row => row.isBootable && !hasError(row))) {
+  const rootStorage = rows.find(row => row.rootStorage);
+  if (rootStorage) {
+    setBootableDisk(rows, rootStorage);
+  } else if (!rows.some(row => row.isBootable && !hasError(row))) {
     let bootableDisks;
     switch (sourceType) {
       case PROVISION_SOURCE_CONTAINER:

@@ -105,13 +105,10 @@ const resolveInitialNetworks = (networks, networkConfigs, namespace, sourceType)
       };
     }
     return {
-      name: network.name,
-      mac: network.mac,
-      network: network.network,
+      ...network,
       id: nextId++,
       editable: true,
       edit: false,
-      networkType: network.networkType,
     };
   });
 
@@ -136,31 +133,34 @@ export class NetworksTab extends React.Component {
 
   publishResults = rows => {
     let valid = this.props.sourceType === PROVISION_SOURCE_PXE ? rows.some(row => row.isBootable) : true;
-    const nics = rows.map(({ templateNetwork, id, isBootable, name, mac, network, errors, networkType }) => {
-      const result = {
-        id,
-        isBootable,
-        name,
-        mac,
-        network,
-        errors,
-        networkType,
-      };
+    const nics = rows.map(
+      ({ templateNetwork, rootNetwork, id, isBootable, name, mac, network, errors, networkType }) => {
+        const result = {
+          id,
+          isBootable,
+          name,
+          mac,
+          network,
+          errors,
+          networkType,
+          rootNetwork,
+        };
 
-      if (templateNetwork) {
-        result.templateNetwork = templateNetwork;
-      }
+        if (templateNetwork) {
+          result.templateNetwork = templateNetwork;
+        }
 
-      if (valid && errors) {
-        for (const error of errors) {
-          if (error) {
-            valid = false;
-            break;
+        if (valid && errors) {
+          for (const error of errors) {
+            if (error) {
+              valid = false;
+              break;
+            }
           }
         }
+        return result;
       }
-      return result;
-    });
+    );
 
     this.props.onChange(nics, valid);
   };

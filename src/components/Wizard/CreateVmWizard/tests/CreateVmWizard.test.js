@@ -24,6 +24,8 @@ import {
   RESULT_TAB_KEY,
   USER_TEMPLATE_KEY,
   PROVISION_SOURCE_TYPE_KEY,
+  STORAGE_TYPE_CONTAINER,
+  STORAGE_TYPE_DATAVOLUME,
 } from '../constants';
 
 import {
@@ -32,6 +34,7 @@ import {
   containerMultusTemplate,
   urlNoNetworkTemplate,
 } from '../../../../k8s/mock_user_templates';
+import { PROVISION_SOURCE_PXE, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL } from '../../../../constants';
 
 jest.mock('../../../../k8s/request');
 
@@ -78,6 +81,12 @@ const checkNetworks = (component, userTemplate) => {
 const checkRootNetworkExists = component => {
   expect(component.state('stepData')[NETWORKS_TAB_KEY].value).toHaveLength(1);
   expect(component.state('stepData')[NETWORKS_TAB_KEY].value[0].rootNetwork).toBeTruthy();
+};
+
+const checkRootStorageExists = (component, storageType) => {
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(1);
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].rootStorage).toBeTruthy();
+  expect(component.state('stepData')[STORAGE_TAB_KEY].value[0].storageType).toEqual(storageType);
 };
 
 const testWalkThrough = (template = false, createText = CREATE_VM, templatesDropdown = true, createFunc = createVm) => {
@@ -270,14 +279,20 @@ describe('<CreateVmWizard />', () => {
       [USER_TEMPLATE_KEY]: {
         value: undefined,
       },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_CONTAINER,
+      },
     };
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, userTemplateSource, true);
-    expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
+    checkRootStorageExists(component, STORAGE_TYPE_CONTAINER);
 
     let withTemplateSource = {
       ...userTemplateSource,
       [USER_TEMPLATE_KEY]: {
         value: getName(containerTemplate),
+      },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_CONTAINER,
       },
     };
 
@@ -289,6 +304,9 @@ describe('<CreateVmWizard />', () => {
       [USER_TEMPLATE_KEY]: {
         value: getName(pxeDataVolumeTemplate),
       },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_PXE,
+      },
     };
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
@@ -299,10 +317,26 @@ describe('<CreateVmWizard />', () => {
       [USER_TEMPLATE_KEY]: {
         value: 'unknown-template',
       },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_PXE,
+      },
     };
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
     expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
+
+    withTemplateSource = {
+      ...userTemplateSource,
+      [USER_TEMPLATE_KEY]: {
+        value: null,
+      },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_URL,
+      },
+    };
+
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    checkRootStorageExists(component, STORAGE_TYPE_DATAVOLUME);
   });
 
   it('reads networks from user teplate', () => {
@@ -312,6 +346,9 @@ describe('<CreateVmWizard />', () => {
     const noTemplateSource = {
       [USER_TEMPLATE_KEY]: {
         value: undefined,
+      },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_PXE,
       },
     };
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noTemplateSource, true);
