@@ -53,8 +53,25 @@ const LoadingNetworksTab = loadingWizardTab(NetworksTab);
 
 const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_KEY].value, key);
 
+const getInitialDisks = provisionSource => {
+  switch (provisionSource) {
+    case PROVISION_SOURCE_URL:
+      return rootDataVolumeDisk;
+    case PROVISION_SOURCE_CONTAINER:
+      return rootContainerDisk;
+    case PROVISION_SOURCE_PXE:
+      return null;
+    default:
+      // eslint-disable-next-line
+      console.warn(`Unknown provision source ${provisionSource}`);
+      return null;
+  }
+};
+
 const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
-  const withoutDiscardedTemplateStorage = stepData[STORAGE_TAB_KEY].value.filter(storage => !storage.templateStorage);
+  const withoutDiscardedTemplateStorage = stepData[STORAGE_TAB_KEY].value.filter(
+    storage => !(storage.templateStorage || storage.rootStorage)
+  );
 
   const rows = [...withoutDiscardedTemplateStorage];
 
@@ -63,6 +80,12 @@ const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
       templateStorage: storage,
     }));
     rows.push(...templateStorages);
+  } else {
+    const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
+    const storage = getInitialDisks(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
+    if (storage) {
+      rows.push(storage);
+    }
   }
 
   return {
@@ -127,23 +150,8 @@ const onImageSourceTypeChangedInStorageTab = stepData => {
   const withoutRootStorage = stepData[STORAGE_TAB_KEY].value.filter(storage => !storage.rootStorage);
   const rows = [...withoutRootStorage];
   const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
-  if (!(basicSettings[USER_TEMPLATE_KEY] && basicSettings[USER_TEMPLATE_KEY].value)) {
-    let storage;
-    const provisionSource = basicSettings[PROVISION_SOURCE_TYPE_KEY].value;
-    switch (provisionSource) {
-      case PROVISION_SOURCE_URL:
-        storage = rootDataVolumeDisk;
-        break;
-      case PROVISION_SOURCE_CONTAINER:
-        storage = rootContainerDisk;
-        break;
-      case PROVISION_SOURCE_PXE:
-        break;
-      default:
-        // eslint-disable-next-line
-        console.warn(`Unknown provision source ${provisionSource}`);
-        break;
-    }
+  if (!settingsValue(basicSettings, USER_TEMPLATE_KEY)) {
+    const storage = getInitialDisks(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
     if (storage) {
       rows.push(storage);
     }
