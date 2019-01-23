@@ -135,7 +135,8 @@ export class VmDetails extends React.Component {
     const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
     const nodeName = getNodeName(launcherPod);
     const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
-    const fqdn = vmIsOff ? DASHES : getHostName(launcherPod);
+    const hostName = getHostName(launcherPod);
+    const fqdn = vmIsOff || !hostName ? DASHES : hostName;
     const template = getVmTemplate(vm);
     const editButton = (
       <Fragment>

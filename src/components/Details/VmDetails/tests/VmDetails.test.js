@@ -120,6 +120,7 @@ describe('<VmDetails /> enzyme', () => {
       ).toBeTruthy();
     });
   });
+
   it('disables edit mode when clicked on cancel', () => {
     const component = mount(testVmDetails(vmFixtures.vmWithLabels));
     return awaitVmDetails(() => {
@@ -133,6 +134,7 @@ describe('<VmDetails /> enzyme', () => {
       return component;
     });
   });
+
   it('updates VM description after clicking save button', () => {
     const k8sPatchMock = jest.fn().mockReturnValue(
       new Promise(resolve => {

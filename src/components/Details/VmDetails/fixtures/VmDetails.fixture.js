@@ -93,10 +93,28 @@ export const vmFixtures = {
   },
 };
 
+const vmiFixture = {
+  apiVersion: 'kubevirt.io/v1alpha3',
+  kind: 'VirtualMachineInstance',
+  metadata: {
+    name: 'my-vm-vmi',
+    namespace: 'my-namespace',
+  },
+  status: {
+    interfaces: [
+      { ipAddress: '172.17.0.15', mac: '02:42:ac:11:00:0d', name: 'default' },
+      { ipAddress: '172.17.0.16', mac: '02:42:ac:11:00:0e', name: 'backup1' },
+      { ipAddress: '172.17.0.17', mac: '02:42:ac:11:00:0f', name: 'backup2' },
+    ],
+    nodeName: 'localhost',
+    phase: 'Running',
+  },
+};
+
 export default [
   {
     component: VmDetails,
-    name: 'offline VM',
+    name: 'Offline VM',
     props: {
       vm: vmFixtures.downVm,
       k8sPatch: () =>
@@ -111,9 +129,10 @@ export default [
   },
   {
     component: VmDetails,
-    name: 'running VM',
+    name: 'Running VM',
     props: {
       vm: vmFixtures.runningVm,
+      vmi: vmiFixture,
       k8sPatch: () =>
         new Promise(resolve => {
           resolve();
