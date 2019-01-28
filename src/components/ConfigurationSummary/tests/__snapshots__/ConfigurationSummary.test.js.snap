@@ -102,6 +102,11 @@ exports[`<ConfigurationSummary /> renders correctly with disks 1`] = `
       datavolumedisk
     </div>
     <div
+      key="datavolumetemplatedisk"
+    >
+      datavolumetemplatedisk - 1GB
+    </div>
+    <div
       key="pvcdisk"
     >
       pvcdisk

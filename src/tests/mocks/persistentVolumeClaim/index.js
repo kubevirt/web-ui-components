@@ -56,4 +56,18 @@ export const persistentVolumeClaims = [
       storageClassName: 'iscsi',
     },
   },
+  {
+    metadata: {
+      name: 'datavolume-blank',
+      namespace: 'default',
+    },
+    spec: {
+      resources: {
+        requests: {
+          storage: '20gi',
+        },
+      },
+      storageClassName: 'iscsi',
+    },
+  },
 ];

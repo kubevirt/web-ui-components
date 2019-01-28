@@ -1,16 +1,21 @@
-import { has, get } from 'lodash';
+import { has } from 'lodash';
 
-import { VirtualMachineModel, DataVolumeModel } from '../models';
+import { VirtualMachineModel } from '../models';
 import {
   getVolumes,
   getNamespace,
   getName,
   getInterfaces,
-  getPvcResources,
-  getActualPvcCapacity,
   getPvcAccessModes,
+  getPvcStorageSize,
+  getDataVolumeAccessModes,
+  getDataVolumeStorageSize,
+  getPvcStorageClassName,
+  getDataVolumeStorageClassName,
 } from '../utils/selectors';
-import { getStartStopPatch } from '../utils';
+import { getStartStopPatch, generateDiskName } from '../utils';
+import { addDataVolumeTemplate, addTemplateLabel } from './vmBuilder';
+import { TEMPLATE_VM_NAME_LABEL } from '../constants';
 
 export const clone = async (
   k8sCreate,
@@ -26,53 +31,13 @@ export const clone = async (
   const stopVmPatch = getStartStopPatch(vm, false);
   await k8sPatch(VirtualMachineModel, vm, stopVmPatch);
 
-  const cloneDiskPromises = cloneDisks(k8sCreate, vm, newNamespace, persistentVolumeClaims, dataVolumes);
-  const promises = cloneDiskPromises.map(cloneDisk => cloneDisk.promise);
-  const diskResults = await Promise.all(promises);
-  return cloneVm(
-    k8sCreate,
-    vm,
-    newName,
-    newNamespace,
-    newDescription,
-    startVm,
-    cloneDiskPromises.map((disk, index) => ({
-      ...disk,
-      result: diskResults[index],
-    }))
-  );
-};
-
-export const cloneDisks = (k8sCreate, vm, newNamespace, persistentVolumeClaims, dataVolumes) => {
-  const pvcClones = getPvcClones(vm, newNamespace, persistentVolumeClaims);
-  const dataVolumeClones = getDataVolumeClones(vm, newNamespace, persistentVolumeClaims, dataVolumes);
-  const diskClones = [...pvcClones, ...dataVolumeClones];
-  const clonePromises = diskClones.map(diskClone => ({
-    ...diskClone,
-    promise: k8sCreate(DataVolumeModel, diskClone.clone),
-  }));
-  return clonePromises;
-};
-
-export const cloneVm = (k8sCreate, vm, newName, newNamespace, newDescription, startVm, clonedDisks) => {
   cleanVm(vm);
-  updateVm(vm, newName, newNamespace, newDescription, startVm);
-
   cleanNetworks(vm);
 
-  clonedDisks.forEach(disk => {
-    const volume = getVolumes(vm).find(v => v.name === disk.volumeName);
+  addPvcClones(vm, newName, persistentVolumeClaims);
+  addDataVolumeClones(vm, newName, dataVolumes);
 
-    if (volume) {
-      if (volume.persistentVolumeClaim) {
-        delete volume.persistentVolumeClaim;
-      }
-
-      volume.dataVolume = {
-        name: getName(disk.result),
-      };
-    }
-  });
+  updateVm(vm, newName, newNamespace, newDescription, startVm);
 
   return k8sCreate(VirtualMachineModel, vm);
 };
@@ -104,98 +69,82 @@ const updateVm = (vm, name, namespace, description, startVm) => {
     description,
   };
 
+  addTemplateLabel(vm, TEMPLATE_VM_NAME_LABEL, name); // for pairing service-vm (like for RDP)
+
   vm.spec = {
     ...(vm.spec || {}),
     running: startVm,
   };
 };
 
-const getDataVolumeClones = (vm, newNamespace, persistentVolumeClaims, dataVolumes) => {
+const addDataVolumeClones = (vm, newName, dataVolumes) => {
   const volumes = getVolumes(vm);
-  const clones = [];
   volumes.filter(volume => volume.dataVolume).forEach(volume => {
     const dvName = volume.dataVolume.name;
     const dataVolume = dataVolumes.find(dv => getName(dv) === dvName && getNamespace(dv) === getNamespace(vm));
 
     if (dataVolume) {
-      // dv succeeded and PVC is filled with data
-      if (get(dataVolume, 'status.phase') === 'Succeeded') {
-        const pvcToClone = persistentVolumeClaims.find(
-          pvc => getNamespace(pvc) === getNamespace(dataVolume) && getName(pvc) === dvName
-        );
-        if (pvcToClone) {
-          clones.push(getPvcCloneDefinition(pvcToClone, newNamespace, volume.name));
-          return;
-        }
-      }
-      clones.push(getDataVolumeCloneDefinition(dataVolume, newNamespace, volume.name));
+      const template = addTemplateClone(
+        vm,
+        dvName,
+        getNamespace(dataVolume),
+        getDataVolumeAccessModes(dataVolume),
+        getDataVolumeStorageSize(dataVolume),
+        getDataVolumeStorageClassName(dataVolume),
+        newName
+      );
+      volume.dataVolume = {
+        name: getName(template),
+      };
     }
   });
-  return clones;
 };
 
-const getPvcClones = (vm, newNamespace, persistentVolumeClaims) => {
+const addPvcClones = (vm, newName, persistentVolumeClaims) => {
   const volumes = getVolumes(vm);
-  const pvcClones = [];
   volumes.filter(volume => volume.persistentVolumeClaim).forEach(volume => {
     const pvcName = volume.persistentVolumeClaim.claimName;
-    const pvcToClone = persistentVolumeClaims.find(
-      pvc => getName(pvc) === pvcName && getNamespace(pvc) === getNamespace(vm)
+    const pvc = persistentVolumeClaims.find(p => getName(p) === pvcName && getNamespace(p) === getNamespace(vm));
+    const template = addTemplateClone(
+      vm,
+      pvcName,
+      getNamespace(pvc),
+      getPvcAccessModes(pvc),
+      getPvcStorageSize(pvc),
+      getPvcStorageClassName(pvc),
+      newName
     );
-    if (pvcToClone) {
-      pvcClones.push(getPvcCloneDefinition(pvcToClone, newNamespace, volume.name));
-    }
+    delete volume.persistentVolumeClaim;
+    volume.dataVolume = {
+      name: getName(template),
+    };
   });
-  return pvcClones;
 };
 
-const getPvcCloneDefinition = (pvc, newNamespace, volumeName) => {
-  const pvcName = getName(pvc);
-  const pvcToClone = {
-    volumeName,
-    clone: {
-      kind: DataVolumeModel.kind,
-      apiVersion: `${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`,
-      metadata: {
-        generateName: `${pvcName}-clone-`,
-        namespace: newNamespace,
-      },
-      spec: {
-        source: {
-          pvc: {
-            name: pvcName,
-            namespace: getNamespace(pvc),
-          },
-        },
-        pvc: {
-          accessModes: getPvcAccessModes(pvc),
-          resources: {
-            requests: {
-              storage: getActualPvcCapacity(pvc) || getPvcResources(pvc),
-            },
-          },
-        },
+export const addTemplateClone = (vm, pvcName, pvcNamespace, accessModes, size, storageClassName, vmName) => {
+  const template = getPvcCloneTemplate(pvcName, pvcNamespace, accessModes, size, storageClassName, vmName);
+  return addDataVolumeTemplate(vm, template);
+};
+
+const getPvcCloneTemplate = (pvcName, pvcNamespace, accessModes, size, storageClassName, vmName) => ({
+  metadata: {
+    name: generateDiskName(vmName, pvcName, true),
+  },
+  spec: {
+    source: {
+      pvc: {
+        name: pvcName,
+        namespace: pvcNamespace,
       },
     },
-  };
-
-  return pvcToClone;
-};
-
-const getDataVolumeCloneDefinition = (dataVolume, newNamespace, volumeName) => {
-  const dataVolumeName = getName(dataVolume);
-  const dataVolumeToClone = {
-    volumeName,
-    clone: {
-      kind: DataVolumeModel.kind,
-      apiVersion: `${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`,
-      metadata: {
-        generateName: `${dataVolumeName}-clone-`,
-        namespace: newNamespace,
+    pvc: {
+      accessModes,
+      resources: {
+        requests: {
+          storage: size,
+        },
       },
-      spec: { ...dataVolume.spec },
+      storageClassName,
     },
-  };
-
-  return dataVolumeToClone;
-};
+  },
+});

@@ -3,7 +3,7 @@
 exports[`<ResultTab /> renders fail correctly 1`] = `
 <Alert
   className=""
-  key="fail"
+  key="0"
   onDismiss={null}
   type="error"
 >
@@ -36,8 +36,9 @@ exports[`<ResultTab /> renders success correctly 1`] = `
   </h3>
   <pre
     className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success"
+    key="0"
   >
-    Created VM
+    "Created VM"
   </pre>
 </div>
 `;

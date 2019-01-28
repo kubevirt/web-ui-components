@@ -9,5 +9,6 @@ export default {
     vm: cloudInitTestVm,
     units,
     persistentVolumeClaims: [],
+    dataVolumes: [],
   },
 };

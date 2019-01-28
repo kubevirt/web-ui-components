@@ -6,7 +6,7 @@ import { Loading } from '../../Loading';
 
 const getCreationText = createTemplate => `Creation of VM ${createTemplate ? 'Template ' : ''}`;
 
-export const ResultTab = ({ result, success, createTemplate }) => {
+export const ResultTab = ({ results, success, createTemplate }) => {
   let value;
   const loadingText = `${getCreationText(createTemplate)}in progress`;
   const successText = `${getCreationText(createTemplate)}was successful`;
@@ -19,24 +19,28 @@ export const ResultTab = ({ result, success, createTemplate }) => {
           <span className="glyphicon glyphicon-ok-circle" />
         </div>
         <h3 className="blank-slate-pf-main-action">{successText}</h3>
-        <pre className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success">{result}</pre>
+        {results.map((result, index) => (
+          <pre key={index} className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success">
+            {JSON.stringify(result, null, 1)}
+          </pre>
+        ))}
       </div>
     );
   } else {
-    value = <Alert key="fail">{result}</Alert>;
+    value = results.map((result, index) => <Alert key={index}>{result}</Alert>);
   }
 
   return value;
 };
 
 ResultTab.defaultProps = {
-  result: null,
+  results: [],
   success: null,
   createTemplate: false,
 };
 
 ResultTab.propTypes = {
-  result: PropTypes.string,
+  results: PropTypes.array,
   success: PropTypes.bool,
   createTemplate: PropTypes.bool,
 };

@@ -31,3 +31,6 @@ export const NETWORK_TYPE_POD = 'pod';
 export const STORAGE_TYPE_PVC = 'pvc';
 export const STORAGE_TYPE_DATAVOLUME = 'datavolume';
 export const STORAGE_TYPE_CONTAINER = 'container';
+export const DATA_VOLUME_SOURCE_BLANK = 'datavolume-blank';
+export const DATA_VOLUME_SOURCE_URL = 'datavolume-url';
+export const DATA_VOLUME_SOURCE_PVC = 'datavolume-pvc';

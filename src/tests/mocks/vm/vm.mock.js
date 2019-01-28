@@ -28,6 +28,29 @@ export const fullVm = {
     uid: 'bcc1d0b1-e1d0-11e8-82b4-54ee7586b9c3',
   },
   spec: {
+    dataVolumeTemplates: [
+      {
+        metadata: {
+          name: 'dv-template',
+        },
+        spec: {
+          source: {
+            pvc: {
+              name: 'fooname',
+              namespace: 'foonamespace',
+            },
+          },
+          pvc: {
+            accessModes: ['ReadWriteOnce'],
+            resources: {
+              requests: {
+                storage: '1G',
+              },
+            },
+          },
+        },
+      },
+    ],
     running: false,
     template: {
       spec: {
@@ -52,6 +75,12 @@ export const fullVm = {
                   bus: 'virtio',
                 },
                 name: 'datavolumedisk',
+              },
+              {
+                disk: {
+                  bus: 'virtio',
+                },
+                name: 'datavolumetemplatedisk',
               },
               {
                 disk: {
@@ -87,6 +116,10 @@ export const fullVm = {
           {
             name: 'datavolumedisk',
             dataVolume: { name: getName(dataVolumes.url) },
+          },
+          {
+            name: 'datavolumetemplatedisk',
+            dataVolume: { name: 'dv-template' },
           },
           {
             name: 'pvcdisk',

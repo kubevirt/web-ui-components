@@ -8,7 +8,6 @@ import {
   getInterfaces,
   getFlavorDescription,
   getVolumes,
-  getDataVolumes,
   getName,
   getDataVolumeResources,
   getGibStorageSize,
@@ -16,6 +15,8 @@ import {
   getPvcResources,
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
+  getDataVolumeTemplates,
+  getNamespace,
 } from '../../utils';
 import { CUSTOM_FLAVOR, DASHES } from '../../constants';
 
@@ -26,10 +27,10 @@ const getNicsDescription = vm => {
     .map(intface => <div key={intface[0]}>{intface.join(' - ')}</div>);
 };
 
-const getDisksDescription = (vm, pvcs, units) => {
+const getDisksDescription = (vm, pvcs, dataVolumes, units) => {
   const disks = getDisks(vm);
   const volumes = getVolumes(vm);
-  const dataVolumeTemplates = getDataVolumes(vm);
+  const dataVolumeTemplates = getDataVolumeTemplates(vm);
   return disks.map(disk => {
     const description = [];
     description.push(disk.name);
@@ -39,7 +40,12 @@ const getDisksDescription = (vm, pvcs, units) => {
     let storageClass;
     let other;
     if (volume.dataVolume) {
-      const dataVolume = dataVolumeTemplates.find(dv => getName(dv) === volume.dataVolume.name);
+      let dataVolume = dataVolumeTemplates.find(dv => getName(dv) === volume.dataVolume.name);
+      if (!dataVolume) {
+        dataVolume = dataVolumes.find(
+          dv => getName(dv) === volume.dataVolume.name && getNamespace(dv) === getNamespace(vm)
+        );
+      }
       size = getGibStorageSize(units, getDataVolumeResources(dataVolume));
       storageClass = getDataVolumeStorageClassName(dataVolume);
     } else if (volume.persistentVolumeClaim) {
@@ -74,8 +80,8 @@ const getFullFlavorDescription = vm => {
   return `${flavor} - ${flavorDesc}`;
 };
 
-export const ConfigurationSummary = ({ vm, units, persistentVolumeClaims }) => {
-  const disks = getDisksDescription(vm, persistentVolumeClaims, units);
+export const ConfigurationSummary = ({ vm, units, persistentVolumeClaims, dataVolumes }) => {
+  const disks = getDisksDescription(vm, persistentVolumeClaims, dataVolumes, units);
   const nics = getNicsDescription(vm);
   return (
     <dl className="kubevirt-configuration-summary">
@@ -97,4 +103,5 @@ ConfigurationSummary.propTypes = {
   vm: PropTypes.object.isRequired,
   units: PropTypes.object.isRequired,
   persistentVolumeClaims: PropTypes.array.isRequired,
+  dataVolumes: PropTypes.array.isRequired,
 };

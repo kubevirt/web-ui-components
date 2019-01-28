@@ -4,6 +4,7 @@ import { networkConfigs } from '../../../../tests/mocks/networkAttachmentDefinit
 import { baseTemplates } from '../../../../tests/mocks/template';
 import { userTemplates } from '../../../../tests/mocks/user_template';
 import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
+import { urlTemplateDataVolume } from '../../../../tests/mocks/user_template/url.mock';
 
 const templates = [...baseTemplates, ...userTemplates];
 
@@ -75,6 +76,7 @@ export default [
       persistentVolumeClaims,
       storageClasses,
       units,
+      dataVolumes: [urlTemplateDataVolume],
     },
   },
   {
@@ -90,6 +92,7 @@ export default [
       persistentVolumeClaims,
       storageClasses,
       units,
+      dataVolumes: [urlTemplateDataVolume],
     },
   },
   {
@@ -104,6 +107,7 @@ export default [
       persistentVolumeClaims: null,
       storageClasses: null,
       units,
+      dataVolumes: null,
     },
   },
   {
@@ -119,6 +123,7 @@ export default [
       storageClasses,
       units,
       createTemplate: true,
+      dataVolumes: [urlTemplateDataVolume],
     },
   },
 ];

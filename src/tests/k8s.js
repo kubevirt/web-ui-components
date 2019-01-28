@@ -21,3 +21,5 @@ export const k8sCreate = (model, resource) => {
 
   return new Promise(resolve => resolve(resource));
 };
+
+export const k8sPatch = (model, instance, patch) => Promise.resolve(instance);

@@ -5,7 +5,7 @@ import { cloneDeep } from 'lodash';
 
 import { CloneDialog } from '..';
 
-import { clone, cloneDisks } from '../../../../k8s/clone';
+import { clone } from '../../../../k8s/clone';
 import { default as CloneDialogFixture } from '../fixtures/CloneDialog.fixture';
 import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { Text, TextArea, Dropdown, Checkbox } from '../../../Form';
@@ -13,7 +13,7 @@ import { getName, getDescription, getNamespace } from '../../../../utils';
 import { VIRTUAL_MACHINE_EXISTS } from '../../../../utils/strings';
 import { settingsValue } from '../../../../k8s/selectors';
 import { DESCRIPTION_KEY, NAME_KEY, NAMESPACE_KEY } from '../../../Wizard/CreateVmWizard/constants';
-import { k8sCreate } from '../../../../tests/k8sCreate';
+import { k8sCreate } from '../../../../tests/k8s';
 import { flushPromises, setCheckbox, setInput, clickButton, selectDropdownItem } from '../../../../tests/enzyme';
 
 jest.mock('../../../../k8s/clone');
@@ -108,10 +108,6 @@ describe('<CloneDialog />', () => {
     let component = mount(testCloneDialog());
 
     clone.mockReturnValue(new Promise((resolve, reject) => resolve()));
-    cloneDisks.mockReturnValue([
-      { promise: Promise.resolve({ metadata: { name: '1' } }) },
-      { promise: Promise.resolve({ metadata: { name: '2' } }) },
-    ]);
 
     clickCloneVm(component);
 
@@ -142,10 +138,6 @@ describe('<CloneDialog />', () => {
 
   it('show error when clone fails', async () => {
     clone.mockReturnValue(Promise.reject(new Error('fooError')));
-    cloneDisks.mockReturnValue([
-      { promise: Promise.resolve({ metadata: { name: '1' } }) },
-      { promise: Promise.resolve({ metadata: { name: '2' } }) },
-    ]);
     const component = mount(testCloneDialog());
 
     clickCloneVm(component);

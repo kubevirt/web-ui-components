@@ -3,12 +3,13 @@ import { remove, pull, get } from 'lodash';
 import {
   getDisks,
   getVolumes,
-  getDataVolumes,
+  getDataVolumeTemplates,
   getInterfaces,
   getNetworks,
   getVmTemplate,
   getName,
   getNamespace,
+  getDataVolumeSourceType,
 } from './selectors';
 import { selectVm } from '../k8s/selectors';
 import { baseTemplates } from '../tests/mocks/template';
@@ -22,6 +23,7 @@ import {
   PROVISION_SOURCE_URL,
 } from '../constants';
 import { TemplateModel } from '../models';
+import { DATA_VOLUME_SOURCE_URL } from '../components/Wizard/CreateVmWizard/constants';
 
 export const getTemplatesWithLabels = (templates, labels) => {
   const filteredTemplates = [...templates];
@@ -69,11 +71,11 @@ export const getUserTemplate = (templates, userTemplateName) => {
   return userTemplates.find(template => template.metadata.name === userTemplateName);
 };
 
-export const getTemplateStorages = ({ objects }) => {
-  const vm = selectVm(objects);
+export const getTemplateStorages = (template, dataVolumes) => {
+  const vm = selectVm(template.objects);
 
   const volumes = getVolumes(vm);
-  const dataVolumes = getDataVolumes(vm);
+  const dataVolumeTemplates = getDataVolumeTemplates(vm);
   return getDisks(vm).map(disk => {
     const volume = volumes.find(v => v.name === disk.name);
     const storage = {
@@ -81,7 +83,10 @@ export const getTemplateStorages = ({ objects }) => {
       volume,
     };
     if (get(volume, 'dataVolume')) {
-      storage.dataVolume = dataVolumes.find(d => get(d, 'metadata.name') === get(volume.dataVolume, 'name'));
+      storage.dataVolumeTemplate = dataVolumeTemplates.find(d => getName(d) === get(volume.dataVolume, 'name'));
+      storage.dataVolume = dataVolumes.find(
+        d => getName(d) === get(volume.dataVolume, 'name') && getNamespace(d) === getNamespace(template)
+      );
     }
     return storage;
   });
@@ -105,8 +110,8 @@ export const hasAutoAttachPodInterface = ({ objects }) => {
   return get(vm, 'spec.template.spec.domain.devices.autoattachPodInterface', true);
 };
 
-export const getTemplateProvisionSource = ({ objects }) => {
-  const vm = selectVm(objects);
+export const getTemplateProvisionSource = (template, dataVolumes) => {
+  const vm = selectVm(template.objects);
   if (getInterfaces(vm).some(i => i.bootOrder === 1)) {
     return {
       type: PROVISION_SOURCE_PXE,
@@ -122,12 +127,23 @@ export const getTemplateProvisionSource = ({ objects }) => {
       };
     }
     if (bootVolume && bootVolume.dataVolume) {
-      const dataVolume = getDataVolumes(vm).find(dv => dv.metadata.name === bootVolume.dataVolume.name);
+      let dataVolume = getDataVolumeTemplates(vm).find(dv => dv.metadata.name === bootVolume.dataVolume.name);
+      if (!dataVolume) {
+        dataVolume = dataVolumes.find(
+          d => getName(d) === bootVolume.dataVolume.name && getNamespace(d) === getNamespace(template)
+        );
+      }
       if (dataVolume) {
-        return {
-          type: PROVISION_SOURCE_URL,
-          source: get(dataVolume, 'spec.source.http.url'),
-        };
+        const source = getDataVolumeSourceType(dataVolume);
+        switch (source.type) {
+          case DATA_VOLUME_SOURCE_URL:
+            return {
+              type: PROVISION_SOURCE_URL,
+              source: source.url,
+            };
+          default:
+            return null;
+        }
       }
     }
   }

@@ -68,7 +68,7 @@ const getInitialDisks = provisionSource => {
   }
 };
 
-const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
+const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate, dataVolumes) => {
   const withoutDiscardedTemplateStorage = stepData[STORAGE_TAB_KEY].value.filter(
     storage => !(storage.templateStorage || storage.rootStorage)
   );
@@ -76,7 +76,7 @@ const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate) => {
   const rows = [...withoutDiscardedTemplateStorage];
 
   if (newUserTemplate) {
-    const templateStorages = getTemplateStorages(newUserTemplate).map(storage => ({
+    const templateStorages = getTemplateStorages(newUserTemplate, dataVolumes).map(storage => ({
       templateStorage: storage,
     }));
     rows.push(...templateStorages);
@@ -168,7 +168,7 @@ const onImageSourceTypeChangedInStorageTab = stepData => {
 const onUserTemplateChanged = (props, stepData) => {
   const userTemplateName = getBasicSettingsValue(stepData, USER_TEMPLATE_KEY);
   const userTemplate = userTemplateName ? getUserTemplate(props.templates, userTemplateName) : undefined;
-  const newStepData = onUserTemplateChangedInStorageTab(stepData, userTemplate);
+  const newStepData = onUserTemplateChangedInStorageTab(stepData, userTemplate, props.dataVolumes);
   return onUserTemplateChangedInNetworksTab(newStepData, userTemplate);
 };
 
@@ -203,7 +203,7 @@ export class CreateVmWizard extends React.Component {
         valid: true, // empty Storages are valid
       },
       [RESULT_TAB_KEY]: {
-        value: '',
+        value: [],
         valid: null, // result of the request
       },
     },
@@ -248,22 +248,17 @@ export class CreateVmWizard extends React.Component {
   };
 
   finish() {
-    const create = this.props.createTemplate
-      ? createVmTemplate
-      : (k8sCreate, templates, basicSettings, networks, storage) =>
-          createVm(k8sCreate, templates, basicSettings, networks, storage, this.props.persistentVolumeClaims);
+    const create = this.props.createTemplate ? createVmTemplate : createVm;
     create(
       this.props.k8sCreate,
       this.props.templates,
       this.state.stepData[BASIC_SETTINGS_TAB_KEY].value,
       this.state.stepData[NETWORKS_TAB_KEY].value,
-      this.state.stepData[STORAGE_TAB_KEY].value
+      this.state.stepData[STORAGE_TAB_KEY].value,
+      this.props.persistentVolumeClaims
     )
-      .then(results => {
-        const result = Array.isArray(results) ? results[results.length - 1] : results;
-        return this.onStepDataChanged(RESULT_TAB_KEY, JSON.stringify(result, null, 1), true);
-      })
-      .catch(error => this.onStepDataChanged(RESULT_TAB_KEY, error.message, false));
+      .then(results => this.onStepDataChanged(RESULT_TAB_KEY, results, true))
+      .catch(error => this.onStepDataChanged(RESULT_TAB_KEY, [error.message], false));
   }
 
   onStepChanged = newActiveStepIndex => {
@@ -287,6 +282,7 @@ export class CreateVmWizard extends React.Component {
         const loadingData = {
           namespaces: this.props.namespaces,
           templates: this.props.templates,
+          dataVolumes: this.props.dataVolumes,
         };
         return (
           <LoadingBasicWizardTab
@@ -347,7 +343,7 @@ export class CreateVmWizard extends React.Component {
       render: () => {
         const stepData = this.state.stepData[RESULT_TAB_KEY];
         return (
-          <ResultTab result={stepData.value} success={stepData.valid} createTemplate={this.props.createTemplate} />
+          <ResultTab results={stepData.value} success={stepData.valid} createTemplate={this.props.createTemplate} />
         );
       },
     },
@@ -386,6 +382,7 @@ CreateVmWizard.defaultProps = {
   persistentVolumeClaims: null,
   storageClasses: null,
   createTemplate: false,
+  dataVolumes: null,
 };
 
 CreateVmWizard.propTypes = {
@@ -399,4 +396,5 @@ CreateVmWizard.propTypes = {
   storageClasses: PropTypes.array,
   units: PropTypes.object.isRequired,
   createTemplate: PropTypes.bool,
+  dataVolumes: PropTypes.array,
 };

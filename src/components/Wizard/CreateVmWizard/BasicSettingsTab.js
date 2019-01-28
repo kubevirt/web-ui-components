@@ -244,7 +244,7 @@ const asValueObject = (value, validation) => ({
   validation,
 });
 
-const publish = ({ basicSettings, templates, onChange }, value, target, formValid, formFields) => {
+const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, target, formValid, formFields) => {
   const newBasicSettings = {
     ...basicSettings,
     [target]: value,
@@ -257,7 +257,7 @@ const publish = ({ basicSettings, templates, onChange }, value, target, formVali
       const allTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
       if (allTemplates.length > 0) {
         const userTemplate = allTemplates.find(template => template.metadata.name === value.value);
-        updateTemplateData(userTemplate, newBasicSettings);
+        updateTemplateData(userTemplate, newBasicSettings, dataVolumes);
       }
     }
     formValid = validateForm(formFields, newBasicSettings);
@@ -266,7 +266,7 @@ const publish = ({ basicSettings, templates, onChange }, value, target, formVali
   onChange(newBasicSettings, formValid);
 };
 
-const updateTemplateData = (userTemplate, newBasicSettings) => {
+const updateTemplateData = (userTemplate, newBasicSettings, dataVolumes) => {
   if (userTemplate) {
     const vm = selectVm(userTemplate.objects);
 
@@ -299,7 +299,7 @@ const updateTemplateData = (userTemplate, newBasicSettings) => {
     }
 
     // update provision source
-    const provisionSource = getTemplateProvisionSource(userTemplate);
+    const provisionSource = getTemplateProvisionSource(userTemplate, dataVolumes);
     if (provisionSource) {
       newBasicSettings[PROVISION_SOURCE_TYPE_KEY] = asValueObject(provisionSource.type);
       switch (provisionSource.type) {
@@ -375,4 +375,6 @@ BasicSettingsTab.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   onChange: PropTypes.func.isRequired,
   createTemplate: PropTypes.bool,
+  // eslint-disable-next-line react/no-unused-prop-types
+  dataVolumes: PropTypes.array.isRequired,
 };

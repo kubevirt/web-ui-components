@@ -9,6 +9,11 @@ import {
   OS_WINDOWS_PREFIX,
   TEMPLATE_OS_NAME_ANNOTATION,
 } from '../constants';
+import {
+  DATA_VOLUME_SOURCE_URL,
+  DATA_VOLUME_SOURCE_PVC,
+  DATA_VOLUME_SOURCE_BLANK,
+} from '../components/Wizard/CreateVmWizard/constants';
 
 export const getId = value => `${getNamespace(value)}/${getName(value)}`;
 export const getName = value => get(value, 'metadata.name');
@@ -19,22 +24,48 @@ export const getGibStorageSize = (units, resources) => {
   return size ? units.dehumanize(size, 'binaryBytesWithoutB').value / 1073741824 : null; // 1024^3
 };
 
+export const getStorageSize = resources => get(resources, 'requests.storage');
+
+export const getPvcStorageSize = pvc => getStorageSize(getPvcResources(pvc));
+export const getDataVolumeStorageSize = dataVolume => getStorageSize(getDataVolumeResources(dataVolume));
+
 export const getPvcResources = pvc => get(pvc, 'spec.resources');
 export const getDataVolumeResources = dataVolume => get(dataVolume, 'spec.pvc.resources');
 
-export const getActualPvcCapacity = pvc => get(pvc, 'status.capacity.storage');
-
 export const getPvcAccessModes = pvc => get(pvc, 'spec.accessModes');
+export const getDataVolumeAccessModes = dataVolume => get(dataVolume, 'spec.pvc.accessModes');
 
 export const getPvcStorageClassName = pvc => get(pvc, 'spec.storageClassName');
 
 export const getDataVolumeStorageClassName = dataVolume => get(dataVolume, 'spec.pvc.storageClassName');
+export const getDataVolumeSourceType = dataVolume => {
+  const source = get(dataVolume, 'spec.source');
+  if (source.http) {
+    return {
+      type: DATA_VOLUME_SOURCE_URL,
+      url: get(dataVolume, 'spec.source.http.url'),
+    };
+  }
+  if (source.pvc) {
+    return {
+      type: DATA_VOLUME_SOURCE_PVC,
+      name: get(dataVolume, 'spec.source.pvc.name'),
+      namespace: get(dataVolume, 'spec.source.pvc.namespace'),
+    };
+  }
+  if (source.blank) {
+    return {
+      type: DATA_VOLUME_SOURCE_BLANK,
+    };
+  }
+  return null;
+};
 
 export const getDisks = vm => get(vm, 'spec.template.spec.domain.devices.disks', []);
 export const getInterfaces = vm => get(vm, 'spec.template.spec.domain.devices.interfaces', []);
 export const getNetworks = vm => get(vm, 'spec.template.spec.networks', []);
 export const getVolumes = vm => get(vm, 'spec.template.spec.volumes', []);
-export const getDataVolumes = vm => get(vm, 'spec.dataVolumeTemplates', []);
+export const getDataVolumeTemplates = vm => get(vm, 'spec.dataVolumeTemplates', []);
 export const getMemory = vm => get(vm, 'spec.template.spec.domain.resources.requests.memory');
 export const getCpu = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
 export const getOperatingSystem = vm => getLabelKeyValue(vm, TEMPLATE_OS_LABEL);

@@ -4,6 +4,7 @@ import { OverlayTrigger } from 'patternfly-react';
 
 import { TemplateSource } from '../TemplateSource';
 import { containerTemplate, urlTemplate, pxeTemplate } from '../../../tests/mocks/user_template';
+import { urlTemplateDataVolume } from '../../../tests/mocks/user_template/url.mock';
 
 const testTemplateSource = template => <TemplateSource template={template} />;
 
@@ -25,6 +26,7 @@ describe('<TemplateSource />', () => {
 
     component.setProps({
       template: urlTemplate,
+      dataVolumes: [urlTemplateDataVolume],
     });
 
     expect(component.find(OverlayTrigger).exists()).toBeTruthy();

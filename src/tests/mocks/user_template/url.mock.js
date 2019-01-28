@@ -28,29 +28,6 @@ export const urlTemplate = {
         name: '${NAME}',
       },
       spec: {
-        dataVolumeTemplates: [
-          {
-            metadata: {
-              // eslint-disable-next-line no-template-curly-in-string
-              name: 'rootdisk-${NAME}',
-            },
-            spec: {
-              pvc: {
-                accessModes: ['ReadWriteOnce'],
-                resources: {
-                  requests: {
-                    storage: '5Gi',
-                  },
-                },
-              },
-              source: {
-                http: {
-                  url: 'fooUrl',
-                },
-              },
-            },
-          },
-        ],
         template: {
           spec: {
             domain: {
@@ -92,7 +69,7 @@ export const urlTemplate = {
               {
                 dataVolume: {
                   // eslint-disable-next-line no-template-curly-in-string
-                  name: 'rootdisk-${NAME}',
+                  name: 'url-template-rootdisk',
                 },
                 name: 'rootdisk',
               },
@@ -108,4 +85,27 @@ export const urlTemplate = {
       name: 'NAME',
     },
   ],
+};
+
+export const urlTemplateDataVolume = {
+  metadata: {
+    // eslint-disable-next-line no-template-curly-in-string
+    name: 'url-template-rootdisk',
+    namespace: 'myproject',
+  },
+  spec: {
+    pvc: {
+      accessModes: ['ReadWriteOnce'],
+      resources: {
+        requests: {
+          storage: '5Gi',
+        },
+      },
+    },
+    source: {
+      http: {
+        url: 'fooUrl',
+      },
+    },
+  },
 };

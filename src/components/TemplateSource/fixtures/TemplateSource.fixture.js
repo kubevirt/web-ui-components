@@ -1,5 +1,5 @@
 import { TemplateSource } from '../TemplateSource';
-import { urlTemplate } from '../../../tests/mocks/user_template';
+import { urlTemplate, urlTemplateDataVolume } from '../../../tests/mocks/user_template/url.mock';
 
 export default [
   {
@@ -7,6 +7,7 @@ export default [
     props: {
       template: urlTemplate,
       tooltipPlacement: 'bottom',
+      dataVolumes: [urlTemplateDataVolume],
     },
   },
 ];

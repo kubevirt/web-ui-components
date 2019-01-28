@@ -1,19 +1,29 @@
 import { cloneDeep } from 'lodash';
 import { noop } from 'patternfly-react';
 
-import { cloneVm, cloneDisks } from '../clone';
-import { DataVolumeModel } from '../../models';
+import { clone } from '../clone';
 import { emptyVm } from '../../tests/mocks/vm/empty_vm.mock';
-import { getName, getNamespace, getDescription, getVolumes } from '../../utils';
-import { addPvcVolume, addDisk, addDataVolumeTemplate, addDataVolume } from '../request';
+import { getName, getNamespace, getDescription, getVolumes, generateDiskName } from '../../utils';
+import { addDisk, addDataVolumeTemplate, addDataVolume, addPvcVolume, getDataVolumeTemplateSpec } from '../vmBuilder';
 import { pvcDisk, dataVolumeTemplate, dataVolumeDisk } from '../../tests/forms_mocks/disk.mock';
 import { persistentVolumeClaims } from '../../tests/mocks/persistentVolumeClaim';
 import { dataVolumes } from '../../tests/mocks/dataVolume';
-import { k8sCreate } from '../../tests/k8sCreate';
+import { k8sCreate, k8sPatch } from '../../tests/k8s';
+import { DATA_VOLUME_SOURCE_BLANK } from '../../components/Wizard/CreateVmWizard/constants';
 
 describe('clone.js - cloneVm', () => {
   it('clone vm without devices', async () => {
-    const result = await cloneVm(k8sCreate, cloneDeep(emptyVm), 'newname', 'newnamespace', 'newdesc', false, []);
+    const result = await clone(
+      k8sCreate,
+      k8sPatch,
+      cloneDeep(emptyVm),
+      'newname',
+      'newnamespace',
+      'newdesc',
+      false,
+      [],
+      []
+    );
     expect(getName(result)).toEqual('newname');
     expect(getNamespace(result)).toEqual('newnamespace');
     expect(getDescription(result)).toEqual('newdesc');
@@ -24,34 +34,46 @@ describe('clone.js - cloneVm', () => {
     addDisk(vmWithPvc, null, pvcDisk, noop);
     addPvcVolume(vmWithPvc, pvcDisk, noop);
 
-    const disks = [
-      {
-        volumeName: pvcDisk.name,
-        result: { metadata: { name: 'somename' } },
-      },
-    ];
-
-    const result = await cloneVm(k8sCreate, vmWithPvc, 'newname', 'newnamespace', 'newdesc', false, disks);
+    const result = await clone(
+      k8sCreate,
+      k8sPatch,
+      vmWithPvc,
+      'newname',
+      'newnamespace',
+      'newdesc',
+      false,
+      persistentVolumeClaims,
+      []
+    );
     const vmVolumes = getVolumes(result);
-    expect(vmVolumes.find(v => v.name === disks[0].volumeName).dataVolume.name).toEqual(getName(disks[0].result));
+    expect(vmVolumes.find(v => v.name === pvcDisk.name).dataVolume.name).toEqual(
+      generateDiskName(getName(vmWithPvc), pvcDisk.name, true)
+    );
   });
 
   it('clone vm with datavolume templates', async () => {
     const vmWithDvTemplate = cloneDeep(emptyVm);
     addDisk(vmWithDvTemplate, null, dataVolumeTemplate, noop);
-    addDataVolumeTemplate(vmWithDvTemplate, dataVolumeTemplate, noop);
+    const templateSpec = getDataVolumeTemplateSpec(dataVolumeTemplate, { type: DATA_VOLUME_SOURCE_BLANK });
+    addDataVolumeTemplate(vmWithDvTemplate, templateSpec, noop);
     addDataVolume(vmWithDvTemplate, dataVolumeTemplate, noop);
 
-    const disks = [
-      {
-        volumeName: dataVolumeTemplate.name,
-        result: { metadata: { name: 'somename' } },
-      },
-    ];
+    const result = await clone(
+      k8sCreate,
+      k8sPatch,
+      vmWithDvTemplate,
+      'newname',
+      'newnamespace',
+      'newdesc',
+      false,
+      persistentVolumeClaims,
+      Object.values(dataVolumes)
+    );
 
-    const result = await cloneVm(k8sCreate, vmWithDvTemplate, 'newname', 'newnamespace', 'newdesc', false, disks);
     const vmVolumes = getVolumes(result);
-    expect(vmVolumes.find(v => v.name === disks[0].volumeName).dataVolume.name).toEqual(getName(disks[0].result));
+    expect(vmVolumes.find(v => v.name === dataVolumeTemplate.name).dataVolume.name).toEqual(
+      generateDiskName(getName(vmWithDvTemplate), dataVolumeTemplate.dvName, true)
+    );
   });
 
   it('clone vm with datavolumes', async () => {
@@ -59,55 +81,20 @@ describe('clone.js - cloneVm', () => {
     addDisk(vmWithDv, null, dataVolumeDisk, noop);
     addDataVolume(vmWithDv, dataVolumeDisk, noop);
 
-    const disks = [
-      {
-        volumeName: dataVolumeDisk.name,
-        result: { metadata: { name: 'somename' } },
-      },
-    ];
-
-    const result = await cloneVm(k8sCreate, vmWithDv, 'newname', 'newnamespace', 'newdesc', false, disks);
+    const result = await clone(
+      k8sCreate,
+      k8sPatch,
+      vmWithDv,
+      'newname',
+      'newnamespace',
+      'newdesc',
+      false,
+      persistentVolumeClaims,
+      Object.values(dataVolumes)
+    );
     const vmVolumes = getVolumes(result);
-    expect(vmVolumes.find(v => v.name === disks[0].volumeName).dataVolume.name).toEqual(getName(disks[0].result));
-  });
-});
-
-describe('clone.js - cloneDisks', () => {
-  it('clones datavolume', async () => {
-    const vmWithDv = cloneDeep(emptyVm);
-    const dvDisk = { name: 'dvdiskName', dvName: getName(dataVolumes.urlSuccess) };
-    addDisk(vmWithDv, null, dvDisk, noop);
-    addDataVolume(vmWithDv, dvDisk, noop);
-
-    const dvDiskUrl = { name: 'dvdiskNameUrl', dvName: getName(dataVolumes.url) };
-    addDisk(vmWithDv, null, dvDiskUrl, noop);
-    addDataVolume(vmWithDv, dvDiskUrl, noop);
-
-    const pvDisk = { name: getName(persistentVolumeClaims[0]), claimName: getName(persistentVolumeClaims[0]) };
-    addDisk(vmWithDv, null, pvDisk, noop);
-    addPvcVolume(vmWithDv, pvDisk, noop);
-
-    const clones = cloneDisks(k8sCreate, vmWithDv, 'newnamespace', persistentVolumeClaims, Object.values(dataVolumes));
-    const results = await Promise.all(clones.map(r => r.promise));
-
-    expect(results).toHaveLength(3);
-
-    expect(results[0].kind).toEqual(DataVolumeModel.kind);
-    expect(results[0].apiVersion).toEqual(`${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`);
-    expect(results[0].spec.source.pvc).toEqual({
-      name: getName(persistentVolumeClaims[0]),
-      namespace: getNamespace(persistentVolumeClaims[0]),
-    });
-
-    expect(results[1].kind).toEqual(DataVolumeModel.kind);
-    expect(results[1].apiVersion).toEqual(`${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`);
-    expect(results[1].spec.source.pvc).toEqual({
-      name: getName(dataVolumes.urlSuccess),
-      namespace: getNamespace(vmWithDv),
-    });
-
-    expect(results[2].kind).toEqual(DataVolumeModel.kind);
-    expect(results[2].apiVersion).toEqual(`${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`);
-    expect(results[2].spec.source.http.url).toEqual(dataVolumes.url.spec.source.http.url);
+    expect(vmVolumes.find(v => v.name === dataVolumeDisk.name).dataVolume.name).toEqual(
+      generateDiskName(getName(vmWithDv), dataVolumeDisk.dvName, true)
+    );
   });
 });
