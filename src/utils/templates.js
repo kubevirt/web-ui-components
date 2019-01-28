@@ -11,7 +11,7 @@ import {
   getNamespace,
 } from './selectors';
 import { selectVm } from '../k8s/selectors';
-import { baseTemplates } from '../k8s/mock_templates';
+import { baseTemplates } from '../tests/mocks/template';
 
 import {
   TEMPLATE_TYPE_BASE,

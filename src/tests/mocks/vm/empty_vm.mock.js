@@ -1,4 +1,4 @@
-import { VirtualMachineModel } from '../../models';
+import { VirtualMachineModel } from '../../../models';
 
 export const emptyVm = {
   apiVersion: `${VirtualMachineModel.apiGroup}/${VirtualMachineModel.apiVersion}`,

@@ -1,9 +1,9 @@
 import { CreateVmWizard } from '../CreateVmWizard';
 import { ProcessedTemplatesModel } from '../../../../models';
-import { networkConfigs } from '../../../../k8s/mock_network';
-import { baseTemplates } from '../../../../k8s/mock_templates';
-import { userTemplates } from '../../../../k8s/mock_user_templates';
-import { persistentVolumeClaims } from '../../../../k8s/mock_pvc';
+import { networkConfigs } from '../../../../tests/mocks/networkAttachmentDefinition';
+import { baseTemplates } from '../../../../tests/mocks/template';
+import { userTemplates } from '../../../../tests/mocks/user_template';
+import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
 
 const templates = [...baseTemplates, ...userTemplates];
 

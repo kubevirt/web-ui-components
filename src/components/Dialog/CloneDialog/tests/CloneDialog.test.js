@@ -1,39 +1,22 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { HelpBlock, MenuItem, noop, Alert } from 'patternfly-react';
+import { HelpBlock, noop, Alert } from 'patternfly-react';
 import { cloneDeep } from 'lodash';
 
 import { CloneDialog } from '..';
 
 import { clone, cloneDisks } from '../../../../k8s/clone';
 import { default as CloneDialogFixture } from '../fixtures/CloneDialog.fixture';
-import { cloudInitTestVm } from '../../../../k8s/mock_vm/cloudInitTestVm.mock';
+import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { Text, TextArea, Dropdown, Checkbox } from '../../../Form';
 import { getName, getDescription, getNamespace } from '../../../../utils';
 import { VIRTUAL_MACHINE_EXISTS } from '../../../../utils/strings';
 import { settingsValue } from '../../../../k8s/selectors';
 import { DESCRIPTION_KEY, NAME_KEY, NAMESPACE_KEY } from '../../../Wizard/CreateVmWizard/constants';
-import { DataVolumeModel, VirtualMachineModel, PersistentVolumeClaimModel } from '../../../../models';
+import { k8sCreate } from '../../../../tests/k8sCreate';
+import { flushPromises, setCheckbox, setInput, clickButton, selectDropdownItem } from '../../../../tests/enzyme';
 
 jest.mock('../../../../k8s/clone');
-
-const k8sCreate = (model, resource) => {
-  switch (model) {
-    case DataVolumeModel:
-    case PersistentVolumeClaimModel:
-      resource.metadata.name = `${resource.metadata.generateName}-${Math.random()
-        .toString(36)
-        .substr(2, 5)}`;
-      break;
-    case VirtualMachineModel:
-      break;
-    default:
-      throw new Error('unknown model');
-  }
-  return new Promise(resolve => resolve(resource));
-};
-
-const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
 const testCloneDialog = (vms = [], onClose = noop, vm = cloudInitTestVm) => (
   <CloneDialog {...CloneDialogFixture.props} virtualMachines={vms} onClose={onClose} vm={vm} k8sCreate={k8sCreate} />
@@ -45,11 +28,7 @@ const setVmDescription = (component, value) => setInput(component.find('#vm-desc
 
 const startVm = (component, checked) => setCheckbox(component.find('#start-vm').find(Checkbox), checked);
 
-const clickCloneVm = component =>
-  component
-    .find('button')
-    .findWhere(b => b.text() === 'Clone Virtual Machine')
-    .simulate('click');
+const clickCloneVm = component => clickButton(component, 'Clone Virtual Machine');
 
 const getNameValidation = component =>
   component
@@ -57,17 +36,9 @@ const getNameValidation = component =>
     .at(0)
     .text();
 
-const setInput = (input, value) => input.simulate('change', { target: { value } });
-
-const setCheckbox = (checkbox, checked) => checkbox.prop('onChange')(checked);
-
 const selectNamespace = (component, namespace) => {
   const namespaceDropdown = component.find('#namespace-dropdown');
-  namespaceDropdown
-    .find(MenuItem)
-    .findWhere(item => item.text() === namespace)
-    .find('a')
-    .simulate('click');
+  selectDropdownItem(namespaceDropdown, namespace);
 };
 
 describe('<CloneDialog />', () => {

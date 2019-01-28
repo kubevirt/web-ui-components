@@ -1,7 +1,7 @@
 import { Flavor } from '..';
 
-import { cloudInitTestVm } from '../../../../k8s/mock_vm/cloudInitTestVm.mock';
-import { fedora28 } from '../../../../k8s/mock_templates/fedora28.mock';
+import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
+import { fedora28 } from '../../../../tests/mocks/template/fedora28.mock';
 
 export default [
   {

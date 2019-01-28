@@ -1,6 +1,6 @@
-import { dataVolumes } from '../mock_datavolumes';
-import { getName } from '../../utils';
-import { persistentVolumeClaims } from '../mock_pvc';
+import { dataVolumes } from '../dataVolume';
+import { getName } from '../../../utils';
+import { persistentVolumeClaims } from '../persistentVolumeClaim';
 
 export const fullVm = {
   apiVersion: 'kubevirt.io/v1alpha3',

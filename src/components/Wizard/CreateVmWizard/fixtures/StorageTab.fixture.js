@@ -2,7 +2,7 @@ import { StorageTab } from '../StorageTab';
 import { units, storageClasses } from './CreateVmWizard.fixture';
 import { PROVISION_SOURCE_URL } from '../../../../constants';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC } from '../constants';
-import { persistentVolumeClaims } from '../../../../k8s/mock_pvc';
+import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
 
 export const rows = [
   {

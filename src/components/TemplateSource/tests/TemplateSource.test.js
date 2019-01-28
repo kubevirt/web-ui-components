@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { OverlayTrigger } from 'patternfly-react';
 
 import { TemplateSource } from '../TemplateSource';
-import { containerTemplate, urlTemplate, pxeTemplate } from '../../../k8s/mock_user_templates';
+import { containerTemplate, urlTemplate, pxeTemplate } from '../../../tests/mocks/user_template';
 
 const testTemplateSource = template => <TemplateSource template={template} />;
 

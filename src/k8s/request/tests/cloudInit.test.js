@@ -1,6 +1,6 @@
 import { CloudInit } from '../cloudInit';
 
-import { containerCloudTemplate } from '../../mock_user_templates';
+import { containerCloudTemplate } from '../../../tests/mocks/user_template';
 import { selectVm } from '../../selectors';
 
 const hostname = 'blue.castle';

@@ -9,7 +9,7 @@ import { PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_PXE 
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } from '../constants';
 import { ERROR_POSITIVE_SIZE } from '../strings';
 import { EMPTY_ERROR, DNS1123_UPPERCASE_ERROR } from '../../../../utils/strings';
-import { persistentVolumeClaims } from '../../../../k8s/mock_pvc';
+import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
 
 const testStorageTab = (onChange, initialDisks, sourceType = PROVISION_SOURCE_URL) => (
   <StorageTab

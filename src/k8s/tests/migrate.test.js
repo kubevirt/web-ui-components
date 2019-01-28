@@ -1,6 +1,6 @@
 import { migrate } from '../migrate';
-import { k8sCreate } from './request.test';
-import { blueVmi } from '../mock_vmi/blue.mock';
+import { k8sCreate } from '../../tests/k8sCreate';
+import { blueVmi } from '../../tests/mocks/vmi/blue.mock';
 import { VirtualMachineInstanceMigrationModel } from '../../models';
 import { getModelApi } from '../selectors';
 

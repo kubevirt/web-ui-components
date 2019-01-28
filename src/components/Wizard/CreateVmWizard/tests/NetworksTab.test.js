@@ -7,7 +7,7 @@ import { NetworksTab, validateNetworksNamespace, isBootableNetwork } from '../Ne
 import NetworksTabFixture from '../fixtures/NetworksTab.fixture';
 import { Dropdown } from '../../../Form';
 import { SELECT_NETWORK, SELECT_PXE_NIC, PXE_NIC_NOT_FOUND_ERROR } from '../strings';
-import { pxeTemplate } from '../../../../k8s/mock_user_templates';
+import { pxeTemplate } from '../../../../tests/mocks/user_template';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../constants';
 import { getTemplateInterfaces } from '../../../../utils/templates';
 

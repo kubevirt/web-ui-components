@@ -2,29 +2,14 @@ import { cloneDeep } from 'lodash';
 import { noop } from 'patternfly-react';
 
 import { cloneVm, cloneDisks } from '../clone';
-import { DataVolumeModel, VirtualMachineModel, PersistentVolumeClaimModel } from '../../models';
-import { emptyVm } from '../mock_vm/empty_vm.mock';
+import { DataVolumeModel } from '../../models';
+import { emptyVm } from '../../tests/mocks/vm/empty_vm.mock';
 import { getName, getNamespace, getDescription, getVolumes } from '../../utils';
 import { addPvcVolume, addDisk, addDataVolumeTemplate, addDataVolume } from '../request';
-import { pvcDisk, dataVolumeTemplate, dataVolumeDisk } from '../mock_devices/disks.mock';
-import { persistentVolumeClaims } from '../mock_pvc';
-import { dataVolumes } from '../mock_datavolumes';
-
-const k8sCreate = (model, resource) => {
-  switch (model) {
-    case DataVolumeModel:
-    case PersistentVolumeClaimModel:
-      resource.metadata.name = `${resource.metadata.generateName}-${Math.random()
-        .toString(36)
-        .substr(2, 5)}`;
-      break;
-    case VirtualMachineModel:
-      break;
-    default:
-      throw new Error('unknown model');
-  }
-  return new Promise(resolve => resolve(resource));
-};
+import { pvcDisk, dataVolumeTemplate, dataVolumeDisk } from '../../tests/forms_mocks/disk.mock';
+import { persistentVolumeClaims } from '../../tests/mocks/persistentVolumeClaim';
+import { dataVolumes } from '../../tests/mocks/dataVolume';
+import { k8sCreate } from '../../tests/k8sCreate';
 
 describe('clone.js - cloneVm', () => {
   it('clone vm without devices', async () => {
