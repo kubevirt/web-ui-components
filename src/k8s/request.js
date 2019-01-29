@@ -557,6 +557,9 @@ const addInterface = (vm, defaultInterface, network) => {
     ...(network.templateNetwork ? network.templateNetwork.interface : defaultInterface),
     name: network.name,
   };
+  if (network.mac) {
+    interfaceSpec.macAddress = network.mac;
+  }
   if (network.isBootable) {
     interfaceSpec.bootOrder = BOOT_ORDER_FIRST;
   } else {
