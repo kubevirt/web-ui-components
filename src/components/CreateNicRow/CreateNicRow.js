@@ -6,7 +6,7 @@ import { CreateDeviceRow } from '../CreateDeviceRow';
 import { getName, getNetworks, getInterfaces } from '../../utils/selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
 import { POD_NETWORK } from '../../constants';
-import { HEADER_NIC_NAME, HEADER_MAC, SELECT_NETWORK } from '../Wizard/CreateVmWizard/strings';
+import { HEADER_NAME, HEADER_MAC, SELECT_NETWORK } from '../Wizard/CreateVmWizard/strings';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS, NAME_KEY } from '../Wizard/CreateVmWizard/constants';
 import { Loading } from '../Loading';
 import { settingsValue } from '../../k8s/selectors';
@@ -85,7 +85,7 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
       id: 'nic-name',
       validate: settings => validateDNS1123SubdomainValue(settingsValue(settings, NAME_KEY)),
       required: true,
-      title: HEADER_NIC_NAME,
+      title: HEADER_NAME,
       disabled: nic.creating,
     },
     model: {

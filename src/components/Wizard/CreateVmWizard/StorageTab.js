@@ -28,7 +28,7 @@ import {
   ERROR_EMPTY_ENTITY,
   ERROR_POSITIVE_SIZE,
   ERROR_DISK_NOT_FOUND,
-  HEADER_DISK_NAME,
+  HEADER_NAME,
   HEADER_SIZE,
   HEADER_STORAGE_CLASS,
   REMOVE_DISK_BUTTON,
@@ -370,7 +370,7 @@ export class StorageTab extends React.Component {
   getColumns = () => [
     {
       header: {
-        label: HEADER_DISK_NAME,
+        label: HEADER_NAME,
         props: {
           style: {
             width: '50%',

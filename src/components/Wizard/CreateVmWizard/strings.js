@@ -23,6 +23,8 @@ export const HELP_FLAVOR =
   'The combination of processing power and memory that will be provided to the virtual machine.';
 export const HELP_WORKLOAD = 'The category of work that this virtual machine will be used for.';
 
+export const HEADER_NAME = 'Name';
+
 // NetworksTab
 export const SELECT_NETWORK = '--- Select Network Definition ---';
 export const REMOVE_NIC_BUTTON = 'Remove NIC';
@@ -31,7 +33,6 @@ export const PXE_INFO = 'Pod network is not PXE bootable';
 export const SELECT_PXE_NIC = '--- Select PXE NIC ---';
 export const PXE_NIC = 'PXE NIC';
 export const PXE_NIC_NOT_FOUND_ERROR = 'A PXE-capable NIC could not be found';
-export const HEADER_NIC_NAME = 'NIC Name';
 export const HEADER_MAC = 'MAC Address';
 export const HEADER_NETWORK = 'Network Configuration';
 export const ERROR_NETWORK_NOT_FOUND = 'Network config not found';
@@ -44,7 +45,6 @@ export const ERROR_NO_STORAGE_CLASS_SELECTED = 'Storage Class not selected';
 export const ERROR_NO_STORAGE_SELECTED = 'No storage is selected';
 export const ERROR_STORAGE_NOT_VALID = 'Selected storage is not valid';
 export const ERROR_DISK_NOT_FOUND = 'Disk configuration not found';
-export const HEADER_DISK_NAME = 'Disk Name';
 export const HEADER_SIZE = 'Size (GB)';
 export const HEADER_STORAGE_CLASS = 'Storage Class';
 export const REMOVE_DISK_BUTTON = 'Remove Disk';

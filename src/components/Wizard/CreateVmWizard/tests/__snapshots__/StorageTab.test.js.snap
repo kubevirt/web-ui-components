@@ -25,7 +25,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
       Array [
         Object {
           "header": Object {
-            "label": "Disk Name",
+            "label": "Name",
             "props": Object {
               "style": Object {
                 "width": "50%",

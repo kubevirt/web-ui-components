@@ -18,7 +18,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
       Array [
         Object {
           "header": Object {
-            "label": "NIC Name",
+            "label": "Name",
             "props": Object {
               "style": Object {
                 "width": "32%",
