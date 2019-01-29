@@ -119,7 +119,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       id: 'vm-name',
       title: 'Name',
       required: true,
-      validate: validateDNS1123SubdomainValue,
+      validate: settings => validateDNS1123SubdomainValue(settingsValue(settings, NAME_KEY)),
     },
     [DESCRIPTION_KEY]: {
       id: 'vm-description',
@@ -144,7 +144,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_CONTAINER),
       disabled: userTemplate !== undefined,
-      validate: validateContainer,
+      validate: settings => validateContainer(settingsValue(settings, CONTAINER_IMAGE_KEY)),
     },
     [IMAGE_URL_KEY]: {
       id: 'provision-source-url',
@@ -152,7 +152,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       required: true,
       isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_URL),
       disabled: userTemplate !== undefined,
-      validate: validateURL,
+      validate: settings => validateURL(settingsValue(settings, IMAGE_URL_KEY)),
     },
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',

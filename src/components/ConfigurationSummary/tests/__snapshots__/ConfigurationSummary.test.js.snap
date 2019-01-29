@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConfigurationSummary /> renders correctly 1`] = `
+<dl
+  className="kubevirt-configuration-summary"
+>
+  <dt>
+    Operating System
+  </dt>
+  <dd>
+    ---
+  </dd>
+  <dt>
+    Flavor
+  </dt>
+  <dd>
+    small - 2 CPU, 2G Memory
+  </dd>
+  <dt>
+    Workload Profile
+  </dt>
+  <dd>
+    generic
+  </dd>
+  <dt>
+    NICs
+  </dt>
+  <dd>
+    <div
+      key="eth0"
+    >
+      eth0
+    </div>
+  </dd>
+  <dt>
+    Disks
+  </dt>
+  <dd>
+    <div
+      key="rootdisk"
+    >
+      rootdisk - container disk
+    </div>
+    <div
+      key="cloudinitdisk"
+    >
+      cloudinitdisk - cloud-init disk
+    </div>
+  </dd>
+</dl>
+`;
+
+exports[`<ConfigurationSummary /> renders correctly with disks 1`] = `
+<dl
+  className="kubevirt-configuration-summary"
+>
+  <dt>
+    Operating System
+  </dt>
+  <dd>
+    ---
+  </dd>
+  <dt>
+    Flavor
+  </dt>
+  <dd>
+    small - 2 CPU, 2G Memory
+  </dd>
+  <dt>
+    Workload Profile
+  </dt>
+  <dd>
+    generic
+  </dd>
+  <dt>
+    NICs
+  </dt>
+  <dd>
+    <div
+      key="eth0"
+    >
+      eth0
+    </div>
+  </dd>
+  <dt>
+    Disks
+  </dt>
+  <dd>
+    <div
+      key="rootdisk"
+    >
+      rootdisk - container disk
+    </div>
+    <div
+      key="cloudinitdisk"
+    >
+      cloudinitdisk - cloud-init disk
+    </div>
+    <div
+      key="datavolumedisk"
+    >
+      datavolumedisk
+    </div>
+    <div
+      key="pvcdisk"
+    >
+      pvcdisk
+    </div>
+  </dd>
+</dl>
+`;
+
+exports[`<ConfigurationSummary /> renders correctly without flavor details 1`] = `
+<dl
+  className="kubevirt-configuration-summary"
+>
+  <dt>
+    Operating System
+  </dt>
+  <dd>
+    ---
+  </dd>
+  <dt>
+    Flavor
+  </dt>
+  <dd>
+    small
+  </dd>
+  <dt>
+    Workload Profile
+  </dt>
+  <dd>
+    generic
+  </dd>
+  <dt>
+    NICs
+  </dt>
+  <dd>
+    <div
+      key="eth0"
+    >
+      eth0
+    </div>
+  </dd>
+  <dt>
+    Disks
+  </dt>
+  <dd>
+    <div
+      key="rootdisk"
+    >
+      rootdisk - container disk
+    </div>
+    <div
+      key="cloudinitdisk"
+    >
+      cloudinitdisk - cloud-init disk
+    </div>
+  </dd>
+</dl>
+`;

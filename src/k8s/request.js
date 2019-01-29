@@ -313,13 +313,23 @@ const addStorages = (vm, template, storages, getSetting) => {
   if (storages) {
     storages.forEach(storage => {
       switch (storage.storageType) {
-        case STORAGE_TYPE_PVC:
-          addPvcVolume(vm, storage, getSetting);
+        case STORAGE_TYPE_PVC: {
+          const pvcStorage = {
+            ...storage,
+            claimName: getSetting(IS_TEMPLATE) ? storage.name : `${storage.name}-${getSetting(NAME_KEY)}`,
+          };
+          addPvcVolume(vm, pvcStorage, getSetting);
           break;
-        case STORAGE_TYPE_DATAVOLUME:
-          addDataVolumeTemplate(vm, storage, getSetting);
-          addDataVolume(vm, storage, getSetting);
+        }
+        case STORAGE_TYPE_DATAVOLUME: {
+          const dvStorage = {
+            ...storage,
+            dvName: `${storage.name}-${getSetting(NAME_KEY)}`,
+          };
+          addDataVolumeTemplate(vm, dvStorage, getSetting);
+          addDataVolume(vm, dvStorage);
           break;
+        }
         case STORAGE_TYPE_CONTAINER:
           addContainerVolume(vm, storage, getSetting);
           break;
@@ -392,10 +402,15 @@ const getVmSpec = vm => {
 };
 
 const getSpec = vm => {
-  if (!vm.spec.template.spec) {
-    vm.spec.template.spec = {};
+  const vmSpec = getVmSpec(vm);
+  if (!vmSpec.template) {
+    vmSpec.template = {
+      spec: {},
+    };
+  } else if (!vmSpec.template.spec) {
+    vmSpec.template.spec = {};
   }
-  return vm.spec.template.spec;
+  return vmSpec.template.spec;
 };
 
 const getDevice = (vm, deviceType, deviceName) =>
@@ -447,7 +462,7 @@ const getTemplateLabels = vm => {
   return vm.spec.template.metadata.labels;
 };
 
-const addDisk = (vm, defaultDisk, storage, getSetting) => {
+export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {
     ...(storage.templateStorage ? storage.templateStorage.disk : defaultDisk),
     name: storage.name,
@@ -462,20 +477,19 @@ const addDisk = (vm, defaultDisk, storage, getSetting) => {
   disks.push(diskSpec);
 };
 
-const addPvcVolume = (vm, storage, getSetting) => {
-  const claimName = getSetting(IS_TEMPLATE) ? storage.name : `${storage.name}-${getSetting(NAME_KEY)}`;
+export const addPvcVolume = (vm, storage) => {
   const volume = {
     ...(storage.templateStorage ? storage.templateStorage.volume : {}),
     name: storage.name,
     persistentVolumeClaim: {
       ...(storage.templateStorage ? storage.templateStorage.volume.persistentVolumeClaim : {}),
-      claimName,
+      claimName: storage.claimName,
     },
   };
   addVolume(vm, volume);
 };
 
-const addContainerVolume = (vm, storage, getSetting) => {
+export const addContainerVolume = (vm, storage, getSetting) => {
   const volume = {
     ...(storage.templateStorage ? storage.templateStorage.volume : {}),
     name: storage.name,
@@ -489,13 +503,13 @@ const addContainerVolume = (vm, storage, getSetting) => {
   addVolume(vm, volume);
 };
 
-const addDataVolume = (vm, storage, getSetting) => {
+export const addDataVolume = (vm, storage) => {
   const volume = {
     ...(storage.templateStorage ? storage.templateStorage.volume : {}),
     name: storage.name,
     dataVolume: {
       ...(storage.templateStorage ? storage.templateStorage.volume.dataVolume : {}),
-      name: `${storage.name}-${getSetting(NAME_KEY)}`,
+      name: storage.dvName,
     },
   };
   addVolume(vm, volume);
@@ -508,7 +522,7 @@ const addVolume = (vm, volumeSpec) => {
 
 // TODO datavolumetemplate should have unique name bcs its created as object in kubernetes
 // TOTO add ie vm name
-const addDataVolumeTemplate = (vm, storage, getSetting) => {
+export const addDataVolumeTemplate = (vm, storage, getSetting) => {
   const urlSource = {
     http: {
       url: getSetting(IMAGE_URL_KEY),
@@ -524,7 +538,7 @@ const addDataVolumeTemplate = (vm, storage, getSetting) => {
     ...(storage.templateStorage ? storage.templateStorage.dataVolume : {}),
     metadata: {
       ...(storage.templateStorage ? storage.templateStorage.dataVolume.metadata : {}),
-      name: `${storage.name}-${getSetting(NAME_KEY)}`,
+      name: storage.dvName,
     },
     spec: {
       ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec : {}),
@@ -552,7 +566,7 @@ const addDataVolumeTemplate = (vm, storage, getSetting) => {
   dataVolumes.push(dataVolume);
 };
 
-const addInterface = (vm, defaultInterface, network) => {
+export const addInterface = (vm, defaultInterface, network) => {
   const interfaceSpec = {
     ...(network.templateNetwork ? network.templateNetwork.interface : defaultInterface),
     name: network.name,
@@ -570,7 +584,7 @@ const addInterface = (vm, defaultInterface, network) => {
   interfaces.push(interfaceSpec);
 };
 
-const addNetwork = (vm, network) => {
+export const addNetwork = (vm, network) => {
   const networkSpec = {
     ...(network.templateNetwork ? network.templateNetwork.network : {}),
     name: network.name,

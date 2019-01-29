@@ -9,7 +9,7 @@ import {
   TEMPLATE_OS_NAME_ANNOTATION,
 } from '../constants';
 
-export const getId = value => `${getNamespace()}/${getName()}`;
+export const getId = value => `${getNamespace(value)}/${getName(value)}`;
 export const getName = value => get(value, 'metadata.name');
 export const getNamespace = value => get(value, 'metadata.namespace');
 
@@ -20,6 +20,10 @@ export const getGibStorageSize = (units, resources) => {
 
 export const getPvcResources = pvc => get(pvc, 'spec.resources');
 export const getDataVolumeResources = dataVolume => get(dataVolume, 'spec.pvc.resources');
+
+export const getActualPvcCapacity = pvc => get(pvc, 'status.capacity.storage');
+
+export const getPvcAccessModes = pvc => get(pvc, 'spec.accessModes');
 
 export const getPvcStorageClassName = pvc => get(pvc, 'spec.storageClassName');
 
@@ -102,3 +106,12 @@ export const getVmiIpAddresses = vmi =>
   get(vmi, 'status.interfaces', [])
     .map(i => i.ipAddress)
     .filter(ip => ip && ip.trim().length > 0);
+
+export const getFlavorDescription = vm => {
+  const cpu = getCpu(vm);
+  const memory = getMemory(vm);
+  const cpuStr = cpu ? `${cpu} CPU` : '';
+  const memoryStr = memory ? `${memory} Memory` : '';
+  const resourceStr = cpuStr && memoryStr ? `${cpuStr}, ${memoryStr}` : `${cpuStr}${memoryStr}`;
+  return resourceStr || undefined;
+};

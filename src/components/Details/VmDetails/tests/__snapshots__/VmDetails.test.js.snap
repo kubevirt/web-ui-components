@@ -139,6 +139,7 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
                 <div>
                   small
                 </div>
+                <div />
               </div>
             </dd>
           </dl>
@@ -454,6 +455,7 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
                 <div>
                   Custom
                 </div>
+                <div />
               </div>
             </dd>
           </dl>
@@ -603,6 +605,7 @@ exports[`<VmDetails /> renders correctly 1`] = `
                 <div>
                   Custom
                 </div>
+                <div />
               </div>
             </dd>
           </dl>
@@ -752,6 +755,7 @@ exports[`<VmDetails /> renders description correctly 1`] = `
                 <div>
                   Custom
                 </div>
+                <div />
               </div>
             </dd>
           </dl>
@@ -901,6 +905,7 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
                 <div>
                   Custom
                 </div>
+                <div />
               </div>
             </dd>
           </dl>
@@ -1064,6 +1069,7 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
                 <div>
                   Custom
                 </div>
+                <div />
               </div>
             </dd>
           </dl>

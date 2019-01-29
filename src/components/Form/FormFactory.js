@@ -23,7 +23,7 @@ export const getFormElement = props => {
     isControlled,
     disabled,
     className,
-    LoadingComponent,
+    CustomComponent,
   } = props;
   switch (type) {
     case 'textarea':
@@ -74,8 +74,8 @@ export const getFormElement = props => {
           {value}
         </div>
       );
-    case 'loading':
-      return <LoadingComponent />;
+    case 'custom':
+      return <CustomComponent />;
     default:
       return (
         <Text
@@ -111,26 +111,26 @@ export const validateForm = (formFields, formValues) => {
 };
 
 const onChange = (formFields, formValues, value, key, onFormChange) => {
-  let validation;
+  const newFormValues = {
+    ...formValues,
+    [key]: {
+      value,
+    },
+  };
 
+  let validation;
   const changedField = formFields[key];
   if (changedField.required && String(value).trim().length === 0) {
     validation = getValidationObject(ERROR_IS_REQUIRED);
   } else if (changedField.validate) {
-    validation = changedField.validate(value);
+    validation = changedField.validate(newFormValues);
   }
 
   if (validation) {
     validation.message = `${changedField.title} ${validation.message}`;
   }
 
-  const newFormValues = {
-    ...formValues,
-    [key]: {
-      value,
-      validation,
-    },
-  };
+  newFormValues[key].validation = validation;
 
   const formValid = validateForm(formFields, newFormValues);
 

@@ -1,4 +1,8 @@
-export const cloudInitTestVm = {
+import { dataVolumes } from '../mock_datavolumes';
+import { getName } from '../../utils';
+import { persistentVolumeClaims } from '../mock_pvc';
+
+export const fullVm = {
   apiVersion: 'kubevirt.io/v1alpha3',
   kind: 'VirtualMachine',
   metadata: {
@@ -43,6 +47,18 @@ export const cloudInitTestVm = {
                 },
                 name: 'cloudinitdisk',
               },
+              {
+                disk: {
+                  bus: 'virtio',
+                },
+                name: 'datavolumedisk',
+              },
+              {
+                disk: {
+                  bus: 'virtio',
+                },
+                name: 'pvcdisk',
+              },
             ],
             interfaces: [
               {
@@ -67,6 +83,14 @@ export const cloudInitTestVm = {
           {
             name: 'rootdisk',
             containerDisk: { image: 'kubevirt/cirros-registry-disk-demo' },
+          },
+          {
+            name: 'datavolumedisk',
+            dataVolume: { name: getName(dataVolumes.url) },
+          },
+          {
+            name: 'pvcdisk',
+            persistentVolumeClaim: { claimName: getName(persistentVolumeClaims[0]) },
           },
           {
             name: 'cloudinitdisk',
