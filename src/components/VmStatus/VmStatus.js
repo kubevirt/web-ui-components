@@ -27,7 +27,7 @@ const StateValue = ({ iconClass, children, linkTo, message }) => (
   <Fragment>
     <span className={`kubevirt-vm-status__icon ${iconClass}`} aria-hidden="true" />
     {linkTo ? (
-      <Link to={linkTo} title={message}>
+      <Link className="kubevirt-vm-status__link" to={linkTo} title={message}>
         {children}
       </Link>
     ) : (
