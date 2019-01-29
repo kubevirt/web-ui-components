@@ -438,6 +438,19 @@ describe('request.js - networks', () => {
       return results;
     });
   });
+  it('network with mac address', () => {
+    const withMac = cloneDeep(multusNetwork);
+    withMac.mac = 'FF-FF-FF-FF-FF-FF';
+    return createVm(k8sCreate, templates, basicSettingsCustomFlavor, [withMac], [], persistentVolumeClaims).then(
+      results => {
+        const vm = results[results.length - 1];
+        expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
+        expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(withMac.name);
+        expect(vm.spec.template.spec.domain.devices.interfaces[0].macAddress).toEqual(withMac.mac);
+        return results;
+      }
+    );
+  });
 });
 
 describe('request.js - cloudInit', () => {
