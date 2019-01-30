@@ -27,7 +27,7 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
         "disabled": undefined,
         "id": "nic-name",
         "required": true,
-        "title": "NIC Name",
+        "title": "Name",
         "validate": [Function],
       },
       "network": Object {

@@ -21,7 +21,7 @@ import {
   ERROR_NETWORK_NOT_FOUND,
   PXE_NIC,
   HEADER_MAC,
-  HEADER_NIC_NAME,
+  HEADER_NAME,
   HEADER_NETWORK,
 } from './strings';
 
@@ -210,7 +210,7 @@ export class NetworksTab extends React.Component {
   getColumns = () => [
     {
       header: {
-        label: HEADER_NIC_NAME,
+        label: HEADER_NAME,
         props: {
           style: {
             width: '32%',
