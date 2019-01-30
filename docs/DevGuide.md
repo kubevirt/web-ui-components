@@ -114,6 +114,12 @@ yarn test
 yarn dev
 ```
 
+### Run tests without any pre-checks?
+
+```sh
+yarn jest
+```
+
 ### Run specific tests?
 
 ```sh
