@@ -89,3 +89,26 @@ export const DataVolumeModel = {
   id: 'datavolume',
   crd: true,
 };
+
+export const NamespaceModel = {
+  apiVersion: 'v1',
+  label: 'Namespace',
+  path: 'namespaces',
+  plural: 'namespaces',
+  abbr: 'NS',
+  kind: 'Namespace',
+  id: 'namespace',
+  labelPlural: 'Namespaces',
+};
+
+export const ProjectModel = {
+  apiVersion: 'v1',
+  apiGroup: 'project.openshift.io',
+  label: 'Project',
+  path: 'projects',
+  plural: 'projects',
+  abbr: 'PR',
+  kind: 'Project',
+  id: 'project',
+  labelPlural: 'Projects',
+};

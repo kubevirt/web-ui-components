@@ -3,7 +3,7 @@ export const ubuntu1804 = {
   kind: 'Template',
   metadata: {
     name: 'ubuntu1804',
-    namespace: 'default',
+    namespace: 'openshift',
     annotations: {
       'openshift.io/display-name': 'Ubuntu 18.04 (Xenial Xerus) VM',
       description:

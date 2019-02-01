@@ -9,6 +9,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
 } from '../constants';
 import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
+import { NamespaceModel, ProjectModel } from '../models';
 
 export function prefixedId(idPrefix, id) {
   return idPrefix && id ? `${idPrefix}-${id}` : null;
@@ -400,12 +401,20 @@ export const getStartStopPatch = (vm, start) => {
 
 export const getResource = (
   model,
-  { name, namespaced = true, namespace, isList = true, matchLabels, matchExpressions } = {
+  { name, namespaced = true, namespace, isList = true, matchLabels, matchExpressions, prop } = {
     namespaced: true,
     isList: true,
   }
 ) => {
-  const res = { kind: model.kind, namespaced, namespace, isList, prop: model.kind };
+  const res = {
+    // non-admin user cannot list namespaces (k8s wont return only namespaces available to user but 403 forbidden, ).
+    // Instead we need to use ProjectModel which will return available projects (namespaces)
+    kind: model === NamespaceModel ? ProjectModel.kind : model.kind,
+    namespaced,
+    namespace,
+    isList,
+    prop: prop || model.kind,
+  };
 
   if (name) {
     res.name = name;
