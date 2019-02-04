@@ -3,7 +3,7 @@ export const windows = {
   kind: 'Template',
   metadata: {
     name: 'win2k12r2',
-    namespace: 'default',
+    namespace: 'openshift',
     annotations: {
       'openshift.io/display-name': 'Microsoft Windows Server 2012 R2 VM',
       description:
