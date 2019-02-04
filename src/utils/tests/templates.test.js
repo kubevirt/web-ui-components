@@ -141,7 +141,7 @@ describe('templates.js', () => {
     const vm = {
       metadata: {
         labels: {
-          [ANNOTATION_USED_TEMPLATE]: 'default_fedora-generic',
+          [ANNOTATION_USED_TEMPLATE]: 'openshift_fedora-generic',
         },
       },
     };

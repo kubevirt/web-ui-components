@@ -101,7 +101,11 @@ export const createVmTemplate = (k8sCreate, templates, basicSettings, networks, 
 export const createVm = (k8sCreate, templates, basicSettings, networks, storage, persistentVolumeClaims) => {
   const getSetting = settingsValue.bind(undefined, basicSettings);
   const template = getModifiedVmTemplate(templates, basicSettings, getSetting, networks, storage);
-  return k8sCreate(ProcessedTemplatesModel, template).then(({ objects }) => {
+  // ProcessedTemplates endpoit will reject the request if user cannot post to the namespace
+  // common-templates are stored in openshift namespace, default user can read but cannot post
+  const postTemplate = cloneDeep(template);
+  postTemplate.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
+  return k8sCreate(ProcessedTemplatesModel, postTemplate).then(({ objects }) => {
     const vm = selectVm(objects);
 
     addMetadata(vm, template, getSetting);

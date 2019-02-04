@@ -642,7 +642,7 @@ describe('request.js - metadata', () => {
         basicSettingsContainer[OPERATING_SYSTEM_KEY].value,
         basicSettingsContainer[WORKLOAD_PROFILE_KEY].value,
         basicSettingsContainer[FLAVOR_KEY].value,
-        'default_rhel-generic'
+        'openshift_rhel-generic'
       );
       return results;
     }));
