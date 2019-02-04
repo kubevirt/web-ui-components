@@ -3,7 +3,7 @@ export const rhelHighPerformance = {
   kind: 'Template',
   metadata: {
     name: 'rhel-high-performance',
-    namespace: 'default',
+    namespace: 'openshift',
     annotations: {
       'openshift.io/display-name': 'Red Hat Enterprise Linux 7.0+ VM High Performance',
       description:
