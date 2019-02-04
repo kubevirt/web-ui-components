@@ -409,7 +409,7 @@ export const getResource = (
   const res = {
     // non-admin user cannot list namespaces (k8s wont return only namespaces available to user but 403 forbidden, ).
     // Instead we need to use ProjectModel which will return available projects (namespaces)
-    kind: model === NamespaceModel ? ProjectModel.kind : model.kind,
+    kind: model.kind === NamespaceModel.kind ? ProjectModel.kind : model.kind,
     namespaced,
     namespace,
     isList,
