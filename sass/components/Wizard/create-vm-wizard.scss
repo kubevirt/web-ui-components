@@ -17,3 +17,8 @@
 .kubevirt-create-vm-wizard__custom-cloud-script-textarea {
   min-height: 100px;
 }
+
+.kubevirt-create-vm-wizard__import-vmware-passwordcheck {
+  display: inline-flex;
+  width: 100%;
+}
