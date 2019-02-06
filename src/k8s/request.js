@@ -229,8 +229,9 @@ const getImportProviderSecret = (getSetting) => {
     const url = getSetting(PROVIDER_VMWARE_URL_KEY);
     const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
     const pwd = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
+    const namespace = getSetting(NAMESPACE_KEY);
 
-    return getImportProviderSecretObject(url, username, pwd);
+    return getImportProviderSecretObject({ url, username, pwd, namespace });
   }
 
   return null;

@@ -1,15 +1,20 @@
 import { SecretModel } from '../models';
-import { NAMESPACE_KEY } from '../components/Wizard/CreateVmWizard/constants';
 import { VCENTER_TYPE_LABEL } from '../constants';
 
-export const getImportProviderSecretObject = () => {
-  const secretName = `${url}-${username}`; // TODO: fix & improve
+const getDefaultSecretName = ({ username, url }) => {
+  const u = new URL(url || '');
+  const host = u.host || 'nohost';
+  return `${host}-${username}`
+};
+
+export const getImportProviderSecretObject = ({ url, username, pwd, secretName, namespace }) => {
+  const _secretName = secretName || getDefaultSecretName({ username, url });
   const secret = {
     kind: SecretModel.kind,
     apiVersion: SecretModel.apiVersion,
     metadata: {
-      name: secretName,
-      namespace: getSetting(NAMESPACE_KEY),
+      name: _secretName,
+      namespace,
       labels: {
         [VCENTER_TYPE_LABEL]: 'true',
       },
