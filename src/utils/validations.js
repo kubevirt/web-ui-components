@@ -11,6 +11,7 @@ import {
   URL_INVALID_ERROR,
   START_WHITESPACE_ERROR,
   END_WHITESPACE_ERROR,
+  VMWARE_URL_ERROR,
 } from './strings';
 import { VALIDATION_ERROR_TYPE } from '../constants';
 
@@ -79,6 +80,31 @@ export const validateContainer = value => {
 
   if (trimEnd(value).length !== value.length) {
     return getValidationObject(END_WHITESPACE_ERROR);
+  }
+
+  return null;
+};
+
+export const validateVmwareURL = value => {
+  if (!value) {
+    return getValidationObject(EMPTY_ERROR);
+  }
+
+  if (trimStart(value).length !== value.length) {
+    return getValidationObject(START_WHITESPACE_ERROR);
+  }
+
+  if (trimEnd(value).length !== value.length) {
+    return getValidationObject(END_WHITESPACE_ERROR);
+  }
+
+  try {
+    const u = new URL(value);
+    if (!u.hostname) {
+      return getValidationObject(VMWARE_URL_ERROR);
+    }
+  } catch {
+    return getValidationObject(VMWARE_URL_ERROR);
   }
 
   return null;

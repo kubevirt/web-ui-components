@@ -1,6 +1,10 @@
 import React from "react";
 import { get } from 'lodash';
 
+import { isImportProviderType, settingsValue } from '../../../../k8s/selectors';
+import { CONNECT_TO_NEW_INSTANCE } from '../strings';
+import { validateVmwareURL } from '../../../../utils/validations';
+
 import {
   PROVIDER_VMWARE,
   PROVIDER_VMWARE_URL_KEY,
@@ -10,8 +14,6 @@ import {
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY
 } from '../constants'
-import { isImportProviderType } from '../../../../k8s/selectors';
-import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 
 import VMWarePasswordAndCheck from './VMWarePasswordAndCheck';
 import { onVCenterInstanceSelected, onVmwareCheckConnection } from './vmwareActions';
@@ -28,7 +30,9 @@ const getVMWareNewConnectionSection = (basicSettings, k8sCreate) => {
       title: 'vCenter URL',
       required: true,
       isVisible: isNewVmwareInstanceSelected,
-      help: 'Address to be used for connection to a vCenter instance.'
+      validate: settings => validateVmwareURL(settingsValue(settings, PROVIDER_VMWARE_URL_KEY)),
+      defaultValue: 'https://host:port/',
+      help: 'Address to be used for connection to a vCenter instance. Example: https://host:port/'
     },
     [PROVIDER_VMWARE_USER_NAME_KEY]: {
       id: 'vcenter-username',
