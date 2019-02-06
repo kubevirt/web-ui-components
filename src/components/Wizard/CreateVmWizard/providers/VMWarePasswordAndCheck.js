@@ -1,22 +1,42 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { Spinner, Button, Alert } from 'patternfly-react';
+
+import { Text } from '../../../Form';
+
 import {
   PROVIDER_VMWARE_USER_PWD_KEY,
   PROVIDER_VMWARE_CONNECTION,
   PROVIDER_STATUS_CONNECTING,
-  PROVIDER_STATUS_SUCCESS,
-  PROVIDER_STATUS_CONNECTION_FAILED,
+  PROVIDER_STATUS_CONNECTION_FAILED, PROVIDER_STATUS_SUCCESS,
 } from '../constants';
 
-// TODO: improve design
+const CheckingCredentials = () => (
+  <Fragment>
+    Checking vCenter Credentials...<Spinner loading size="sm"/>
+  </Fragment>
+);
+
+const ConnectionFailed = () => (
+  <Alert type="warning">
+    Could not connect to vCenter using the provided credentials.
+  </Alert>
+);
+
+const ConnectionSuccessful = () => (
+  <Fragment>
+    Connection successful
+  </Fragment>
+);
+
 const VMWareProviderStatus = ({ connValue }) => {
   const providerStatus = get(connValue, 'status');
   return (
-    <div>
-      {providerStatus === PROVIDER_STATUS_CONNECTING && 'connecting'}
-      {providerStatus === PROVIDER_STATUS_SUCCESS && 'done'}
-      {providerStatus === PROVIDER_STATUS_CONNECTION_FAILED && 'failure'}
+    <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
+      {providerStatus === PROVIDER_STATUS_CONNECTING && <CheckingCredentials />}
+      {providerStatus === PROVIDER_STATUS_CONNECTION_FAILED && <ConnectionFailed />}
+      {providerStatus === PROVIDER_STATUS_SUCCESS && <ConnectionSuccessful />}
     </div>
   );
 };
