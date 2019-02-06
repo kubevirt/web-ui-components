@@ -26,7 +26,8 @@ export const onVmwareCheckConnection = (basicSettings, onChange, k8sCreate) => {
   const secretName = `temp-${getDefaultSecretName({ url, username })}-${getRandomString(5)}`;
 
   k8sCreate(SecretModel, getImportProviderSecretObject({url, username, password, namespace, secretName})).then(() => {
-    // TODO: spawn a Connection pod and query it
+    // TODO: use the just created secret and spawn a Connection pod and query it
+    // TODO:can we delete the temp-secret right after POD's creation? If not we can potentialy schedule the deletion by setTimeout() or using pod's finalizer
     window.setTimeout(() => {
       onChange({ status: PROVIDER_STATUS_SUCCESS })
     }, 2000);
@@ -36,9 +37,18 @@ export const onVmwareCheckConnection = (basicSettings, onChange, k8sCreate) => {
   });
 };
 
+// secret already exists, use it
 // TODO:
 // - kill potentially existing Connection pod
+//    - see prevBasicSettings if any previously created
 // - create new pod instance
-export const onVCenterInstanceSelected = ({ value, validation }, key, formValid) => {
-  console.log('--- TODO: onVCenterInstanceSelected: ', value, validation, key, formValid);
+// Connection POD spawn:
+// - store unique ID in basicSettings
+// - createPod with the secret and a label with the unique value
+// - wrap the VMList dropdown to
+//    - WithResources for the given pod
+//    - another component querying the pod for the list of VMs
+export const onVCenterInstanceSelected = ({ value, validation }, key, formValid, prevBasicSettings, onFormChange) => {
+  // onFormChange: (newValue, key, formValid) => {} to update basicSettings
+  console.log('--- TODO: onVCenterInstanceSelected: ', value, validation, key, formValid, prevBasicSettings, onFormChange);
 };
