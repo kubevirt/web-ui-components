@@ -16,6 +16,7 @@ import {
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_IMPORT,
 } from '../../../constants';
 
 import {
@@ -61,6 +62,8 @@ const getInitialDisks = provisionSource => {
       return rootContainerDisk;
     case PROVISION_SOURCE_PXE:
       return null;
+    case PROVISION_SOURCE_IMPORT:
+      break;
     default:
       // eslint-disable-next-line
       console.warn(`Unknown provision source ${provisionSource}`);
@@ -292,6 +295,7 @@ export class CreateVmWizard extends React.Component {
             onChange={(value, valid) => this.onStepDataChanged(BASIC_SETTINGS_TAB_KEY, value, valid)}
             loadingData={loadingData}
             createTemplate={this.props.createTemplate}
+            WithResources={this.props.WithResources}
           />
         );
       },
@@ -354,7 +358,6 @@ export class CreateVmWizard extends React.Component {
     const lastStepReached = this.lastStepReached();
 
     const createVmText = this.props.createTemplate ? CREATE_VM_TEMPLATE : CREATE_VM;
-
     return (
       <Wizard.Pattern
         show
@@ -386,6 +389,7 @@ CreateVmWizard.defaultProps = {
 };
 
 CreateVmWizard.propTypes = {
+  WithResources: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array,
   namespaces: PropTypes.array,
