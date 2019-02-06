@@ -18,12 +18,16 @@ export const HELP_PROVISION_SOURCE_URL =
 export const HELP_PROVISION_SOURCE_PXE = 'Discover provisionable virtual machines over the network.';
 export const HELP_PROVISION_SOURCE_CONTAINER =
   'Ephemeral virtual machine disk image which will be pulled from container registry.';
+export const HELP_PROVISION_SOURCE_IMPORT = 'Import a virtual machine from external service using a provider.';
 export const HELP_OS = 'The primary operating system that will run on the virtual machine.';
 export const HELP_FLAVOR =
   'The combination of processing power and memory that will be provided to the virtual machine.';
 export const HELP_WORKLOAD = 'The category of work that this virtual machine will be used for.';
 
 export const HEADER_NAME = 'Name';
+export const HELP_PROVIDER_VMWARE =
+  'The virtual machine will be imported from a vCenter instance. Please provide connection details and select the virtual machine.';
+export const CONNECT_TO_NEW_INSTANCE = 'Connect to New Instance';
 
 // NetworksTab
 export const SELECT_NETWORK = '--- Select Network Definition ---';

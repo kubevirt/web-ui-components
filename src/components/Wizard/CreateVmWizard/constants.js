@@ -5,6 +5,7 @@ export const DESCRIPTION_KEY = 'description';
 export const PROVISION_SOURCE_TYPE_KEY = 'provisionSourceType';
 export const CONTAINER_IMAGE_KEY = 'containerImage';
 export const IMAGE_URL_KEY = 'imageURL';
+export const PROVIDER_KEY = 'provider';
 export const USER_TEMPLATE_KEY = 'userTemplate';
 export const OPERATING_SYSTEM_KEY = 'operatingSystem';
 export const FLAVOR_KEY = 'flavor';
@@ -34,3 +35,17 @@ export const STORAGE_TYPE_CONTAINER = 'container';
 export const DATA_VOLUME_SOURCE_BLANK = 'datavolume-blank';
 export const DATA_VOLUME_SOURCE_URL = 'datavolume-url';
 export const DATA_VOLUME_SOURCE_PVC = 'datavolume-pvc';
+
+// Providers
+export const PROVIDER_VMWARE = 'VMWare';
+export const PROVIDER_VMWARE_VCENTER_KEY = 'vCenterInstance';
+export const PROVIDER_VMWARE_VM_KEY = 'vmwareVm';
+export const PROVIDER_VMWARE_USER_NAME_KEY = 'vmwareUserName';
+export const PROVIDER_VMWARE_USER_PWD_KEY = 'vmwareUserPwd';
+export const PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY = 'vmwareUserPwdCheck';
+export const PROVIDER_VMWARE_URL_KEY = 'vmwareURL';
+export const PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY = 'rememberVmwareCredentials';
+export const PROVIDER_VMWARE_CONNECTION = 'vmwareConnection';
+export const PROVIDER_STATUS_CONNECTING = 'connecting';
+export const PROVIDER_STATUS_SUCCESS = 'success';
+export const PROVIDER_STATUS_CONNECTION_FAILED = 'connectionFailed';

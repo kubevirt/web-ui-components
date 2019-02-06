@@ -20,6 +20,7 @@ export const POD_NETWORK = 'Pod Networking';
 export const PROVISION_SOURCE_PXE = 'PXE';
 export const PROVISION_SOURCE_CONTAINER = 'Container';
 export const PROVISION_SOURCE_URL = 'URL';
+export const PROVISION_SOURCE_IMPORT = 'Import';
 
 export const PVC_ACCESSMODE_RWO = 'ReadWriteOnce';
 
@@ -71,3 +72,5 @@ export const DASHES = '---';
 
 export const CDI_KUBEVIRT_IO = 'cdi.kubevirt.io';
 export const STORAGE_IMPORT_PVC_NAME = 'storage.import.importPvcName';
+
+export const VCENTER_TYPE_LABEL = 'cnv.io/vcenter';
