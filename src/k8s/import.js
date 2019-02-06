@@ -1,7 +1,7 @@
 import { SecretModel } from '../models';
 import { VCENTER_TYPE_LABEL } from '../constants';
 
-const getDefaultSecretName = ({ username, url }) => {
+export const getDefaultSecretName = ({ username, url }) => {
   const u = new URL(url || '');
   const host = u.host || 'nohost';
   return `${host}-${username}`

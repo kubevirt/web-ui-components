@@ -19,7 +19,7 @@ const getProviderHelp = basicSettings => {
   }
 };
 
-export const importProviders = (basicSettings, WithResources) => ({
+export const importProviders = (basicSettings, WithResources, k8sCreate) => ({
   [PROVIDER_KEY]: {
     id: 'provider-dropdown',
     title: 'Provider',
@@ -30,7 +30,7 @@ export const importProviders = (basicSettings, WithResources) => ({
     isVisible: basicVmSettings => isImageSourceType(basicVmSettings, PROVISION_SOURCE_IMPORT),
     help: getProviderHelp(basicSettings)
   },
-  ...getVMWareSection(basicSettings, WithResources),
+  ...getVMWareSection(basicSettings, WithResources, k8sCreate),
 });
 
 // REMOVE ME: https://docs.google.com/document/d/1ks4H-ImD-r0s5eV4FsP_73kRdAP6sKJTRbj8nClpyp0/edit#heading=h.pxnfysbkvz9f

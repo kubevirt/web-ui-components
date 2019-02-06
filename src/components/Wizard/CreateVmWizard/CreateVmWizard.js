@@ -296,6 +296,7 @@ export class CreateVmWizard extends React.Component {
             loadingData={loadingData}
             createTemplate={this.props.createTemplate}
             WithResources={this.props.WithResources}
+            k8sCreate={this.props.k8sCreate}
           />
         );
       },

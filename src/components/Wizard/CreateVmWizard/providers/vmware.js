@@ -21,7 +21,7 @@ import { getVCenterVmsConnected } from './VCenterVms';
 const isVmwareNewInstance = basicSettings => get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) == CONNECT_TO_NEW_INSTANCE;
 const isNewVmwareInstanceSelected = basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
 
-const getVMWareNewConnectionSection = basicSettings => {
+const getVMWareNewConnectionSection = (basicSettings, k8sCreate) => {
   return {
     [PROVIDER_VMWARE_URL_KEY]: {
       id: 'vcenter-url-dropdown',
@@ -43,7 +43,7 @@ const getVMWareNewConnectionSection = basicSettings => {
       type: 'custom',
       CustomComponent: VMWarePasswordAndCheck,
       extraProps: {
-        onCheckConnection: onConnectionStateChanged => onVmwareCheckConnection(basicSettings, onConnectionStateChanged),
+        onCheckConnection: onConnectionStateChanged => onVmwareCheckConnection(basicSettings, onConnectionStateChanged, k8sCreate),
       },
       required: true,
       isVisible: isNewVmwareInstanceSelected,
@@ -61,7 +61,7 @@ const getVMWareNewConnectionSection = basicSettings => {
   };
 };
 
-export const getVMWareSection = (basicSettings, WithResources) => {
+export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
   console.log('--- basicSettings: ', basicSettings);
   return {
     [PROVIDER_VMWARE_VCENTER_KEY]: {
@@ -75,7 +75,7 @@ export const getVMWareSection = (basicSettings, WithResources) => {
       defaultValue: '--- Select vCenter Instance Secret ---',
       help: 'Select secret containing connection details for a vCenter instance.'
     },
-    ...getVMWareNewConnectionSection(basicSettings),
+    ...getVMWareNewConnectionSection(basicSettings, k8sCreate),
     [PROVIDER_VMWARE_VM_KEY]: {
       id: 'vcenter-vm-dropdown',
       title: 'VM to Import',
