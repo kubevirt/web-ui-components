@@ -12,7 +12,7 @@ import {
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
 } from '../utils/selectors';
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel } from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, PersistentVolumeClaimModel, SecretModel } from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
@@ -22,6 +22,7 @@ import {
   PROVISION_SOURCE_URL,
   TEMPLATE_TYPE_BASE,
   PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_IMPORT,
   POD_NETWORK,
   ANNOTATION_FIRST_BOOT,
   ANNOTATION_PXE_INTERFACE,
@@ -61,6 +62,12 @@ import {
   DATA_VOLUME_SOURCE_URL,
   IMAGE_URL_KEY,
   DATA_VOLUME_SOURCE_BLANK,
+  PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
+  PROVIDER_VMWARE_VCENTER_KEY,
+  PROVIDER_VMWARE_USER_NAME_KEY,
+  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
+  PROVIDER_VMWARE_USER_PWD_KEY,
+  PROVIDER_VMWARE_URL_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 import {
@@ -93,6 +100,9 @@ import {
   removeDisksAndVolumes,
   getDataVolumeTemplateSpec,
 } from './vmBuilder';
+
+import { getImportProviderSecretObject } from './import';
+
 
 const FALLBACK_DISK = {
   disk: {
@@ -146,6 +156,16 @@ export const createVmTemplate = async (
 
     const newDataVolumeName = generateDiskName(settingsValue(basicSettings, NAME_KEY), bootStorage.name);
     bootVolume.dataVolume.name = newDataVolumeName;
+
+    const promises = getPvcClones(storage, getSetting, persistentVolumeClaims).map(pvcClone =>
+      k8sCreate(PersistentVolumeClaimModel, pvcClone)
+    );
+
+    const importProviderSecret = getImportProviderSecret(getSetting);
+    importProviderSecret && promises.push(k8sCreate(SecretModel, importProviderSecret));
+
+    const vmCreatePromise = k8sCreate(VirtualMachineModel, vm);
+    promises.push(vmCreatePromise);
 
     bootDataVolume.metadata.name = newDataVolumeName;
     bootDataVolume.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
@@ -202,6 +222,18 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
 
   const vmResult = await k8sCreate(VirtualMachineModel, vm);
   return [vmResult];
+};
+
+const getImportProviderSecret = (getSetting) => {
+  if (getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY) && getSetting(PROVIDER_VMWARE_VCENTER_KEY) && getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_IMPORT) {
+    const url = getSetting(PROVIDER_VMWARE_URL_KEY);
+    const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
+    const pwd = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
+
+    return getImportProviderSecretObject(url, username, pwd);
+  }
+
+  return null;
 };
 
 const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage, persistentVolumeClaims) => {
