@@ -15,7 +15,7 @@ import {
   getUpdateFlavorPatch,
   getAddNicPatch,
   getStartStopPatch,
-} from '../utils';
+} from '../patches';
 import { cloudInitTestVm } from '../../tests/mocks/vm/cloudInitTestVm.mock';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
 
