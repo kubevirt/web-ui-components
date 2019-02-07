@@ -1,6 +1,6 @@
 import { safeDump } from 'js-yaml';
 
-import { CLOUDINIT_DISK } from '../../constants';
+import { CLOUDINIT_DISK } from '../constants';
 
 const resolveScriptHeader = userData => {
   const validScriptHeaders = [

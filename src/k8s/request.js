@@ -66,7 +66,7 @@ import {
   settingsValue,
   selectVm,
 } from './selectors';
-import { CloudInit } from './request/cloudInit';
+import { CloudInit } from './cloudInit';
 
 const IS_TEMPLATE = 'isTemplate';
 
