@@ -89,7 +89,6 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     PROVISION_SOURCE_PXE,
     PROVISION_SOURCE_URL,
     PROVISION_SOURCE_CONTAINER,
-    PROVISION_SOURCE_IMPORT,
   ];
   const userTemplateNames = getTemplate(templates, TEMPLATE_TYPE_VM).map(getName);
   userTemplateNames.push(NO_TEMPLATE);
@@ -97,6 +96,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
   let namespaceDropdown;
   let startVmCheckbox;
   let userTemplateDropdown;
+  let providersSection = {};
 
   if (!selectedNamespace) {
     namespaceDropdown = {
@@ -123,6 +123,9 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Template ---',
       choices: userTemplateNames,
     };
+
+    providersSection = importProviders(basicSettings, WithResources, k8sCreate);
+    imageSources.push(PROVISION_SOURCE_IMPORT);
   }
 
   return {
@@ -165,7 +168,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       disabled: userTemplate !== undefined,
       validate: settings => validateURL(settingsValue(settings, IMAGE_URL_KEY)),
     },
-    ...importProviders(basicSettings, WithResources, k8sCreate), // TODO: Providers shall be available on Create VM Wizard only
+    ...providersSection,
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
       title: 'Operating System',
