@@ -1,5 +1,6 @@
 import { VmDetails } from '../VmDetails';
 import { fedora28 } from '../../../../tests/mocks/template/fedora28.mock';
+import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../../constants';
 
 const metadata = {
   name: 'my-vm',
@@ -34,7 +35,8 @@ export const vmFixtures = {
       labels: {
         'flavor.template.cnv.io/small': 'true',
         'os.template.cnv.io/fedora29': 'true',
-        'template.cnv.ui': 'default_fedora-generic',
+        [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
+        [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
         'workload.template.cnv.io/generic': 'true',
       },
     },

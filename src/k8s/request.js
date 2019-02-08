@@ -20,7 +20,6 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
-  ANNOTATION_USED_TEMPLATE,
   BOOT_ORDER_FIRST,
   BOOT_ORDER_SECOND,
   TEMPLATE_TYPE_LABEL,
@@ -30,6 +29,8 @@ import {
   LABEL_CLONE_APP,
   TEMPLATE_VM_NAME_LABEL,
   TEMPLATE_OS_NAME_ANNOTATION,
+  LABEL_USED_TEMPLATE_NAME,
+  LABEL_USED_TEMPLATE_NAMESPACE,
 } from '../constants';
 
 import {
@@ -233,7 +234,8 @@ const addMetadata = (vm, template, getSetting) => {
   const workload = getSetting(WORKLOAD_PROFILE_KEY);
   addLabel(vm, `${TEMPLATE_WORKLOAD_LABEL}/${workload}`, 'true');
 
-  addLabel(vm, ANNOTATION_USED_TEMPLATE, `${template.metadata.namespace}_${template.metadata.name}`);
+  addLabel(vm, LABEL_USED_TEMPLATE_NAME, getName(template));
+  addLabel(vm, LABEL_USED_TEMPLATE_NAMESPACE, getNamespace(template));
   addTemplateLabel(vm, TEMPLATE_VM_NAME_LABEL, vm.metadata.name); // for pairing service-vm (like for RDP)
 
   addAnnotation(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${os.id}`, os.name);

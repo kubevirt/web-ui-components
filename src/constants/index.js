@@ -2,10 +2,12 @@ export const ANNOTATION_DEFAULT_DISK = 'defaults.template.cnv.io/disk';
 export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.cnv.io/network';
 export const ANNOTATION_FIRST_BOOT = 'cnv.ui.firstBoot';
 export const ANNOTATION_PXE_INTERFACE = 'cnv.ui.pxeInterface';
-export const ANNOTATION_USED_TEMPLATE = 'template.cnv.ui';
 
 export const ANNOTATION_CLONE_REQUEST = 'k8s.io/CloneRequest';
 export const LABEL_CLONE_APP = 'Host-Assisted-Cloning';
+
+export const LABEL_USED_TEMPLATE_NAME = 'vm.cnv.io/template';
+export const LABEL_USED_TEMPLATE_NAMESPACE = 'vm.cnv.io/template-namespace';
 
 export const CLOUDINIT_DISK = 'cloudinitdisk';
 export const CLOUDINIT_NOCLOUD = 'cloudInitNoCloud';

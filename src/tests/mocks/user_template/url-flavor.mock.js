@@ -1,3 +1,5 @@
+import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../constants';
+
 export const urlCustomFlavorTemplate = {
   apiVersion: 'template.openshift.io/v1',
   kind: 'Template',
@@ -6,7 +8,8 @@ export const urlCustomFlavorTemplate = {
       'flavor.template.cnv.io/Custom': 'true',
       'os.template.cnv.io/fedora29': 'true',
       'template.cnv.io/type': 'vm',
-      'template.cnv.ui': 'default_fedora-generic',
+      [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
+      [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
       'workload.template.cnv.io/generic': 'true',
     },
     annotations: {

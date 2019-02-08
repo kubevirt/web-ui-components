@@ -1,7 +1,8 @@
 import { get } from 'lodash';
 
 import {
-  ANNOTATION_USED_TEMPLATE,
+  LABEL_USED_TEMPLATE_NAME,
+  LABEL_USED_TEMPLATE_NAMESPACE,
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
@@ -36,18 +37,18 @@ export const getVolumes = vm => get(vm, 'spec.template.spec.volumes', []);
 export const getDataVolumes = vm => get(vm, 'spec.dataVolumeTemplates', []);
 export const getMemory = vm => get(vm, 'spec.template.spec.domain.resources.requests.memory');
 export const getCpu = vm => get(vm, 'spec.template.spec.domain.cpu.cores');
-export const getOperatingSystem = vm => getLabelValue(vm, TEMPLATE_OS_LABEL);
+export const getOperatingSystem = vm => getLabelKeyValue(vm, TEMPLATE_OS_LABEL);
 export const getOperatingSystemName = vm =>
   getAnnotationValue(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${getOperatingSystem(vm)}`);
-export const getWorkloadProfile = vm => getLabelValue(vm, TEMPLATE_WORKLOAD_LABEL);
-export const getFlavor = vm => getLabelValue(vm, TEMPLATE_FLAVOR_LABEL);
+export const getWorkloadProfile = vm => getLabelKeyValue(vm, TEMPLATE_WORKLOAD_LABEL);
+export const getFlavor = vm => getLabelKeyValue(vm, TEMPLATE_FLAVOR_LABEL);
 export const getVmTemplate = vm => {
-  const vmTemplate = getLabelValue(vm, ANNOTATION_USED_TEMPLATE);
-  if (vmTemplate) {
-    const templateParts = vmTemplate.split('_');
+  const vmTemplateName = getLabelValue(vm, LABEL_USED_TEMPLATE_NAME);
+  const vmTemplateNamespace = getLabelValue(vm, LABEL_USED_TEMPLATE_NAMESPACE);
+  if (vmTemplateName && vmTemplateNamespace) {
     return {
-      name: templateParts[1],
-      namespace: templateParts[0],
+      name: vmTemplateName,
+      namespace: vmTemplateNamespace,
     };
   }
   return null;
@@ -72,10 +73,12 @@ export const getCloudInitUserData = vm => {
   return volume && volume.cloudInitNoCloud.userData;
 };
 
-export const getLabelValue = (vm, label) => {
+export const getLabelKeyValue = (vm, label) => {
   const labels = get(vm, 'metadata.labels', {});
   return readValueFromObject(labels, label, true);
 };
+
+export const getLabelValue = (vm, label) => get(vm, ['metadata', 'labels', label]);
 
 export const getAnnotationValue = (vm, annotation) => {
   const annotations = get(vm, 'metadata.annotations', {});
