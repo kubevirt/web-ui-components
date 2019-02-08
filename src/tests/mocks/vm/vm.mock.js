@@ -31,7 +31,7 @@ export const fullVm = {
     dataVolumeTemplates: [
       {
         metadata: {
-          name: 'dv-template',
+          name: 'dv-clone-template',
         },
         spec: {
           source: {
@@ -39,6 +39,24 @@ export const fullVm = {
               name: 'fooname',
               namespace: 'foonamespace',
             },
+          },
+          pvc: {
+            accessModes: ['ReadWriteOnce'],
+            resources: {
+              requests: {
+                storage: '1G',
+              },
+            },
+          },
+        },
+      },
+      {
+        metadata: {
+          name: 'dv-upload-template',
+        },
+        spec: {
+          source: {
+            upload: {},
           },
           pvc: {
             accessModes: ['ReadWriteOnce'],
@@ -74,13 +92,19 @@ export const fullVm = {
                 disk: {
                   bus: 'virtio',
                 },
-                name: 'datavolumedisk',
+                name: 'datavolumeimportdisk',
               },
               {
                 disk: {
                   bus: 'virtio',
                 },
-                name: 'datavolumetemplatedisk',
+                name: 'datavolumeclonetemplatedisk',
+              },
+              {
+                disk: {
+                  bus: 'virtio',
+                },
+                name: 'datavolumeuploadtemplatedisk',
               },
               {
                 disk: {
@@ -114,12 +138,16 @@ export const fullVm = {
             containerDisk: { image: 'kubevirt/cirros-registry-disk-demo' },
           },
           {
-            name: 'datavolumedisk',
+            name: 'datavolumeimportdisk',
             dataVolume: { name: getName(dataVolumes.url) },
           },
           {
-            name: 'datavolumetemplatedisk',
-            dataVolume: { name: 'dv-template' },
+            name: 'datavolumeclonetemplatedisk',
+            dataVolume: { name: 'dv-clone-template' },
+          },
+          {
+            name: 'datavolumeuploadtemplatedisk',
+            dataVolume: { name: 'dv-upload-template' },
           },
           {
             name: 'pvcdisk',

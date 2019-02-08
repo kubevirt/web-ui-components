@@ -1,241 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<VmStatus vm /> renders correctly 1`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-off"
-  />,
-  "Off",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 1`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-off"
-  />,
-  "Off",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 2`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-on-running"
-  />,
-  "Running",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 3`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="fail description for Ready"
-  >
-    Starting
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 4`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />,
-  "Starting",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 5`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-  >
-    Starting
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 6`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Pod scheduling failed."
-  >
-    Pod Error
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 7`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  >
-    Pending
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 8`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  >
-    Pending
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 9`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
-  >
-    VM Error
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 10`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
-  >
-    VM Error
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 11`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
-  >
-    Importer Error
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 12`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Back-off pulling image message"
-  >
-    Pod Error
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 13`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-migration"
-  />,
-  "Migrating",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 14`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-on-running"
-  />,
-  "Running",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 15`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-import"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
-  >
-    Importing
-  </a>,
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 16`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />,
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="importer-datavolume-my-vm-x9c99: undefined
-
-virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
-  >
-    Importer Error
-  </a>,
-]
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 1`] = `
-<div>
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
   <span
     aria-hidden="true"
     class="kubevirt-vm-status__icon pficon pficon-off"
@@ -244,8 +12,207 @@ exports[`<VmStatuses vm pod /> renders correctly 1`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 2`] = `
-<div>
+exports[`<VmStatus vm pod /> renders correctly: vmDisksCloning 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksImportFailed 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+    title="datavolumeimportdisk import failed"
+  >
+    Disk Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksImportPodFailed 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksImportPreparing 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksImportPreparing1 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksImporting 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksImporting1 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmDisksUploading 1`] = `
+<div
+  id="kubevirt-vm-status-default/cloudinit-test-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/default/virtualmachines/cloudinit-test-vm/events"
+  >
+    Preparing Disks
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmFailure 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmFailure1 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmMigrating 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-migration"
+  />
+  Migrating
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmOff 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-off"
+  />
+  Off
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmPhaseFailed 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
   <span
     aria-hidden="true"
     class="kubevirt-vm-status__icon pficon pficon-on-running"
@@ -254,143 +221,10 @@ exports[`<VmStatuses vm pod /> renders correctly 2`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 3`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="fail description for Ready"
-  >
-    Starting
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 4`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />
-  Starting
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 5`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-  >
-    Starting
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 6`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Pod scheduling failed."
-  >
-    Pod Error
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 7`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  >
-    Pending
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 8`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-  >
-    Pending
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 9`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
-  >
-    VM Error
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 10`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
-  >
-    VM Error
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 11`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
-  />
-  <a
-    class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
-  >
-    Importer Error
-  </a>
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 12`] = `
-<div>
+exports[`<VmStatus vm pod /> renders correctly: vmPodError 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
   <span
     aria-hidden="true"
     class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
@@ -405,18 +239,10 @@ exports[`<VmStatuses vm pod /> renders correctly 12`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 13`] = `
-<div>
-  <span
-    aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-migration"
-  />
-  Migrating
-</div>
-`;
-
-exports[`<VmStatuses vm pod /> renders correctly 14`] = `
-<div>
+exports[`<VmStatus vm pod /> renders correctly: vmRunning 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
   <span
     aria-hidden="true"
     class="kubevirt-vm-status__icon pficon pficon-on-running"
@@ -425,23 +251,109 @@ exports[`<VmStatuses vm pod /> renders correctly 14`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 15`] = `
-<div>
+exports[`<VmStatus vm pod /> renders correctly: vmStarting 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-import"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
   />
   <a
     class="kubevirt-vm-status__link"
-    href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="fail description for Ready"
   >
-    Importing
+    Starting
   </a>
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 16`] = `
-Array [
+exports[`<VmStatus vm pod /> renders correctly: vmStartingNoPod 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  Starting
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmStartingPodError 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Pod scheduling failed."
+  >
+    Pod Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmStartingPodHasNoConditions 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  >
+    Starting
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmWaiting 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>
+</div>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly: vmWaitingNoStatus 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksCloning 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
   <div>
     <span
       aria-hidden="true"
@@ -449,11 +361,18 @@ Array [
     />
     <a
       class="kubevirt-vm-status__link"
-      href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+      href="/k8s/ns/default/pods/clone-target-pod-x9c99/events"
     >
-      Importing (testdisk)
+      Cloning disk datavolumeclonetemplatedisk
     </a>
-  </div>,
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksImportFailed 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
   <div>
     <span
       aria-hidden="true"
@@ -461,11 +380,327 @@ Array [
     />
     <a
       class="kubevirt-vm-status__link"
-      href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-      title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
+      href="/k8s/ns/default/pods/importer-datavolume-url-x9c99/events"
+      title="Failed preparing datavolumeimportdisk disk"
     >
-      Importer Error (testdisk)
+      datavolumeimportdisk import failed
     </a>
-  </div>,
-]
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksImportPodFailed 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    />
+    <a
+      class="kubevirt-vm-status__link"
+      href="/k8s/ns/default/pods/importer-datavolume-url-x9c99/events"
+      title="Pod scheduling failed."
+    >
+      datavolumeimportdisk import failed
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksImportPreparing 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-import"
+    />
+    <a
+      class="kubevirt-vm-status__link"
+      href="/k8s/ns/default/pods/importer-datavolume-url-x9c99/events"
+    >
+      Preparing disk datavolumeimportdisk
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksImportPreparing1 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-import"
+    />
+    <a
+      class="kubevirt-vm-status__link"
+      href="/k8s/ns/default/pods/importer-datavolume-url-x9c99/events"
+    >
+      Preparing disk datavolumeimportdisk
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksImporting 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-import"
+    />
+    <a
+      class="kubevirt-vm-status__link"
+      href="/k8s/ns/default/pods/importer-datavolume-url-x9c99/events"
+    >
+      Importing disk datavolumeimportdisk
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksImporting1 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-import"
+    />
+    <a
+      class="kubevirt-vm-status__link"
+      href="/k8s/ns/default/pods/importer-datavolume-url-x9c99/events"
+    >
+      Importing disk datavolumeimportdisk
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmDisksUploading 1`] = `
+<div
+  id="kubevirt-vm-statuses-default/cloudinit-test-vm"
+>
+  <div>
+    <span
+      aria-hidden="true"
+      class="kubevirt-vm-status__icon pficon pficon-import"
+    />
+    <a
+      class="kubevirt-vm-status__link"
+      href="/k8s/ns/default/pods/cdi-upload-dv-upload-template/events"
+    >
+      Uploading disk datavolumeuploadtemplatedisk
+    </a>
+  </div>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmFailure 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmFailure1 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    title="Failure backend description"
+  >
+    VM Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmMigrating 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-migration"
+  />
+  Migrating
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmOff 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-off"
+  />
+  Off
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmPhaseFailed 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-on-running"
+  />
+  Running
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmPodError 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Back-off pulling image message"
+  >
+    Pod Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmRunning 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-on-running"
+  />
+  Running
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmStarting 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="fail description for Ready"
+  >
+    Starting
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmStartingNoPod 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  Starting
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmStartingPodError 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    title="Pod scheduling failed."
+  >
+    Pod Error
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmStartingPodHasNoConditions 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  >
+    Starting
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmWaiting 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly: vmWaitingNoStatus 1`] = `
+<div
+  id="kubevirt-vm-status-my-namespace/my-vm"
+>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-pending"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  >
+    Pending
+  </a>
+</div>
 `;

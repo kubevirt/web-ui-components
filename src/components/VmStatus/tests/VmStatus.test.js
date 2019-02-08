@@ -22,59 +22,70 @@ const createContext = () => ({
 
 describe('<VmStatus vm />', () => {
   it('renders correctly', () => {
-    const component = render(<VmStatus vm={vmFixtures[0]} />);
+    const component = render(<VmStatus vm={vmFixtures.vmOff} />);
     expect(component).toMatchSnapshot();
   });
 });
 
 describe('getVmStatusDetail()', () => {
   it('macthes API objects correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
-      expect(
-        getVmStatusDetail(fixture, fixture.podFixture, fixture.importerPodsFixture, fixture.migration).status
-      ).toBe(fixture.expectedDetail || fixture.expected);
-    }
+    Object.keys(vmFixtures).forEach(key => {
+      const fixture = vmFixtures[key];
+      const status = getVmStatusDetail(
+        fixture,
+        fixture.podFixture,
+        fixture.cdiPods,
+        fixture.migration,
+        fixture.dataVolumes
+      );
+      expect(status.status).toBe(fixture.expectedDetail || fixture.expected);
+      expect(status.diskStatus).toBe(fixture.expectedDisksStatus);
+      if (fixture.expectedPod) {
+        expect(status.pod).toBe(fixture.expectedPod);
+      }
+    });
   });
 });
 
 describe('<VmStatus vm pod />', () => {
   it('renders correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
+    Object.keys(vmFixtures).forEach(key => {
+      const fixture = vmFixtures[key];
       expect(
         render(
           <VmStatus
             vm={fixture}
             launcherPod={fixture.podFixture}
-            importerPods={fixture.importerPodsFixture}
+            importerPods={fixture.cdiPods}
             migration={fixture.migration}
+            dataVolumes={fixture.dataVolumes}
           />,
           createContext()
         )
-      ).toMatchSnapshot();
-      expect(getVmStatus(fixture, fixture.podFixture, fixture.importerPodsFixture, fixture.migration)).toBe(
+      ).toMatchSnapshot(key);
+      expect(getVmStatus(fixture, fixture.podFixture, fixture.cdiPods, fixture.migration, fixture.dataVolumes)).toBe(
         fixture.expected
       );
-    }
+    });
   });
 });
 
 describe('<VmStatuses vm pod />', () => {
   it('renders correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
+    Object.keys(vmFixtures).forEach(key => {
+      const fixture = vmFixtures[key];
       expect(
         render(
           <VmStatuses
             vm={fixture}
             launcherPod={fixture.podFixture}
-            importerPods={fixture.importerPodsFixture}
+            cdiPods={fixture.cdiPods}
             migration={fixture.migration}
+            dataVolumes={fixture.dataVolumes}
           />,
           createContext()
         )
-      ).toMatchSnapshot();
-    }
+      ).toMatchSnapshot(key);
+    });
   });
 });

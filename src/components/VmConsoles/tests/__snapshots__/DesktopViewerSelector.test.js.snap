@@ -67,7 +67,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
           "dataVolumeTemplates": Array [
             Object {
               "metadata": Object {
-                "name": "dv-template",
+                "name": "dv-clone-template",
               },
               "spec": Object {
                 "pvc": Object {
@@ -85,6 +85,26 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
                     "name": "fooname",
                     "namespace": "foonamespace",
                   },
+                },
+              },
+            },
+            Object {
+              "metadata": Object {
+                "name": "dv-upload-template",
+              },
+              "spec": Object {
+                "pvc": Object {
+                  "accessModes": Array [
+                    "ReadWriteOnce",
+                  ],
+                  "resources": Object {
+                    "requests": Object {
+                      "storage": "1G",
+                    },
+                  },
+                },
+                "source": Object {
+                  "upload": Object {},
                 },
               },
             },
@@ -114,13 +134,19 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
                       "disk": Object {
                         "bus": "virtio",
                       },
-                      "name": "datavolumedisk",
+                      "name": "datavolumeimportdisk",
                     },
                     Object {
                       "disk": Object {
                         "bus": "virtio",
                       },
-                      "name": "datavolumetemplatedisk",
+                      "name": "datavolumeclonetemplatedisk",
+                    },
+                    Object {
+                      "disk": Object {
+                        "bus": "virtio",
+                      },
+                      "name": "datavolumeuploadtemplatedisk",
                     },
                     Object {
                       "disk": Object {
@@ -161,13 +187,19 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
                   "dataVolume": Object {
                     "name": "datavolume-url",
                   },
-                  "name": "datavolumedisk",
+                  "name": "datavolumeimportdisk",
                 },
                 Object {
                   "dataVolume": Object {
-                    "name": "dv-template",
+                    "name": "dv-clone-template",
                   },
-                  "name": "datavolumetemplatedisk",
+                  "name": "datavolumeclonetemplatedisk",
+                },
+                Object {
+                  "dataVolume": Object {
+                    "name": "dv-upload-template",
+                  },
+                  "name": "datavolumeuploadtemplatedisk",
                 },
                 Object {
                   "name": "pvcdisk",

@@ -97,14 +97,19 @@ exports[`<ConfigurationSummary /> renders correctly with disks 1`] = `
       cloudinitdisk - cloud-init disk
     </div>
     <div
-      key="datavolumedisk"
+      key="datavolumeimportdisk"
     >
-      datavolumedisk
+      datavolumeimportdisk
     </div>
     <div
-      key="datavolumetemplatedisk"
+      key="datavolumeclonetemplatedisk"
     >
-      datavolumetemplatedisk - 1G
+      datavolumeclonetemplatedisk - 1G
+    </div>
+    <div
+      key="datavolumeuploadtemplatedisk"
+    >
+      datavolumeuploadtemplatedisk - 1G
     </div>
     <div
       key="pvcdisk"

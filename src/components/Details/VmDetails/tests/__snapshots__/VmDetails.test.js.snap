@@ -65,7 +65,9 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-off"
@@ -248,7 +250,9 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-off"
@@ -447,7 +451,9 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-on-running"
@@ -648,7 +654,9 @@ exports[`<VmDetails /> renders correctly 1`] = `
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-off"
@@ -831,7 +839,9 @@ exports[`<VmDetails /> renders description correctly 1`] = `
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-off"
@@ -1014,7 +1024,9 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-off"
@@ -1211,7 +1223,9 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-on-running"
@@ -1412,7 +1426,9 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
               Status
             </dt>
             <dd>
-              <div>
+              <div
+                id="kubevirt-vm-status-my-namespace/my-vm"
+              >
                 <span
                   aria-hidden="true"
                   class="kubevirt-vm-status__icon pficon pficon-off"

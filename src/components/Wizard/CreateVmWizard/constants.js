@@ -37,6 +37,7 @@ export const STORAGE_TYPE_CONTAINER = 'container';
 export const DATA_VOLUME_SOURCE_BLANK = 'datavolume-blank';
 export const DATA_VOLUME_SOURCE_URL = 'datavolume-url';
 export const DATA_VOLUME_SOURCE_PVC = 'datavolume-pvc';
+export const DATA_VOLUME_SOURCE_UPLOAD = 'datavolume-upload';
 
 // Providers
 export const PROVIDER_VMWARE = 'VMWare';

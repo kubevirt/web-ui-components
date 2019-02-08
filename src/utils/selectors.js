@@ -13,11 +13,13 @@ import {
   DATA_VOLUME_SOURCE_URL,
   DATA_VOLUME_SOURCE_PVC,
   DATA_VOLUME_SOURCE_BLANK,
+  DATA_VOLUME_SOURCE_UPLOAD,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 export const getId = value => `${getNamespace(value)}-${getName(value)}`;
 export const getName = value => get(value, 'metadata.name');
 export const getNamespace = value => get(value, 'metadata.namespace');
+export const getLabels = value => get(value, 'metadata.labels');
 
 export const getGibStorageSize = (units, resources) => {
   const size = get(resources, 'requests.storage');
@@ -56,6 +58,11 @@ export const getDataVolumeSourceType = dataVolume => {
   if (source.blank) {
     return {
       type: DATA_VOLUME_SOURCE_BLANK,
+    };
+  }
+  if (source.upload) {
+    return {
+      type: DATA_VOLUME_SOURCE_UPLOAD,
     };
   }
   return null;
@@ -156,3 +163,25 @@ export const isGuestAgentConnected = vmi =>
   get(vmi, 'status.conditions', []).some(
     condition => condition.type === 'AgentConnected' && condition.status === 'True'
   );
+
+export const findCdiPod = (dataVolume, cdiPods = []) =>
+  cdiPods.find(pod => {
+    const podName = getName(pod);
+    const dataVolumeName = dataVolume.dataVolume.name;
+    // upload dataVolume pod
+    if (podName === `cdi-upload-${dataVolumeName}`) {
+      return true;
+    }
+    // import dataVolume pod
+    const importerPodName = `importer-${dataVolumeName}-`;
+    if (podName.startsWith(importerPodName)) {
+      if (getLabels(pod)['cdi.kubevirt.io/storage.import.importPvcName'] === dataVolumeName) {
+        return true;
+      }
+    }
+    // clone dataVolume pod
+    if (getLabels(pod)['cdi.kubevirt.io/storage.clone.cloneUniqeId'] === `${dataVolumeName}-target-pod`) {
+      return true;
+    }
+    return false;
+  });

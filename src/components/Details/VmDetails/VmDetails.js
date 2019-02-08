@@ -118,21 +118,21 @@ export class VmDetails extends React.Component {
   isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
   componentDidUpdate() {
-    const { launcherPod, importerPods, migration, vm } = this.props;
-    if (this.state.editing && !this.isVmOff(vm, launcherPod, importerPods, migration)) {
+    const { launcherPod, cdiPods, migration, vm } = this.props;
+    if (this.state.editing && !this.isVmOff(vm, launcherPod, cdiPods, migration)) {
       this.setEditing(false);
     }
   }
 
-  isVmOff = (vm, launcherPod, importerPods, migration) => {
-    const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
+  isVmOff = (vm, launcherPod, cdiPods, migration) => {
+    const statusDetail = getVmStatusDetail(vm, launcherPod, cdiPods, migration);
     return statusDetail.status === VM_STATUS_OFF;
   };
 
   render() {
     const {
       launcherPod,
-      importerPods,
+      cdiPods,
       migration,
       NodeLink,
       vm,
@@ -141,8 +141,9 @@ export class VmDetails extends React.Component {
       NamespaceResourceLink,
       LoadingComponent,
       k8sGet,
+      dataVolumes,
     } = this.props;
-    const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
+    const vmIsOff = this.isVmOff(vm, launcherPod, cdiPods, migration);
     const nodeName = getNodeName(launcherPod);
     const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
     const hostName = getHostName(launcherPod);
@@ -209,8 +210,9 @@ export class VmDetails extends React.Component {
                     <VmStatuses
                       vm={this.props.vm}
                       launcherPod={launcherPod}
-                      importerPods={importerPods}
+                      cdiPods={cdiPods}
                       migration={migration}
+                      dataVolumes={dataVolumes}
                     />
                   </dd>
 
@@ -285,7 +287,7 @@ VmDetails.propTypes = {
   vm: PropTypes.object.isRequired,
   vmi: PropTypes.object,
   launcherPod: PropTypes.object,
-  importerPods: PropTypes.array,
+  cdiPods: PropTypes.array,
   migration: PropTypes.object,
   NodeLink: PropTypes.func,
   NamespaceResourceLink: PropTypes.func,
@@ -293,15 +295,17 @@ VmDetails.propTypes = {
   k8sPatch: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
+  dataVolumes: PropTypes.array,
 };
 
 VmDetails.defaultProps = {
   vmi: undefined,
   launcherPod: undefined,
-  importerPods: undefined,
+  cdiPods: undefined,
   migration: undefined,
   NamespaceResourceLink: undefined,
   PodResourceLink: undefined,
   LoadingComponent: Loading,
   NodeLink: undefined,
+  dataVolumes: undefined,
 };
