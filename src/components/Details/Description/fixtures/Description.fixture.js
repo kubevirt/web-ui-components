@@ -1,6 +1,6 @@
 import { Description } from '..';
 
-import { cloudInitTestVm } from '../../../../k8s/mock_vm/cloudInitTestVm.mock';
+import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
 
 export default [
   {

@@ -5,8 +5,8 @@ import { cloneDeep } from 'lodash';
 import { ConfigurationSummary } from '..';
 
 import { default as ConfigurationSummaryFixture } from '../fixtures/ConfigurationSummary.fixture';
-import { cloudInitTestVm } from '../../../k8s/mock_vm/cloudInitTestVm.mock';
-import { fullVm } from '../../../k8s/mock_vm/vm.mock';
+import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
+import { fullVm } from '../../../tests/mocks/vm/vm.mock';
 
 const testConfigurationSummary = (vm = cloudInitTestVm) => (
   <ConfigurationSummary {...ConfigurationSummaryFixture.props} vm={vm} />

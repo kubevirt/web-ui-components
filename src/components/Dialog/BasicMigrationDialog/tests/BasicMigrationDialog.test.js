@@ -4,12 +4,13 @@ import { shallow, mount } from 'enzyme';
 import { BasicMigrationDialog } from '..';
 
 import { k8sCreate } from '../../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
-import { blueVmi } from '../../../../k8s/mock_vmi/blue.mock';
+import { blueVmi } from '../../../../tests/mocks/vmi/blue.mock';
 import { migrate } from '../../../../k8s/migrate';
+import { getButton } from '../../../../tests/enzyme';
 
 jest.mock('../../../../k8s/migrate');
 
-const getMigrateButton = component => component.find('.btn').findWhere(btn => btn.text() === 'Migrate');
+const getMigrateButton = component => getButton(component, 'Migrate');
 
 const testMigrateDialog = (onClose, onMigrationError) => (
   <BasicMigrationDialog

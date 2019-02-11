@@ -1,6 +1,6 @@
 import { BasicMigrationDialog } from '../BasicMigrationDialog';
 import { k8sCreate } from '../../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
-import { blueVmi } from '../../../../k8s/mock_vmi/blue.mock';
+import { blueVmi } from '../../../../tests/mocks/vmi/blue.mock';
 
 export default [
   {

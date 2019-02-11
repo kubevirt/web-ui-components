@@ -1,7 +1,7 @@
 import { ConfigurationSummary } from '..';
 
 import { units } from '../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
-import { cloudInitTestVm } from '../../../k8s/mock_vm/cloudInitTestVm.mock';
+import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
 
 export default {
   component: ConfigurationSummary,

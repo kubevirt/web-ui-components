@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, mount } from 'enzyme';
-import { Button, MenuItem } from 'patternfly-react';
+import { Button } from 'patternfly-react';
 
-import { cloudInitTestVmi } from '../../../../k8s/mock_vmi/cloudInitTestVmi.mock';
+import { cloudInitTestVmi } from '../../../../tests/mocks/vmi/cloudInitTestVmi.mock';
 import { VmDetails } from '../index';
 import { vmFixtures, default as VmDetailsFixture } from '../fixtures/VmDetails.fixture';
 import { InlineFormFactory } from '../../../Form/FormFactory';
@@ -10,14 +10,13 @@ import { Description } from '../../Description';
 import { TextArea } from '../../../Form';
 import { InlineEdit } from '../../../InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../../constants';
+import { flushPromises, clickButton, getButton, setInput, selectDropdownItem } from '../../../../tests/enzyme';
 
 const testVmDetails = (vm, otherProps) => <VmDetails {...VmDetailsFixture[0].props} vm={vm} {...otherProps} />;
 
 const expectMockWasCalledWith = (fn, jsonPatch, call = 0) => {
   expect(fn.mock.calls[call][2]).toEqual(jsonPatch);
 };
-
-const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
 const awaitVmDetails = testFunc =>
   flushPromises().then(() => {
@@ -39,22 +38,8 @@ const getMemoryInput = component =>
 
 const selectFlavor = (component, flavor) => {
   const flavorDropdown = component.find('#flavor-dropdown');
-  flavorDropdown
-    .find(MenuItem)
-    .findWhere(item => item.text() === flavor)
-    .find('a')
-    .simulate('click');
+  selectDropdownItem(flavorDropdown, flavor);
 };
-
-const clickButton = (component, buttonText) => getButton(component, buttonText).simulate('click');
-
-const getButton = (component, buttonText) =>
-  component
-    .find(Button)
-    .findWhere(button => button.text() === buttonText)
-    .find('.btn');
-
-const setInput = (input, value) => input.simulate('change', { target: { value } });
 
 describe('<VmDetails />', () => {
   it('renders correctly', () => {

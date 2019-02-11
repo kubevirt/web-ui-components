@@ -1,5 +1,5 @@
 import { TemplateSource } from '../TemplateSource';
-import { urlTemplate } from '../../../k8s/mock_user_templates';
+import { urlTemplate } from '../../../tests/mocks/user_template';
 
 export default [
   {

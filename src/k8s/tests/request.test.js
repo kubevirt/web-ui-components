@@ -2,26 +2,17 @@ import { get, cloneDeep } from 'lodash';
 import { safeDump } from 'js-yaml';
 
 import { createVm, createVmTemplate } from '../request';
-import { ProcessedTemplatesModel, TemplateModel, VirtualMachineModel, PersistentVolumeClaimModel } from '../../models';
-import { baseTemplates } from '../mock_templates';
-import { userTemplates, urlTemplate } from '../mock_user_templates';
-import { persistentVolumeClaims } from '../mock_pvc';
+import { TemplateModel, VirtualMachineModel, PersistentVolumeClaimModel } from '../../models';
+import { baseTemplates } from '../../tests/mocks/template';
+import { userTemplates, urlTemplate } from '../../tests/mocks/user_template';
+import { persistentVolumeClaims } from '../../tests/mocks/persistentVolumeClaim';
 import { rootContainerDisk, rootDataVolumeDisk } from '../../components/Wizard/CreateVmWizard/CreateVmWizard';
+import { k8sCreate } from '../../tests/k8sCreate';
+
+import { settingsValue } from '../selectors';
 
 import {
-  settingsValue,
-  getTemplateFlavors,
-  getTemplateWorkloadProfiles,
-  getTemplateOperatingSystems,
-} from '../selectors';
-
-import {
-  CUSTOM_FLAVOR,
-  PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_CONTAINER,
-  PROVISION_SOURCE_URL,
   TEMPLATE_PARAM_VM_NAME,
-  POD_NETWORK,
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
   TEMPLATE_OS_LABEL,
@@ -38,15 +29,10 @@ import {
 import {
   NAME_KEY,
   NAMESPACE_KEY,
-  PROVISION_SOURCE_TYPE_KEY,
   CONTAINER_IMAGE_KEY,
   IMAGE_URL_KEY,
-  USER_TEMPLATE_KEY,
   FLAVOR_KEY,
-  MEMORY_KEY,
-  CPU_KEY,
   START_VM_KEY,
-  CLOUD_INIT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
   OPERATING_SYSTEM_KEY,
@@ -54,167 +40,22 @@ import {
   STORAGE_TYPE_PVC,
   STORAGE_TYPE_DATAVOLUME,
   STORAGE_TYPE_CONTAINER,
-  NETWORK_TYPE_MULTUS,
-  NETWORK_TYPE_POD,
   DESCRIPTION_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
 
+import {
+  basicSettingsCloudInit,
+  basicSettingsContainer,
+  basicSettingsContainerWindows,
+  basicSettingsCustomFlavor,
+  basicSettingsPxe,
+  basicSettingsUrl,
+  basicSettingsUserTemplate,
+} from '../../tests/forms_mocks/basicSettings.mock';
+import { pvcDisk, templateDataVolumeDisk } from '../../tests/forms_mocks/disk.mock';
+import { multusNetwork, podNetwork } from '../../tests/forms_mocks/nic.mock';
+
 const templates = [...baseTemplates, ...userTemplates];
-
-const basicSettingsContainer = {
-  [NAME_KEY]: {
-    value: 'name',
-  },
-  [NAMESPACE_KEY]: {
-    value: 'default',
-  },
-  [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_CONTAINER,
-  },
-  [CONTAINER_IMAGE_KEY]: {
-    value: 'imageURL',
-  },
-  [FLAVOR_KEY]: {
-    value: 'small',
-  },
-  [OPERATING_SYSTEM_KEY]: {
-    value: {
-      id: 'rhel7.0',
-      name: 'Red Hat Enterprise Linux 7.0',
-    },
-  },
-  [WORKLOAD_PROFILE_KEY]: {
-    value: 'generic',
-  },
-};
-
-const basicSettingsUrl = {
-  ...basicSettingsContainer,
-  [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_URL,
-  },
-  [IMAGE_URL_KEY]: {
-    value: 'httpURL',
-  },
-};
-
-const basicSettingsPxe = {
-  ...basicSettingsContainer,
-  [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_PXE,
-  },
-};
-
-const basicSettingsCloudInit = {
-  ...basicSettingsContainer,
-  [CLOUD_INIT_KEY]: {
-    value: true,
-  },
-  [HOST_NAME_KEY]: {
-    value: 'hostname',
-  },
-  [AUTHKEYS_KEY]: {
-    value: 'keys',
-  },
-};
-
-const basicSettingsCustomFlavor = {
-  ...basicSettingsContainer,
-  [FLAVOR_KEY]: {
-    value: CUSTOM_FLAVOR,
-  },
-  [CPU_KEY]: {
-    value: '1',
-  },
-  [MEMORY_KEY]: {
-    value: '1',
-  },
-  [START_VM_KEY]: {
-    value: true,
-  },
-};
-
-const basicSettingsUserTemplate = {
-  [NAME_KEY]: {
-    value: 'name',
-  },
-  [NAMESPACE_KEY]: {
-    value: 'default',
-  },
-  [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_URL,
-  },
-  [USER_TEMPLATE_KEY]: {
-    value: urlTemplate.metadata.name,
-  },
-  [FLAVOR_KEY]: {
-    value: getTemplateFlavors([urlTemplate])[0],
-  },
-  [WORKLOAD_PROFILE_KEY]: {
-    value: getTemplateWorkloadProfiles([urlTemplate])[0],
-  },
-  [OPERATING_SYSTEM_KEY]: {
-    value: getTemplateOperatingSystems([urlTemplate])[0],
-  },
-};
-
-const basicSettingsContainerWindows = {
-  ...basicSettingsContainer,
-  [FLAVOR_KEY]: {
-    value: 'medium',
-  },
-  [OPERATING_SYSTEM_KEY]: {
-    value: {
-      id: 'win2k12r2',
-      name: 'Microsoft Windows Server 2012 R2',
-    },
-  },
-};
-
-const pvcDisk = {
-  id: 1,
-  name: persistentVolumeClaims[2].metadata.name,
-  storageType: STORAGE_TYPE_PVC,
-};
-
-const templateDataVolumeDisk = {
-  id: 2,
-  templateStorage: {
-    dataVolume: urlTemplate.objects[0].spec.dataVolumeTemplates[0],
-    disk: urlTemplate.objects[0].spec.template.spec.domain.devices.disks[0],
-    volume: urlTemplate.objects[0].spec.template.spec.volumes[0],
-  },
-  name: urlTemplate.objects[0].spec.template.spec.domain.devices.disks[0].name,
-  storageType: STORAGE_TYPE_DATAVOLUME,
-  isBootable: true,
-};
-
-const podNetwork = {
-  name: 'podNetworkName',
-  network: POD_NETWORK,
-  networkType: NETWORK_TYPE_POD,
-};
-
-const multusNetwork = {
-  name: 'pxeNetworkName',
-  network: 'networkConfig',
-  isBootable: true,
-  networkType: NETWORK_TYPE_MULTUS,
-};
-
-const processTemplate = template =>
-  new Promise((resolve, reject) => {
-    const nameParam = template.parameters.find(param => param.name === TEMPLATE_PARAM_VM_NAME);
-    template.objects[0].metadata.name = nameParam.value;
-    resolve(template);
-  });
-
-export const k8sCreate = (model, resource) => {
-  if (model === ProcessedTemplatesModel) {
-    return processTemplate(resource);
-  }
-  return new Promise(resolve => resolve(resource));
-};
 
 const testStorage = (results, storageIndex, bootOrder, expectedStorageName, expectedStorageType) => {
   const vm = results[results.length - 1];

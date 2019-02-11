@@ -1,4 +1,4 @@
-import { DataVolumeModel } from '../../models';
+import { DataVolumeModel } from '../../../models';
 
 export const dataVolumes = {
   url: {

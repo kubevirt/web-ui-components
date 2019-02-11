@@ -1,5 +1,5 @@
 import { VmDetails } from '../VmDetails';
-import { fedora28 } from '../../../../k8s/mock_templates/fedora28.mock';
+import { fedora28 } from '../../../../tests/mocks/template/fedora28.mock';
 
 const metadata = {
   name: 'my-vm',

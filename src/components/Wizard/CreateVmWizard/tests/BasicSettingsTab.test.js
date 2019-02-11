@@ -4,7 +4,7 @@ import { MenuItem } from 'patternfly-react';
 
 import { BasicSettingsTab, getFormFields } from '../BasicSettingsTab';
 import { namespaces } from '../fixtures/CreateVmWizard.fixture';
-import { baseTemplates } from '../../../../k8s/mock_templates';
+import { baseTemplates } from '../../../../tests/mocks/template';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
@@ -20,7 +20,7 @@ import {
   pxeTemplate,
   containerCloudTemplate,
   urlCustomFlavorTemplate,
-} from '../../../../k8s/mock_user_templates';
+} from '../../../../tests/mocks/user_template';
 
 import {
   NAME_KEY,

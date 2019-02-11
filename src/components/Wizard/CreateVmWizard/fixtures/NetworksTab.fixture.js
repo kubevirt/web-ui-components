@@ -1,6 +1,6 @@
 import { NetworksTab } from '../NetworksTab';
 import { PROVISION_SOURCE_PXE } from '../../../../constants';
-import { networkConfigs } from '../../../../k8s/mock_network';
+import { networkConfigs } from '../../../../tests/mocks/networkAttachmentDefinition';
 
 export default {
   component: NetworksTab,
