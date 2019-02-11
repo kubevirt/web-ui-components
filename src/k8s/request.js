@@ -101,7 +101,7 @@ import {
   getDataVolumeTemplateSpec,
 } from './vmBuilder';
 
-import { getImportProviderSecretObject } from './import';
+import { getImportProviderSecretObject } from '../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
 
 
 const FALLBACK_DISK = {

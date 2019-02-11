@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { SecretModel } from '../../../../models';
-import { getImportProviderSecretObject, getDefaultSecretName } from '../../../../k8s/import';
+import { getImportProviderSecretObject, getDefaultSecretName } from './vmwareProviderPod';
 
 import {
   NAMESPACE_KEY,

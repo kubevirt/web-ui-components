@@ -45,7 +45,9 @@ export const PROVIDER_VMWARE_USER_PWD_KEY = 'vmwareUserPwd';
 export const PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY = 'vmwareUserPwdCheck';
 export const PROVIDER_VMWARE_URL_KEY = 'vmwareURL';
 export const PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY = 'rememberVmwareCredentials';
-export const PROVIDER_VMWARE_CONNECTION = 'vmwareConnection';
+export const PROVIDER_VMWARE_PROVIDER_POD_NAME_KEY = 'vmwareProviderPodName'; // name of v2v Provider Pod created by the UI
+export const PROVIDER_VMWARE_CONNECTION = 'vmwareConnection'; // name of Secret
 export const PROVIDER_STATUS_CONNECTING = 'connecting';
 export const PROVIDER_STATUS_SUCCESS = 'success';
 export const PROVIDER_STATUS_CONNECTION_FAILED = 'connectionFailed';
+
