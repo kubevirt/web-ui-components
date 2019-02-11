@@ -1,0 +1,1 @@
+export { VmTemplateDetails } from './VmTemplateDetails';

@@ -1,0 +1,391 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VmTemplateDetails /> renders container correctly 1`] = `
+<div
+  class="co-m-pane__body"
+>
+  <h1
+    class="co-m-pane__heading"
+  >
+    Virtual Machine Template Overview
+    <div>
+      <button
+        class="btn btn-default"
+        type="button"
+      >
+        Edit
+      </button>
+    </div>
+  </h1>
+  <div
+    class="row"
+  >
+    <div
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          container-template-cloud-init
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-template-details__description"
+          >
+            <div>
+              ---
+            </div>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
+        >
+          <dl>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              Fedora 29
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              generic
+            </dd>
+            <dt>
+              Base Template
+            </dt>
+            <dd>
+              default/fedora-generic
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
+            <dt>
+              Source
+            </dt>
+            <dd>
+              <div
+                id="myproject-container-template-cloud-init-type"
+              >
+                Container
+              </div>
+              <div
+                class="kubevirt-template-source__source"
+                id="myproject-container-template-cloud-init-source"
+              >
+                fooContainer
+              </div>
+            </dd>
+            <dt>
+              Namespace
+            </dt>
+            <dd>
+              myproject
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
+            <dt>
+              Flavor
+            </dt>
+            <dd>
+              <div>
+                <div>
+                  small
+                </div>
+                <div>
+                  2 CPU, 2G Memory
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
+<div
+  class="co-m-pane__body"
+>
+  <h1
+    class="co-m-pane__heading"
+  >
+    Virtual Machine Template Overview
+    <div>
+      <button
+        class="btn btn-default"
+        type="button"
+      >
+        Edit
+      </button>
+    </div>
+  </h1>
+  <div
+    class="row"
+  >
+    <div
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          pxe-template-dv
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-template-details__description"
+          >
+            <div>
+              ---
+            </div>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
+        >
+          <dl>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              Fedora 29
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              generic
+            </dd>
+            <dt>
+              Base Template
+            </dt>
+            <dd>
+              default/fedora-generic
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
+            <dt>
+              Source
+            </dt>
+            <dd>
+              <div
+                id="myproject-pxe-template-dv-type"
+              >
+                PXE
+              </div>
+            </dd>
+            <dt>
+              Namespace
+            </dt>
+            <dd>
+              myproject
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
+            <dt>
+              Flavor
+            </dt>
+            <dd>
+              <div>
+                <div>
+                  small
+                </div>
+                <div>
+                  2 CPU, 2G Memory
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VmTemplateDetails /> renders url correctly 1`] = `
+<div
+  class="co-m-pane__body"
+>
+  <h1
+    class="co-m-pane__heading"
+  >
+    Virtual Machine Template Overview
+    <div>
+      <button
+        class="btn btn-default"
+        type="button"
+      >
+        Edit
+      </button>
+    </div>
+  </h1>
+  <div
+    class="row"
+  >
+    <div
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+      id="name-description-column"
+    >
+      <dl>
+        <dt>
+          Name
+        </dt>
+        <dd>
+          url-template
+        </dd>
+        <dt>
+          Description
+        </dt>
+        <dd>
+          <div
+            class="kubevirt-vm-template-details__description"
+          >
+            <div>
+              foo description
+            </div>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+      id="details-column"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-1"
+        >
+          <dl>
+            <dt>
+              Operating System
+            </dt>
+            <dd>
+              Fedora 29
+            </dd>
+            <dt>
+              Workload Profile
+            </dt>
+            <dd>
+              generic
+            </dd>
+            <dt>
+              Base Template
+            </dt>
+            <dd>
+              default/fedora-generic
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-2"
+        >
+          <dl>
+            <dt>
+              Source
+            </dt>
+            <dd>
+              <div
+                id="myproject-url-template-type"
+              >
+                URL
+              </div>
+              <div
+                class="kubevirt-template-source__source"
+                id="myproject-url-template-source"
+              >
+                fooUrl
+              </div>
+            </dd>
+            <dt>
+              Namespace
+            </dt>
+            <dd>
+              myproject
+            </dd>
+          </dl>
+        </div>
+        <div
+          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+          id="details-column-3"
+        >
+          <dl>
+            <dt>
+              Flavor
+            </dt>
+            <dd>
+              <div>
+                <div>
+                  small
+                </div>
+                <div>
+                  2 CPU, 2G Memory
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

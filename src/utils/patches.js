@@ -256,7 +256,7 @@ const getMemoryPatch = (vm, memory) => {
   };
 };
 
-export const getUpdateFlavorPatch = (vm, flavor, cpu, memory) => {
+export const getUpdateFlavorPatch = (vm, flavor) => {
   const patch = [];
   if (flavor !== getFlavor(vm)) {
     const labelKey = `${TEMPLATE_FLAVOR_LABEL}/${flavor}`.replace('~', '~0').replace('/', '~1');
@@ -281,7 +281,11 @@ export const getUpdateFlavorPatch = (vm, flavor, cpu, memory) => {
       value: 'true',
     });
   }
+  return patch;
+};
 
+export const getUpdateCpuMemoryPatch = (vm, cpu, memory) => {
+  const patch = [];
   const vmCpu = getCpu(vm);
   const vmMemory = getMemory(vm);
 

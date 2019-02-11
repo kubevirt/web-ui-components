@@ -1,34 +1,35 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Row, Col, Button, Alert, FieldLevelHelp } from 'patternfly-react';
+import { Row, Col, Button, Alert } from 'patternfly-react';
 
-import { VmStatuses, getVmStatusDetail } from '../../VmStatus';
 import {
   getCpu,
   getMemory,
-  getNodeName,
   getOperatingSystem,
-  getVmTemplate,
   getWorkloadProfile,
-  getVmiIpAddresses,
   getUpdateDescriptionPatch,
   getUpdateFlavorPatch,
+  getUpdateCpuMemoryPatch,
   getOperatingSystemName,
-  getHostName,
   retrieveVmTemplate,
   getFlavor,
-  getUpdateCpuMemoryPatch,
+  getVmTemplate,
 } from '../../../utils';
-import { VirtualMachineModel } from '../../../models';
-import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';
+import { TemplateModel } from '../../../models';
+import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
 import { settingsValue, selectVm } from '../../../k8s/selectors';
 import { Flavor } from '../Flavor';
 import { Description } from '../Description';
 import { Loading } from '../../Loading';
+import { TemplateSource } from '../../TemplateSource';
 import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
 
-export class VmDetails extends React.Component {
+const addPrefixToPatch = (patch, prefix) => {
+  patch.path = `${prefix}${patch.path}`;
+};
+
+export class VmTemplateDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,14 +65,18 @@ export class VmDetails extends React.Component {
     });
 
   updateVmDetails = () => {
+    const { vmTemplate } = this.props;
+    const vm = selectVm(vmTemplate.objects);
+    const vmIndex = vmTemplate.objects.indexOf(vm);
+
     this.setEditing(false);
-    const vmPatch = [];
+    const vmTemplatePatch = [];
 
     const descriptionForm = settingsValue(this.state.form, DESCRIPTION_KEY);
     const flavorForm = settingsValue(this.state.form, FLAVOR_KEY);
 
-    const descriptionPatch = getUpdateDescriptionPatch(this.props.vm, settingsValue(descriptionForm, 'description'));
-    vmPatch.push(...descriptionPatch);
+    const descriptionPatch = getUpdateDescriptionPatch(vmTemplate, settingsValue(descriptionForm, 'description'));
+    vmTemplatePatch.push(...descriptionPatch);
 
     const flavor = settingsValue(flavorForm, 'flavor');
     let cpu;
@@ -86,18 +91,19 @@ export class VmDetails extends React.Component {
     }
 
     if (flavor && cpu && memory) {
-      const flavorPatch = getUpdateFlavorPatch(this.props.vm, flavor);
-      const cpuMemPatch = getUpdateCpuMemoryPatch(this.props.vm, cpu, memory);
-      vmPatch.push(...flavorPatch);
-      vmPatch.push(...cpuMemPatch);
+      const flavorPatch = getUpdateFlavorPatch(vmTemplate, flavor);
+      const cpuMemPatch = getUpdateCpuMemoryPatch(vm, cpu, memory);
+      cpuMemPatch.forEach(patch => addPrefixToPatch(patch, `/objects/${vmIndex}`));
+      vmTemplatePatch.push(...flavorPatch);
+      vmTemplatePatch.push(...cpuMemPatch);
     }
 
-    if (vmPatch.length > 0) {
+    if (vmTemplatePatch.length > 0) {
       this.setState({
         updating: true,
         k8sError: null,
       });
-      const updatePromise = this.props.k8sPatch(VirtualMachineModel, this.props.vm, vmPatch);
+      const updatePromise = this.props.k8sPatch(TemplateModel, vmTemplate, vmTemplatePatch);
       updatePromise
         .then(() => this.setState({ updating: false }))
         .catch(error =>
@@ -113,48 +119,15 @@ export class VmDetails extends React.Component {
 
   isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
-  componentDidUpdate() {
-    const { launcherPod, importerPods, migration, vm } = this.props;
-    if (this.state.editing && !this.isVmOff(vm, launcherPod, importerPods, migration)) {
-      this.setEditing(false);
-    }
-  }
-
-  isVmOff = (vm, launcherPod, importerPods, migration) => {
-    const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
-    return statusDetail.status === VM_STATUS_OFF;
-  };
-
   render() {
-    const {
-      launcherPod,
-      importerPods,
-      migration,
-      NodeLink,
-      vm,
-      vmi,
-      PodResourceLink,
-      NamespaceResourceLink,
-      LoadingComponent,
-      k8sGet,
-    } = this.props;
-    const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
-    const nodeName = getNodeName(launcherPod);
-    const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
-    const hostName = getHostName(launcherPod);
-    const fqdn = vmIsOff || !hostName ? DASHES : hostName;
-    const template = getVmTemplate(vm);
+    const { vmTemplate, dataVolumes, NamespaceResourceLink, LoadingComponent, k8sGet } = this.props;
+    const vm = selectVm(vmTemplate.objects);
+    const baseTemplate = getVmTemplate(vmTemplate);
+
     const editButton = (
-      <Fragment>
-        {!vmIsOff && (
-          <div className="kubevirt-vm-details__edit-info">
-            <FieldLevelHelp placement="top" content="Please turn off the VM before editing" />
-          </div>
-        )}
-        <Button disabled={this.state.updating || !vmIsOff} onClick={() => this.setEditing(true)}>
-          Edit
-        </Button>
-      </Fragment>
+      <Button disabled={this.state.updating} onClick={() => this.setEditing(true)}>
+        Edit
+      </Button>
     );
     const cancelSaveButton = (
       <Fragment>
@@ -168,7 +141,7 @@ export class VmDetails extends React.Component {
     return (
       <div className="co-m-pane__body">
         <h1 className="co-m-pane__heading">
-          Virtual Machine Overview
+          Virtual Machine Template Overview
           <div>{this.state.editing ? cancelSaveButton : editButton}</div>
         </h1>
         {this.state.k8sError && <Alert onDismiss={this.onErrorDismiss}>{this.state.k8sError}</Alert>}
@@ -176,17 +149,17 @@ export class VmDetails extends React.Component {
           <Col lg={4} md={4} sm={4} xs={4} id="name-description-column">
             <dl>
               <dt>Name</dt>
-              <dd>{vm.metadata.name}</dd>
+              <dd>{vmTemplate.metadata.name}</dd>
               <dt>Description</dt>
               <dd>
-                <div className="kubevirt-vm-details__description">
+                <div className="kubevirt-vm-template-details__description">
                   <Description
                     editing={this.state.editing}
                     updating={this.state.updating}
                     LoadingComponent={LoadingComponent}
                     formValues={settingsValue(this.state.form, DESCRIPTION_KEY)}
                     onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
-                    obj={vm}
+                    obj={vmTemplate}
                   />
                 </div>
               </dd>
@@ -197,58 +170,38 @@ export class VmDetails extends React.Component {
             <Row>
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-1">
                 <dl>
-                  <dt>Status</dt>
-                  <dd>
-                    <VmStatuses
-                      vm={this.props.vm}
-                      launcherPod={launcherPod}
-                      importerPods={importerPods}
-                      migration={migration}
-                    />
-                  </dd>
-
                   <dt>Operating System</dt>
-                  <dd>{getOperatingSystemName(vm) || getOperatingSystem(vm) || DASHES}</dd>
-
-                  <dt>IP Addresses</dt>
-                  <dd>{ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}</dd>
-
+                  <dd>{getOperatingSystemName(vmTemplate) || getOperatingSystem(vmTemplate) || DASHES}</dd>
                   <dt>Workload Profile</dt>
-                  <dd>{getWorkloadProfile(vm) || DASHES}</dd>
-
-                  <dt>Template</dt>
-                  <dd>{template ? `${template.namespace}/${template.name}` : DASHES}</dd>
+                  <dd>{getWorkloadProfile(vmTemplate) || DASHES}</dd>
+                  <dt>Base Template</dt>
+                  <dd>{baseTemplate ? `${baseTemplate.namespace}/${baseTemplate.name}` : DASHES}</dd>
                 </dl>
               </Col>
 
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-2">
                 <dl>
-                  <dt>FQDN</dt>
-                  <dd>{fqdn}</dd>
-
+                  <dt>Source</dt>
+                  <dd>
+                    <TemplateSource template={vmTemplate} dataVolumes={dataVolumes} detailed />
+                  </dd>
                   <dt>Namespace</dt>
                   <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
-
-                  <dt>Pod</dt>
-                  <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
                 </dl>
               </Col>
 
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-3">
                 <dl>
-                  <dt>Node</dt>
-                  <dd>{nodeName && NodeLink ? <NodeLink name={nodeName} /> : DASHES}</dd>
-
                   <dt>Flavor</dt>
                   <dd>
                     <Flavor
-                      flavor={getFlavor(vm) || CUSTOM_FLAVOR}
+                      flavor={getFlavor(vmTemplate) || CUSTOM_FLAVOR}
                       vm={vm}
                       editing={this.state.editing}
                       updating={this.state.updating}
                       LoadingComponent={LoadingComponent}
                       onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
-                      retrieveVmTemplate={() => retrieveVmTemplate(k8sGet, vm)}
+                      retrieveVmTemplate={() => retrieveVmTemplate(k8sGet, vmTemplate)}
                       formValues={settingsValue(this.state.form, FLAVOR_KEY)}
                       onLoadError={this.onLoadError}
                     />
@@ -263,27 +216,17 @@ export class VmDetails extends React.Component {
   }
 }
 
-VmDetails.propTypes = {
-  vm: PropTypes.object.isRequired,
-  vmi: PropTypes.object,
-  launcherPod: PropTypes.object,
-  importerPods: PropTypes.array,
-  migration: PropTypes.object,
-  NodeLink: PropTypes.func,
+VmTemplateDetails.propTypes = {
+  vmTemplate: PropTypes.object.isRequired,
+  dataVolumes: PropTypes.array,
   NamespaceResourceLink: PropTypes.func,
-  PodResourceLink: PropTypes.func,
-  k8sPatch: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
 };
 
-VmDetails.defaultProps = {
-  vmi: undefined,
-  launcherPod: undefined,
-  importerPods: undefined,
-  migration: undefined,
+VmTemplateDetails.defaultProps = {
+  dataVolumes: [],
   NamespaceResourceLink: undefined,
-  PodResourceLink: undefined,
   LoadingComponent: Loading,
-  NodeLink: undefined,
 };

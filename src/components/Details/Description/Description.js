@@ -13,9 +13,9 @@ const descriptionFormFields = {
   },
 };
 
-export const Description = ({ formValues, vm, editing, updating, LoadingComponent, onFormChange }) => {
+export const Description = ({ formValues, obj, editing, updating, LoadingComponent, onFormChange }) => {
   if (!(formValues && formValues.description)) {
-    onFormChange({ value: getDescription(vm) }, 'description', true);
+    onFormChange({ value: getDescription(obj) }, 'description', true);
   }
 
   return (
@@ -27,14 +27,14 @@ export const Description = ({ formValues, vm, editing, updating, LoadingComponen
       LoadingComponent={LoadingComponent}
       onFormChange={onFormChange}
     >
-      {getDescription(vm) || DASHES}
+      {getDescription(obj) || DASHES}
     </InlineEdit>
   );
 };
 
 Description.propTypes = {
   formValues: PropTypes.object,
-  vm: PropTypes.object.isRequired,
+  obj: PropTypes.object.isRequired, // vm, vmTemplate
   editing: PropTypes.bool,
   updating: PropTypes.bool,
   LoadingComponent: PropTypes.func,

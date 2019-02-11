@@ -2,6 +2,7 @@ import { Flavor } from '..';
 
 import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { fedora28 } from '../../../../tests/mocks/template/fedora28.mock';
+import { getFlavor } from '../../../../utils';
 
 export default [
   {
@@ -9,8 +10,9 @@ export default [
     name: 'Flavor',
     props: {
       vm: cloudInitTestVm,
+      flavor: getFlavor(cloudInitTestVm),
       onFormChange: () => {},
-      k8sGet: () =>
+      retrieveVmTemplate: () =>
         new Promise(resolve => {
           resolve(fedora28);
         }),
@@ -21,6 +23,7 @@ export default [
     name: 'Flavor editing',
     props: {
       vm: cloudInitTestVm,
+      flavor: getFlavor(cloudInitTestVm),
       formValues: {
         cpu: {
           value: '2',
@@ -34,7 +37,7 @@ export default [
       },
       editing: true,
       onFormChange: () => {},
-      k8sGet: () =>
+      retrieveVmTemplate: () =>
         new Promise(resolve => {
           resolve(fedora28);
         }),
@@ -45,9 +48,10 @@ export default [
     name: 'Flavor updating',
     props: {
       vm: cloudInitTestVm,
+      flavor: getFlavor(cloudInitTestVm),
       updating: true,
       onFormChange: () => {},
-      k8sGet: () =>
+      retrieveVmTemplate: () =>
         new Promise(resolve => {
           resolve(fedora28);
         }),
