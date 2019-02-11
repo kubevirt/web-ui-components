@@ -16,7 +16,8 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
   TEMPLATE_OS_LABEL,
-  ANNOTATION_USED_TEMPLATE,
+  LABEL_USED_TEMPLATE_NAME,
+  LABEL_USED_TEMPLATE_NAMESPACE,
   CLOUDINIT_DISK,
   TEMPLATE_TYPE_VM,
   TEMPLATE_TYPE_LABEL,
@@ -42,6 +43,7 @@ import {
   STORAGE_TYPE_CONTAINER,
   DESCRIPTION_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
+import { getNamespace, getName } from '../../utils';
 
 import {
   basicSettingsCloudInit,
@@ -127,12 +129,13 @@ const testPXE = (results, firstBoot = true) => {
   return results;
 };
 
-const testMetadata = (results, os, workload, flavor, template) => {
+const testMetadata = (results, os, workload, flavor, templateName, templateNamespace) => {
   const vm = results[results.length - 1];
   expect(vm.metadata.labels[`${TEMPLATE_FLAVOR_LABEL}/${flavor}`]).toEqual('true');
   expect(vm.metadata.labels[`${TEMPLATE_OS_LABEL}/${os.id}`]).toEqual('true');
   expect(vm.metadata.labels[`${TEMPLATE_WORKLOAD_LABEL}/${workload}`]).toEqual('true');
-  expect(vm.metadata.labels[ANNOTATION_USED_TEMPLATE]).toEqual(template);
+  expect(vm.metadata.labels[LABEL_USED_TEMPLATE_NAME]).toEqual(templateName);
+  expect(vm.metadata.labels[LABEL_USED_TEMPLATE_NAMESPACE]).toEqual(templateNamespace);
   expect(vm.metadata.annotations[`${TEMPLATE_OS_NAME_ANNOTATION}/${os.id}`]).toEqual(os.name);
 };
 
@@ -483,7 +486,8 @@ describe('request.js - metadata', () => {
         basicSettingsContainer[OPERATING_SYSTEM_KEY].value,
         basicSettingsContainer[WORKLOAD_PROFILE_KEY].value,
         basicSettingsContainer[FLAVOR_KEY].value,
-        'openshift_rhel-generic'
+        'rhel-generic',
+        'openshift'
       );
       return results;
     }));
@@ -501,7 +505,8 @@ describe('request.js - metadata', () => {
         basicSettingsUserTemplate[OPERATING_SYSTEM_KEY].value,
         basicSettingsUserTemplate[WORKLOAD_PROFILE_KEY].value,
         basicSettingsUserTemplate[FLAVOR_KEY].value,
-        `${urlTemplate.metadata.namespace}_${urlTemplate.metadata.name}`
+        getName(urlTemplate),
+        getNamespace(urlTemplate)
       );
       return results;
     }));

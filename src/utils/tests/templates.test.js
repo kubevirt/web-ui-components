@@ -14,7 +14,8 @@ import {
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
-  ANNOTATION_USED_TEMPLATE,
+  LABEL_USED_TEMPLATE_NAME,
+  LABEL_USED_TEMPLATE_NAMESPACE,
 } from '../../constants';
 
 import {
@@ -119,7 +120,8 @@ describe('templates.js', () => {
     const vm = {
       metadata: {
         labels: {
-          [ANNOTATION_USED_TEMPLATE]: 'fooNamespace_fooTemaplte',
+          [LABEL_USED_TEMPLATE_NAME]: 'fooTemaplte',
+          [LABEL_USED_TEMPLATE_NAMESPACE]: 'fooNamespace',
         },
       },
     };
@@ -141,7 +143,8 @@ describe('templates.js', () => {
     const vm = {
       metadata: {
         labels: {
-          [ANNOTATION_USED_TEMPLATE]: 'openshift_fedora-generic',
+          [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
+          [LABEL_USED_TEMPLATE_NAMESPACE]: 'openshift',
         },
       },
     };
