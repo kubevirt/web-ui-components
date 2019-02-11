@@ -12,7 +12,7 @@ import {
   getDataVolumeSourceType,
 } from './selectors';
 import { selectVm } from '../k8s/selectors';
-import { baseTemplates } from '../tests/mocks/template';
+import { baseTemplates } from '../k8s/objects/template';
 
 import {
   TEMPLATE_TYPE_BASE,

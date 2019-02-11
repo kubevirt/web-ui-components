@@ -3,7 +3,7 @@ import { safeDump } from 'js-yaml';
 
 import { createVm, createVmTemplate } from '../request';
 import { TemplateModel, VirtualMachineModel } from '../../models';
-import { baseTemplates } from '../../tests/mocks/template';
+import { baseTemplates } from '../objects/template';
 import { userTemplates, urlTemplate } from '../../tests/mocks/user_template';
 import { persistentVolumeClaims } from '../../tests/mocks/persistentVolumeClaim';
 import { pvcDisk, templateDataVolumeDisk } from '../../tests/forms_mocks/disk.mock';
