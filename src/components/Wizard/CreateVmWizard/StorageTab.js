@@ -191,11 +191,12 @@ const resolveTemplateStorage = (storage, persistentVolumeClaims, storageClasses,
     }
     templateStorage.storageType = STORAGE_TYPE_PVC;
   } else if (storage.templateStorage.volume.dataVolume) {
+    const dataVolume = storage.templateStorage.dataVolume || storage.templateStorage.dataVolumeTemplate;
     if (!templateStorage.size) {
-      templateStorage.size = getGibStorageSize(units, getDataVolumeResources(storage.templateStorage.dataVolume));
+      templateStorage.size = getGibStorageSize(units, getDataVolumeResources(dataVolume));
     }
     if (!templateStorage.storageClass) {
-      templateStorage.storageClass = getDataVolumeStorageClassName(storage.templateStorage.dataVolume);
+      templateStorage.storageClass = getDataVolumeStorageClassName(dataVolume);
     }
     templateStorage.storageType = STORAGE_TYPE_DATAVOLUME;
   } else if (storage.templateStorage.volume.containerDisk) {

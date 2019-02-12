@@ -8,8 +8,8 @@ import { getName, getNamespace } from '../../utils/selectors';
 
 const tooltip = (id, source) => <Tooltip id={id}>{source}</Tooltip>;
 
-export const TemplateSource = ({ template, tooltipPlacement }) => {
-  const provisionSource = getTemplateProvisionSource(template);
+export const TemplateSource = ({ template, tooltipPlacement, dataVolumes }) => {
+  const provisionSource = getTemplateProvisionSource(template, dataVolumes);
   if (provisionSource) {
     if (provisionSource.type === PROVISION_SOURCE_PXE) {
       return provisionSource.type;
@@ -33,8 +33,10 @@ export const TemplateSource = ({ template, tooltipPlacement }) => {
 TemplateSource.propTypes = {
   template: PropTypes.object.isRequired,
   tooltipPlacement: PropTypes.string,
+  dataVolumes: PropTypes.array,
 };
 
 TemplateSource.defaultProps = {
   tooltipPlacement: 'top',
+  dataVolumes: [],
 };

@@ -6,7 +6,7 @@ export default [
     name: 'Loading',
     props: {
       success: null,
-      result: null,
+      results: null,
     },
   },
   {
@@ -14,7 +14,7 @@ export default [
     name: 'Error',
     props: {
       success: false,
-      result: 'Failed',
+      results: ['Failed'],
     },
   },
   {
@@ -22,7 +22,7 @@ export default [
     name: 'Success',
     props: {
       success: true,
-      result: 'Finished succesfully',
+      results: ['Finished succesfully'],
     },
   },
 ];

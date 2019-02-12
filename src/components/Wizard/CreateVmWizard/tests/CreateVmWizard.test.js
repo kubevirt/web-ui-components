@@ -99,7 +99,8 @@ const testWalkThrough = (template = false, createText = CREATE_VM, templatesDrop
 
   const namespaces = [...CreateVmWizardFixutre[0].props.namespaces];
   const templates = [...CreateVmWizardFixutre[0].props.templates];
-  component.setProps({ namespaces, templates });
+  const dataVolumes = [...CreateVmWizardFixutre[0].props.dataVolumes];
+  component.setProps({ namespaces, templates, dataVolumes });
 
   expect(component.find(Loading)).toHaveLength(0);
   expect(component.find(BasicSettingsTab)).toHaveLength(1);
@@ -226,7 +227,7 @@ describe('<CreateVmWizard />', () => {
   });
 
   it("onStepChanged doesn't update activeStepIndex due to invalid form", () => {
-    createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM created' })));
+    createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve([{ result: 'VM created' }])));
     const component = shallow(testCreateVmWizard());
     expect(component.state().activeStepIndex).toEqual(0);
     component.instance().onStepChanged(1);
@@ -262,7 +263,7 @@ describe('<CreateVmWizard />', () => {
   });
 
   it('creates vm', () => {
-    createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM created' })));
+    createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve([{ result: 'VM created' }])));
     testWalkThrough();
   });
 
@@ -390,7 +391,9 @@ describe('<CreateVmWizard /> for Create VM Template', () => {
   });
 
   it('creates Vm Template', () => {
-    createVmTemplate.mockReturnValueOnce(new Promise((resolve, reject) => resolve({ result: 'VM Template created' })));
+    createVmTemplate.mockReturnValueOnce(
+      new Promise((resolve, reject) => resolve([{ result: 'VM Template created' }]))
+    );
     testWalkThrough(true, CREATE_VM_TEMPLATE, false, createVmTemplate);
   });
 });

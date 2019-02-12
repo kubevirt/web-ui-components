@@ -42,6 +42,7 @@ import {
   PROVISION_SOURCE_URL,
   CUSTOM_FLAVOR,
 } from '../../../../constants';
+import { urlTemplateDataVolume } from '../../../../tests/mocks/user_template/url.mock';
 
 const templates = [...baseTemplates, ...userTemplates];
 
@@ -53,6 +54,7 @@ const testBasicSettingsTab = (basicSettings = {}, onChange = null, selectedNames
     basicSettings={basicSettings}
     onChange={onChange || jest.fn()}
     createVmTemplate={template}
+    dataVolumes={[urlTemplateDataVolume]}
   />
 );
 
@@ -301,7 +303,7 @@ describe('<BasicSettingsTab />', () => {
         },
         [IMAGE_URL_KEY]: {
           validation: undefined,
-          value: getTemplateProvisionSource(urlTemplate).source,
+          value: getTemplateProvisionSource(urlTemplate, [urlTemplateDataVolume]).source,
         },
       },
       true
@@ -322,7 +324,7 @@ describe('<BasicSettingsTab />', () => {
         },
         [CONTAINER_IMAGE_KEY]: {
           validation: undefined,
-          value: getTemplateProvisionSource(containerTemplate).source,
+          value: getTemplateProvisionSource(containerTemplate, [urlTemplateDataVolume]).source,
         },
       },
       true,
@@ -405,7 +407,7 @@ describe('<BasicSettingsTab />', () => {
           value: PROVISION_SOURCE_CONTAINER,
         },
         [CONTAINER_IMAGE_KEY]: {
-          value: getTemplateProvisionSource(containerCloudTemplate).source,
+          value: getTemplateProvisionSource(containerCloudTemplate, [urlTemplateDataVolume]).source,
           validation: undefined,
         },
         [CLOUD_INIT_KEY]: {
@@ -439,7 +441,7 @@ describe('<BasicSettingsTab />', () => {
           value: PROVISION_SOURCE_URL,
         },
         [IMAGE_URL_KEY]: {
-          value: getTemplateProvisionSource(urlCustomFlavorTemplate).source,
+          value: getTemplateProvisionSource(urlCustomFlavorTemplate, [urlTemplateDataVolume]).source,
           validation: undefined,
         },
         [FLAVOR_KEY]: {

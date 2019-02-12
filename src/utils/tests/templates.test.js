@@ -37,6 +37,8 @@ import {
   pxeTemplate,
   urlNoNetworkTemplate,
 } from '../../tests/mocks/user_template';
+import { getNamespace } from '../selectors';
+import { urlTemplateDataVolume } from '../../tests/mocks/user_template/url.mock';
 
 const templates = [...baseTemplates, ...userTemplates];
 
@@ -70,13 +72,31 @@ describe('templates.js', () => {
     expect(getUserTemplate([userTemplates[0], sameName], userTemplates[0].metadata.name)).toEqual(userTemplates[0]);
   });
   it('getTemplateStorages returns all template storages', () => {
-    const storages = getTemplateStorages(urlTemplate);
+    let storages = getTemplateStorages(urlTemplate, [urlTemplateDataVolume]);
     expect(storages).toHaveLength(1);
     expect(storages[0].disk).toEqual(urlTemplate.objects[0].spec.template.spec.domain.devices.disks[0]);
     expect(storages[0].volume).toEqual(urlTemplate.objects[0].spec.template.spec.volumes[0]);
-    expect(storages[0].dataVolume).toEqual(urlTemplate.objects[0].spec.dataVolumeTemplates[0]);
+    expect(storages[0].dataVolume).toEqual(urlTemplateDataVolume);
+    expect(storages[0].dataVolumeTemplate).toBeUndefined();
 
-    expect(getTemplateStorages(pxeTemplate)).toHaveLength(0);
+    expect(getTemplateStorages(pxeTemplate, [])).toHaveLength(0);
+
+    const vmWithDV = cloneDeep(urlTemplate);
+
+    const dv = {
+      metadata: {
+        name: 'fooName',
+        namespace: getNamespace(urlTemplate),
+      },
+    };
+
+    vmWithDV.objects[0].spec.template.spec.volumes[0].dataVolume.name = dv.metadata.name;
+    storages = getTemplateStorages(vmWithDV, [dv]);
+    expect(storages).toHaveLength(1);
+    expect(storages[0].disk).toEqual(vmWithDV.objects[0].spec.template.spec.domain.devices.disks[0]);
+    expect(storages[0].volume).toEqual(vmWithDV.objects[0].spec.template.spec.volumes[0]);
+    expect(storages[0].dataVolumeTemplate).toBeUndefined();
+    expect(storages[0].dataVolume).toEqual(dv);
   });
   it('getTemplateInterfaces returns all template interfaces', () => {
     const interfaces = getTemplateInterfaces(pxeTemplate);
@@ -95,7 +115,7 @@ describe('templates.js', () => {
     expect(hasAutoAttachPodInterface(urlNoNetworkTemplate)).toBeFalsy();
   });
   it('getTemplateProvisionSource returns proper template provision source', () => {
-    expect(getTemplateProvisionSource(urlTemplate)).toEqual({
+    expect(getTemplateProvisionSource(urlTemplate, [urlTemplateDataVolume])).toEqual({
       type: PROVISION_SOURCE_URL,
       source: 'fooUrl',
     });

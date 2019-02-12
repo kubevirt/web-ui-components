@@ -1,6 +1,8 @@
-import { urlTemplate } from '../mocks/user_template';
+import { urlTemplateDataVolume, urlTemplate } from '../mocks/user_template/url.mock';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC } from '../../components/Wizard/CreateVmWizard/constants';
 import { persistentVolumeClaims } from '../mocks/persistentVolumeClaim';
+import { dataVolumes } from '../mocks/dataVolume';
+import { getName } from '../../utils';
 
 export const pvcDisk = {
   id: 1,
@@ -11,7 +13,7 @@ export const pvcDisk = {
 export const templateDataVolumeDisk = {
   id: 2,
   templateStorage: {
-    dataVolume: urlTemplate.objects[0].spec.dataVolumeTemplates[0],
+    dataVolume: urlTemplateDataVolume,
     disk: urlTemplate.objects[0].spec.template.spec.domain.devices.disks[0],
     volume: urlTemplate.objects[0].spec.template.spec.volumes[0],
   },
@@ -22,11 +24,11 @@ export const templateDataVolumeDisk = {
 
 export const dataVolumeDisk = {
   name: 'datavolumedisk',
-  dvName: 'datavolumename',
+  dvName: getName(dataVolumes.url),
 };
 
 export const dataVolumeTemplate = {
   name: 'datavolumetemplatedisk',
-  dvName: 'datavolumename',
+  dvName: getName(dataVolumes.url),
   size: 10,
 };

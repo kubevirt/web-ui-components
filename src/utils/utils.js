@@ -18,6 +18,14 @@ export const setNativeValue = (element, value) => {
   }
 };
 
+export const generateDiskName = (vmName, diskName, clone) => {
+  const name = [vmName, diskName];
+  if (clone) {
+    name.push('clone');
+  }
+  return name.join('-');
+};
+
 export const getBootDeviceIndex = (devices, bootOrder) => devices.findIndex(device => device.bootOrder === bootOrder);
 
 export const getResource = (

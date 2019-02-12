@@ -20,7 +20,7 @@ const vmAlreadyExists = (name, namespace, vms) => {
   return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
 };
 
-const getFormFields = (namespaces, vm, units, persistentVolumeClaims, virtualMachines) => ({
+const getFormFields = (namespaces, vm, units, persistentVolumeClaims, dataVolumes, virtualMachines) => ({
   [NAME_KEY]: {
     id: 'vm-name',
     title: 'Name',
@@ -57,7 +57,12 @@ const getFormFields = (namespaces, vm, units, persistentVolumeClaims, virtualMac
     title: 'Configuration',
     type: 'custom',
     CustomComponent: () => (
-      <ConfigurationSummary vm={vm} units={units} persistentVolumeClaims={persistentVolumeClaims} />
+      <ConfigurationSummary
+        vm={vm}
+        units={units}
+        persistentVolumeClaims={persistentVolumeClaims}
+        dataVolumes={dataVolumes}
+      />
     ),
   },
 });
@@ -144,6 +149,7 @@ export class CloneDialog extends React.Component {
       this.props.vm,
       this.props.units,
       this.props.persistentVolumeClaims,
+      this.props.dataVolumes,
       this.props.virtualMachines
     );
     const { LoadingComponent } = this.props;

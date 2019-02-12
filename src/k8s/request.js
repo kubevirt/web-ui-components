@@ -1,8 +1,18 @@
-import { cloneDeep, get } from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
-import { getName, getNamespace, getCloudInitVolume } from '../utils/selectors';
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, PersistentVolumeClaimModel } from '../models';
+import {
+  getCloudInitVolume,
+  getName,
+  getNamespace,
+  getPvcAccessModes,
+  getPvcStorageSize,
+  getDataVolumeAccessModes,
+  getDataVolumeStorageSize,
+  getDataVolumeStorageClassName,
+  getPvcStorageClassName,
+} from '../utils/selectors';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel } from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
@@ -16,17 +26,12 @@ import {
   ANNOTATION_FIRST_BOOT,
   ANNOTATION_PXE_INTERFACE,
   TEMPLATE_API_VERSION,
-  PVC_ACCESSMODE_RWO,
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
   TEMPLATE_WORKLOAD_LABEL,
-  BOOT_ORDER_FIRST,
-  BOOT_ORDER_SECOND,
   TEMPLATE_TYPE_LABEL,
   TEMPLATE_PARAM_VM_NAME_DESC,
   TEMPLATE_TYPE_VM,
-  ANNOTATION_CLONE_REQUEST,
-  LABEL_CLONE_APP,
   TEMPLATE_VM_NAME_LABEL,
   TEMPLATE_OS_NAME_ANNOTATION,
   LABEL_USED_TEMPLATE_NAME,
@@ -37,8 +42,6 @@ import {
   NAMESPACE_KEY,
   DESCRIPTION_KEY,
   PROVISION_SOURCE_TYPE_KEY,
-  CONTAINER_IMAGE_KEY,
-  IMAGE_URL_KEY,
   USER_TEMPLATE_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
@@ -55,8 +58,9 @@ import {
   STORAGE_TYPE_PVC,
   STORAGE_TYPE_DATAVOLUME,
   STORAGE_TYPE_CONTAINER,
-  NETWORK_TYPE_MULTUS,
-  NETWORK_TYPE_POD,
+  DATA_VOLUME_SOURCE_URL,
+  IMAGE_URL_KEY,
+  DATA_VOLUME_SOURCE_BLANK,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 import {
@@ -68,8 +72,27 @@ import {
   selectVm,
 } from './selectors';
 import { CloudInit } from './cloudInit';
-
-const IS_TEMPLATE = 'isTemplate';
+import { addTemplateClone } from './clone';
+import { generateDiskName } from '../utils';
+import {
+  getDevices,
+  getDevice,
+  addAnnotation,
+  addContainerVolume,
+  addDataVolume,
+  addDataVolumeTemplate,
+  addDisk,
+  addInterface,
+  addLabel,
+  addNetwork,
+  addTemplateLabel,
+  getVolumes,
+  getDataVolumeTemplates,
+  removeInterfacesAndNetworks,
+  addVolume,
+  removeDisksAndVolumes,
+  getDataVolumeTemplateSpec,
+} from './vmBuilder';
 
 const FALLBACK_DISK = {
   disk: {
@@ -77,88 +100,115 @@ const FALLBACK_DISK = {
   },
 };
 
-export const createVmTemplate = (k8sCreate, templates, basicSettings, networks, storage) => {
+export const createVmTemplate = async (
+  k8sCreate,
+  templates,
+  basicSettings,
+  networks,
+  storage,
+  persistentVolumeClaims
+) => {
   const getSetting = param => {
     switch (param) {
       case NAME_KEY:
         return `\${${TEMPLATE_PARAM_VM_NAME}}`;
       case DESCRIPTION_KEY:
         return undefined;
-      case IS_TEMPLATE:
-        return true;
       default:
         return settingsValue(basicSettings, param);
     }
   };
-  const template = getModifiedVmTemplate(templates, basicSettings, getSetting, networks, storage);
+  const template = getModifiedVmTemplate(
+    templates,
+    basicSettings,
+    getSetting,
+    networks,
+    storage,
+    persistentVolumeClaims
+  );
   const vmTemplate = createTemplateObject(
     settingsValue.bind(undefined, basicSettings),
     selectVm(template.objects),
     template
   );
-  return k8sCreate(TemplateModel, vmTemplate);
+
+  let bootDataVolume;
+  if (settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_URL) {
+    const bootStorage = storage.find(s => s.isBootable);
+    const vm = selectVm(template.objects);
+
+    const bootVolume = getVolumes(vm).find(v => v.name === bootStorage.name);
+    const dataVolumeTemplates = getDataVolumeTemplates(vm);
+    bootDataVolume = dataVolumeTemplates.find(t => getName(t) === bootVolume.dataVolume.name);
+
+    const newDataVolumeTemplates = dataVolumeTemplates.filter(t => getName(t) !== bootVolume.dataVolume.name);
+    vm.spec.dataVolumeTemplates = newDataVolumeTemplates;
+
+    const newDataVolumeName = generateDiskName(settingsValue(basicSettings, NAME_KEY), bootStorage.name);
+    bootVolume.dataVolume.name = newDataVolumeName;
+
+    bootDataVolume.metadata.name = newDataVolumeName;
+    bootDataVolume.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
+    bootDataVolume.apiVersion = `${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`;
+    bootDataVolume.kind = DataVolumeModel.kind;
+  }
+
+  const templateResult = await k8sCreate(TemplateModel, vmTemplate);
+
+  const results = [templateResult];
+  if (bootDataVolume) {
+    bootDataVolume.metadata.ownerReferences = [
+      {
+        apiVersion: templateResult.apiVersion,
+        blockOwnerDeletion: true,
+        controller: true,
+        kind: templateResult.kind,
+        name: getName(templateResult),
+        uid: templateResult.metadata.uid,
+      },
+    ];
+    const dvResult = await k8sCreate(DataVolumeModel, bootDataVolume);
+    results.push(dvResult);
+  }
+  return results;
 };
 
-export const createVm = (k8sCreate, templates, basicSettings, networks, storage, persistentVolumeClaims) => {
+export const createVm = async (k8sCreate, templates, basicSettings, networks, storage, persistentVolumeClaims) => {
   const getSetting = settingsValue.bind(undefined, basicSettings);
-  const template = getModifiedVmTemplate(templates, basicSettings, getSetting, networks, storage);
+  const template = getModifiedVmTemplate(
+    templates,
+    basicSettings,
+    getSetting,
+    networks,
+    storage,
+    persistentVolumeClaims
+  );
+
   // ProcessedTemplates endpoit will reject the request if user cannot post to the namespace
   // common-templates are stored in openshift namespace, default user can read but cannot post
   const postTemplate = cloneDeep(template);
   postTemplate.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
-  return k8sCreate(ProcessedTemplatesModel, postTemplate).then(({ objects }) => {
-    const vm = selectVm(objects);
 
-    addMetadata(vm, template, getSetting);
+  const processedTemplate = await k8sCreate(ProcessedTemplatesModel, postTemplate);
 
-    const namespace = getSetting(NAMESPACE_KEY);
-    if (namespace) {
-      vm.metadata.namespace = namespace;
-    }
+  const vm = selectVm(processedTemplate.objects);
 
-    const promises = getPvcClones(storage, getSetting, persistentVolumeClaims).map(pvcClone =>
-      k8sCreate(PersistentVolumeClaimModel, pvcClone)
-    );
-    const vmCreatePromise = k8sCreate(VirtualMachineModel, vm);
-    promises.push(vmCreatePromise);
+  addMetadata(vm, template, getSetting);
 
-    return Promise.all(promises);
-  });
+  const namespace = getSetting(NAMESPACE_KEY);
+  if (namespace) {
+    vm.metadata.namespace = namespace;
+  }
+
+  const vmResult = await k8sCreate(VirtualMachineModel, vm);
+  return [vmResult];
 };
 
-const getPvcClones = (storage, getSetting, persistentVolumeClaims) =>
-  storage.filter(s => s.storageType === STORAGE_TYPE_PVC).map(pvcStorage => {
-    const pvc = persistentVolumeClaims.find(
-      p => getName(p) === pvcStorage.name && getNamespace(p) === getSetting(NAMESPACE_KEY)
-    );
-
-    const pvcClone = {
-      kind: PersistentVolumeClaimModel.kind,
-      apiVersion: PersistentVolumeClaimModel.apiVersion,
-      metadata: {
-        name: `${getName(pvc)}-${getSetting(NAME_KEY)}`,
-        namespace: getSetting(NAMESPACE_KEY),
-        annotations: {
-          [ANNOTATION_CLONE_REQUEST]: `${getNamespace(pvc)}/${getName(pvc)}`,
-        },
-        labels: {
-          app: LABEL_CLONE_APP,
-        },
-      },
-      spec: { ...pvc.spec },
-    };
-
-    // delete bound pv name
-    delete pvcClone.spec.volumeName;
-
-    return pvcClone;
-  });
-
-const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage) => {
+const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage, persistentVolumeClaims) => {
   const template = resolveTemplate(templates, basicSettings, getSetting);
 
   const vm = selectVm(template.objects);
-  modifyVmObject(vm, template, getSetting, networks, storage);
+  modifyVmObject(vm, template, getSetting, networks, storage, persistentVolumeClaims);
 
   return template;
 };
@@ -241,7 +291,7 @@ const addMetadata = (vm, template, getSetting) => {
   addAnnotation(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${os.id}`, os.name);
 };
 
-const modifyVmObject = (vm, template, getSetting, networks, storages) => {
+const modifyVmObject = (vm, template, getSetting, networks, storages, persistentVolumeClaims) => {
   setFlavor(vm, getSetting);
   addNetworks(vm, template, getSetting, networks);
 
@@ -251,7 +301,7 @@ const modifyVmObject = (vm, template, getSetting, networks, storages) => {
   if (description) {
     addAnnotation(vm, 'description', description);
   }
-  addStorages(vm, template, storages, getSetting);
+  addStorages(vm, template, storages, getSetting, persistentVolumeClaims);
 };
 
 const setFlavor = (vm, getSetting) => {
@@ -312,30 +362,19 @@ const addCloudInit = (vm, defaultDisk, getSetting) => {
   }
 };
 
-const addStorages = (vm, template, storages, getSetting) => {
+const addStorages = (vm, template, storages, getSetting, persistentVolumeClaims) => {
   const defaultDisk = getDefaultDisk(vm, template);
   removeDisksAndVolumes(vm);
 
   if (storages) {
     storages.forEach(storage => {
       switch (storage.storageType) {
-        case STORAGE_TYPE_PVC: {
-          const pvcStorage = {
-            ...storage,
-            claimName: getSetting(IS_TEMPLATE) ? storage.name : `${storage.name}-${getSetting(NAME_KEY)}`,
-          };
-          addPvcVolume(vm, pvcStorage, getSetting);
+        case STORAGE_TYPE_PVC:
+          addPvcVolume(vm, storage, getSetting, persistentVolumeClaims);
           break;
-        }
-        case STORAGE_TYPE_DATAVOLUME: {
-          const dvStorage = {
-            ...storage,
-            dvName: `${storage.name}-${getSetting(NAME_KEY)}`,
-          };
-          addDataVolumeTemplate(vm, dvStorage, getSetting);
-          addDataVolume(vm, dvStorage);
+        case STORAGE_TYPE_DATAVOLUME:
+          addDataVolumeVolume(vm, storage, getSetting);
           break;
-        }
         case STORAGE_TYPE_CONTAINER:
           addContainerVolume(vm, storage, getSetting);
           break;
@@ -350,6 +389,66 @@ const addStorages = (vm, template, storages, getSetting) => {
   addCloudInit(vm, defaultDisk, getSetting);
 };
 
+const addPvcVolume = (vm, storage, getSetting, persistentVolumeClaims) => {
+  const pvc = persistentVolumeClaims.find(
+    p => getName(p) === storage.name && getNamespace(p) === getSetting(NAMESPACE_KEY)
+  );
+  const dvTemplate = addTemplateClone(
+    vm,
+    storage.name,
+    getSetting(NAMESPACE_KEY),
+    getPvcAccessModes(pvc),
+    getPvcStorageSize(pvc),
+    getPvcStorageClassName(pvc),
+    getSetting(NAME_KEY)
+  );
+  addDataVolume(vm, {
+    name: storage.name,
+    dvName: getName(dvTemplate),
+  });
+};
+
+const addDataVolumeVolume = (vm, storage, getSetting) => {
+  const dvStorage = {
+    ...storage,
+  };
+  if (dvStorage.templateStorage) {
+    if (dvStorage.templateStorage.dataVolume) {
+      const { dataVolume } = dvStorage.templateStorage;
+      const dataVolumeTemplate = addTemplateClone(
+        vm,
+        getName(dataVolume),
+        getNamespace(dataVolume),
+        getDataVolumeAccessModes(dataVolume),
+        getDataVolumeStorageSize(dataVolume), // TODO should take storage specified by user on storage page
+        getDataVolumeStorageClassName(dataVolume),
+        getSetting(NAME_KEY)
+      );
+      dvStorage.dvName = getName(dataVolumeTemplate);
+    } else if (dvStorage.templateStorage.dataVolumeTemplate) {
+      const { dataVolumeTemplate } = dvStorage.templateStorage;
+      dataVolumeTemplate.metadata.name = generateDiskName(getSetting(NAME_KEY), storage.name, false);
+      addDataVolumeTemplate(vm, dataVolumeTemplate);
+      dvStorage.dvName = dataVolumeTemplate.metadata.name;
+    }
+  } else {
+    const source =
+      getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_URL && storage.isBootable
+        ? {
+            type: DATA_VOLUME_SOURCE_URL,
+            url: getSetting(IMAGE_URL_KEY),
+          }
+        : {
+            type: DATA_VOLUME_SOURCE_BLANK,
+          };
+
+    dvStorage.dvName = generateDiskName(getSetting(NAME_KEY), storage.name);
+    const dataVolumeSpec = getDataVolumeTemplateSpec(dvStorage, source);
+    addDataVolumeTemplate(vm, dataVolumeSpec);
+  }
+  addDataVolume(vm, dvStorage);
+};
+
 const getDefaultDisk = (vm, template) => {
   const defaultDiskName = getTemplateAnnotations(template, ANNOTATION_DEFAULT_DISK);
   return getDevice(vm, 'disks', defaultDiskName) || FALLBACK_DISK;
@@ -358,282 +457,4 @@ const getDefaultDisk = (vm, template) => {
 const getDefaultInterface = (vm, template) => {
   const defaultInterfaceName = getTemplateAnnotations(template, ANNOTATION_DEFAULT_NETWORK);
   return getDevice(vm, 'interfaces', defaultInterfaceName);
-};
-
-const getDevices = vm => {
-  const domain = getDomain(vm);
-  if (!domain.devices) {
-    domain.devices = {};
-  }
-  return domain.devices;
-};
-
-const getDisks = vm => {
-  const devices = getDevices(vm);
-  if (!devices.disks) {
-    devices.disks = [];
-  }
-  return devices.disks;
-};
-
-const getDomain = vm => {
-  const spec = getSpec(vm);
-  if (!spec.domain) {
-    spec.domain = {};
-  }
-  return spec.domain;
-};
-
-const getInterfaces = vm => {
-  const devices = getDevices(vm);
-  if (!devices.interfaces) {
-    devices.interfaces = [];
-  }
-  return devices.interfaces;
-};
-
-const getVolumes = vm => {
-  const spec = getSpec(vm);
-  if (!spec.volumes) {
-    spec.volumes = [];
-  }
-  return spec.volumes;
-};
-
-const getVmSpec = vm => {
-  if (!vm.spec) {
-    vm.spec = {};
-  }
-  return vm.spec;
-};
-
-const getSpec = vm => {
-  const vmSpec = getVmSpec(vm);
-  if (!vmSpec.template) {
-    vmSpec.template = {
-      spec: {},
-    };
-  } else if (!vmSpec.template.spec) {
-    vmSpec.template.spec = {};
-  }
-  return vmSpec.template.spec;
-};
-
-const getDevice = (vm, deviceType, deviceName) =>
-  get(getDevices(vm), deviceType, []).find(device => device.name === deviceName);
-
-const getDataVolumeTemplates = vm => {
-  const spec = getVmSpec(vm);
-  if (!spec.dataVolumeTemplates) {
-    spec.dataVolumeTemplates = [];
-  }
-  return spec.dataVolumeTemplates;
-};
-
-const getNetworks = vm => {
-  const spec = getSpec(vm);
-  if (!spec.networks) {
-    spec.networks = [];
-  }
-  return spec.networks;
-};
-
-const getAnnotations = vm => {
-  if (!vm.metadata.annotations) {
-    vm.metadata.annotations = {};
-  }
-  return vm.metadata.annotations;
-};
-
-const getLabels = vm => {
-  if (!vm.metadata.labels) {
-    vm.metadata.labels = {};
-  }
-  return vm.metadata.labels;
-};
-
-const getTemplateLabels = vm => {
-  if (!vm.spec) {
-    vm.spec = {};
-  }
-  if (!vm.spec.template) {
-    vm.spec.template = {};
-  }
-  if (!vm.spec.template.metadata) {
-    vm.spec.template.metadata = {};
-  }
-  if (!vm.spec.template.metadata.labels) {
-    vm.spec.template.metadata.labels = {};
-  }
-  return vm.spec.template.metadata.labels;
-};
-
-export const addDisk = (vm, defaultDisk, storage, getSetting) => {
-  const diskSpec = {
-    ...(storage.templateStorage ? storage.templateStorage.disk : defaultDisk),
-    name: storage.name,
-  };
-  if (storage.isBootable) {
-    const imageSource = getSetting(PROVISION_SOURCE_TYPE_KEY);
-    diskSpec.bootOrder = imageSource === PROVISION_SOURCE_PXE ? BOOT_ORDER_SECOND : BOOT_ORDER_FIRST;
-  } else {
-    delete diskSpec.bootOrder;
-  }
-  const disks = getDisks(vm);
-  disks.push(diskSpec);
-};
-
-export const addPvcVolume = (vm, storage) => {
-  const volume = {
-    ...(storage.templateStorage ? storage.templateStorage.volume : {}),
-    name: storage.name,
-    persistentVolumeClaim: {
-      ...(storage.templateStorage ? storage.templateStorage.volume.persistentVolumeClaim : {}),
-      claimName: storage.claimName,
-    },
-  };
-  addVolume(vm, volume);
-};
-
-export const addContainerVolume = (vm, storage, getSetting) => {
-  const volume = {
-    ...(storage.templateStorage ? storage.templateStorage.volume : {}),
-    name: storage.name,
-    containerDisk: {
-      ...(storage.templateStorage ? storage.templateStorage.volume.containerDisk : {}),
-    },
-  };
-  if (storage.rootStorage) {
-    volume.containerDisk.image = getSetting(CONTAINER_IMAGE_KEY);
-  }
-  addVolume(vm, volume);
-};
-
-export const addDataVolume = (vm, storage) => {
-  const volume = {
-    ...(storage.templateStorage ? storage.templateStorage.volume : {}),
-    name: storage.name,
-    dataVolume: {
-      ...(storage.templateStorage ? storage.templateStorage.volume.dataVolume : {}),
-      name: storage.dvName,
-    },
-  };
-  addVolume(vm, volume);
-};
-
-const addVolume = (vm, volumeSpec) => {
-  const volumes = getVolumes(vm);
-  volumes.push(volumeSpec);
-};
-
-// TODO datavolumetemplate should have unique name bcs its created as object in kubernetes
-// TOTO add ie vm name
-export const addDataVolumeTemplate = (vm, storage, getSetting) => {
-  const urlSource = {
-    http: {
-      url: getSetting(IMAGE_URL_KEY),
-    },
-  };
-  const blankSource = {
-    blank: {},
-  };
-  const source =
-    getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_URL && storage.isBootable ? urlSource : blankSource;
-
-  const dataVolume = {
-    ...(storage.templateStorage ? storage.templateStorage.dataVolume : {}),
-    metadata: {
-      ...(storage.templateStorage ? storage.templateStorage.dataVolume.metadata : {}),
-      name: storage.dvName,
-    },
-    spec: {
-      ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec : {}),
-      pvc: {
-        ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec.pvc : {}),
-        accessModes: [
-          ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec.pvc.accessModes : [PVC_ACCESSMODE_RWO]),
-        ],
-        resources: {
-          ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec.pvc.resources : {}),
-          requests: {
-            ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec.pvc.resources.requests : {}),
-            storage: `${storage.size}Gi`,
-          },
-        },
-        storageClassName: storage.storageClass,
-      },
-      source: {
-        ...(storage.templateStorage ? storage.templateStorage.dataVolume.spec.source : source),
-      },
-    },
-  };
-
-  const dataVolumes = getDataVolumeTemplates(vm);
-  dataVolumes.push(dataVolume);
-};
-
-export const addInterface = (vm, defaultInterface, network) => {
-  const interfaceSpec = {
-    ...(network.templateNetwork ? network.templateNetwork.interface : defaultInterface),
-    name: network.name,
-  };
-  if (network.mac) {
-    interfaceSpec.macAddress = network.mac;
-  }
-  if (network.isBootable) {
-    interfaceSpec.bootOrder = BOOT_ORDER_FIRST;
-  } else {
-    delete interfaceSpec.bootOrder;
-  }
-
-  const interfaces = getInterfaces(vm);
-  interfaces.push(interfaceSpec);
-};
-
-export const addNetwork = (vm, network) => {
-  const networkSpec = {
-    ...(network.templateNetwork ? network.templateNetwork.network : {}),
-    name: network.name,
-  };
-  // TODO support unknown types
-  switch (network.networkType) {
-    case NETWORK_TYPE_MULTUS:
-      networkSpec.multus = {
-        ...(network.templateNetwork ? network.templateNetwork.network.multus : {}),
-        networkName: network.network,
-      };
-      break;
-    case NETWORK_TYPE_POD:
-    default:
-      networkSpec.pod = {};
-      break;
-  }
-  const networks = getNetworks(vm);
-  networks.push(networkSpec);
-};
-
-const addAnnotation = (vm, key, value) => {
-  const annotations = getAnnotations(vm);
-  annotations[key] = value;
-};
-
-const addLabel = (vm, key, value) => {
-  const labels = getLabels(vm);
-  labels[key] = value;
-};
-
-const addTemplateLabel = (vm, key, value) => {
-  const labels = getTemplateLabels(vm);
-  labels[key] = value;
-};
-
-const removeDisksAndVolumes = vm => {
-  delete vm.spec.template.spec.domain.devices.disks;
-  delete vm.spec.template.spec.volumes;
-  delete vm.spec.dataVolumeTemplates;
-};
-
-const removeInterfacesAndNetworks = vm => {
-  delete vm.spec.template.spec.domain.devices.interfaces;
-  delete vm.spec.template.spec.networks;
 };
