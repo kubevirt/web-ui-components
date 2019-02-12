@@ -17,7 +17,7 @@ import {
   isImageSourceType,
 } from '../selectors';
 import { getTemplate } from '../../utils/templates';
-import { baseTemplates } from '../../tests/mocks/template';
+import { baseTemplates } from '../objects/template';
 import { userTemplates } from '../../tests/mocks/user_template';
 import { PROVISION_SOURCE_TYPE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
 

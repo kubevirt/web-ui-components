@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { get, cloneDeep } from 'lodash';
 
 import {
   ANNOTATION_FIRST_BOOT,
@@ -15,6 +15,7 @@ import {
   getUpdateFlavorPatch,
   getAddNicPatch,
   getStartStopPatch,
+  getUpdateCpuMemoryPatch,
 } from '../patches';
 import { cloudInitTestVm } from '../../tests/mocks/vm/cloudInitTestVm.mock';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
@@ -90,6 +91,34 @@ const dataVolumeTemplate = {
       blank: {},
     },
   },
+};
+
+const compareNestedPatch = (patch, path, value, op = 'add') => {
+  let resolvedPath = patch.path;
+  let nextSegment = patch.value;
+
+  while (typeof nextSegment === 'object') {
+    const keys = Object.keys(nextSegment);
+
+    if (keys.length !== 1) {
+      // resolve value which is an object without clear path
+      break;
+    }
+    const pathKey = keys[0];
+    resolvedPath = `${resolvedPath}/${pathKey}`;
+    nextSegment = nextSegment[pathKey];
+  }
+
+  comparePatch(
+    {
+      ...patch,
+      path: resolvedPath,
+      value: nextSegment,
+    },
+    path,
+    value,
+    op
+  );
 };
 
 const comparePatch = (patch, path, value, op = 'add') => {
@@ -210,153 +239,144 @@ describe('utils.js tests', () => {
     const vmWithNoDescription = cloneDeep(cloudInitTestVm);
     delete vmWithNoDescription.metadata.annotations.description;
 
-    patch = getUpdateDescriptionPatch(vmWithNoDescription, 'new description');
-    expect(patch).toHaveLength(1);
-    comparePatch(patch[0], '/metadata/annotations/description', 'new description');
-
     const vmWithNoAnnotations = cloneDeep(cloudInitTestVm);
     delete vmWithNoAnnotations.metadata.annotations;
 
-    patch = getUpdateDescriptionPatch(vmWithNoAnnotations, 'new description');
-    expect(patch).toHaveLength(1);
-    comparePatch(patch[0], '/metadata/annotations', { description: 'new description' });
+    [vmWithNoAnnotations, vmWithNoDescription].forEach(vm => {
+      patch = getUpdateDescriptionPatch(vm, 'new description');
+      expect(patch).toHaveLength(1);
+      compareNestedPatch(patch[0], '/metadata/annotations/description', 'new description');
+    });
   });
   it('Update flavor patch', () => {
-    let patch = getUpdateFlavorPatch(cloudInitTestVm, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
-    comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
-
-    patch = getUpdateFlavorPatch(cloudInitTestVm, 'small', '2', '2G');
-    expect(patch).toHaveLength(0);
-
-    patch = getUpdateFlavorPatch(cloudInitTestVm, 'small', '3', '2G');
-    expect(patch).toHaveLength(1);
-    comparePatch(patch[0], `/spec/template/spec/domain/cpu/cores`, 3, 'replace');
-
-    patch = getUpdateFlavorPatch(cloudInitTestVm, 'small', '2', '1G');
-    expect(patch).toHaveLength(1);
-    comparePatch(patch[0], `/spec/template/spec/domain/resources/requests/memory`, '1G', 'replace');
-
-    patch = getUpdateFlavorPatch(cloudInitTestVm, 'medium', '2', '2G');
+    let patch = getUpdateFlavorPatch(cloudInitTestVm, 'Custom');
+    // different flavor
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1medium`, 'true');
+    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
 
+    // same flavor
+    patch = getUpdateFlavorPatch(cloudInitTestVm, 'small');
+    expect(patch).toHaveLength(0);
+
+    // missing flavor
     const vmWithNoFlavorLabel = cloneDeep(cloudInitTestVm);
     delete vmWithNoFlavorLabel.metadata.labels[`${TEMPLATE_FLAVOR_LABEL}/small`];
-
-    patch = getUpdateFlavorPatch(vmWithNoFlavorLabel, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(3);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[1], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
-    comparePatch(patch[2], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
-
     const vmWithNoLabels = cloneDeep(cloudInitTestVm);
     delete vmWithNoLabels.metadata.labels;
 
-    patch = getUpdateFlavorPatch(vmWithNoLabels, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels`, {});
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
-    comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
+    [vmWithNoFlavorLabel, vmWithNoLabels].forEach(vmWithNoFlavor => {
+      const hasLabels = !!vmWithNoFlavor.metadata.labels;
+      patch = getUpdateFlavorPatch(vmWithNoFlavor, 'Custom');
+      const patchLength = hasLabels ? 1 : 2;
+
+      expect(patch).toHaveLength(patchLength);
+      if (!hasLabels) {
+        comparePatch(patch[0], `/metadata/labels`, {});
+      }
+      comparePatch(patch[patchLength - 1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
+    });
+  });
+  it('Update cpu memory patch', () => {
+    const cpuPath = '/spec/template/spec/domain/cpu/cores';
+    const memPath = '/spec/template/spec/domain/resources/requests/memory';
+
+    const getNumberOfPatches = (expectsDomainCreation, expectedCpuCount, expectedMemoryCount) => {
+      let patchesCount = expectsDomainCreation ? 1 : 0;
+      if (expectedCpuCount) {
+        patchesCount += 1;
+      }
+      if (expectedMemoryCount) {
+        patchesCount += 1;
+      }
+      return patchesCount;
+    };
+
+    const expectCpuMem = (
+      patch,
+      expectsDomainCreation,
+      { expectedCpuCount, expectedCpuOp },
+      { expectedMemoryCount, expectedMemoryOp }
+    ) => {
+      const patchesCount = getNumberOfPatches(expectsDomainCreation, expectedCpuCount, expectedMemoryCount);
+      expect(patch).toHaveLength(patchesCount);
+
+      if (expectsDomainCreation) {
+        compareNestedPatch(patch[0], `/spec/template/spec/domain`, {});
+      }
+
+      if (expectedCpuCount) {
+        const cpuPatchIndex = patchesCount - (expectedMemoryCount ? 2 : 1);
+        compareNestedPatch(patch[cpuPatchIndex], cpuPath, parseInt(expectedCpuCount, 10), expectedCpuOp);
+      }
+      if (expectedMemoryCount) {
+        const memPatchIndex = patchesCount - 1;
+        compareNestedPatch(patch[memPatchIndex], memPath, expectedMemoryCount, expectedMemoryOp);
+      }
+    };
+
+    const expectCpuMemWrapped = (vm, cpu, memory, expectedCpu, expectedMemory) => {
+      const patch = getUpdateCpuMemoryPatch(vm, cpu, memory);
+      const expectsDomainCreation = !get(vm, 'spec.template.spec.domain');
+      const expectsCpuCreation = !get(vm, 'spec.template.spec.domain.cpu.cores');
+      const expectsMemoryCreation = !get(vm, 'spec.template.spec.domain.resources.requests.memory');
+
+      expectCpuMem(
+        patch,
+        expectsDomainCreation,
+        { expectedCpuCount: expectedCpu, expectedCpuOp: expectsCpuCreation ? 'add' : 'replace' },
+        { expectedMemoryCount: expectedMemory, expectedMemoryOp: expectsMemoryCreation ? 'add' : 'replace' }
+      );
+    };
 
     const vmWithNoCores = cloneDeep(cloudInitTestVm);
     delete vmWithNoCores.spec.template.spec.domain.cpu.cores;
 
-    patch = getUpdateFlavorPatch(vmWithNoCores, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1);
-    comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
-
-    const vmWithNoCpuCores = cloneDeep(cloudInitTestVm);
-    delete vmWithNoCpuCores.spec.template.spec.domain.cpu;
-
-    patch = getUpdateFlavorPatch(vmWithNoCpuCores, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu`, { cores: 1 });
-    comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G', 'replace');
+    const vmWithNoCpuNoCores = cloneDeep(cloudInitTestVm);
+    delete vmWithNoCpuNoCores.spec.template.spec.domain.cpu;
 
     const vmWithNoMemory = cloneDeep(cloudInitTestVm);
     delete vmWithNoMemory.spec.template.spec.domain.resources.requests.memory;
 
-    patch = getUpdateFlavorPatch(vmWithNoMemory, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
-    comparePatch(patch[3], `/spec/template/spec/domain/resources/requests/memory`, '3G');
-
     const vmWithNoRequests = cloneDeep(cloudInitTestVm);
     delete vmWithNoRequests.spec.template.spec.domain.resources.requests;
-
-    patch = getUpdateFlavorPatch(vmWithNoRequests, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
-    comparePatch(patch[3], `/spec/template/spec/domain/resources/requests`, { memory: '3G' });
 
     const vmWithNoResources = cloneDeep(cloudInitTestVm);
     delete vmWithNoResources.spec.template.spec.domain.resources;
 
-    patch = getUpdateFlavorPatch(vmWithNoResources, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(4);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain/cpu/cores`, 1, 'replace');
-    comparePatch(patch[3], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
-
     const vmWithNoDomain = cloneDeep(cloudInitTestVm);
     delete vmWithNoDomain.spec.template.spec.domain;
-
-    patch = getUpdateFlavorPatch(vmWithNoDomain, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(5);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec/domain`, {});
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
-    comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
 
     const vmWithNoTemplateSpec = cloneDeep(cloudInitTestVm);
     delete vmWithNoTemplateSpec.spec.template.spec;
 
-    patch = getUpdateFlavorPatch(vmWithNoTemplateSpec, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(5);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template/spec`, { domain: {} });
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
-    comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
-
     const vmWithNoTemplate = cloneDeep(cloudInitTestVm);
     delete vmWithNoTemplate.spec.template;
-
-    patch = getUpdateFlavorPatch(vmWithNoTemplate, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(5);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec/template`, { spec: { domain: {} } });
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
-    comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
 
     const vmWithNoSpec = cloneDeep(cloudInitTestVm);
     delete vmWithNoSpec.spec;
 
-    patch = getUpdateFlavorPatch(vmWithNoSpec, 'Custom', '1', '3G');
-    expect(patch).toHaveLength(5);
-    comparePatch(patch[0], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1small`, undefined, 'remove');
-    comparePatch(patch[1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
-    comparePatch(patch[2], `/spec`, { template: { spec: { domain: {} } } });
-    comparePatch(patch[3], `/spec/template/spec/domain/cpu`, { cores: 1 });
-    comparePatch(patch[4], `/spec/template/spec/domain/resources`, { requests: { memory: '3G' } });
+    // no changes
+    expectCpuMemWrapped(cloudInitTestVm, '2', '2G');
+    // partial changes
+    expectCpuMemWrapped(cloudInitTestVm, '1', '2G', '1');
+    expectCpuMemWrapped(cloudInitTestVm, '2', '1G', undefined, '1G');
+
+    // changes and path creation
+    [
+      cloudInitTestVm,
+      vmWithNoCores,
+      vmWithNoCpuNoCores,
+      vmWithNoMemory,
+      vmWithNoRequests,
+      vmWithNoResources,
+      vmWithNoDomain,
+      vmWithNoTemplateSpec,
+      vmWithNoTemplate,
+      vmWithNoSpec,
+    ].forEach(vm => {
+      expectCpuMemWrapped(vm, '3', '4G', '3', '4G');
+    });
   });
   it('Add Nic patch', () => {
     const vmWithoutNetworks = getVM(false);

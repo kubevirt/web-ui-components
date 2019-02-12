@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getCpu, getFlavor, getMemory, retrieveVmTemplate, getFlavorDescription } from '../../../utils';
+import { getCpu, getMemory, getFlavorDescription } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
@@ -19,9 +19,9 @@ export class Flavor extends React.Component {
   }
 
   resolveInitialValues = () => {
-    const flavor = getFlavor(this.props.vm) || CUSTOM_FLAVOR;
-    const cpu = getCpu(this.props.vm);
-    const memory = getMemory(this.props.vm);
+    const { flavor, vm } = this.props;
+    const cpu = getCpu(vm);
+    const memory = getMemory(vm);
     const memoryInt = memory ? parseInt(memory, 10) : undefined;
     this.props.onFormChange({ value: flavor }, 'flavor', flavor !== CUSTOM_FLAVOR);
     if (flavor === CUSTOM_FLAVOR) {
@@ -34,8 +34,8 @@ export class Flavor extends React.Component {
     this.setState({
       loadingTemplate: true,
     });
-    const promise = retrieveVmTemplate(this.props.k8sGet, this.props.vm);
-    promise
+    this.props
+      .retrieveVmTemplate()
       .then(result => {
         this.props.onFormChange(result, 'template', validateForm(this.flavorFormFields(), this.props.formValues));
         return this.setState({
@@ -86,7 +86,7 @@ export class Flavor extends React.Component {
   });
 
   render() {
-    const { editing, updating, LoadingComponent, onFormChange } = this.props;
+    const { editing, updating, LoadingComponent, onFormChange, flavor } = this.props;
     const formFields = this.flavorFormFields();
 
     return (
@@ -98,7 +98,7 @@ export class Flavor extends React.Component {
         onFormChange={onFormChange}
         fieldsValues={this.props.formValues}
       >
-        <div>{getFlavor(this.props.vm) || CUSTOM_FLAVOR}</div>
+        <div>{flavor}</div>
         <div>{getFlavorDescription(this.props.vm)}</div>
       </InlineEdit>
     );
@@ -106,17 +106,19 @@ export class Flavor extends React.Component {
 }
 
 Flavor.propTypes = {
+  flavor: PropTypes.string,
   vm: PropTypes.object.isRequired,
   onFormChange: PropTypes.func.isRequired,
   updating: PropTypes.bool,
   editing: PropTypes.bool,
-  k8sGet: PropTypes.func.isRequired,
+  retrieveVmTemplate: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
   formValues: PropTypes.object,
   onLoadError: PropTypes.func,
 };
 
 Flavor.defaultProps = {
+  flavor: CUSTOM_FLAVOR,
   updating: false,
   editing: false,
   LoadingComponent: Loading,

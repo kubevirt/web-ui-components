@@ -24,7 +24,9 @@ exports[`<TemplateSource /> renders correctly 1`] = `
       ]
     }
   >
-    <div>
+    <div
+      id="myproject-container-template-type"
+    >
       Container
     </div>
   </OverlayTrigger>

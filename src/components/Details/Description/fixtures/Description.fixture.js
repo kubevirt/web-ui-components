@@ -7,7 +7,7 @@ export default [
     component: Description,
     name: 'Description',
     props: {
-      vm: cloudInitTestVm,
+      obj: cloudInitTestVm,
       onFormChange: () => {},
       formValues: {
         description: {
@@ -20,7 +20,7 @@ export default [
     component: Description,
     name: 'Description edit',
     props: {
-      vm: cloudInitTestVm,
+      obj: cloudInitTestVm,
       editing: true,
       onFormChange: () => {},
       formValues: {
@@ -34,7 +34,7 @@ export default [
     component: Description,
     name: 'Description updating',
     props: {
-      vm: cloudInitTestVm,
+      obj: cloudInitTestVm,
       updating: true,
       onFormChange: () => {},
       formValues: {

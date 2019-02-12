@@ -1,10 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { fedora28 } from '../../tests/mocks/template/fedora28.mock';
-import { rhel75 } from '../../tests/mocks/template/rhel75.mock';
-import { ubuntu1804 } from '../../tests/mocks/template/ubuntu1804.mock';
-import { windows } from '../../tests/mocks/template/windows.mock';
-import { baseTemplates } from '../../tests/mocks/template';
+import { fedora28 } from '../../k8s/objects/template/fedora28';
+import { rhel75 } from '../../k8s/objects/template/rhel75';
+import { ubuntu1804 } from '../../k8s/objects/template/ubuntu1804';
+import { windows } from '../../k8s/objects/template/windows';
+import { baseTemplates } from '../../k8s/objects/template';
 
 import {
   TEMPLATE_WORKLOAD_LABEL,

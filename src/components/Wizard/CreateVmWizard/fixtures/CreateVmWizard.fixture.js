@@ -1,7 +1,7 @@
 import { CreateVmWizard } from '../CreateVmWizard';
 import { ProcessedTemplatesModel } from '../../../../models';
 import { networkConfigs } from '../../../../tests/mocks/networkAttachmentDefinition';
-import { baseTemplates } from '../../../../tests/mocks/template';
+import { baseTemplates } from '../../../../k8s/objects/template';
 import { userTemplates } from '../../../../tests/mocks/user_template';
 import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
 import { urlTemplateDataVolume } from '../../../../tests/mocks/user_template/url.mock';
