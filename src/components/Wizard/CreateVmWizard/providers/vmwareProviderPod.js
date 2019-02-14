@@ -36,7 +36,7 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
   return secret;
 };
 
-export const getV2VVMwareObject = ({ name, namespace, connectionSecretName }) => {
+export const getV2VVMwareObject = ({ name, namespace, connectionSecretName, listVmsRequest = false }) => {
   return {
     apiVersion: `${V2VVMwareModel.apiGroup}/${V2VVMwareModel.apiVersion}`,
     kind: V2VVMwareModel.kind,
@@ -46,100 +46,7 @@ export const getV2VVMwareObject = ({ name, namespace, connectionSecretName }) =>
     },
     spec: {
       connection: connectionSecretName,
+      listVmsRequest,
     }
   };
 };
-
-// ------------------------------------------------------------------------
-/*
-export const providerPod = ({ namespace, secretName = 'pod-config', appName = 'provider-pod' }) => {
-  const secretRef = (name, key) => ({
-    name,
-    valueFrom: {
-      name: secretName,
-      key,
-    }
-  });
-  return {
-    kind: PodModel.kind,
-    apiVersion: PodModel.apiVersion,
-    metadata: {
-      generateName: `${appName}-`,
-      namespace,
-      labels: {
-        app: appName,
-      }
-    },
-    spec: {
-      containers: [{
-        name: appName,
-        image: PROVIDER_POD_IMAGE_NAME,
-        env: [
-          {
-            name: 'SERVER_PORT',
-            value: "8080",
-          },
-          secretRef('URL', 'url'),
-          secretRef('USERNAME', 'username'),
-          secretRef('PASSWORD', 'password'),
-          secretRef('TOKEN', 'token'),
-        ],
-      }],
-      restartPolicy: 'Never',
-    },
-  };
-};
-
-
-//  uniqueNodePort - please make sure it's unique
-export const providerService = ({ namespace, providerPod, uniqueNodePort }) => {
-  const appName = providerPod.metadata.labels.app;
-
-  return {
-    kind: ServiceModel.kind,
-    apiVersion: ServiceModel.apiVersion,
-    metadata: {
-      generateName: `${appName}-service-`,
-      namespace,
-    },
-    spec: {
-      selector: {
-        app: appName,
-      },
-      type: 'NodePort',
-      ports: [{
-        protocol: 'TCP',
-        port: '8080',
-        targetPort: '8080',
-        nodePort: uniqueNodePort,
-      }],
-    },
-  };
-};
-
-//  providerService - make sure it's the  object returned from API by creation due to providerService.metadata.name
-export const providerRoute = ({ namespace, providerService }) => {
-  const serviceName = providerService.metadata.name;
-  const targetPort = providerService.spec.ports[0].targetPort;
-
-  return {
-    apiVersion: RouteModel.apiVersion,
-    kind: RouteModel.kind,
-    metadata: {
-      name: serviceName, // share the name
-      namespace,
-    },
-    spec: {
-      // host: 'TODO', // can it be auto-generated? TODO: verify
-      port: {
-        targetPort,
-      },
-      to: {
-        kind: ServiceModel.kind,
-        name: serviceName,
-      },
-      wildcardPolicy: 'None',
-    },
-  };
-};
-*/

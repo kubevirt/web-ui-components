@@ -10,9 +10,9 @@ import {
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
   PROVIDER_VMWARE_USER_PWD_KEY,
+  PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
-
-const getRandomString = length => Math.random().toString(36).substr(2, length);
+import {CONNECT_TO_NEW_INSTANCE} from '../strings';
 
 export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
   // Note: any changes to the dialog since issuing the Check-button action till it's finish will be lost due to tight binding of the onFormChange to basicSettings set at promise creation
@@ -26,6 +26,7 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
   const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
 
   try {
+    // TODO: set owner reference to delete this secret along the v2vVmware
     const secret = await k8sCreate(SecretModel, getImportProviderSecretObject({
       url,
       username,
@@ -34,11 +35,12 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       secretName
     }));
 
-    // TODO: when is this object deleted?
+    // TODO: when is this object deleted? Controller can collect garbage based on a timeToLive label (can be set by the controller itself, if missing)
     const v2vVmware = await k8sCreate(V2VVMwareModel, getV2VVMwareObject({
       name: `check-${getDefaultSecretName({ url, username })}-`,
       namespace,
       connectionSecretName: secret.metadata.name,
+      listVmsRequest: false
     }));
 
     onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }) // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
@@ -46,33 +48,37 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
     console.warn('onVmwareCheckConnection(): Check for VMWare credentials failed, reason: ', err);
     onChange({ status: PROVIDER_STATUS_CONNECTION_FAILED }); // The CR can not be created
   }
-
-  /*
-  k8sCreate(SecretModel, getImportProviderSecretObject({url, username, password, namespace, secretName})).then(() => {
-    // TODO: use the just created secret and spawn a Connection pod and query it
-    // TODO:can we delete the temp-secret right after POD's creation? If not we can potentialy schedule the deletion by setTimeout() or using pod's finalizer
-    window.setTimeout(() => {
-      onChange({ status: PROVIDER_STATUS_SUCCESS })
-    }, 2000);
-  }, reason => {
-    console.warn('onVmwareCheckConnection(): Creation of vCenter credentials Secret failed, reason: ', reason);
-    onChange({ status: PROVIDER_STATUS_CONNECTION_FAILED });
-  });
-  */
 };
 
 // secret already exists, use it
-// TODO:
-// - kill potentially existing Connection pod
-//    - see prevBasicSettings if any previously created
-// - create new pod instance
-// Connection POD spawn:
-// - store unique ID in basicSettings
-// - createPod with the secret and a label with the unique value
-// - wrap the VMList dropdown to
-//    - WithResources for the given pod
-//    - another component querying the pod for the list of VMs
-export const onVCenterInstanceSelected = ({ value, validation }, key, formValid, prevBasicSettings, onFormChange) => {
+export const onVCenterInstanceSelected = async (k8sCreate, valueValidationPair, key, formValid, prevBasicSettings, onFormChange) => {
   // onFormChange: (newValue, key, formValid) => {} to update basicSettings
-  console.log('--- TODO: onVCenterInstanceSelected: ', value, validation, key, formValid, prevBasicSettings, onFormChange);
+  const { value } = valueValidationPair;
+  const connectionSecretName = value;
+  if (!connectionSecretName || connectionSecretName === CONNECT_TO_NEW_INSTANCE) {
+    return ;
+  }
+
+  const namespace = get(prevBasicSettings, [NAMESPACE_KEY, 'value']);
+  console.log('--- onVCenterInstanceSelected: ', connectionSecretName);
+
+  // TODO: when is this object deleted?
+  const v2vVmware = await k8sCreate(V2VVMwareModel, getV2VVMwareObject({
+    name: `v2vvmware-${connectionSecretName}-`,
+    namespace,
+    connectionSecretName,
+    listVmsRequest: true
+  }));
+
+  // reuse PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY for storing reference to the just created V2VVMWare object
+  onFormChange(
+    {
+      [PROVIDER_VMWARE_CONNECTION]: {
+        V2VVmwareName: v2vVmware.metadata.name,
+        status: PROVIDER_STATUS_CONNECTING, // useless value
+      }
+    },
+    PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
+    formValid,
+  );
 };

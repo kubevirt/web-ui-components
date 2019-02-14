@@ -76,7 +76,7 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
       type: 'custom',
       CustomComponent: getVCenterInstancesConnected(basicSettings, WithResources),
       required: true,
-      onChange: onVCenterInstanceSelected,
+      onChange: (...props) => onVCenterInstanceSelected(k8sCreate, ...props),
       isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
       defaultValue: '--- Select vCenter Instance Secret ---',
       help: 'Select secret containing connection details for a vCenter instance.'

@@ -2,46 +2,40 @@ import React from "react";
 import { get } from 'lodash';
 
 import { getResource } from '../../../../utils';
-import { PodModel } from '../../../../models';
+import { V2VVMwareModel } from '../../../../models';
 import { Dropdown } from '../../../Form';
-import { isPodReady } from '../../../../k8s/selectors';
 
-import { PROVIDER_VMWARE_PROVIDER_POD_NAME_KEY } from '../constants';
+import {
+  NAMESPACE_KEY, PROVIDER_VMWARE_CONNECTION,
+  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY
+} from '../constants';
 
-// TODO: so far jsut something what can be compiled - reimplement
-// TODO repimplement to following: read VMs list from a connector pod instead of k8s API
-// if Connector pod exists, query it
-// otherwise empty
 export const getVCenterVmsConnected = (basicSettings, WithResources) => {
-  const providerPodName = basicSettings[PROVIDER_VMWARE_PROVIDER_POD_NAME_KEY];
-  if (!providerPodName) {
-    return ({ id, value }) => <Dropdown id={id} value={value} disabled />;
-  }
+  console.log('--- getVCenterVmsConnected, basicSettings: ', basicSettings);
+  const v2vvmwareName = get(basicSettings, [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY, PROVIDER_VMWARE_CONNECTION, 'V2VVmwareName']);
+  console.log('--- getVCenterVmsConnected, v2vvmwareName: ', v2vvmwareName);
 
   const resourceMap = {
-    providerPod: {
-      resource: getResource(PodModel, {
-        namespace: basicSettings.namespace ? basicSettings.namespace.value : undefined,
-        name: providerPodName,
-        // note: field-selector for "status.phase=Running" does not work reliably, so let's filter on our own
+    v2vvmware: {
+      resource: getResource(V2VVMwareModel, {
+        name: v2vvmwareName,
+        namespace: get(basicSettings[NAMESPACE_KEY], 'value'),
+        isList: false,
       }),
     },
   };
-  const resourceToProps = ({ providerPod }) => {
-    console.log('--- getVCenterVmsConnected, providerPod = ', providerPod);
-    console.log('--- getVCenterVmsConnected, providerPod.status.phase = ', get(providerPod, 'status.phase'));
+  const resourceToProps = ({ v2vvmware }) => {
+    const vms = get(v2vvmware, 'spec.vms');
+    console.log('--- getVCenterVmsConnected, vms: ', vms);
 
-    if (!isPodReady(providerPod)) {
-      console.log('ProviderPod is not yet ready: ', providerPod);
-      return {
-        choices: [],
-        disabled: true,
-      };
+    let choices = [];
+    if (vms) {
+      choices = vms.map(vm => vm.name);
     }
-    // TODO: pass pod to new component wrapping generic HTTP request
+
     return {
-      choices: ['vm1', 'vm2'], // TODO
-      disabled: true,
+      choices, // value set by the controller
+      disabled: !vms,
     };
   };
 
