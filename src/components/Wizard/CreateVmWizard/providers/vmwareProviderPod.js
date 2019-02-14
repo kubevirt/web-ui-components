@@ -2,10 +2,10 @@
  * Based on V2V Provider Pod manifest.yaml
  */
 
-import { PodModel, ServiceModel, RouteModel, SecretModel } from '../../../../models';
+import { PodModel, ServiceModel, RouteModel, SecretModel, V2VVMwareModel } from '../../../../models';
 import { VCENTER_TYPE_LABEL } from '../../../../constants';
 
-const PROVIDER_POD_IMAGE_NAME = 'quay.io/pkliczewski/provider-pod:latest'; // TODO
+// const PROVIDER_POD_IMAGE_NAME = 'quay.io/pkliczewski/provider-pod:latest'; // TODO
 
 export const getDefaultSecretName = ({ username, url }) => {
   const u = new URL(url || '');
@@ -19,7 +19,7 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
     kind: SecretModel.kind,
     apiVersion: SecretModel.apiVersion,
     metadata: {
-      name: _secretName,
+      generateName: _secretName,
       namespace,
       labels: {
         [VCENTER_TYPE_LABEL]: 'true',
@@ -36,6 +36,22 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
   return secret;
 };
 
+export const getV2VVMwareObject = ({ name, namespace, connectionSecretName }) => {
+  return {
+    apiVersion: `${V2VVMwareModel.apiGroup}/${V2VVMwareModel.apiVersion}`,
+    kind: V2VVMwareModel.kind,
+    metadata: {
+      generateName: name,
+      namespace,
+    },
+    spec: {
+      connection: connectionSecretName,
+    }
+  };
+};
+
+// ------------------------------------------------------------------------
+/*
 export const providerPod = ({ namespace, secretName = 'pod-config', appName = 'provider-pod' }) => {
   const secretRef = (name, key) => ({
     name,
@@ -74,9 +90,8 @@ export const providerPod = ({ namespace, secretName = 'pod-config', appName = 'p
   };
 };
 
-/*
-  uniqueNodePort - please make sure it's unique
- */
+
+//  uniqueNodePort - please make sure it's unique
 export const providerService = ({ namespace, providerPod, uniqueNodePort }) => {
   const appName = providerPod.metadata.labels.app;
 
@@ -102,9 +117,7 @@ export const providerService = ({ namespace, providerPod, uniqueNodePort }) => {
   };
 };
 
-/*
-  providerService - make sure it's the  object returned from API by creation due to providerService.metadata.name
- */
+//  providerService - make sure it's the  object returned from API by creation due to providerService.metadata.name
 export const providerRoute = ({ namespace, providerService }) => {
   const serviceName = providerService.metadata.name;
   const targetPort = providerService.spec.ports[0].targetPort;
@@ -129,3 +142,4 @@ export const providerRoute = ({ namespace, providerService }) => {
     },
   };
 };
+*/
