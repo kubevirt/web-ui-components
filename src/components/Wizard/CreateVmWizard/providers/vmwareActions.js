@@ -6,7 +6,6 @@ import {
   NAMESPACE_KEY,
   PROVIDER_STATUS_CONNECTING,
   PROVIDER_STATUS_CONNECTION_FAILED,
-  PROVIDER_STATUS_SUCCESS,
   PROVIDER_VMWARE_URL_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
@@ -35,17 +34,17 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       secretName
     }));
 
+    // TODO: when is this object deleted?
     const v2vVmware = await k8sCreate(V2VVMwareModel, getV2VVMwareObject({
       name: `check-${getDefaultSecretName({ url, username })}-`,
       namespace,
       connectionSecretName: secret.metadata.name,
     }));
 
-    // TODO
-    onChange({ status: PROVIDER_STATUS_SUCCESS })
+    onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }) // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
   } catch (err) {
     console.warn('onVmwareCheckConnection(): Check for VMWare credentials failed, reason: ', err);
-    onChange({ status: PROVIDER_STATUS_CONNECTION_FAILED });
+    onChange({ status: PROVIDER_STATUS_CONNECTION_FAILED }); // The CR can not be created
   }
 
   /*
