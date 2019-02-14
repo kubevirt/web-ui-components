@@ -80,7 +80,7 @@ const getProvisionSourceHelp = basicSettings => {
   }
 };
 
-export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate) => {
+export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate, k8sGet) => {
   const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
   const operatingSystems = getOperatingSystems(basicSettings, templates, userTemplate);
@@ -124,7 +124,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       choices: userTemplateNames,
     };
 
-    providersSection = importProviders(basicSettings, WithResources, k8sCreate);
+    providersSection = importProviders(basicSettings, WithResources, k8sCreate, k8sGet);
     imageSources.push(PROVISION_SOURCE_IMPORT);
   }
 
@@ -358,15 +358,15 @@ export class BasicSettingsTab extends React.Component {
   }
 
   updateSelectedNamespace = props => {
-    const { basicSettings, namespaces, selectedNamespace, templates, createTemplate, WithResources, k8sCreate } = props;
-    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate);
+    const { basicSettings, namespaces, selectedNamespace, templates, createTemplate, WithResources, k8sCreate, k8sGet } = props;
+    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate, k8sGet);
     const valid = validateForm(formFields, basicSettings);
     publish(props, asValueObject(getName(selectedNamespace)), NAMESPACE_KEY, valid, formFields);
   };
 
   render() {
-    const { basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate } = this.props;
-    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate);
+    const { basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate, k8sGet } = this.props;
+    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate, WithResources, k8sCreate, k8sGet);
 
     return (
       <FormFactory
