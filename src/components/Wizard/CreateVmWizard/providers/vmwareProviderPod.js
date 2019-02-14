@@ -2,10 +2,8 @@
  * Based on V2V Provider Pod manifest.yaml
  */
 
-import { PodModel, ServiceModel, RouteModel, SecretModel, V2VVMwareModel } from '../../../../models';
+import { SecretModel, V2VVMwareModel } from '../../../../models';
 import { VCENTER_TYPE_LABEL } from '../../../../constants';
-
-// const PROVIDER_POD_IMAGE_NAME = 'quay.io/pkliczewski/provider-pod:latest'; // TODO
 
 export const getDefaultSecretName = ({ username, url }) => {
   const u = new URL(url || '');
@@ -36,7 +34,7 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
   return secret;
 };
 
-export const getV2VVMwareObject = ({ name, namespace, connectionSecretName, listVmsRequest = false }) => {
+export const getV2VVMwareObject = ({ name, namespace, connectionSecretName }) => {
   return {
     apiVersion: `${V2VVMwareModel.apiGroup}/${V2VVMwareModel.apiVersion}`,
     kind: V2VVMwareModel.kind,
@@ -46,7 +44,6 @@ export const getV2VVMwareObject = ({ name, namespace, connectionSecretName, list
     },
     spec: {
       connection: connectionSecretName,
-      listVmsRequest,
     }
   };
 };

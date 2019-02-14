@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import {DeploymentModel, SecretModel, V2VVMwareModel} from '../../../../models';
+import { SecretModel, V2VVMwareModel } from '../../../../models';
 import { getImportProviderSecretObject, getDefaultSecretName, getV2VVMwareObject } from './vmwareProviderPod';
 
 import {
@@ -22,7 +22,6 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
   const username = get(basicSettings[PROVIDER_VMWARE_USER_NAME_KEY], 'value');
   const password = get(basicSettings[PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY], ['value', PROVIDER_VMWARE_USER_PWD_KEY]);
   const namespace = get(basicSettings[NAMESPACE_KEY], 'value');
-  // const secretName = `temp-${getDefaultSecretName({ url, username })}-${getRandomString(5)}`;
   const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
 
   try {
@@ -40,7 +39,6 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       name: `check-${getDefaultSecretName({ url, username })}-`,
       namespace,
       connectionSecretName: secret.metadata.name,
-      listVmsRequest: false
     }));
 
     onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }) // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
@@ -67,15 +65,16 @@ export const onVCenterInstanceSelected = async (k8sCreate, valueValidationPair, 
     name: `v2vvmware-${connectionSecretName}-`,
     namespace,
     connectionSecretName,
-    listVmsRequest: true
   }));
 
   // reuse PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY for storing reference to the just created V2VVMWare object
   onFormChange(
     {
-      [PROVIDER_VMWARE_CONNECTION]: {
-        V2VVmwareName: v2vVmware.metadata.name,
-        status: PROVIDER_STATUS_CONNECTING, // useless value
+      value: {
+        [PROVIDER_VMWARE_CONNECTION]: {
+          V2VVmwareName: v2vVmware.metadata.name,
+          status: PROVIDER_STATUS_CONNECTING, // useless value
+        }
       }
     },
     PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,

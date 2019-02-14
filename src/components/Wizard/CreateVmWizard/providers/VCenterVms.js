@@ -12,7 +12,7 @@ import {
 
 export const getVCenterVmsConnected = (basicSettings, WithResources) => {
   console.log('--- getVCenterVmsConnected, basicSettings: ', basicSettings);
-  const v2vvmwareName = get(basicSettings, [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY, PROVIDER_VMWARE_CONNECTION, 'V2VVmwareName']);
+  const v2vvmwareName = get(basicSettings, [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY, 'value', PROVIDER_VMWARE_CONNECTION, 'V2VVmwareName']);
   console.log('--- getVCenterVmsConnected, v2vvmwareName: ', v2vvmwareName);
 
   const resourceMap = {

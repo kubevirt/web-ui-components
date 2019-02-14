@@ -112,6 +112,7 @@ const createRoleBinding = ({ k8sCreate, namespace }) => {
   });
 };
 
+// TODO: Do not use Deployment, just run the pod directly to simplify upgrades
 const createOperator = ({k8sCreate, namespace}) => {
   return k8sCreate(DeploymentModel, {
     apiVersion: `${DeploymentModel.apiGroup}/${DeploymentModel.apiVersion}`,
