@@ -149,3 +149,94 @@ export const SecretModel = {
   id: 'secret',
   labelPlural: 'Secrets',
 };
+
+export const ServiceModel = {
+  apiVersion: 'v1',
+  label: 'Service',
+  path: 'services',
+  plural: 'services',
+  abbr: 'S',
+  namespaced: true,
+  kind: 'Service',
+  id: 'service',
+  labelPlural: 'Services',
+};
+
+export const RouteModel = {
+  label: 'Route',
+  labelPlural: 'Routes',
+  apiGroup: 'route.openshift.io',
+  apiVersion: 'v1',
+  path: 'routes',
+  plural: 'routes',
+  abbr: 'RT',
+  namespaced: true,
+  kind: 'Route',
+  id: 'route',
+};
+
+export const V2VVMwareModel = {
+  label: 'V2V VMWare Provider',
+  labelPlural: 'V2V VMWare Providers',
+  apiVersion: 'v1alpha1',
+  path: 'v2vvmwares',
+  apiGroup: 'kubevirt.io',
+  plural: 'v2vvmwares',
+  abbr: 'v2vVmw',
+  namespaced: true,
+  kind: 'V2VVmware',
+  id: 'v2vvmware',
+};
+
+export const DeploymentModel = {
+  label: 'Deployment',
+  apiVersion: 'v1',
+  path: 'deployments',
+  apiGroup: 'apps',
+  plural: 'deployments',
+  abbr: 'D',
+  namespaced: true,
+  propagationPolicy: 'Foreground',
+  kind: 'Deployment',
+  id: 'deployment',
+  labelPlural: 'Deployments',
+};
+
+export const ServiceAccountModel = {
+  apiVersion: 'v1',
+  label: 'Service Account',
+  path: 'serviceaccounts',
+  plural: 'serviceaccounts',
+  abbr: 'SA',
+  namespaced: true,
+  kind: 'ServiceAccount',
+  id: 'serviceaccount',
+  labelPlural: 'Service Accounts',
+};
+
+export const RoleModel = {
+  label: 'Role',
+  apiGroup: 'rbac.authorization.k8s.io',
+  apiVersion: 'v1',
+  path: 'roles',
+  plural: 'roles',
+  abbr: 'R',
+  namespaced: true,
+  kind: 'Role',
+  id: 'role',
+  labelPlural: 'Roles',
+};
+
+export const RoleBindingModel = {
+  label: 'Role Binding',
+  apiGroup: 'rbac.authorization.k8s.io',
+  apiVersion: 'v1',
+  path: 'rolebindings',
+  plural: 'rolebindings',
+  abbr: 'RB',
+  namespaced: true,
+  kind: 'RoleBinding',
+  id: 'rolebinding',
+  labelPlural: 'Role Bindings',
+};
+
