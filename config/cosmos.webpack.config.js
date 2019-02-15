@@ -1,6 +1,7 @@
 // https://webpack.js.org/configuration/
 
 const chalk = require('chalk');
+
 const paths = require('./paths');
 const babelOptions = require('./babel.config');
 
@@ -15,6 +16,10 @@ const sassOptions = {
     `${paths.nodeModules}/patternfly/dist/sass`,
     `${paths.nodeModules}/patternfly-react/dist/sass`,
   ],
+};
+
+const cssOptions = {
+  includePaths: [`${paths.nodeModules}/@patternfly/react-core/dist/styles/`],
 };
 
 module.exports = {
@@ -37,6 +42,17 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: sassOptions,
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'sass-loader',
+            options: cssOptions,
           },
         ],
       },

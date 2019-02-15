@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "@patternfly/react-console": "1.x",
+    "@patternfly/react-core": "2.1.7",
+    "@patternfly/react-table": "1.0.7",
     "classnames": "2.x",
     "js-yaml": "3.x",
     "lodash": "4.x",

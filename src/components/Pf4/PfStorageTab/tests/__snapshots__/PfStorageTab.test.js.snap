@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Pf4StorageTab /> renders correctly 1`] = `
+<Fragment>
+  <div
+    className="kubevirt-pf-storage-tab__buttons"
+  >
+    <Button
+      aria-label={null}
+      className="kubevirt-pf-storage-tab__button-create-disk"
+      component="button"
+      id="create-storage-btn"
+      isActive={false}
+      isBlock={false}
+      isDisabled={false}
+      isFocus={false}
+      isHover={false}
+      onClick={[Function]}
+      type="button"
+      variant="primary"
+    >
+      Create Disk
+    </Button>
+    <Button
+      aria-label={null}
+      className=""
+      component="button"
+      id="attach-disk-btn"
+      isActive={false}
+      isBlock={false}
+      isDisabled={false}
+      isFocus={false}
+      isHover={false}
+      onClick={[Function]}
+      type="button"
+      variant="secondary"
+    >
+      Attach Disk
+    </Button>
+  </div>
+  <Table
+    actions={
+      Array [
+        Object {
+          "onClick": [Function],
+          "title": "Remove Disk",
+        },
+      ]
+    }
+    cells={
+      Array [
+        Object {
+          "cellFormatters": Array [
+            [Function],
+          ],
+          "title": "Name",
+          "transforms": Array [
+            [Function],
+          ],
+        },
+        Object {
+          "cellFormatters": Array [
+            [Function],
+          ],
+          "title": "Size (GB)",
+          "transforms": Array [
+            [Function],
+          ],
+        },
+        Object {
+          "cellFormatters": Array [
+            [Function],
+          ],
+          "title": "Storage Class",
+          "transforms": Array [
+            [Function],
+          ],
+        },
+      ]
+    }
+    className=""
+    contentId="expanded-content"
+    dropdownDirection="down"
+    dropdownPosition="right"
+    expandId="expandable-toggle"
+    gridBreakPoint="grid-md"
+    onCollapse={null}
+    rowLabeledBy="simple-node"
+    rows={Array []}
+    variant="compact"
+  >
+    <TableHeader
+      className=""
+    />
+    <TableBody
+      className=""
+      onRowClick={[Function]}
+      rowKey="id"
+    />
+  </Table>
+</Fragment>
+`;
