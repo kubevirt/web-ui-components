@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormFactory } from '../../Form';
+import { FormFactory, DROPDOWN, TEXT } from '../../Form';
 import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
@@ -220,7 +220,7 @@ export class NetworksTab extends React.Component {
       property: 'name',
       renderConfig: () => ({
         id: 'name-edit',
-        type: 'text',
+        type: TEXT,
       }),
     },
     {
@@ -238,7 +238,7 @@ export class NetworksTab extends React.Component {
           ? null
           : {
               id: 'mac-edit',
-              type: 'text',
+              type: TEXT,
             },
     },
     {
@@ -253,7 +253,7 @@ export class NetworksTab extends React.Component {
       property: 'network',
       renderConfig: () => ({
         id: 'network-edit',
-        type: 'dropdown',
+        type: DROPDOWN,
         choices: this.props.networkConfigs
           .filter(networkConfig => networkConfig.metadata.namespace === this.props.namespace)
           .map(networkConfig => networkConfig.metadata.name)

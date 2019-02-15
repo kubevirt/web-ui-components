@@ -5,11 +5,12 @@ import { getDescription } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit';
 import { Loading } from '../../Loading';
 import { DASHES } from '../../../constants';
+import { TEXT_AREA } from '../../Form';
 
 const descriptionFormFields = {
   description: {
     id: 'description-textarea',
-    type: 'textarea',
+    type: TEXT_AREA,
   },
 };
 

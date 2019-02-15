@@ -6,7 +6,7 @@ import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
 import { Loading } from '../../Loading/Loading';
-import { validateForm } from '../../Form/FormFactory';
+import { validateForm, DROPDOWN, POSITIVE_NUMBER } from '../../Form';
 
 export class Flavor extends React.Component {
   constructor(props) {
@@ -66,20 +66,20 @@ export class Flavor extends React.Component {
   flavorFormFields = () => ({
     flavor: {
       id: 'flavor-dropdown',
-      type: 'dropdown',
+      type: DROPDOWN,
       choices: this.getFlavorChoices(),
     },
     cpu: {
       id: 'flavor-cpu',
       title: 'CPU',
-      type: 'positive-number',
+      type: POSITIVE_NUMBER,
       required: true,
       isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
     },
     memory: {
       id: 'flavor-memory',
       title: 'Memory (GB)',
-      type: 'positive-number',
+      type: POSITIVE_NUMBER,
       required: true,
       isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
     },

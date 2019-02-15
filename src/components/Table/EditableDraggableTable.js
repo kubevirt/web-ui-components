@@ -29,6 +29,7 @@ import {
   ACTIONS_TYPE,
   DELETE_ACTION,
 } from './constants';
+import { DROPDOWN } from '../Form';
 
 class EditableDraggableTable extends React.Component {
   state = {
@@ -170,7 +171,7 @@ class EditableDraggableTable extends React.Component {
     return <td className="editable">{result}</td>;
   };
 
-  isDropdown = additionalData => get(this.getRenderConfig(additionalData), 'type') === 'dropdown';
+  isDropdown = additionalData => get(this.getRenderConfig(additionalData), 'type') === DROPDOWN;
 
   getRenderConfig = additionalData => {
     const { renderConfig } = additionalData.column;

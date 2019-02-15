@@ -9,6 +9,7 @@ import { VALIDATION_INFO_TYPE, VALIDATION_ERROR_TYPE } from '../../constants';
 import { getValidationObject } from '../../utils/validations';
 import { ERROR_IS_REQUIRED } from '../Wizard/CreateVmWizard/strings';
 import { settingsValue } from '../../k8s/selectors';
+import { TEXT_AREA, DROPDOWN, CHECKBOX, POSITIVE_NUMBER, LABEL, CUSTOM } from './constants';
 
 export const getFormElement = props => {
   const {
@@ -26,7 +27,7 @@ export const getFormElement = props => {
     CustomComponent,
   } = props;
   switch (type) {
-    case 'textarea':
+    case TEXT_AREA:
       return (
         <TextArea
           id={id}
@@ -39,11 +40,11 @@ export const getFormElement = props => {
           disabled={disabled}
         />
       );
-    case 'dropdown':
+    case DROPDOWN:
       return (
         <Dropdown id={id} value={value || defaultValue} onChange={onChange} choices={choices} disabled={disabled} />
       );
-    case 'checkbox':
+    case CHECKBOX:
       return (
         <Checkbox
           id={id}
@@ -55,7 +56,7 @@ export const getFormElement = props => {
           disabled={disabled}
         />
       );
-    case 'positive-number':
+    case POSITIVE_NUMBER:
       return (
         <Integer
           id={id}
@@ -68,13 +69,13 @@ export const getFormElement = props => {
           disabled={disabled}
         />
       );
-    case 'label':
+    case LABEL:
       return (
         <div className={className} key={id}>
           {value}
         </div>
       );
-    case 'custom':
+    case CUSTOM:
       return <CustomComponent />;
     default:
       return (

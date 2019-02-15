@@ -9,7 +9,7 @@ import {
   VALIDATION_ERROR_TYPE,
 } from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
-import { FormFactory } from '../../Form/FormFactory';
+import { FormFactory, DROPDOWN, POSITIVE_NUMBER, TEXT } from '../../Form';
 import { getValidationObject, validateDNS1123SubdomainValue } from '../../../utils/validations';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_CONTAINER } from './constants';
@@ -383,7 +383,7 @@ export class StorageTab extends React.Component {
         storage.storageType === STORAGE_TYPE_PVC
           ? {
               id: 'name-attach-edit',
-              type: 'dropdown',
+              type: DROPDOWN,
               choices: this.props.persistentVolumeClaims
                 .filter(pvc => pvc.metadata.namespace === this.props.namespace)
                 .map(getName)
@@ -392,7 +392,7 @@ export class StorageTab extends React.Component {
             }
           : {
               id: 'name-edit',
-              type: 'text',
+              type: TEXT,
             },
     },
     {
@@ -409,7 +409,7 @@ export class StorageTab extends React.Component {
         storage.storageType === STORAGE_TYPE_DATAVOLUME
           ? {
               id: 'size-edit',
-              type: 'positive-number',
+              type: POSITIVE_NUMBER,
             }
           : null,
     },
@@ -428,7 +428,7 @@ export class StorageTab extends React.Component {
         storage.storageType === STORAGE_TYPE_DATAVOLUME
           ? {
               id: 'storage-edit',
-              type: 'dropdown',
+              type: DROPDOWN,
               choices: this.props.storageClasses.map(getName),
               initialValue: '--- Select ---',
             }
@@ -480,7 +480,7 @@ export class StorageTab extends React.Component {
     bootableDisk: {
       id: 'bootable-disk-dropdown',
       title: BOOTABLE_DISK,
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: SELECT_BOOTABLE_DISK,
       choices: disks.filter(disk => !hasError(disk)).map(disk => ({
         name: disk.name,
