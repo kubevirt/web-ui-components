@@ -1,0 +1,202 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DesktopViewerSelector /> renders correctly 1`] = `
+<div
+  className="kubevirt-desktop-viewer-selector"
+>
+  <FormFactory
+    controlSize={5}
+    fields={
+      Object {
+        "nic": Object {
+          "choices": Array [
+            Object {
+              "ip": "192.168.1.0",
+              "name": "eth0",
+              "type": "pod",
+            },
+          ],
+          "defaultValue": "--- Select Network Interface ---",
+          "id": "nic-dropdown",
+          "title": "Network Interface",
+          "type": "dropdown",
+        },
+      }
+    }
+    fieldsValues={
+      Object {
+        "nic": Object {
+          "value": Object {
+            "ip": "192.168.1.0",
+            "name": "eth0",
+            "type": "pod",
+          },
+        },
+      }
+    }
+    labelSize={3}
+    onFormChange={[Function]}
+    textPosition="text-right"
+  />
+  <RdpServiceNotConfigured
+    vm={
+      Object {
+        "apiVersion": "kubevirt.io/v1alpha3",
+        "kind": "VirtualMachine",
+        "metadata": Object {
+          "annotations": Object {
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacus nibh, convallis vel nunc id,tempus vulputate augue. Proin eget nisl vel ante tincidunt accumsan vel at elit. Fusce eget tincidunt sem. Fusce cursus orci vitae nisl hendrerit mollis. Nullam at nulla ut ipsum malesuada laoreet a sit amet est.",
+          },
+          "clusterName": "",
+          "creationTimestamp": "2018-11-06T14:32:07Z",
+          "generation": 1,
+          "labels": Object {
+            "flavor.template.cnv.io/small": "true",
+            "os.template.cnv.io/fedora29": "true",
+            "template.cnv.ui": "default_fedora-generic",
+            "workload.template.cnv.io/generic": "true",
+          },
+          "name": "cloudinit-test-vm",
+          "namespace": "default",
+          "resourceVersion": "10390764",
+          "selfLink": "/apis/kubevirt.io/v1alpha3/namespaces/default/virtualmachines/cloudinit-test-vm",
+          "uid": "bcc1d0b1-e1d0-11e8-82b4-54ee7586b9c3",
+        },
+        "spec": Object {
+          "dataVolumeTemplates": Array [
+            Object {
+              "metadata": Object {
+                "name": "dv-template",
+              },
+              "spec": Object {
+                "pvc": Object {
+                  "accessModes": Array [
+                    "ReadWriteOnce",
+                  ],
+                  "resources": Object {
+                    "requests": Object {
+                      "storage": "1G",
+                    },
+                  },
+                },
+                "source": Object {
+                  "pvc": Object {
+                    "name": "fooname",
+                    "namespace": "foonamespace",
+                  },
+                },
+              },
+            },
+          ],
+          "running": false,
+          "template": Object {
+            "spec": Object {
+              "domain": Object {
+                "cpu": Object {
+                  "cores": 2,
+                },
+                "devices": Object {
+                  "disks": Array [
+                    Object {
+                      "disk": Object {
+                        "bus": "virtio",
+                      },
+                      "name": "rootdisk",
+                    },
+                    Object {
+                      "disk": Object {
+                        "bus": "virtio",
+                      },
+                      "name": "cloudinitdisk",
+                    },
+                    Object {
+                      "disk": Object {
+                        "bus": "virtio",
+                      },
+                      "name": "datavolumedisk",
+                    },
+                    Object {
+                      "disk": Object {
+                        "bus": "virtio",
+                      },
+                      "name": "datavolumetemplatedisk",
+                    },
+                    Object {
+                      "disk": Object {
+                        "bus": "virtio",
+                      },
+                      "name": "pvcdisk",
+                    },
+                  ],
+                  "interfaces": Array [
+                    Object {
+                      "bridge": Object {},
+                      "name": "eth0",
+                    },
+                  ],
+                  "rng": Object {},
+                },
+                "resources": Object {
+                  "requests": Object {
+                    "memory": "2G",
+                  },
+                },
+              },
+              "networks": Array [
+                Object {
+                  "name": "eth0",
+                  "pod": Object {},
+                },
+              ],
+              "terminationGracePeriodSeconds": 0,
+              "volumes": Array [
+                Object {
+                  "containerDisk": Object {
+                    "image": "kubevirt/cirros-registry-disk-demo",
+                  },
+                  "name": "rootdisk",
+                },
+                Object {
+                  "dataVolume": Object {
+                    "name": "datavolume-url",
+                  },
+                  "name": "datavolumedisk",
+                },
+                Object {
+                  "dataVolume": Object {
+                    "name": "dv-template",
+                  },
+                  "name": "datavolumetemplatedisk",
+                },
+                Object {
+                  "name": "pvcdisk",
+                  "persistentVolumeClaim": Object {
+                    "claimName": "disk-one",
+                  },
+                },
+                Object {
+                  "cloudInitNoCloud": Object {
+                    "userData": "#cloud-config
+users:
+  - name: root
+    ssh-authorized-keys: |-
+      AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
+      GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
+      Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
+      t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
+      mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
+      NrRFi9wrf+M7Q==
+hostname: cloudinit-test
+",
+                  },
+                  "name": "cloudinitdisk",
+                },
+              ],
+            },
+          },
+        },
+      }
+    }
+  />
+</div>
+`;
