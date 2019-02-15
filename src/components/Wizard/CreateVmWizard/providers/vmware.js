@@ -90,7 +90,7 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
       required: true,
       isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
       defaultValue: '--- Select VM ---',
-      help: 'Select a vCenter virtual machine to import. Loading of their list might take some time.'
+      help: 'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.'
     },
   }
 };
