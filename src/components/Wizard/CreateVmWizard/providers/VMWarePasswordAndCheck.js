@@ -30,6 +30,12 @@ const CheckingCredentials = () => (
   </div>
 );
 
+const LoadingData = () => (
+  <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
+    Connection successful. Loading data...<Spinner loading size="sm"/>
+  </div>
+);
+
 const ConnectionFailed = () => (
   <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
     <Alert type="warning">
@@ -74,8 +80,12 @@ const VMWareProviderStatusByPhase = ({ phase }) => {
     return <CheckingCredentials />;
   }
 
-  if ([PhaseConnectionSuccessful, PhaseLoadingVmsList, PhaseLoadingVmDetail].includes(phase)) {
+  if (phase === PhaseConnectionSuccessful) {
     return <ConnectionSuccessful />;
+  }
+
+  if ([PhaseLoadingVmsList, PhaseLoadingVmDetail].includes(phase)) {
+    return <LoadingData />;
   }
 
   if (phase === PhaseConnectionFailed) {
