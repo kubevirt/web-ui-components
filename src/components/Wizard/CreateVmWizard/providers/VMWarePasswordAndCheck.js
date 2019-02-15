@@ -19,6 +19,10 @@ import {V2VVMwareModel} from "../../../../models";
 const PhaseConnecting = 'Connecting';
 const PhaseConnectionSuccessful = 'ConnectionVerified';
 const PhaseConnectionFailed = 'Failed';
+const PhaseLoadingVmsList = 'LoadingVmsList';
+const PhaseLoadingVmsListFailed = 'LoadingVmsList';
+const PhaseLoadingVmDetail = 'LoadingVmDetail';
+const PhaseLoadingVmDetailFailed = 'LoadingVmDetailFailed';
 
 const CheckingCredentials = () => (
   <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
@@ -48,15 +52,29 @@ const ConnectionSuccessful = () => (
   </div>
 );
 
+const ReadVmsListFailed = () => (
+  <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
+    <Alert type="warning">
+      Connection succeeded but could not read list of virtual machines from the vCenter instance.
+    </Alert>
+  </div>
+);
+
+const ReadVmDetailFailed = () => (
+  <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
+    <Alert type="warning">
+      Connection succeeded but could not read details of the virtual machine from the vCenter instance.
+    </Alert>
+  </div>
+);
+
 // Determine status of the "check-connection" user action from the 'status.phase' of the V2V VMWare object
 const VMWareProviderStatusByPhase = ({ phase }) => {
-  console.log('--- VMWareProviderStatusByPhase, phase: ', phase);
-
   if (!phase || phase === PhaseConnecting) {
     return <CheckingCredentials />;
   }
 
-  if (phase === PhaseConnectionSuccessful) {
+  if ([PhaseConnectionSuccessful, PhaseLoadingVmsList, PhaseLoadingVmDetail].includes(phase)) {
     return <ConnectionSuccessful />;
   }
 
@@ -64,7 +82,15 @@ const VMWareProviderStatusByPhase = ({ phase }) => {
     return <ConnectionFailed />;
   }
 
-  console.warn('VMWareProviderStatusByPhase unrecognized phase found within the V@V VMWare object: ', phase);
+  if (phase === PhaseLoadingVmsListFailed) {
+    return <ReadVmsListFailed />;
+  }
+
+  if (phase === PhaseLoadingVmDetailFailed) {
+    return <ReadVmDetailFailed />;
+  }
+
+  console.warn('VMWareProviderStatusByPhase unrecognized phase found within the V2V VMWare object: ', phase);
   return null;
 };
 
