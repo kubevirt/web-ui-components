@@ -97,7 +97,7 @@ export const validateVmwareURL = value => {
   if (trimEnd(value).length !== value.length) {
     return getValidationObject(END_WHITESPACE_ERROR);
   }
-
+/* Protocol is added automatically by controller
   try {
     const u = new URL(value);
     if (!u.hostname) {
@@ -106,6 +106,6 @@ export const validateVmwareURL = value => {
   } catch {
     return getValidationObject(VMWARE_URL_ERROR);
   }
-
+*/
   return null;
 };

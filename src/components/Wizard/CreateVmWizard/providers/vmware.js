@@ -32,7 +32,7 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
     isVisible: isNewVmwareInstanceSelected,
     validate: settings => validateVmwareURL(settingsValue(settings, PROVIDER_VMWARE_URL_KEY)),
     defaultValue: 'https://host:port/',
-    help: 'Address to be used for connection to a vCenter instance. Example: https://host:port/',
+    help: 'Address to be used for connection to a vCenter instance. The "https://" protocol will be added automatically. Example: "my.domain.com:1234".',
   },
   [PROVIDER_VMWARE_USER_NAME_KEY]: {
     id: 'vcenter-username',

@@ -6,9 +6,15 @@ import { SecretModel, V2VVMwareModel } from '../../../../models';
 import { VCENTER_TYPE_LABEL, VCENTER_TEMPORARY_LABEL } from '../../../../constants';
 
 export const getDefaultSecretName = ({ username, url }) => {
+  if (!url.startsWith('https://') && !url.startsWith('http://')) {
+    url = `https://${url}`;
+  }
   const u = new URL(url || '');
   const host = u.host || 'nohost';
-  return `${host}-${username}`;
+
+  username = username || 'nousername';
+  const user = username.replace('@', '-at-');
+  return `${host}-${user}`;
 };
 
 export const getImportProviderSecretObject = ({ url, username, pwd, secretName, namespace, isTemporary = false }) => {
