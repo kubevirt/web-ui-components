@@ -3,7 +3,7 @@
  */
 
 import { SecretModel, V2VVMwareModel } from '../../../../models';
-import { VCENTER_TYPE_LABEL } from '../../../../constants';
+import { VCENTER_TYPE_LABEL, VCENTER_TEMPORARY_LABEL } from '../../../../constants';
 
 export const getDefaultSecretName = ({ username, url }) => {
   const u = new URL(url || '');
@@ -11,17 +11,23 @@ export const getDefaultSecretName = ({ username, url }) => {
   return `${host}-${username}`
 };
 
-export const getImportProviderSecretObject = ({ url, username, pwd, secretName, namespace }) => {
+export const getImportProviderSecretObject = ({ url, username, pwd, secretName, namespace, isTemporary = false }) => {
   const _secretName = secretName || getDefaultSecretName({ username, url });
+  const labels = {
+    [VCENTER_TYPE_LABEL]: 'true',
+  };
+  if (isTemporary) {
+    // if set, the Secret is not listed for selection within the dropdown box and is automatically garbage-collected (by controller)
+    labels[VCENTER_TEMPORARY_LABEL] = 'true';
+  }
+
   const secret = {
     kind: SecretModel.kind,
     apiVersion: SecretModel.apiVersion,
     metadata: {
       generateName: _secretName,
       namespace,
-      labels: {
-        [VCENTER_TYPE_LABEL]: 'true',
-      },
+      labels,
     },
     type: 'Opaque',
     data: {
@@ -34,13 +40,20 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
   return secret;
 };
 
-export const getV2VVMwareObject = ({ name, namespace, connectionSecretName }) => {
+export const getV2VVMwareObject = ({ name, namespace, connectionSecretName, isTemporary = false }) => {
+  const labels = {};
+  if (isTemporary) {
+    // if set, the Secret is not listed for selection within the dropdown box and is automatically garbage-collected (by controller)
+    labels[VCENTER_TEMPORARY_LABEL] = 'true';
+  }
+
   return {
     apiVersion: `${V2VVMwareModel.apiGroup}/${V2VVMwareModel.apiVersion}`,
     kind: V2VVMwareModel.kind,
     metadata: {
       generateName: name,
       namespace,
+      labels,
     },
     spec: {
       connection: connectionSecretName,

@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import { getResource } from '../../../../utils';
 import { SecretModel } from '../../../../models';
-import { VCENTER_TYPE_LABEL } from '../../../../constants';
+import { VCENTER_TEMPORARY_LABEL, VCENTER_TYPE_LABEL } from '../../../../constants';
 import { Dropdown } from '../../../Form';
 
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
@@ -20,7 +20,10 @@ export const getVCenterInstancesConnected = (basicSettings, WithResources) => {
     vCenterSecrets: {
       resource: getResource(SecretModel, {
         namespace: basicSettings.namespace ? basicSettings.namespace.value : undefined,
-        matchExpressions: [{ key: VCENTER_TYPE_LABEL, operator: 'Exists' }]
+        matchExpressions: [
+          { key: VCENTER_TYPE_LABEL, operator: 'Exists' },
+          { key: VCENTER_TEMPORARY_LABEL, operator: 'DoesNotExist' },
+        ]
       }),
     },
   };

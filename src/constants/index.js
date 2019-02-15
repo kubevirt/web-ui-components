@@ -74,3 +74,5 @@ export const CDI_KUBEVIRT_IO = 'cdi.kubevirt.io';
 export const STORAGE_IMPORT_PVC_NAME = 'storage.import.importPvcName';
 
 export const VCENTER_TYPE_LABEL = 'cnv.io/vcenter';
+export const VCENTER_TEMPORARY_LABEL = 'cnv.io/temporary';
+

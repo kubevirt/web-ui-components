@@ -12,7 +12,7 @@ import {
   PROVIDER_VMWARE_USER_PWD_KEY,
   PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
-import {CONNECT_TO_NEW_INSTANCE} from '../strings';
+import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 
 export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
   // Note: any changes to the dialog since issuing the Check-button action till it's finish will be lost due to tight binding of the onFormChange to basicSettings set at promise creation
@@ -31,7 +31,8 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       username,
       password,
       namespace,
-      secretName
+      secretName,
+      isTemporary: true, // do not list this temporary secret in the dropdown box
     }));
 
     // TODO: when is this object deleted? Controller can collect garbage based on a timeToLive label (can be set by the controller itself, if missing)
@@ -39,6 +40,7 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       name: `check-${getDefaultSecretName({ url, username })}-`,
       namespace,
       connectionSecretName: secret.metadata.name,
+      isTemporary: true, // remove this object automatically (by controller)
     }));
 
     onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }) // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
