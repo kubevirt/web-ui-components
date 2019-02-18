@@ -17,7 +17,7 @@ export const getDefaultSecretName = ({ username, url }) => {
   return `${host}-${user}`;
 };
 
-export const getImportProviderSecretObject = ({ url, username, pwd, secretName, namespace, isTemporary = false }) => {
+export const getImportProviderSecretObject = ({ url, username, password, secretName, namespace, isTemporary = false }) => {
   const _secretName = secretName || `${getDefaultSecretName({ username, url })}-`;
   const labels = {
     [VCENTER_TYPE_LABEL]: 'true',
@@ -38,7 +38,7 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
     type: 'Opaque',
     data: {
       username: btoa(username),
-      password: btoa(pwd),
+      password: btoa(password),
       url: btoa(url),
     },
   };
