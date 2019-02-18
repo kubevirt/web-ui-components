@@ -27,6 +27,16 @@ export const getVCenterVmsConnected = (basicSettings, WithResources) => {
   const resourceToProps = ({ v2vvmware }) => {
     const vms = get(v2vvmware, 'spec.vms');
 
+    // TODO: dummy use of VM detail. Will be finalized once the Conversion pod is ready.
+    // Reference: http://pubs.vmware.com/vsphere-60/topic/com.vmware.wssdk.apiref.doc/vim.VirtualMachine.html
+    console.log('--- getVCenterVmsConnected, vms: ', vms);
+    (vms || []).forEach(vm => {
+      if (vm.detail && vm.detail.raw) {
+        const raw = JSON.parse(vm.detail.raw);
+        console.log('--- parsed raw VM: ', raw);
+      }
+    });
+
     let choices = [];
     if (vms) {
       choices = vms.map(vm => vm.name);
