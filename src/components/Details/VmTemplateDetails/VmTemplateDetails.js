@@ -15,6 +15,7 @@ import {
   retrieveVmTemplate,
   getFlavor,
   getVmTemplate,
+  addPrefixToPatch,
 } from '../../../utils';
 import { TemplateModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
@@ -24,10 +25,6 @@ import { Description } from '../Description';
 import { Loading } from '../../Loading';
 import { TemplateSource } from '../../TemplateSource';
 import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
-
-const addPrefixToPatch = (patch, prefix) => {
-  patch.path = `${prefix}${patch.path}`;
-};
 
 export class VmTemplateDetails extends React.Component {
   constructor(props) {
@@ -92,8 +89,9 @@ export class VmTemplateDetails extends React.Component {
 
     if (flavor && cpu && memory) {
       const flavorPatch = getUpdateFlavorPatch(vmTemplate, flavor);
-      const cpuMemPatch = getUpdateCpuMemoryPatch(vm, cpu, memory);
-      cpuMemPatch.forEach(patch => addPrefixToPatch(patch, `/objects/${vmIndex}`));
+      const cpuMemPatch = getUpdateCpuMemoryPatch(vm, cpu, memory).map(patch =>
+        addPrefixToPatch(`/objects/${vmIndex}`, patch)
+      );
       vmTemplatePatch.push(...flavorPatch);
       vmTemplatePatch.push(...cpuMemPatch);
     }
