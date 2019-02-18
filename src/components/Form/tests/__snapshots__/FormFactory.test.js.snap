@@ -42,6 +42,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 "labelField": Object {
                   "type": "labelValue",
                 },
+                "passwordField": Object {
+                  "value": "passswordField",
+                },
                 "requiredField": Object {
                   "value": "requiredField",
                 },
@@ -67,6 +70,11 @@ exports[`<FormFactory /> renders correctly 1`] = `
         "id": "label",
         "title": "labelTitle",
         "type": "label",
+      },
+      "passwordField": Object {
+        "id": "password",
+        "title": "passwordField",
+        "type": "password",
       },
       "requiredField": Object {
         "id": "required",
@@ -96,6 +104,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
       },
       "labelField": Object {
         "type": "labelValue",
+      },
+      "passwordField": Object {
+        "value": "passswordField",
       },
       "requiredField": Object {
         "value": "requiredField",
@@ -166,6 +177,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 key="text"
                 onBlur={[Function]}
                 onChange={[Function]}
+                type="text"
                 value="textField"
               >
                 <FormControl
@@ -187,6 +199,87 @@ exports[`<FormFactory /> renders correctly 1`] = `
                     onChange={[Function]}
                     type="text"
                     value="textField"
+                  />
+                </FormControl>
+              </Text>
+              <HelpBlock
+                bsClass="help-block"
+              >
+                <span
+                  className="help-block"
+                />
+              </HelpBlock>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        key="passwordField"
+        validationState={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <ControlLabel
+                bsClass="control-label"
+                className={null}
+                srOnly={false}
+              >
+                <label
+                  className="control-label"
+                >
+                  passwordField
+                </label>
+              </ControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="password"
+                key="password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="password"
+                value="passswordField"
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="password"
+                  key="password"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="password"
+                  value="passswordField"
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="password"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="password"
+                    value="passswordField"
                   />
                 </FormControl>
               </Text>
@@ -246,6 +339,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 key="required"
                 onBlur={[Function]}
                 onChange={[Function]}
+                type="text"
                 value="requiredField"
               >
                 <FormControl
