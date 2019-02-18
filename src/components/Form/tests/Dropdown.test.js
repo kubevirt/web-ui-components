@@ -1,12 +1,19 @@
-import createTestContext from '../../../cosmos/enzyme';
-import fixture from '../fixtures/Dropdown.fixture';
+import React from 'react';
+import { mount } from 'enzyme';
 
-const { mount, getWrapper } = createTestContext({ fixture });
+import fixtures from '../fixtures/Dropdown.fixture';
 
-beforeEach(mount);
+const testFixture = index => {
+  const Component = fixtures[index].component;
+  const wrapper = mount(<Component {...fixtures[index].props} />);
+  expect(wrapper).toMatchSnapshot();
+};
 
 describe('<DropdownControl />', () => {
-  it('renders correctly', () => {
-    expect(getWrapper()).toMatchSnapshot();
+  it('renders correctly without tooltips', () => {
+    testFixture(0);
+  });
+  it('renders correctly with tooltips', () => {
+    testFixture(1);
   });
 });

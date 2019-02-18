@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DropdownControl /> renders correctly 1`] = `
+exports[`<DropdownControl /> renders correctly with tooltips 1`] = `
 <Dropdown
   choices={
     Array [
@@ -10,12 +10,16 @@ exports[`<DropdownControl /> renders correctly 1`] = `
       Object {
         "name": "choice2",
       },
+      Object {
+        "name": "very long choice which needs to be shortened",
+      },
     ]
   }
   disabled={false}
   id="1"
-  onChange={[MockFunction]}
-  value="This is dropdown button"
+  onChange={[Function]}
+  value="This is dropdown button with tooltips"
+  withTooltips={true}
 >
   <ButtonGroup
     block={false}
@@ -32,22 +36,22 @@ exports[`<DropdownControl /> renders correctly 1`] = `
         className="kubevirt-dropdown"
         disabled={false}
         id="1"
-        onSelect={[MockFunction]}
-        title="This is dropdown button"
+        onSelect={[Function]}
+        title="This is dropdown button with tooltips"
       >
         <DropdownButton
           bsStyle="default"
           className="kubevirt-dropdown"
           disabled={false}
           id="1"
-          onSelect={[MockFunction]}
-          title="This is dropdown button"
+          onSelect={[Function]}
+          title="This is dropdown button with tooltips"
         >
           <Uncontrolled(Dropdown)
             bsStyle="default"
             disabled={false}
             id="1"
-            onSelect={[MockFunction]}
+            onSelect={[Function]}
           >
             <Dropdown
               bsClass="dropdown"
@@ -55,7 +59,366 @@ exports[`<DropdownControl /> renders correctly 1`] = `
               componentClass={[Function]}
               disabled={false}
               id="1"
-              onSelect={[MockFunction]}
+              onSelect={[Function]}
+              onToggle={[Function]}
+            >
+              <ButtonGroup
+                block={false}
+                bsClass="btn-group"
+                bsStyle="default"
+                className="dropdown"
+                justified={false}
+                vertical={false}
+              >
+                <div
+                  className="dropdown btn-group btn-group-default"
+                >
+                  <DropdownToggle
+                    bsClass="dropdown-toggle"
+                    bsRole="toggle"
+                    bsStyle="default"
+                    className="kubevirt-dropdown"
+                    disabled={false}
+                    id="1"
+                    key=".0"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    useAnchor={false}
+                  >
+                    <Button
+                      active={false}
+                      aria-expanded={false}
+                      aria-haspopup={true}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="default"
+                      className="kubevirt-dropdown dropdown-toggle"
+                      disabled={false}
+                      id="1"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="button"
+                    >
+                      <button
+                        aria-expanded={false}
+                        aria-haspopup={true}
+                        className="kubevirt-dropdown dropdown-toggle btn btn-default"
+                        disabled={false}
+                        id="1"
+                        onClick={[Function]}
+                        onKeyDown={[Function]}
+                        role="button"
+                        type="button"
+                      >
+                        This is dropdown button with tooltips
+                         
+                        <span
+                          className="caret"
+                        />
+                      </button>
+                    </Button>
+                  </DropdownToggle>
+                  <DropdownMenu
+                    bsClass="dropdown-menu"
+                    bsRole="menu"
+                    key=".1"
+                    labelledBy="1"
+                    onClose={[Function]}
+                    onSelect={[Function]}
+                    pullRight={false}
+                  >
+                    <RootCloseWrapper
+                      disabled={true}
+                      event="click"
+                      onRootClose={[Function]}
+                    >
+                      <ul
+                        aria-labelledby="1"
+                        className="dropdown-menu"
+                        role="menu"
+                      >
+                        <OverlayTrigger
+                          defaultOverlayShown={false}
+                          key=".$choice1"
+                          onKeyDown={[Function]}
+                          onSelect={[Function]}
+                          overlay={
+                            <Tooltip
+                              bsClass="tooltip"
+                              id="tooltip-choice1"
+                              placement="right"
+                            >
+                              choice1
+                            </Tooltip>
+                          }
+                          placement="top"
+                          trigger={
+                            Array [
+                              "hover",
+                              "focus",
+                            ]
+                          }
+                        >
+                          <MenuItem
+                            bsClass="dropdown"
+                            disabled={false}
+                            divider={false}
+                            eventKey={
+                              Object {
+                                "name": "choice1",
+                              }
+                            }
+                            header={false}
+                            key="choice1"
+                            onBlur={[Function]}
+                            onClick={null}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <li
+                              className=""
+                              role="presentation"
+                            >
+                              <SafeAnchor
+                                componentClass="a"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                role="menuitem"
+                                tabIndex="-1"
+                              >
+                                <a
+                                  href="#"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  role="menuitem"
+                                  tabIndex="-1"
+                                >
+                                  choice1
+                                </a>
+                              </SafeAnchor>
+                            </li>
+                          </MenuItem>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                          defaultOverlayShown={false}
+                          key=".$choice2"
+                          onKeyDown={[Function]}
+                          onSelect={[Function]}
+                          overlay={
+                            <Tooltip
+                              bsClass="tooltip"
+                              id="tooltip-choice2"
+                              placement="right"
+                            >
+                              choice2
+                            </Tooltip>
+                          }
+                          placement="top"
+                          trigger={
+                            Array [
+                              "hover",
+                              "focus",
+                            ]
+                          }
+                        >
+                          <MenuItem
+                            bsClass="dropdown"
+                            disabled={false}
+                            divider={false}
+                            eventKey={
+                              Object {
+                                "name": "choice2",
+                              }
+                            }
+                            header={false}
+                            key="choice2"
+                            onBlur={[Function]}
+                            onClick={null}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <li
+                              className=""
+                              role="presentation"
+                            >
+                              <SafeAnchor
+                                componentClass="a"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                role="menuitem"
+                                tabIndex="-1"
+                              >
+                                <a
+                                  href="#"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  role="menuitem"
+                                  tabIndex="-1"
+                                >
+                                  choice2
+                                </a>
+                              </SafeAnchor>
+                            </li>
+                          </MenuItem>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                          defaultOverlayShown={false}
+                          key=".$very long choice which needs to be shortened"
+                          onKeyDown={[Function]}
+                          onSelect={[Function]}
+                          overlay={
+                            <Tooltip
+                              bsClass="tooltip"
+                              id="tooltip-very long choice which needs to be shortened"
+                              placement="right"
+                            >
+                              very long choice which needs to be shortened
+                            </Tooltip>
+                          }
+                          placement="top"
+                          trigger={
+                            Array [
+                              "hover",
+                              "focus",
+                            ]
+                          }
+                        >
+                          <MenuItem
+                            bsClass="dropdown"
+                            disabled={false}
+                            divider={false}
+                            eventKey={
+                              Object {
+                                "name": "very long choice which needs to be shortened",
+                              }
+                            }
+                            header={false}
+                            key="very long choice which needs to be shortened"
+                            onBlur={[Function]}
+                            onClick={null}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <li
+                              className=""
+                              role="presentation"
+                            >
+                              <SafeAnchor
+                                componentClass="a"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                role="menuitem"
+                                tabIndex="-1"
+                              >
+                                <a
+                                  href="#"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  role="menuitem"
+                                  tabIndex="-1"
+                                >
+                                  very long choice which needs to be shortened
+                                </a>
+                              </SafeAnchor>
+                            </li>
+                          </MenuItem>
+                        </OverlayTrigger>
+                      </ul>
+                    </RootCloseWrapper>
+                  </DropdownMenu>
+                </div>
+              </ButtonGroup>
+            </Dropdown>
+          </Uncontrolled(Dropdown)>
+        </DropdownButton>
+      </DropdownButton>
+    </div>
+  </ButtonGroup>
+</Dropdown>
+`;
+
+exports[`<DropdownControl /> renders correctly without tooltips 1`] = `
+<Dropdown
+  choices={
+    Array [
+      Object {
+        "name": "choice1",
+      },
+      Object {
+        "name": "choice2",
+      },
+    ]
+  }
+  disabled={false}
+  id="1"
+  onChange={[Function]}
+  value="This is dropdown button"
+  withTooltips={false}
+>
+  <ButtonGroup
+    block={false}
+    bsClass="btn-group"
+    justified={true}
+    key="1"
+    vertical={false}
+  >
+    <div
+      className="btn-group btn-group-justified"
+    >
+      <DropdownButton
+        bsStyle="default"
+        className="kubevirt-dropdown"
+        disabled={false}
+        id="1"
+        onSelect={[Function]}
+        title="This is dropdown button"
+      >
+        <DropdownButton
+          bsStyle="default"
+          className="kubevirt-dropdown"
+          disabled={false}
+          id="1"
+          onSelect={[Function]}
+          title="This is dropdown button"
+        >
+          <Uncontrolled(Dropdown)
+            bsStyle="default"
+            disabled={false}
+            id="1"
+            onSelect={[Function]}
+          >
+            <Dropdown
+              bsClass="dropdown"
+              bsStyle="default"
+              componentClass={[Function]}
+              disabled={false}
+              id="1"
+              onSelect={[Function]}
               onToggle={[Function]}
             >
               <ButtonGroup

@@ -335,6 +335,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 id="dropdown"
                 onChange={[Function]}
                 value="dropdownField"
+                withTooltips={false}
               >
                 <ButtonGroup
                   block={false}
