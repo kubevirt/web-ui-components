@@ -382,3 +382,8 @@ export const getStartStopPatch = (vm, start) => {
   }
   return patch;
 };
+
+export const addPrefixToPatch = (prefix, patch) => ({
+  ...patch,
+  path: `${prefix}${patch.path}`,
+});
