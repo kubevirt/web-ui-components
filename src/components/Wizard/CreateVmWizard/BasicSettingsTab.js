@@ -88,7 +88,8 @@ export const getFormFields = (
   createTemplate,
   WithResources,
   k8sCreate,
-  k8sGet
+  k8sGet,
+  k8sPatch
 ) => {
   const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
@@ -129,7 +130,7 @@ export const getFormFields = (
       choices: userTemplateNames,
     };
 
-    providersSection = importProviders(basicSettings, WithResources, k8sCreate, k8sGet);
+    providersSection = importProviders(basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch);
     imageSources.push(PROVISION_SOURCE_IMPORT);
   }
 
@@ -372,6 +373,7 @@ export class BasicSettingsTab extends React.Component {
       WithResources,
       k8sCreate,
       k8sGet,
+      k8sPatch,
     } = props;
     const formFields = getFormFields(
       basicSettings,
@@ -381,7 +383,8 @@ export class BasicSettingsTab extends React.Component {
       createTemplate,
       WithResources,
       k8sCreate,
-      k8sGet
+      k8sGet,
+      k8sPatch
     );
     const valid = validateForm(formFields, basicSettings);
     publish(props, asValueObject(getName(selectedNamespace)), NAMESPACE_KEY, valid, formFields);
@@ -397,6 +400,7 @@ export class BasicSettingsTab extends React.Component {
       WithResources,
       k8sCreate,
       k8sGet,
+      k8sPatch,
     } = this.props;
     const formFields = getFormFields(
       basicSettings,
@@ -406,7 +410,8 @@ export class BasicSettingsTab extends React.Component {
       createTemplate,
       WithResources,
       k8sCreate,
-      k8sGet
+      k8sGet,
+      k8sPatch
     );
 
     return (
@@ -428,6 +433,7 @@ BasicSettingsTab.propTypes = {
   WithResources: PropTypes.func.isRequired,
   k8sCreate: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
   selectedNamespace: PropTypes.object, // used only in initialization

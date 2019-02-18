@@ -12,6 +12,7 @@ import {
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
   PROVIDER_VMWARE_USER_PWD_KEY,
   PROVIDER_VMWARE_CONNECTION,
+  V2VVMWARE_DEPLOYMENT_NAME,
 } from '../constants';
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 
@@ -66,7 +67,7 @@ export const onVCenterInstanceSelected = async (
   prevBasicSettings,
   onFormChange
 ) => {
-  // onFormChange: (newValue, key, formValid) => {} to update basicSettings
+  // hint: onFormChange = (newValue, key, formValid) => {} to update basicSettings
   const { value } = valueValidationPair;
   const connectionSecretName = value;
   if (!connectionSecretName || connectionSecretName === CONNECT_TO_NEW_INSTANCE) {
@@ -85,7 +86,7 @@ export const onVCenterInstanceSelected = async (
     })
   );
 
-  // reuse PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY for storing reference to the just created V2VVMWare object
+  // reuse PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY for storing reference to the just created V2VVMWare object (onVmwareCheckConnection())
   onFormChange(
     {
       value: {
@@ -98,4 +99,61 @@ export const onVCenterInstanceSelected = async (
     PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
     formValid
   );
+};
+
+export const onVCenterVmSelectedConnected = async (
+  k8sCreate,
+  k8sGet,
+  k8sPatch,
+  valueValidationPair,
+  key,
+  formValid,
+  prevBasicSettings,
+  onFormChange
+) => {
+  const { value } = valueValidationPair; // name of VM to be imported
+  const namespace = get(prevBasicSettings, [NAMESPACE_KEY, 'value']);
+  const V2VVmwareName = get(prevBasicSettings, [
+    PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
+    'value',
+    PROVIDER_VMWARE_CONNECTION,
+    'V2VVmwareName',
+  ]); // see onVCenterInstanceSelected()
+  const vmName = (value || '').trim();
+
+  try {
+    // The V2VVMWare object can be reused from the VCenterVmsConnected component or re-queried here. The later option helps to minimize conflicts.
+    const v2vvmware = await k8sGet(V2VVMwareModel, V2VVmwareName, namespace);
+
+    // Strategic merge patches seem not to work, so let's do mapping via positional arrays.
+    // Probably not a big deal as the controller is designed to avoid VMs list refresh
+    const index = get(v2vvmware, 'spec.vms', []).findIndex(vm => vm.name === vmName);
+    if (index >= 0) {
+      const patch = [
+        {
+          op: 'replace',
+          path: `/spec/vms/${index}/detailRequest`,
+          value: true,
+        },
+      ];
+      await k8sPatch(V2VVMwareModel, v2vvmware, patch); // the controller will supply details for the selected VM
+    } else {
+      console.warn(
+        'onVCenterVmSelectedConnected: The retrieved V2VVMware object is missing desired VM: "',
+        vmName,
+        '", ',
+        v2vvmware
+      );
+    }
+  } catch (reason) {
+    // TODO: notify user
+    console.warn(
+      'onVCenterVmSelectedConnected: Failed to patch the V2VVMWare object to query VM details: "',
+      vmName,
+      '", namespace: "',
+      namespace,
+      '", reason: ',
+      reason
+    );
+  }
 };

@@ -298,6 +298,7 @@ export class CreateVmWizard extends React.Component {
             WithResources={this.props.WithResources}
             k8sCreate={this.props.k8sCreate}
             k8sGet={this.props.k8sGet}
+            k8sPatch={this.props.k8sPatch}
           />
         );
       },
@@ -392,12 +393,13 @@ CreateVmWizard.defaultProps = {
 
 CreateVmWizard.propTypes = {
   WithResources: PropTypes.func.isRequired,
+  k8sCreate: PropTypes.func.isRequired,
+  k8sGet: PropTypes.func.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array,
   namespaces: PropTypes.array,
   selectedNamespace: PropTypes.object,
-  k8sCreate: PropTypes.func.isRequired,
-  k8sGet: PropTypes.func.isRequired,
   networkConfigs: PropTypes.array,
   persistentVolumeClaims: PropTypes.array,
   storageClasses: PropTypes.array,

@@ -17,7 +17,14 @@ export const getDefaultSecretName = ({ username, url }) => {
   return `${host}-${user}`;
 };
 
-export const getImportProviderSecretObject = ({ url, username, password, secretName, namespace, isTemporary = false }) => {
+export const getImportProviderSecretObject = ({
+  url,
+  username,
+  password,
+  secretName,
+  namespace,
+  isTemporary = false,
+}) => {
   const _secretName = secretName || `${getDefaultSecretName({ username, url })}-`;
   const labels = {
     [VCENTER_TYPE_LABEL]: 'true',
