@@ -33,12 +33,13 @@ export const Dropdown = ({ id, value, disabled, onChange, choices }) => {
 Dropdown.defaultProps = {
   onChange: noop,
   disabled: false,
+  choices: [],
 };
 
 Dropdown.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  choices: PropTypes.array.isRequired,
+  choices: PropTypes.array,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
 };
