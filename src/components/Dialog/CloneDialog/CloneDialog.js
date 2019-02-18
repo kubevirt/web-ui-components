@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Modal, Button, Icon, Alert } from 'patternfly-react';
 
 import { ConfigurationSummary } from '../../ConfigurationSummary';
-import { FormFactory } from '../../Form';
+import { FormFactory, CUSTOM, CHECKBOX, DROPDOWN, TEXT_AREA } from '../../Form';
 import { NAME_KEY, DESCRIPTION_KEY, NAMESPACE_KEY, START_VM_KEY } from '../../Wizard/CreateVmWizard/constants';
 import { getDescription, getNamespace, getName } from '../../../utils/selectors';
 import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
@@ -36,12 +36,12 @@ const getFormFields = (namespaces, vm, units, persistentVolumeClaims, dataVolume
   [DESCRIPTION_KEY]: {
     id: 'vm-description',
     title: 'Description',
-    type: 'textarea',
+    type: TEXT_AREA,
   },
   [NAMESPACE_KEY]: {
     id: 'namespace-dropdown',
     title: 'Namespace',
-    type: 'dropdown',
+    type: DROPDOWN,
     defaultValue: '--- Select Namespace ---',
     choices: namespaces.map(getName),
     required: true,
@@ -49,13 +49,13 @@ const getFormFields = (namespaces, vm, units, persistentVolumeClaims, dataVolume
   [START_VM_KEY]: {
     id: 'start-vm',
     title: 'Start virtual machine on clone',
-    type: 'checkbox',
+    type: CHECKBOX,
     noBottom: true,
   },
   configuration: {
     id: 'vm-configuration',
     title: 'Configuration',
-    type: 'custom',
+    type: CUSTOM,
     CustomComponent: () => (
       <ConfigurationSummary
         vm={vm}

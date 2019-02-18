@@ -10,6 +10,7 @@ import { HEADER_NAME, HEADER_MAC, SELECT_NETWORK } from '../Wizard/CreateVmWizar
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS, NAME_KEY } from '../Wizard/CreateVmWizard/constants';
 import { Loading } from '../Loading';
 import { settingsValue } from '../../k8s/selectors';
+import { DROPDOWN, CUSTOM, LABEL } from '../Form';
 
 const columnSizes = {
   lg: 3,
@@ -65,7 +66,7 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
     const networkChoices = getNetworkChoices(nic.vm, networks);
     network = {
       id: 'network-type',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: networkChoices.length === 0 ? '--- No Network Definition Available ---' : SELECT_NETWORK,
       choices: networkChoices,
       disabled: nic.creating || networkChoices.length === 0,
@@ -74,7 +75,7 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
   } else {
     network = {
       id: 'network-type-loading',
-      type: 'custom',
+      type: CUSTOM,
       CustomComponent: LoadingComponent,
       required: true,
     };
@@ -90,7 +91,7 @@ const getNicColumns = (nic, networks, LoadingComponent) => {
     },
     model: {
       id: 'nic-model',
-      type: 'label',
+      type: LABEL,
     },
     network,
     mac: {

@@ -6,6 +6,7 @@ import { getName } from '../../utils/selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
 import { settingsValue } from '../../k8s/selectors';
 import { NAME_KEY } from '../Wizard/CreateVmWizard/constants';
+import { DROPDOWN, CUSTOM } from '../Form';
 
 const columnSizes = {
   lg: 3,
@@ -19,7 +20,7 @@ const getDiskColumns = (storage, storageClasses, LoadingComponent) => {
   if (storageClasses) {
     storageClass = {
       id: 'disk-storage-class',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: storageClasses.length === 0 ? '--- No Storage Class Available ---' : '--- Select Storage Class ---',
       choices: storageClasses.map(sc => getName(sc)),
       disabled: storage.creating || storageClasses.length === 0,
@@ -27,7 +28,7 @@ const getDiskColumns = (storage, storageClasses, LoadingComponent) => {
   } else {
     storageClass = {
       id: 'disk-storage-class-loading',
-      type: 'custom',
+      type: CUSTOM,
       CustomComponent: LoadingComponent,
     };
   }

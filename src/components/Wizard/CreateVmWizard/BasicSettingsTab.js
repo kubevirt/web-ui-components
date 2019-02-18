@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import { FormFactory, validateForm } from '../../Form/FormFactory';
+import { FormFactory, validateForm, DROPDOWN, CHECKBOX, TEXT_AREA, POSITIVE_NUMBER } from '../../Form';
 import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue, validateURL, validateContainer } from '../../../utils/validations';
@@ -91,7 +91,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     namespaceDropdown = {
       id: 'namespace-dropdown',
       title: 'Namespace',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: '--- Select Namespace ---',
       choices: namespaces.map(getName),
       required: true,
@@ -102,13 +102,13 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     startVmCheckbox = {
       id: 'start-vm',
       title: 'Start virtual machine on creation',
-      type: 'checkbox',
+      type: CHECKBOX,
       noBottom: true,
     };
     userTemplateDropdown = {
       id: 'template-dropdown',
       title: 'Template',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: '--- Select Template ---',
       choices: userTemplateNames,
     };
@@ -124,14 +124,14 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [DESCRIPTION_KEY]: {
       id: 'vm-description',
       title: 'Description',
-      type: 'textarea',
+      type: TEXT_AREA,
     },
     [NAMESPACE_KEY]: namespaceDropdown,
     [USER_TEMPLATE_KEY]: userTemplateDropdown,
     [PROVISION_SOURCE_TYPE_KEY]: {
       id: 'image-source-type-dropdown',
       title: 'Provision Source',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: '--- Select Provision Source ---',
       choices: imageSources,
       required: true,
@@ -157,7 +157,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
       title: 'Operating System',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: '--- Select Operating System ---',
       choices: operatingSystems,
       required: true,
@@ -167,7 +167,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [FLAVOR_KEY]: {
       id: 'flavor-dropdown',
       title: 'Flavor',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: '--- Select Flavor ---',
       choices: flavors,
       required: true,
@@ -177,7 +177,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [MEMORY_KEY]: {
       id: 'resources-memory',
       title: 'Memory (GB)',
-      type: 'positive-number',
+      type: POSITIVE_NUMBER,
       required: true,
       isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
       help: HELP_MEMORY,
@@ -185,7 +185,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [CPU_KEY]: {
       id: 'resources-cpu',
       title: 'CPUs',
-      type: 'positive-number',
+      type: POSITIVE_NUMBER,
       required: true,
       isVisible: basicVmSettings => isFlavorType(basicVmSettings, CUSTOM_FLAVOR),
       help: HELP_CPU,
@@ -193,7 +193,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [WORKLOAD_PROFILE_KEY]: {
       id: 'workload-profile-dropdown',
       title: 'Workload Profile',
-      type: 'dropdown',
+      type: DROPDOWN,
       defaultValue: '--- Select Workload Profile ---',
       choices: workloadProfiles,
       required: true,
@@ -204,12 +204,12 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [CLOUD_INIT_KEY]: {
       id: 'use-cloud-init',
       title: 'Use cloud-init',
-      type: 'checkbox',
+      type: CHECKBOX,
     },
     [USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
       id: 'use-cloud-init-custom-script',
       title: 'Use custom script',
-      type: 'checkbox',
+      type: CHECKBOX,
       isVisible: basicVmSettings => settingsValue(basicVmSettings, CLOUD_INIT_KEY, false),
     },
     [HOST_NAME_KEY]: {
@@ -222,7 +222,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [AUTHKEYS_KEY]: {
       id: 'cloud-init-ssh',
       title: 'Authenticated SSH Keys',
-      type: 'textarea',
+      type: TEXT_AREA,
       isVisible: basicVmSettings =>
         settingsValue(basicVmSettings, CLOUD_INIT_KEY, false) &&
         !settingsValue(basicVmSettings, USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY, false),
@@ -230,7 +230,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
     [CLOUD_INIT_CUSTOM_SCRIPT_KEY]: {
       id: 'cloud-init-custom-script',
       title: 'Custom Script',
-      type: 'textarea',
+      type: TEXT_AREA,
       className: 'kubevirt-create-vm-wizard__custom-cloud-script-textarea',
       isVisible: basicVmSettings =>
         settingsValue(basicVmSettings, CLOUD_INIT_KEY, false) &&

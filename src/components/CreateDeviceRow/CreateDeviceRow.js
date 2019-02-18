@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ListFormFactory } from '../Form/FormFactory';
+import { ListFormFactory } from '../Form';
 import { CancelAcceptButtons } from '../CancelAcceptButtons';
 
 const getActions = (valid, device, LoadingComponent, onAccept, onCancel) =>

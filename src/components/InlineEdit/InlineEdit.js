@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { InlineFormFactory } from '../Form/FormFactory';
+import { InlineFormFactory } from '../Form';
 import { Loading } from '../Loading/Loading';
 
 export const InlineEdit = ({
