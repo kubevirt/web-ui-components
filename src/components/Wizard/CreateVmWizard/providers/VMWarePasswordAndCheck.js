@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import { Spinner, Button, Alert } from 'patternfly-react';
 
-import { Text } from '../../../Form';
+import { PASSWORD, Text } from '../../../Form';
 import { getResource } from '../../../../utils';
 
 import {
@@ -158,6 +158,7 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
     <Fragment>
       <div className="kubevirt-create-vm-wizard__import-vmware-passwordcheck">
         <Text
+          type={PASSWORD}
           id={`${id}-text`}
           value={pwdValue || ''}
           onChange={newValue =>
