@@ -105,6 +105,10 @@ const setBootableDisk = (disks, bootDisk) => {
 };
 
 const findBootDisk = bootableDisks => {
+  if (!bootableDisks || bootableDisks.length === 0) {
+    return undefined;
+  }
+
   let bootDisk;
 
   // lets check template storage boot order
@@ -116,7 +120,7 @@ const findBootDisk = bootableDisks => {
   });
 
   // if we still did not find any boot disk, lets mark the first one
-  if (!bootDisk && bootableDisks.length > 0) {
+  if (!bootDisk) {
     [bootDisk] = bootableDisks;
   }
 
