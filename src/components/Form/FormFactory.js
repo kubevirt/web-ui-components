@@ -25,6 +25,7 @@ export const getFormElement = props => {
     disabled,
     className,
     CustomComponent,
+    extraProps,
   } = props;
   switch (type) {
     case TEXT_AREA:
@@ -76,7 +77,9 @@ export const getFormElement = props => {
         </div>
       );
     case CUSTOM:
-      return <CustomComponent />;
+      return (
+        <CustomComponent onChange={onChange} id={id} key={id} value={value || defaultValue} extraProps={extraProps} />
+      );
     default:
       return (
         <Text
@@ -135,7 +138,12 @@ const onChange = (formFields, formValues, value, key, onFormChange) => {
 
   const formValid = validateForm(formFields, newFormValues);
 
-  onFormChange({ value, validation }, key, formValid);
+  if (changedField.onChange) {
+    // to hook field-specific action
+    changedField.onChange({ value, validation }, key, formValid, formValues, onFormChange);
+  }
+
+  onFormChange({ value, validation }, key, formValid); // to update state data
 };
 
 const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, labelSize, controlSize, horizontal }) =>
