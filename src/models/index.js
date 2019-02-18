@@ -112,3 +112,15 @@ export const ProjectModel = {
   id: 'project',
   labelPlural: 'Projects',
 };
+
+export const SecretModel = {
+  apiVersion: 'v1',
+  label: 'Secret',
+  path: 'secrets',
+  plural: 'secrets',
+  abbr: 'S',
+  namespaced: true,
+  kind: 'Secret',
+  id: 'secret',
+  labelPlural: 'Secrets',
+};
