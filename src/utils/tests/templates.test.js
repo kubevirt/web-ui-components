@@ -38,7 +38,7 @@ import {
   urlNoNetworkTemplate,
 } from '../../tests/mocks/user_template';
 import { getNamespace } from '../selectors';
-import { urlTemplateDataVolume } from '../../tests/mocks/user_template/url.mock';
+import { urlTemplateDataVolume, LONG_ISO_URL } from '../../tests/mocks/user_template/url.mock';
 
 const templates = [...baseTemplates, ...userTemplates];
 
@@ -117,7 +117,7 @@ describe('templates.js', () => {
   it('getTemplateProvisionSource returns proper template provision source', () => {
     expect(getTemplateProvisionSource(urlTemplate, [urlTemplateDataVolume])).toEqual({
       type: PROVISION_SOURCE_URL,
-      source: 'fooUrl',
+      source: LONG_ISO_URL,
     });
 
     expect(getTemplateProvisionSource(containerTemplate)).toEqual({

@@ -1,34 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TemplateSource /> renders correctly 1`] = `
-<div
-  className="kubevirt-template-source__overlay"
->
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="myproject-container-template"
-        placement="right"
-      >
-        fooContainer
-      </Tooltip>
-    }
-    placement="top"
-    rootClose={false}
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
-  >
-    <div
-      id="myproject-container-template-type"
-    >
-      Container
-    </div>
-  </OverlayTrigger>
-</div>
+<Type
+  id="myproject-url-template-type"
+  isInline={true}
+  source="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+  type="URL"
+/>
+`;
+
+exports[`<TemplateSource /> renders correctly 2`] = `
+<Fragment>
+  <Type
+    id="myproject-url-template-type"
+    isInline={false}
+    source="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+    type="URL"
+  />
+  <Source
+    id="myproject-url-template-source"
+    source="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+    type="URL"
+  />
+</Fragment>
+`;
+
+exports[`<TemplateSource /> renders correctly 3`] = `
+<Type
+  id="myproject-pxe-template-type"
+  isInline={true}
+  type="PXE"
+/>
+`;
+
+exports[`<TemplateSource /> renders correctly 4`] = `
+<Fragment>
+  <Type
+    id="myproject-pxe-template-type"
+    isInline={false}
+    type="PXE"
+  />
+  <Source
+    id="myproject-pxe-template-source"
+    type="PXE"
+  />
+</Fragment>
+`;
+
+exports[`<TemplateSource /> renders correctly 5`] = `
+<Type
+  id="myproject-container-template-type"
+  isInline={true}
+  source="fooContainer"
+  type="Container"
+/>
+`;
+
+exports[`<TemplateSource /> renders correctly 6`] = `
+<Fragment>
+  <Type
+    id="myproject-container-template-type"
+    isInline={false}
+    source="fooContainer"
+    type="Container"
+  />
+  <Source
+    id="myproject-container-template-source"
+    source="fooContainer"
+    type="Container"
+  />
+</Fragment>
 `;

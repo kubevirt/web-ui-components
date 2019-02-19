@@ -1,61 +1,87 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Tooltip } from 'patternfly-react';
 
+import { Url } from '../Details/Url';
 import { getTemplateProvisionSource } from '../../utils/templates';
-import { PROVISION_SOURCE_PXE } from '../../constants';
+import { PROVISION_SOURCE_URL } from '../../constants';
 import { getName, getNamespace } from '../../utils/selectors';
 import { prefixedId } from '../../utils/utils';
 
-const tooltip = (id, source) => <Tooltip id={id}>{source}</Tooltip>;
+const Type = ({ type, source, id, isInline }) => (
+  <div id={id} title={source} className={isInline ? 'kubevirt-template-source__overlay' : ''}>
+    {type}
+  </div>
+);
 
-export const TemplateSource = ({ template, tooltipPlacement, dataVolumes, detailed }) => {
-  const provisionSource = getTemplateProvisionSource(template, dataVolumes);
-  if (provisionSource) {
-    const { type, source } = provisionSource;
-    const id = prefixedId(getNamespace(template), getName(template));
-    const typeElem = <div id={prefixedId(id, 'type')}>{type}</div>;
+Type.propTypes = {
+  type: PropTypes.string.isRequired,
+  source: PropTypes.string,
+  id: PropTypes.string,
+  isInline: PropTypes.bool,
+};
 
-    if (type === PROVISION_SOURCE_PXE) {
-      return typeElem;
-    }
+Type.defaultProps = {
+  source: undefined,
+  id: undefined,
+  isInline: false,
+};
 
-    if (detailed) {
-      return (
-        <React.Fragment>
-          {typeElem}
-          <div id={prefixedId(id, 'source')} className="kubevirt-template-source__source">
-            {source}
-          </div>
-        </React.Fragment>
-      );
-    }
-
-    return (
-      <div className="kubevirt-template-source__overlay">
-        <OverlayTrigger
-          overlay={tooltip(id, source)}
-          placement={tooltipPlacement}
-          trigger={['hover', 'focus']}
-          rootClose={false}
-        >
-          {typeElem}
-        </OverlayTrigger>
-      </div>
-    );
+const Source = ({ type, source, id }) => {
+  if (!source) {
+    return null;
   }
-  return '---';
+
+  const sourceElem = type === PROVISION_SOURCE_URL ? <Url url={source} short /> : source;
+
+  return (
+    <div id={id} className="kubevirt-template-source__source">
+      {sourceElem}
+    </div>
+  );
+};
+
+Source.propTypes = {
+  type: PropTypes.string.isRequired,
+  source: PropTypes.string,
+  id: PropTypes.string,
+};
+
+Source.defaultProps = {
+  source: undefined,
+  id: undefined,
+};
+
+export const TemplateSource = ({ template, dataVolumes, detailed }) => {
+  const provisionSource = getTemplateProvisionSource(template, dataVolumes);
+
+  if (!provisionSource) {
+    return '---';
+  }
+
+  const { type, source } = provisionSource;
+  const id = prefixedId(getNamespace(template), getName(template));
+  const typeId = prefixedId(id, 'type');
+  const sourceId = prefixedId(id, 'source');
+
+  if (!detailed) {
+    return <Type id={typeId} type={type} source={source} isInline />;
+  }
+
+  return (
+    <React.Fragment>
+      <Type id={typeId} type={type} source={source} />
+      <Source id={sourceId} type={type} source={source} />
+    </React.Fragment>
+  );
 };
 
 TemplateSource.propTypes = {
   template: PropTypes.object.isRequired,
-  tooltipPlacement: PropTypes.string,
   dataVolumes: PropTypes.array,
   detailed: PropTypes.bool,
 };
 
 TemplateSource.defaultProps = {
-  tooltipPlacement: 'top',
   dataVolumes: [],
   detailed: false,
 };

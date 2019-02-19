@@ -12,6 +12,9 @@ import {
   START_WHITESPACE_ERROR,
   END_WHITESPACE_ERROR,
 } from './strings';
+
+import { parseUrl } from './utils';
+
 import { VALIDATION_ERROR_TYPE } from '../constants';
 
 export const isPositiveNumber = value => value && value.match(/^[1-9]\d*$/);
@@ -60,12 +63,8 @@ export const validateURL = value => {
   if (trimEnd(value).length !== value.length) {
     return getValidationObject(END_WHITESPACE_ERROR);
   }
-  try {
-    new URL(value);
-    return null;
-  } catch {
-    return getValidationObject(URL_INVALID_ERROR);
-  }
+
+  return parseUrl(value) ? null : getValidationObject(URL_INVALID_ERROR);
 };
 
 export const validateContainer = value => {

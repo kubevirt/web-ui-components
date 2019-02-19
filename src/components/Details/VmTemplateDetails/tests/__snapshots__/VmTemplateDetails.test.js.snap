@@ -87,7 +87,9 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
             </dt>
             <dd>
               <div
+                class=""
                 id="myproject-container-template-cloud-init-type"
+                title="fooContainer"
               >
                 Container
               </div>
@@ -219,6 +221,7 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
             </dt>
             <dd>
               <div
+                class=""
                 id="myproject-pxe-template-dv-type"
               >
                 PXE
@@ -345,7 +348,9 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
             </dt>
             <dd>
               <div
+                class=""
                 id="myproject-url-template-type"
+                title="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
               >
                 URL
               </div>
@@ -353,7 +358,12 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
                 class="kubevirt-template-source__source"
                 id="myproject-url-template-source"
               >
-                fooUrl
+                <a
+                  href="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+                  title="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+                >
+                  …mountain.all-images.cz/…/dromaeosauridae.iso…
+                </a>
               </div>
             </dd>
             <dt>

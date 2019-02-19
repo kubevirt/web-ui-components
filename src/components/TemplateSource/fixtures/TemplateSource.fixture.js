@@ -3,11 +3,20 @@ import { urlTemplate, urlTemplateDataVolume } from '../../../tests/mocks/user_te
 
 export default [
   {
+    name: 'inline',
     component: TemplateSource,
     props: {
       template: urlTemplate,
-      tooltipPlacement: 'bottom',
       dataVolumes: [urlTemplateDataVolume],
+    },
+  },
+  {
+    name: 'detailed',
+    component: TemplateSource,
+    props: {
+      template: urlTemplate,
+      dataVolumes: [urlTemplateDataVolume],
+      detailed: true,
     },
   },
 ];
