@@ -1,8 +1,9 @@
 import { FormFactory, getFormElement } from '../FormFactory';
+import { TEXT_AREA, DROPDOWN, CHECKBOX, POSITIVE_NUMBER, LABEL, PASSWORD } from '../constants';
 
 export const getPositiveNumber = () =>
   getFormElement({
-    type: 'positive-number',
+    type: POSITIVE_NUMBER,
     id: 'test-id',
     value: 48,
     onChange: jest.fn(),
@@ -13,8 +14,14 @@ export default {
   props: {
     fields: {
       textField: {
+        // type is default
         id: 'text',
         title: 'textField',
+      },
+      passwordField: {
+        id: 'password',
+        title: 'passwordField',
+        type: PASSWORD,
       },
       requiredField: {
         id: 'required',
@@ -29,7 +36,7 @@ export default {
       dropdownField: {
         id: 'dropdown',
         title: 'dropdownField',
-        type: 'dropdown',
+        type: DROPDOWN,
         defaultValue: 'default',
         choices: [
           {
@@ -42,22 +49,25 @@ export default {
       },
       textAreaField: {
         id: 'textarea',
-        type: 'textarea',
+        type: TEXT_AREA,
       },
       checkboxField: {
         id: 'checkbox',
-        type: 'checkbox',
+        type: CHECKBOX,
         title: 'checkboxFieldTitle',
       },
       labelField: {
         id: 'label',
-        type: 'label',
+        type: LABEL,
         title: 'labelTitle',
       },
     },
     fieldsValues: {
       textField: {
         value: 'textField',
+      },
+      passwordField: {
+        value: 'passswordField',
       },
       requiredField: {
         value: 'requiredField',

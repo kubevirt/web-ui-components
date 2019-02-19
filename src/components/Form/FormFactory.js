@@ -9,7 +9,7 @@ import { VALIDATION_INFO_TYPE, VALIDATION_ERROR_TYPE } from '../../constants';
 import { getValidationObject } from '../../utils/validations';
 import { ERROR_IS_REQUIRED } from '../Wizard/CreateVmWizard/strings';
 import { settingsValue } from '../../k8s/selectors';
-import { TEXT_AREA, DROPDOWN, CHECKBOX, POSITIVE_NUMBER, LABEL, CUSTOM } from './constants';
+import { TEXT_AREA, DROPDOWN, CHECKBOX, POSITIVE_NUMBER, LABEL, CUSTOM, PASSWORD } from './constants';
 
 export const getFormElement = props => {
   const {
@@ -79,6 +79,19 @@ export const getFormElement = props => {
     case CUSTOM:
       return (
         <CustomComponent onChange={onChange} id={id} key={id} value={value || defaultValue} extraProps={extraProps} />
+      );
+    case PASSWORD:
+      return (
+        <Text
+          id={id}
+          key={id}
+          value={isControlled ? value || '' : undefined}
+          defaultValue={isControlled ? undefined : defaultValue}
+          onBlur={onBlur}
+          onChange={onChange}
+          disabled={disabled}
+          type="password"
+        />
       );
     default:
       return (

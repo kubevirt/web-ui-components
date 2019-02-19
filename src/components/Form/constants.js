@@ -5,3 +5,4 @@ export const CHECKBOX = 'checkbox';
 export const POSITIVE_NUMBER = 'positive-number';
 export const LABEL = 'label';
 export const CUSTOM = 'custom';
+export const PASSWORD = 'password';
