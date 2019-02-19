@@ -124,6 +124,3 @@ export const getTemplateAnnotations = (template, name) => get(template.metadata.
 export const selectVm = objects => objects.find(obj => obj.kind === VirtualMachineModel.kind);
 
 export const getModelApi = model => `${model.apiGroup}/${model.apiVersion}`;
-
-// True if pod is healthy, ready to operate
-export const isPodReady = pod => get(pod, 'status.phase') == 'Running'; // TODO verify

@@ -1,4 +1,3 @@
-import React from 'react';
 import { get } from 'lodash';
 
 import { NAMESPACE_KEY, PROVIDER_KEY, PROVIDER_VMWARE } from '../constants';
@@ -37,7 +36,6 @@ export const importProviders = (basicSettings, WithResources, k8sCreate, k8sGet)
 });
 
 const onProviderChanged = (k8sCreate, k8sGet, valueValidationPair, key, formValid, prevBasicSettings) => {
-  console.log('--- onProviderChanged(), key: ', key, ', prevBasicSettings: ', prevBasicSettings);
   startV2VVMWareController({ k8sCreate, k8sGet, namespace: get(prevBasicSettings[NAMESPACE_KEY], 'value') });
 };
 

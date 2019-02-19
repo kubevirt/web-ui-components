@@ -52,7 +52,7 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
 
     onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }); // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
   } catch (err) {
-    console.warn('onVmwareCheckConnection(): Check for VMWare credentials failed, reason: ', err);
+    console.warn('onVmwareCheckConnection(): Check for VMWare credentials failed, reason: ', err); // eslint-disable-line no-console
     onChange({ status: PROVIDER_STATUS_CONNECTION_FAILED }); // The CR can not be created
   }
 };
@@ -74,7 +74,6 @@ export const onVCenterInstanceSelected = async (
   }
 
   const namespace = get(prevBasicSettings, [NAMESPACE_KEY, 'value']);
-  console.log('--- onVCenterInstanceSelected: ', connectionSecretName);
 
   // TODO: when is this object deleted?
   const v2vVmware = await k8sCreate(

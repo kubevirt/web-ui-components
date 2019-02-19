@@ -1,4 +1,3 @@
-import React from 'react';
 import { get } from 'lodash';
 
 import { isImportProviderType, settingsValue } from '../../../../k8s/selectors';
@@ -21,7 +20,7 @@ import { getVCenterInstancesConnected } from './VCenterInstances';
 import { getVCenterVmsConnected } from './VCenterVms';
 
 const isVmwareNewInstance = basicSettings =>
-  get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) == CONNECT_TO_NEW_INSTANCE;
+  get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) === CONNECT_TO_NEW_INSTANCE;
 const isNewVmwareInstanceSelected = basicVmSettings =>
   isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
 
@@ -68,31 +67,28 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
   },
 });
 
-export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
-  console.log('--- basicSettings: ', basicSettings);
-  return {
-    [PROVIDER_VMWARE_VCENTER_KEY]: {
-      id: 'vcenter-instance-dropdown',
-      title: 'vCenter Instance',
-      type: 'custom',
-      CustomComponent: getVCenterInstancesConnected(basicSettings, WithResources),
-      required: true,
-      onChange: (...props) => onVCenterInstanceSelected(k8sCreate, ...props),
-      isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
-      defaultValue: '--- Select vCenter Instance Secret ---',
-      help: 'Select secret containing connection details for a vCenter instance.',
-    },
-    ...getVMWareNewConnectionSection(basicSettings, WithResources, k8sCreate),
-    [PROVIDER_VMWARE_VM_KEY]: {
-      id: 'vcenter-vm-dropdown',
-      title: 'VM to Import',
-      type: 'custom',
-      CustomComponent: getVCenterVmsConnected(basicSettings, WithResources),
-      required: true,
-      isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
-      defaultValue: '--- Select VM ---',
-      help:
-        'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.',
-    },
-  };
-};
+export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => ({
+  [PROVIDER_VMWARE_VCENTER_KEY]: {
+    id: 'vcenter-instance-dropdown',
+    title: 'vCenter Instance',
+    type: 'custom',
+    CustomComponent: getVCenterInstancesConnected(basicSettings, WithResources),
+    required: true,
+    onChange: (...props) => onVCenterInstanceSelected(k8sCreate, ...props),
+    isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
+    defaultValue: '--- Select vCenter Instance Secret ---',
+    help: 'Select secret containing connection details for a vCenter instance.',
+  },
+  ...getVMWareNewConnectionSection(basicSettings, WithResources, k8sCreate),
+  [PROVIDER_VMWARE_VM_KEY]: {
+    id: 'vcenter-vm-dropdown',
+    title: 'VM to Import',
+    type: 'custom',
+    CustomComponent: getVCenterVmsConnected(basicSettings, WithResources),
+    required: true,
+    isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
+    defaultValue: '--- Select VM ---',
+    help:
+      'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.',
+  },
+});

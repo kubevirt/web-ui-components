@@ -32,6 +32,7 @@ export const getVCenterInstancesConnected = (basicSettings, WithResources) => {
     disabled: !areResourcesLoaded(vCenterSecrets),
   });
 
+  // eslint-disable-next-line react/prop-types
   const VCenterInstancesConnected = ({ onChange, id, value }) => (
     <WithResources resourceMap={resourceMap} resourceToProps={resourceToProps}>
       <Dropdown id={id} value={value} onChange={onChange} />

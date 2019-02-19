@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { Spinner, Button, Alert } from 'patternfly-react';
@@ -96,8 +97,12 @@ const VMWareProviderStatusByPhase = ({ phase }) => {
     return <ReadVmDetailFailed />;
   }
 
+  // eslint-disable-next-line no-console
   console.warn('VMWareProviderStatusByPhase unrecognized phase found within the V2V VMWare object: ', phase);
   return null;
+};
+VMWareProviderStatusByPhase.propTypes = {
+  phase: PropTypes.string.isRequired,
 };
 
 // see onVmwareCheckConnection() for details
@@ -134,6 +139,13 @@ const VMWareProviderStatus = ({ connValue, extraProps }) => {
       <VMWareProviderStatusByPhase />
     </WithResources>
   );
+};
+VMWareProviderStatus.defaultProps = {
+  connValue: null,
+};
+VMWareProviderStatus.propTypes = {
+  extraProps: PropTypes.object.isRequired,
+  connValue: PropTypes.object,
 };
 
 // workaround to wrap two components at a single row
@@ -173,6 +185,16 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
       <VMWareProviderStatus connValue={connValue} extraProps={extraProps} />
     </Fragment>
   );
+};
+VMWarePasswordAndCheck.defaultProps = {
+  id: undefined,
+  value: undefined,
+};
+VMWarePasswordAndCheck.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  extraProps: PropTypes.object.isRequired,
+  id: PropTypes.string,
+  value: PropTypes.object,
 };
 
 export default VMWarePasswordAndCheck;

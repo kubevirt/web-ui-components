@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import {
@@ -12,14 +12,7 @@ import {
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
 } from '../utils/selectors';
-import {
-  VirtualMachineModel,
-  ProcessedTemplatesModel,
-  TemplateModel,
-  DataVolumeModel,
-  PersistentVolumeClaimModel,
-  SecretModel,
-} from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, SecretModel } from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
@@ -27,9 +20,9 @@ import {
   TEMPLATE_PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_IMPORT,
   TEMPLATE_TYPE_BASE,
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_IMPORT,
   POD_NETWORK,
   ANNOTATION_FIRST_BOOT,
   ANNOTATION_PXE_INTERFACE,
@@ -163,16 +156,6 @@ export const createVmTemplate = async (
     const newDataVolumeName = generateDiskName(settingsValue(basicSettings, NAME_KEY), bootStorage.name);
     bootVolume.dataVolume.name = newDataVolumeName;
 
-    const promises = getPvcClones(storage, getSetting, persistentVolumeClaims).map(pvcClone =>
-      k8sCreate(PersistentVolumeClaimModel, pvcClone)
-    );
-
-    const importProviderSecret = getImportProviderSecret(getSetting);
-    importProviderSecret && promises.push(k8sCreate(SecretModel, importProviderSecret));
-
-    const vmCreatePromise = k8sCreate(VirtualMachineModel, vm);
-    promises.push(vmCreatePromise);
-
     bootDataVolume.metadata.name = newDataVolumeName;
     bootDataVolume.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
     bootDataVolume.apiVersion = `${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`;
@@ -226,8 +209,15 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
     vm.metadata.namespace = namespace;
   }
 
-  const vmResult = await k8sCreate(VirtualMachineModel, vm);
-  return [vmResult];
+  const results = [];
+
+  const importProviderSecret = getImportProviderSecret(getSetting);
+  if (importProviderSecret) {
+    results.push(await k8sCreate(SecretModel, importProviderSecret));
+  }
+
+  results.push(await k8sCreate(VirtualMachineModel, vm));
+  return results;
 };
 
 const getImportProviderSecret = getSetting => {
@@ -238,10 +228,10 @@ const getImportProviderSecret = getSetting => {
   ) {
     const url = getSetting(PROVIDER_VMWARE_URL_KEY);
     const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
-    const pwd = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
+    const password = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
     const namespace = getSetting(NAMESPACE_KEY);
 
-    return getImportProviderSecretObject({ url, username, pwd, namespace });
+    return getImportProviderSecretObject({ url, username, password, namespace });
   }
 
   return null;

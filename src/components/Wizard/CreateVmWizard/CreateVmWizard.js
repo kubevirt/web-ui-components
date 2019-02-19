@@ -63,7 +63,7 @@ const getInitialDisks = provisionSource => {
     case PROVISION_SOURCE_PXE:
       return null;
     case PROVISION_SOURCE_IMPORT:
-      break;
+      return null;
     default:
       // eslint-disable-next-line
       console.warn(`Unknown provision source ${provisionSource}`);

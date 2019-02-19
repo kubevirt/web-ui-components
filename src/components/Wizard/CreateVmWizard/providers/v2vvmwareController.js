@@ -1,7 +1,8 @@
 import { DeploymentModel, RoleModel, ServiceAccountModel, RoleBindingModel } from '../../../../models';
 import { V2VVMWARE_DEPLOYMENT_NAME } from '../constants';
 
-const rejectLogger = title => reason => console.log(`Failed to create ${title}, reason`, reason);
+// eslint-disable-next-line no-console
+const rejectLogger = title => reason => console.warn(`Failed to create ${title}, reason`, reason);
 
 // The controller is namespace-scoped, especially due to security reasons
 // Let's make sure its started within the desired namespace (which is not by default).
@@ -11,13 +12,16 @@ export const startV2VVMWareController = async ({ k8sCreate, k8sGet, namespace })
     await k8sGet(DeploymentModel, V2VVMWARE_DEPLOYMENT_NAME, namespace);
   } catch {
     // Deployment does not exist
+    // eslint-disable-next-line no-console
     console.info('V2V VMWare controller deployment not found, so creating one ...');
     const params = { k8sCreate, namespace };
 
+    /* eslint-disable promise/catch-or-return */
     createServiceAccount(params).then(undefined, rejectLogger('Service Account'));
     createRole(params).then(undefined, rejectLogger('Role'));
     createRoleBinding(params).then(undefined, rejectLogger('Role Binding'));
     createOperator(params).then(undefined, rejectLogger('V2V VMWare controller'));
+    /* eslint-enable promise/catch-or-return */
   }
 };
 

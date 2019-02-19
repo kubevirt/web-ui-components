@@ -425,6 +425,9 @@ BasicSettingsTab.defaultProps = {
 };
 
 BasicSettingsTab.propTypes = {
+  WithResources: PropTypes.func.isRequired,
+  k8sCreate: PropTypes.func.isRequired,
+  k8sGet: PropTypes.func.isRequired,
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
   selectedNamespace: PropTypes.object, // used only in initialization
