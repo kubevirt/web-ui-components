@@ -1,0 +1,19 @@
+.kubevirt-dropdown .caret {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.kubevirt-dropdown + .dropdown-menu {
+  width: 100%;
+}
+
+.kubevirt-dropdown.btn {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kubevirt-dropdown + .dropdown-menu a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

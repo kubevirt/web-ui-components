@@ -1,23 +1,3 @@
 .kubevirt-dropdown {
   text-align: left;
-
-  &.btn { // stylelint-disable-line plugin/selector-bem-pattern
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-.kubevirt-dropdown .caret {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-}
-
-.kubevirt-dropdown + .dropdown-menu {
-  width: 100%;
-}
-
-.kubevirt-dropdown + .dropdown-menu a { // stylelint-disable-line plugin/selector-bem-pattern
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
