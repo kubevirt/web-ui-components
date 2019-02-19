@@ -1,13 +1,3 @@
 .kubevirt-dropdown {
   text-align: left;
 }
-
-.kubevirt-dropdown .caret {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-}
-
-.kubevirt-dropdown + .dropdown-menu {
-  width: 100%;
-}
