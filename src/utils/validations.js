@@ -11,7 +11,6 @@ import {
   URL_INVALID_ERROR,
   START_WHITESPACE_ERROR,
   END_WHITESPACE_ERROR,
-  VMWARE_URL_ERROR,
 } from './strings';
 import { VALIDATION_ERROR_TYPE } from '../constants';
 

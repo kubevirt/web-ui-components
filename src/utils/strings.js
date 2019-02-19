@@ -12,4 +12,4 @@ export const URL_INVALID_ERROR = 'has to be a valid URL';
 
 export const VIRTUAL_MACHINE_EXISTS = `is already used by another Virtual Machine`;
 
-export const VMWARE_URL_ERROR = 'vCenter URL is incorrectly formatted. Example: https://host:port/';
+// export const VMWARE_URL_ERROR = 'vCenter URL is incorrectly formatted. Example: https://host:port/';

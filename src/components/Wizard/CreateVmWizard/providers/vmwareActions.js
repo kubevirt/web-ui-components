@@ -12,7 +12,6 @@ import {
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
   PROVIDER_VMWARE_USER_PWD_KEY,
   PROVIDER_VMWARE_CONNECTION,
-  V2VVMWARE_DEPLOYMENT_NAME,
 } from '../constants';
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 
@@ -138,6 +137,7 @@ export const onVCenterVmSelectedConnected = async (
       ];
       await k8sPatch(V2VVMwareModel, v2vvmware, patch); // the controller will supply details for the selected VM
     } else {
+      // eslint-disable-next-line no-console
       console.warn(
         'onVCenterVmSelectedConnected: The retrieved V2VVMware object is missing desired VM: "',
         vmName,
@@ -147,6 +147,7 @@ export const onVCenterVmSelectedConnected = async (
     }
   } catch (reason) {
     // TODO: notify user
+    // eslint-disable-next-line no-console
     console.warn(
       'onVCenterVmSelectedConnected: Failed to patch the V2VVMWare object to query VM details: "',
       vmName,

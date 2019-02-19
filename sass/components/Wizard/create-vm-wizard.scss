@@ -21,10 +21,10 @@
 .kubevirt-create-vm-wizard__import-vmware-passwordcheck {
   display: inline-flex;
   width: 100%;
+}
 
-  button {
-    margin-left: 5px;
-  }
+.kubevirt-create-vm-wizard__import-vmware-passwordcheck-button {
+  margin-left: 5px;
 }
 
 .kubevirt-create-vm-wizard__import-vmware-connection-status {
@@ -33,7 +33,7 @@
   margin-top: 2px;
 
   .alert {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 
   .spinner {

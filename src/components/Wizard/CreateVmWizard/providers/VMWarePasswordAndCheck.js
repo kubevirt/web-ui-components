@@ -170,6 +170,7 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
         />
         <Button
           id={`${id}-check-button`}
+          className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button"
           onClick={() => {
             onCheckConnection(newValue =>
               onChange({
