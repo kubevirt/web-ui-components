@@ -9,7 +9,8 @@ const rejectLogger = title => reason => console.log(`Failed to create ${title}, 
 export const startV2VVMWareController = async ({ k8sCreate, k8sGet, namespace }) => {
   try {
     await k8sGet(DeploymentModel, V2VVMWARE_DEPLOYMENT_NAME, namespace);
-  } catch { // Deployment does not exist
+  } catch {
+    // Deployment does not exist
     console.info('V2V VMWare controller deployment not found, so creating one ...');
     const params = { k8sCreate, namespace };
 
@@ -20,19 +21,18 @@ export const startV2VVMWareController = async ({ k8sCreate, k8sGet, namespace })
   }
 };
 
-const createServiceAccount = ({ k8sCreate, namespace }) => {
-  return k8sCreate(ServiceAccountModel, {
+const createServiceAccount = ({ k8sCreate, namespace }) =>
+  k8sCreate(ServiceAccountModel, {
     apiVersion: ServiceAccountModel.apiVersion,
     kind: ServiceAccountModel.kind,
     metadata: {
       name: V2VVMWARE_DEPLOYMENT_NAME,
       namespace,
-    }
+    },
   });
-};
 
-const createRole = ({ k8sCreate, namespace }) => {
-  return k8sCreate(RoleModel, {
+const createRole = ({ k8sCreate, namespace }) =>
+  k8sCreate(RoleModel, {
     apiVersion: `${RoleModel.apiGroup}/${RoleModel.apiVersion}`,
     kind: RoleModel.kind,
     metadata: {
@@ -43,14 +43,15 @@ const createRole = ({ k8sCreate, namespace }) => {
       {
         apiGroups: [''],
         attributeRestrictions: null,
-        resources: [ // TODO: review what's really needed
+        resources: [
+          // TODO: review what's really needed
           'configmaps',
           'endpoints',
           'events',
           'persistentvolumeclaims',
           'pods',
           'secrets',
-          'services'
+          'services',
         ],
         verbs: ['*'],
       },
@@ -58,40 +59,31 @@ const createRole = ({ k8sCreate, namespace }) => {
         apiGroups: [''],
         attributeRestrictions: null,
         resources: ['namespaces'],
-        verbs: ['get']
+        verbs: ['get'],
       },
       {
         apiGroups: ['apps'],
         attributeRestrictions: null,
-        resources: [
-          'daemonsets',
-          'deployments',
-          'replicasets',
-          'statefulsets'
-        ],
-        verbs: ['*']
+        resources: ['daemonsets', 'deployments', 'replicasets', 'statefulsets'],
+        verbs: ['*'],
       },
       {
         apiGroups: ['monitoring.coreos.com'],
         attributeRestrictions: null,
         resources: ['servicemonitors'],
-        verbs: [
-          'create',
-          'get'
-        ]
+        verbs: ['create', 'get'],
       },
       {
         apiGroups: ['kubevirt.io'],
         attributeRestrictions: null,
         resources: ['*'],
-        verbs: ['*']
-      }
-    ]
+        verbs: ['*'],
+      },
+    ],
   });
-};
 
-const createRoleBinding = ({ k8sCreate, namespace }) => {
-  return k8sCreate(RoleBindingModel, {
+const createRoleBinding = ({ k8sCreate, namespace }) =>
+  k8sCreate(RoleBindingModel, {
     kind: RoleBindingModel.kind,
     apiVersion: `${RoleBindingModel.apiGroup}/${RoleBindingModel.apiVersion}`,
     metadata: {
@@ -106,15 +98,14 @@ const createRoleBinding = ({ k8sCreate, namespace }) => {
     subjects: [
       {
         kind: ServiceAccountModel.kind,
-        name: V2VVMWARE_DEPLOYMENT_NAME
-      }
+        name: V2VVMWARE_DEPLOYMENT_NAME,
+      },
     ],
   });
-};
 
 // TODO: Do not use Deployment, just run the pod directly to simplify upgrades
-const createOperator = ({k8sCreate, namespace}) => {
-  return k8sCreate(DeploymentModel, {
+const createOperator = ({ k8sCreate, namespace }) =>
+  k8sCreate(DeploymentModel, {
     apiVersion: `${DeploymentModel.apiGroup}/${DeploymentModel.apiVersion}`,
     kind: DeploymentModel.kind,
     metadata: {
@@ -126,13 +117,13 @@ const createOperator = ({k8sCreate, namespace}) => {
       selector: {
         matchLabels: {
           name: V2VVMWARE_DEPLOYMENT_NAME,
-        }
+        },
       },
       template: {
         metadata: {
           labels: {
             name: V2VVMWARE_DEPLOYMENT_NAME,
-          }
+          },
         },
         spec: {
           serviceAccountName: V2VVMWARE_DEPLOYMENT_NAME,
@@ -147,10 +138,10 @@ const createOperator = ({k8sCreate, namespace}) => {
                   name: 'WATCH_NAMESPACE',
                   valueFrom: {
                     fieldRef: {
-                      apiVersion: "v1",
-                      fieldPath: 'metadata.namespace'
-                    }
-                  }
+                      apiVersion: 'v1',
+                      fieldPath: 'metadata.namespace',
+                    },
+                  },
                 },
                 {
                   name: 'POD_NAME',
@@ -158,18 +149,17 @@ const createOperator = ({k8sCreate, namespace}) => {
                     fieldRef: {
                       apiVersion: 'v1',
                       fieldPath: 'metadata.name',
-                    }
-                  }
+                    },
+                  },
                 },
                 {
                   name: 'OPERATOR_NAME',
                   value: V2VVMWARE_DEPLOYMENT_NAME,
-                }
+                },
               ],
-            }
+            },
           ],
-        }
-      }
+        },
+      },
     },
   });
-};

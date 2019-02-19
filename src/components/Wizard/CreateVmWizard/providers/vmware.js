@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { get } from 'lodash';
 
 import { isImportProviderType, settingsValue } from '../../../../k8s/selectors';
@@ -12,60 +12,61 @@ import {
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
   PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
-  PROVIDER_VMWARE_VM_KEY
-} from '../constants'
+  PROVIDER_VMWARE_VM_KEY,
+} from '../constants';
 
 import VMWarePasswordAndCheck from './VMWarePasswordAndCheck';
 import { onVCenterInstanceSelected, onVmwareCheckConnection } from './vmwareActions';
 import { getVCenterInstancesConnected } from './VCenterInstances';
 import { getVCenterVmsConnected } from './VCenterVms';
 
-const isVmwareNewInstance = basicSettings => get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) == CONNECT_TO_NEW_INSTANCE;
-const isNewVmwareInstanceSelected = basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
+const isVmwareNewInstance = basicSettings =>
+  get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) == CONNECT_TO_NEW_INSTANCE;
+const isNewVmwareInstanceSelected = basicVmSettings =>
+  isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
 
-const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) => {
-  return {
-    [PROVIDER_VMWARE_URL_KEY]: {
-      id: 'vcenter-url-dropdown',
-      title: 'vCenter URL',
-      required: true,
-      isVisible: isNewVmwareInstanceSelected,
-      validate: settings => validateVmwareURL(settingsValue(settings, PROVIDER_VMWARE_URL_KEY)),
-      defaultValue: 'https://host:port/',
-      help: 'Address to be used for connection to a vCenter instance. Example: https://host:port/'
+const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) => ({
+  [PROVIDER_VMWARE_URL_KEY]: {
+    id: 'vcenter-url-dropdown',
+    title: 'vCenter URL',
+    required: true,
+    isVisible: isNewVmwareInstanceSelected,
+    validate: settings => validateVmwareURL(settingsValue(settings, PROVIDER_VMWARE_URL_KEY)),
+    defaultValue: 'https://host:port/',
+    help: 'Address to be used for connection to a vCenter instance. Example: https://host:port/',
+  },
+  [PROVIDER_VMWARE_USER_NAME_KEY]: {
+    id: 'vcenter-username',
+    title: 'vCenter User Name',
+    required: true,
+    isVisible: isNewVmwareInstanceSelected,
+    help: 'User name to be used for connection to a vCenter instance.',
+  },
+  [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
+    id: 'vcenter-userpwd',
+    title: 'vCenter Password',
+    type: 'custom',
+    CustomComponent: VMWarePasswordAndCheck,
+    extraProps: {
+      onCheckConnection: onConnectionStateChanged =>
+        onVmwareCheckConnection(basicSettings, onConnectionStateChanged, k8sCreate),
+      WithResources,
+      basicSettings,
     },
-    [PROVIDER_VMWARE_USER_NAME_KEY]: {
-      id: 'vcenter-username',
-      title: 'vCenter User Name',
-      required: true,
-      isVisible: isNewVmwareInstanceSelected,
-      help: 'User name to be used for connection to a vCenter instance.'
-    },
-    [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
-      id: 'vcenter-userpwd',
-      title: 'vCenter Password',
-      type: 'custom',
-      CustomComponent: VMWarePasswordAndCheck,
-      extraProps: {
-        onCheckConnection: onConnectionStateChanged => onVmwareCheckConnection(basicSettings, onConnectionStateChanged, k8sCreate),
-        WithResources,
-        basicSettings,
-      },
-      required: true,
-      isVisible: isNewVmwareInstanceSelected,
-      // validate: settings => validateVmwareConnection(settingsValue(settings, PROVIDER_VMWARE_CONNECTION)),
-      help: 'User password to be used for connection to a vCenter instance.'
-    },
-    [PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY]: {
-      id: 'vcenter-remember-credentials',
-      title: 'Remember vCenter credentials',
-      required: true,
-      type: 'checkbox',
-      isVisible: isNewVmwareInstanceSelected,
-      help: 'If checked, new secret keeping connection details will be created for later use.'
-    },
-  };
-};
+    required: true,
+    isVisible: isNewVmwareInstanceSelected,
+    // validate: settings => validateVmwareConnection(settingsValue(settings, PROVIDER_VMWARE_CONNECTION)),
+    help: 'User password to be used for connection to a vCenter instance.',
+  },
+  [PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY]: {
+    id: 'vcenter-remember-credentials',
+    title: 'Remember vCenter credentials',
+    required: true,
+    type: 'checkbox',
+    isVisible: isNewVmwareInstanceSelected,
+    help: 'If checked, new secret keeping connection details will be created for later use.',
+  },
+});
 
 export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
   console.log('--- basicSettings: ', basicSettings);
@@ -79,7 +80,7 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
       onChange: (...props) => onVCenterInstanceSelected(k8sCreate, ...props),
       isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
       defaultValue: '--- Select vCenter Instance Secret ---',
-      help: 'Select secret containing connection details for a vCenter instance.'
+      help: 'Select secret containing connection details for a vCenter instance.',
     },
     ...getVMWareNewConnectionSection(basicSettings, WithResources, k8sCreate),
     [PROVIDER_VMWARE_VM_KEY]: {
@@ -90,7 +91,8 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate) => {
       required: true,
       isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
       defaultValue: '--- Select VM ---',
-      help: 'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.'
+      help:
+        'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.',
     },
-  }
+  };
 };

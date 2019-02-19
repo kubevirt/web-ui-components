@@ -51,4 +51,3 @@ export const PROVIDER_STATUS_CONNECTING = 'connecting';
 export const PROVIDER_STATUS_SUCCESS = 'success';
 export const PROVIDER_STATUS_CONNECTION_FAILED = 'connectionFailed';
 export const V2VVMWARE_DEPLOYMENT_NAME = 'v2v-vmware'; // probably no need to make the name generic
-

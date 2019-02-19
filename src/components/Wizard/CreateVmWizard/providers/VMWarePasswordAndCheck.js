@@ -13,7 +13,7 @@ import {
   PROVIDER_STATUS_CONNECTION_FAILED,
   NAMESPACE_KEY,
 } from '../constants';
-import {V2VVMwareModel} from "../../../../models";
+import { V2VVMwareModel } from '../../../../models';
 
 // Following constants conform v2vvmware_controller.go
 const PhaseConnecting = 'Connecting';
@@ -26,36 +26,32 @@ const PhaseLoadingVmDetailFailed = 'LoadingVmDetailFailed';
 
 const CheckingCredentials = () => (
   <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
-    Checking vCenter Credentials...<Spinner loading size="sm"/>
+    Checking vCenter Credentials...
+    <Spinner loading size="sm" />
   </div>
 );
 
 const LoadingData = () => (
   <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
-    Connection successful. Loading data...<Spinner loading size="sm"/>
+    Connection successful. Loading data...
+    <Spinner loading size="sm" />
   </div>
 );
 
 const ConnectionFailed = () => (
   <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
-    <Alert type="warning">
-      Could not connect to vCenter using the provided credentials.
-    </Alert>
+    <Alert type="warning">Could not connect to vCenter using the provided credentials.</Alert>
   </div>
 );
 
 const ConnectionFailedInfra = () => (
   <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
-    <Alert type="warning">
-      Can not verify vCenter credentials, connection to the V2V VMWare failed.
-    </Alert>
+    <Alert type="warning">Can not verify vCenter credentials, connection to the V2V VMWare failed.</Alert>
   </div>
 );
 
 const ConnectionSuccessful = () => (
-  <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">
-    Connection successful
-  </div>
+  <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">Connection successful</div>
 );
 
 const ReadVmsListFailed = () => (
@@ -129,15 +125,13 @@ const VMWareProviderStatus = ({ connValue, extraProps }) => {
       }),
     },
   };
-  const resourceToProps = ({ v2vvmware }) => {
-    return {
-      phase: get(v2vvmware, 'status.phase'), // value set by the controller
-    };
-  };
+  const resourceToProps = ({ v2vvmware }) => ({
+    phase: get(v2vvmware, 'status.phase'), // value set by the controller
+  });
 
   return (
     <WithResources resourceMap={resourceMap} resourceToProps={resourceToProps}>
-      <VMWareProviderStatusByPhase/>
+      <VMWareProviderStatusByPhase />
     </WithResources>
   );
 };
@@ -154,17 +148,24 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
         <Text
           id={`${id}-text`}
           value={pwdValue || ''}
-          onChange={newValue => onChange({
-            [PROVIDER_VMWARE_USER_PWD_KEY]: newValue,
-            [PROVIDER_VMWARE_CONNECTION]: connValue,
-          })}
+          onChange={newValue =>
+            onChange({
+              [PROVIDER_VMWARE_USER_PWD_KEY]: newValue,
+              [PROVIDER_VMWARE_CONNECTION]: connValue,
+            })
+          }
         />
-        <Button id={`${id}-check-button`} onClick={() => {
-          onCheckConnection(newValue => onChange({
-            [PROVIDER_VMWARE_USER_PWD_KEY]: pwdValue,
-            [PROVIDER_VMWARE_CONNECTION]: newValue,
-          }))
-        }}>
+        <Button
+          id={`${id}-check-button`}
+          onClick={() => {
+            onCheckConnection(newValue =>
+              onChange({
+                [PROVIDER_VMWARE_USER_PWD_KEY]: pwdValue,
+                [PROVIDER_VMWARE_CONNECTION]: newValue,
+              })
+            );
+          }}
+        >
           Check
         </Button>
       </div>

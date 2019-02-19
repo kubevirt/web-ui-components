@@ -150,31 +150,6 @@ export const SecretModel = {
   labelPlural: 'Secrets',
 };
 
-export const ServiceModel = {
-  apiVersion: 'v1',
-  label: 'Service',
-  path: 'services',
-  plural: 'services',
-  abbr: 'S',
-  namespaced: true,
-  kind: 'Service',
-  id: 'service',
-  labelPlural: 'Services',
-};
-
-export const RouteModel = {
-  label: 'Route',
-  labelPlural: 'Routes',
-  apiGroup: 'route.openshift.io',
-  apiVersion: 'v1',
-  path: 'routes',
-  plural: 'routes',
-  abbr: 'RT',
-  namespaced: true,
-  kind: 'Route',
-  id: 'route',
-};
-
 export const V2VVMwareModel = {
   label: 'V2V VMWare Provider',
   labelPlural: 'V2V VMWare Providers',
@@ -239,4 +214,3 @@ export const RoleBindingModel = {
   id: 'rolebinding',
   labelPlural: 'Role Bindings',
 };
-

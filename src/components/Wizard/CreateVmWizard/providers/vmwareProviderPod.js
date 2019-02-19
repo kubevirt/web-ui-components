@@ -8,7 +8,7 @@ import { VCENTER_TYPE_LABEL, VCENTER_TEMPORARY_LABEL } from '../../../../constan
 export const getDefaultSecretName = ({ username, url }) => {
   const u = new URL(url || '');
   const host = u.host || 'nohost';
-  return `${host}-${username}`
+  return `${host}-${username}`;
 };
 
 export const getImportProviderSecretObject = ({ url, username, pwd, secretName, namespace, isTemporary = false }) => {
@@ -34,7 +34,7 @@ export const getImportProviderSecretObject = ({ url, username, pwd, secretName, 
       username: btoa(username),
       password: btoa(pwd),
       url: btoa(url),
-    }
+    },
   };
 
   return secret;
@@ -57,6 +57,6 @@ export const getV2VVMwareObject = ({ name, namespace, connectionSecretName, isTe
     },
     spec: {
       connection: connectionSecretName,
-    }
+    },
   };
 };

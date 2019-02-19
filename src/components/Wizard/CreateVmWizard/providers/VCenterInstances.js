@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { get } from 'lodash';
 
 import { getResource } from '../../../../utils';
@@ -10,7 +10,7 @@ import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 
 const getVCenterInstanceSecrets = vCenterSecrets => {
   vCenterSecrets = vCenterSecrets || [];
-  return [CONNECT_TO_NEW_INSTANCE, ...vCenterSecrets.map(secret => get(secret, 'metadata.name'))]
+  return [CONNECT_TO_NEW_INSTANCE, ...vCenterSecrets.map(secret => get(secret, 'metadata.name'))];
 };
 
 const areResourcesLoaded = resources => !!resources;
@@ -23,21 +23,20 @@ export const getVCenterInstancesConnected = (basicSettings, WithResources) => {
         matchExpressions: [
           { key: VCENTER_TYPE_LABEL, operator: 'Exists' },
           { key: VCENTER_TEMPORARY_LABEL, operator: 'DoesNotExist' },
-        ]
+        ],
       }),
     },
   };
-  const resourceToProps = ({ vCenterSecrets }) => {
-    return {
-      choices: getVCenterInstanceSecrets(vCenterSecrets),
-      disabled: !areResourcesLoaded(vCenterSecrets),
-    };
-  };
+  const resourceToProps = ({ vCenterSecrets }) => ({
+    choices: getVCenterInstanceSecrets(vCenterSecrets),
+    disabled: !areResourcesLoaded(vCenterSecrets),
+  });
 
-  const VCenterInstancesConnected = ({ onChange, id, value }) =>
+  const VCenterInstancesConnected = ({ onChange, id, value }) => (
     <WithResources resourceMap={resourceMap} resourceToProps={resourceToProps}>
       <Dropdown id={id} value={value} onChange={onChange} />
-    </WithResources>;
+    </WithResources>
+  );
 
   return VCenterInstancesConnected;
 };

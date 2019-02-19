@@ -12,7 +12,14 @@ import {
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
 } from '../utils/selectors';
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, PersistentVolumeClaimModel, SecretModel } from '../models';
+import {
+  VirtualMachineModel,
+  ProcessedTemplatesModel,
+  TemplateModel,
+  DataVolumeModel,
+  PersistentVolumeClaimModel,
+  SecretModel,
+} from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
@@ -102,7 +109,6 @@ import {
 } from './vmBuilder';
 
 import { getImportProviderSecretObject } from '../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
-
 
 const FALLBACK_DISK = {
   disk: {
@@ -224,8 +230,12 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
   return [vmResult];
 };
 
-const getImportProviderSecret = (getSetting) => {
-  if (getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY) && getSetting(PROVIDER_VMWARE_VCENTER_KEY) && getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_IMPORT) {
+const getImportProviderSecret = getSetting => {
+  if (
+    getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY) &&
+    getSetting(PROVIDER_VMWARE_VCENTER_KEY) &&
+    getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_IMPORT
+  ) {
     const url = getSetting(PROVIDER_VMWARE_URL_KEY);
     const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
     const pwd = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
