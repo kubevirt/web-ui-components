@@ -1,23 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ResultTab /> renders fail correctly 1`] = `
-<Alert
-  className=""
-  key="0"
-  onDismiss={null}
-  type="error"
->
-  Failed to create VM
-</Alert>
-`;
-
-exports[`<ResultTab /> renders progress correctly 1`] = `
+exports[`<ResultTab /> renders correctly 1`] = `
 <Loading
+  key="progress"
   text="Creation of VM in progress"
 />
 `;
 
-exports[`<ResultTab /> renders success correctly 1`] = `
+exports[`<ResultTab /> renders correctly 2`] = `
 <div
   className="wizard-pf-complete blank-slate-pf"
   key="success"
@@ -26,7 +16,28 @@ exports[`<ResultTab /> renders success correctly 1`] = `
     className="wizard-pf-success-icon"
   >
     <span
-      className="glyphicon glyphicon-ok-circle"
+      className="pficon pficon-error-circle-o"
+    />
+  </div>
+  <h3
+    className="blank-slate-pf-main-action"
+  >
+    Creation of VM failed
+  </h3>
+  Error
+</div>
+`;
+
+exports[`<ResultTab /> renders correctly 3`] = `
+<div
+  className="wizard-pf-complete blank-slate-pf"
+  key="success"
+>
+  <div
+    className="wizard-pf-success-icon"
+  >
+    <span
+      className="pficon pficon-ok"
     />
   </div>
   <h3
@@ -34,11 +45,6 @@ exports[`<ResultTab /> renders success correctly 1`] = `
   >
     Creation of VM was successful
   </h3>
-  <pre
-    className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success"
-    key="0"
-  >
-    "Created VM"
-  </pre>
+  Result
 </div>
 `;

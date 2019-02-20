@@ -57,3 +57,7 @@ export const ATTACH_DISK_BUTTON = 'Attach Disk';
 export const CREATE_DISK_BUTTON = 'Create Disk';
 export const BOOTABLE_DISK = 'Bootable Disk';
 export const SELECT_BOOTABLE_DISK = '--- Select Bootable Disk ---';
+
+export const ERROR = 'Error';
+export const CREATED = 'created';
+export const NOT_CREATED = 'not created';
