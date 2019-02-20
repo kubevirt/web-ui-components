@@ -238,7 +238,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
       },
       "vmwareURL": Object {
         "defaultValue": "https://host:port/",
-        "help": "Address to be used for connection to a vCenter instance. Example: https://host:port/",
+        "help": "Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\".",
         "id": "vcenter-url-dropdown",
         "isVisible": [Function],
         "required": true,
@@ -255,7 +255,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
       "vmwareUserPwdCheck": Object {
         "CustomComponent": [Function],
         "extraProps": Object {
-          "WithResources": undefined,
+          "WithResources": [Function],
           "basicSettings": Object {},
           "onCheckConnection": [Function],
         },
@@ -272,6 +272,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "help": "Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.",
         "id": "vcenter-vm-dropdown",
         "isVisible": [Function],
+        "onChange": [Function],
         "required": true,
         "title": "VM to Import",
         "type": "custom",
@@ -536,7 +537,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       },
       "vmwareURL": Object {
         "defaultValue": "https://host:port/",
-        "help": "Address to be used for connection to a vCenter instance. Example: https://host:port/",
+        "help": "Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\".",
         "id": "vcenter-url-dropdown",
         "isVisible": [Function],
         "required": true,
@@ -553,7 +554,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       "vmwareUserPwdCheck": Object {
         "CustomComponent": [Function],
         "extraProps": Object {
-          "WithResources": undefined,
+          "WithResources": [Function],
           "basicSettings": Object {},
           "onCheckConnection": [Function],
         },
@@ -570,6 +571,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "help": "Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.",
         "id": "vcenter-vm-dropdown",
         "isVisible": [Function],
+        "onChange": [Function],
         "required": true,
         "title": "VM to Import",
         "type": "custom",

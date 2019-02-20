@@ -4,6 +4,7 @@ import { PROVISION_SOURCE_CONTAINER } from '../../../../constants';
 import { CONTAINER_IMAGE_KEY, PROVISION_SOURCE_TYPE_KEY } from '../constants';
 import { baseTemplates } from '../../../../k8s/objects/template';
 import { userTemplates } from '../../../../tests/mocks/user_template';
+import { callerContext } from '../../../../tests/k8s';
 
 export const basicSettings = {
   name: {
@@ -67,5 +68,6 @@ export default {
     namespaces,
     basicSettings,
     onChange: () => {},
+    ...callerContext,
   },
 };

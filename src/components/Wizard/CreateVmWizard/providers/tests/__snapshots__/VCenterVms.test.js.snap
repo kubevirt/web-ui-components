@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders correctly 1`] = `
+<WithResources
+  resourceMap={
+    Object {
+      "v2vvmware": Object {
+        "resource": Object {
+          "isList": false,
+          "kind": "V2VVmware",
+          "namespace": "test-namespace",
+          "namespaced": true,
+          "prop": "V2VVmware",
+        },
+      },
+    }
+  }
+  resourceToProps={[Function]}
+>
+  <Dropdown
+    choices={Array []}
+    disabled={false}
+    id="test-dropdown-id"
+    onChange={[MockFunction]}
+    value="test-vm1"
+    withTooltips={false}
+  />
+</WithResources>
+`;

@@ -34,7 +34,8 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
     disabled={false}
     id="test-dropdown-id"
     onChange={[MockFunction]}
-    value="test-vm1"
+    value="test-instance-1"
+    withTooltips={false}
   />
 </WithResources>
 `;
