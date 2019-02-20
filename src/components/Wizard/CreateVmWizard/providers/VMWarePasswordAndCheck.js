@@ -101,8 +101,11 @@ const VMWareProviderStatusByPhase = ({ phase }) => {
   console.warn('VMWareProviderStatusByPhase unrecognized phase found within the V2V VMWare object: ', phase);
   return null;
 };
+VMWareProviderStatusByPhase.defaultProps = {
+  phase: undefined,
+};
 VMWareProviderStatusByPhase.propTypes = {
-  phase: PropTypes.string.isRequired,
+  phase: PropTypes.string,
 };
 
 // see onVmwareCheckConnection() for details
@@ -110,8 +113,13 @@ const VMWareProviderStatus = ({ connValue, extraProps }) => {
   if (!connValue) {
     return null;
   }
-  const { WithResources, basicSettings } = extraProps;
   const { providerStatus, V2VVmwareName } = connValue;
+
+  if (!V2VVmwareName) {
+    return null;
+  }
+
+  const { WithResources, basicSettings } = extraProps;
 
   if (providerStatus === PROVIDER_STATUS_CONNECTION_FAILED) {
     return <ConnectionFailedInfra />;

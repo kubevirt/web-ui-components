@@ -7,6 +7,7 @@ import { getResource } from '../../../../utils';
 import { V2VVMwareModel } from '../../../../models';
 import { Dropdown } from '../../../Form';
 
+import { PROVIDER_SELECT_VM } from '../strings';
 import { NAMESPACE_KEY, PROVIDER_VMWARE_CONNECTION, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY } from '../constants';
 
 const VCenterVms = ({ onChange, id, value, extraProps }) => {
@@ -18,6 +19,10 @@ const VCenterVms = ({ onChange, id, value, extraProps }) => {
     PROVIDER_VMWARE_CONNECTION,
     'V2VVmwareName',
   ]);
+
+  if (!v2vvmwareName) {
+    return <Dropdown id={id} value={PROVIDER_SELECT_VM} disabled />;
+  }
 
   const resourceMap = {
     v2vvmware: {

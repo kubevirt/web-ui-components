@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 import { isImportProviderType, settingsValue } from '../../../../k8s/selectors';
-import { CONNECT_TO_NEW_INSTANCE } from '../strings';
+import { CONNECT_TO_NEW_INSTANCE, PROVIDER_SELECT_VM } from '../strings';
 import { validateVmwareURL } from '../../../../utils/validations';
 
 import {
@@ -97,7 +97,7 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate, k8sGet
     onChange: (...props) => onVCenterVmSelectedConnected(k8sCreate, k8sGet, k8sPatch, ...props),
     required: true,
     isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
-    defaultValue: '--- Select VM ---',
+    defaultValue: PROVIDER_SELECT_VM,
     help:
       'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.',
   },
