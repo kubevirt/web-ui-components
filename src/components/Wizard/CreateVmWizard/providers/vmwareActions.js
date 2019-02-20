@@ -14,8 +14,50 @@ import {
   PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
+/*
+const MAX_RESTART_COUNT = 5;
+const delay = ms => (new Promise(resolve => setTimeout(resolve, ms)));
 
-export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
+const setOwnerReferenceSecret = async (parentName, childName, namespace, k8sGet, k8sPatch, counter) => {
+  console.log('--- setOwnerReferenceSecret() started');
+  // Set owner reference to delete this secret together with the v2vVmware
+  const patch = [
+    {
+      op: 'add',
+      path: `/metadata`,
+      value: {
+        ownerReferences: [
+          {
+            apiVersion: `${V2VVMwareModel.apiGroup}/${V2VVMwareModel.apiVersion}`,
+            blockOwnerDeletion: true,
+            controller: true,
+            kind: V2VVMwareModel.kind,
+            name: parentName,
+            // uid: v2vVmware.metadata.uid,
+          },
+        ],
+      }
+    },
+  ];
+  const resource = {
+    metadata: {
+      name: childName,
+      namespace,
+    },
+  };
+  try {
+    const patchedSecret = await k8sPatch(SecretModel, resource, patch);
+    console.log('--- onVmwareCheckConnection, patchedSecret: ', patchedSecret);
+    return patchedSecret;
+  } catch (reason) {
+    if (counter > 0) {
+      return delay(5000).then(() => setOwnerReferenceSecret(parentName, childName, namespace, k8sGet, k8sPatch, counter - 1 ));
+    }
+    return Promise.reject(reason);
+  }
+};
+*/
+export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate, k8sGet, k8sPatch) => {
   // Note: any changes to the dialog since issuing the Check-button action till it's finish will be lost due to tight binding of the onFormChange to basicSettings set at promise creation
   onChange({ status: PROVIDER_STATUS_CONNECTING });
 
@@ -26,7 +68,6 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
   const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
 
   try {
-    // TODO: set owner reference to delete this secret along the v2vVmware
     const secret = await k8sCreate(
       SecretModel,
       getImportProviderSecretObject({
@@ -49,6 +90,9 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
         isTemporary: true, // remove this object automatically (by controller)
       })
     );
+
+    // const ownerResult = await setOwnerReferenceSecret(v2vVmware.metadata.name, secret.metadata.name, namespace, k8sGet, k8sPatch, MAX_RESTART_COUNT);
+    // console.log('--- ownerResult: ', ownerResult);
 
     onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }); // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
   } catch (err) {

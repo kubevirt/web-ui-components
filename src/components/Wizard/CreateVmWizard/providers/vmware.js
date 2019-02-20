@@ -15,16 +15,16 @@ import {
 } from '../constants';
 
 import VMWarePasswordAndCheck from './VMWarePasswordAndCheck';
+import VCenterInstances from './VCenterInstances';
 import { onVCenterInstanceSelected, onVmwareCheckConnection, onVCenterVmSelectedConnected } from './vmwareActions';
-import { getVCenterInstancesConnected } from './VCenterInstances';
-import { getVCenterVmsConnected } from './VCenterVms';
+import VCenterVms from './VCenterVms';
 
 const isVmwareNewInstance = basicSettings =>
   get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) === CONNECT_TO_NEW_INSTANCE;
 const isNewVmwareInstanceSelected = basicVmSettings =>
   isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
 
-const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) => ({
+const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch) => ({
   [PROVIDER_VMWARE_URL_KEY]: {
     id: 'vcenter-url-dropdown',
     title: 'vCenter URL',
@@ -49,7 +49,7 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
     CustomComponent: VMWarePasswordAndCheck,
     extraProps: {
       onCheckConnection: onConnectionStateChanged =>
-        onVmwareCheckConnection(basicSettings, onConnectionStateChanged, k8sCreate),
+        onVmwareCheckConnection(basicSettings, onConnectionStateChanged, k8sCreate, k8sGet, k8sPatch),
       WithResources,
       basicSettings,
     },
@@ -73,19 +73,27 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate, k8sGet
     id: 'vcenter-instance-dropdown',
     title: 'vCenter Instance',
     type: 'custom',
-    CustomComponent: getVCenterInstancesConnected(basicSettings, WithResources),
+    CustomComponent: VCenterInstances,
+    extraProps: {
+      WithResources,
+      basicSettings,
+    },
     onChange: (...props) => onVCenterInstanceSelected(k8sCreate, ...props),
     required: true,
     isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),
     defaultValue: '--- Select vCenter Instance Secret ---',
     help: 'Select secret containing connection details for a vCenter instance.',
   },
-  ...getVMWareNewConnectionSection(basicSettings, WithResources, k8sCreate),
+  ...getVMWareNewConnectionSection(basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch),
   [PROVIDER_VMWARE_VM_KEY]: {
     id: 'vcenter-vm-dropdown',
     title: 'VM to Import',
     type: 'custom',
-    CustomComponent: getVCenterVmsConnected(basicSettings, WithResources),
+    CustomComponent: VCenterVms,
+    extraProps: {
+      WithResources,
+      basicSettings,
+    },
     onChange: (...props) => onVCenterVmSelectedConnected(k8sCreate, k8sGet, k8sPatch, ...props),
     required: true,
     isVisible: basicVmSettings => isImportProviderType(basicVmSettings, PROVIDER_VMWARE),

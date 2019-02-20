@@ -1,13 +1,17 @@
 import React from 'react';
 import { get } from 'lodash';
 
+import PropTypes from 'prop-types';
+
 import { getResource } from '../../../../utils';
 import { V2VVMwareModel } from '../../../../models';
 import { Dropdown } from '../../../Form';
 
 import { NAMESPACE_KEY, PROVIDER_VMWARE_CONNECTION, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY } from '../constants';
 
-export const getVCenterVmsConnected = (basicSettings, WithResources) => {
+const VCenterVms = ({ onChange, id, value, extraProps }) => {
+  const { WithResources, basicSettings } = extraProps;
+
   const v2vvmwareName = get(basicSettings, [
     PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
     'value',
@@ -47,12 +51,21 @@ export const getVCenterVmsConnected = (basicSettings, WithResources) => {
     };
   };
 
-  // eslint-disable-next-line react/prop-types
-  const VCenterVmsConnected = ({ onChange, id, value }) => (
+  return (
     <WithResources resourceMap={resourceMap} resourceToProps={resourceToProps}>
       <Dropdown id={id} value={value} onChange={onChange} />
     </WithResources>
   );
-
-  return VCenterVmsConnected;
 };
+VCenterVms.defaultProps = {
+  id: undefined,
+  value: undefined,
+};
+VCenterVms.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  extraProps: PropTypes.object.isRequired,
+  id: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+};
+
+export default VCenterVms;

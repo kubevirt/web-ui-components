@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { getResource } from '../../../../utils';
@@ -15,7 +16,9 @@ const getVCenterInstanceSecrets = vCenterSecrets => {
 
 const areResourcesLoaded = resources => !!resources;
 
-export const getVCenterInstancesConnected = (basicSettings, WithResources) => {
+const VCenterInstances = ({ onChange, id, value, extraProps }) => {
+  const { WithResources, basicSettings } = extraProps;
+
   const resourceMap = {
     vCenterSecrets: {
       resource: getResource(SecretModel, {
@@ -32,12 +35,21 @@ export const getVCenterInstancesConnected = (basicSettings, WithResources) => {
     disabled: !areResourcesLoaded(vCenterSecrets),
   });
 
-  // eslint-disable-next-line react/prop-types
-  const VCenterInstancesConnected = ({ onChange, id, value }) => (
+  return (
     <WithResources resourceMap={resourceMap} resourceToProps={resourceToProps}>
       <Dropdown id={id} value={value} onChange={onChange} />
     </WithResources>
   );
-
-  return VCenterInstancesConnected;
 };
+VCenterInstances.defaultProps = {
+  id: undefined,
+  value: undefined,
+};
+VCenterInstances.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  extraProps: PropTypes.object.isRequired,
+  id: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+};
+
+export default VCenterInstances;

@@ -228,6 +228,10 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
       "vCenterInstance": Object {
         "CustomComponent": [Function],
         "defaultValue": "--- Select vCenter Instance Secret ---",
+        "extraProps": Object {
+          "WithResources": [Function],
+          "basicSettings": Object {},
+        },
         "help": "Select secret containing connection details for a vCenter instance.",
         "id": "vcenter-instance-dropdown",
         "isVisible": [Function],
@@ -269,6 +273,10 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
       "vmwareVm": Object {
         "CustomComponent": [Function],
         "defaultValue": "--- Select VM ---",
+        "extraProps": Object {
+          "WithResources": [Function],
+          "basicSettings": Object {},
+        },
         "help": "Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.",
         "id": "vcenter-vm-dropdown",
         "isVisible": [Function],
@@ -527,6 +535,10 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       "vCenterInstance": Object {
         "CustomComponent": [Function],
         "defaultValue": "--- Select vCenter Instance Secret ---",
+        "extraProps": Object {
+          "WithResources": [Function],
+          "basicSettings": Object {},
+        },
         "help": "Select secret containing connection details for a vCenter instance.",
         "id": "vcenter-instance-dropdown",
         "isVisible": [Function],
@@ -568,6 +580,10 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       "vmwareVm": Object {
         "CustomComponent": [Function],
         "defaultValue": "--- Select VM ---",
+        "extraProps": Object {
+          "WithResources": [Function],
+          "basicSettings": Object {},
+        },
         "help": "Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.",
         "id": "vcenter-vm-dropdown",
         "isVisible": [Function],
