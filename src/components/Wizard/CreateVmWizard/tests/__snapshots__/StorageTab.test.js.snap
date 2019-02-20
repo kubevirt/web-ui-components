@@ -37,7 +37,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
         },
         Object {
           "header": Object {
-            "label": "Size (GB)",
+            "label": "Size (Gi)",
             "props": Object {
               "style": Object {
                 "width": "23%",

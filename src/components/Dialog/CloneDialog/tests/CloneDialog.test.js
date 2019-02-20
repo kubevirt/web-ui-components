@@ -30,11 +30,10 @@ const startVm = (component, checked) => setCheckbox(component.find('#start-vm').
 
 const clickCloneVm = component => clickButton(component, 'Clone Virtual Machine');
 
-const getNameValidation = component =>
-  component
-    .find(HelpBlock)
-    .at(0)
-    .text();
+const getNameValidation = component => {
+  const wrapper = component.find(HelpBlock).at(0);
+  return wrapper.exists() ? wrapper.text() : null;
+};
 
 const selectNamespace = (component, namespace) => {
   const namespaceDropdown = component.find('#namespace-dropdown');
@@ -89,19 +88,19 @@ describe('<CloneDialog />', () => {
     };
 
     const component = mount(testCloneDialog([vm1, vm2]));
-    expect(getNameValidation(component)).toEqual('');
+    expect(getNameValidation(component)).toEqual(null);
 
     setVmName(component, getName(vm1));
     expect(getNameValidation(component)).toEqual(`Name ${VIRTUAL_MACHINE_EXISTS}`);
 
     selectNamespace(component, getNamespace(vm2));
-    expect(getNameValidation(component)).toEqual('');
+    expect(getNameValidation(component)).toEqual(null);
 
     setVmName(component, getName(vm2));
     expect(getNameValidation(component)).toEqual(`Name ${VIRTUAL_MACHINE_EXISTS}`);
 
     setVmName(component, 'othername');
-    expect(getNameValidation(component)).toEqual('');
+    expect(getNameValidation(component)).toEqual(null);
   });
 
   it('calls clone when clicked on finish', async () => {

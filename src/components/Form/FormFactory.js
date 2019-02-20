@@ -36,8 +36,8 @@ export const getFormElement = props => {
           value={isControlled ? value || '' : undefined}
           defaultValue={isControlled ? undefined : defaultValue}
           onBlur={onBlur}
-          className={className}
           onChange={onChange}
+          className={className}
           disabled={disabled}
         />
       );
@@ -54,6 +54,7 @@ export const getFormElement = props => {
           checked={isControlled ? value || false : undefined}
           onBlur={onBlur}
           onChange={onChange}
+          className={className}
           disabled={disabled}
         />
       );
@@ -66,6 +67,7 @@ export const getFormElement = props => {
           defaultValue={isControlled ? undefined : defaultValue}
           onBlur={onBlur}
           onChange={onChange}
+          className={className}
           positive
           disabled={disabled}
         />
@@ -78,7 +80,14 @@ export const getFormElement = props => {
       );
     case CUSTOM:
       return (
-        <CustomComponent onChange={onChange} id={id} key={id} value={value || defaultValue} extraProps={extraProps} />
+        <CustomComponent
+          onChange={onChange}
+          id={id}
+          key={id}
+          value={value || defaultValue}
+          className={className}
+          extraProps={extraProps}
+        />
       );
     case PASSWORD:
       return (
@@ -90,6 +99,7 @@ export const getFormElement = props => {
           onBlur={onBlur}
           onChange={onChange}
           disabled={disabled}
+          className={className}
           type="password"
         />
       );
@@ -102,6 +112,7 @@ export const getFormElement = props => {
           defaultValue={isControlled ? undefined : defaultValue}
           onBlur={onBlur}
           onChange={onChange}
+          className={className}
           disabled={disabled}
         />
       );
@@ -167,17 +178,23 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
       const values = fieldsValues[key];
       const validation = get(values, 'validation');
       const value = get(values, 'value');
-      const hasValidationMessage = !!get(validation, 'message');
+      const validationMessage = get(validation, 'message');
+      const hasValidationMessage = !!validationMessage;
+      const hasAddendum = !!field.addendum;
 
       const child = getFormElement({
         ...field,
         value,
         isControlled: true,
         onChange: newValue => onChange(fields, fieldsValues, newValue, key, onFormChange),
+        className: classNames(field.className, {
+          'kubevirt-form-group__field--with-addendum': hasAddendum,
+        }),
       });
 
-      const label = horizontal &&
-        field.title && (
+      let label;
+      if (horizontal && field.title) {
+        label = (
           <Col sm={labelSize} className={textPosition}>
             {field.type !== 'checkbox' && (
               <React.Fragment>
@@ -189,6 +206,7 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
             )}
           </Col>
         );
+      }
 
       return (
         <FormGroup
@@ -203,7 +221,8 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
           {label}
           <Col sm={controlSize}>
             {child}
-            <HelpBlock>{get(validation, 'message')}</HelpBlock>
+            {hasAddendum && <span className="kubevirt-form-group__addendum">{field.addendum}</span>}
+            {hasValidationMessage && <HelpBlock>{validationMessage}</HelpBlock>}
           </Col>
         </FormGroup>
       );

@@ -19,6 +19,16 @@
   margin-bottom: 23px;
 }
 
+.kubevirt-form-group__field--with-addendum {
+  width: calc(100% - 2.5em);
+  display: inline-block;
+}
+
+.kubevirt-form-group__addendum {
+  margin-left: 0.5em;
+  width: 2em;
+}
+
 .kubevirt-form-group__field-help .popover {
   max-width: 400px;
 }

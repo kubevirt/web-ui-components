@@ -1,4 +1,5 @@
 import { CreateDiskRow } from '../CreateDiskRow';
+import { storageClasses } from '../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
 
 export default {
   component: CreateDiskRow,
@@ -7,7 +8,7 @@ export default {
     onChange: () => {},
     onAccept: () => {},
     onCancel: () => {},
-    storageClasses: [],
+    storageClasses,
     LoadingComponent: () => null,
   },
 };

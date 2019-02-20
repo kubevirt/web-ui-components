@@ -26,6 +26,7 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
         "validate": [Function],
       },
       "size": Object {
+        "addendum": "Gi",
         "disabled": undefined,
         "id": "disk-size",
         "required": true,
@@ -33,9 +34,14 @@ exports[`<CreateDiskRow /> renders correctly 1`] = `
         "type": "positive-number",
       },
       "storageClass": Object {
-        "choices": Array [],
-        "defaultValue": "--- No Storage Class Available ---",
-        "disabled": true,
+        "choices": Array [
+          "nfs",
+          "iscsi",
+          "glusterfs",
+          "azuredisk",
+        ],
+        "defaultValue": "--- Select Storage Class ---",
+        "disabled": false,
         "id": "disk-storage-class",
         "type": "dropdown",
       },

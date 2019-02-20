@@ -56,7 +56,7 @@ const isInputValid = (allowedKeys, keyCode, targetValue, additionalValidation) =
   return false;
 };
 
-export const Integer = ({ id, value, disabled, defaultValue, onChange, onBlur, positive, nonNegative }) => {
+export const Integer = ({ id, value, disabled, defaultValue, onChange, onBlur, positive, nonNegative, className }) => {
   let allowedKeys;
   let validRegex;
   let fixAfterValue;
@@ -116,6 +116,7 @@ export const Integer = ({ id, value, disabled, defaultValue, onChange, onBlur, p
       defaultValue={defaultValue}
       onBlur={eventValueHandler(onBlur)}
       onChange={eventValueHandler(onChange)}
+      className={className}
       disabled={disabled}
     />
   );
@@ -128,6 +129,7 @@ Integer.defaultProps = {
   onBlur: noop,
   positive: false,
   nonNegative: false, // is ignored when positive == true
+  className: undefined,
   disabled: false,
 };
 
@@ -139,5 +141,6 @@ Integer.propTypes = {
   onBlur: PropTypes.func,
   positive: PropTypes.bool,
   nonNegative: PropTypes.bool,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
 };

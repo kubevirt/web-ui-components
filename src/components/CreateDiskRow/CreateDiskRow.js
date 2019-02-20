@@ -47,6 +47,7 @@ const getDiskColumns = (storage, storageClasses, LoadingComponent) => {
       required: true,
       title: 'Size',
       disabled: storage.creating,
+      addendum: 'Gi',
     },
     bus: {
       id: 'disk-bus',

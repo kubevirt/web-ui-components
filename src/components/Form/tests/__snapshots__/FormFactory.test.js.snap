@@ -172,6 +172,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
+                className=""
                 disabled={false}
                 id="text"
                 key="text"
@@ -182,6 +183,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               >
                 <FormControl
                   bsClass="form-control"
+                  className=""
                   componentClass="input"
                   disabled={false}
                   id="text"
@@ -202,13 +204,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   />
                 </FormControl>
               </Text>
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
@@ -253,6 +248,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
+                className=""
                 disabled={false}
                 id="password"
                 key="password"
@@ -263,6 +259,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               >
                 <FormControl
                   bsClass="form-control"
+                  className=""
                   componentClass="input"
                   disabled={false}
                   id="password"
@@ -283,13 +280,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   />
                 </FormControl>
               </Text>
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
@@ -334,6 +324,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <Text
+                className=""
                 disabled={false}
                 id="required"
                 key="required"
@@ -344,6 +335,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               >
                 <FormControl
                   bsClass="form-control"
+                  className=""
                   componentClass="input"
                   disabled={false}
                   id="required"
@@ -364,13 +356,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   />
                 </FormControl>
               </Text>
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
@@ -634,13 +619,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   </div>
                 </ButtonGroup>
               </Dropdown>
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
@@ -663,6 +641,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <TextArea
+                className=""
                 disabled={false}
                 id="textarea"
                 key="textarea"
@@ -672,6 +651,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
               >
                 <FormControl
                   bsClass="form-control"
+                  className=""
                   componentClass="textarea"
                   disabled={false}
                   id="textarea"
@@ -689,13 +669,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   />
                 </FormControl>
               </TextArea>
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
@@ -729,6 +702,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
             >
               <Checkbox
                 checked={true}
+                className=""
                 disabled={false}
                 id="checkbox"
                 key="checkbox"
@@ -739,6 +713,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 <Checkbox
                   bsClass="checkbox"
                   checked={true}
+                  className=""
                   disabled={false}
                   id="checkbox"
                   inline={false}
@@ -765,13 +740,6 @@ exports[`<FormFactory /> renders correctly 1`] = `
                   </div>
                 </Checkbox>
               </Checkbox>
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
@@ -816,15 +784,9 @@ exports[`<FormFactory /> renders correctly 1`] = `
               className="col-sm-5"
             >
               <div
+                className=""
                 key="label"
               />
-              <HelpBlock
-                bsClass="help-block"
-              >
-                <span
-                  className="help-block"
-                />
-              </HelpBlock>
             </div>
           </Col>
         </div>
