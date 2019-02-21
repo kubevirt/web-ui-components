@@ -21,7 +21,7 @@ export const HELP_PROVISION_SOURCE_CONTAINER =
 export const HELP_OS = 'The primary operating system that will run on the virtual machine.';
 export const HELP_FLAVOR =
   'The combination of processing power and memory that will be provided to the virtual machine.';
-export const HELP_WORKLOAD = 'The category of work that this virtual machine will be used for.';
+export const HELP_WORKLOAD = 'The category of workload that this virtual machine will be used for.';
 
 export const HEADER_NAME = 'Name';
 
