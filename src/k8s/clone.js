@@ -12,10 +12,12 @@ import {
   getDataVolumeStorageSize,
   getPvcStorageClassName,
   getDataVolumeStorageClassName,
+  getOperatingSystemName,
+  getOperatingSystem,
 } from '../utils/selectors';
 import { getStartStopPatch, generateDiskName } from '../utils';
 import { addDataVolumeTemplate, addTemplateLabel } from './vmBuilder';
-import { TEMPLATE_VM_NAME_LABEL } from '../constants';
+import { TEMPLATE_VM_NAME_LABEL, TEMPLATE_OS_NAME_ANNOTATION } from '../constants';
 
 export const clone = async (
   k8sCreate,
@@ -31,13 +33,15 @@ export const clone = async (
   const stopVmPatch = getStartStopPatch(vm, false);
   await k8sPatch(VirtualMachineModel, vm, stopVmPatch);
 
+  const osName = getOperatingSystemName(vm);
+
   cleanVm(vm);
   cleanNetworks(vm);
 
   addPvcClones(vm, newName, persistentVolumeClaims);
   addDataVolumeClones(vm, newName, dataVolumes);
 
-  updateVm(vm, newName, newNamespace, newDescription, startVm);
+  updateVm(vm, newName, newNamespace, newDescription, startVm, osName);
 
   return k8sCreate(VirtualMachineModel, vm);
 };
@@ -58,16 +62,23 @@ const cleanVm = vm => {
     delete vm.spec.dataVolumeTemplates;
   }
 
+  if (has(vm.spec, 'template.spec.domain.firmware')) {
+    delete vm.spec.template.spec.domain.firmware;
+  }
+
   delete vm.status;
 };
 
-const updateVm = (vm, name, namespace, description, startVm) => {
+const updateVm = (vm, name, namespace, description, startVm, osName) => {
   vm.metadata.name = name;
   vm.metadata.namespace = namespace;
   vm.metadata.annotations = {
-    ...(vm.metadata.annotations || {}),
     description,
   };
+
+  if (osName) {
+    vm.metadata.annotations[`${TEMPLATE_OS_NAME_ANNOTATION}/${getOperatingSystem(vm)}`] = osName;
+  }
 
   addTemplateLabel(vm, TEMPLATE_VM_NAME_LABEL, name); // for pairing service-vm (like for RDP)
 
