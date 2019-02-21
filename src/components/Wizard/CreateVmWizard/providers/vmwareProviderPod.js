@@ -31,7 +31,7 @@ export const getImportProviderSecretObject = ({
   };
   if (isTemporary) {
     // if set, the Secret is not listed for selection within the dropdown box and is automatically garbage-collected (by controller)
-    labels[VCENTER_TEMPORARY_LABEL] = 'true';
+    labels[VCENTER_TEMPORARY_LABEL] = 'true'; // will be automatically garbage-collected by the controller
   }
 
   const secret = {
@@ -57,7 +57,7 @@ export const getV2VVMwareObject = ({ name, namespace, connectionSecretName, isTe
   const labels = {};
   if (isTemporary) {
     // if set, the Secret is not listed for selection within the dropdown box and is automatically garbage-collected (by controller)
-    labels[VCENTER_TEMPORARY_LABEL] = 'true';
+    labels[VCENTER_TEMPORARY_LABEL] = 'true'; // will be automatically garbage-collected by the controller
   }
 
   return {

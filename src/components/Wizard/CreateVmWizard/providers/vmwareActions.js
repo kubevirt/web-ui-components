@@ -89,7 +89,15 @@ export const onVCenterInstanceSelected = async (
 
   const namespace = get(prevBasicSettings, [NAMESPACE_KEY, 'value']);
 
-  // TODO: when is this object deleted?
+  // ATM, Kubernetes does not support deletion of CRs with a gracefulPeriod (delayed deletion).
+  // The only object with this support are PODs.
+  // More info: https://github.com/kubernetes/kubernetes/issues/56567
+  // Workaround: handle garbage collection on our own by:
+  // - set VCENTER_TEMPORARY_LABEL label to 'true'
+  // - controller will set deletionTimestamp label with RFC 3339 timestamp
+  // - controller will remove the object after the timeStamp
+  // - can be easily extended for delaying the deletionTimestamp (recently not needed, so not implemented)
+
   const v2vVmware = await k8sCreate(
     V2VVMwareModel,
     getV2VVMwareObject({

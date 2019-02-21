@@ -139,6 +139,8 @@ const VMWareProviderStatus = ({ connValue, extraProps }) => {
     },
   };
   const resourceToProps = ({ v2vvmware }) => ({
+    // TODO: handle the case when V2VVmwareName is set but the object is missing in API (404)
+    // means: it was garbage collected (so rare case)
     phase: get(v2vvmware, 'status.phase'), // value set by the controller
   });
 
