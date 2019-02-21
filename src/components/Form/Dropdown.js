@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { ButtonGroup, DropdownButton, MenuItem, noop, Tooltip, OverlayTrigger } from 'patternfly-react';
 
-export const Dropdown = ({ id, value, disabled, onChange, choices, withTooltips }) => {
+export const Dropdown = ({ id, value, disabled, onChange, choices, className, withTooltips }) => {
   const title = typeof value === 'object' ? value.name || value.id : value;
   return (
     <ButtonGroup justified key={id}>
       <DropdownButton
         id={id}
         bsStyle="default"
-        className="kubevirt-dropdown"
+        className={classNames('kubevirt-dropdown', className)}
         title={title}
         disabled={disabled}
         onSelect={onChange}
@@ -44,6 +45,7 @@ Dropdown.defaultProps = {
   onChange: noop,
   disabled: false,
   choices: [],
+  className: undefined,
   withTooltips: false,
 };
 
@@ -53,5 +55,6 @@ Dropdown.propTypes = {
   choices: PropTypes.array,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
+  className: PropTypes.string,
   withTooltips: PropTypes.bool,
 };

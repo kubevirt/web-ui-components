@@ -168,7 +168,7 @@ describe('<NetworksTab />', () => {
         .find(Dropdown)
         .props().value
     ).toEqual('pxe-net');
-    expect(component.find(HelpBlock).text()).toEqual('');
+    expect(component.find(HelpBlock)).toHaveLength(0);
 
     // add Pod network - not PXE bootable
     component.instance().rowsChanged([podRow], false);
@@ -196,7 +196,7 @@ describe('<NetworksTab />', () => {
         .find(Dropdown)
         .props().value
     ).toEqual('pxe-net');
-    expect(component.find(HelpBlock).text()).toEqual('');
+    expect(component.find(HelpBlock)).toHaveLength(0);
   });
 
   it('does not require bootable network for non-PXE image sources', () => {

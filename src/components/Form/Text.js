@@ -4,7 +4,7 @@ import { FormControl, noop } from 'patternfly-react';
 
 import { eventValueHandler } from './utils';
 
-export const Text = ({ id, value, disabled, defaultValue, onChange, onBlur, type }) => (
+export const Text = ({ id, value, disabled, defaultValue, onChange, onBlur, type, className }) => (
   <FormControl
     id={id}
     key={id}
@@ -13,6 +13,7 @@ export const Text = ({ id, value, disabled, defaultValue, onChange, onBlur, type
     defaultValue={defaultValue}
     onBlur={eventValueHandler(onBlur)}
     onChange={eventValueHandler(onChange)}
+    className={className}
     disabled={disabled}
   />
 );
@@ -23,6 +24,7 @@ Text.defaultProps = {
   onChange: noop,
   onBlur: noop,
   disabled: false,
+  className: undefined,
   type: 'text', // or password
 };
 
@@ -32,6 +34,7 @@ Text.propTypes = {
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
 };
