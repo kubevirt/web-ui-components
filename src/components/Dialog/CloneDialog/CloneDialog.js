@@ -20,7 +20,7 @@ const vmAlreadyExists = (name, namespace, vms) => {
   return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
 };
 
-const getFormFields = (namespaces, vm, units, persistentVolumeClaims, dataVolumes, virtualMachines) => ({
+const getFormFields = (namespaces, vm, persistentVolumeClaims, dataVolumes, virtualMachines) => ({
   [NAME_KEY]: {
     id: 'vm-name',
     title: 'Name',
@@ -57,12 +57,7 @@ const getFormFields = (namespaces, vm, units, persistentVolumeClaims, dataVolume
     title: 'Configuration',
     type: CUSTOM,
     CustomComponent: () => (
-      <ConfigurationSummary
-        vm={vm}
-        units={units}
-        persistentVolumeClaims={persistentVolumeClaims}
-        dataVolumes={dataVolumes}
-      />
+      <ConfigurationSummary vm={vm} persistentVolumeClaims={persistentVolumeClaims} dataVolumes={dataVolumes} />
     ),
   },
 });
@@ -147,7 +142,6 @@ export class CloneDialog extends React.Component {
     const formFields = getFormFields(
       this.props.namespaces,
       this.props.vm,
-      this.props.units,
       this.props.persistentVolumeClaims,
       this.props.dataVolumes,
       this.props.virtualMachines
@@ -204,7 +198,6 @@ CloneDialog.propTypes = {
   virtualMachines: PropTypes.array.isRequired,
   k8sCreate: PropTypes.func.isRequired,
   k8sPatch: PropTypes.func.isRequired,
-  units: PropTypes.object.isRequired,
   dataVolumes: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
 };
