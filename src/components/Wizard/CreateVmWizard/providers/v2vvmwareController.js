@@ -136,7 +136,7 @@ const createOperator = ({ k8sCreate, namespace }) =>
               name: V2VVMWARE_DEPLOYMENT_NAME,
               image: 'quay.io/mareklibra/v2v-vmware:v0.0.1', // TODO: parametrize from configuration (Web UI's ConfigMap)
               imagePullPolicy: 'Always',
-              command: ['v2v-vmware'],
+              command: ['kubevirt-vmware'],
               env: [
                 {
                   name: 'WATCH_NAMESPACE',
