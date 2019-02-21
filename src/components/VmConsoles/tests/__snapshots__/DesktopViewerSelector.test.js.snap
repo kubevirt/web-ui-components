@@ -17,6 +17,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
             },
           ],
           "defaultValue": "--- Select Network Interface ---",
+          "help": "The network interface to be used for accessing the RDP console",
           "id": "nic-dropdown",
           "title": "Network Interface",
           "type": "dropdown",

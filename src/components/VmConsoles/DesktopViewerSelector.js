@@ -8,7 +8,13 @@ import { FormFactory } from '../Form';
 import { settingsValue } from '../../k8s/selectors';
 import { DEFAULT_RDP_PORT } from '../../constants';
 import { RdpServiceNotConfigured } from './VmConsoles';
-import { SELECT_NETWORK_INTERFACE, NIC, GUEST_AGENT_WARNING, NO_IP_ADDRESS } from './strings';
+import {
+  SELECT_NETWORK_INTERFACE,
+  NIC,
+  GUEST_AGENT_WARNING,
+  NO_IP_ADDRESS,
+  RDP_NETWORK_INTERFACE_HELP,
+} from './strings';
 import { NIC_KEY } from './constants';
 import { NETWORK_TYPE_MULTUS, NETWORK_TYPE_POD } from '../Wizard/CreateVmWizard/constants';
 import { getNetworks } from '../../k8s/vmBuilder';
@@ -20,6 +26,7 @@ const getForm = networks => ({
     type: 'dropdown',
     defaultValue: SELECT_NETWORK_INTERFACE,
     choices: networks,
+    help: RDP_NETWORK_INTERFACE_HELP,
   },
 });
 
