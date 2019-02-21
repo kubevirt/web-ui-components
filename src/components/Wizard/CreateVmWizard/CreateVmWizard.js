@@ -47,13 +47,16 @@ import {
   hasAutoAttachPodInterface,
 } from '../../../utils/templates';
 
+// left intentionally empty
+const TEMPLATE_ROOT_STORAGE = {};
+
 const LoadingBasicWizardTab = loadingWizardTab(BasicSettingsTab);
 const LoadingStorageTab = loadingWizardTab(StorageTab);
 const LoadingNetworksTab = loadingWizardTab(NetworksTab);
 
 const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_KEY].value, key);
 
-const getInitialDisks = provisionSource => {
+const getInitialDisk = provisionSource => {
   switch (provisionSource) {
     case PROVISION_SOURCE_URL:
       return rootDataVolumeDisk;
@@ -78,11 +81,12 @@ const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate, dataVolume
   if (newUserTemplate) {
     const templateStorages = getTemplateStorages(newUserTemplate, dataVolumes).map(storage => ({
       templateStorage: storage,
+      rootStorage: storage.disk.bootOrder === 1 ? TEMPLATE_ROOT_STORAGE : undefined,
     }));
     rows.push(...templateStorages);
   } else {
     const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
-    const storage = getInitialDisks(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
+    const storage = getInitialDisk(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
     if (storage) {
       rows.push(storage);
     }
@@ -147,11 +151,13 @@ export const rootDataVolumeDisk = {
 };
 
 const onImageSourceTypeChangedInStorageTab = stepData => {
-  const withoutRootStorage = stepData[STORAGE_TAB_KEY].value.filter(storage => !storage.rootStorage);
-  const rows = [...withoutRootStorage];
+  const filteredStorage = stepData[STORAGE_TAB_KEY].value.filter(
+    storage => storage.templateStorage || !storage.rootStorage
+  );
+  const rows = [...filteredStorage];
   const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
   if (!settingsValue(basicSettings, USER_TEMPLATE_KEY)) {
-    const storage = getInitialDisks(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
+    const storage = getInitialDisk(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
     if (storage) {
       rows.push(storage);
     }
