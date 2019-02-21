@@ -166,7 +166,7 @@ export class CloneDialog extends React.Component {
       </React.Fragment>
     );
     return (
-      <Modal show>
+      <Modal show dialogClassName="kubevirt-clone-dialog">
         <Modal.Header>
           <Button className="close" onClick={this.props.onClose}>
             <Icon type="pf" name="close" />
@@ -174,18 +174,21 @@ export class CloneDialog extends React.Component {
           <Modal.Title>Clone Virtual Machine</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {vmIsRunning(this.props.vm) && (
-            <Alert type="warning">
-              The VM {getName(this.props.vm)} is still running. It will be powered off while cloning.
-            </Alert>
-          )}
-          {this.state.error && <Alert onDismiss={this.onErrorDismissed}>{this.state.error}</Alert>}
-          <FormFactory
-            fields={formFields}
-            fieldsValues={this.state}
-            onFormChange={(newValue, key, valid) => this.onFormChange(formFields, newValue, key, valid)}
-            controlSize={9}
-          />
+          <div className="kubevirt-clone-dialog__content">
+            {vmIsRunning(this.props.vm) && (
+              <Alert type="warning">
+                The VM {getName(this.props.vm)} is still running. It will be powered off while cloning.
+              </Alert>
+            )}
+            {this.state.error && <Alert onDismiss={this.onErrorDismissed}>{this.state.error}</Alert>}
+            <FormFactory
+              fields={formFields}
+              fieldsValues={this.state}
+              onFormChange={(newValue, key, valid) => this.onFormChange(formFields, newValue, key, valid)}
+              labelSize={2}
+              controlSize={10}
+            />
+          </div>
         </Modal.Body>
         <Modal.Footer>{footer}</Modal.Footer>
       </Modal>
