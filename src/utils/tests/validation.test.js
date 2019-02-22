@@ -4,6 +4,7 @@ import {
   validateURL,
   validateContainer,
   getValidationObject,
+  validateVmwareURL,
 } from '../validations';
 import {
   DNS1123_START_ERROR,
@@ -112,5 +113,15 @@ describe('validation.js - validateContainer tests', () => {
     expect(validateContainer('kubevirt/fedora-cloud-registry-disk-demo ')).toEqual(
       getValidationObject(END_WHITESPACE_ERROR)
     );
+  });
+});
+
+describe('validation.js - validateVmwareURL', () => {
+  it('handles empty input', () => {
+    validatesEmpty(validateVmwareURL);
+  });
+  it('handles whitespaces at start or end', () => {
+    expect(validateVmwareURL(' http://hello.com')).toEqual(getValidationObject(START_WHITESPACE_ERROR));
+    expect(validateVmwareURL('http://hello.com ')).toEqual(getValidationObject(END_WHITESPACE_ERROR));
   });
 });

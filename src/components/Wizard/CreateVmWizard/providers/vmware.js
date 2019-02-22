@@ -19,9 +19,9 @@ import VCenterInstances from './VCenterInstances';
 import { onVCenterInstanceSelected, onVmwareCheckConnection, onVCenterVmSelectedConnected } from './vmwareActions';
 import VCenterVms from './VCenterVms';
 
-const isVmwareNewInstance = basicSettings =>
+export const isVmwareNewInstance = basicSettings =>
   get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) === CONNECT_TO_NEW_INSTANCE;
-const isNewVmwareInstanceSelected = basicVmSettings =>
+export const isNewVmwareInstanceSelected = basicVmSettings =>
   isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
 
 const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) => ({

@@ -1,7 +1,5 @@
-// TODO: implement more tests
-
 import React from 'react';
-import { shallow } from 'enzyme/build';
+import { mount } from 'enzyme/build';
 
 import { WithResources, k8sCreate } from '../../../../../tests/k8s';
 import VCenterInstances from '../VCenterInstances';
@@ -22,7 +20,7 @@ const extraProps = {
 describe('<VCenterInstancesConnected /> for list of vCenter secrets', () => {
   it('renders correctly', () => {
     const onChange = jest.fn();
-    const component = shallow(
+    const component = mount(
       <VCenterInstances onChange={onChange} id="test-dropdown-id" value="test-instance-1" extraProps={extraProps} />
     );
     expect(component).toMatchSnapshot();

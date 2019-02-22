@@ -43,10 +43,46 @@ const inject = (children, props) => {
 };
 
 export const WithResources = ({ resourceMap, resourceToProps, children }) => {
-  const childrenProps = {
+  let childrenProps = {
     choices: ['test-vm1', 'test-vm2'],
     disabled: false,
   };
+
+  if (resourceMap.vCenterSecrets) {
+    const vCenterSecrets = [
+      {
+        metadata: {
+          name: 'secret-1',
+        },
+      },
+      {
+        metadata: {
+          name: 'secret-2',
+        },
+      },
+    ];
+    childrenProps = resourceToProps({ vCenterSecrets });
+  }
+
+  if (resourceMap.v2vvmware) {
+    const v2vvmware = {
+      spec: {
+        vms: [
+          {
+            name: 'vm-1',
+          },
+          {
+            name: 'vm-2',
+            detail: {
+              raw: '{content: "These are dummy raw VMWare data about a VM"}',
+            },
+          },
+        ],
+      },
+    };
+    childrenProps = resourceToProps({ v2vvmware });
+  }
+
   return inject(children, childrenProps);
 };
 
