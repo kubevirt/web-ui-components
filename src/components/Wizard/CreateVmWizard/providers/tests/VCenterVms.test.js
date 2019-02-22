@@ -12,7 +12,7 @@ const extraProps = {
   basicSettings,
 };
 
-describe('<VCenterInstancesConnected /> for list of vCenter secrets', () => {
+describe('<VCenterVms /> for list of vCenter secrets', () => {
   it('renders correctly', () => {
     const onChange = jest.fn();
     const component = shallow(

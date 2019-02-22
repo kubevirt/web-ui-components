@@ -8,7 +8,7 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
         "resource": Object {
           "isList": true,
           "kind": "Secret",
-          "namespace": "test-namespace",
+          "namespace": "default",
           "namespaced": true,
           "prop": "Secret",
           "selector": Object {

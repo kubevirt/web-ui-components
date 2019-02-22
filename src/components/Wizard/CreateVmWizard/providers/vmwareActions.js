@@ -15,7 +15,7 @@ import {
 } from '../constants';
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 
-export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate, k8sGet, k8sPatch) => {
+export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
   // Note: any changes to the dialog since issuing the Check-button action till it's finish will be lost due to tight binding of the onFormChange to basicSettings set at promise creation
   onChange({ status: PROVIDER_STATUS_CONNECTING });
 
@@ -38,7 +38,6 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       })
     );
 
-    // TODO: when is this object deleted? Controller can collect garbage based on a timeToLive label (can be set by the controller itself, if missing)
     const v2vVmware = await k8sCreate(
       V2VVMwareModel,
       getV2VVMwareObject({
@@ -104,6 +103,7 @@ export const onVCenterInstanceSelected = async (
       name: `v2vvmware-${connectionSecretName}-`,
       namespace,
       connectionSecretName,
+      isTemporary: true, // remove this object automatically (by controller)
     })
   );
 

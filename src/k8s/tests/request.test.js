@@ -13,6 +13,7 @@ import {
   basicSettingsContainer,
   basicSettingsContainerWindows,
   basicSettingsCustomFlavor,
+  basicSettingsImportVmwareNewConnection,
   basicSettingsPxe,
   basicSettingsUrl,
   basicSettingsUserTemplate,
@@ -104,6 +105,15 @@ const testContainerImage = results => {
     settingsValue(basicSettingsContainer, CONTAINER_IMAGE_KEY)
   );
   return vm;
+};
+
+const testImportSecret = results => {
+  const secret = results[0];
+  expect(secret.kind).toBe('Secret');
+  expect(secret.metadata.generateName).toBe('my.domain.com-username-'); // composed from input values
+  expect(secret.data.username).toBe('dXNlcm5hbWU='); // base64
+  expect(secret.data.password).toBe('cGFzc3dvcmQ='); // base64
+  expect(secret.data.url).toBe('bXkuZG9tYWluLmNvbQ=='); // base64
 };
 
 const everyDiskHasVolume = results => {
@@ -516,6 +526,13 @@ describe('request.js - metadata', () => {
       );
       return results;
     }));
+  it('Import Secret is created', () =>
+    createVm(k8sCreate, templates, basicSettingsImportVmwareNewConnection, [], [], persistentVolumeClaims).then(
+      results => {
+        testImportSecret(results);
+        return results;
+      }
+    ));
 });
 
 describe('request.js - Create Vm Template', () => {

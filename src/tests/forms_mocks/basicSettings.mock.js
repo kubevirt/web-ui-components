@@ -14,10 +14,26 @@ import {
   CLOUD_INIT_KEY,
   IMAGE_URL_KEY,
   CONTAINER_IMAGE_KEY,
+  PROVIDER_KEY,
+  PROVIDER_VMWARE,
+  PROVIDER_VMWARE_VCENTER_KEY,
+  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
+  PROVIDER_VMWARE_CONNECTION,
+  PROVIDER_VMWARE_USER_PWD_KEY,
+  PROVIDER_VMWARE_URL_KEY,
+  PROVIDER_VMWARE_USER_NAME_KEY,
+  PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
-import { CUSTOM_FLAVOR, PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER } from '../../constants';
+import {
+  CUSTOM_FLAVOR,
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_IMPORT,
+} from '../../constants';
 import { urlTemplate } from '../mocks/user_template';
 import { getTemplateFlavors, getTemplateOperatingSystems, getTemplateWorkloadProfiles } from '../../k8s/selectors';
+import { CONNECT_TO_NEW_INSTANCE } from '../../components/Wizard/CreateVmWizard/strings';
 
 export const basicSettingsContainer = {
   [NAME_KEY]: {
@@ -114,6 +130,64 @@ export const basicSettingsUserTemplate = {
   [OPERATING_SYSTEM_KEY]: {
     value: getTemplateOperatingSystems([urlTemplate])[0],
   },
+};
+/*
+export const basicSettingsImportVmware = {
+  [NAME_KEY]: basicSettingsContainer[NAME_KEY],
+  [NAMESPACE_KEY]: basicSettingsContainer[NAMESPACE_KEY],
+  [PROVISION_SOURCE_TYPE_KEY]: {
+    value: PROVISION_SOURCE_IMPORT,
+  },
+  [PROVIDER_KEY]: {
+    value: PROVIDER_VMWARE
+  },
+  [PROVIDER_VMWARE_VCENTER_KEY]: {
+    value: 'vcenter-secret-name'
+  },
+  [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
+    value: {
+      [PROVIDER_VMWARE_CONNECTION]: {
+        V2VVmwareName: 'v2vvmware-object-name',
+      }
+    }
+  },
+  [FLAVOR_KEY]: basicSettingsContainer[FLAVOR_KEY],
+  [WORKLOAD_PROFILE_KEY]: basicSettingsContainer[WORKLOAD_PROFILE_KEY],
+  [OPERATING_SYSTEM_KEY]: basicSettingsContainer[OPERATING_SYSTEM_KEY],
+};
+*/
+export const basicSettingsImportVmwareNewConnection = {
+  [NAME_KEY]: basicSettingsContainer[NAME_KEY],
+  [NAMESPACE_KEY]: basicSettingsContainer[NAMESPACE_KEY],
+  [PROVISION_SOURCE_TYPE_KEY]: {
+    value: PROVISION_SOURCE_IMPORT,
+  },
+  [PROVIDER_KEY]: {
+    value: PROVIDER_VMWARE,
+  },
+  [PROVIDER_VMWARE_VCENTER_KEY]: {
+    value: CONNECT_TO_NEW_INSTANCE,
+  },
+  [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
+    value: {
+      [PROVIDER_VMWARE_CONNECTION]: {
+        V2VVmwareName: 'v2vvmware-object-name',
+      },
+      [PROVIDER_VMWARE_USER_PWD_KEY]: 'password',
+    },
+  },
+  [PROVIDER_VMWARE_USER_NAME_KEY]: {
+    value: 'username',
+  },
+  [PROVIDER_VMWARE_URL_KEY]: {
+    value: 'my.domain.com',
+  },
+  [PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY]: {
+    value: true,
+  },
+  [FLAVOR_KEY]: basicSettingsContainer[FLAVOR_KEY],
+  [WORKLOAD_PROFILE_KEY]: basicSettingsContainer[WORKLOAD_PROFILE_KEY],
+  [OPERATING_SYSTEM_KEY]: basicSettingsContainer[OPERATING_SYSTEM_KEY],
 };
 
 export const basicSettingsContainerWindows = {

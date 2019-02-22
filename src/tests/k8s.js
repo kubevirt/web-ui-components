@@ -13,8 +13,7 @@ const processTemplate = template =>
   });
 
 export const k8sGet = (model, name, ns, opts) => {
-  console.log('--- k8sGet: ', model, name, ns, opts);
-  // TODO
+  console.warn('TODO: tests/k8s.js k8sGet() not implemented: ', model, name, ns, opts);
 };
 
 export const k8sCreate = (model, resource) => {
