@@ -74,7 +74,7 @@ export const WithResources = ({ resourceMap, resourceToProps, children, tesOnlyP
           {
             name: 'vm-2',
             detail: {
-              raw: '{content: "These are dummy raw VMWare data about a VM"}',
+              raw: '{"content": "Dummy VMWare raw data about a VM"}',
             },
           },
         ],

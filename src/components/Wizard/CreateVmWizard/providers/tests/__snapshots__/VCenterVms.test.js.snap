@@ -1,152 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<VCenterVms /> for list of vCenter secrets renders correctly 1`] = `
-<VCenterVms
-  extraProps={
-    Object {
-      "WithResources": [Function],
-      "basicSettings": undefined,
-    }
-  }
-  id="test-dropdown-id"
-  onChange={[MockFunction]}
-  value="test-vm1"
+<div
+  class="btn-group btn-group-justified"
 >
-  <Dropdown
-    choices={Array []}
-    disabled={true}
-    id="test-dropdown-id"
-    onChange={[Function]}
-    value="--- Select VM ---"
-    withTooltips={false}
+  <div
+    class="dropdown btn-group btn-group-default"
   >
-    <ButtonGroup
-      block={false}
-      bsClass="btn-group"
-      justified={true}
-      key="test-dropdown-id"
-      vertical={false}
+    <button
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="kubevirt-dropdown dropdown-toggle btn btn-default"
+      id="test-dropdown-id"
+      role="button"
+      type="button"
     >
-      <div
-        className="btn-group btn-group-justified"
+      test-vm1 
+      <span
+        class="caret"
+      />
+    </button>
+    <ul
+      aria-labelledby="test-dropdown-id"
+      class="dropdown-menu"
+      role="menu"
+    >
+      <li
+        class=""
+        role="presentation"
       >
-        <DropdownButton
-          bsStyle="default"
-          className="kubevirt-dropdown"
-          disabled={true}
-          id="test-dropdown-id"
-          onSelect={[Function]}
-          title="--- Select VM ---"
+        <a
+          href="#"
+          role="menuitem"
+          tabindex="-1"
         >
-          <DropdownButton
-            bsStyle="default"
-            className="kubevirt-dropdown"
-            disabled={true}
-            id="test-dropdown-id"
-            onSelect={[Function]}
-            title="--- Select VM ---"
-          >
-            <Uncontrolled(Dropdown)
-              bsStyle="default"
-              disabled={true}
-              id="test-dropdown-id"
-              onSelect={[Function]}
-            >
-              <Dropdown
-                bsClass="dropdown"
-                bsStyle="default"
-                componentClass={[Function]}
-                disabled={true}
-                id="test-dropdown-id"
-                onSelect={[Function]}
-                onToggle={[Function]}
-              >
-                <ButtonGroup
-                  block={false}
-                  bsClass="btn-group"
-                  bsStyle="default"
-                  className="dropdown disabled"
-                  justified={false}
-                  vertical={false}
-                >
-                  <div
-                    className="dropdown disabled btn-group btn-group-default"
-                  >
-                    <DropdownToggle
-                      bsClass="dropdown-toggle"
-                      bsRole="toggle"
-                      bsStyle="default"
-                      className="kubevirt-dropdown"
-                      disabled={true}
-                      id="test-dropdown-id"
-                      key=".0"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      open={false}
-                      useAnchor={false}
-                    >
-                      <Button
-                        active={false}
-                        aria-expanded={false}
-                        aria-haspopup={true}
-                        block={false}
-                        bsClass="btn"
-                        bsStyle="default"
-                        className="kubevirt-dropdown dropdown-toggle"
-                        disabled={true}
-                        id="test-dropdown-id"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="button"
-                      >
-                        <button
-                          aria-expanded={false}
-                          aria-haspopup={true}
-                          className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                          disabled={true}
-                          id="test-dropdown-id"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          role="button"
-                          type="button"
-                        >
-                          --- Select VM ---
-                           
-                          <span
-                            className="caret"
-                          />
-                        </button>
-                      </Button>
-                    </DropdownToggle>
-                    <DropdownMenu
-                      bsClass="dropdown-menu"
-                      bsRole="menu"
-                      key=".1"
-                      labelledBy="test-dropdown-id"
-                      onClose={[Function]}
-                      onSelect={[Function]}
-                      pullRight={false}
-                    >
-                      <RootCloseWrapper
-                        disabled={true}
-                        event="click"
-                        onRootClose={[Function]}
-                      >
-                        <ul
-                          aria-labelledby="test-dropdown-id"
-                          className="dropdown-menu"
-                          role="menu"
-                        />
-                      </RootCloseWrapper>
-                    </DropdownMenu>
-                  </div>
-                </ButtonGroup>
-              </Dropdown>
-            </Uncontrolled(Dropdown)>
-          </DropdownButton>
-        </DropdownButton>
-      </div>
-    </ButtonGroup>
-  </Dropdown>
-</VCenterVms>
+          vm-1
+        </a>
+      </li>
+      <li
+        class=""
+        role="presentation"
+      >
+        <a
+          href="#"
+          role="menuitem"
+          tabindex="-1"
+        >
+          vm-2
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
 `;
