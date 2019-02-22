@@ -42,7 +42,7 @@ const inject = (children, props) => {
   });
 };
 
-export const WithResources = ({ resourceMap, resourceToProps, children }) => {
+export const WithResources = ({ resourceMap, resourceToProps, children, tesOnlyPhase = 'ConnectionVerified' }) => {
   let childrenProps = {
     choices: ['test-vm1', 'test-vm2'],
     disabled: false,
@@ -78,6 +78,9 @@ export const WithResources = ({ resourceMap, resourceToProps, children }) => {
             },
           },
         ],
+      },
+      status: {
+        phase: tesOnlyPhase,
       },
     };
     childrenProps = resourceToProps({ v2vvmware });
