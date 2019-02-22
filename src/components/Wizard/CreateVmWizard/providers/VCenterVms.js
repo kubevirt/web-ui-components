@@ -9,6 +9,7 @@ import { Dropdown } from '../../../Form';
 
 import { PROVIDER_SELECT_VM } from '../strings';
 import { NAMESPACE_KEY, PROVIDER_VMWARE_CONNECTION, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY } from '../constants';
+import { settingsValue } from '../../../../k8s/selectors';
 
 const VCenterVms = ({ onChange, id, value, extraProps }) => {
   const { WithResources, basicSettings } = extraProps;
@@ -28,7 +29,7 @@ const VCenterVms = ({ onChange, id, value, extraProps }) => {
     v2vvmware: {
       resource: getResource(V2VVMwareModel, {
         name: v2vvmwareName,
-        namespace: get(basicSettings[NAMESPACE_KEY], 'value'),
+        namespace: settingsValue(basicSettings, NAMESPACE_KEY),
         isList: false,
       }),
     },

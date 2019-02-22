@@ -11,7 +11,9 @@ export const startV2VVMWareController = async ({ k8sCreate, k8sGet, namespace })
   try {
     await k8sGet(DeploymentModel, V2VVMWARE_DEPLOYMENT_NAME, namespace);
   } catch {
-    // Deployment does not exist
+    // Deployment does not exist or the does not have permissions to see Deployments in this namespace
+    // TODO: notify the user in other way not just the console.log
+
     // eslint-disable-next-line no-console
     console.info('V2V VMWare controller deployment not found, so creating one ...');
     const params = { k8sCreate, namespace };

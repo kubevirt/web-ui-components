@@ -14,15 +14,20 @@ import {
   PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
+import { settingsValue } from '../../../../k8s/selectors';
+import { getName } from '../../../../utils/selectors';
 
 export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
   // Note: any changes to the dialog since issuing the Check-button action till it's finish will be lost due to tight binding of the onFormChange to basicSettings set at promise creation
   onChange({ status: PROVIDER_STATUS_CONNECTING });
 
-  const url = get(basicSettings[PROVIDER_VMWARE_URL_KEY], 'value');
-  const username = get(basicSettings[PROVIDER_VMWARE_USER_NAME_KEY], 'value');
-  const password = get(basicSettings[PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY], ['value', PROVIDER_VMWARE_USER_PWD_KEY]);
-  const namespace = get(basicSettings[NAMESPACE_KEY], 'value');
+  const url = settingsValue(basicSettings, PROVIDER_VMWARE_URL_KEY);
+  const username = settingsValue(basicSettings, PROVIDER_VMWARE_USER_NAME_KEY);
+  const password = get(
+    settingsValue(basicSettings, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY),
+    PROVIDER_VMWARE_USER_PWD_KEY
+  );
+  const namespace = settingsValue(basicSettings, NAMESPACE_KEY);
   const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
 
   try {
@@ -43,12 +48,12 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
       getV2VVMwareObject({
         name: `check-${getDefaultSecretName({ url, username })}-`,
         namespace,
-        connectionSecretName: secret.metadata.name,
+        connectionSecretName: getName(secret),
         isTemporary: true, // remove this object automatically (by controller)
       })
     );
 
-    onChange({ V2VVmwareName: v2vVmware.metadata.name, status: PROVIDER_STATUS_CONNECTING }); // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
+    onChange({ V2VVmwareName: getName(v2vVmware), status: PROVIDER_STATUS_CONNECTING }); // still "connecting" here, let content in the "status" of the CR decide otherwise (set by controller)
   } catch (err) {
     console.warn('onVmwareCheckConnection(): Check for VMWare credentials failed, reason: ', err); // eslint-disable-line no-console
     onChange({ status: PROVIDER_STATUS_CONNECTION_FAILED }); // The CR can not be created
@@ -86,7 +91,7 @@ export const onVCenterInstanceSelected = async (
     return;
   }
 
-  const namespace = get(prevBasicSettings, [NAMESPACE_KEY, 'value']);
+  const namespace = settingsValue(prevBasicSettings, NAMESPACE_KEY);
 
   // ATM, Kubernetes does not support deletion of CRs with a gracefulPeriod (delayed deletion).
   // The only object with this support are PODs.
@@ -112,7 +117,7 @@ export const onVCenterInstanceSelected = async (
     {
       value: {
         [PROVIDER_VMWARE_CONNECTION]: {
-          V2VVmwareName: v2vVmware.metadata.name,
+          V2VVmwareName: getName(v2vVmware),
           status: PROVIDER_STATUS_CONNECTING, // useless value
         },
       },
@@ -133,13 +138,13 @@ export const onVCenterVmSelectedConnected = async (
   onFormChange
 ) => {
   const { value } = valueValidationPair; // name of VM to be imported
-  const namespace = get(prevBasicSettings, [NAMESPACE_KEY, 'value']);
-  const V2VVmwareName = get(prevBasicSettings, [
-    PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
-    'value',
+  const namespace = settingsValue(prevBasicSettings, NAMESPACE_KEY);
+
+  // see onVCenterInstanceSelected()
+  const V2VVmwareName = get(settingsValue(settingsValue, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), [
     PROVIDER_VMWARE_CONNECTION,
     'V2VVmwareName',
-  ]); // see onVCenterInstanceSelected()
+  ]);
   const vmName = (value || '').trim();
 
   try {

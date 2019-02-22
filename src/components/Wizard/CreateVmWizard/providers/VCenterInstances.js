@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+
+import { getName } from '../../../../utils/selectors';
+import { settingsValue } from '../../../../k8s/selectors';
 
 import { getResource } from '../../../../utils';
 import { SecretModel } from '../../../../models';
@@ -8,10 +10,11 @@ import { VCENTER_TEMPORARY_LABEL, VCENTER_TYPE_LABEL } from '../../../../constan
 import { Dropdown } from '../../../Form';
 
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
+import { NAMESPACE_KEY } from '../constants';
 
 const getVCenterInstanceSecrets = vCenterSecrets => {
   vCenterSecrets = vCenterSecrets || [];
-  return [CONNECT_TO_NEW_INSTANCE, ...vCenterSecrets.map(secret => get(secret, 'metadata.name'))];
+  return [CONNECT_TO_NEW_INSTANCE, ...vCenterSecrets.map(getName)];
 };
 
 const areResourcesLoaded = resources => !!resources;
@@ -22,7 +25,7 @@ const VCenterInstances = ({ onChange, id, value, extraProps }) => {
   const resourceMap = {
     vCenterSecrets: {
       resource: getResource(SecretModel, {
-        namespace: basicSettings.namespace ? basicSettings.namespace.value : undefined,
+        namespace: settingsValue(basicSettings, NAMESPACE_KEY),
         matchExpressions: [
           { key: VCENTER_TYPE_LABEL, operator: 'Exists' },
           { key: VCENTER_TEMPORARY_LABEL, operator: 'DoesNotExist' },

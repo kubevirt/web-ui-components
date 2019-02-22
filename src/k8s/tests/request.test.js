@@ -507,32 +507,35 @@ describe('request.js - metadata', () => {
     );
     return results;
   });
-  it('VM has os/flavor/workload metadata - user template', () =>
-    createVm(
+  it('VM has os/flavor/workload metadata - user template', async () => {
+    const results = await createVm(
       k8sCreate,
       templates,
       basicSettingsUserTemplate,
       [podNetwork, multusNetwork],
       [pvcDisk],
       persistentVolumeClaims
-    ).then(results => {
-      testMetadata(
-        results,
-        basicSettingsUserTemplate[OPERATING_SYSTEM_KEY].value,
-        basicSettingsUserTemplate[WORKLOAD_PROFILE_KEY].value,
-        basicSettingsUserTemplate[FLAVOR_KEY].value,
-        getName(urlTemplate),
-        getNamespace(urlTemplate)
-      );
-      return results;
-    }));
-  it('Import Secret is created', () =>
-    createVm(k8sCreate, templates, basicSettingsImportVmwareNewConnection, [], [], persistentVolumeClaims).then(
-      results => {
-        testImportSecret(results);
-        return results;
-      }
-    ));
+    );
+    testMetadata(
+      results,
+      basicSettingsUserTemplate[OPERATING_SYSTEM_KEY].value,
+      basicSettingsUserTemplate[WORKLOAD_PROFILE_KEY].value,
+      basicSettingsUserTemplate[FLAVOR_KEY].value,
+      getName(urlTemplate),
+      getNamespace(urlTemplate)
+    );
+  });
+  it('Import Secret is created', async () => {
+    const results = await createVm(
+      k8sCreate,
+      templates,
+      basicSettingsImportVmwareNewConnection,
+      [],
+      [],
+      persistentVolumeClaims
+    );
+    testImportSecret(results);
+  });
 });
 
 describe('request.js - Create Vm Template', () => {

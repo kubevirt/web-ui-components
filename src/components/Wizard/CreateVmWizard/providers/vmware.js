@@ -18,6 +18,7 @@ import VMWarePasswordAndCheck from './VMWarePasswordAndCheck';
 import VCenterInstances from './VCenterInstances';
 import { onVCenterInstanceSelected, onVmwareCheckConnection, onVCenterVmSelectedConnected } from './vmwareActions';
 import VCenterVms from './VCenterVms';
+import { CHECKBOX, CUSTOM } from '../../../Form';
 
 export const isVmwareNewInstance = basicSettings =>
   get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) === CONNECT_TO_NEW_INSTANCE;
@@ -45,7 +46,7 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
   [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
     id: 'vcenter-userpwd',
     title: 'vCenter Password',
-    type: 'custom',
+    type: CUSTOM,
     CustomComponent: VMWarePasswordAndCheck,
     extraProps: {
       onCheckConnection: onConnectionStateChanged =>
@@ -61,8 +62,7 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
   [PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY]: {
     id: 'vcenter-remember-credentials',
     title: 'Remember vCenter credentials',
-    required: true,
-    type: 'checkbox',
+    type: CHECKBOX,
     isVisible: isNewVmwareInstanceSelected,
     help: 'If checked, new secret keeping connection details will be created for later use.',
   },
@@ -72,7 +72,7 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate, k8sGet
   [PROVIDER_VMWARE_VCENTER_KEY]: {
     id: 'vcenter-instance-dropdown',
     title: 'vCenter Instance',
-    type: 'custom',
+    type: CUSTOM,
     CustomComponent: VCenterInstances,
     extraProps: {
       WithResources,
@@ -88,7 +88,7 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate, k8sGet
   [PROVIDER_VMWARE_VM_KEY]: {
     id: 'vcenter-vm-dropdown',
     title: 'VM to Import',
-    type: 'custom',
+    type: CUSTOM,
     CustomComponent: VCenterVms,
     extraProps: {
       WithResources,
