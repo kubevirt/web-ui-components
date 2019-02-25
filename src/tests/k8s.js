@@ -35,6 +35,9 @@ export const k8sGet = (model, name, ns, opts) => {
   throw new Error('Mock k8sGet() function is not implemented for that flow.');
 };
 
+// mock implementation
+export const k8sKill = (model, resource) => resource;
+
 export const k8sCreate = (model, resource) => {
   if (model === ProcessedTemplatesModel) {
     return processTemplate(resource);
@@ -112,5 +115,6 @@ export const callerContext = {
   k8sCreate,
   k8sGet,
   k8sPatch,
+  k8sKill,
   WithResources,
 };

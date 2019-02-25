@@ -20,6 +20,8 @@ import {
   FLAVOR_KEY,
   WORKLOAD_PROFILE_KEY,
   PROVIDER_KEY,
+  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
+  PROVIDER_VMWARE_CONNECTION,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 export const settingsValue = (basicSettings, key, defaultValue) => get(basicSettings, [key, 'value'], defaultValue);
@@ -124,3 +126,9 @@ export const getTemplateAnnotations = (template, name) => get(template.metadata.
 export const selectVm = objects => objects.find(obj => obj.kind === VirtualMachineModel.kind);
 
 export const getModelApi = model => `${model.apiGroup}/${model.apiVersion}`;
+
+export const getV2VVmwareName = basicSettings =>
+  get(settingsValue(basicSettings, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), [
+    PROVIDER_VMWARE_CONNECTION,
+    'V2VVmwareName',
+  ]);

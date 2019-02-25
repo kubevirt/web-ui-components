@@ -38,6 +38,7 @@ import {
   getTemplateWorkloadProfiles,
   getTemplateOperatingSystems,
   settingsValue,
+  getV2VVmwareName,
 } from '../../../k8s/selectors';
 
 import {
@@ -72,6 +73,7 @@ import {
 } from './constants';
 
 import { importProviders } from './providers';
+import { V2VVMwareModel } from '../../../models';
 
 const getProvisionSourceHelp = basicSettings => {
   const provisionSource = settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY);
@@ -377,6 +379,35 @@ const updateTemplateData = (userTemplate, newBasicSettings, dataVolumes) => {
     }
   }
   return newBasicSettings;
+};
+
+// Do clean-up
+export const onCloseBasic = async (basicSettings, callerContext) => {
+  const v2vvmwareName = getV2VVmwareName(basicSettings);
+  if (v2vvmwareName) {
+    // This is a friendly help to keep things clean.
+    // If missed here (e.g. when the browser window is closed), the kubevirt-vmware controller's garbage
+    // collector will do following automatically after a delay.
+    const resource = {
+      metadata: {
+        name: v2vvmwareName,
+        // TODO: potential issue if user changed the namespace after creation
+        // to fix: either store the namespace along the v2vvmwareName or empty v2vvmwareName on namespace change
+        namespace: settingsValue(basicSettings, NAMESPACE_KEY),
+      },
+    };
+    try {
+      await callerContext.k8sKill(V2VVMwareModel, resource);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(
+        'Failed to remove temporary V2VVMWare object. It is not an issue, it will be garbage collected later if still present, resource: ',
+        resource,
+        ', error: ',
+        error
+      );
+    }
+  }
 };
 
 export class BasicSettingsTab extends React.Component {
