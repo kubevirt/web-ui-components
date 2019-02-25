@@ -99,6 +99,7 @@ import {
   addVolume,
   removeDisksAndVolumes,
   getDataVolumeTemplateSpec,
+  sequentializeBootOrderIndexes,
 } from './vmBuilder';
 
 import { getImportProviderSecretObject } from '../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
@@ -201,7 +202,7 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
     persistentVolumeClaims
   );
 
-  // ProcessedTemplates endpoit will reject the request if user cannot post to the namespace
+  // ProcessedTemplates endpoint will reject the request if user cannot post to the namespace
   // common-templates are stored in openshift namespace, default user can read but cannot post
   const postTemplate = cloneDeep(template);
   postTemplate.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
@@ -209,6 +210,8 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
   const processedTemplate = await create(ProcessedTemplatesModel, postTemplate);
 
   const vm = selectVm(processedTemplate.objects);
+
+  sequentializeBootOrderIndexes(vm);
 
   addMetadata(vm, template, getSetting);
 

@@ -227,7 +227,7 @@ describe('request.js - networks', () => {
       expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
-      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBeGreaterThan(0);
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toEqual(1);
       expect(vm.spec.template.spec.networks).toHaveLength(1);
       expect(vm.spec.template.spec.networks[0].name).toEqual(podNetwork.name);
       expect(vm.spec.template.spec.networks[0].pod).toEqual({});

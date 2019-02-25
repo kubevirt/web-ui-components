@@ -310,10 +310,21 @@ const getNextAvailableBootOrderIndex = vm => {
   return largestIdx !== -1 ? largestIdx + 1 : BOOT_ORDER_SECOND;
 };
 
-export const getBootableDevices = vm => {
-  const bootableDevices = [];
+export const sequentializeBootOrderIndexes = vm => {
+  const sortedBootableDevices = getBootableDevicesInOrder(vm);
 
-  const disks = getDisks(vm);
+  let index;
+  for (index = 0; index <= sortedBootableDevices.length; index++) {
+    const device = sortedBootableDevices[index];
+    updateBootOrder(vm, device, index + 1);
+  }
+};
+
+export const getBootableDevices = (vm, vmDisks = [], vmNics = []) => {
+  const bootableDevices = [];
+  const disks = vm ? getDisks(vm) : vmDisks;
+  const nics = vm ? getInterfaces(vm) : vmNics;
+
   disks.forEach(disk => {
     const bootOrder = get(disk, 'bootOrder', null);
     if (bootOrder) {
@@ -321,7 +332,6 @@ export const getBootableDevices = vm => {
     }
   });
 
-  const nics = getInterfaces(vm);
   nics.forEach(nic => {
     const bootOrder = get(nic, 'bootOrder', null);
     if (bootOrder) {
@@ -330,4 +340,28 @@ export const getBootableDevices = vm => {
   });
 
   return bootableDevices;
+};
+
+export const getBootableDevicesInOrder = vm => getBootableDevices(vm).sort((a, b) => a.bootOrder - b.bootOrder);
+
+export const isNic = device => !!get(device, 'bridge', null);
+
+export const isDisk = device => !!get(device, 'disk', null);
+
+export const updateBootOrder = (vm, device, bootOrder) => {
+  if (isNic(device)) {
+    getInterfaces(vm).forEach(nic => {
+      const name = get(nic, 'name');
+      if (name && name === device.name) {
+        nic.bootOrder = bootOrder;
+      }
+    });
+  } else if (isDisk(device)) {
+    getDisks(vm).forEach(disk => {
+      const name = get(disk, 'name');
+      if (name && name === device.name) {
+        disk.bootOrder = bootOrder;
+      }
+    });
+  }
 };
