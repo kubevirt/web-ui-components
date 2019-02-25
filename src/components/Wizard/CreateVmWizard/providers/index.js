@@ -38,7 +38,3 @@ export const importProviders = (basicSettings, WithResources, k8sCreate, k8sGet,
 const onProviderChanged = (k8sCreate, k8sGet, valueValidationPair, key, formValid, prevBasicSettings) => {
   startV2VVMWareController({ k8sCreate, k8sGet, namespace: get(prevBasicSettings[NAMESPACE_KEY], 'value') });
 };
-
-// REMOVE ME: https://docs.google.com/document/d/1ks4H-ImD-r0s5eV4FsP_73kRdAP6sKJTRbj8nClpyp0/edit#heading=h.pxnfysbkvz9f
-// https://docs.google.com/document/d/1lfa3GeDNMKRYOmiObZymXjBOYjIC_g1mNfa_NN6P-Ls/edit?ts=5c51bead
-// https://github.com/pkliczewski/provider-pod/tree/work

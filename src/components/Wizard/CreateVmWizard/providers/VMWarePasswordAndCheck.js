@@ -15,6 +15,7 @@ import {
   NAMESPACE_KEY,
 } from '../constants';
 import { V2VVMwareModel } from '../../../../models';
+import { settingsValue } from '../../../../k8s/selectors';
 
 // Following constants conform v2vvmware_controller.go
 const PhaseConnecting = 'Connecting';
@@ -133,7 +134,7 @@ const VMWareProviderStatus = ({ connValue, extraProps }) => {
     v2vvmware: {
       resource: getResource(V2VVMwareModel, {
         name: V2VVmwareName,
-        namespace: get(basicSettings[NAMESPACE_KEY], 'value'),
+        namespace: settingsValue(basicSettings, NAMESPACE_KEY),
         isList: false,
       }),
     },

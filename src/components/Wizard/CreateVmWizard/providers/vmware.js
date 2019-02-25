@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 import { isImportProviderType, settingsValue } from '../../../../k8s/selectors';
 import { CONNECT_TO_NEW_INSTANCE, PROVIDER_SELECT_VM } from '../strings';
 import { validateVmwareURL } from '../../../../utils/validations';
@@ -21,7 +19,7 @@ import VCenterVms from './VCenterVms';
 import { CHECKBOX, CUSTOM } from '../../../Form';
 
 export const isVmwareNewInstance = basicSettings =>
-  get(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY, 'value']) === CONNECT_TO_NEW_INSTANCE;
+  settingsValue(basicSettings, PROVIDER_VMWARE_VCENTER_KEY) === CONNECT_TO_NEW_INSTANCE;
 export const isNewVmwareInstanceSelected = basicVmSettings =>
   isImportProviderType(basicVmSettings, PROVIDER_VMWARE) && isVmwareNewInstance(basicVmSettings);
 
