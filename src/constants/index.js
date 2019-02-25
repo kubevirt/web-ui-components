@@ -17,6 +17,9 @@ export const KUBEVIRT_API_VERSION = 'kubevirt.io/v1alpha3';
 export const OS_LABEL = 'kubevirt.io/os';
 export const POD_NETWORK = 'Pod Networking';
 
+export const DEVICE_TYPE_INTERFACE = 'interfaces';
+export const DEVICE_TYPE_DISK = 'disks';
+
 export const PROVISION_SOURCE_PXE = 'PXE';
 export const PROVISION_SOURCE_CONTAINER = 'Container';
 export const PROVISION_SOURCE_URL = 'URL';
