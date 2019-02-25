@@ -131,31 +131,7 @@ export const basicSettingsUserTemplate = {
     value: getTemplateOperatingSystems([urlTemplate])[0],
   },
 };
-/*
-export const basicSettingsImportVmware = {
-  [NAME_KEY]: basicSettingsContainer[NAME_KEY],
-  [NAMESPACE_KEY]: basicSettingsContainer[NAMESPACE_KEY],
-  [PROVISION_SOURCE_TYPE_KEY]: {
-    value: PROVISION_SOURCE_IMPORT,
-  },
-  [PROVIDER_KEY]: {
-    value: PROVIDER_VMWARE
-  },
-  [PROVIDER_VMWARE_VCENTER_KEY]: {
-    value: 'vcenter-secret-name'
-  },
-  [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
-    value: {
-      [PROVIDER_VMWARE_CONNECTION]: {
-        V2VVmwareName: 'v2vvmware-object-name',
-      }
-    }
-  },
-  [FLAVOR_KEY]: basicSettingsContainer[FLAVOR_KEY],
-  [WORKLOAD_PROFILE_KEY]: basicSettingsContainer[WORKLOAD_PROFILE_KEY],
-  [OPERATING_SYSTEM_KEY]: basicSettingsContainer[OPERATING_SYSTEM_KEY],
-};
-*/
+
 export const basicSettingsImportVmwareNewConnection = {
   [NAME_KEY]: basicSettingsContainer[NAME_KEY],
   [NAMESPACE_KEY]: basicSettingsContainer[NAMESPACE_KEY],

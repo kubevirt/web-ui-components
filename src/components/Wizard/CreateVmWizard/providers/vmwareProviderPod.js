@@ -13,7 +13,7 @@ export const getDefaultSecretName = ({ username, url }) => {
   if (!url.startsWith('https://') && !url.startsWith('http://')) {
     url = `https://${url}`;
   }
-  const u = new URL(url || '');
+  const u = new URL(url);
   const host = u.host || 'nohost';
 
   username = username || 'nousername';

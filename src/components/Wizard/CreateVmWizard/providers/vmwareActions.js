@@ -73,8 +73,7 @@ export const onVCenterInstanceSelected = async (
   const { value } = valueValidationPair;
   const connectionSecretName = value;
   if (!connectionSecretName || connectionSecretName === CONNECT_TO_NEW_INSTANCE) {
-    setTimeout(() => {
-      // let other events to be processed
+    const removeConnection = () =>
       onFormChange(
         // empty the VMs list dropdown
         {
@@ -87,7 +86,7 @@ export const onVCenterInstanceSelected = async (
         PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
         formValid
       );
-    }, 100);
+    setTimeout(removeConnection, 0);
     return;
   }
 

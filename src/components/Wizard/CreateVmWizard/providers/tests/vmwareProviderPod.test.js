@@ -11,6 +11,11 @@ describe('VMWareProviderPod()', () => {
     expect(getDefaultSecretName({ username: 'a', url: 'https://url.com/foo' })).toBe('url.com-a');
     expect(getDefaultSecretName({ username: 'a@b', url: 'https://url.com/foo/bar' })).toBe('url.com-a-at-b');
   });
+  it('throws an exception', () => {
+    expect(() => getDefaultSecretName({ username: 'a', url: '' })).toThrow();
+    expect(() => getDefaultSecretName({ username: 'a' })).toThrow();
+    expect(() => getDefaultSecretName({})).toThrow();
+  });
   it('generates Secret object', () => {
     const secret = getImportProviderSecretObject({
       url: 'url',
