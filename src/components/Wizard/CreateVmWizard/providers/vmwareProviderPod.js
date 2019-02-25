@@ -6,6 +6,10 @@ import { SecretModel, V2VVMwareModel } from '../../../../models';
 import { VCENTER_TYPE_LABEL, VCENTER_TEMPORARY_LABEL } from '../../../../constants';
 
 export const getDefaultSecretName = ({ username, url }) => {
+  if (!url) {
+    throw new Error('VMWare URL can not be empty.');
+  }
+
   if (!url.startsWith('https://') && !url.startsWith('http://')) {
     url = `https://${url}`;
   }

@@ -13,6 +13,7 @@ import {
   PROVIDER_STATUS_CONNECTING,
   PROVIDER_STATUS_CONNECTION_FAILED,
   NAMESPACE_KEY,
+  PROVIDER_VMWARE_URL_KEY,
 } from '../constants';
 import { V2VVMwareModel } from '../../../../models';
 import { settingsValue } from '../../../../k8s/selectors';
@@ -161,27 +162,28 @@ VMWareProviderStatus.propTypes = {
 
 // workaround to wrap two components at a single row
 const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
-  const { onCheckConnection } = extraProps;
+  const { onCheckConnection, basicSettings } = extraProps;
   const pwdValue = get(value, PROVIDER_VMWARE_USER_PWD_KEY);
   const connValue = get(value, PROVIDER_VMWARE_CONNECTION);
 
   return (
     <Fragment>
-      <div className="kubevirt-create-vm-wizard__import-vmware-passwordcheck">
-        <Text
-          type={PASSWORD}
-          id={`${id}-text`}
-          value={pwdValue || ''}
-          onChange={newValue =>
-            onChange({
-              [PROVIDER_VMWARE_USER_PWD_KEY]: newValue,
-              [PROVIDER_VMWARE_CONNECTION]: connValue,
-            })
-          }
-        />
+      <Text
+        type={PASSWORD}
+        id={`${id}-text`}
+        value={pwdValue || ''}
+        onChange={newValue =>
+          onChange({
+            [PROVIDER_VMWARE_USER_PWD_KEY]: newValue,
+            [PROVIDER_VMWARE_CONNECTION]: connValue,
+          })
+        }
+      />
+      <div className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button-section">
         <Button
           id={`${id}-check-button`}
           className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button"
+          disabled={!!settingsValue(basicSettings, PROVIDER_VMWARE_URL_KEY)}
           onClick={() => {
             onCheckConnection(newValue =>
               onChange({
@@ -193,9 +195,8 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
         >
           Check
         </Button>
+        <VMWareProviderStatus connValue={connValue} extraProps={extraProps} />
       </div>
-
-      <VMWareProviderStatus connValue={connValue} extraProps={extraProps} />
     </Fragment>
   );
 };

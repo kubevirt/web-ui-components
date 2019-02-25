@@ -62,7 +62,7 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
     title: 'Remember vCenter credentials',
     type: CHECKBOX,
     isVisible: isNewVmwareInstanceSelected,
-    help: 'If checked, new secret keeping connection details will be created for later use.',
+    help: 'If checked, new secret keeping connection details will be created for later use.', // text is recently not rendered
   },
 });
 

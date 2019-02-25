@@ -28,9 +28,9 @@ export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate
     PROVIDER_VMWARE_USER_PWD_KEY
   );
   const namespace = settingsValue(basicSettings, NAMESPACE_KEY);
-  const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
 
   try {
+    const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
     const secret = await k8sCreate(
       SecretModel,
       getImportProviderSecretObject({
