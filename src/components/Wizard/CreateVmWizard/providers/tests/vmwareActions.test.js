@@ -1,12 +1,13 @@
-import { onVmwareCheckConnection, onVCenterInstanceSelected } from '../vmwareActions';
+import { onVmwareCheckConnection, onVCenterInstanceSelected, onVCenterVmSelectedConnected } from '../vmwareActions';
 import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/forms_mocks/basicSettings.mock';
-import { k8sCreate } from '../../../../../tests/k8s';
+import { k8sCreate, k8sGet } from '../../../../../tests/k8s';
 import {
   PROVIDER_STATUS_CONNECTING,
   PROVIDER_STATUS_CONNECTION_FAILED,
   PROVIDER_VMWARE_CONNECTION,
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
 } from '../../constants';
+import { V2VVMwareModel } from '../../../../../models';
 
 describe('vmware UI action', () => {
   it('onVmwareCheckConnection() works', async () => {
@@ -41,5 +42,26 @@ describe('vmware UI action', () => {
       expect.stringMatching('')
     );
     expect(onFormChange.mock.calls[0][1]).toBe(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY);
+  });
+  it('onVCenterVmSelectedConnected() works', async () => {
+    const onFormChange = jest.fn();
+    const k8sPatch = jest.fn();
+
+    await onVCenterVmSelectedConnected(
+      k8sCreate,
+      k8sGet,
+      k8sPatch,
+      { value: 'test-vm2-name' },
+      undefined, // key,
+      undefined, // formValid
+      basicSettingsImportVmwareNewConnection,
+      onFormChange
+    );
+    expect(k8sPatch.mock.calls).toHaveLength(1);
+    expect(k8sPatch.mock.calls[0][0].kind).toBe(V2VVMwareModel.kind);
+    expect(k8sPatch.mock.calls[0][2][0].path).toBe('/spec/vms/1/detailRequest');
+    expect(k8sPatch.mock.calls[0][2][0].op).toBe('replace');
+
+    expect(onFormChange.mock.calls).toHaveLength(0); // VM Name is set by the user, so don't touch
   });
 });

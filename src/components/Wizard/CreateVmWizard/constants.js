@@ -24,6 +24,8 @@ export const NETWORKS_TAB_KEY = 'network';
 export const STORAGE_TAB_KEY = 'storage';
 export const RESULT_TAB_KEY = 'result';
 
+export const BATCH_CHANGES_KEY = 'internalBatchChanges';
+
 // NetworksTab
 export const NETWORK_TYPE_MULTUS = 'multus';
 export const NETWORK_TYPE_POD = 'pod';
