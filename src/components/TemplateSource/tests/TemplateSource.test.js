@@ -1,34 +1,42 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { OverlayTrigger } from 'patternfly-react';
 
 import { TemplateSource } from '../TemplateSource';
-import { containerTemplate, urlTemplate, pxeTemplate } from '../../../tests/mocks/user_template';
-import { urlTemplateDataVolume } from '../../../tests/mocks/user_template/url.mock';
+import { default as urlFixtures } from '../fixtures/TemplateSource.fixture';
+import { containerTemplate, pxeTemplate } from '../../../tests/mocks/user_template';
 
-const testTemplateSource = template => <TemplateSource template={template} />;
+const testTemplateSource = ({ props }) => <TemplateSource {...props} />;
 
 describe('<TemplateSource />', () => {
   it('renders correctly', () => {
-    const component = shallow(testTemplateSource(containerTemplate));
-    expect(component).toMatchSnapshot();
-  });
-
-  it('renders overlay for URL and Registry, not for PXE', () => {
-    const component = shallow(testTemplateSource(containerTemplate));
-    expect(component.find(OverlayTrigger).exists()).toBeTruthy();
-
-    component.setProps({
-      template: pxeTemplate,
+    const tests = [
+      ...urlFixtures,
+      {
+        props: {
+          template: pxeTemplate,
+        },
+      },
+      {
+        props: {
+          template: pxeTemplate,
+          detailed: true,
+        },
+      },
+      {
+        props: {
+          template: containerTemplate,
+        },
+      },
+      {
+        props: {
+          template: containerTemplate,
+          detailed: true,
+        },
+      },
+    ];
+    tests.forEach(fixture => {
+      const component = shallow(testTemplateSource(fixture));
+      expect(component).toMatchSnapshot();
     });
-
-    expect(component.find(OverlayTrigger).exists()).toBeFalsy();
-
-    component.setProps({
-      template: urlTemplate,
-      dataVolumes: [urlTemplateDataVolume],
-    });
-
-    expect(component.find(OverlayTrigger).exists()).toBeTruthy();
   });
 });

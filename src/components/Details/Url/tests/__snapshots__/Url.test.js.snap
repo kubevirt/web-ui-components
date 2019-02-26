@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Url /> renders correctly 1`] = `
+<Url
+  maxHostnameParts={3}
+  maxPathnameParts={1}
+  short={false}
+  url="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+>
+  <a
+    href="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+  >
+    http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here
+  </a>
+</Url>
+`;
+
+exports[`<Url /> renders correctly 2`] = `
+<Url
+  maxHostnameParts={3}
+  maxPathnameParts={1}
+  short={true}
+  url="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+>
+  <a
+    href="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+    title="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
+  >
+    …mountain.all-images.cz/…/dromaeosauridae.iso…
+  </a>
+</Url>
+`;

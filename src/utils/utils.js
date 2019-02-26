@@ -4,6 +4,14 @@ export function prefixedId(idPrefix, id) {
   return idPrefix && id ? `${idPrefix}-${id}` : null;
 }
 
+export const parseUrl = url => {
+  try {
+    return new URL(url);
+  } catch (e) {
+    return null;
+  }
+};
+
 export const getSequence = (from, to) => Array.from({ length: to - from + 1 }, (v, i) => i + from);
 
 export const setNativeValue = (element, value) => {

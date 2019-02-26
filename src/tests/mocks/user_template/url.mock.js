@@ -1,5 +1,8 @@
 import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../constants';
 
+export const LONG_ISO_URL =
+  'http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here';
+
 export const urlTemplate = {
   apiVersion: 'template.openshift.io/v1',
   kind: 'Template',
@@ -104,7 +107,7 @@ export const urlTemplateDataVolume = {
     },
     source: {
       http: {
-        url: 'fooUrl',
+        url: LONG_ISO_URL,
       },
     },
   },

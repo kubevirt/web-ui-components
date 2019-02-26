@@ -1,4 +1,5 @@
 import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../constants';
+import { LONG_ISO_URL } from './url.mock';
 
 export const urlNoNetworkTemplate = {
   apiVersion: 'template.openshift.io/v1',
@@ -44,7 +45,7 @@ export const urlNoNetworkTemplate = {
               },
               source: {
                 http: {
-                  url: 'fooUrl',
+                  url: LONG_ISO_URL,
                 },
               },
             },
