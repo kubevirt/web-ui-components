@@ -17,3 +17,26 @@
 .kubevirt-create-vm-wizard__custom-cloud-script-textarea {
   min-height: 100px;
 }
+
+.kubevirt-create-vm-wizard__import-vmware-passwordcheck-button-section {
+  margin-top: 10px; /* More compact, higher-level sections are 15px */
+  display: inline-flex;
+  width: 100%;
+}
+
+.kubevirt-create-vm-wizard__import-vmware-passwordcheck-button {
+  height: 29px; // hack to keep the button to standard height
+}
+
+.kubevirt-create-vm-wizard__import-vmware-connection-status {
+  display: inline-flex; // for the spinner
+  margin-left: 5px;
+
+  .alert {
+    margin-bottom: 0;
+  }
+
+  .spinner {
+    margin-left: 0.5em;
+  }
+}

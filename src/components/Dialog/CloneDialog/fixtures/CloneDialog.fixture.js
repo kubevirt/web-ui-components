@@ -2,7 +2,8 @@ import { noop } from 'patternfly-react';
 
 import { CloneDialog } from '..';
 
-import { k8sCreate, units, namespaces } from '../../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
+import { units, namespaces } from '../../../Wizard/CreateVmWizard/fixtures/CreateVmWizard.fixture';
+import { k8sCreate, k8sPatch } from '../../../../tests/k8s';
 import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
 
 export default {
@@ -13,7 +14,7 @@ export default {
     persistentVolumeClaims: [],
     dataVolumes: [],
     k8sCreate,
-    k8sPatch: (model, resource) => new Promise(resolve => resolve(resource)),
+    k8sPatch,
     units,
     onClose: noop,
     virtualMachines: [],

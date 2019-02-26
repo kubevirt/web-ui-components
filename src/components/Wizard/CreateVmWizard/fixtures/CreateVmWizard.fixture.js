@@ -1,10 +1,10 @@
 import { CreateVmWizard } from '../CreateVmWizard';
-import { ProcessedTemplatesModel } from '../../../../models';
 import { networkConfigs } from '../../../../tests/mocks/networkAttachmentDefinition';
 import { baseTemplates } from '../../../../k8s/objects/template';
 import { userTemplates } from '../../../../tests/mocks/user_template';
 import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
 import { urlTemplateDataVolume } from '../../../../tests/mocks/user_template/url.mock';
+import { callerContext } from '../../../../tests/k8s';
 
 const templates = [...baseTemplates, ...userTemplates];
 
@@ -48,19 +48,6 @@ export const storageClasses = [
   },
 ];
 
-const processTemplate = template =>
-  new Promise((resolve, reject) => {
-    const nameParam = template.parameters.find(param => param.name === 'NAME');
-    template.objects[0].metadata.name = nameParam.value;
-    resolve(template);
-  });
-
-export const k8sCreate = (model, resource) => {
-  if (model === ProcessedTemplatesModel) {
-    return processTemplate(resource);
-  }
-  return new Promise(resolve => resolve(resource));
-};
 export const units = { dehumanize: val => ({ value: val ? val.match(/^[0-9]+/)[0] * 1073741824 : 0 }) };
 
 export default [
@@ -68,10 +55,10 @@ export default [
     component: CreateVmWizard,
     name: 'namespaces',
     props: {
+      ...callerContext,
       onHide: () => {},
       templates,
       namespaces,
-      k8sCreate,
       networkConfigs,
       persistentVolumeClaims,
       storageClasses,
@@ -83,11 +70,11 @@ export default [
     component: CreateVmWizard,
     name: 'selected namespace',
     props: {
+      ...callerContext,
       onHide: () => {},
       templates,
       namespaces,
       selectedNamespace: namespaces[1],
-      k8sCreate,
       networkConfigs,
       persistentVolumeClaims,
       storageClasses,
@@ -99,10 +86,10 @@ export default [
     component: CreateVmWizard,
     name: 'loading',
     props: {
+      ...callerContext,
       onHide: () => {},
       templates: null,
       namespaces: null,
-      k8sCreate,
       networkConfigs: null,
       persistentVolumeClaims: null,
       storageClasses: null,
@@ -114,10 +101,10 @@ export default [
     component: CreateVmWizard,
     name: 'Create Vm Template',
     props: {
+      ...callerContext,
       onHide: () => {},
       templates,
       namespaces,
-      k8sCreate,
       networkConfigs,
       persistentVolumeClaims,
       storageClasses,

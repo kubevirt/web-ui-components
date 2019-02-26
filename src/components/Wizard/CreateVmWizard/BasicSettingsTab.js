@@ -11,6 +11,7 @@ import {
   HELP_PROVISION_SOURCE_URL,
   HELP_PROVISION_SOURCE_PXE,
   HELP_PROVISION_SOURCE_CONTAINER,
+  HELP_PROVISION_SOURCE_IMPORT,
   HELP_OS,
   HELP_FLAVOR,
   HELP_MEMORY,
@@ -36,6 +37,7 @@ import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_IMPORT,
   TEMPLATE_TYPE_VM,
 } from '../../../constants';
 
@@ -60,6 +62,8 @@ import {
   AUTHKEYS_KEY,
 } from './constants';
 
+import { importProviders } from './providers';
+
 const getProvisionSourceHelp = basicSettings => {
   const provisionSource = settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY);
   switch (provisionSource) {
@@ -69,12 +73,24 @@ const getProvisionSourceHelp = basicSettings => {
       return HELP_PROVISION_SOURCE_PXE;
     case PROVISION_SOURCE_CONTAINER:
       return HELP_PROVISION_SOURCE_CONTAINER;
+    case PROVISION_SOURCE_IMPORT:
+      return HELP_PROVISION_SOURCE_IMPORT;
     default:
       return null;
   }
 };
 
-export const getFormFields = (basicSettings, namespaces, templates, selectedNamespace, createTemplate) => {
+export const getFormFields = (
+  basicSettings,
+  namespaces,
+  templates,
+  selectedNamespace,
+  createTemplate,
+  WithResources,
+  k8sCreate,
+  k8sGet,
+  k8sPatch
+) => {
   const userTemplate = get(basicSettings[USER_TEMPLATE_KEY], 'value');
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
   const operatingSystems = getOperatingSystems(basicSettings, templates, userTemplate);
@@ -86,6 +102,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
   let namespaceDropdown;
   let startVmCheckbox;
   let userTemplateDropdown;
+  let providersSection = {};
 
   if (!selectedNamespace) {
     namespaceDropdown = {
@@ -112,6 +129,9 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       defaultValue: '--- Select Template ---',
       choices: userTemplateNames,
     };
+
+    providersSection = importProviders(basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch);
+    imageSources.push(PROVISION_SOURCE_IMPORT);
   }
 
   return {
@@ -154,6 +174,7 @@ export const getFormFields = (basicSettings, namespaces, templates, selectedName
       disabled: userTemplate !== undefined,
       validate: settings => validateURL(settingsValue(settings, IMAGE_URL_KEY)),
     },
+    ...providersSection,
     [OPERATING_SYSTEM_KEY]: {
       id: 'operating-system-dropdown',
       title: 'Operating System',
@@ -244,6 +265,7 @@ const asValueObject = (value, validation) => ({
   validation,
 });
 
+// TODO: To avoid race conditions, it would be better to retrieve basicSettings at the time of its actual useto align behavior with the setState()
 const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, target, formValid, formFields) => {
   const newBasicSettings = {
     ...basicSettings,
@@ -342,15 +364,55 @@ export class BasicSettingsTab extends React.Component {
   }
 
   updateSelectedNamespace = props => {
-    const { basicSettings, namespaces, selectedNamespace, templates, createTemplate } = props;
-    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate);
+    const {
+      basicSettings,
+      namespaces,
+      selectedNamespace,
+      templates,
+      createTemplate,
+      WithResources,
+      k8sCreate,
+      k8sGet,
+      k8sPatch,
+    } = props;
+    const formFields = getFormFields(
+      basicSettings,
+      namespaces,
+      templates,
+      selectedNamespace,
+      createTemplate,
+      WithResources,
+      k8sCreate,
+      k8sGet,
+      k8sPatch
+    );
     const valid = validateForm(formFields, basicSettings);
     publish(props, asValueObject(getName(selectedNamespace)), NAMESPACE_KEY, valid, formFields);
   };
 
   render() {
-    const { basicSettings, namespaces, templates, selectedNamespace, createTemplate } = this.props;
-    const formFields = getFormFields(basicSettings, namespaces, templates, selectedNamespace, createTemplate);
+    const {
+      basicSettings,
+      namespaces,
+      templates,
+      selectedNamespace,
+      createTemplate,
+      WithResources,
+      k8sCreate,
+      k8sGet,
+      k8sPatch,
+    } = this.props;
+    const formFields = getFormFields(
+      basicSettings,
+      namespaces,
+      templates,
+      selectedNamespace,
+      createTemplate,
+      WithResources,
+      k8sCreate,
+      k8sGet,
+      k8sPatch
+    );
 
     return (
       <FormFactory
@@ -368,6 +430,10 @@ BasicSettingsTab.defaultProps = {
 };
 
 BasicSettingsTab.propTypes = {
+  WithResources: PropTypes.func.isRequired,
+  k8sCreate: PropTypes.func.isRequired,
+  k8sGet: PropTypes.func.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
   templates: PropTypes.array.isRequired,
   namespaces: PropTypes.array.isRequired,
   selectedNamespace: PropTypes.object, // used only in initialization

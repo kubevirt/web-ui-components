@@ -13,6 +13,8 @@ import { getTemplateProvisionSource } from '../../../../utils/templates';
 import { Dropdown } from '../../../Form';
 import { NO_TEMPLATE } from '../strings';
 import { selectVm } from '../../../../k8s/selectors';
+import { callerContext } from '../../../../tests/k8s';
+
 import {
   userTemplates,
   urlTemplate,
@@ -55,6 +57,7 @@ const testBasicSettingsTab = (basicSettings = {}, onChange = null, selectedNames
     onChange={onChange || jest.fn()}
     createVmTemplate={template}
     dataVolumes={[urlTemplateDataVolume]}
+    {...callerContext}
   />
 );
 

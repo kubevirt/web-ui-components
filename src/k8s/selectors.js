@@ -11,6 +11,7 @@ import {
   TEMPLATE_TYPE_BASE,
   TEMPLATE_TYPE_VM,
   TEMPLATE_OS_NAME_ANNOTATION,
+  PROVISION_SOURCE_IMPORT,
 } from '../constants';
 
 import {
@@ -18,6 +19,7 @@ import {
   OPERATING_SYSTEM_KEY,
   FLAVOR_KEY,
   WORKLOAD_PROFILE_KEY,
+  PROVIDER_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 export const settingsValue = (basicSettings, key, defaultValue) => get(basicSettings, [key, 'value'], defaultValue);
@@ -107,6 +109,13 @@ export const getTemplateWorkloadProfiles = templates => getTemplatesLabelValues(
 
 export const isImageSourceType = (basicSettings, type) =>
   settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY) === type;
+
+// true if selected
+// - provision source Import
+// - provider of given "providerType"
+export const isImportProviderType = (basicSettings, providerType) =>
+  isImageSourceType(basicSettings, PROVISION_SOURCE_IMPORT) &&
+  settingsValue(basicSettings, PROVIDER_KEY) === providerType;
 
 export const isFlavorType = (basicSettings, type) => settingsValue(basicSettings, FLAVOR_KEY) === type;
 

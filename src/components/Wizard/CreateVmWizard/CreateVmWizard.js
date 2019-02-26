@@ -16,6 +16,7 @@ import {
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_IMPORT,
 } from '../../../constants';
 
 import {
@@ -63,6 +64,8 @@ const getInitialDisk = provisionSource => {
     case PROVISION_SOURCE_CONTAINER:
       return rootContainerDisk;
     case PROVISION_SOURCE_PXE:
+      return null;
+    case PROVISION_SOURCE_IMPORT:
       return null;
     default:
       // eslint-disable-next-line
@@ -298,6 +301,10 @@ export class CreateVmWizard extends React.Component {
             onChange={(value, valid) => this.onStepDataChanged(BASIC_SETTINGS_TAB_KEY, value, valid)}
             loadingData={loadingData}
             createTemplate={this.props.createTemplate}
+            WithResources={this.props.WithResources}
+            k8sCreate={this.props.k8sCreate}
+            k8sGet={this.props.k8sGet}
+            k8sPatch={this.props.k8sPatch}
           />
         );
       },
@@ -360,7 +367,6 @@ export class CreateVmWizard extends React.Component {
     const lastStepReached = this.lastStepReached();
 
     const createVmText = this.props.createTemplate ? CREATE_VM_TEMPLATE : CREATE_VM;
-
     return (
       <Wizard.Pattern
         show
@@ -392,11 +398,14 @@ CreateVmWizard.defaultProps = {
 };
 
 CreateVmWizard.propTypes = {
+  WithResources: PropTypes.func.isRequired,
+  k8sCreate: PropTypes.func.isRequired,
+  k8sGet: PropTypes.func.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array,
   namespaces: PropTypes.array,
   selectedNamespace: PropTypes.object,
-  k8sCreate: PropTypes.func.isRequired,
   networkConfigs: PropTypes.array,
   persistentVolumeClaims: PropTypes.array,
   storageClasses: PropTypes.array,

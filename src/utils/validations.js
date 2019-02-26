@@ -83,3 +83,28 @@ export const validateContainer = value => {
 
   return null;
 };
+
+export const validateVmwareURL = value => {
+  if (!value) {
+    return getValidationObject(EMPTY_ERROR);
+  }
+
+  if (trimStart(value).length !== value.length) {
+    return getValidationObject(START_WHITESPACE_ERROR);
+  }
+
+  if (trimEnd(value).length !== value.length) {
+    return getValidationObject(END_WHITESPACE_ERROR);
+  }
+  /* Protocol is added automatically by controller
+  try {
+    const u = new URL(value);
+    if (!u.hostname) {
+      return getValidationObject(VMWARE_URL_ERROR);
+    }
+  } catch {
+    return getValidationObject(VMWARE_URL_ERROR);
+  }
+*/
+  return null;
+};
