@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { getDescription, prefixedId } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit';
 import { Loading } from '../../Loading';
-import { DASHES } from '../../../constants';
 import { TEXT_AREA } from '../../Form';
+import { DASHES } from '../../../constants';
 
 const getDescriptionFormFields = id => ({
   description: {

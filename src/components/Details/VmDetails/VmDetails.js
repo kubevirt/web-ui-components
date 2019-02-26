@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Row, Col, Button, Alert, FieldLevelHelp } from 'patternfly-react';
+import { Button, Alert, FieldLevelHelp } from 'patternfly-react';
+import classNames from 'classnames';
 
 import { VmStatuses, getVmStatusDetail } from '../../VmStatus';
 import {
@@ -21,6 +22,7 @@ import {
   getUpdateCpuMemoryPatch,
   getId,
   prefixedId,
+  getDescription,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';
@@ -141,7 +143,9 @@ export class VmDetails extends React.Component {
       NamespaceResourceLink,
       LoadingComponent,
       k8sGet,
+      overview,
     } = this.props;
+
     const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
     const nodeName = getNodeName(launcherPod);
     const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
@@ -170,113 +174,110 @@ export class VmDetails extends React.Component {
         </Button>
       </Fragment>
     );
-
-    return (
-      <div className="co-m-pane__body">
+    const header = (
+      <Fragment>
         <h1 className="co-m-pane__heading">
           Virtual Machine Overview
           <div>{this.state.editing ? cancelSaveButton : editButton}</div>
         </h1>
         {this.state.k8sError && <Alert onDismiss={this.onErrorDismiss}>{this.state.k8sError}</Alert>}
-        <Row>
-          <Col lg={4} md={4} sm={4} xs={4} id="name-description-column">
-            <dl>
-              <dt>Name</dt>
-              <dd id={prefixedId(id, 'name')}>{vm.metadata.name}</dd>
-              <dt>Description</dt>
+      </Fragment>
+    );
+
+    return (
+      <Fragment>
+        {!overview && header}
+        <div className={classNames('kubevirt-vm-details__content', { 'kubevirt-vm-details--with-border': overview })}>
+          <dl
+            className={classNames('kubevirt-vm-details__name-list', {
+              'kubevirt-vm-details--with-border': overview,
+              'kubevirt-vm-details__item--hidden': overview && !getDescription(vm),
+            })}
+          >
+            <dt className={classNames({ 'kubevirt-vm-details__item--hidden': overview })}>Name</dt>
+            <dd id={prefixedId(id, 'name')} className={classNames({ 'kubevirt-vm-details__item--hidden': overview })}>
+              {vm.metadata.name}
+            </dd>
+            <dt className={classNames({ 'kubevirt-vm-details__item--hidden': overview })}>Description</dt>
+            <dd>
+              <div className="kubevirt-vm-details__description">
+                <Description
+                  editing={this.state.editing}
+                  updating={this.state.updating}
+                  LoadingComponent={LoadingComponent}
+                  formValues={settingsValue(this.state.form, DESCRIPTION_KEY)}
+                  onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
+                  obj={vm}
+                  id={prefixedId(id, 'description')}
+                />
+              </div>
+            </dd>
+          </dl>
+          <div className="kubevirt-vm-details__details">
+            <dl className="kubevirt-vm-details__details-list">
+              <dt>Status</dt>
               <dd>
-                <div className="kubevirt-vm-details__description">
-                  <Description
+                <VmStatuses
+                  vm={this.props.vm}
+                  launcherPod={launcherPod}
+                  importerPods={importerPods}
+                  migration={migration}
+                />
+              </dd>
+
+              <dt>Operating System</dt>
+              <dd id={prefixedId(id, 'os')}>{getOperatingSystemName(vm) || getOperatingSystem(vm) || DASHES}</dd>
+
+              <dt>IP Addresses</dt>
+              <dd id={prefixedId(id, 'ip-addresses')}>{ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}</dd>
+
+              <dt>Workload Profile</dt>
+              <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vm) || DASHES}</dd>
+
+              <dt>Template</dt>
+              <dd id={prefixedId(id, 'template')}>{template ? `${template.namespace}/${template.name}` : DASHES}</dd>
+            </dl>
+            <div className="kubevirt-vm-details__other-details">
+              <dl className="kubevirt-vm-details__details-list">
+                <dt>FQDN</dt>
+                <dd id={prefixedId(id, 'fqdn')}>{fqdn}</dd>
+
+                <dt>Namespace</dt>
+                <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+
+                <dt>Pod</dt>
+                <dd id={prefixedId(id, 'pod')}>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+                <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+
+                <dt>Boot Order</dt>
+                <dd id={prefixedId(id, 'boot-order')}>
+                  {sortedBootableDevices.length > 0 ? <BootOrder bootableDevices={sortedBootableDevices} /> : DASHES}
+                </dd>
+              </dl>
+              <dl className="kubevirt-vm-details__details-list">
+                <dt>Node</dt>
+                <dd id={prefixedId(id, 'node')}>{nodeName && NodeLink ? <NodeLink name={nodeName} /> : DASHES}</dd>
+
+                <dt>Flavor</dt>
+                <dd>
+                  <Flavor
+                    flavor={getFlavor(vm) || CUSTOM_FLAVOR}
+                    id={id}
+                    vm={vm}
                     editing={this.state.editing}
                     updating={this.state.updating}
                     LoadingComponent={LoadingComponent}
-                    formValues={settingsValue(this.state.form, DESCRIPTION_KEY)}
-                    onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
-                    obj={vm}
-                    id={prefixedId(id, 'description')}
+                    onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
+                    retrieveVmTemplate={() => retrieveVmTemplate(k8sGet, vm)}
+                    formValues={settingsValue(this.state.form, FLAVOR_KEY)}
+                    onLoadError={this.onLoadError}
                   />
-                </div>
-              </dd>
-            </dl>
-          </Col>
-
-          <Col lg={8} md={8} sm={8} xs={8} id="details-column">
-            <Row>
-              <Col lg={4} md={4} sm={4} xs={4} id="details-column-1">
-                <dl>
-                  <dt>Status</dt>
-                  <dd>
-                    <VmStatuses
-                      vm={this.props.vm}
-                      launcherPod={launcherPod}
-                      importerPods={importerPods}
-                      migration={migration}
-                    />
-                  </dd>
-
-                  <dt>Operating System</dt>
-                  <dd id={prefixedId(id, 'os')}>{getOperatingSystemName(vm) || getOperatingSystem(vm) || DASHES}</dd>
-
-                  <dt>IP Addresses</dt>
-                  <dd id={prefixedId(id, 'ip-addresses')}>
-                    {ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}
-                  </dd>
-
-                  <dt>Workload Profile</dt>
-                  <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vm) || DASHES}</dd>
-
-                  <dt>Template</dt>
-                  <dd id={prefixedId(id, 'template')}>
-                    {template ? `${template.namespace}/${template.name}` : DASHES}
-                  </dd>
-                </dl>
-              </Col>
-
-              <Col lg={4} md={4} sm={4} xs={4} id="details-column-2">
-                <dl>
-                  <dt>FQDN</dt>
-                  <dd id={prefixedId(id, 'fqdn')}>{fqdn}</dd>
-
-                  <dt>Namespace</dt>
-                  <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
-
-                  <dt>Pod</dt>
-                  <dd id={prefixedId(id, 'pod')}>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
-                  <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
-
-                  <dt>Boot Order</dt>
-                  <dd>
-                    {sortedBootableDevices.length > 0 ? <BootOrder bootableDevices={sortedBootableDevices} /> : DASHES}
-                  </dd>
-                </dl>
-              </Col>
-
-              <Col lg={4} md={4} sm={4} xs={4} id="details-column-3">
-                <dl>
-                  <dt>Node</dt>
-                  <dd id={prefixedId(id, 'node')}>{nodeName && NodeLink ? <NodeLink name={nodeName} /> : DASHES}</dd>
-
-                  <dt>Flavor</dt>
-                  <dd>
-                    <Flavor
-                      flavor={getFlavor(vm) || CUSTOM_FLAVOR}
-                      id={id}
-                      vm={vm}
-                      editing={this.state.editing}
-                      updating={this.state.updating}
-                      LoadingComponent={LoadingComponent}
-                      onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
-                      retrieveVmTemplate={() => retrieveVmTemplate(k8sGet, vm)}
-                      formValues={settingsValue(this.state.form, FLAVOR_KEY)}
-                      onLoadError={this.onLoadError}
-                    />
-                  </dd>
-                </dl>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </Fragment>
     );
   }
 }
@@ -293,6 +294,7 @@ VmDetails.propTypes = {
   k8sPatch: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
+  overview: PropTypes.bool,
 };
 
 VmDetails.defaultProps = {
@@ -304,4 +306,5 @@ VmDetails.defaultProps = {
   PodResourceLink: undefined,
   LoadingComponent: Loading,
   NodeLink: undefined,
+  overview: false,
 };

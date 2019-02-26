@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<VmDetails /> does not render CPU and Memory settings for VM without custom flavor 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -16,177 +14,169 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-off"
-                />
-                Off
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                small
               </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
-            >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
-        >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  small
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                />
-              </div>
-            </dd>
-          </dl>
-        </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -199,179 +189,171 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-off"
-                />
-                Off
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                Custom
               </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
-            >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
-        >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  Custom
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                >
-                  2 CPU, 4G Memory
-                </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              >
+                2 CPU, 4G Memory
               </div>
-            </dd>
-          </dl>
-        </div>
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders IP addresses correctly 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -398,195 +380,187 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-on-running"
+            />
+            Running
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          172.17.0.15, 172.17.0.16, 172.17.0.17
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-on-running"
-                />
-                Running
-              </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            <ol
+              class="kubevirt-boot-order__list"
             >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              172.17.0.15, 172.17.0.16, 172.17.0.17
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
+              <li>
+                pxeNetworkName
+              </li>
+              <li>
+                podNetworkName
+              </li>
+              <li>
+                disk-one
+              </li>
+              <li>
+                disk-two
+              </li>
+              <li>
+                disk-three
+              </li>
+            </ol>
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              <ol
-                class="kubevirt-boot-order__list"
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
               >
-                <li>
-                  pxeNetworkName
-                </li>
-                <li>
-                  podNetworkName
-                </li>
-                <li>
-                  disk-one
-                </li>
-                <li>
-                  disk-two
-                </li>
-                <li>
-                  disk-three
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  Custom
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                />
+                Custom
               </div>
-            </dd>
-          </dl>
-        </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders correctly 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -599,177 +573,347 @@ exports[`<VmDetails /> renders correctly 1`] = `
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
+          </div>
+        </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
+      </dl>
+      <div
+        class="kubevirt-vm-details__other-details"
+      >
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
           >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                Custom
+              </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
             </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`<VmDetails /> renders correctly as overview 1`] = `
+<div
+  class="kubevirt-vm-details__content kubevirt-vm-details--with-border"
+>
+  <dl
+    class="kubevirt-vm-details__name-list kubevirt-vm-details--with-border kubevirt-vm-details__item--hidden"
+  >
+    <dt
+      class="kubevirt-vm-details__item--hidden"
+    >
+      Name
+    </dt>
+    <dd
+      class="kubevirt-vm-details__item--hidden"
+      id="my-namespace-my-vm-name"
+    >
+      my-vm
+    </dd>
+    <dt
+      class="kubevirt-vm-details__item--hidden"
+    >
+      Description
+    </dt>
+    <dd>
+      <div
+        class="kubevirt-vm-details__description"
+      >
+        <div
+          id="my-namespace-my-vm-description"
+        >
+          ---
+        </div>
+      </div>
+    </dd>
+  </dl>
+  <div
+    class="kubevirt-vm-details__details"
+  >
+    <dl
+      class="kubevirt-vm-details__details-list"
+    >
+      <dt>
+        Status
+      </dt>
+      <dd>
+        <div>
+          <span
+            aria-hidden="true"
+            class="kubevirt-vm-status__icon pficon pficon-on-running"
+          />
+          Running
+        </div>
+      </dd>
+      <dt>
+        Operating System
+      </dt>
+      <dd
+        id="my-namespace-my-vm-os"
+      >
+        ---
+      </dd>
+      <dt>
+        IP Addresses
+      </dt>
+      <dd
+        id="my-namespace-my-vm-ip-addresses"
+      >
+        ---
+      </dd>
+      <dt>
+        Workload Profile
+      </dt>
+      <dd
+        id="my-namespace-my-vm-workload-profile"
+      >
+        ---
+      </dd>
+      <dt>
+        Template
+      </dt>
+      <dd
+        id="my-namespace-my-vm-template"
+      >
+        ---
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__other-details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
+        <dt>
+          FQDN
+        </dt>
+        <dd
+          id="my-namespace-my-vm-fqdn"
+        >
+          ---
+        </dd>
+        <dt>
+          Namespace
+        </dt>
+        <dd
+          id="my-namespace-my-vm-namespace"
+        >
+          ---
+        </dd>
+        <dt>
+          Pod
+        </dt>
+        <dd
+          id="my-namespace-my-vm-pod"
+        >
+          ---
+        </dd>
+        <dd>
+          ---
+        </dd>
+        <dt>
+          Boot Order
+        </dt>
+        <dd
+          id="my-namespace-my-vm-boot-order"
+        >
+          <ol
+            class="kubevirt-boot-order__list"
+          >
+            <li>
+              pxeNetworkName
+            </li>
+            <li>
+              podNetworkName
+            </li>
+            <li>
+              disk-one
+            </li>
+            <li>
+              disk-two
+            </li>
+            <li>
+              disk-three
+            </li>
+          </ol>
+        </dd>
+      </dl>
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
+        <dt>
+          Node
+        </dt>
+        <dd
+          id="my-namespace-my-vm-node"
+        >
+          ---
+        </dd>
+        <dt>
+          Flavor
+        </dt>
+        <dd>
+          <div>
+            <div
+              id="my-namespace-my-vm-flavor"
+            >
+              Custom
+            </div>
+            <div
+              id="my-namespace-my-vm-flavor-description"
+            />
           </div>
         </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
-        >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-off"
-                />
-                Off
-              </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
-            >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
-        >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  Custom
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                />
-              </div>
-            </dd>
-          </dl>
-        </div>
-      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`<VmDetails /> renders description correctly 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -782,177 +926,169 @@ exports[`<VmDetails /> renders description correctly 1`] = `
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            This VM has a description
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              This VM has a description
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-off"
-                />
-                Off
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                Custom
               </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
-            >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
-        >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  Custom
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                />
-              </div>
-            </dd>
-          </dl>
-        </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders off status correctly 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -965,177 +1101,169 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-off"
-                />
-                Off
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                Custom
               </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
-            >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
-        >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  Custom
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                />
-              </div>
-            </dd>
-          </dl>
-        </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders on status correctly 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -1162,195 +1290,187 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-on-running"
+            />
+            Running
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-on-running"
-                />
-                Running
-              </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            <ol
+              class="kubevirt-boot-order__list"
             >
-              ---
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              ---
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
+              <li>
+                pxeNetworkName
+              </li>
+              <li>
+                podNetworkName
+              </li>
+              <li>
+                disk-one
+              </li>
+              <li>
+                disk-two
+              </li>
+              <li>
+                disk-three
+              </li>
+            </ol>
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              <ol
-                class="kubevirt-boot-order__list"
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
               >
-                <li>
-                  pxeNetworkName
-                </li>
-                <li>
-                  podNetworkName
-                </li>
-                <li>
-                  disk-one
-                </li>
-                <li>
-                  disk-two
-                </li>
-                <li>
-                  disk-three
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  Custom
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                />
+                Custom
               </div>
-            </dd>
-          </dl>
-        </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders values from labels correctly 1`] = `
-<div
-  class="co-m-pane__body"
->
+Array [
   <h1
     class="co-m-pane__heading"
   >
@@ -1363,171 +1483,165 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
         Edit
       </button>
     </div>
-  </h1>
+  </h1>,
   <div
-    class="row"
+    class="kubevirt-vm-details__content"
   >
-    <div
-      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-      id="name-description-column"
+    <dl
+      class="kubevirt-vm-details__name-list"
     >
-      <dl>
-        <dt>
-          Name
-        </dt>
-        <dd
-          id="my-namespace-my-vm-name"
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
         >
-          my-vm
-        </dd>
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
         <dt>
-          Description
+          Status
         </dt>
         <dd>
-          <div
-            class="kubevirt-vm-details__description"
-          >
-            <div
-              id="my-namespace-my-vm-description"
-            >
-              ---
-            </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
           </div>
         </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          fedora29
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          generic
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          default/fedora-generic
+        </dd>
       </dl>
-    </div>
-    <div
-      class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-      id="details-column"
-    >
       <div
-        class="row"
+        class="kubevirt-vm-details__other-details"
       >
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-1"
+        <dl
+          class="kubevirt-vm-details__details-list"
         >
-          <dl>
-            <dt>
-              Status
-            </dt>
-            <dd>
-              <div>
-                <span
-                  aria-hidden="true"
-                  class="kubevirt-vm-status__icon pficon pficon-off"
-                />
-                Off
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dd>
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                small
               </div>
-            </dd>
-            <dt>
-              Operating System
-            </dt>
-            <dd
-              id="my-namespace-my-vm-os"
-            >
-              fedora29
-            </dd>
-            <dt>
-              IP Addresses
-            </dt>
-            <dd
-              id="my-namespace-my-vm-ip-addresses"
-            >
-              ---
-            </dd>
-            <dt>
-              Workload Profile
-            </dt>
-            <dd
-              id="my-namespace-my-vm-workload-profile"
-            >
-              generic
-            </dd>
-            <dt>
-              Template
-            </dt>
-            <dd
-              id="my-namespace-my-vm-template"
-            >
-              default/fedora-generic
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-2"
-        >
-          <dl>
-            <dt>
-              FQDN
-            </dt>
-            <dd
-              id="my-namespace-my-vm-fqdn"
-            >
-              ---
-            </dd>
-            <dt>
-              Namespace
-            </dt>
-            <dd
-              id="my-namespace-my-vm-namespace"
-            >
-              ---
-            </dd>
-            <dt>
-              Pod
-            </dt>
-            <dd
-              id="my-namespace-my-vm-pod"
-            >
-              ---
-            </dd>
-            <dd>
-              ---
-            </dd>
-            <dt>
-              Boot Order
-            </dt>
-            <dd>
-              ---
-            </dd>
-          </dl>
-        </div>
-        <div
-          class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-          id="details-column-3"
-        >
-          <dl>
-            <dt>
-              Node
-            </dt>
-            <dd
-              id="my-namespace-my-vm-node"
-            >
-              ---
-            </dd>
-            <dt>
-              Flavor
-            </dt>
-            <dd>
-              <div>
-                <div
-                  id="my-namespace-my-vm-flavor"
-                >
-                  small
-                </div>
-                <div
-                  id="my-namespace-my-vm-flavor-description"
-                >
-                  2 CPU, 2G Memory
-                </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              >
+                2 CPU, 2G Memory
               </div>
-            </dd>
-          </dl>
-        </div>
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;

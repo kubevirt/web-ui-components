@@ -55,6 +55,11 @@ describe('<VmDetails />', () => {
     const component = render(testVmDetails(vmFixtures.runningVm, { vmi: cloudInitTestVmi }));
     expect(component).toMatchSnapshot();
   });
+
+  it('renders correctly as overview', () => {
+    const component = render(testVmDetails(vmFixtures.runningVm, { overview: true }));
+    expect(component).toMatchSnapshot();
+  });
 });
 
 describe('<VmDetails /> enzyme', () => {
