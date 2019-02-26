@@ -6,6 +6,7 @@ import { Wizard } from 'patternfly-react';
 import { BasicSettingsTab } from './BasicSettingsTab';
 import { StorageTab } from './StorageTab';
 import { ResultTab } from './ResultTab';
+import { ResultTabRow } from './ResultTabRow';
 import { NetworksTab } from './NetworksTab';
 import { loadingWizardTab } from '../loadingWizardTab';
 import { settingsValue } from '../../../k8s/selectors';
@@ -39,6 +40,9 @@ import {
   STEP_STORAGE,
   STEP_RESULT,
   NEXT,
+  ERROR,
+  CREATED,
+  NOT_CREATED,
 } from './strings';
 
 import {
@@ -47,6 +51,8 @@ import {
   getTemplateInterfaces,
   hasAutoAttachPodInterface,
 } from '../../../utils/templates';
+
+import { getName } from '../../../utils/selectors';
 
 // left intentionally empty
 const TEMPLATE_ROOT_STORAGE = {};
@@ -258,6 +264,11 @@ export class CreateVmWizard extends React.Component {
 
   finish() {
     const create = this.props.createTemplate ? createVmTemplate : createVm;
+    const k8sObjectToResult = (obj, jmessage) => ({
+      content: obj,
+      title: `${obj.kind} ${getName(obj)} ${jmessage}`,
+    });
+
     create(
       this.props.k8sCreate,
       this.props.templates,
@@ -266,8 +277,23 @@ export class CreateVmWizard extends React.Component {
       this.state.stepData[STORAGE_TAB_KEY].value,
       this.props.persistentVolumeClaims
     )
-      .then(results => this.onStepDataChanged(RESULT_TAB_KEY, results, true))
-      .catch(error => this.onStepDataChanged(RESULT_TAB_KEY, [error.message], false));
+      .then(objects =>
+        this.onStepDataChanged(RESULT_TAB_KEY, objects.map(object => k8sObjectToResult(object, CREATED)), true)
+      )
+      .catch(({ message, objects }) =>
+        this.onStepDataChanged(
+          RESULT_TAB_KEY,
+          [
+            {
+              content: message,
+              title: ERROR,
+              expanded: true,
+            },
+            ...objects.map(object => k8sObjectToResult(object, NOT_CREATED)),
+          ],
+          false
+        )
+      );
   }
 
   onStepChanged = newActiveStepIndex => {
@@ -356,7 +382,11 @@ export class CreateVmWizard extends React.Component {
       render: () => {
         const stepData = this.state.stepData[RESULT_TAB_KEY];
         return (
-          <ResultTab results={stepData.value} success={stepData.valid} createTemplate={this.props.createTemplate} />
+          <ResultTab isSuccessful={stepData.valid} createTemplate={this.props.createTemplate}>
+            {stepData.value.map((result, index) => (
+              <ResultTabRow key={index} {...result} />
+            ))}
+          </ResultTab>
         );
       },
     },

@@ -109,6 +109,12 @@ const FALLBACK_DISK = {
   },
 };
 
+const enhancedCreate = (k8sCreate, kind, data, aditionalObjects = [], ...rest) =>
+  k8sCreate(kind, data, ...rest).catch(error =>
+    // eslint-disable-next-line prefer-promise-reject-errors
+    Promise.reject({ error, message: error.message, objects: [data, ...aditionalObjects] })
+  );
+
 export const createVmTemplate = async (
   k8sCreate,
   templates,
@@ -117,6 +123,7 @@ export const createVmTemplate = async (
   storage,
   persistentVolumeClaims
 ) => {
+  const create = enhancedCreate.bind(undefined, k8sCreate);
   const getSetting = param => {
     switch (param) {
       case NAME_KEY:
@@ -162,7 +169,7 @@ export const createVmTemplate = async (
     bootDataVolume.kind = DataVolumeModel.kind;
   }
 
-  const templateResult = await k8sCreate(TemplateModel, vmTemplate);
+  const templateResult = await create(TemplateModel, vmTemplate);
 
   const results = [templateResult];
   if (bootDataVolume) {
@@ -176,13 +183,14 @@ export const createVmTemplate = async (
         uid: templateResult.metadata.uid,
       },
     ];
-    const dvResult = await k8sCreate(DataVolumeModel, bootDataVolume);
+    const dvResult = await create(DataVolumeModel, bootDataVolume);
     results.push(dvResult);
   }
   return results;
 };
 
 export const createVm = async (k8sCreate, templates, basicSettings, networks, storage, persistentVolumeClaims) => {
+  const create = enhancedCreate.bind(undefined, k8sCreate);
   const getSetting = settingsValue.bind(undefined, basicSettings);
   const template = getModifiedVmTemplate(
     templates,
@@ -198,7 +206,7 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
   const postTemplate = cloneDeep(template);
   postTemplate.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
 
-  const processedTemplate = await k8sCreate(ProcessedTemplatesModel, postTemplate);
+  const processedTemplate = await create(ProcessedTemplatesModel, postTemplate);
 
   const vm = selectVm(processedTemplate.objects);
 

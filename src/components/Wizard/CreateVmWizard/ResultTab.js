@@ -1,46 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'patternfly-react';
 
 import { Loading } from '../../Loading';
 
-const getCreationText = createTemplate => `Creation of VM ${createTemplate ? 'Template ' : ''}`;
+const getCreationText = (state, createTemplate) => `Creation of VM ${createTemplate ? 'Template ' : ''}${state}`;
 
-export const ResultTab = ({ results, success, createTemplate }) => {
-  let value;
-  const loadingText = `${getCreationText(createTemplate)}in progress`;
-  const successText = `${getCreationText(createTemplate)}was successful`;
-  if (success == null) {
-    value = <Loading text={loadingText} />;
-  } else if (success) {
-    value = (
-      <div className="wizard-pf-complete blank-slate-pf" key="success">
-        <div className="wizard-pf-success-icon">
-          <span className="glyphicon glyphicon-ok-circle" />
-        </div>
-        <h3 className="blank-slate-pf-main-action">{successText}</h3>
-        {results.map((result, index) => (
-          <pre key={index} className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-success">
-            {JSON.stringify(result, null, 1)}
-          </pre>
-        ))}
-      </div>
-    );
-  } else {
-    value = results.map((result, index) => <Alert key={index}>{result}</Alert>);
+export const ResultTab = ({ isSuccessful, isCreateTemplate, children }) => {
+  if (isSuccessful == null) {
+    return <Loading key="progress" text={getCreationText('in progress', isCreateTemplate)} />;
   }
+  const state = isSuccessful ? 'was successful' : 'failed';
+  const icon = isSuccessful ? 'pficon-ok' : 'pficon-error-circle-o';
 
-  return value;
+  return (
+    <div className="wizard-pf-complete blank-slate-pf" key="success">
+      <div className="wizard-pf-success-icon">
+        <span className={`pficon ${icon}`} />
+      </div>
+      <h3 className="blank-slate-pf-main-action">{getCreationText(state, isCreateTemplate)}</h3>
+      {children}
+    </div>
+  );
 };
 
 ResultTab.defaultProps = {
-  results: [],
-  success: null,
-  createTemplate: false,
+  children: null,
+  isSuccessful: null,
+  isCreateTemplate: false,
 };
 
 ResultTab.propTypes = {
-  results: PropTypes.array,
-  success: PropTypes.bool,
-  createTemplate: PropTypes.bool,
+  children: PropTypes.node,
+  isSuccessful: PropTypes.bool,
+  isCreateTemplate: PropTypes.bool,
 };
