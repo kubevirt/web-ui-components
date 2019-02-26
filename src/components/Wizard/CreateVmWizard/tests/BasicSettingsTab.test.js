@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { MenuItem } from 'patternfly-react';
 
-import { BasicSettingsTab, getFormFields } from '../BasicSettingsTab';
+import { BasicSettingsTab, getFormFields, onCloseBasic } from '../BasicSettingsTab';
 import { namespaces } from '../fixtures/CreateVmWizard.fixture';
 import { baseTemplates } from '../../../../k8s/objects/template';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
@@ -14,6 +14,8 @@ import { Dropdown } from '../../../Form';
 import { NO_TEMPLATE } from '../strings';
 import { selectVm } from '../../../../k8s/selectors';
 import { callerContext } from '../../../../tests/k8s';
+
+import { basicSettingsImportVmwareNewConnection } from '../../../../tests/forms_mocks/basicSettings.mock';
 
 import {
   userTemplates,
@@ -525,6 +527,13 @@ describe('<BasicSettingsTab />', () => {
       flavor: false,
       workload: false,
     });
+  });
+
+  it('removes temporary v2vvmware', async () => {
+    const k8sKill = jest.fn();
+    await onCloseBasic(basicSettingsImportVmwareNewConnection, { k8sKill });
+    expect(k8sKill.mock.calls).toHaveLength(1);
+    expect(k8sKill.mock.calls[0][1].metadata.name).toEqual('v2vvmware-object-name');
   });
 });
 

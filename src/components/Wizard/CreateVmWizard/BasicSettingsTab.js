@@ -391,7 +391,7 @@ export const onCloseBasic = async (basicSettings, callerContext) => {
     const resource = {
       metadata: {
         name: v2vvmwareName,
-        // TODO: potential issue if user changed the namespace after creation
+        // TODO: potential issue if the user changed the namespace after creation of the v2vvmware object
         // to fix: either store the namespace along the v2vvmwareName or empty v2vvmwareName on namespace change
         namespace: settingsValue(basicSettings, NAMESPACE_KEY),
       },
