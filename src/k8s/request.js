@@ -170,6 +170,8 @@ export const createVmTemplate = async (
     bootDataVolume.kind = DataVolumeModel.kind;
   }
 
+  sequentializeBootOrderIndexes(selectVm(template.objects));
+
   const templateResult = await create(TemplateModel, vmTemplate);
 
   const results = [templateResult];
