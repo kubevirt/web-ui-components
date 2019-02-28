@@ -2,7 +2,7 @@
 
 exports[`<Loading /> renders correctly 1`] = `
 <div
-  className="wizard-pf-process blank-slate-pf"
+  className="blank-slate-pf"
   key="progress"
 >
   <div

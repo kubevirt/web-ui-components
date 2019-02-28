@@ -1,0 +1,14 @@
+.kubevirt-capacity__items {
+  display: flex;
+  justify-content: space-between;
+}
+
+.kubevirt-capacity__item {
+  display: inline-block;
+  text-align: center;
+  flex: 1;
+}
+
+.kubevirt-capacity__item-title {
+  margin-top: 0;
+}

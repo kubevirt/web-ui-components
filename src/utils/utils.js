@@ -38,7 +38,7 @@ export const getBootDeviceIndex = (devices, bootOrder) => devices.findIndex(devi
 
 export const getResource = (
   model,
-  { name, namespaced = true, namespace, isList = true, matchLabels, matchExpressions, prop } = {
+  { name, namespaced = true, namespace, isList = true, matchLabels, matchExpressions, prop, fieldSelector } = {
     namespaced: true,
     isList: true,
   }
@@ -61,6 +61,9 @@ export const getResource = (
   }
   if (matchExpressions) {
     res.selector = { matchExpressions };
+  }
+  if (fieldSelector) {
+    res.fieldSelector = fieldSelector;
   }
 
   return res;

@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Capacity /> renders correctly 1`] = `
+<div
+  className="kubevirt-capacity__items"
+>
+  <div
+    className="kubevirt-capacity__item"
+    key="cpuStats"
+  >
+    <h2
+      className="kubevirt-capacity__item-title"
+    >
+      CPU
+    </h2>
+    <h6>
+      2.1Ghz available out of 4.3Ghz
+    </h6>
+    <div>
+      <DonutChart
+        className="donut-chart-pf"
+        color={
+          Object {
+            "pattern": Array [
+              "#0088ce",
+              "#d1d1d1",
+            ],
+          }
+        }
+        data={
+          Object {
+            "columns": Array [
+              Array [
+                "Used",
+                2.2,
+              ],
+              Array [
+                "Available",
+                2.0999999999999996,
+              ],
+            ],
+            "order": null,
+            "unload": true,
+          }
+        }
+        donut={
+          Object {
+            "label": Object {
+              "show": false,
+            },
+            "title": undefined,
+            "width": 11,
+          }
+        }
+        id="donut-chart-cpuStats"
+        legend={
+          Object {
+            "show": false,
+          }
+        }
+        size={
+          Object {
+            "height": 150,
+            "width": 150,
+          }
+        }
+        title={
+          Object {
+            "primary": "51%",
+            "secondary": "Used",
+          }
+        }
+        tooltip={
+          Object {
+            "contents": [Function],
+          }
+        }
+        type="donut"
+        unloadBeforeLoad={true}
+      />
+    </div>
+  </div>
+  <div
+    className="kubevirt-capacity__item"
+    key="memoryStats"
+  >
+    <h2
+      className="kubevirt-capacity__item-title"
+    >
+      Memory
+    </h2>
+    <h6>
+      120Ti available out of 200Ti
+    </h6>
+    <div>
+      <DonutChart
+        className="donut-chart-pf"
+        color={
+          Object {
+            "pattern": Array [
+              "#0088ce",
+              "#d1d1d1",
+            ],
+          }
+        }
+        data={
+          Object {
+            "columns": Array [
+              Array [
+                "Used",
+                80,
+              ],
+              Array [
+                "Available",
+                120,
+              ],
+            ],
+            "order": null,
+            "unload": true,
+          }
+        }
+        donut={
+          Object {
+            "label": Object {
+              "show": false,
+            },
+            "title": undefined,
+            "width": 11,
+          }
+        }
+        id="donut-chart-memoryStats"
+        legend={
+          Object {
+            "show": false,
+          }
+        }
+        size={
+          Object {
+            "height": 150,
+            "width": 150,
+          }
+        }
+        title={
+          Object {
+            "primary": "40%",
+            "secondary": "Used",
+          }
+        }
+        tooltip={
+          Object {
+            "contents": [Function],
+          }
+        }
+        type="donut"
+        unloadBeforeLoad={true}
+      />
+    </div>
+  </div>
+  <div
+    className="kubevirt-capacity__item"
+    key="storageStats"
+  >
+    <h2
+      className="kubevirt-capacity__item-title"
+    >
+      Storage
+    </h2>
+    <h6>
+      400Ti available out of 800Ti
+    </h6>
+    <div>
+      <DonutChart
+        className="donut-chart-pf"
+        color={
+          Object {
+            "pattern": Array [
+              "#0088ce",
+              "#d1d1d1",
+            ],
+          }
+        }
+        data={
+          Object {
+            "columns": Array [
+              Array [
+                "Used",
+                400,
+              ],
+              Array [
+                "Available",
+                400,
+              ],
+            ],
+            "order": null,
+            "unload": true,
+          }
+        }
+        donut={
+          Object {
+            "label": Object {
+              "show": false,
+            },
+            "title": undefined,
+            "width": 11,
+          }
+        }
+        id="donut-chart-storageStats"
+        legend={
+          Object {
+            "show": false,
+          }
+        }
+        size={
+          Object {
+            "height": 150,
+            "width": 150,
+          }
+        }
+        title={
+          Object {
+            "primary": "50%",
+            "secondary": "Used",
+          }
+        }
+        tooltip={
+          Object {
+            "contents": [Function],
+          }
+        }
+        type="donut"
+        unloadBeforeLoad={true}
+      />
+    </div>
+  </div>
+  <div
+    className="kubevirt-capacity__item"
+    key="networkStats"
+  >
+    <h2
+      className="kubevirt-capacity__item-title"
+    >
+      Network
+    </h2>
+    <h6>
+      7GBps available out of 10GBps
+    </h6>
+    <div>
+      <DonutChart
+        className="donut-chart-pf"
+        color={
+          Object {
+            "pattern": Array [
+              "#0088ce",
+              "#d1d1d1",
+            ],
+          }
+        }
+        data={
+          Object {
+            "columns": Array [
+              Array [
+                "Used",
+                3,
+              ],
+              Array [
+                "Available",
+                7,
+              ],
+            ],
+            "order": null,
+            "unload": true,
+          }
+        }
+        donut={
+          Object {
+            "label": Object {
+              "show": false,
+            },
+            "title": undefined,
+            "width": 11,
+          }
+        }
+        id="donut-chart-networkStats"
+        legend={
+          Object {
+            "show": false,
+          }
+        }
+        size={
+          Object {
+            "height": 150,
+            "width": 150,
+          }
+        }
+        title={
+          Object {
+            "primary": "30%",
+            "secondary": "Used",
+          }
+        }
+        tooltip={
+          Object {
+            "contents": [Function],
+          }
+        }
+        type="donut"
+        unloadBeforeLoad={true}
+      />
+    </div>
+  </div>
+</div>
+`;

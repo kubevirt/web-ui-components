@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Compliance /> renders correctly 1`] = `
+<HealthBase
+  data={
+    Object {
+      "healthy": true,
+      "message": "All nodes compliant",
+    }
+  }
+  loaded={true}
+/>
+`;
+
+exports[`<Health /> renders correctly 1`] = `
+<HealthBase
+  data={
+    Object {
+      "healthy": false,
+      "message": "Error message",
+    }
+  }
+  loaded={true}
+/>
+`;

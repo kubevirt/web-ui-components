@@ -1,0 +1,55 @@
+.kubevirt-events {
+  max-height: 500px;
+}
+
+.kubevirt-events__body {
+  margin: 0 -15px;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.kubevirt-events__event-item {
+  border-bottom: 1px solid #ededed;
+}
+
+/* stylelint-disable plugin/selector-bem-pattern */
+.kubevirt-events__body .co-sysevent__icon-box {
+  display: none;
+}
+
+.kubevirt-events__body .co-sysevent-stream__timeline {
+  display: none;
+}
+
+.kubevirt-events__body .co-m-pane__body--alt {
+  margin: 0;
+  padding: 0;
+}
+
+.kubevirt-events__body .co-sysevent-stream {
+  padding: 0;
+}
+
+.kubevirt-events__body .co-sysevent {
+  margin: 0;
+}
+
+.kubevirt-events__body .co-sysevent__box {
+  border: none;
+  border-bottom: solid 1px #ededed;
+}
+
+.kubevirt-events__timestamp {
+  display: inline-block;
+}
+
+.kubevirt-events__timestamp i {
+  display: none;
+}
+
+.kubevirt-events__icon--error {
+  color: red;
+  font-size: 21px;
+}
+
+/* stylelint-enable */
