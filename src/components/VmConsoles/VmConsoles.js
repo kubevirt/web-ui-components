@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { AccessConsoles, VncConsole, DesktopViewer } from '@patternfly/react-console';
-import { Button, ExpandCollapse } from 'patternfly-react';
+import { AccessConsoles, VncConsole } from '@patternfly/react-console';
+import { Button } from 'patternfly-react';
 
 import { isVmiRunning, isVmStarting } from '../VmStatus';
 import { SerialConsoleConnector } from './SerialConsoleConnector';
-import { isWindows } from '../../utils';
+import { isWindows, isGuestAgentConnected } from '../../utils';
 import { DEFAULT_RDP_PORT, TEMPLATE_VM_NAME_LABEL } from '../../constants';
+import { DesktopViewerSelector } from './DesktopViewerSelector';
 
 const { VNC_CONSOLE_TYPE, SERIAL_CONSOLE_TYPE } = AccessConsoles.constants;
 
@@ -43,48 +44,37 @@ VmIsStarting.propTypes = {
   LoadingComponent: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
 };
 
-const RdpServiceNotConfigured = ({ vm }) => (
+export const RdpServiceNotConfigured = ({ vm }) => (
   <div className="kubevirt-vm-consoles__rdp">
-    <ExpandCollapse
-      bordered={false}
-      align={ExpandCollapse.ALIGN_CENTER}
-      textCollapsed="No RDP Service found"
-      textExpanded="No RDP Service found"
-    >
-      <div className="kubevirt-vm-consoles__rdp-content">
-        <span>
-          This is a Windows virtual machine but no Service for the RDP (Remote Desktop Protocol) can be found.
-        </span>
-        <br />
-        <span>
-          For better experience accessing Windows console, it is recommended to use the RDP. To do so, create a service:
-          <ul>
-            <li>
-              exposing the{' '}
-              <b>
-                {DEFAULT_RDP_PORT}
-                /tcp
-              </b>{' '}
-              port of the virtual machine
-            </li>
-            <li>
-              using selector:{' '}
-              <b>
-                {TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}
-              </b>
-            </li>
-            <li>
-              Example: virtctl expose virtualmachine {vm.metadata.name} --name {vm.metadata.name}
-              -rdp --port [UNIQUE_PORT] --target-port {DEFAULT_RDP_PORT} --type NodePort
-            </li>
-          </ul>
-          Make sure, the VM object has <b>spec.template.metadata.labels</b> set to{' '}
+    <span>This is a Windows virtual machine but no Service for the RDP (Remote Desktop Protocol) can be found.</span>
+    <br />
+    <span>
+      For better experience accessing Windows console, it is recommended to use the RDP. To do so, create a service:
+      <ul>
+        <li>
+          exposing the{' '}
+          <b>
+            {DEFAULT_RDP_PORT}
+            /tcp
+          </b>{' '}
+          port of the virtual machine
+        </li>
+        <li>
+          using selector:{' '}
           <b>
             {TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}
           </b>
-        </span>
-      </div>
-    </ExpandCollapse>
+        </li>
+        <li>
+          Example: virtctl expose virtualmachine {vm.metadata.name} --name {vm.metadata.name}
+          -rdp --port [UNIQUE_PORT] --target-port {DEFAULT_RDP_PORT} --type NodePort
+        </li>
+      </ul>
+      Make sure, the VM object has <b>spec.template.metadata.labels</b> set to{' '}
+      <b>
+        {TEMPLATE_VM_NAME_LABEL}: {vm.metadata.name}
+      </b>
+    </span>
   </div>
 );
 
@@ -104,21 +94,29 @@ export const VmConsoles = ({ vm, vmi, onStartVm, vnc, serial, rdp, WSFactory, Lo
     );
   }
 
-  let infoMessage;
-  const vncManual = get({ vnc }, 'vnc.manual');
-  const rdpManual = get({ rdp }, 'rdp.manual');
+  const vncServiceManual = get({ vnc }, 'vnc.manual');
+  const rdpServiceManual = get({ rdp }, 'rdp.manual');
 
-  if (!rdpManual && isWindows(vm)) {
-    infoMessage = <RdpServiceNotConfigured vm={vm} />;
+  let desktopViewerSelector;
+  if (isWindows(vm)) {
+    desktopViewerSelector = (
+      <DesktopViewerSelector
+        vncServiceManual={vncServiceManual}
+        rdpServiceManual={rdpServiceManual}
+        type="DesktopViewer"
+        vm={vm}
+        vmi={vmi}
+        guestAgent={isGuestAgentConnected(vmi)}
+      />
+    );
   }
 
   return (
     <div className="co-m-pane__body">
-      {infoMessage}
       <AccessConsoles preselectedType={VNC_CONSOLE_TYPE} disconnectByChange={false}>
         <SerialConsoleConnector type={SERIAL_CONSOLE_TYPE} WSFactory={WSFactory} {...serial} />
         <VncConsole {...vnc} />
-        {(vncManual || rdpManual) && <DesktopViewer vnc={vncManual} rdp={rdpManual} />}
+        {desktopViewerSelector}
       </AccessConsoles>
     </div>
   );
