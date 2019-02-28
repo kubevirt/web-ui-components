@@ -6,13 +6,13 @@ import {
   ANNOTATION_FIRST_BOOT,
   BOOT_ORDER_FIRST,
   BOOT_ORDER_SECOND,
-  DEVICE_TYPE_DISK,
-  DEVICE_TYPE_INTERFACE,
   PVC_ACCESSMODE_RWO,
   TEMPLATE_FLAVOR_LABEL,
+  deviceTypeToPathKey,
+  DEVICE_TYPE_INTERFACE,
 } from '../constants';
 import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
-import { assignBootOrderIndex, getBootableDevicesInOrder, isDisk, isNic } from '../k8s/vmBuilder';
+import { assignBootOrderIndex, getBootableDevicesInOrder, getDevices } from '../k8s/vmBuilder';
 
 export const getPxeBootPatch = vm => {
   const patches = [];
@@ -393,39 +393,35 @@ export const addPrefixToPatch = (prefix, patch) => ({
   path: `${prefix}${patch.path}`,
 });
 
-const getDeviceType = device => {
-  let type;
-  if (isNic(device)) {
-    type = DEVICE_TYPE_INTERFACE;
-  } else if (isDisk(device)) {
-    type = DEVICE_TYPE_DISK;
-  }
-
-  return type;
-};
-
-const getDeviceIndex = (device, vm) => {
-  const deviceType = getDeviceType(device);
+const getDeviceIndex = (vm, deviceName, deviceType) => {
   const devices = deviceType === DEVICE_TYPE_INTERFACE ? getInterfaces(vm) : getDisks(vm);
-
-  return findIndex(devices, d => d.name === device.name);
+  return findIndex(devices, d => d.name === deviceName);
 };
 
-export const getDeviceBootOrderPatch = (vm, removedBootOrderIdx) => {
+export const getDeviceBootOrderPatch = (vm, removedDevicePathKey, removedDeviceName) => {
   const patches = [];
+  const removedDevice = get(getDevices(vm), removedDevicePathKey, []).find(dev => dev.name === removedDeviceName);
+  const removedDeviceBootOrder = get(removedDevice, 'bootOrder', -1);
+  const removedDeviceIndex = getDeviceIndex(vm, removedDeviceName, removedDevicePathKey);
   const sortedBootableDevices = getBootableDevicesInOrder(vm);
 
   sortedBootableDevices.forEach(device => {
-    const bootOrder = get(device, 'bootOrder', -1);
+    const bootOrder = get(device, 'value.bootOrder', -1);
 
-    if (bootOrder !== -1 && bootOrder > removedBootOrderIdx) {
-      const deviceIndex = getDeviceIndex(device, vm);
-      const deviceType = getDeviceType(device);
+    if (bootOrder !== -1 && bootOrder > removedDeviceBootOrder) {
+      const deviceType = get(device, 'type');
+      const deviceTypePathKey = deviceTypeToPathKey[deviceType];
+      const currDevIndex = getDeviceIndex(vm, device.value.name, deviceType);
+      // Account for index change once device is removed
+      const deviceIndex =
+        deviceTypePathKey === removedDevicePathKey && currDevIndex > removedDeviceIndex
+          ? currDevIndex - 1
+          : currDevIndex;
 
       if (deviceIndex !== -1 && deviceType) {
         const patch = {
           op: 'replace',
-          path: `/spec/template/spec/domain/devices/${deviceType}/${deviceIndex}/bootOrder`,
+          path: `/spec/template/spec/domain/devices/${deviceTypePathKey}/${deviceIndex}/bootOrder`,
           value: bootOrder - 1,
         };
         patches.push(patch);

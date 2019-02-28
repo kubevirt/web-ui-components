@@ -1,11 +1,11 @@
 import { BootOrder } from '../BootOrder';
 
 export const bootableDevices = [
-  { bridge: {}, name: 'podNetworkName', bootOrder: 2 },
-  { disk: {}, name: 'disk-two', bootOrder: 4 },
-  { disk: {}, name: 'disk-three', bootOrder: 5 },
-  { disk: {}, name: 'disk-one', bootOrder: 3 },
-  { bridge: {}, name: 'pxeNetworkName', bootOrder: 1 },
+  { type: 'interface', value: { bridge: {}, name: 'pxeNetworkName', bootOrder: 1 } },
+  { type: 'interface', value: { bridge: {}, name: 'podNetworkName', bootOrder: 2 } },
+  { type: 'disk', value: { disk: {}, name: 'disk-one', bootOrder: 3 } },
+  { type: 'disk', value: { disk: {}, name: 'disk-two', bootOrder: 4 } },
+  { type: 'disk', value: { disk: {}, name: 'disk-three', bootOrder: 5 } },
 ];
 
 export default [

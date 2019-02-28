@@ -37,9 +37,18 @@ export const vmFixtures = {
                 { disk: {}, name: 'disk-one', bootOrder: 3 },
                 { disk: {}, name: 'disk-two', bootOrder: 4 },
                 { disk: {}, name: 'disk-three', bootOrder: 5 },
+                { disk: { bus: 'virtio' }, name: 'cloudinitdisk' },
               ],
             },
           },
+          volumes: [
+            {
+              cloudInitNoCloud: {
+                userData: '# configure default password\npassword: fedora\nchpasswd: { expire: False }',
+              },
+              name: 'cloudinitdisk',
+            },
+          ],
         },
       },
       running: true,
