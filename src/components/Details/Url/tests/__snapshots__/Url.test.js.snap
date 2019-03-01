@@ -26,7 +26,7 @@ exports[`<Url /> renders correctly 2`] = `
     href="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
     title="http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here"
   >
-    …mountain.all-images.cz/…/dromaeosauridae.iso…
+    …mountain.all-images.cz/…/dromaeosauridae.iso
   </a>
 </Url>
 `;
