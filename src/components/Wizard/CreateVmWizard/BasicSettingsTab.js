@@ -16,15 +16,12 @@ import { getTemplate, getTemplateProvisionSource } from '../../../utils/template
 import { validateDNS1123SubdomainValue, validateURL, validateContainer } from '../../../utils/validations';
 import {
   NO_TEMPLATE,
-  HELP_PROVISION_SOURCE_URL,
-  HELP_PROVISION_SOURCE_PXE,
-  HELP_PROVISION_SOURCE_CONTAINER,
-  HELP_PROVISION_SOURCE_IMPORT,
   HELP_OS,
   HELP_FLAVOR,
   HELP_MEMORY,
   HELP_CPU,
   HELP_WORKLOAD,
+  getProvisionSourceHelp,
 } from './strings';
 
 import {
@@ -47,6 +44,7 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_IMPORT,
+  PROVISION_SOURCE_IMAGE,
   TEMPLATE_TYPE_VM,
 } from '../../../constants';
 
@@ -77,22 +75,6 @@ import {
 import { importProviders } from './providers';
 import { V2VVMwareModel } from '../../../models';
 
-const getProvisionSourceHelp = basicSettings => {
-  const provisionSource = settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY);
-  switch (provisionSource) {
-    case PROVISION_SOURCE_URL:
-      return HELP_PROVISION_SOURCE_URL;
-    case PROVISION_SOURCE_PXE:
-      return HELP_PROVISION_SOURCE_PXE;
-    case PROVISION_SOURCE_CONTAINER:
-      return HELP_PROVISION_SOURCE_CONTAINER;
-    case PROVISION_SOURCE_IMPORT:
-      return HELP_PROVISION_SOURCE_IMPORT;
-    default:
-      return null;
-  }
-};
-
 export const getFormFields = (
   basicSettings,
   namespaces,
@@ -108,7 +90,7 @@ export const getFormFields = (
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
   const operatingSystems = getOperatingSystems(basicSettings, templates, userTemplate);
   const flavors = getFlavors(basicSettings, templates, userTemplate);
-  const imageSources = [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER];
+  const imageSources = [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_IMAGE];
   const userTemplateNames = getTemplate(templates, TEMPLATE_TYPE_VM).map(getName);
   userTemplateNames.push(NO_TEMPLATE);
 
@@ -169,7 +151,7 @@ export const getFormFields = (
       choices: imageSources,
       required: true,
       disabled: userTemplate !== undefined,
-      help: getProvisionSourceHelp(basicSettings),
+      help: getProvisionSourceHelp(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY)),
     },
     [CONTAINER_IMAGE_KEY]: {
       id: 'provision-source-container',

@@ -21,9 +21,10 @@ import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_IMAGE,
 } from '../constants';
 import { TemplateModel } from '../models';
-import { DATA_VOLUME_SOURCE_URL } from '../components/Wizard/CreateVmWizard/constants';
+import { DATA_VOLUME_SOURCE_URL, DATA_VOLUME_SOURCE_PVC } from '../components/Wizard/CreateVmWizard/constants';
 
 export const getTemplatesWithLabels = (templates, labels) => {
   const filteredTemplates = [...templates];
@@ -140,6 +141,11 @@ export const getTemplateProvisionSource = (template, dataVolumes) => {
             return {
               type: PROVISION_SOURCE_URL,
               source: source.url,
+            };
+          case DATA_VOLUME_SOURCE_PVC:
+            return {
+              type: PROVISION_SOURCE_IMAGE,
+              source: `${source.namespace}/${source.name}`,
             };
           default:
             return null;

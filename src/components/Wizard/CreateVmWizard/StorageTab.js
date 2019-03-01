@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { get, findIndex } from 'lodash';
 
 import {
-  PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_IMAGE,
   VALIDATION_ERROR_TYPE,
 } from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
@@ -24,7 +24,6 @@ import {
 } from '../../../selectors';
 
 import {
-  ERROR_NO_BOOTABLE_DISK,
   ERROR_EMPTY_ENTITY,
   ERROR_POSITIVE_SIZE,
   ERROR_DISK_NOT_FOUND,
@@ -36,7 +35,10 @@ import {
   CREATE_DISK_BUTTON,
   BOOTABLE_DISK,
   SELECT_BOOTABLE_DISK,
+  getNoBootableError,
 } from './strings';
+
+import { canBeBootable, needsBootableDisk } from './utils/storageTabUtils';
 
 const initalStorageErrorsArray = () => Array(4).fill(null);
 
@@ -140,22 +142,7 @@ const resolveBootability = (rows, sourceType) => {
   if (rootStorage) {
     setBootableDisk(rows, rootStorage);
   } else if (!rows.some(row => row.isBootable && !hasError(row))) {
-    let bootableDisks;
-    switch (sourceType) {
-      case PROVISION_SOURCE_CONTAINER:
-        bootableDisks = rows.filter(row => row.storageType === STORAGE_TYPE_CONTAINER);
-        break;
-      case PROVISION_SOURCE_URL:
-        bootableDisks = rows.filter(row => row.storageType === STORAGE_TYPE_DATAVOLUME);
-        break;
-      case PROVISION_SOURCE_PXE:
-        bootableDisks = rows.filter(
-          row => row.storageType === STORAGE_TYPE_PVC || row.storageType === STORAGE_TYPE_DATAVOLUME
-        );
-        break;
-      default:
-        break;
-    }
+    const bootableDisks = rows.filter(row => canBeBootable(row, sourceType));
     const bootDisk = findBootDisk(bootableDisks);
     setBootableDisk(rows, bootDisk);
   }
@@ -278,9 +265,9 @@ export const validateStorage = row => {
   }
 };
 
-const publishResults = (rows, otherStorages, publish) => {
-  // TODO bootable device is required for URL, Container
-  let valid = true;
+const publishResults = (rows, otherStorages, sourceType, publish) => {
+  let valid = !needsBootableDisk(rows, sourceType);
+
   const storages = rows.map(
     ({ templateStorage, rootStorage, storageType, id, name, size, storageClass, isBootable, errors }) => {
       const result = {
@@ -316,6 +303,8 @@ const publishResults = (rows, otherStorages, publish) => {
 export class StorageTab extends React.Component {
   constructor(props) {
     super(props);
+    const { sourceType, onChange } = props;
+
     const rows = resolveInitialStorages(
       props.initialStorages,
       props.persistentVolumeClaims,
@@ -333,11 +322,14 @@ export class StorageTab extends React.Component {
       editing: false,
     };
 
-    publishResults(this.state.rows, this.state.otherStorages, this.props.onChange);
+    publishResults(this.state.rows, this.state.otherStorages, sourceType, onChange);
   }
 
   onRowActivate = rows => {
-    this.setState({ rows, editing: true });
+    this.setState({
+      rows,
+      editing: true,
+    });
   };
 
   onRowUpdate = (rows, updatedRowId, editing) => {
@@ -356,9 +348,13 @@ export class StorageTab extends React.Component {
   };
 
   rowsChanged = (rows, editing) => {
-    resolveBootability(rows, this.props.sourceType);
-    publishResults(rows, this.state.otherStorages, this.props.onChange);
-    this.setState({ rows, editing });
+    const { sourceType, onChange } = this.props;
+    resolveBootability(rows, sourceType);
+    publishResults(rows, this.state.otherStorages, sourceType, onChange);
+    this.setState({
+      rows,
+      editing,
+    });
   };
 
   create = storageType => {
@@ -492,13 +488,16 @@ export class StorageTab extends React.Component {
       type: DROPDOWN,
       defaultValue: SELECT_BOOTABLE_DISK,
       choices: disks
-        .filter(disk => !hasError(disk))
+        .filter(disk => canBeBootable(disk, sourceType) && !hasError(disk))
         .map(disk => ({
           name: disk.name,
           id: disk.id,
         })),
       disabled: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
-      required: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
+      required:
+        sourceType === PROVISION_SOURCE_CONTAINER ||
+        sourceType === PROVISION_SOURCE_URL ||
+        sourceType === PROVISION_SOURCE_IMAGE,
     },
   });
 
@@ -507,29 +506,32 @@ export class StorageTab extends React.Component {
       state.rows.forEach(row => {
         row.isBootable = row.id === newValue.value.id;
       });
-      publishResults(state.rows, state.otherStorages, this.props.onChange);
+
+      const { sourceType, onChange } = this.props;
+      publishResults(state.rows, state.otherStorages, sourceType, onChange);
       return state.rows;
     });
   };
 
   render() {
+    const { sourceType } = this.props;
+    const { rows } = this.state;
     const columns = this.getColumns();
     const actionButtons = this.getActionButtons();
 
-    const bootableDisk = this.state.rows.find(row => row.isBootable);
+    const bootableDisk = rows.find(row => row.isBootable);
     const values = {
       bootableDisk: {
         value: bootableDisk ? bootableDisk.name : undefined,
-        validation:
-          this.props.sourceType !== PROVISION_SOURCE_PXE && this.state.rows.length === 0
-            ? getValidationObject(ERROR_NO_BOOTABLE_DISK)
-            : undefined,
+        validation: needsBootableDisk(rows, sourceType)
+          ? getValidationObject(getNoBootableError(sourceType))
+          : undefined,
       },
     };
 
     const bootableForm = (
       <FormFactory
-        fields={this.getFormFields(this.state.rows, this.props.sourceType)}
+        fields={this.getFormFields(rows, sourceType)}
         fieldsValues={values}
         onFormChange={this.onFormChange}
         textPosition="text-left"

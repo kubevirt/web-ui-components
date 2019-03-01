@@ -35,8 +35,14 @@ import {
   pxeDataVolumeTemplate,
   containerMultusTemplate,
   urlNoNetworkTemplate,
+  pvcTemplate,
 } from '../../../../tests/mocks/user_template';
-import { PROVISION_SOURCE_PXE, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL } from '../../../../constants';
+import {
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_IMAGE,
+} from '../../../../constants';
 import { getButton } from '../../../../tests/enzyme';
 
 jest.mock('../../../../k8s/request');
@@ -341,6 +347,19 @@ describe('<CreateVmWizard />', () => {
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
     checkRootStorageExists(component, STORAGE_TYPE_DATAVOLUME);
+
+    withTemplateSource = {
+      ...userTemplateSource,
+      [USER_TEMPLATE_KEY]: {
+        value: getName(pvcTemplate),
+      },
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_IMAGE,
+      },
+    };
+
+    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    checkStorages(component, pvcTemplate);
   });
 
   it('reads networks from user teplate', () => {
