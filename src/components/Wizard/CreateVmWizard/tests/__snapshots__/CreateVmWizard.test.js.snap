@@ -27,6 +27,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
     Array [
       Object {
         "key": "basicSettings",
+        "onCloseWizard": [Function],
         "render": [Function],
         "title": "Basic Settings",
       },

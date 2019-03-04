@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { findIndex } from 'lodash';
 import { Wizard } from 'patternfly-react';
 
-import { BasicSettingsTab } from './BasicSettingsTab';
+import { BasicSettingsTab, onCloseBasic } from './BasicSettingsTab';
 import { StorageTab } from './StorageTab';
 import { ResultTab } from './ResultTab';
 import { ResultTabRow } from './ResultTabRow';
@@ -309,10 +309,26 @@ export class CreateVmWizard extends React.Component {
     }
   };
 
+  onHideWrapper = (...eventArgs) => {
+    this.wizardStepsNewVM.forEach(step => {
+      if (step.onCloseWizard) {
+        const callerContext = {
+          k8sKill: this.props.k8sKill,
+        };
+        step.onCloseWizard(this.state.stepData[step.key].value, callerContext);
+      }
+    });
+
+    if (this.props.onHide) {
+      this.props.onHide(...eventArgs);
+    }
+  };
+
   wizardStepsNewVM = [
     {
       title: STEP_BASIC_SETTINGS,
       key: BASIC_SETTINGS_TAB_KEY,
+      onCloseWizard: onCloseBasic,
       render: () => {
         const loadingData = {
           namespaces: this.props.namespaces,
@@ -331,6 +347,7 @@ export class CreateVmWizard extends React.Component {
             k8sCreate={this.props.k8sCreate}
             k8sGet={this.props.k8sGet}
             k8sPatch={this.props.k8sPatch}
+            k8sKill={this.props.k8sKill}
           />
         );
       },
@@ -400,7 +417,7 @@ export class CreateVmWizard extends React.Component {
     return (
       <Wizard.Pattern
         show
-        onHide={this.props.onHide}
+        onHide={this.onHideWrapper}
         steps={this.wizardStepsNewVM}
         activeStepIndex={this.state.activeStepIndex}
         onStepChanged={index => this.onStepChanged(index)}
@@ -432,6 +449,7 @@ CreateVmWizard.propTypes = {
   k8sCreate: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
   k8sPatch: PropTypes.func.isRequired,
+  k8sKill: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array,
   namespaces: PropTypes.array,

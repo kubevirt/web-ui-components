@@ -14,7 +14,7 @@ import {
   PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
-import { settingsValue } from '../../../../k8s/selectors';
+import { settingsValue, getV2VVmwareName } from '../../../../k8s/selectors';
 import { getName } from '../../../../utils/selectors';
 
 export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
@@ -140,10 +140,7 @@ export const onVCenterVmSelectedConnected = async (
   const namespace = settingsValue(prevBasicSettings, NAMESPACE_KEY);
 
   // see onVCenterInstanceSelected()
-  const V2VVmwareName = get(settingsValue(prevBasicSettings, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), [
-    PROVIDER_VMWARE_CONNECTION,
-    'V2VVmwareName',
-  ]);
+  const V2VVmwareName = getV2VVmwareName(prevBasicSettings);
   const vmName = (value || '').trim();
 
   try {

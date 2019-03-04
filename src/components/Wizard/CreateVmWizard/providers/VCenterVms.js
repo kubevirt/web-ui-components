@@ -8,8 +8,8 @@ import { V2VVMwareModel } from '../../../../models';
 import { Dropdown } from '../../../Form';
 
 import { PROVIDER_SELECT_VM } from '../strings';
-import { NAMESPACE_KEY, PROVIDER_VMWARE_CONNECTION, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY } from '../constants';
-import { settingsValue } from '../../../../k8s/selectors';
+import { NAMESPACE_KEY } from '../constants';
+import { settingsValue, getV2VVmwareName } from '../../../../k8s/selectors';
 
 import VCenterVmsWithPrefill from './VCenterVmsWithPrefill';
 
@@ -17,12 +17,7 @@ const VCenterVms = ({ onChange, onFormChange, id, value, extraProps, ...extra })
   // the "value" is name of selected VMWare VM
   const { WithResources, basicSettings } = extraProps;
 
-  const v2vvmwareName = get(basicSettings, [
-    PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
-    'value',
-    PROVIDER_VMWARE_CONNECTION,
-    'V2VVmwareName',
-  ]);
+  const v2vvmwareName = getV2VVmwareName(basicSettings);
 
   if (!v2vvmwareName) {
     return <Dropdown id={id} value={PROVIDER_SELECT_VM} disabled />;
