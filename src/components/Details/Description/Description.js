@@ -1,27 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDescription } from '../../../utils';
+import { getDescription, prefixedId } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit';
 import { Loading } from '../../Loading';
 import { DASHES } from '../../../constants';
 import { TEXT_AREA } from '../../Form';
 
-const descriptionFormFields = {
+const getDescriptionFormFields = id => ({
   description: {
-    id: 'description-textarea',
+    id: prefixedId(id, 'textarea'),
     type: TEXT_AREA,
   },
-};
+});
 
-export const Description = ({ formValues, obj, editing, updating, LoadingComponent, onFormChange }) => {
+export const Description = ({ formValues, obj, editing, updating, LoadingComponent, onFormChange, id }) => {
   if (!(formValues && formValues.description)) {
     onFormChange({ value: getDescription(obj) }, 'description', true);
   }
 
   return (
     <InlineEdit
-      formFields={descriptionFormFields}
+      id={id}
+      formFields={getDescriptionFormFields(id)}
       fieldsValues={formValues}
       editing={editing}
       updating={updating}
@@ -40,6 +41,7 @@ Description.propTypes = {
   updating: PropTypes.bool,
   LoadingComponent: PropTypes.func,
   onFormChange: PropTypes.func,
+  id: PropTypes.string,
 };
 
 Description.defaultProps = {
@@ -48,4 +50,5 @@ Description.defaultProps = {
   updating: false,
   LoadingComponent: Loading,
   onFormChange: () => {},
+  id: undefined,
 };

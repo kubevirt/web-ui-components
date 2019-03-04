@@ -12,6 +12,7 @@ import {
   updatesDescriptionOnSave,
   updatesFlavorOnSave,
 } from '../../common/tests/details';
+import { getId } from '../../../../utils';
 
 const testVmTemplateDetails = (vmTemplate, props, dataVolumes = []) => (
   <VmTemplateDetails
@@ -76,11 +77,11 @@ describe('<VmTemplateDetails /> enzyme', () => {
         k8sPatch: k8sPatchMock,
       })
     );
-    return updatesFlavorOnSave(component, k8sPatchMock, '/objects/0');
+    return updatesFlavorOnSave(component, getId(containerCloudTemplate), k8sPatchMock, '/objects/0');
   });
 
   it('disables save when form is invalid', () => {
     const component = mount(testVmTemplateDetails(containerCloudTemplate));
-    return disablesSaveOnInvalidForm(component);
+    return disablesSaveOnInvalidForm(component, getId(containerCloudTemplate));
   });
 });

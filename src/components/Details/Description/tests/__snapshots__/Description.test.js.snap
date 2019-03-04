@@ -19,6 +19,7 @@ exports[`<Description /> renders correctly 1`] = `
       },
     }
   }
+  id="description"
   onFormChange={[Function]}
   updating={false}
 >

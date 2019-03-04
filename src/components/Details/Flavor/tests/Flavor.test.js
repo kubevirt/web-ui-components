@@ -5,7 +5,7 @@ import { Flavor } from '..';
 
 import { default as FlavorFixture } from '../fixtures/Flavor.fixture';
 
-const testFlavor = () => <Flavor {...FlavorFixture[0].props} />;
+const testFlavor = () => <Flavor {...FlavorFixture[0].props} id="myflavor" />;
 
 describe('<Flavor />', () => {
   it('renders correctly', () => {

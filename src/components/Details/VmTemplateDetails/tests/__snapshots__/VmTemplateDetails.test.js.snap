@@ -28,7 +28,9 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="myproject-container-template-cloud-init-name"
+        >
           container-template-cloud-init
         </dd>
         <dt>
@@ -38,7 +40,9 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
           <div
             class="kubevirt-vm-template-details__description"
           >
-            <div>
+            <div
+              id="myproject-container-template-cloud-init-description"
+            >
               ---
             </div>
           </div>
@@ -60,19 +64,25 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="myproject-container-template-cloud-init-os"
+            >
               Fedora 29
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="myproject-container-template-cloud-init-workload-profile"
+            >
               generic
             </dd>
             <dt>
               Base Template
             </dt>
-            <dd>
+            <dd
+              id="myproject-container-template-cloud-init-base-template"
+            >
               default/fedora-generic
             </dd>
           </dl>
@@ -103,7 +113,9 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="myproject-container-template-cloud-init-namespace"
+            >
               myproject
             </dd>
           </dl>
@@ -118,10 +130,14 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="myproject-container-template-cloud-init-flavor"
+                >
                   small
                 </div>
-                <div>
+                <div
+                  id="myproject-container-template-cloud-init-flavor-description"
+                >
                   2 CPU, 2G Memory
                 </div>
               </div>
@@ -162,7 +178,9 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="myproject-pxe-template-dv-name"
+        >
           pxe-template-dv
         </dd>
         <dt>
@@ -172,7 +190,9 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
           <div
             class="kubevirt-vm-template-details__description"
           >
-            <div>
+            <div
+              id="myproject-pxe-template-dv-description"
+            >
               ---
             </div>
           </div>
@@ -194,19 +214,25 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="myproject-pxe-template-dv-os"
+            >
               Fedora 29
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="myproject-pxe-template-dv-workload-profile"
+            >
               generic
             </dd>
             <dt>
               Base Template
             </dt>
-            <dd>
+            <dd
+              id="myproject-pxe-template-dv-base-template"
+            >
               default/fedora-generic
             </dd>
           </dl>
@@ -230,7 +256,9 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="myproject-pxe-template-dv-namespace"
+            >
               myproject
             </dd>
           </dl>
@@ -245,10 +273,14 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="myproject-pxe-template-dv-flavor"
+                >
                   small
                 </div>
-                <div>
+                <div
+                  id="myproject-pxe-template-dv-flavor-description"
+                >
                   2 CPU, 2G Memory
                 </div>
               </div>
@@ -289,7 +321,9 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="myproject-url-template-name"
+        >
           url-template
         </dd>
         <dt>
@@ -299,7 +333,9 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
           <div
             class="kubevirt-vm-template-details__description"
           >
-            <div>
+            <div
+              id="myproject-url-template-description"
+            >
               foo description
             </div>
           </div>
@@ -321,19 +357,25 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="myproject-url-template-os"
+            >
               Fedora 29
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="myproject-url-template-workload-profile"
+            >
               generic
             </dd>
             <dt>
               Base Template
             </dt>
-            <dd>
+            <dd
+              id="myproject-url-template-base-template"
+            >
               default/fedora-generic
             </dd>
           </dl>
@@ -369,7 +411,9 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="myproject-url-template-namespace"
+            >
               myproject
             </dd>
           </dl>
@@ -384,10 +428,14 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="myproject-url-template-flavor"
+                >
                   small
                 </div>
-                <div>
+                <div
+                  id="myproject-url-template-flavor-description"
+                >
                   2 CPU, 2G Memory
                 </div>
               </div>

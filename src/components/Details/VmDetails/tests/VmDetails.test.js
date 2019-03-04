@@ -11,6 +11,7 @@ import {
   updatesDescriptionOnSave,
   updatesFlavorOnSave,
 } from '../../common/tests/details';
+import { getId } from '../../../../utils';
 
 const testVmDetails = (vm, otherProps) => <VmDetails {...VmDetailsFixture[0].props} vm={vm} {...otherProps} />;
 
@@ -92,11 +93,11 @@ describe('<VmDetails /> enzyme', () => {
         k8sPatch: k8sPatchMock,
       })
     );
-    return updatesFlavorOnSave(component, k8sPatchMock);
+    return updatesFlavorOnSave(component, getId(vmFixtures.vmWithLabels), k8sPatchMock);
   });
 
   it('disables save when form is invalid', () => {
     const component = mount(testVmDetails(vmFixtures.vmWithLabels));
-    return disablesSaveOnInvalidForm(component);
+    return disablesSaveOnInvalidForm(component, getId(vmFixtures.vmWithLabels));
   });
 });

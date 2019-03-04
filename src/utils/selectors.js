@@ -15,7 +15,7 @@ import {
   DATA_VOLUME_SOURCE_BLANK,
 } from '../components/Wizard/CreateVmWizard/constants';
 
-export const getId = value => `${getNamespace(value)}/${getName(value)}`;
+export const getId = value => `${getNamespace(value)}-${getName(value)}`;
 export const getName = value => get(value, 'metadata.name');
 export const getNamespace = value => get(value, 'metadata.namespace');
 

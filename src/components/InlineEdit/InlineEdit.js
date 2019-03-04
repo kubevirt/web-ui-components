@@ -12,14 +12,15 @@ export const InlineEdit = ({
   children,
   onFormChange,
   fieldsValues,
+  id,
 }) => {
   if (updating) {
-    return <LoadingComponent />;
+    return <LoadingComponent id={id} />;
   }
   if (editing) {
     return <InlineFormFactory fields={formFields} fieldsValues={fieldsValues} onFormChange={onFormChange} />;
   }
-  return <div>{children}</div>;
+  return <div id={id}>{children}</div>;
 };
 
 InlineEdit.propTypes = {
@@ -30,6 +31,7 @@ InlineEdit.propTypes = {
   children: PropTypes.node.isRequired,
   onFormChange: PropTypes.func,
   fieldsValues: PropTypes.object,
+  id: PropTypes.string,
 };
 
 InlineEdit.defaultProps = {
@@ -39,4 +41,5 @@ InlineEdit.defaultProps = {
   LoadingComponent: Loading,
   onFormChange: () => {},
   fieldsValues: {},
+  id: undefined,
 };

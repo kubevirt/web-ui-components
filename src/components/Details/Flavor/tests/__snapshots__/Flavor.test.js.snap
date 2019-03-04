@@ -8,7 +8,7 @@ exports[`<Flavor /> renders correctly 1`] = `
   formFields={
     Object {
       "cpu": Object {
-        "id": "flavor-cpu",
+        "id": "myflavor-flavor-cpu",
         "isVisible": [Function],
         "required": true,
         "title": "CPU",
@@ -18,11 +18,11 @@ exports[`<Flavor /> renders correctly 1`] = `
         "choices": Array [
           "Custom",
         ],
-        "id": "flavor-dropdown",
+        "id": "myflavor-flavor-dropdown",
         "type": "dropdown",
       },
       "memory": Object {
-        "id": "flavor-memory",
+        "id": "myflavor-flavor-memory",
         "isVisible": [Function],
         "required": true,
         "title": "Memory (GB)",
@@ -33,10 +33,14 @@ exports[`<Flavor /> renders correctly 1`] = `
   onFormChange={[Function]}
   updating={false}
 >
-  <div>
+  <div
+    id="myflavor-flavor"
+  >
     small
   </div>
-  <div>
+  <div
+    id="myflavor-flavor-description"
+  >
     2 CPU, 2G Memory
   </div>
 </InlineEdit>

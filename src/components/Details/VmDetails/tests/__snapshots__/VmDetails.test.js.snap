@@ -28,7 +28,9 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -38,7 +40,9 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -72,25 +76,33 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -103,19 +115,25 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -128,7 +146,9 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -136,10 +156,14 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   small
                 </div>
-                <div />
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                />
               </div>
             </dd>
           </dl>
@@ -178,7 +202,9 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -188,7 +214,9 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -222,25 +250,33 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -253,19 +289,25 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -278,7 +320,9 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -286,10 +330,14 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   Custom
                 </div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                >
                   2 CPU, 4G Memory
                 </div>
               </div>
@@ -344,7 +392,9 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -354,7 +404,9 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -388,25 +440,33 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               172.17.0.15, 172.17.0.16, 172.17.0.17
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -419,19 +479,25 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -444,7 +510,9 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -452,10 +520,14 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   Custom
                 </div>
-                <div />
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                />
               </div>
             </dd>
           </dl>
@@ -494,7 +566,9 @@ exports[`<VmDetails /> renders correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -504,7 +578,9 @@ exports[`<VmDetails /> renders correctly 1`] = `
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -538,25 +614,33 @@ exports[`<VmDetails /> renders correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -569,19 +653,25 @@ exports[`<VmDetails /> renders correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -594,7 +684,9 @@ exports[`<VmDetails /> renders correctly 1`] = `
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -602,10 +694,14 @@ exports[`<VmDetails /> renders correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   Custom
                 </div>
-                <div />
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                />
               </div>
             </dd>
           </dl>
@@ -644,7 +740,9 @@ exports[`<VmDetails /> renders description correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -654,7 +752,9 @@ exports[`<VmDetails /> renders description correctly 1`] = `
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               This VM has a description
             </div>
           </div>
@@ -688,25 +788,33 @@ exports[`<VmDetails /> renders description correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -719,19 +827,25 @@ exports[`<VmDetails /> renders description correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -744,7 +858,9 @@ exports[`<VmDetails /> renders description correctly 1`] = `
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -752,10 +868,14 @@ exports[`<VmDetails /> renders description correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   Custom
                 </div>
-                <div />
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                />
               </div>
             </dd>
           </dl>
@@ -794,7 +914,9 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -804,7 +926,9 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -838,25 +962,33 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -869,19 +1001,25 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -894,7 +1032,9 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -902,10 +1042,14 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   Custom
                 </div>
-                <div />
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                />
               </div>
             </dd>
           </dl>
@@ -958,7 +1102,9 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -968,7 +1114,9 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -1002,25 +1150,33 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               ---
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               ---
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               ---
             </dd>
           </dl>
@@ -1033,19 +1189,25 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -1058,7 +1220,9 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -1066,10 +1230,14 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   Custom
                 </div>
-                <div />
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                />
               </div>
             </dd>
           </dl>
@@ -1108,7 +1276,9 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
         <dt>
           Name
         </dt>
-        <dd>
+        <dd
+          id="my-namespace-my-vm-name"
+        >
           my-vm
         </dd>
         <dt>
@@ -1118,7 +1288,9 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
           <div
             class="kubevirt-vm-details__description"
           >
-            <div>
+            <div
+              id="my-namespace-my-vm-description"
+            >
               ---
             </div>
           </div>
@@ -1152,25 +1324,33 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             <dt>
               Operating System
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-os"
+            >
               fedora29
             </dd>
             <dt>
               IP Addresses
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-ip-addresses"
+            >
               ---
             </dd>
             <dt>
               Workload Profile
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-workload-profile"
+            >
               generic
             </dd>
             <dt>
               Template
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-template"
+            >
               default/fedora-generic
             </dd>
           </dl>
@@ -1183,19 +1363,25 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             <dt>
               FQDN
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-fqdn"
+            >
               ---
             </dd>
             <dt>
               Namespace
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-namespace"
+            >
               ---
             </dd>
             <dt>
               Pod
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-pod"
+            >
               ---
             </dd>
           </dl>
@@ -1208,7 +1394,9 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             <dt>
               Node
             </dt>
-            <dd>
+            <dd
+              id="my-namespace-my-vm-node"
+            >
               ---
             </dd>
             <dt>
@@ -1216,10 +1404,14 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             </dt>
             <dd>
               <div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor"
+                >
                   small
                 </div>
-                <div>
+                <div
+                  id="my-namespace-my-vm-flavor-description"
+                >
                   2 CPU, 2G Memory
                 </div>
               </div>

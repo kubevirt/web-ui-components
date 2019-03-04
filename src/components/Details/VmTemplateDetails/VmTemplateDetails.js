@@ -16,6 +16,8 @@ import {
   getFlavor,
   getVmTemplate,
   addPrefixToPatch,
+  getId,
+  prefixedId,
 } from '../../../utils';
 import { TemplateModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
@@ -119,6 +121,7 @@ export class VmTemplateDetails extends React.Component {
 
   render() {
     const { vmTemplate, dataVolumes, NamespaceResourceLink, LoadingComponent, k8sGet } = this.props;
+    const id = getId(vmTemplate);
     const vm = selectVm(vmTemplate.objects);
     const baseTemplate = getVmTemplate(vmTemplate);
 
@@ -147,7 +150,7 @@ export class VmTemplateDetails extends React.Component {
           <Col lg={4} md={4} sm={4} xs={4} id="name-description-column">
             <dl>
               <dt>Name</dt>
-              <dd>{vmTemplate.metadata.name}</dd>
+              <dd id={prefixedId(id, 'name')}>{vmTemplate.metadata.name}</dd>
               <dt>Description</dt>
               <dd>
                 <div className="kubevirt-vm-template-details__description">
@@ -158,6 +161,7 @@ export class VmTemplateDetails extends React.Component {
                     formValues={settingsValue(this.state.form, DESCRIPTION_KEY)}
                     onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
                     obj={vmTemplate}
+                    id={prefixedId(id, 'description')}
                   />
                 </div>
               </dd>
@@ -169,11 +173,15 @@ export class VmTemplateDetails extends React.Component {
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-1">
                 <dl>
                   <dt>Operating System</dt>
-                  <dd>{getOperatingSystemName(vmTemplate) || getOperatingSystem(vmTemplate) || DASHES}</dd>
+                  <dd id={prefixedId(id, 'os')}>
+                    {getOperatingSystemName(vmTemplate) || getOperatingSystem(vmTemplate) || DASHES}
+                  </dd>
                   <dt>Workload Profile</dt>
-                  <dd>{getWorkloadProfile(vmTemplate) || DASHES}</dd>
+                  <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vmTemplate) || DASHES}</dd>
                   <dt>Base Template</dt>
-                  <dd>{baseTemplate ? `${baseTemplate.namespace}/${baseTemplate.name}` : DASHES}</dd>
+                  <dd id={prefixedId(id, 'base-template')}>
+                    {baseTemplate ? `${baseTemplate.namespace}/${baseTemplate.name}` : DASHES}
+                  </dd>
                 </dl>
               </Col>
 
@@ -184,7 +192,7 @@ export class VmTemplateDetails extends React.Component {
                     <TemplateSource template={vmTemplate} dataVolumes={dataVolumes} detailed />
                   </dd>
                   <dt>Namespace</dt>
-                  <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+                  <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
                 </dl>
               </Col>
 
@@ -195,6 +203,7 @@ export class VmTemplateDetails extends React.Component {
                     <Flavor
                       flavor={getFlavor(vmTemplate) || CUSTOM_FLAVOR}
                       vm={vm}
+                      id={id}
                       editing={this.state.editing}
                       updating={this.state.updating}
                       LoadingComponent={LoadingComponent}

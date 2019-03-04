@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Url } from '../Details/Url';
 import { getTemplateProvisionSource } from '../../utils/templates';
 import { PROVISION_SOURCE_URL } from '../../constants';
-import { getName, getNamespace } from '../../utils/selectors';
+import { getId } from '../../utils/selectors';
 import { prefixedId } from '../../utils/utils';
 
 const Type = ({ type, source, id, isInline }) => (
@@ -59,7 +59,7 @@ export const TemplateSource = ({ template, dataVolumes, detailed }) => {
   }
 
   const { type, source } = provisionSource;
-  const id = prefixedId(getNamespace(template), getName(template));
+  const id = getId(template);
   const typeId = prefixedId(id, 'type');
   const sourceId = prefixedId(id, 'source');
 
