@@ -17,6 +17,7 @@ import {
   DATA_VOLUME_SOURCE_URL,
   DATA_VOLUME_SOURCE_BLANK,
 } from '../components/Wizard/CreateVmWizard/constants';
+import { getCloudInitVolume } from '../utils';
 
 export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {
@@ -26,11 +27,18 @@ export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   if (storage.isBootable) {
     const imageSource = getSetting(PROVISION_SOURCE_TYPE_KEY);
     diskSpec.bootOrder = imageSource === PROVISION_SOURCE_PXE ? assignBootOrderIndex(vm) : BOOT_ORDER_FIRST;
+  } else if (isCloudInitDisk(vm, diskSpec)) {
+    delete diskSpec.bootOrder;
   } else {
     diskSpec.bootOrder = diskSpec.bootOrder ? diskSpec.bootOrder : assignBootOrderIndex(vm);
   }
   const disks = getDisks(vm);
   disks.push(diskSpec);
+};
+
+const isCloudInitDisk = (vm, disk) => {
+  const cloudInitVolume = getCloudInitVolume(vm);
+  return cloudInitVolume && cloudInitVolume.name === disk.name;
 };
 
 export const addContainerVolume = (vm, storage, getSetting) => {
