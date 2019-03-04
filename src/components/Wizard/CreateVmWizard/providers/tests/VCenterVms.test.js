@@ -13,8 +13,15 @@ const extraProps = {
 describe('<VCenterVms /> for list of vCenter secrets', () => {
   it('renders correctly', () => {
     const onChange = jest.fn();
+    const onFormChange = jest.fn();
     const component = render(
-      <VCenterVms onChange={onChange} id="test-dropdown-id" value="test-vm1" extraProps={extraProps} />
+      <VCenterVms
+        onChange={onChange}
+        onFormChange={onFormChange}
+        id="test-dropdown-id"
+        value="test-vm1"
+        extraProps={extraProps}
+      />
     );
     expect(component).toMatchSnapshot();
   });

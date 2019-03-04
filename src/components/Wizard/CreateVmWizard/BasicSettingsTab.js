@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import { FormFactory, validateForm, DROPDOWN, CHECKBOX, TEXT_AREA, POSITIVE_NUMBER } from '../../Form';
+import {
+  FormFactory,
+  validateForm,
+  getFieldValidation,
+  DROPDOWN,
+  CHECKBOX,
+  TEXT_AREA,
+  POSITIVE_NUMBER,
+} from '../../Form';
 import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue, validateURL, validateContainer } from '../../../utils/validations';
@@ -60,6 +68,7 @@ import {
   CLOUD_INIT_CUSTOM_SCRIPT_KEY,
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
+  BATCH_CHANGES_KEY,
 } from './constants';
 
 import { importProviders } from './providers';
@@ -265,24 +274,48 @@ const asValueObject = (value, validation) => ({
   validation,
 });
 
-// TODO: To avoid race conditions, it would be better to retrieve basicSettings at the time of its actual useto align behavior with the setState()
+// TODO: To avoid race conditions as the basicSettings tab is bound to the CreateVmWizard state at the render-time, it would
+//  be better to retrieve basicSettings at the time of its actual use - to align behavior with the setState().
+// The onChange() bellow should be called with just the diff, not whole copy of the stepData.
 const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, target, formValid, formFields) => {
-  const newBasicSettings = {
-    ...basicSettings,
-    [target]: value,
-  };
-
-  if (target === USER_TEMPLATE_KEY) {
-    if (value.value === NO_TEMPLATE) {
-      newBasicSettings[target] = asValueObject(undefined);
-    } else {
-      const allTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
-      if (allTemplates.length > 0) {
-        const userTemplate = allTemplates.find(template => template.metadata.name === value.value);
-        updateTemplateData(userTemplate, newBasicSettings, dataVolumes);
-      }
-    }
+  let newBasicSettings;
+  if (target === BATCH_CHANGES_KEY) {
+    // the "value" is an array of pairs { value, target }
+    const difference = value.value.reduce((map, obj) => {
+      map[obj.target] = { value: obj.value }; // validation will be set in a next step
+      return map;
+    }, {});
+    newBasicSettings = {
+      ...basicSettings,
+      ...difference,
+    };
+    value.value.forEach(pair => {
+      // set field validation
+      newBasicSettings[pair.target].validation = getFieldValidation(
+        formFields[pair.target],
+        pair.value,
+        newBasicSettings
+      );
+    });
     formValid = validateForm(formFields, newBasicSettings);
+  } else {
+    newBasicSettings = {
+      ...basicSettings,
+      [target]: value,
+    };
+
+    if (target === USER_TEMPLATE_KEY) {
+      if (value.value === NO_TEMPLATE) {
+        newBasicSettings[target] = asValueObject(undefined);
+      } else {
+        const allTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
+        if (allTemplates.length > 0) {
+          const userTemplate = allTemplates.find(template => template.metadata.name === value.value);
+          updateTemplateData(userTemplate, newBasicSettings, dataVolumes);
+        }
+      }
+      formValid = validateForm(formFields, newBasicSettings);
+    }
   }
 
   onChange(newBasicSettings, formValid);

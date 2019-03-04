@@ -18,6 +18,7 @@ export const getFormElement = props => {
     value,
     title,
     onChange,
+    onFormChange,
     onBlur,
     choices,
     defaultValue,
@@ -82,6 +83,7 @@ export const getFormElement = props => {
       return (
         <CustomComponent
           onChange={onChange}
+          onFormChange={onFormChange}
           id={id}
           key={id}
           value={value || defaultValue}
@@ -138,16 +140,8 @@ export const validateForm = (formFields, formValues) => {
   return formValid;
 };
 
-const onChange = (formFields, formValues, value, key, onFormChange) => {
-  const newFormValues = {
-    ...formValues,
-    [key]: {
-      value,
-    },
-  };
-
+export const getFieldValidation = (changedField, value, newFormValues) => {
   let validation;
-  const changedField = formFields[key];
   if (changedField.required && String(value).trim().length === 0) {
     validation = getValidationObject(ERROR_IS_REQUIRED);
   } else if (changedField.validate) {
@@ -158,8 +152,20 @@ const onChange = (formFields, formValues, value, key, onFormChange) => {
     validation.message = `${changedField.title} ${validation.message}`;
   }
 
-  newFormValues[key].validation = validation;
+  return validation;
+};
 
+const onChange = (formFields, formValues, value, key, onFormChange) => {
+  const newFormValues = {
+    ...formValues,
+    [key]: {
+      value,
+    },
+  };
+
+  const changedField = formFields[key];
+  const validation = getFieldValidation(changedField, value, newFormValues);
+  newFormValues[key].validation = validation;
   const formValid = validateForm(formFields, newFormValues);
 
   if (changedField.onChange) {
@@ -187,6 +193,7 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
         value,
         isControlled: true,
         onChange: newValue => onChange(fields, fieldsValues, newValue, key, onFormChange),
+        onFormChange,
         className: classNames(field.className, {
           'kubevirt-form-group__field--with-addendum': hasAddendum,
         }),

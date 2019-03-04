@@ -140,7 +140,7 @@ export const onVCenterVmSelectedConnected = async (
   const namespace = settingsValue(prevBasicSettings, NAMESPACE_KEY);
 
   // see onVCenterInstanceSelected()
-  const V2VVmwareName = get(settingsValue(settingsValue, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), [
+  const V2VVmwareName = get(settingsValue(prevBasicSettings, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), [
     PROVIDER_VMWARE_CONNECTION,
     'V2VVmwareName',
   ]);

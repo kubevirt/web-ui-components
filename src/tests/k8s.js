@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as _ from 'lodash';
 
-import { ProcessedTemplatesModel } from '../models';
+import { ProcessedTemplatesModel, V2VVMwareModel } from '../models';
 import { TEMPLATE_PARAM_VM_NAME } from '../constants';
 
 const processTemplate = template =>
@@ -13,7 +13,26 @@ const processTemplate = template =>
   });
 
 export const k8sGet = (model, name, ns, opts) => {
-  console.warn('TODO: tests/k8s.js k8sGet() not implemented: ', model, name, ns, opts);
+  if (model.kind === V2VVMwareModel.kind) {
+    const v2vvmware = {
+      spec: {
+        vms: [
+          {
+            name: 'test-vm1-name',
+          },
+          {
+            name: 'test-vm2-name',
+          },
+          {
+            name: 'test-vm3-name',
+          },
+        ],
+      },
+    };
+    return v2vvmware;
+  }
+
+  throw new Error('Mock k8sGet() function is not implemented for that flow.');
 };
 
 export const k8sCreate = (model, resource) => {
