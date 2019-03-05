@@ -141,7 +141,7 @@ export const getFormFields = (
       choices: userTemplateNames,
     };
 
-    providersSection = importProviders(basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch);
+    providersSection = importProviders(basicSettings, operatingSystems, WithResources, k8sCreate, k8sGet, k8sPatch);
     imageSources.push(PROVISION_SOURCE_IMPORT);
   }
 

@@ -75,3 +75,6 @@ export const STORAGE_IMPORT_PVC_NAME = 'storage.import.importPvcName';
 
 export const VCENTER_TYPE_LABEL = 'cnv.io/vcenter';
 export const VCENTER_TEMPORARY_LABEL = 'cnv.io/temporary';
+
+export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note: common-templates are in the "openshift" namespace
+export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single OnfigMap per cluster, contains mapping of vmware guestId to common-templates OS ID

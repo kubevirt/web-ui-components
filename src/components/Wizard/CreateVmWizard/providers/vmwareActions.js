@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { SecretModel, V2VVMwareModel } from '../../../../models';
+import { SecretModel, V2VVMwareModel, ConfigMapModel } from '../../../../models';
 import { getImportProviderSecretObject, getDefaultSecretName, getV2VVMwareObject } from './vmwareProviderPod';
 
 import {
@@ -13,6 +13,12 @@ import {
   PROVIDER_VMWARE_USER_PWD_KEY,
   PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
+
+import {
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
+} from '../../../../constants';
+
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 import { settingsValue, getV2VVmwareName } from '../../../../k8s/selectors';
 import { getName } from '../../../../utils/selectors';
@@ -180,4 +186,24 @@ export const onVCenterVmSelectedConnected = async (
       reason
     );
   }
+};
+
+/**
+ * Provides mapping from VMWare GuesId to common-templates operating system.
+ *
+ * https://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+ *
+ * The VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME object is usually created by the web-ui-operator and can be missing.
+ *
+ * @param operatingSystems - see getTemplateOperatingSystems() in selectors.js
+ * @param guestId - VMWare's operating system identifier
+ */
+export const getVmwareToKubevirtOS = async (operatingSystems, guestId, k8sGet) => {
+  const vmwareToKubevirtOsConfigMap = await k8sGet(
+    ConfigMapModel,
+    VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+    VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE
+  );
+  const kubevirtId = get(vmwareToKubevirtOsConfigMap, ['data', guestId]);
+  return operatingSystems.find(os => os.id === kubevirtId);
 };

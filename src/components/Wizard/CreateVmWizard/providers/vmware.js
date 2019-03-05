@@ -66,7 +66,7 @@ const getVMWareNewConnectionSection = (basicSettings, WithResources, k8sCreate) 
   },
 });
 
-export const getVMWareSection = (basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch) => ({
+export const getVMWareSection = (basicSettings, operatingSystems, WithResources, k8sCreate, k8sGet, k8sPatch) => ({
   [PROVIDER_VMWARE_VCENTER_KEY]: {
     id: 'vcenter-instance-dropdown',
     title: 'vCenter Instance',
@@ -90,7 +90,9 @@ export const getVMWareSection = (basicSettings, WithResources, k8sCreate, k8sGet
     CustomComponent: VCenterVms,
     extraProps: {
       WithResources,
+      k8sGet,
       basicSettings,
+      operatingSystems,
     },
     onChange: (...props) => onVCenterVmSelectedConnected(k8sCreate, k8sGet, k8sPatch, ...props),
     required: true,
