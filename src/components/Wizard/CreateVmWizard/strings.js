@@ -30,6 +30,8 @@ export const HELP_PROVIDER_VMWARE =
 export const CONNECT_TO_NEW_INSTANCE = 'Connect to New Instance';
 export const PROVIDER_SELECT_VM = '--- Select VM ---';
 
+export const getVmwareOsString = osName => `Select matching for: ${osName}`;
+
 // NetworksTab
 export const SELECT_NETWORK = '--- Select Network Definition ---';
 export const REMOVE_NIC_BUTTON = 'Remove NIC';

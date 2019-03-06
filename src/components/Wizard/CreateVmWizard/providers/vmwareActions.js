@@ -191,7 +191,7 @@ export const onVCenterVmSelectedConnected = async (
 /**
  * Provides mapping from VMWare GuesId to common-templates operating system.
  *
- * https://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+ * https://code.vmware.com/docs/4206/vsphere-web-services-api-reference#/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
  *
  * The VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME object is usually created by the web-ui-operator and can be missing.
  *

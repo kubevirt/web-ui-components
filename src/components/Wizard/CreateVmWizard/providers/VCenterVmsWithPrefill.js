@@ -13,6 +13,9 @@ import {
   PROVIDER_VMWARE_VM_KEY,
 } from '../constants';
 import { getVmwareToKubevirtOS } from './vmwareActions';
+import {getValidationObject} from "../../../../utils";
+import {VALIDATION_INFO_TYPE} from "../../../../constants";
+import { getVmwareOsString } from '../strings';
 
 class VCenterVmsWithPrefill extends React.Component {
   state = {
@@ -53,12 +56,12 @@ class VCenterVmsWithPrefill extends React.Component {
 
   async prefillOperatingSystem(vmVmware, k8sGet) {
     const { basicSettings, operatingSystems } = this.props;
+    const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
 
     const guestId = get(vmVmware, ['Config', 'GuestId']);
     const os = await getVmwareToKubevirtOS(operatingSystems, guestId, k8sGet);
     if (os) {
       const value = os.name; // from common-templates
-      const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
       if (!formValue || formValue === this.state.lastOS) {
         if (this.state.lastOS !== value) {
           // avoid infinite loop
@@ -66,7 +69,15 @@ class VCenterVmsWithPrefill extends React.Component {
           return { value, target: OPERATING_SYSTEM_KEY };
         }
       }
-      // TODO: handle unknown mapping by displaying source value
+    }
+
+    if (!formValue || !os || formValue !== this.state.lastOS) {
+      const guestFullName = get(vmVmware, ['Config', 'GuestFullName']);
+      return {
+        value: formValue,
+        target: OPERATING_SYSTEM_KEY,
+        validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE)
+      };
     }
 
     return undefined;
