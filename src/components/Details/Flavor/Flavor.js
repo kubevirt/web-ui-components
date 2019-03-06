@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getCpu, getMemory, getFlavorDescription } from '../../../utils';
+import { getCpu, getMemory, getFlavorDescription, prefixedId } from '../../../utils';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
@@ -63,30 +63,33 @@ export class Flavor extends React.Component {
     return flavors;
   };
 
-  flavorFormFields = () => ({
-    flavor: {
-      id: 'flavor-dropdown',
-      type: DROPDOWN,
-      choices: this.getFlavorChoices(),
-    },
-    cpu: {
-      id: 'flavor-cpu',
-      title: 'CPU',
-      type: POSITIVE_NUMBER,
-      required: true,
-      isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
-    },
-    memory: {
-      id: 'flavor-memory',
-      title: 'Memory (GB)',
-      type: POSITIVE_NUMBER,
-      required: true,
-      isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
-    },
-  });
+  flavorFormFields = () => {
+    const { id } = this.props;
+    return {
+      flavor: {
+        id: prefixedId(id, 'flavor-dropdown'),
+        type: DROPDOWN,
+        choices: this.getFlavorChoices(),
+      },
+      cpu: {
+        id: prefixedId(id, 'flavor-cpu'),
+        title: 'CPU',
+        type: POSITIVE_NUMBER,
+        required: true,
+        isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
+      },
+      memory: {
+        id: prefixedId(id, 'flavor-memory'),
+        title: 'Memory (GB)',
+        type: POSITIVE_NUMBER,
+        required: true,
+        isVisible: formValues => settingsValue(formValues, 'flavor') === CUSTOM_FLAVOR,
+      },
+    };
+  };
 
   render() {
-    const { editing, updating, LoadingComponent, onFormChange, flavor } = this.props;
+    const { id, editing, updating, LoadingComponent, onFormChange, flavor } = this.props;
     const formFields = this.flavorFormFields();
 
     return (
@@ -98,8 +101,8 @@ export class Flavor extends React.Component {
         onFormChange={onFormChange}
         fieldsValues={this.props.formValues}
       >
-        <div>{flavor}</div>
-        <div>{getFlavorDescription(this.props.vm)}</div>
+        <div id={prefixedId(id, 'flavor')}>{flavor}</div>
+        <div id={prefixedId(id, 'flavor-description')}>{getFlavorDescription(this.props.vm)}</div>
       </InlineEdit>
     );
   }
@@ -107,6 +110,7 @@ export class Flavor extends React.Component {
 
 Flavor.propTypes = {
   flavor: PropTypes.string,
+  id: PropTypes.string.isRequired,
   vm: PropTypes.object.isRequired,
   onFormChange: PropTypes.func.isRequired,
   updating: PropTypes.bool,

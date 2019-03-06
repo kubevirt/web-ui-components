@@ -19,6 +19,8 @@ import {
   retrieveVmTemplate,
   getFlavor,
   getUpdateCpuMemoryPatch,
+  getId,
+  prefixedId,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';
@@ -144,6 +146,8 @@ export class VmDetails extends React.Component {
     const hostName = getHostName(launcherPod);
     const fqdn = vmIsOff || !hostName ? DASHES : hostName;
     const template = getVmTemplate(vm);
+    const id = getId(vm);
+
     const editButton = (
       <Fragment>
         {!vmIsOff && (
@@ -176,7 +180,7 @@ export class VmDetails extends React.Component {
           <Col lg={4} md={4} sm={4} xs={4} id="name-description-column">
             <dl>
               <dt>Name</dt>
-              <dd>{vm.metadata.name}</dd>
+              <dd id={prefixedId(id, 'name')}>{vm.metadata.name}</dd>
               <dt>Description</dt>
               <dd>
                 <div className="kubevirt-vm-details__description">
@@ -187,6 +191,7 @@ export class VmDetails extends React.Component {
                     formValues={settingsValue(this.state.form, DESCRIPTION_KEY)}
                     onFormChange={(newValue, key, valid) => this.onFormChange('description', newValue, key, valid)}
                     obj={vm}
+                    id={prefixedId(id, 'description')}
                   />
                 </div>
               </dd>
@@ -208,41 +213,46 @@ export class VmDetails extends React.Component {
                   </dd>
 
                   <dt>Operating System</dt>
-                  <dd>{getOperatingSystemName(vm) || getOperatingSystem(vm) || DASHES}</dd>
+                  <dd id={prefixedId(id, 'os')}>{getOperatingSystemName(vm) || getOperatingSystem(vm) || DASHES}</dd>
 
                   <dt>IP Addresses</dt>
-                  <dd>{ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}</dd>
+                  <dd id={prefixedId(id, 'ip-addresses')}>
+                    {ipAddresses.length > 0 ? ipAddresses.join(', ') : DASHES}
+                  </dd>
 
                   <dt>Workload Profile</dt>
-                  <dd>{getWorkloadProfile(vm) || DASHES}</dd>
+                  <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vm) || DASHES}</dd>
 
                   <dt>Template</dt>
-                  <dd>{template ? `${template.namespace}/${template.name}` : DASHES}</dd>
+                  <dd id={prefixedId(id, 'template')}>
+                    {template ? `${template.namespace}/${template.name}` : DASHES}
+                  </dd>
                 </dl>
               </Col>
 
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-2">
                 <dl>
                   <dt>FQDN</dt>
-                  <dd>{fqdn}</dd>
+                  <dd id={prefixedId(id, 'fqdn')}>{fqdn}</dd>
 
                   <dt>Namespace</dt>
-                  <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+                  <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
 
                   <dt>Pod</dt>
-                  <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+                  <dd id={prefixedId(id, 'pod')}>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
                 </dl>
               </Col>
 
               <Col lg={4} md={4} sm={4} xs={4} id="details-column-3">
                 <dl>
                   <dt>Node</dt>
-                  <dd>{nodeName && NodeLink ? <NodeLink name={nodeName} /> : DASHES}</dd>
+                  <dd id={prefixedId(id, 'node')}>{nodeName && NodeLink ? <NodeLink name={nodeName} /> : DASHES}</dd>
 
                   <dt>Flavor</dt>
                   <dd>
                     <Flavor
                       flavor={getFlavor(vm) || CUSTOM_FLAVOR}
+                      id={id}
                       vm={vm}
                       editing={this.state.editing}
                       updating={this.state.updating}

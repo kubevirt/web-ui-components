@@ -5,7 +5,7 @@ import { Description } from '..';
 
 import { default as DescriptionFixture } from '../fixtures/Description.fixture';
 
-const testDescription = () => <Description {...DescriptionFixture[0].props} />;
+const testDescription = () => <Description {...DescriptionFixture[0].props} id="description" />;
 
 describe('<Description />', () => {
   it('renders correctly', () => {

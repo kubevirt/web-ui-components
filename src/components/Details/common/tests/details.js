@@ -17,20 +17,20 @@ const awaitVmDetails = testFunc =>
     return testFunc;
   });
 
-const getCpuInput = component =>
+const getCpuInput = (component, baseId) =>
   component
     .find(InlineEdit)
-    .find('#flavor-cpu')
+    .find(`#${baseId}-flavor-cpu`)
     .find('input');
 
-const getMemoryInput = component =>
+const getMemoryInput = (component, baseId) =>
   component
     .find(InlineEdit)
-    .find('#flavor-memory')
+    .find(`#${baseId}-flavor-memory`)
     .find('input');
 
-const selectFlavor = (component, flavor) => {
-  const flavorDropdown = component.find('#flavor-dropdown');
+const selectFlavor = (component, baseId, flavor) => {
+  const flavorDropdown = component.find(`#${baseId}-flavor-dropdown`);
   selectDropdownItem(flavorDropdown, flavor);
 };
 
@@ -66,36 +66,36 @@ export const disablesEditOnCancel = component =>
     return component;
   });
 
-export const disablesSaveOnInvalidForm = component =>
+export const disablesSaveOnInvalidForm = (component, id) =>
   awaitVmDetails(() => {
     expect(component.find(InlineFormFactory).exists()).toBeFalsy();
     clickButton(component, 'Edit');
     component.update();
 
-    selectFlavor(component, CUSTOM_FLAVOR);
+    selectFlavor(component, id, CUSTOM_FLAVOR);
     component.update();
 
-    setInput(getCpuInput(component), '');
+    setInput(getCpuInput(component, id), '');
     component.update();
 
     expect(getButton(component, 'Save').props().disabled).toBeTruthy();
 
-    setInput(getCpuInput(component), '1');
+    setInput(getCpuInput(component, id), '1');
 
-    setInput(getMemoryInput(component), '1');
+    setInput(getMemoryInput(component, id), '1');
     component.update();
 
     expect(getButton(component, 'Save').props().disabled).toBeFalsy();
   });
 
-export const updatesFlavorOnSave = (component, k8sPatchMock, resourcesPatchPathPrefix = '') =>
+export const updatesFlavorOnSave = (component, id, k8sPatchMock, resourcesPatchPathPrefix = '') =>
   awaitVmDetails(() => {
     clickButton(component, 'Edit');
     component.update();
 
-    selectFlavor(component, CUSTOM_FLAVOR);
-    setInput(getCpuInput(component), 1);
-    setInput(getMemoryInput(component), '1');
+    selectFlavor(component, id, CUSTOM_FLAVOR);
+    setInput(getCpuInput(component, id), 1);
+    setInput(getMemoryInput(component, id), '1');
 
     component.update();
 
