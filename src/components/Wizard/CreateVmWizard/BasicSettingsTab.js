@@ -293,11 +293,8 @@ const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, tar
     };
     value.value.forEach(pair => {
       // set field validation
-      newBasicSettings[pair.target].validation = pair.validation || getFieldValidation(
-        formFields[pair.target],
-        pair.value,
-        newBasicSettings
-      );
+      newBasicSettings[pair.target].validation =
+        pair.validation || getFieldValidation(formFields[pair.target], pair.value, newBasicSettings);
     });
     formValid = validateForm(formFields, newBasicSettings);
   } else {

@@ -6,9 +6,16 @@ import { k8sGet } from '../../../../../tests/k8s';
 import { delay } from '../../../../../utils/utils';
 
 import VCenterVmsWithPrefill from '../VCenterVmsWithPrefill';
-import { BATCH_CHANGES_KEY, PROVIDER_VMWARE_VM_KEY, NAME_KEY, DESCRIPTION_KEY } from '../../constants';
+import {
+  BATCH_CHANGES_KEY,
+  PROVIDER_VMWARE_VM_KEY,
+  NAME_KEY,
+  DESCRIPTION_KEY,
+  OPERATING_SYSTEM_KEY,
+} from '../../constants';
 import { getOperatingSystems } from '../../../../../k8s/selectors';
 import { baseTemplates } from '../../../../../k8s/objects/template';
+import { VALIDATION_INFO_TYPE } from '../../../../../constants';
 
 const props = {
   id: 'my-id',
@@ -38,6 +45,8 @@ const v2vvmware = {
             Config: {
               Name: 'vm-name',
               Annotation: 'My description',
+              GuestId: 'win2k8',
+              GuestFullName: 'Windows Name',
             },
           }),
         },
@@ -64,16 +73,22 @@ describe('<VCenterVmsWithPrefill />', () => {
     wrapper.setProps({ v2vvmware }); // force componentDidUpdate containing async processing
     await delay(100);
     expect(onChange.mock.calls).toHaveLength(0);
-    expect(onFormChange.mock.calls).toHaveLength(1);
+    expect(onFormChange.mock.calls).toHaveLength(2);
     expect(onFormChange.mock.calls[0][1]).toBe(BATCH_CHANGES_KEY);
     expect(onFormChange.mock.calls[0][0].value[0]).toEqual({ value: 'My description', target: DESCRIPTION_KEY }); // name is skipped as it was provided by the user
+    expect(onFormChange.mock.calls[1][0].value[0]).toEqual({
+      // the value is already pre-selected by the user, so no matching
+      value: { id: 'rhel7.0', name: 'Red Hat Enterprise Linux 7.0' },
+      target: OPERATING_SYSTEM_KEY,
+      validation: { message: 'Select matching for: Windows Name', type: VALIDATION_INFO_TYPE },
+    });
 
-    const newBasicSettings = props.basicSettings;
+    const newBasicSettings = Object.assign({}, props.basicSettings);
     newBasicSettings[NAME_KEY] = '';
     wrapper.setProps({ basicSettings: newBasicSettings });
     await delay(100); // allow async prefill to finish
-    expect(onFormChange.mock.calls).toHaveLength(2);
-    expect(onFormChange.mock.calls[1][1]).toBe(BATCH_CHANGES_KEY);
-    expect(onFormChange.mock.calls[1][0].value[0]).toEqual({ value: 'vm-name', target: NAME_KEY }); // description is skipped as it is equal with former run
+    expect(onFormChange.mock.calls).toHaveLength(3);
+    expect(onFormChange.mock.calls[2][1]).toBe(BATCH_CHANGES_KEY);
+    expect(onFormChange.mock.calls[2][0].value[0]).toEqual({ value: 'vm-name', target: NAME_KEY }); // description is skipped as it is equal with former run
   });
 });

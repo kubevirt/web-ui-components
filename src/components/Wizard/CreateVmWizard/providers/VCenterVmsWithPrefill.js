@@ -13,8 +13,8 @@ import {
   PROVIDER_VMWARE_VM_KEY,
 } from '../constants';
 import { getVmwareToKubevirtOS } from './vmwareActions';
-import {getValidationObject} from "../../../../utils";
-import {VALIDATION_INFO_TYPE} from "../../../../constants";
+import { getValidationObject } from '../../../../utils';
+import { VALIDATION_INFO_TYPE } from '../../../../constants';
 import { getVmwareOsString } from '../strings';
 
 class VCenterVmsWithPrefill extends React.Component {
@@ -76,7 +76,7 @@ class VCenterVmsWithPrefill extends React.Component {
       return {
         value: formValue,
         target: OPERATING_SYSTEM_KEY,
-        validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE)
+        validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE),
       };
     }
 

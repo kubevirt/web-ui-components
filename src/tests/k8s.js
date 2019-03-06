@@ -46,6 +46,7 @@ export const k8sGet = (model, name, ns, opts) => {
         // purely dummy testing data
         rhel7_64Guest: 'rhel7.0',
         windows7Server64Guest: 'win2k8',
+        fedora28_guest: 'fedora28',
         windows9Server64Guest: '',
       },
       kind: 'ConfigMap',
