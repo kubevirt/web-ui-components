@@ -3,7 +3,7 @@ import { mount, shallow } from 'enzyme/build';
 
 import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/forms_mocks/basicSettings.mock';
 import { k8sGet } from '../../../../../tests/k8s';
-import { delay } from '../../../../../utils/utils';
+import { flushPromises } from '../../../../../tests/enzyme';
 
 import VCenterVmsWithPrefill from '../VCenterVmsWithPrefill';
 import {
@@ -71,7 +71,7 @@ describe('<VCenterVmsWithPrefill />', () => {
     expect(onFormChange.mock.calls).toHaveLength(0);
 
     wrapper.setProps({ v2vvmware }); // force componentDidUpdate containing async processing
-    await delay(100);
+    await flushPromises();
     expect(onChange.mock.calls).toHaveLength(0);
     expect(onFormChange.mock.calls).toHaveLength(2);
     expect(onFormChange.mock.calls[0][1]).toBe(BATCH_CHANGES_KEY);
@@ -86,7 +86,7 @@ describe('<VCenterVmsWithPrefill />', () => {
     const newBasicSettings = Object.assign({}, props.basicSettings);
     newBasicSettings[NAME_KEY] = '';
     wrapper.setProps({ basicSettings: newBasicSettings });
-    await delay(100); // allow async prefill to finish
+    await flushPromises();
     expect(onFormChange.mock.calls).toHaveLength(3);
     expect(onFormChange.mock.calls[2][1]).toBe(BATCH_CHANGES_KEY);
     expect(onFormChange.mock.calls[2][0].value[0]).toEqual({ value: 'vm-name', target: NAME_KEY }); // description is skipped as it is equal with former run

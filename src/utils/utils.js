@@ -65,5 +65,3 @@ export const getResource = (
 
   return res;
 };
-
-export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
