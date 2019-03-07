@@ -5,7 +5,7 @@ import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/for
 import { k8sGet } from '../../../../../tests/k8s';
 import { flushPromises } from '../../../../../tests/enzyme';
 
-import VCenterVmsWithPrefill from '../VCenterVmsWithPrefill';
+import VCenterVmsWithPrefill, { prefillOperatingSystem } from '../VCenterVmsWithPrefill';
 import {
   BATCH_CHANGES_KEY,
   PROVIDER_VMWARE_VM_KEY,
@@ -29,6 +29,19 @@ props.basicSettings[PROVIDER_VMWARE_VM_KEY] = {
   value: 'vm-name',
 };
 
+const vmwareVm = {
+  Config: {
+    Name: 'vm-name',
+    Annotation: 'My description',
+    GuestId: 'win2k8',
+    GuestFullName: 'Windows Name',
+    Hardare: {
+      NumCPU: 2,
+      MemoryMB: 128,
+    },
+  },
+};
+
 const v2vvmware = {
   spec: {
     vms: [
@@ -41,18 +54,7 @@ const v2vvmware = {
       {
         name: 'vm-name',
         detail: {
-          raw: JSON.stringify({
-            Config: {
-              Name: 'vm-name',
-              Annotation: 'My description',
-              GuestId: 'win2k8',
-              GuestFullName: 'Windows Name',
-              Hardare: {
-                NumCPU: 2,
-                MemoryMB: 128,
-              },
-            },
-          }),
+          raw: JSON.stringify(vmwareVm),
         },
       },
     ],
@@ -95,5 +97,63 @@ describe('<VCenterVmsWithPrefill />', () => {
     expect(onFormChange.mock.calls).toHaveLength(3);
     expect(onFormChange.mock.calls[2][1]).toBe(BATCH_CHANGES_KEY);
     expect(onFormChange.mock.calls[2][0].value[0]).toEqual({ value: 'vm-name', target: NAME_KEY }); // description is skipped as it is equal with former run
+  });
+
+  it('handles prefillOperatingSystem() with already preselected value by user', async () => {
+    const result = await prefillOperatingSystem({
+      basicSettings: basicSettingsImportVmwareNewConnection,
+      operatingSystems: getOperatingSystems(basicSettingsImportVmwareNewConnection, baseTemplates),
+      vmVmware: vmwareVm,
+      k8sGet,
+      lastPrefilledValue: '',
+    });
+    expect(result).toEqual({
+      target: 'operatingSystem',
+      validation: { message: 'Select matching for: Windows Name', type: 'info' },
+      value: { id: 'rhel7.0', name: 'Red Hat Enterprise Linux 7.0' },
+    });
+  });
+
+  it('handles successful prefillOperatingSystem()', async () => {
+    const fedora = Object.assign({}, vmwareVm);
+    fedora.Config.GuestId = 'fedora28_guest';
+    fedora.Config.GuestFullName = 'Fedora OS Name';
+
+    const basicSettings = Object.assign({}, basicSettingsImportVmwareNewConnection);
+    delete basicSettings[OPERATING_SYSTEM_KEY];
+
+    const result = await prefillOperatingSystem({
+      basicSettings,
+      operatingSystems: getOperatingSystems(basicSettingsImportVmwareNewConnection, baseTemplates),
+      vmVmware: fedora,
+      k8sGet,
+      lastPrefilledValue: '',
+    });
+    expect(result).toEqual({
+      target: 'operatingSystem',
+      value: { id: 'fedora28', name: 'Fedora 28' },
+    });
+  });
+
+  it('handles failing prefillOperatingSystem()', async () => {
+    const fedora = Object.assign({}, vmwareVm);
+    fedora.Config.GuestId = 'unknown_id';
+    fedora.Config.GuestFullName = 'A random OS';
+
+    const basicSettings = Object.assign({}, basicSettingsImportVmwareNewConnection);
+    delete basicSettings[OPERATING_SYSTEM_KEY];
+
+    const result = await prefillOperatingSystem({
+      basicSettings,
+      operatingSystems: getOperatingSystems(basicSettingsImportVmwareNewConnection, baseTemplates),
+      vmVmware: fedora,
+      k8sGet,
+      lastPrefilledValue: '',
+    });
+    expect(result).toEqual({
+      target: 'operatingSystem',
+      validation: { message: 'Select matching for: A random OS', type: 'info' },
+      value: undefined,
+    });
   });
 });

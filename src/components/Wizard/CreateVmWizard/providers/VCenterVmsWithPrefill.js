@@ -46,7 +46,13 @@ const prefillMemory = params =>
 const prefillCpu = params =>
   prefillGeneric({ ...params, formKey: CPU_KEY, vmwareValuePath: ['Config', 'Hardware', 'NumCPU'] });
 
-const prefillOperatingSystem = async ({ basicSettings, operatingSystems, vmVmware, k8sGet, lastPrefilledValue }) => {
+export const prefillOperatingSystem = async ({
+  basicSettings,
+  operatingSystems,
+  vmVmware,
+  k8sGet,
+  lastPrefilledValue,
+}) => {
   const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
 
   const guestId = get(vmVmware, ['Config', 'GuestId']);
