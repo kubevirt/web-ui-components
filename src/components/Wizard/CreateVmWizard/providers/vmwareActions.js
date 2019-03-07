@@ -199,11 +199,20 @@ export const onVCenterVmSelectedConnected = async (
  * @param guestId - VMWare's operating system identifier
  */
 export const getVmwareToKubevirtOS = async (operatingSystems, guestId, k8sGet) => {
-  const vmwareToKubevirtOsConfigMap = await k8sGet(
-    ConfigMapModel,
-    VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
-    VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE
-  );
-  const kubevirtId = get(vmwareToKubevirtOsConfigMap, ['data', guestId]);
-  return operatingSystems.find(os => os.id === kubevirtId);
+  try {
+    const vmwareToKubevirtOsConfigMap = await k8sGet(
+      ConfigMapModel,
+      VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+      VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE
+    );
+    const kubevirtId = get(vmwareToKubevirtOsConfigMap, ['data', guestId]);
+    return operatingSystems.find(os => os.id === kubevirtId);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Can not find ${VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME} ConfigMap in the ${VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE} namespace for automatic pairing of VMWare operating system identifiers to kubevirt. Error: `,
+      error
+    );
+    return undefined; // presence of the mapping configmap is optional only
+  }
 };
