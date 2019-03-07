@@ -214,3 +214,15 @@ export const RoleBindingModel = {
   id: 'rolebinding',
   labelPlural: 'Role Bindings',
 };
+
+export const ConfigMapModel = {
+  apiVersion: 'v1',
+  label: 'Config Map',
+  path: 'configmaps',
+  plural: 'configmaps',
+  abbr: 'CM',
+  namespaced: true,
+  kind: 'ConfigMap',
+  id: 'configmap',
+  labelPlural: 'Config Maps',
+};

@@ -61,8 +61,49 @@ exports[`<VCenterVmsWithPrefill /> does prefill 1`] = `
   }
   disabled={true}
   id="my-id"
+  k8sGet={[Function]}
   onChange={[MockFunction]}
   onFormChange={[MockFunction]}
+  operatingSystems={
+    Array [
+      Object {
+        "id": "fedora29",
+        "name": "Fedora 29",
+      },
+      Object {
+        "id": "fedora28",
+        "name": "Fedora 28",
+      },
+      Object {
+        "id": "fedora27",
+        "name": "Fedora 27",
+      },
+      Object {
+        "id": "fedora26",
+        "name": "Fedora 26",
+      },
+      Object {
+        "id": "fedora25",
+        "name": "Fedora 25",
+      },
+      Object {
+        "id": "fedora24",
+        "name": "Fedora 24",
+      },
+      Object {
+        "id": "fedora23",
+        "name": "Fedora 23",
+      },
+      Object {
+        "id": "rhel7.0",
+        "name": "Red Hat Enterprise Linux 7.0",
+      },
+      Object {
+        "id": "ubuntu18.04",
+        "name": "Ubuntu 18.04 LTS",
+      },
+    ]
+  }
   value="vm-name"
 >
   <Dropdown

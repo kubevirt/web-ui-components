@@ -2,8 +2,12 @@ import React from 'react';
 
 import * as _ from 'lodash';
 
-import { ProcessedTemplatesModel, V2VVMwareModel } from '../models';
-import { TEMPLATE_PARAM_VM_NAME } from '../constants';
+import { ConfigMapModel, ProcessedTemplatesModel, V2VVMwareModel } from '../models';
+import {
+  TEMPLATE_PARAM_VM_NAME,
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
+} from '../constants';
 
 const processTemplate = template =>
   new Promise((resolve, reject) => {
@@ -32,7 +36,28 @@ export const k8sGet = (model, name, ns, opts) => {
     return v2vvmware;
   }
 
-  throw new Error('Mock k8sGet() function is not implemented for that flow.');
+  if (
+    model.kind === ConfigMapModel.kind &&
+    name === VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME &&
+    ns === VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE
+  ) {
+    const configMap = {
+      data: {
+        // purely dummy testing data
+        rhel7_64Guest: 'rhel7.0',
+        windows7Server64Guest: 'win2k8',
+        fedora28_guest: 'fedora28',
+        windows9Server64Guest: '',
+      },
+      kind: 'ConfigMap',
+      metadata: {},
+    };
+    return configMap;
+  }
+
+  throw new Error(
+    `Mock k8sGet() function is not implemented for that flow: model: ${model.kind}, name: ${name}, ns: ${ns}`
+  );
 };
 
 // mock implementation

@@ -141,7 +141,7 @@ export const getFormFields = (
       choices: userTemplateNames,
     };
 
-    providersSection = importProviders(basicSettings, WithResources, k8sCreate, k8sGet, k8sPatch);
+    providersSection = importProviders(basicSettings, operatingSystems, WithResources, k8sCreate, k8sGet, k8sPatch);
     imageSources.push(PROVISION_SOURCE_IMPORT);
   }
 
@@ -293,11 +293,8 @@ const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, tar
     };
     value.value.forEach(pair => {
       // set field validation
-      newBasicSettings[pair.target].validation = getFieldValidation(
-        formFields[pair.target],
-        pair.value,
-        newBasicSettings
-      );
+      newBasicSettings[pair.target].validation =
+        pair.validation || getFieldValidation(formFields[pair.target], pair.value, newBasicSettings);
     });
     formValid = validateForm(formFields, newBasicSettings);
   } else {

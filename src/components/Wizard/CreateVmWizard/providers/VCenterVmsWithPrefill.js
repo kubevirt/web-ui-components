@@ -5,15 +5,28 @@ import { get } from 'lodash';
 import { Dropdown } from '../../../Form';
 import { settingsValue } from '../../../../k8s/selectors';
 
-import { BATCH_CHANGES_KEY, DESCRIPTION_KEY, NAME_KEY, PROVIDER_VMWARE_VM_KEY } from '../constants';
+import {
+  BATCH_CHANGES_KEY,
+  DESCRIPTION_KEY,
+  NAME_KEY,
+  OPERATING_SYSTEM_KEY,
+  PROVIDER_VMWARE_VM_KEY,
+} from '../constants';
+import { getVmwareToKubevirtOS } from './vmwareActions';
+import { getValidationObject } from '../../../../utils';
+import { VALIDATION_INFO_TYPE } from '../../../../constants';
+import { getVmwareOsString } from '../strings';
 
 class VCenterVmsWithPrefill extends React.Component {
   state = {
     lastName: undefined, // last prefilled VM name value
     lastDescription: undefined,
+    lastOS: undefined,
   };
 
-  prefillVmName(basicSettings, onFormChange, vmVmware) {
+  prefillVmName(vmVmware) {
+    const { basicSettings } = this.props;
+
     const value = get(vmVmware, ['Config', 'Name']);
     const formName = settingsValue(basicSettings, NAME_KEY);
     if (!formName || formName === this.state.lastName) {
@@ -26,7 +39,9 @@ class VCenterVmsWithPrefill extends React.Component {
     return undefined;
   }
 
-  prefillVmDescription(basicSettings, onFormChange, vmVmware) {
+  prefillVmDescription(vmVmware) {
+    const { basicSettings } = this.props;
+
     const value = get(vmVmware, ['Config', 'Annotation']);
     const formValue = settingsValue(basicSettings, DESCRIPTION_KEY);
     if (!formValue || formValue === this.state.lastDescription) {
@@ -39,17 +54,52 @@ class VCenterVmsWithPrefill extends React.Component {
     return undefined;
   }
 
-  prefillValues(basicSettings, onFormChange, vmVmware) {
+  async prefillOperatingSystem(vmVmware, k8sGet) {
+    const { basicSettings, operatingSystems } = this.props;
+    const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
+
+    const guestId = get(vmVmware, ['Config', 'GuestId']);
+    const os = await getVmwareToKubevirtOS(operatingSystems, guestId, k8sGet);
+    if (os) {
+      const value = os.name; // from common-templates
+      if (!formValue || formValue === this.state.lastOS) {
+        if (this.state.lastOS !== value) {
+          // avoid infinite loop
+          this.setState({ lastOS: value });
+          return { value, target: OPERATING_SYSTEM_KEY };
+        }
+      }
+    }
+
+    if (!formValue || !os || formValue !== this.state.lastOS) {
+      const guestFullName = get(vmVmware, ['Config', 'GuestFullName']);
+      return {
+        value: formValue,
+        target: OPERATING_SYSTEM_KEY,
+        validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE),
+      };
+    }
+
+    return undefined;
+  }
+
+  async prefillValues(vmVmware) {
+    const { onFormChange, k8sGet } = this.props;
     const result = [];
 
-    const namePair = this.prefillVmName(basicSettings, onFormChange, vmVmware);
+    const namePair = this.prefillVmName(vmVmware);
     if (namePair) {
       result.push(namePair);
     }
 
-    const descrPair = this.prefillVmDescription(basicSettings, onFormChange, vmVmware);
+    const descrPair = this.prefillVmDescription(vmVmware);
     if (descrPair) {
       result.push(descrPair);
+    }
+
+    const osPair = await this.prefillOperatingSystem(vmVmware, k8sGet);
+    if (osPair) {
+      result.push(osPair);
     }
 
     if (result.length > 0) {
@@ -58,7 +108,7 @@ class VCenterVmsWithPrefill extends React.Component {
   }
 
   componentDidUpdate() {
-    const { onFormChange, v2vvmware, basicSettings } = this.props;
+    const { v2vvmware, basicSettings } = this.props;
 
     if (v2vvmware) {
       const selectedVmName = settingsValue(basicSettings, PROVIDER_VMWARE_VM_KEY);
@@ -68,7 +118,7 @@ class VCenterVmsWithPrefill extends React.Component {
         const vmWithDetail = (vms || []).find(vm => vm.name === selectedVmName && vm.detail && vm.detail.raw);
         if (vmWithDetail) {
           const vmVmware = JSON.parse(vmWithDetail.detail.raw);
-          this.prefillValues(basicSettings, onFormChange, vmVmware);
+          this.prefillValues(vmVmware);
         }
       }
     }
@@ -90,6 +140,8 @@ VCenterVmsWithPrefill.propTypes = {
   onChange: PropTypes.func.isRequired,
   onFormChange: PropTypes.func.isRequired,
   basicSettings: PropTypes.object.isRequired,
+  operatingSystems: PropTypes.array.isRequired,
+  k8sGet: PropTypes.func.isRequired,
   v2vvmware: PropTypes.object,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   choices: PropTypes.array,

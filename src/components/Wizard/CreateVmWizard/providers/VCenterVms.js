@@ -15,7 +15,7 @@ import VCenterVmsWithPrefill from './VCenterVmsWithPrefill';
 
 const VCenterVms = ({ onChange, onFormChange, id, value, extraProps, ...extra }) => {
   // the "value" is name of selected VMWare VM
-  const { WithResources, basicSettings } = extraProps;
+  const { WithResources, basicSettings, operatingSystems, k8sGet } = extraProps;
 
   const v2vvmwareName = getV2VVmwareName(basicSettings);
 
@@ -53,6 +53,8 @@ const VCenterVms = ({ onChange, onFormChange, id, value, extraProps, ...extra })
         onChange={onChange}
         onFormChange={onFormChange}
         basicSettings={basicSettings}
+        operatingSystems={operatingSystems}
+        k8sGet={k8sGet}
       />
     </WithResources>
   );

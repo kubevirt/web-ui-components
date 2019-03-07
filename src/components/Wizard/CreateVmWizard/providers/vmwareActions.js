@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { SecretModel, V2VVMwareModel } from '../../../../models';
+import { SecretModel, V2VVMwareModel, ConfigMapModel } from '../../../../models';
 import { getImportProviderSecretObject, getDefaultSecretName, getV2VVMwareObject } from './vmwareProviderPod';
 
 import {
@@ -13,6 +13,12 @@ import {
   PROVIDER_VMWARE_USER_PWD_KEY,
   PROVIDER_VMWARE_CONNECTION,
 } from '../constants';
+
+import {
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
+} from '../../../../constants';
+
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 import { settingsValue, getV2VVmwareName } from '../../../../k8s/selectors';
 import { getName } from '../../../../utils/selectors';
@@ -179,5 +185,34 @@ export const onVCenterVmSelectedConnected = async (
       '", reason: ',
       reason
     );
+  }
+};
+
+/**
+ * Provides mapping from VMWare GuesId to common-templates operating system.
+ *
+ * https://code.vmware.com/docs/4206/vsphere-web-services-api-reference#/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+ *
+ * The VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME object is usually created by the web-ui-operator and can be missing.
+ *
+ * @param operatingSystems - see getTemplateOperatingSystems() in selectors.js
+ * @param guestId - VMWare's operating system identifier
+ */
+export const getVmwareToKubevirtOS = async (operatingSystems, guestId, k8sGet) => {
+  try {
+    const vmwareToKubevirtOsConfigMap = await k8sGet(
+      ConfigMapModel,
+      VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+      VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE
+    );
+    const kubevirtId = get(vmwareToKubevirtOsConfigMap, ['data', guestId]);
+    return operatingSystems.find(os => os.id === kubevirtId);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Can not find ${VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME} ConfigMap in the ${VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE} namespace for automatic pairing of VMWare operating system identifiers to kubevirt. Error: `,
+      error
+    );
+    return undefined; // presence of the mapping configmap is optional only
   }
 };

@@ -275,6 +275,61 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "extraProps": Object {
           "WithResources": [Function],
           "basicSettings": Object {},
+          "k8sGet": [Function],
+          "operatingSystems": Array [
+            Object {
+              "id": "fedora29",
+              "name": "Fedora 29",
+            },
+            Object {
+              "id": "fedora28",
+              "name": "Fedora 28",
+            },
+            Object {
+              "id": "fedora27",
+              "name": "Fedora 27",
+            },
+            Object {
+              "id": "fedora26",
+              "name": "Fedora 26",
+            },
+            Object {
+              "id": "fedora25",
+              "name": "Fedora 25",
+            },
+            Object {
+              "id": "fedora24",
+              "name": "Fedora 24",
+            },
+            Object {
+              "id": "fedora23",
+              "name": "Fedora 23",
+            },
+            Object {
+              "id": "rhel7.0",
+              "name": "Red Hat Enterprise Linux 7.0",
+            },
+            Object {
+              "id": "ubuntu18.04",
+              "name": "Ubuntu 18.04 LTS",
+            },
+            Object {
+              "id": "win2k12r2",
+              "name": "Microsoft Windows Server 2012 R2",
+            },
+            Object {
+              "id": "win2k8r2",
+              "name": "Microsoft Windows Server 2008 R2",
+            },
+            Object {
+              "id": "win2k8",
+              "name": "Microsoft Windows Server 2008",
+            },
+            Object {
+              "id": "win10",
+              "name": "Microsoft Windows 10",
+            },
+          ],
         },
         "help": "Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.",
         "id": "vcenter-vm-dropdown",
@@ -581,6 +636,61 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "extraProps": Object {
           "WithResources": [Function],
           "basicSettings": Object {},
+          "k8sGet": [Function],
+          "operatingSystems": Array [
+            Object {
+              "id": "fedora29",
+              "name": "Fedora 29",
+            },
+            Object {
+              "id": "fedora28",
+              "name": "Fedora 28",
+            },
+            Object {
+              "id": "fedora27",
+              "name": "Fedora 27",
+            },
+            Object {
+              "id": "fedora26",
+              "name": "Fedora 26",
+            },
+            Object {
+              "id": "fedora25",
+              "name": "Fedora 25",
+            },
+            Object {
+              "id": "fedora24",
+              "name": "Fedora 24",
+            },
+            Object {
+              "id": "fedora23",
+              "name": "Fedora 23",
+            },
+            Object {
+              "id": "rhel7.0",
+              "name": "Red Hat Enterprise Linux 7.0",
+            },
+            Object {
+              "id": "ubuntu18.04",
+              "name": "Ubuntu 18.04 LTS",
+            },
+            Object {
+              "id": "win2k12r2",
+              "name": "Microsoft Windows Server 2012 R2",
+            },
+            Object {
+              "id": "win2k8r2",
+              "name": "Microsoft Windows Server 2008 R2",
+            },
+            Object {
+              "id": "win2k8",
+              "name": "Microsoft Windows Server 2008",
+            },
+            Object {
+              "id": "win10",
+              "name": "Microsoft Windows 10",
+            },
+          ],
         },
         "help": "Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.",
         "id": "vcenter-vm-dropdown",
