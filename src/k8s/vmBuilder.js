@@ -1,6 +1,13 @@
-import { get } from 'lodash';
+import { get, last } from 'lodash';
 
-import { PROVISION_SOURCE_PXE, BOOT_ORDER_FIRST, BOOT_ORDER_SECOND, PVC_ACCESSMODE_RWO } from '../constants';
+import {
+  PROVISION_SOURCE_PXE,
+  BOOT_ORDER_FIRST,
+  PVC_ACCESSMODE_RWO,
+  BOOT_ORDER_SECOND,
+  DEVICE_TYPE_DISK,
+  DEVICE_TYPE_INTERFACE,
+} from '../constants';
 
 import {
   PROVISION_SOURCE_TYPE_KEY,
@@ -10,6 +17,7 @@ import {
   DATA_VOLUME_SOURCE_URL,
   DATA_VOLUME_SOURCE_BLANK,
 } from '../components/Wizard/CreateVmWizard/constants';
+import { getCloudInitVolume } from '../utils';
 
 export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {
@@ -18,12 +26,19 @@ export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   };
   if (storage.isBootable) {
     const imageSource = getSetting(PROVISION_SOURCE_TYPE_KEY);
-    diskSpec.bootOrder = imageSource === PROVISION_SOURCE_PXE ? BOOT_ORDER_SECOND : BOOT_ORDER_FIRST;
-  } else {
+    diskSpec.bootOrder = imageSource === PROVISION_SOURCE_PXE ? assignBootOrderIndex(vm) : BOOT_ORDER_FIRST;
+  } else if (isCloudInitDisk(vm, diskSpec)) {
     delete diskSpec.bootOrder;
+  } else {
+    diskSpec.bootOrder = diskSpec.bootOrder ? diskSpec.bootOrder : assignBootOrderIndex(vm);
   }
   const disks = getDisks(vm);
   disks.push(diskSpec);
+};
+
+const isCloudInitDisk = (vm, disk) => {
+  const cloudInitVolume = getCloudInitVolume(vm);
+  return cloudInitVolume && cloudInitVolume.name === disk.name;
 };
 
 export const addContainerVolume = (vm, storage, getSetting) => {
@@ -86,7 +101,7 @@ export const addInterface = (vm, defaultInterface, network) => {
   if (network.isBootable) {
     interfaceSpec.bootOrder = BOOT_ORDER_FIRST;
   } else {
-    delete interfaceSpec.bootOrder;
+    interfaceSpec.bootOrder = interfaceSpec.bootOrder ? interfaceSpec.bootOrder : assignBootOrderIndex(vm);
   }
 
   const interfaces = getInterfaces(vm);
@@ -282,3 +297,39 @@ export const getDataVolumeTemplateSpec = (storage, dvSource) => {
     },
   };
 };
+
+export const assignBootOrderIndex = (vm, currDevBootOrder = -1) => {
+  let bootOrder = currDevBootOrder;
+  if (currDevBootOrder !== BOOT_ORDER_FIRST) {
+    bootOrder = getNextAvailableBootOrderIndex(vm);
+  }
+  return bootOrder;
+};
+
+const getNextAvailableBootOrderIndex = vm => {
+  const sortedBootableDevices = getBootableDevicesInOrder(vm);
+  const numBootableDevices = sortedBootableDevices.length;
+
+  // assigned indexes start at two as the first index is assigned directly by the user
+  return numBootableDevices > 0 ? last(sortedBootableDevices).value.bootOrder + 1 : BOOT_ORDER_SECOND;
+};
+
+export const sequentializeBootOrderIndexes = vm => {
+  getBootableDevicesInOrder(vm).forEach((device, index) => {
+    device.value.bootOrder = index + 1;
+  });
+};
+
+export const getBootableDevices = vm => {
+  const disks = getDisks(vm)
+    .filter(disk => disk.bootOrder)
+    .map(disk => ({ type: DEVICE_TYPE_DISK, value: disk }));
+  const nics = getInterfaces(vm)
+    .filter(nic => nic.bootOrder)
+    .map(nic => ({ type: DEVICE_TYPE_INTERFACE, value: nic }));
+
+  return [...disks, ...nics];
+};
+
+export const getBootableDevicesInOrder = vm =>
+  getBootableDevices(vm).sort((a, b) => a.value.bootOrder - b.value.bootOrder);

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BootOrder /> renders correctly 1`] = `
+<ol
+  class="kubevirt-boot-order__list"
+>
+  <li>
+    pxeNetworkName
+  </li>
+  <li>
+    podNetworkName
+  </li>
+  <li>
+    disk-one
+  </li>
+  <li>
+    disk-two
+  </li>
+  <li>
+    disk-three
+  </li>
+</ol>
+`;

@@ -118,6 +118,21 @@ exports[`<VmTemplateDetails /> renders container correctly 1`] = `
             >
               myproject
             </dd>
+            <dd>
+              myproject
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              <ol
+                class="kubevirt-boot-order__list"
+              >
+                <li>
+                  rootdisk
+                </li>
+              </ol>
+            </dd>
           </dl>
         </div>
         <div
@@ -260,6 +275,24 @@ exports[`<VmTemplateDetails /> renders pxe correctly 1`] = `
               id="myproject-pxe-template-dv-namespace"
             >
               myproject
+            </dd>
+            <dd>
+              myproject
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              <ol
+                class="kubevirt-boot-order__list"
+              >
+                <li>
+                  eth1
+                </li>
+                <li>
+                  fooDvDisk
+                </li>
+              </ol>
             </dd>
           </dl>
         </div>
@@ -415,6 +448,21 @@ exports[`<VmTemplateDetails /> renders url correctly 1`] = `
               id="myproject-url-template-namespace"
             >
               myproject
+            </dd>
+            <dd>
+              myproject
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              <ol
+                class="kubevirt-boot-order__list"
+              >
+                <li>
+                  rootdisk
+                </li>
+              </ol>
             </dd>
           </dl>
         </div>

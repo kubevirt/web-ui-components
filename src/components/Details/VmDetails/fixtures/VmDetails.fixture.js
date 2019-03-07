@@ -23,7 +23,36 @@ export const vmFixtures = {
   },
   runningVm: {
     metadata,
-    spec: { running: true },
+    spec: {
+      template: {
+        spec: {
+          domain: {
+            devices: {
+              rng: {},
+              interfaces: [
+                { bridge: {}, name: 'podNetworkName', bootOrder: 2 },
+                { bridge: {}, name: 'pxeNetworkName', bootOrder: 1 },
+              ],
+              disks: [
+                { disk: {}, name: 'disk-one', bootOrder: 3 },
+                { disk: {}, name: 'disk-two', bootOrder: 4 },
+                { disk: {}, name: 'disk-three', bootOrder: 5 },
+                { disk: { bus: 'virtio' }, name: 'cloudinitdisk' },
+              ],
+            },
+          },
+          volumes: [
+            {
+              cloudInitNoCloud: {
+                userData: '# configure default password\npassword: fedora\nchpasswd: { expire: False }',
+              },
+              name: 'cloudinitdisk',
+            },
+          ],
+        },
+      },
+      running: true,
+    },
     status: {
       ready: true,
       created: true,

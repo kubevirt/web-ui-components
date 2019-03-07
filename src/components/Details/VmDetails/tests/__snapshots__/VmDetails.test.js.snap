@@ -136,6 +136,15 @@ exports[`<VmDetails /> does not render CPU and Memory settings for VM without cu
             >
               ---
             </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              ---
+            </dd>
           </dl>
         </div>
         <div
@@ -308,6 +317,15 @@ exports[`<VmDetails /> renders CPU and Memory settings for VM with custom flavor
             <dd
               id="my-namespace-my-vm-pod"
             >
+              ---
+            </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
               ---
             </dd>
           </dl>
@@ -500,6 +518,33 @@ exports[`<VmDetails /> renders IP addresses correctly 1`] = `
             >
               ---
             </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              <ol
+                class="kubevirt-boot-order__list"
+              >
+                <li>
+                  pxeNetworkName
+                </li>
+                <li>
+                  podNetworkName
+                </li>
+                <li>
+                  disk-one
+                </li>
+                <li>
+                  disk-two
+                </li>
+                <li>
+                  disk-three
+                </li>
+              </ol>
+            </dd>
           </dl>
         </div>
         <div
@@ -672,6 +717,15 @@ exports[`<VmDetails /> renders correctly 1`] = `
             <dd
               id="my-namespace-my-vm-pod"
             >
+              ---
+            </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
               ---
             </dd>
           </dl>
@@ -848,6 +902,15 @@ exports[`<VmDetails /> renders description correctly 1`] = `
             >
               ---
             </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              ---
+            </dd>
           </dl>
         </div>
         <div
@@ -1020,6 +1083,15 @@ exports[`<VmDetails /> renders off status correctly 1`] = `
             <dd
               id="my-namespace-my-vm-pod"
             >
+              ---
+            </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
               ---
             </dd>
           </dl>
@@ -1210,6 +1282,33 @@ exports[`<VmDetails /> renders on status correctly 1`] = `
             >
               ---
             </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
+              <ol
+                class="kubevirt-boot-order__list"
+              >
+                <li>
+                  pxeNetworkName
+                </li>
+                <li>
+                  podNetworkName
+                </li>
+                <li>
+                  disk-one
+                </li>
+                <li>
+                  disk-two
+                </li>
+                <li>
+                  disk-three
+                </li>
+              </ol>
+            </dd>
           </dl>
         </div>
         <div
@@ -1382,6 +1481,15 @@ exports[`<VmDetails /> renders values from labels correctly 1`] = `
             <dd
               id="my-namespace-my-vm-pod"
             >
+              ---
+            </dd>
+            <dd>
+              ---
+            </dd>
+            <dt>
+              Boot Order
+            </dt>
+            <dd>
               ---
             </dd>
           </dl>

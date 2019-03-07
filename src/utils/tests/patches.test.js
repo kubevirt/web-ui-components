@@ -7,6 +7,7 @@ import {
   PVC_ACCESSMODE_RWO,
   TEMPLATE_FLAVOR_LABEL,
   POD_NETWORK,
+  DISK_PATH_KEY,
 } from '../../constants';
 import {
   getPxeBootPatch,
@@ -16,6 +17,7 @@ import {
   getAddNicPatch,
   getStartStopPatch,
   getUpdateCpuMemoryPatch,
+  getDeviceBootOrderPatch,
 } from '../patches';
 import { cloudInitTestVm } from '../../tests/mocks/vm/cloudInitTestVm.mock';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
@@ -62,6 +64,7 @@ const storage = {
 
 const disk = {
   name: storageNoClass.name,
+  bootOrder: 3,
   disk: {
     bus: storageNoClass.bus,
   },
@@ -151,6 +154,7 @@ const podNic = {
 
 const intface = {
   name: nic.name,
+  bootOrder: 3,
   macAddress: nic.mac,
   model: nic.model,
   bridge: {},
@@ -168,7 +172,7 @@ const podNetwork = {
   pod: {},
 };
 
-describe('utils.js tests', () => {
+describe('patches.js tests', () => {
   it('PXE boot patch - set ANNOTATION_FIRST_BOOT to false', () => {
     const patch = getPxeBootPatch(getVM(true));
     expect(patch).toEqual([
@@ -179,6 +183,7 @@ describe('utils.js tests', () => {
       },
     ]);
   });
+
   it('PXE boot patch - change boot order', () => {
     const patch = getPxeBootPatch(getVM(false));
     expect(patch).toEqual([
@@ -193,12 +198,14 @@ describe('utils.js tests', () => {
       },
     ]);
   });
+
   it('PXE boot patch - does nothing if VM has no disk', () => {
     const vm = getVM(false);
     delete vm.spec.template.spec.domain.devices.disks;
     const patch = getPxeBootPatch(vm);
     expect(patch).toEqual([]);
   });
+
   it('Add disk patch', () => {
     const vm = getVM(false);
 
@@ -224,6 +231,7 @@ describe('utils.js tests', () => {
     comparePatch(patchWithClass[1], '/spec/template/spec/volumes', [volume]);
     comparePatch(patchWithClass[2], '/spec/dataVolumeTemplates', [dataVolWithClass]);
   });
+
   it('Update description patch', () => {
     let patch = getUpdateDescriptionPatch(cloudInitTestVm, 'new description');
     expect(patch).toHaveLength(1);
@@ -248,6 +256,7 @@ describe('utils.js tests', () => {
       compareNestedPatch(patch[0], '/metadata/annotations/description', 'new description');
     });
   });
+
   it('Update flavor patch', () => {
     let patch = getUpdateFlavorPatch(cloudInitTestVm, 'Custom');
     // different flavor
@@ -277,6 +286,7 @@ describe('utils.js tests', () => {
       comparePatch(patch[patchLength - 1], `/metadata/labels/${TEMPLATE_FLAVOR_LABEL}~1Custom`, 'true');
     });
   });
+
   it('Update cpu memory patch', () => {
     const cpuPath = '/spec/template/spec/domain/cpu/cores';
     const memPath = '/spec/template/spec/domain/resources/requests/memory';
@@ -378,38 +388,48 @@ describe('utils.js tests', () => {
       expectCpuMemWrapped(vm, '3', '4G', '3', '4G');
     });
   });
-  it('Add Nic patch', () => {
+
+  it('Add Nic patch - VM without networks', () => {
     const vmWithoutNetworks = getVM(false);
 
-    let patch = getAddNicPatch(vmWithoutNetworks, nic);
+    const patch = getAddNicPatch(vmWithoutNetworks, nic);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
     comparePatch(patch[1], '/spec/template/spec/networks', [network]);
+  });
 
+  it('AddNicPatch - VM without interfaces', () => {
     const vmWithoutInterfaces = getVM(false);
     delete vmWithoutInterfaces.spec.template.spec.domain.devices.interfaces;
     vmWithoutInterfaces.spec.template.spec.networks = {};
 
-    patch = getAddNicPatch(vmWithoutInterfaces, nic);
+    const patch = getAddNicPatch(vmWithoutInterfaces, nic);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces', [intface]);
     comparePatch(patch[1], '/spec/template/spec/networks/0', network);
+  });
 
+  it('AddNicPatch - VM without networks or MAC', () => {
+    const vmWithoutNetworks = getVM(false);
     const nicWithoutMac = cloneDeep(nic);
     delete nicWithoutMac.mac;
     const intfaceWithoutMac = cloneDeep(intface);
     delete intfaceWithoutMac.macAddress;
 
-    patch = getAddNicPatch(vmWithoutNetworks, nicWithoutMac);
+    const patch = getAddNicPatch(vmWithoutNetworks, nicWithoutMac);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intfaceWithoutMac);
     comparePatch(patch[1], '/spec/template/spec/networks', [network]);
+  });
 
-    patch = getAddNicPatch(vmWithoutNetworks, podNic);
+  it('AddNicPatch - VM without networks using podNic', () => {
+    const vmWithoutNetworks = getVM(false);
+    const patch = getAddNicPatch(vmWithoutNetworks, podNic);
     expect(patch).toHaveLength(2);
     comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0', intface);
     comparePatch(patch[1], '/spec/template/spec/networks', [podNetwork]);
   });
+
   it('start stop vm patch', () => {
     const vm = getVM(false);
 
@@ -434,5 +454,58 @@ describe('utils.js tests', () => {
     patch = getStartStopPatch(vm, false);
     expect(patch).toHaveLength(1);
     comparePatch(patch[0], '/spec', { running: false });
+  });
+});
+
+describe('getDeviceBootOrderPatch() tests', () => {
+  const disks = [
+    { disk: {}, name: 'disk-one', bootOrder: 1 },
+    { disk: {}, name: 'disk-two', bootOrder: 2 },
+    { disk: {}, name: 'disk-three', bootOrder: 3 },
+    { disk: {}, name: 'disk-four', bootOrder: 7 },
+    { disk: { bus: 'virtio' }, name: 'cloudinitdisk' },
+  ];
+
+  const volumes = [
+    {
+      cloudInitNoCloud: {
+        userData: '# configure default password\npassword: fedora\nchpasswd: { expire: False }',
+      },
+      name: 'cloudinitdisk',
+    },
+  ];
+
+  const interfaces = [
+    { bridge: {}, name: 'nic-one', bootOrder: 4 },
+    { bridge: {}, name: 'nic-two', bootOrder: 5 },
+    { bridge: {}, name: 'nic-three', bootOrder: 6 },
+  ];
+
+  let vm;
+
+  beforeEach(() => {
+    vm = getVM(false);
+    vm.spec.template.spec.domain.devices.disks = disks;
+    vm.spec.template.spec.domain.devices.interfaces = interfaces;
+    vm.spec.template.spec.volumes = volumes;
+  });
+
+  it('Remove the first boot device', () => {
+    const patch = getDeviceBootOrderPatch(vm, DISK_PATH_KEY, 'disk-one');
+    expect(patch).toHaveLength(6);
+    comparePatch(patch[0], '/spec/template/spec/domain/devices/disks/0/bootOrder', 1, 'replace');
+    comparePatch(patch[5], '/spec/template/spec/domain/devices/disks/2/bootOrder', 6, 'replace');
+  });
+
+  it('Remove the third boot device', () => {
+    const patch = getDeviceBootOrderPatch(vm, DISK_PATH_KEY, 'disk-three');
+    expect(patch).toHaveLength(4);
+    comparePatch(patch[0], '/spec/template/spec/domain/devices/interfaces/0/bootOrder', 3, 'replace');
+    comparePatch(patch[3], '/spec/template/spec/domain/devices/disks/2/bootOrder', 6, 'replace');
+  });
+
+  it('Remove the last boot device', () => {
+    const patch = getDeviceBootOrderPatch(vm, DISK_PATH_KEY, 'disk-four');
+    expect(patch).toHaveLength(0);
   });
 });

@@ -27,6 +27,8 @@ import { Description } from '../Description';
 import { Loading } from '../../Loading';
 import { TemplateSource } from '../../TemplateSource';
 import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
+import { getBootableDevicesInOrder } from '../../../k8s/vmBuilder';
+import { BootOrder } from '../BootOrder';
 
 export class VmTemplateDetails extends React.Component {
   constructor(props) {
@@ -124,6 +126,7 @@ export class VmTemplateDetails extends React.Component {
     const id = getId(vmTemplate);
     const vm = selectVm(vmTemplate.objects);
     const baseTemplate = getVmTemplate(vmTemplate);
+    const sortedBootableDevices = getBootableDevicesInOrder(vm);
 
     const editButton = (
       <Button disabled={this.state.updating} onClick={() => this.setEditing(true)}>
@@ -193,6 +196,11 @@ export class VmTemplateDetails extends React.Component {
                   </dd>
                   <dt>Namespace</dt>
                   <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+                  <dd>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
+                  <dt>Boot Order</dt>
+                  <dd>
+                    {sortedBootableDevices.length > 0 ? <BootOrder bootableDevices={sortedBootableDevices} /> : DASHES}
+                  </dd>
                 </dl>
               </Col>
 

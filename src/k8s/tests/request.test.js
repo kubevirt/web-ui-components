@@ -88,9 +88,7 @@ const testDataVolumeStorage = (
 
 const testStorage = (vm, storageIndex, bootOrder, expectedName) => {
   expect(vm.spec.template.spec.domain.devices.disks[storageIndex].name).toBe(expectedName);
-  expect(vm.spec.template.spec.domain.devices.disks[storageIndex].bootOrder).toBe(
-    bootOrder !== -1 ? bootOrder : undefined
-  );
+  expect(vm.spec.template.spec.domain.devices.disks[storageIndex].bootOrder).toEqual(bootOrder);
   expect(vm.spec.template.spec.volumes[storageIndex].name).toBe(expectedName);
 };
 
@@ -205,7 +203,7 @@ describe('request.js - provision sources', () => {
 
       expect(vm.spec.template.spec.volumes).toHaveLength(2);
       expect(vm.spec.template.spec.domain.devices.disks).toHaveLength(2);
-      testPvcStorage(results, 0, 0, -1, pvcDisk.name, getNamespace(results[0]));
+      testPvcStorage(results, 0, 0, 2, pvcDisk.name, getNamespace(results[0]));
       testDataVolumeStorage(
         results,
         1,
@@ -227,7 +225,7 @@ describe('request.js - networks', () => {
       expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
       expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
-      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toBeUndefined();
+      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toEqual(1);
       expect(vm.spec.template.spec.networks).toHaveLength(1);
       expect(vm.spec.template.spec.networks[0].name).toEqual(podNetwork.name);
       expect(vm.spec.template.spec.networks[0].pod).toEqual({});
@@ -262,7 +260,7 @@ describe('request.js - networks', () => {
     createVm(k8sCreate, templates, basicSettingsCustomFlavor, [], [], persistentVolumeClaims).then(results => {
       const vm = results[0];
       expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeFalsy();
-      expect(vm.spec.template.spec.domain.devices.interfaces).toBeUndefined();
+      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(0);
       expect(vm.spec.template.spec.networks).toBeUndefined();
       return results;
     }));
@@ -296,7 +294,7 @@ describe('request.js - networks', () => {
       persistentVolumeClaims
     ).then(results => {
       testPXE(results, false);
-      testPvcStorage(results, 0, 0, 2, pvcDisk.name, getNamespace(results[0]));
+      testPvcStorage(results, 0, 0, 3, pvcDisk.name, getNamespace(results[0]));
       return results;
     });
   });
@@ -408,14 +406,14 @@ describe('request.js - storages', () => {
       persistentVolumeClaims
     ).then(results => {
       testContainerImage(results);
-      testPvcStorage(results, 1, 0, -1, pvcDisk.name, getNamespace(results[0]));
+      testPvcStorage(results, 1, 0, 2, pvcDisk.name, getNamespace(results[0]));
       return results;
     }));
 
   it('url source with attached disks', () =>
     createVm(k8sCreate, templates, basicSettingsUrl, [], [rootDataVolumeDisk, pvcDisk], persistentVolumeClaims).then(
       results => {
-        testPvcStorage(results, 1, 1, -1, pvcDisk.name, getNamespace(results[0]));
+        testPvcStorage(results, 1, 1, 2, pvcDisk.name, getNamespace(results[0]));
         return results;
       }
     ));
@@ -437,7 +435,7 @@ describe('request.js - storages', () => {
         templateDataVolumeDisk.templateStorage.dataVolume.metadata.name,
         templateDataVolumeDisk.templateStorage.dataVolume.metadata.namespace
       );
-      testPvcStorage(results, 0, 0, -1, pvcDisk.name, getNamespace(results[0]));
+      testPvcStorage(results, 0, 0, 2, pvcDisk.name, getNamespace(results[0]));
       return results;
     }));
 
@@ -455,7 +453,7 @@ describe('request.js - storages', () => {
       persistentVolumeClaims
     ).then(results => {
       testPXE(results);
-      testPvcStorage(results, 0, 0, 2, pvcDisk.name, getNamespace(results[0]));
+      testPvcStorage(results, 0, 0, 3, pvcDisk.name, getNamespace(results[0]));
       return results;
     });
   });
@@ -469,7 +467,7 @@ describe('request.js - storages', () => {
       persistentVolumeClaims
     );
     expect(results).toHaveLength(1);
-    testPvcStorage(results, 0, 0, -1, pvcDisk.name, getNamespace(results[0]));
+    testPvcStorage(results, 0, 0, 3, pvcDisk.name, getNamespace(results[0]));
     return results;
   });
 });
@@ -593,6 +591,6 @@ describe('request.js - Create Vm Template', () => {
       persistentVolumeClaims
     );
     const vmTemplate = results[0];
-    testPvcStorage(vmTemplate.objects, 1, 0, -1, pvcDisk.name, getNamespace(results[0]));
+    testPvcStorage(vmTemplate.objects, 1, 0, 2, pvcDisk.name, getNamespace(results[0]));
   });
 });
