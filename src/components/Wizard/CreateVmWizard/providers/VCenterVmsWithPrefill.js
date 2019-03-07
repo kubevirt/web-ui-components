@@ -7,99 +7,121 @@ import { settingsValue } from '../../../../k8s/selectors';
 
 import {
   BATCH_CHANGES_KEY,
+  CPU_KEY,
   DESCRIPTION_KEY,
+  FLAVOR_KEY,
+  MEMORY_KEY,
   NAME_KEY,
   OPERATING_SYSTEM_KEY,
   PROVIDER_VMWARE_VM_KEY,
 } from '../constants';
 import { getVmwareToKubevirtOS } from './vmwareActions';
 import { getValidationObject } from '../../../../utils';
-import { VALIDATION_INFO_TYPE } from '../../../../constants';
+import { CUSTOM_FLAVOR, VALIDATION_INFO_TYPE } from '../../../../constants';
 import { getVmwareOsString } from '../strings';
+
+const prefillGeneric = ({ basicSettings, formKey, lastPrefilledValue, vmVmware, vmwareValuePath }) => {
+  let pair;
+  const value = get(vmVmware, vmwareValuePath);
+  if (value) {
+    const formValue = settingsValue(basicSettings, formKey);
+    if (!formValue || formValue === lastPrefilledValue) {
+      if (lastPrefilledValue !== value) {
+        // avoid infinite loop
+        pair = { value, target: formKey };
+      }
+    }
+  }
+  return pair;
+};
+
+const prefillVmName = params => prefillGeneric({ ...params, formKey: NAME_KEY, vmwareValuePath: ['Config', 'Name'] });
+
+const prefillVmDescription = params =>
+  prefillGeneric({ ...params, formKey: DESCRIPTION_KEY, vmwareValuePath: ['Config', 'Annotation'] });
+
+const prefillMemory = params =>
+  prefillGeneric({ ...params, formKey: MEMORY_KEY, vmwareValuePath: ['Config', 'Hardware', 'MemoryMB'] });
+
+const prefillCpu = params =>
+  prefillGeneric({ ...params, formKey: CPU_KEY, vmwareValuePath: ['Config', 'Hardware', 'NumCPU'] });
+
+const prefillOperatingSystem = async ({ basicSettings, operatingSystems, vmVmware, k8sGet, lastPrefilledValue }) => {
+  const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
+
+  const guestId = get(vmVmware, ['Config', 'GuestId']);
+  const os = await getVmwareToKubevirtOS(operatingSystems, guestId, k8sGet);
+  if (os) {
+    const value = os; // format: { id, name }
+    if (!formValue || formValue === lastPrefilledValue) {
+      if (lastPrefilledValue !== value) {
+        // avoid infinite loop
+        return { value, target: OPERATING_SYSTEM_KEY };
+      }
+    }
+  }
+  if (!formValue || !os || formValue !== lastPrefilledValue) {
+    const guestFullName = get(vmVmware, ['Config', 'GuestFullName']);
+    return {
+      value: formValue,
+      target: OPERATING_SYSTEM_KEY,
+      validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE),
+    };
+  }
+
+  return undefined;
+};
 
 class VCenterVmsWithPrefill extends React.Component {
   state = {
     lastName: undefined, // last prefilled VM name value
     lastDescription: undefined,
     lastOS: undefined,
+    lastCpu: undefined,
+    lastMem: undefined,
   };
 
-  prefillVmName(vmVmware) {
-    const { basicSettings } = this.props;
-
-    const value = get(vmVmware, ['Config', 'Name']);
-    const formName = settingsValue(basicSettings, NAME_KEY);
-    if (!formName || formName === this.state.lastName) {
-      if (this.state.lastName !== value) {
-        // avoid infinite loop
-        this.setState({ lastName: value });
-        return { value, target: NAME_KEY };
-      }
-    }
-    return undefined;
-  }
-
-  prefillVmDescription(vmVmware) {
-    const { basicSettings } = this.props;
-
-    const value = get(vmVmware, ['Config', 'Annotation']);
-    const formValue = settingsValue(basicSettings, DESCRIPTION_KEY);
-    if (!formValue || formValue === this.state.lastDescription) {
-      if (this.state.lastDescription !== value) {
-        // avoid infinite loop
-        this.setState({ lastDescription: value });
-        return { value, target: DESCRIPTION_KEY };
-      }
-    }
-    return undefined;
-  }
-
-  async prefillOperatingSystem(vmVmware, k8sGet) {
-    const { basicSettings, operatingSystems } = this.props;
-    const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
-
-    const guestId = get(vmVmware, ['Config', 'GuestId']);
-    const os = await getVmwareToKubevirtOS(operatingSystems, guestId, k8sGet);
-    if (os) {
-      const value = os.name; // from common-templates
-      if (!formValue || formValue === this.state.lastOS) {
-        if (this.state.lastOS !== value) {
-          // avoid infinite loop
-          this.setState({ lastOS: value });
-          return { value, target: OPERATING_SYSTEM_KEY };
-        }
-      }
-    }
-
-    if (!formValue || !os || formValue !== this.state.lastOS) {
-      const guestFullName = get(vmVmware, ['Config', 'GuestFullName']);
-      return {
-        value: formValue,
-        target: OPERATING_SYSTEM_KEY,
-        validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE),
-      };
-    }
-
-    return undefined;
-  }
-
   async prefillValues(vmVmware) {
-    const { onFormChange, k8sGet } = this.props;
+    const { onFormChange, k8sGet, basicSettings, operatingSystems } = this.props;
     const result = [];
 
-    const namePair = this.prefillVmName(vmVmware);
+    const namePair = prefillVmName({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastName });
     if (namePair) {
+      this.setState({ lastName: namePair.value });
       result.push(namePair);
     }
 
-    const descrPair = this.prefillVmDescription(vmVmware);
+    const descrPair = prefillVmDescription({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastDescription });
     if (descrPair) {
+      this.setState({ lastDescription: descrPair.value });
       result.push(descrPair);
     }
 
-    const osPair = await this.prefillOperatingSystem(vmVmware, k8sGet);
+    const osPair = await prefillOperatingSystem({
+      basicSettings,
+      vmVmware,
+      lastPrefilledValue: this.state.lastOS,
+      k8sGet,
+      operatingSystems,
+    });
     if (osPair) {
+      if (!osPair.validation) {
+        this.setState({ lastOS: osPair.value });
+      }
       result.push(osPair);
+    }
+
+    const memPair = prefillMemory({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastMem });
+    if (memPair) {
+      this.setState({ lastMem: memPair.value });
+      result.push({ value: CUSTOM_FLAVOR, target: FLAVOR_KEY });
+      result.push(memPair);
+    }
+
+    const cpuPair = prefillCpu({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastCpu });
+    if (cpuPair) {
+      this.setState({ lastCpu: cpuPair.value });
+      result.push(cpuPair);
     }
 
     if (result.length > 0) {

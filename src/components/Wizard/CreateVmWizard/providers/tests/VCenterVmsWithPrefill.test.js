@@ -47,6 +47,10 @@ const v2vvmware = {
               Annotation: 'My description',
               GuestId: 'win2k8',
               GuestFullName: 'Windows Name',
+              Hardare: {
+                NumCPU: 2,
+                MemoryMB: 128,
+              },
             },
           }),
         },
@@ -62,6 +66,7 @@ describe('<VCenterVmsWithPrefill />', () => {
     const wrapper = shallow(<VCenterVmsWithPrefill {...props} onChange={onChange} onFormChange={onFormChange} />);
     expect(wrapper).toMatchSnapshot();
   });
+
   it('does prefill', async () => {
     const onChange = jest.fn();
     const onFormChange = jest.fn();
