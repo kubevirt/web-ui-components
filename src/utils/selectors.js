@@ -156,3 +156,5 @@ export const isGuestAgentConnected = vmi =>
   get(vmi, 'status.conditions', []).some(
     condition => condition.type === 'AgentConnected' && condition.status === 'True'
   );
+
+export const getHostStatus = host => get(host, ['metadata', 'labels', 'metalkube.org/operational-status']);
