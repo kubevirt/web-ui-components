@@ -10,5 +10,6 @@ export default {
     sourceType: PROVISION_SOURCE_PXE,
     networkConfigs,
     namespace: 'default',
+    isCreateRemoveDisabled: false,
   },
 };

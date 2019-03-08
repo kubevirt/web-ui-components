@@ -70,6 +70,7 @@ import {
   HOST_NAME_KEY,
   AUTHKEYS_KEY,
   BATCH_CHANGES_KEY,
+  INTERMEDIARY_NETWORKS_TAB_KEY,
 } from './constants';
 
 import { importProviders } from './providers';
@@ -292,9 +293,11 @@ const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, tar
       ...difference,
     };
     value.value.forEach(pair => {
-      // set field validation
-      newBasicSettings[pair.target].validation =
-        pair.validation || getFieldValidation(formFields[pair.target], pair.value, newBasicSettings);
+      if (pair.target !== INTERMEDIARY_NETWORKS_TAB_KEY) {
+        // set field validation
+        newBasicSettings[pair.target].validation =
+          pair.validation || getFieldValidation(formFields[pair.target], pair.value, newBasicSettings);
+      }
     });
     formValid = validateForm(formFields, newBasicSettings);
   } else {
