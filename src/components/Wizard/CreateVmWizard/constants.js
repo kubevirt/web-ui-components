@@ -19,6 +19,7 @@ export const HOST_NAME_KEY = 'hostname';
 export const AUTHKEYS_KEY = 'authKeys';
 export const CLOUD_INIT_CUSTOM_SCRIPT_KEY = 'cloudInitCustomScript';
 
+// Top-level stepData keys
 export const BASIC_SETTINGS_TAB_KEY = 'basicSettings';
 export const NETWORKS_TAB_KEY = 'network';
 export const STORAGE_TAB_KEY = 'storage';
@@ -53,3 +54,4 @@ export const PROVIDER_STATUS_CONNECTING = 'connecting';
 export const PROVIDER_STATUS_SUCCESS = 'success';
 export const PROVIDER_STATUS_CONNECTION_FAILED = 'connectionFailed';
 export const V2VVMWARE_DEPLOYMENT_NAME = 'v2v-vmware'; // probably no need to make the name generic
+export const INTERMEDIARY_NETWORKS_TAB_KEY = 'intermediaryNetworksData';

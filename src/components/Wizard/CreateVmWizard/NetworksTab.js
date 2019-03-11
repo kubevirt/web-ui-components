@@ -207,82 +207,88 @@ export class NetworksTab extends React.Component {
     }));
   };
 
-  getColumns = () => [
-    {
-      header: {
-        label: HEADER_NAME,
-        props: {
-          style: {
-            width: '32%',
-          },
-        },
-      },
-      property: 'name',
-      renderConfig: () => ({
-        id: 'name-edit',
-        type: TEXT,
-      }),
-    },
-    {
-      header: {
-        label: HEADER_MAC,
-        props: {
-          style: {
-            width: '32%',
-          },
-        },
-      },
-      property: 'mac',
-      renderConfig: row =>
-        row.networkType === NETWORK_TYPE_POD
-          ? null
-          : {
-              id: 'mac-edit',
-              type: TEXT,
+  getColumns = () => {
+    const columns = [
+      {
+        header: {
+          label: HEADER_NAME,
+          props: {
+            style: {
+              width: '32%',
             },
-    },
-    {
-      header: {
-        label: HEADER_NETWORK,
-        props: {
-          style: {
-            width: '32%',
           },
         },
+        property: 'name',
+        renderConfig: () => ({
+          id: 'name-edit',
+          type: TEXT,
+        }),
       },
-      property: 'network',
-      renderConfig: () => ({
-        id: 'network-edit',
-        type: DROPDOWN,
-        choices: this.props.networkConfigs
-          .filter(networkConfig => networkConfig.metadata.namespace === this.props.namespace)
-          .map(networkConfig => networkConfig.metadata.name)
-          .concat(POD_NETWORK)
-          .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
-        initialValue: SELECT_NETWORK,
-      }),
-    },
-    {
-      header: {
-        props: {
-          style: {
-            width: '4%',
+      {
+        header: {
+          label: HEADER_MAC,
+          props: {
+            style: {
+              width: '32%',
+            },
           },
         },
+        property: 'mac',
+        renderConfig: row =>
+          row.networkType === NETWORK_TYPE_POD
+            ? null
+            : {
+                id: 'mac-edit',
+                type: TEXT,
+              },
       },
-      type: ACTIONS_TYPE,
-      renderConfig: () => ({
-        id: 'actions',
-        actions: [
-          {
-            actionType: DELETE_ACTION,
-            text: REMOVE_NIC_BUTTON,
+      {
+        header: {
+          label: HEADER_NETWORK,
+          props: {
+            style: {
+              width: '32%',
+            },
           },
-        ],
-        visibleOnEdit: false,
-      }),
-    },
-  ];
+        },
+        property: 'network',
+        renderConfig: () => ({
+          id: 'network-edit',
+          type: DROPDOWN,
+          choices: this.props.networkConfigs
+            .filter(networkConfig => networkConfig.metadata.namespace === this.props.namespace)
+            .map(networkConfig => networkConfig.metadata.name)
+            .concat(POD_NETWORK)
+            .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
+          initialValue: SELECT_NETWORK,
+        }),
+      },
+    ];
+
+    if (!this.props.isCreateRemoveDisabled) {
+      columns.push({
+        header: {
+          props: {
+            style: {
+              width: '4%',
+            },
+          },
+        },
+        type: ACTIONS_TYPE,
+        renderConfig: () => ({
+          id: 'actions',
+          actions: [
+            {
+              actionType: DELETE_ACTION,
+              text: REMOVE_NIC_BUTTON,
+            },
+          ],
+          visibleOnEdit: false,
+        }),
+      });
+    }
+    return columns;
+  };
 
   getActionButtons = () => [
     {
@@ -290,7 +296,7 @@ export class NetworksTab extends React.Component {
       onClick: this.createNic,
       id: 'create-network-btn',
       text: CREATE_NIC_BUTTON,
-      disabled: this.state.editing,
+      disabled: this.props.isCreateRemoveDisabled || this.state.editing,
     },
   ];
 
@@ -368,4 +374,5 @@ NetworksTab.propTypes = {
   sourceType: PropTypes.string.isRequired,
   networkConfigs: PropTypes.array.isRequired,
   namespace: PropTypes.string.isRequired,
+  isCreateRemoveDisabled: PropTypes.bool.isRequired,
 };

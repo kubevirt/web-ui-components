@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, isEqual } from 'lodash';
 
 import { Dropdown } from '../../../Form';
 import { settingsValue } from '../../../../k8s/selectors';
@@ -12,6 +12,7 @@ import {
   FLAVOR_KEY,
   MEMORY_KEY,
   NAME_KEY,
+  INTERMEDIARY_NETWORKS_TAB_KEY,
   OPERATING_SYSTEM_KEY,
   PROVIDER_VMWARE_VM_KEY,
 } from '../constants';
@@ -58,21 +59,45 @@ export const prefillOperatingSystem = async ({
   const guestId = get(vmVmware, ['Config', 'GuestId']);
   const os = await getVmwareToKubevirtOS(operatingSystems, guestId, k8sGet);
   if (os) {
-    const value = os; // format: { id, name }
-    if (!formValue || formValue === lastPrefilledValue) {
-      if (lastPrefilledValue !== value) {
-        // avoid infinite loop
-        return { value, target: OPERATING_SYSTEM_KEY };
-      }
+    // os is of format: { id, name }
+    if (!formValue) {
+      return { value: os, target: OPERATING_SYSTEM_KEY };
+    }
+
+    if (isEqual(formValue, lastPrefilledValue)) {
+      return undefined; // nothing to do
     }
   }
-  if (!formValue || !os || formValue !== lastPrefilledValue) {
+
+  if (!formValue || !isEqual(formValue, lastPrefilledValue)) {
     const guestFullName = get(vmVmware, ['Config', 'GuestFullName']);
     return {
       value: formValue,
       target: OPERATING_SYSTEM_KEY,
       validation: getValidationObject(getVmwareOsString(guestFullName), VALIDATION_INFO_TYPE),
     };
+  }
+  return undefined;
+};
+
+// Just store data here, actual prefill will be handled within a callback in CreateVmWizard after passing through data in BasicSettingsTab
+export const prefillNics = ({ vmVmware, lastPrefilledValue }) => {
+  const devices = get(vmVmware, ['Config', 'Hardware', 'Device']);
+
+  // If the device is a network card, it has "MacAddress" present
+  // Source:
+  //   - https://www.vmware.com/support/developer/converter-sdk/conv50_apireference/vim.vm.device.VirtualDevice.BackingInfo.html
+  //   - https://www.vmware.com/support/developer/converter-sdk/conv50_apireference/vim.vm.device.VirtualDevice.html
+  const networkDevices = (devices || []).filter(device => device.hasOwnProperty('MacAddress'));
+  const value = networkDevices.map(device => ({
+    name: get(device, ['DeviceInfo', 'Label']),
+    mac: device.MacAddress,
+    id: device.Key, // TODO: verify once the Conversion pod is implemented
+  }));
+
+  if (!isEqual(lastPrefilledValue, value)) {
+    // avoid infinite loop
+    return { value, target: INTERMEDIARY_NETWORKS_TAB_KEY }; // value is expected to be passed to NETWORKS_TAB_KEY
   }
 
   return undefined;
@@ -85,21 +110,23 @@ class VCenterVmsWithPrefill extends React.Component {
     lastOS: undefined,
     lastCpu: undefined,
     lastMem: undefined,
+    lastNics: undefined,
   };
 
   async prefillValues(vmVmware) {
     const { onFormChange, k8sGet, basicSettings, operatingSystems } = this.props;
     const result = [];
+    const newState = {};
 
     const namePair = prefillVmName({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastName });
     if (namePair) {
-      this.setState({ lastName: namePair.value });
+      newState.lastName = namePair.value;
       result.push(namePair);
     }
 
     const descrPair = prefillVmDescription({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastDescription });
     if (descrPair) {
-      this.setState({ lastDescription: descrPair.value });
+      newState.lastDescription = descrPair.value;
       result.push(descrPair);
     }
 
@@ -111,26 +138,31 @@ class VCenterVmsWithPrefill extends React.Component {
       operatingSystems,
     });
     if (osPair) {
-      if (!osPair.validation) {
-        this.setState({ lastOS: osPair.value });
-      }
+      newState.lastOS = osPair.value;
       result.push(osPair);
     }
 
     const memPair = prefillMemory({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastMem });
     if (memPair) {
-      this.setState({ lastMem: memPair.value });
+      newState.lastMem = memPair.value;
       result.push({ value: CUSTOM_FLAVOR, target: FLAVOR_KEY });
       result.push(memPair);
     }
 
     const cpuPair = prefillCpu({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastCpu });
     if (cpuPair) {
-      this.setState({ lastCpu: cpuPair.value });
+      newState.lastCpu = cpuPair.value;
       result.push(cpuPair);
     }
 
+    const nics = prefillNics({ vmVmware, lastPrefilledValue: this.state.lastNics });
+    if (nics) {
+      newState.lastNics = nics.value;
+      result.push(nics);
+    }
+
     if (result.length > 0) {
+      this.setState(newState);
       onFormChange({ value: result }, BATCH_CHANGES_KEY);
     }
   }

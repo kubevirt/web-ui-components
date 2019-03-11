@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { findIndex } from 'lodash';
 import { WizardPattern } from 'patternfly-react';
 
-import { CreateVmWizard } from '../CreateVmWizard';
+import { CreateVmWizard, onVmwareVmChanged } from '../CreateVmWizard';
 import { Loading } from '../../../Loading';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { createVm, createVmTemplate } from '../../../../k8s/request';
@@ -26,6 +26,7 @@ import {
   PROVISION_SOURCE_TYPE_KEY,
   STORAGE_TYPE_CONTAINER,
   STORAGE_TYPE_DATAVOLUME,
+  INTERMEDIARY_NETWORKS_TAB_KEY,
 } from '../constants';
 
 import {
@@ -382,6 +383,57 @@ describe('<CreateVmWizard />', () => {
 
     component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noTemplateSource, true);
     checkRootNetworkExists(component);
+  });
+
+  it('prefills networks when importing - no networks', () => {
+    const props = undefined;
+    const stepData = {
+      [BASIC_SETTINGS_TAB_KEY]: {
+        value: {
+          [INTERMEDIARY_NETWORKS_TAB_KEY]: {
+            value: [],
+          },
+        },
+      },
+      [NETWORKS_TAB_KEY]: {
+        value: [],
+      },
+    };
+    const result = onVmwareVmChanged(props, stepData);
+    expect(result[NETWORKS_TAB_KEY].value).toHaveLength(0);
+  });
+
+  it('prefills networks when importing', () => {
+    const props = undefined;
+    const stepData = {
+      [BASIC_SETTINGS_TAB_KEY]: {
+        value: {
+          [INTERMEDIARY_NETWORKS_TAB_KEY]: {
+            value: [
+              {
+                name: 'nic0',
+                id: 'id0',
+                mac: 'some:mac:address:0',
+              },
+              {
+                name: 'nic1',
+                id: 'id1',
+                mac: 'some:mac:address:1',
+              },
+            ],
+          },
+        },
+      },
+      [NETWORKS_TAB_KEY]: {
+        value: [],
+      },
+    };
+    const result = onVmwareVmChanged(props, stepData);
+    expect(result[NETWORKS_TAB_KEY].value).toHaveLength(2);
+    expect(result[NETWORKS_TAB_KEY].value[0].importSourceId).toBe('id0');
+    expect(result[NETWORKS_TAB_KEY].value[0].name).toBe('nic0');
+    expect(result[NETWORKS_TAB_KEY].value[0].mac).toBe('some:mac:address:0');
+    expect(result[NETWORKS_TAB_KEY].value[0].network).toBe(undefined);
   });
 });
 

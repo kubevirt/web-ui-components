@@ -30,6 +30,9 @@ import {
   STORAGE_TYPE_CONTAINER,
   STORAGE_TYPE_DATAVOLUME,
   NETWORK_TYPE_POD,
+  INTERMEDIARY_NETWORKS_TAB_KEY,
+  NAMESPACE_KEY,
+  PROVIDER_VMWARE_VM_KEY,
 } from './constants';
 
 import {
@@ -189,6 +192,35 @@ const onUserTemplateChanged = (props, stepData) => {
 
 const onImageSourceTypeChanged = (props, stepData) => onImageSourceTypeChangedInStorageTab(stepData);
 
+export const onVmwareVmChanged = (props, stepData) => {
+  const sourceNetworks = getBasicSettingsValue(stepData, INTERMEDIARY_NETWORKS_TAB_KEY);
+  delete stepData[BASIC_SETTINGS_TAB_KEY].value[INTERMEDIARY_NETWORKS_TAB_KEY]; // not needed anymore, do not setState() that
+
+  if (sourceNetworks) {
+    const rows = sourceNetworks.map((src, index) => ({
+      rootNetwork: {},
+      id: index,
+      name: src.name,
+      mac: src.mac,
+      network: undefined, // Let the user select proper mapping
+      networkType: undefined,
+      editable: true,
+      edit: false,
+      importSourceId: src.id, // will be used for pairing when Conversion POD is executed
+    }));
+
+    return {
+      ...stepData,
+      [NETWORKS_TAB_KEY]: {
+        ...stepData[NETWORKS_TAB_KEY],
+        value: rows,
+      },
+    };
+  }
+
+  return stepData;
+};
+
 const podNetwork = {
   rootNetwork: {},
   id: 0,
@@ -236,6 +268,10 @@ export class CreateVmWizard extends React.Component {
     {
       field: PROVISION_SOURCE_TYPE_KEY,
       callback: onImageSourceTypeChanged,
+    },
+    {
+      field: INTERMEDIARY_NETWORKS_TAB_KEY, // can not use PROVIDER_VMWARE_VM_KEY to detect changes due to asynchronous load of details _after_ selection
+      callback: onVmwareVmChanged,
     },
   ];
 
@@ -366,8 +402,9 @@ export class CreateVmWizard extends React.Component {
             networkConfigs={this.props.networkConfigs}
             networks={this.state.stepData[NETWORKS_TAB_KEY].value || []}
             sourceType={sourceType}
-            namespace={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value.namespace.value}
+            namespace={getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY)}
             loadingData={loadingData}
+            isCreateRemoveDisabled={!!getBasicSettingsValue(this.state.stepData, PROVIDER_VMWARE_VM_KEY)}
           />
         );
       },
@@ -387,7 +424,7 @@ export class CreateVmWizard extends React.Component {
             onChange={(value, valid) => this.onStepDataChanged(STORAGE_TAB_KEY, value, valid)}
             units={this.props.units}
             sourceType={sourceType}
-            namespace={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value.namespace.value}
+            namespace={getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY)}
             loadingData={loadingData}
           />
         );

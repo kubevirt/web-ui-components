@@ -1,21 +1,26 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme/build';
+import { cloneDeep } from 'lodash';
 
 import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/forms_mocks/basicSettings.mock';
 import { k8sGet } from '../../../../../tests/k8s';
 import { flushPromises } from '../../../../../tests/enzyme';
 
-import VCenterVmsWithPrefill, { prefillOperatingSystem } from '../VCenterVmsWithPrefill';
+import VCenterVmsWithPrefill, { prefillNics, prefillOperatingSystem } from '../VCenterVmsWithPrefill';
 import {
   BATCH_CHANGES_KEY,
   PROVIDER_VMWARE_VM_KEY,
   NAME_KEY,
   DESCRIPTION_KEY,
   OPERATING_SYSTEM_KEY,
+  INTERMEDIARY_NETWORKS_TAB_KEY,
+  FLAVOR_KEY,
+  MEMORY_KEY,
+  CPU_KEY,
 } from '../../constants';
 import { getOperatingSystems } from '../../../../../k8s/selectors';
 import { baseTemplates } from '../../../../../k8s/objects/template';
-import { VALIDATION_INFO_TYPE } from '../../../../../constants';
+import { CUSTOM_FLAVOR, VALIDATION_INFO_TYPE } from '../../../../../constants';
 
 const props = {
   id: 'my-id',
@@ -35,9 +40,43 @@ const vmwareVm = {
     Annotation: 'My description',
     GuestId: 'win2k8',
     GuestFullName: 'Windows Name',
-    Hardare: {
+    Hardware: {
       NumCPU: 2,
       MemoryMB: 128,
+      Device: [
+        {
+          Key: 600,
+          DeviceInfo: {
+            Label: 'Keyboard ',
+            Summary: 'Keyboard',
+          },
+          Backing: null,
+          Connectable: null,
+          SlotInfo: null,
+        },
+        {
+          Key: 4000,
+          DeviceInfo: {
+            Label: 'nic0',
+            Summary: 'description of nic0',
+          },
+          Backing: {},
+          Connectable: {},
+          SlotInfo: {},
+          AddressType: 'assigned',
+          MacAddress: '00:50:56:a5:ff:de',
+          WakeOnLanEnabled: true,
+          ExternalId: '',
+        },
+        {
+          Key: 4001,
+          DeviceInfo: {
+            Label: 'nic1',
+            Summary: 'description of nic1',
+          },
+          MacAddress: '00:50:56:a5:ff:de',
+        },
+      ],
     },
   },
 };
@@ -70,6 +109,12 @@ describe('<VCenterVmsWithPrefill />', () => {
   });
 
   it('does prefill', async () => {
+    const failedRhel7 = {
+      value: { id: 'rhel7.0', name: 'Red Hat Enterprise Linux 7.0' },
+      target: OPERATING_SYSTEM_KEY,
+      validation: { message: 'Select matching for: Windows Name', type: VALIDATION_INFO_TYPE },
+    };
+
     const onChange = jest.fn();
     const onFormChange = jest.fn();
     const wrapper = mount(<VCenterVmsWithPrefill {...props} onChange={onChange} onFormChange={onFormChange} />);
@@ -80,23 +125,33 @@ describe('<VCenterVmsWithPrefill />', () => {
     wrapper.setProps({ v2vvmware }); // force componentDidUpdate containing async processing
     await flushPromises();
     expect(onChange.mock.calls).toHaveLength(0);
-    expect(onFormChange.mock.calls).toHaveLength(2);
+    expect(onFormChange.mock.calls).toHaveLength(1);
+    expect(onFormChange.mock.calls[0][0].value).toHaveLength(6);
     expect(onFormChange.mock.calls[0][1]).toBe(BATCH_CHANGES_KEY);
     expect(onFormChange.mock.calls[0][0].value[0]).toEqual({ value: 'My description', target: DESCRIPTION_KEY }); // name is skipped as it was provided by the user
-    expect(onFormChange.mock.calls[1][0].value[0]).toEqual({
-      // the value is already pre-selected by the user, so no matching
-      value: { id: 'rhel7.0', name: 'Red Hat Enterprise Linux 7.0' },
-      target: OPERATING_SYSTEM_KEY,
-      validation: { message: 'Select matching for: Windows Name', type: VALIDATION_INFO_TYPE },
+
+    // the value is already pre-selected by the user, so no matching
+    expect(onFormChange.mock.calls[0][0].value[1]).toEqual(failedRhel7);
+
+    expect(onFormChange.mock.calls[0][0].value[2]).toEqual({ value: CUSTOM_FLAVOR, target: FLAVOR_KEY });
+    expect(onFormChange.mock.calls[0][0].value[3]).toEqual({ value: 128, target: MEMORY_KEY });
+    expect(onFormChange.mock.calls[0][0].value[4]).toEqual({ value: 2, target: CPU_KEY });
+
+    expect(onFormChange.mock.calls[0][0].value[5]).toEqual({
+      value: [
+        { id: 4000, mac: '00:50:56:a5:ff:de', name: 'nic0' },
+        { id: 4001, mac: '00:50:56:a5:ff:de', name: 'nic1' },
+      ],
+      target: INTERMEDIARY_NETWORKS_TAB_KEY,
     });
 
-    const newBasicSettings = Object.assign({}, props.basicSettings);
+    const newBasicSettings = cloneDeep(props.basicSettings);
     newBasicSettings[NAME_KEY] = '';
     wrapper.setProps({ basicSettings: newBasicSettings });
     await flushPromises();
-    expect(onFormChange.mock.calls).toHaveLength(3);
-    expect(onFormChange.mock.calls[2][1]).toBe(BATCH_CHANGES_KEY);
-    expect(onFormChange.mock.calls[2][0].value[0]).toEqual({ value: 'vm-name', target: NAME_KEY }); // description is skipped as it is equal with former run
+    expect(onFormChange.mock.calls).toHaveLength(2);
+    expect(onFormChange.mock.calls[1][1]).toBe(BATCH_CHANGES_KEY);
+    expect(onFormChange.mock.calls[1][0].value[0]).toEqual({ value: 'vm-name', target: NAME_KEY }); // description is skipped as it is equal with former run
   });
 
   it('handles prefillOperatingSystem() with already preselected value by user', async () => {
@@ -115,11 +170,11 @@ describe('<VCenterVmsWithPrefill />', () => {
   });
 
   it('handles successful prefillOperatingSystem()', async () => {
-    const fedora = Object.assign({}, vmwareVm);
+    const fedora = cloneDeep(vmwareVm);
     fedora.Config.GuestId = 'fedora28_guest';
     fedora.Config.GuestFullName = 'Fedora OS Name';
 
-    const basicSettings = Object.assign({}, basicSettingsImportVmwareNewConnection);
+    const basicSettings = cloneDeep(basicSettingsImportVmwareNewConnection);
     delete basicSettings[OPERATING_SYSTEM_KEY];
 
     const result = await prefillOperatingSystem({
@@ -136,11 +191,11 @@ describe('<VCenterVmsWithPrefill />', () => {
   });
 
   it('handles failing prefillOperatingSystem()', async () => {
-    const fedora = Object.assign({}, vmwareVm);
+    const fedora = cloneDeep(vmwareVm);
     fedora.Config.GuestId = 'unknown_id';
     fedora.Config.GuestFullName = 'A random OS';
 
-    const basicSettings = Object.assign({}, basicSettingsImportVmwareNewConnection);
+    const basicSettings = cloneDeep(basicSettingsImportVmwareNewConnection);
     delete basicSettings[OPERATING_SYSTEM_KEY];
 
     const result = await prefillOperatingSystem({
@@ -155,5 +210,15 @@ describe('<VCenterVmsWithPrefill />', () => {
       validation: { message: 'Select matching for: A random OS', type: 'info' },
       value: undefined,
     });
+  });
+
+  it('handlers prefillNics()', () => {
+    const result = prefillNics({ vmVmware: vmwareVm, lastPrefilledValue: undefined });
+    expect(result.target).toBe(INTERMEDIARY_NETWORKS_TAB_KEY);
+    expect(result.value).toHaveLength(2);
+    expect(result.value[0].id).toBe(4000);
+    expect(result.value[1].id).toBe(4001);
+    expect(result.value[0].name).toBe('nic0');
+    expect(result.value[1].name).toBe('nic1');
   });
 });
