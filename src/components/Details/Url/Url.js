@@ -29,15 +29,8 @@ const resolvePathname = ({ pathname }, maxPathnameParts) => {
   return `/${elipsizeLeft(`/${resolvedPathname}`)}`;
 };
 
-const resolveUrl = ({ urlObj, maxHostnameParts, maxPathnameParts }) => {
-  const { search, hash } = urlObj;
-
-  const resolvedOrigin = resolveOrigin(urlObj, maxHostnameParts);
-  const resolvedPathname = resolvePathname(urlObj, maxPathnameParts);
-  const resolvedSearchHash = search.length > 0 || hash.length > 0 ? ELIPSIS : '';
-
-  return `${resolvedOrigin}${resolvedPathname}${resolvedSearchHash}`;
-};
+const resolveUrl = ({ urlObj, maxHostnameParts, maxPathnameParts }) =>
+  `${resolveOrigin(urlObj, maxHostnameParts)}${resolvePathname(urlObj, maxPathnameParts)}`;
 
 export const Url = ({ url, short, maxHostnameParts, maxPathnameParts }) => {
   const urlObj = short ? parseUrl(url) : undefined;
