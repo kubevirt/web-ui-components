@@ -1,6 +1,6 @@
 import { VmDetails } from '../VmDetails';
-import { fedora28 } from '../../../../k8s/objects/template/fedora28';
 import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../../constants';
+import { k8sPatch, k8sGet } from '../../../../tests/k8s';
 
 const metadata = {
   name: 'my-vm',
@@ -148,14 +148,8 @@ export default [
     name: 'Offline VM',
     props: {
       vm: vmFixtures.downVm,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
     },
   },
   {
@@ -164,14 +158,8 @@ export default [
     props: {
       vm: vmFixtures.runningVm,
       vmi: vmiFixture,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
       NodeLink: () => true,
     },
   },
@@ -180,14 +168,8 @@ export default [
     name: 'VM with description',
     props: {
       vm: vmFixtures.vmWithDescription,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
       NodeLink: () => true,
     },
   },
@@ -196,14 +178,8 @@ export default [
     name: 'VM with flavor workload os',
     props: {
       vm: vmFixtures.vmWithLabels,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
       NodeLink: () => true,
     },
   },
@@ -212,15 +188,20 @@ export default [
     name: 'VM with custom flavor',
     props: {
       vm: vmFixtures.customVm,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
       NodeLink: () => true,
+    },
+  },
+  {
+    component: VmDetails,
+    name: 'VM detail as overview',
+    props: {
+      vm: vmFixtures.customVm,
+      k8sPatch,
+      k8sGet,
+      NodeLink: () => true,
+      overview: true,
     },
   },
 ];

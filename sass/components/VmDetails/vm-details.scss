@@ -1,9 +1,53 @@
 .kubevirt-vm-details__description {
   margin-right: 40px;
+  word-wrap: break-word;
 }
 
 .kubevirt-vm-details__edit-info {
   display: inline-block;
   font-size: 80%;
   padding-right: 15px;
+}
+
+.kubevirt-vm-details__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.kubevirt-vm-details--with-border {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+}
+
+.kubevirt-vm-details__details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex: 6;
+}
+
+.kubevirt-vm-details__other-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex: 2;
+}
+
+.kubevirt-vm-details__name-list {
+  width: 400px;
+  flex: 1;
+  flex-basis: auto;
+}
+
+.kubevirt-vm-details__item--hidden {
+  display: none;
+}
+
+.kubevirt-vm-details__details-list {
+  min-width: 230px;
+  flex: 1;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }

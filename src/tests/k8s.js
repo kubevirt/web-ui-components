@@ -2,12 +2,13 @@ import React from 'react';
 
 import * as _ from 'lodash';
 
-import { ConfigMapModel, ProcessedTemplatesModel, V2VVMwareModel } from '../models';
+import { ConfigMapModel, ProcessedTemplatesModel, V2VVMwareModel, TemplateModel } from '../models';
 import {
   TEMPLATE_PARAM_VM_NAME,
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
 } from '../constants';
+import { fedora28 } from '../k8s/objects/template/fedora28';
 
 const processTemplate = template =>
   new Promise((resolve, reject) => {
@@ -33,7 +34,7 @@ export const k8sGet = (model, name, ns, opts) => {
         ],
       },
     };
-    return v2vvmware;
+    return Promise.resolve(v2vvmware);
   }
 
   if (
@@ -52,11 +53,15 @@ export const k8sGet = (model, name, ns, opts) => {
       kind: 'ConfigMap',
       metadata: {},
     };
-    return configMap;
+    return Promise.resolve(configMap);
   }
 
-  throw new Error(
-    `Mock k8sGet() function is not implemented for that flow: model: ${model.kind}, name: ${name}, ns: ${ns}`
+  if (model.kind === TemplateModel.kind && name === 'fedora-generic' && ns === 'default') {
+    return Promise.resolve(fedora28);
+  }
+
+  return Promise.reject(
+    new Error(`Mock k8sGet() function is not implemented for that flow: model: ${model.kind}, name: ${name}, ns: ${ns}`)
   );
 };
 
