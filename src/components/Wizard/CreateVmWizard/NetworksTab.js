@@ -368,11 +368,15 @@ export class NetworksTab extends React.Component {
   }
 }
 
+NetworksTab.defaultProps = {
+  isCreateRemoveDisabled: false,
+};
+
 NetworksTab.propTypes = {
   onChange: PropTypes.func.isRequired,
   networks: PropTypes.array.isRequired,
   sourceType: PropTypes.string.isRequired,
   networkConfigs: PropTypes.array.isRequired,
   namespace: PropTypes.string.isRequired,
-  isCreateRemoveDisabled: PropTypes.bool.isRequired,
+  isCreateRemoveDisabled: PropTypes.bool,
 };

@@ -6,7 +6,7 @@ import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/for
 import { k8sGet } from '../../../../../tests/k8s';
 import { flushPromises } from '../../../../../tests/enzyme';
 
-import VCenterVmsWithPrefill, { prefillNics, prefillOperatingSystem } from '../VCenterVmsWithPrefill';
+import VCenterVmsWithPrefill, { prefillDisks, prefillNics, prefillOperatingSystem } from '../VCenterVmsWithPrefill';
 import {
   BATCH_CHANGES_KEY,
   PROVIDER_VMWARE_VM_KEY,
@@ -17,6 +17,7 @@ import {
   FLAVOR_KEY,
   MEMORY_KEY,
   CPU_KEY,
+  INTERMEDIARY_STORAGE_TAB_KEY,
 } from '../../constants';
 import { getOperatingSystems } from '../../../../../k8s/selectors';
 import { baseTemplates } from '../../../../../k8s/objects/template';
@@ -76,6 +77,70 @@ const vmwareVm = {
           },
           MacAddress: '00:50:56:a5:ff:de',
         },
+        {
+          Key: 2000,
+          DeviceInfo: {
+            Label: 'disk0',
+            Summary: 'description of disk0',
+          },
+          Backing: {
+            FileName: '[datastore12] ftp-01/ftp-01.vmdk',
+            Datastore: {
+              Type: 'Datastore',
+              Value: 'datastore-45',
+            },
+            BackingObjectId: '',
+            DiskMode: 'persistent',
+            Split: false,
+            WriteThrough: false,
+            ThinProvisioned: true,
+            EagerlyScrub: null,
+            Uuid: '6000C297-5043-93c2-12ca-f44ae8af4881',
+            ContentId: 'ee1918ce88582c53457b0c75fffffffe',
+            ChangeId: '',
+            Parent: null,
+            DeltaDiskFormat: '',
+            DigestEnabled: false,
+            DeltaGrainSize: 0,
+            DeltaDiskFormatVariant: '',
+            Sharing: 'sharingNone',
+            KeyId: null,
+          },
+          Connectable: null,
+          SlotInfo: null,
+          ControllerKey: 1000,
+          UnitNumber: 0,
+          CapacityInKB: 1,
+          CapacityInBytes: 1024,
+          Shares: {
+            Shares: 1000,
+            Level: 'normal',
+          },
+          StorageIOAllocation: {
+            Limit: -1,
+            Shares: {
+              Shares: 1000,
+              Level: 'normal',
+            },
+            Reservation: 0,
+          },
+          DiskObjectId: '61-2000',
+          VFlashCacheConfigInfo: null,
+          Iofilter: null,
+          VDiskId: null,
+          NativeUnmanagedLinkedClone: null,
+        },
+        {
+          Key: 2001,
+          DeviceInfo: {
+            Label: 'disk1',
+            Summary: 'description of disk1',
+          },
+          Backing: {
+            FileName: 'filename1',
+          },
+          CapacityInBytes: 2048,
+        },
       ],
     },
   },
@@ -126,7 +191,7 @@ describe('<VCenterVmsWithPrefill />', () => {
     await flushPromises();
     expect(onChange.mock.calls).toHaveLength(0);
     expect(onFormChange.mock.calls).toHaveLength(1);
-    expect(onFormChange.mock.calls[0][0].value).toHaveLength(6);
+    expect(onFormChange.mock.calls[0][0].value).toHaveLength(7);
     expect(onFormChange.mock.calls[0][1]).toBe(BATCH_CHANGES_KEY);
     expect(onFormChange.mock.calls[0][0].value[0]).toEqual({ value: 'My description', target: DESCRIPTION_KEY }); // name is skipped as it was provided by the user
 
@@ -143,6 +208,14 @@ describe('<VCenterVmsWithPrefill />', () => {
         { id: 4001, mac: '00:50:56:a5:ff:de', name: 'nic1' },
       ],
       target: INTERMEDIARY_NETWORKS_TAB_KEY,
+    });
+
+    expect(onFormChange.mock.calls[0][0].value[6]).toEqual({
+      value: [
+        { id: 2000, name: 'disk0', fileName: '[datastore12] ftp-01/ftp-01.vmdk', capacity: 1024 },
+        { id: 2001, name: 'disk1', fileName: 'filename1', capacity: 2048 },
+      ],
+      target: INTERMEDIARY_STORAGE_TAB_KEY,
     });
 
     const newBasicSettings = cloneDeep(props.basicSettings);
@@ -220,5 +293,15 @@ describe('<VCenterVmsWithPrefill />', () => {
     expect(result.value[1].id).toBe(4001);
     expect(result.value[0].name).toBe('nic0');
     expect(result.value[1].name).toBe('nic1');
+  });
+
+  it('handlers prefillDisks()', () => {
+    const result = prefillDisks({ vmVmware: vmwareVm, lastPrefilledValue: undefined });
+    expect(result.target).toBe(INTERMEDIARY_STORAGE_TAB_KEY);
+    expect(result.value).toHaveLength(2);
+    expect(result.value[0].id).toBe(2000);
+    expect(result.value[1].id).toBe(2001);
+    expect(result.value[0].name).toBe('disk0');
+    expect(result.value[1].name).toBe('disk1');
   });
 });

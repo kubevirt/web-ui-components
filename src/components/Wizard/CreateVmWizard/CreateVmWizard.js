@@ -4,7 +4,7 @@ import { findIndex } from 'lodash';
 import { Wizard } from 'patternfly-react';
 
 import { BasicSettingsTab, onCloseBasic } from './BasicSettingsTab';
-import { StorageTab } from './StorageTab';
+import { StorageTab, validateStorage } from './StorageTab';
 import { ResultTab } from './ResultTab';
 import { ResultTabRow } from './ResultTabRow';
 import { NetworksTab } from './NetworksTab';
@@ -33,6 +33,8 @@ import {
   INTERMEDIARY_NETWORKS_TAB_KEY,
   NAMESPACE_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  INTERMEDIARY_STORAGE_TAB_KEY,
+  STORAGE_TYPE_PVC,
 } from './constants';
 
 import {
@@ -196,6 +198,9 @@ export const onVmwareVmChanged = (props, stepData) => {
   const sourceNetworks = getBasicSettingsValue(stepData, INTERMEDIARY_NETWORKS_TAB_KEY);
   delete stepData[BASIC_SETTINGS_TAB_KEY].value[INTERMEDIARY_NETWORKS_TAB_KEY]; // not needed anymore, do not setState() that
 
+  const sourceDisks = getBasicSettingsValue(stepData, INTERMEDIARY_STORAGE_TAB_KEY);
+  delete stepData[BASIC_SETTINGS_TAB_KEY].value[INTERMEDIARY_STORAGE_TAB_KEY];
+
   if (sourceNetworks) {
     const rows = sourceNetworks.map((src, index) => ({
       rootNetwork: {},
@@ -209,11 +214,40 @@ export const onVmwareVmChanged = (props, stepData) => {
       importSourceId: src.id, // will be used for pairing when Conversion POD is executed
     }));
 
-    return {
+    stepData = {
       ...stepData,
       [NETWORKS_TAB_KEY]: {
         ...stepData[NETWORKS_TAB_KEY],
         value: rows,
+      },
+    };
+  }
+
+  if (sourceDisks) {
+    const rows = sourceDisks.map((src, index) => {
+      const row = {
+        rootStorage: {},
+        name: src.name,
+        isBootable: false, // TODO
+        storageType: STORAGE_TYPE_PVC,
+        size: src.capacity / (1024 * 1024 * 1024), // bytes to GB
+        storageClass: undefined, // Let the user select proper mapping
+
+        id: index,
+        editable: true,
+        edit: false,
+        importSourceId: src.id, // will be used for pairing when Conversion POD is executed
+      };
+      row.errors = validateStorage(row);
+      return row;
+    });
+
+    stepData = {
+      ...stepData,
+      [STORAGE_TAB_KEY]: {
+        ...stepData[STORAGE_TAB_KEY],
+        value: rows,
+        // the "valid" field will be set within StorageTab constructor processing based on the "row.error"
       },
     };
   }
@@ -426,6 +460,7 @@ export class CreateVmWizard extends React.Component {
             sourceType={sourceType}
             namespace={getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY)}
             loadingData={loadingData}
+            isCreateRemoveDisabled={!!getBasicSettingsValue(this.state.stepData, PROVIDER_VMWARE_VM_KEY)}
           />
         );
       },

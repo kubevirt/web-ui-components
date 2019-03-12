@@ -71,6 +71,7 @@ import {
   AUTHKEYS_KEY,
   BATCH_CHANGES_KEY,
   INTERMEDIARY_NETWORKS_TAB_KEY,
+  INTERMEDIARY_STORAGE_TAB_KEY,
 } from './constants';
 
 import { importProviders } from './providers';
@@ -293,7 +294,7 @@ const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, tar
       ...difference,
     };
     value.value.forEach(pair => {
-      if (pair.target !== INTERMEDIARY_NETWORKS_TAB_KEY) {
+      if (pair.target !== INTERMEDIARY_NETWORKS_TAB_KEY && pair.target !== INTERMEDIARY_STORAGE_TAB_KEY) {
         // set field validation
         newBasicSettings[pair.target].validation =
           pair.validation || getFieldValidation(formFields[pair.target], pair.value, newBasicSettings);
