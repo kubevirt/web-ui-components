@@ -20,5 +20,6 @@ export * from './components/ConfigurationSummary';
 // helpers
 export * from './constants';
 export * from './utils';
+export * from './models';
 export * from './k8s/request';
 export * from './k8s/selectors';

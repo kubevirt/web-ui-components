@@ -19,6 +19,19 @@ export const VirtualMachineModel = {
   id: 'virtualmachine',
 };
 
+export const BaremetalHostModel = {
+  label: 'Bare Metal Host',
+  labelPlural: 'Bare Metal Hosts',
+  apiVersion: 'v1alpha1',
+  path: 'baremetalhosts',
+  apiGroup: 'metalkube.org',
+  plural: 'baremetalhosts',
+  abbr: 'BMH',
+  namespaced: true,
+  kind: 'BareMetalHost',
+  id: 'baremetalhost',
+};
+
 export const ProcessedTemplatesModel = {
   apiVersion: 'v1',
   path: 'processedtemplates',
