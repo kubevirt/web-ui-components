@@ -338,11 +338,12 @@ export class CreateVmWizard extends React.Component {
       content: obj,
       title: `${obj.kind} ${getName(obj)} ${jmessage}`,
     });
+    const basicSettings = this.state.stepData[BASIC_SETTINGS_TAB_KEY].value;
 
     create(
       this.props.k8sCreate,
       this.props.templates,
-      this.state.stepData[BASIC_SETTINGS_TAB_KEY].value,
+      basicSettings,
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value,
       this.props.persistentVolumeClaims

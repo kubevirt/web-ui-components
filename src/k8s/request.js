@@ -1,4 +1,4 @@
-import { cloneDeep, get } from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import {
@@ -12,7 +12,7 @@ import {
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
 } from '../utils/selectors';
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, SecretModel } from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel } from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
@@ -20,7 +20,6 @@ import {
   TEMPLATE_PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_IMPORT,
   TEMPLATE_TYPE_BASE,
   PROVISION_SOURCE_PXE,
   POD_NETWORK,
@@ -62,12 +61,6 @@ import {
   DATA_VOLUME_SOURCE_URL,
   IMAGE_URL_KEY,
   DATA_VOLUME_SOURCE_BLANK,
-  PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
-  PROVIDER_VMWARE_VCENTER_KEY,
-  PROVIDER_VMWARE_USER_NAME_KEY,
-  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
-  PROVIDER_VMWARE_USER_PWD_KEY,
-  PROVIDER_VMWARE_URL_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 import {
@@ -77,6 +70,7 @@ import {
   getTemplateAnnotations,
   settingsValue,
   selectVm,
+  isVmwareImport,
 } from './selectors';
 import { CloudInit } from './cloudInit';
 import { addTemplateClone } from './clone';
@@ -102,7 +96,7 @@ import {
   sequentializeBootOrderIndexes,
 } from './vmBuilder';
 
-import { getImportProviderSecretObject } from '../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
+import { importVmwareVm } from './importVmware';
 
 const FALLBACK_DISK = {
   disk: {
@@ -222,32 +216,14 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
     vm.metadata.namespace = namespace;
   }
 
-  const results = [];
+  let results = [];
 
-  const importProviderSecret = getImportProviderSecret(getSetting);
-  if (importProviderSecret) {
-    results.push(await k8sCreate(SecretModel, importProviderSecret));
+  if (isVmwareImport(basicSettings)) {
+    results = results.concat(await importVmwareVm(getSetting, networks, storage, k8sCreate));
   }
 
   results.push(await k8sCreate(VirtualMachineModel, vm));
   return results;
-};
-
-const getImportProviderSecret = getSetting => {
-  if (
-    getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY) &&
-    getSetting(PROVIDER_VMWARE_VCENTER_KEY) &&
-    getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_IMPORT
-  ) {
-    const url = getSetting(PROVIDER_VMWARE_URL_KEY);
-    const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
-    const password = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
-    const namespace = getSetting(NAMESPACE_KEY);
-
-    return getImportProviderSecretObject({ url, username, password, namespace });
-  }
-
-  return null;
 };
 
 const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage, persistentVolumeClaims) => {

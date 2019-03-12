@@ -22,6 +22,7 @@ import {
   PROVIDER_KEY,
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
   PROVIDER_VMWARE_CONNECTION,
+  PROVIDER_VMWARE_VCENTER_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 export const settingsValue = (basicSettings, key, defaultValue) => get(basicSettings, [key, 'value'], defaultValue);
@@ -132,3 +133,7 @@ export const getV2VVmwareName = basicSettings =>
     PROVIDER_VMWARE_CONNECTION,
     'V2VVmwareName',
   ]);
+
+export const isVmwareImport = basicSettings =>
+  !!settingsValue(basicSettings, [PROVIDER_VMWARE_VCENTER_KEY]) &&
+  settingsValue(basicSettings, [PROVISION_SOURCE_TYPE_KEY]) === PROVISION_SOURCE_IMPORT;
