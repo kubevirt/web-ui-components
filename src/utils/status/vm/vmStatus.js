@@ -12,7 +12,7 @@ import {
   VM_STATUS_VMI_WAITING,
   VM_STATUS_UNKNOWN,
   VM_STATUS_OTHER,
-} from '../../constants';
+} from './constants';
 
 const NOT_HANDLED = null;
 
@@ -156,7 +156,7 @@ const isWaitingForVmi = vm => {
   return NOT_HANDLED;
 };
 
-export const getVmStatusDetail = (vm, launcherPod, importerPods, migration) =>
+export const getVmStatus = (vm, launcherPod, importerPods, migration) =>
   isBeingMigrated(vm, migration) || // must be precceding isRunning() since vm.status.ready is true for a migrating VM
   isRunning(vm) ||
   isReady(vm) ||
@@ -165,8 +165,8 @@ export const getVmStatusDetail = (vm, launcherPod, importerPods, migration) =>
   isBeingImported(vm, importerPods) ||
   isWaitingForVmi(vm) || { status: VM_STATUS_UNKNOWN };
 
-export const getVmStatus = (vm, launcherPod, importerPods, migration) => {
-  const vmStatus = getVmStatusDetail(vm, launcherPod, importerPods, migration).status;
+export const getSimpleVmStatus = (vm, launcherPod, importerPods, migration) => {
+  const vmStatus = getVmStatus(vm, launcherPod, importerPods, migration).status;
   return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_STATUS_OTHER;
 };
 

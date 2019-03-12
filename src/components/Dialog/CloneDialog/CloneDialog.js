@@ -11,9 +11,9 @@ import { validateDNS1123SubdomainValue, getValidationObject } from '../../../uti
 import { settingsValue } from '../../../k8s/selectors';
 import { clone } from '../../../k8s/clone';
 import { Loading } from '../../Loading';
-import { VALIDATION_ERROR_TYPE, VM_STATUS_OFF } from '../../../constants';
+import { VALIDATION_ERROR_TYPE } from '../../../constants';
 import { VIRTUAL_MACHINE_EXISTS } from '../../../utils/strings';
-import { isRunning } from '../../VmStatus/getVmStatus';
+import { isRunning, VM_STATUS_OFF } from '../../../utils/status/vm';
 
 const vmAlreadyExists = (name, namespace, vms) => {
   const exists = vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);

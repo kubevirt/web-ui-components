@@ -57,26 +57,6 @@ export const VALIDATION_INFO_TYPE = 'info';
 
 export const OS_WINDOWS_PREFIX = 'win';
 
-export const VM_STATUS_OFF = 'VM_STATUS_OFF';
-export const VM_STATUS_RUNNING = 'VM_STATUS_RUNNING';
-export const VM_STATUS_STARTING = 'VM_STATUS_STARTING';
-export const VM_STATUS_VMI_WAITING = 'VM_STATUS_VMI_WAITING';
-export const VM_STATUS_IMPORTING = 'VM_STATUS_IMPORTING';
-export const VM_STATUS_POD_ERROR = 'VM_STATUS_POD_ERROR';
-export const VM_STATUS_ERROR = 'VM_STATUS_ERROR';
-export const VM_STATUS_IMPORT_ERROR = 'VM_STATUS_IMPORT_ERROR';
-export const VM_STATUS_UNKNOWN = 'VM_STATUS_UNKNOWN';
-export const VM_STATUS_MIGRATING = 'VM_STATUS_MIGRATING';
-export const VM_STATUS_OTHER = 'VM_STATUS_OTHER'; // used for grouping filters
-
-export const VM_STATUS_ALL = [VM_STATUS_RUNNING, VM_STATUS_OFF, VM_STATUS_OTHER];
-
-export const VM_STATUS_TO_TEXT = {
-  [VM_STATUS_RUNNING]: 'Running',
-  [VM_STATUS_OFF]: 'Off',
-  [VM_STATUS_OTHER]: 'Other',
-};
-
 export const DEFAULT_RDP_PORT = 3389;
 export const DASHES = '---';
 
