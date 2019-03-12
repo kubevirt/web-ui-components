@@ -27,6 +27,7 @@ import {
   STORAGE_TYPE_CONTAINER,
   STORAGE_TYPE_DATAVOLUME,
   INTERMEDIARY_NETWORKS_TAB_KEY,
+  INTERMEDIARY_STORAGE_TAB_KEY,
 } from '../constants';
 
 import {
@@ -434,6 +435,41 @@ describe('<CreateVmWizard />', () => {
     expect(result[NETWORKS_TAB_KEY].value[0].name).toBe('nic0');
     expect(result[NETWORKS_TAB_KEY].value[0].mac).toBe('some:mac:address:0');
     expect(result[NETWORKS_TAB_KEY].value[0].network).toBe(undefined);
+  });
+
+  it('prefills disks when importing', () => {
+    const props = undefined;
+    const stepData = {
+      [BASIC_SETTINGS_TAB_KEY]: {
+        value: {
+          [INTERMEDIARY_STORAGE_TAB_KEY]: {
+            value: [
+              {
+                name: 'disk0',
+                id: 'id0',
+                fileName: 'filename0',
+                capacity: 1024,
+              },
+              {
+                name: 'disk1',
+                id: 'id1',
+                fileName: 'filename1',
+                capacity: 2048,
+              },
+            ],
+          },
+        },
+      },
+      [STORAGE_TAB_KEY]: {
+        value: [],
+      },
+    };
+    const result = onVmwareVmChanged(props, stepData);
+    expect(result[STORAGE_TAB_KEY].value).toHaveLength(2);
+    expect(result[STORAGE_TAB_KEY].value[0].importSourceId).toBe('id0');
+    expect(result[STORAGE_TAB_KEY].value[0].name).toBe('disk0');
+    expect(result[STORAGE_TAB_KEY].value[0].size).toBe(1024 / (1024 * 1024 * 1024));
+    expect(result[STORAGE_TAB_KEY].value[0].storageClass).toBe(undefined);
   });
 });
 

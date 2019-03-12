@@ -38,8 +38,10 @@ import {
   SELECT_BOOTABLE_DISK,
 } from './strings';
 
+const initalStorageErrorsArray = () => Array(4).fill(null);
+
 const validateDataVolumeStorage = storage => {
-  const errors = Array(4).fill(null);
+  const errors = initalStorageErrorsArray();
 
   if (!storage || storage.id == null) {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
@@ -58,7 +60,7 @@ const validateDataVolumeStorage = storage => {
 };
 
 const validatePvcStorage = storage => {
-  const errors = Array(4).fill(null);
+  const errors = initalStorageErrorsArray();
   if (!storage || storage.id == null) {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
@@ -72,7 +74,7 @@ const validatePvcStorage = storage => {
 };
 
 const validateContainerStorage = storage => {
-  const errors = Array(4).fill(null);
+  const errors = initalStorageErrorsArray();
   if (!storage || storage.id == null) {
     errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
   }
@@ -89,7 +91,7 @@ const validateDiskNamespace = (storages, pvcs, namespace) => {
   const availablePvcs = pvcs.filter(pvc => pvc.metadata.namespace === namespace);
   storages.filter(storage => storage.storageType === STORAGE_TYPE_PVC).forEach(storage => {
     if (!storage.errors) {
-      storage.errors = new Array(4).fill(null);
+      storage.errors = initalStorageErrorsArray();
     }
     storage.errors[1] = availablePvcs.some(pvc => pvc.metadata.name === storage.name) ? null : ERROR_DISK_NOT_FOUND;
   });
@@ -259,7 +261,7 @@ const resolveInitialStorages = (
   return storages;
 };
 
-const validateStorage = row => {
+export const validateStorage = row => {
   switch (row.storageType) {
     case STORAGE_TYPE_PVC:
       return validatePvcStorage(row);
@@ -268,7 +270,7 @@ const validateStorage = row => {
     case STORAGE_TYPE_CONTAINER:
       return validateContainerStorage(row);
     default:
-      return Array(4).fill(null);
+      return initalStorageErrorsArray();
   }
 };
 
@@ -304,7 +306,6 @@ const publishResults = (rows, otherStorages, publish) => {
     }
   );
   storages.push(...otherStorages);
-
   publish(storages, valid);
 };
 
@@ -469,14 +470,14 @@ export class StorageTab extends React.Component {
       onClick: () => this.create(STORAGE_TYPE_DATAVOLUME),
       id: 'create-storage-btn',
       text: CREATE_DISK_BUTTON,
-      disabled: this.state.editing,
+      disabled: this.state.editing || this.props.isCreateRemoveDisabled,
     },
     {
       className: 'kubevirt-create-vm-wizard__button-attach-disk',
       onClick: () => this.create(STORAGE_TYPE_PVC),
       id: 'attach-disk-btn',
       text: ATTACH_DISK_BUTTON,
-      disabled: this.state.editing,
+      disabled: this.state.editing || this.props.isCreateRemoveDisabled,
     },
   ];
 
@@ -550,6 +551,7 @@ export class StorageTab extends React.Component {
 
 StorageTab.defaultProps = {
   initialStorages: [],
+  isCreateRemoveDisabled: false,
 };
 
 StorageTab.propTypes = {
@@ -560,4 +562,5 @@ StorageTab.propTypes = {
   units: PropTypes.object.isRequired,
   sourceType: PropTypes.string.isRequired,
   namespace: PropTypes.string.isRequired,
+  isCreateRemoveDisabled: PropTypes.bool,
 };

@@ -15,6 +15,7 @@ import {
   INTERMEDIARY_NETWORKS_TAB_KEY,
   OPERATING_SYSTEM_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  INTERMEDIARY_STORAGE_TAB_KEY,
 } from '../constants';
 import { getVmwareToKubevirtOS } from './vmwareActions';
 import { getValidationObject } from '../../../../utils';
@@ -103,6 +104,36 @@ export const prefillNics = ({ vmVmware, lastPrefilledValue }) => {
   return undefined;
 };
 
+// Just store data here, actual prefill will be handled within a callback in CreateVmWizard after passing through data in BasicSettingsTab
+export const prefillDisks = ({ vmVmware, lastPrefilledValue }) => {
+  const devices = get(vmVmware, ['Config', 'Hardware', 'Device']);
+
+  // if the device is a disk, it has "capacityInKB" present
+  // Alternatively:
+  //   diskObjectId - since vSphere API 5.5
+  //   capacityInBytes - since vSphere API 5.5
+  //   capacityInKB - deprecated since vSphere API 5.5
+  // https://www.vmware.com/support/developer/converter-sdk/conv50_apireference/vim.vm.device.VirtualDisk.html
+  // TODO: what about CDROM, Floppy, VirtualSCSIPassthrough,
+  const diskDevices = (devices || []).filter(
+    device => device.hasOwnProperty('CapacityInKB') || device.hasOwnProperty('CapacityInBytes')
+  );
+
+  const value = diskDevices.map(device => ({
+    name: get(device, ['DeviceInfo', 'Label']),
+    fileName: get(device, ['Backing', 'FileName']),
+    capacity: device.CapacityInBytes || device.CapacityInKB * 1024,
+    id: device.Key, // TODO: verify once the Conversion pod is implemented
+  }));
+
+  if (!isEqual(lastPrefilledValue, value)) {
+    // avoid infinite loop
+    return { value, target: INTERMEDIARY_STORAGE_TAB_KEY }; // value is expected to be passed to STORAGE_TAB_KEY
+  }
+
+  return undefined;
+};
+
 class VCenterVmsWithPrefill extends React.Component {
   state = {
     lastName: undefined, // last prefilled VM name value
@@ -111,6 +142,7 @@ class VCenterVmsWithPrefill extends React.Component {
     lastCpu: undefined,
     lastMem: undefined,
     lastNics: undefined,
+    lastDisks: undefined,
   };
 
   async prefillValues(vmVmware) {
@@ -159,6 +191,12 @@ class VCenterVmsWithPrefill extends React.Component {
     if (nics) {
       newState.lastNics = nics.value;
       result.push(nics);
+    }
+
+    const disks = prefillDisks({ vmVmware, lastPrefilledValue: this.state.lastDisks });
+    if (disks) {
+      newState.lastDisks = disks.value;
+      result.push(disks);
     }
 
     if (result.length > 0) {
