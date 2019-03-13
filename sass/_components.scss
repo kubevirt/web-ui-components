@@ -18,6 +18,14 @@
 @import './components/Wizard/wizard';
 @import './components/ConfigurationSummary/configuration-summary';
 @import './components/Dialog/clone-dialog';
+@import './components/ClusterOverview/cluster-overview';
+@import './components/ClusterOverview/events';
+@import './components/ClusterOverview/inventory';
+@import './components/ClusterOverview/capacity';
+@import './components/ClusterOverview/consumers';
+@import './components/ClusterOverview/detail';
+@import './components/ClusterOverview/health';
+@import './components/ClusterOverview/utilization';
 
 /*
   TODO: these styles should be backported to the corresponding PF-React package

@@ -16,6 +16,7 @@ export * from './components/VmConsoles';
 export * from './components/VmStatus';
 export * from './components/Wizard';
 export * from './components/ConfigurationSummary';
+export * from './components/ClusterOverview';
 
 // helpers
 export * from './constants';

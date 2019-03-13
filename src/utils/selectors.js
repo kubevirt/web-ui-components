@@ -16,6 +16,7 @@ import {
 } from '../components/Wizard/CreateVmWizard/constants';
 
 export const getId = value => `${getNamespace(value)}-${getName(value)}`;
+export const getUid = resource => get(resource, 'metadata.uid');
 export const getName = value => get(value, 'metadata.name');
 export const getNamespace = value => get(value, 'metadata.namespace');
 

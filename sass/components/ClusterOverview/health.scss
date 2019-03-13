@@ -1,0 +1,20 @@
+.kubevirt-health {
+  max-height: 180px;
+  flex: 1;
+}
+
+.kubevirt-health__body {
+  text-align: center;
+}
+
+.kubevirt-health__icon--error {
+  font-size: 67.2px;
+  color: red;
+  line-height: 67.2px;
+}
+
+.kubevirt-health__icon--ok {
+  font-size: 67.2px;
+  color: #3f9c35;
+  line-height: 67.2px;
+}
