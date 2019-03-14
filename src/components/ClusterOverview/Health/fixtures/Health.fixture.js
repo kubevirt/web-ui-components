@@ -1,6 +1,4 @@
-import { Health, Compliance } from '../Health';
-
-import { complianceData } from '../..';
+import Health from '../Health';
 
 export const healthData = {
   data: {
@@ -14,9 +12,5 @@ export default [
   {
     component: Health,
     props: { ...healthData },
-  },
-  {
-    component: Compliance,
-    props: { ...complianceData },
   },
 ];

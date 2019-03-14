@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Compliance /> renders correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle>
+      Cluster Compliance
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    className="kubevirt-compliance__body"
+    isLoading={false}
+  >
+    <HealthBody
+      data={
+        Object {
+          "healthy": true,
+          "message": "All nodes compliant",
+        }
+      }
+    />
+  </DashboardCardBody>
+</DashboardCard>
+`;

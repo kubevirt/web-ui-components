@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardCard /> renders correctly 1`] = `
+<Card
+  accented={false}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
+  className="kubevirt-dashboard__card"
+  matchHeight={false}
+>
+  content
+</Card>
+`;

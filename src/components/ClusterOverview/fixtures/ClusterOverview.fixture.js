@@ -1,7 +1,7 @@
 import { ClusterOverview } from '../ClusterOverview';
 import { healthData } from '../Health/fixtures/Health.fixture';
 import { eventsData } from '../Events/fixtures/Events.fixture';
-import { consumersData } from '../Consumers/fixtures/Consumers.fixture';
+import { consumersData } from '../TopConsumers/fixtures/TopConsumers.fixture';
 import { inventoryData } from '../Inventory/fixtures/Inventory.fixture';
 
 import { detailsData, complianceData, capacityStats, utilizationStats } from '..';

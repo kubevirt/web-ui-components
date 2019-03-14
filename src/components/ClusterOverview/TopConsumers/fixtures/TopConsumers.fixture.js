@@ -1,4 +1,4 @@
-import { Consumers } from '../Consumers';
+import TopConsumers from '../TopConsumers';
 import { PodModel, VirtualMachineModel } from '../../../../models';
 
 export const consumersData = {
@@ -128,6 +128,6 @@ export const consumersData = {
 };
 
 export default {
-  component: Consumers,
+  component: TopConsumers,
   props: { ...consumersData },
 };

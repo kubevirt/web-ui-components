@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import { Col, Icon } from 'patternfly-react';
 
 import { getNodeErrorStatuses } from './nodeStatus';
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+  DashboardCardTitleHelp,
+} from '../../Dashboard/DashboardCard';
 
 const InventoryItemStatus = ({ item }) => {
   let ok = true;
@@ -25,7 +32,7 @@ InventoryItemStatus.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
-export const Inventory = ({ inventory }) =>
+const InventoryBody = ({ inventory }) =>
   Object.keys(inventory).map(key => {
     const item = inventory[key];
     return (
@@ -40,8 +47,29 @@ export const Inventory = ({ inventory }) =>
     );
   });
 
-Inventory.title = 'Cluster inventory';
-Inventory.help = 'help for inventory';
-Inventory.propTypes = {
+InventoryBody.propTypes = {
   inventory: PropTypes.object.isRequired,
 };
+
+const Inventory = ({ inventory, loaded }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Cluster inventory</DashboardCardTitle>
+      <DashboardCardTitleHelp>help for inventory</DashboardCardTitleHelp>
+    </DashboardCardHeader>
+    <DashboardCardBody className="kubevirt-inventory__body" isLoading={!loaded}>
+      <InventoryBody inventory={inventory} />
+    </DashboardCardBody>
+  </DashboardCard>
+);
+
+Inventory.defaultProps = {
+  loaded: false,
+};
+
+Inventory.propTypes = {
+  inventory: PropTypes.object.isRequired,
+  loaded: PropTypes.bool,
+};
+
+export default Inventory;

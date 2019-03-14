@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TopConsumers /> renders correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle>
+      Top Consumers
+    </DashboardCardTitle>
+    <DashboardCardTitleHelp>
+      help for top consumers
+    </DashboardCardTitleHelp>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <TopConsumersBody
+      metrics={
+        Object {
+          "cpu": Object {
+            "consumers": Array [
+              Object {
+                "kind": "Pod",
+                "name": "Pod1",
+                "usage": "80",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod2",
+                "usage": "40",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod3",
+                "usage": "70",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM1",
+                "usage": "20",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM3",
+                "usage": "100",
+              },
+            ],
+            "title": "CPU",
+          },
+          "memory": Object {
+            "consumers": Array [
+              Object {
+                "kind": "Pod",
+                "name": "Pod1",
+                "usage": "80",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod2",
+                "usage": "40",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod3",
+                "usage": "70",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM1",
+                "usage": "20",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM3",
+                "usage": "100",
+              },
+            ],
+            "title": "Memory",
+          },
+          "network": Object {
+            "consumers": Array [
+              Object {
+                "kind": "Pod",
+                "name": "Pod1",
+                "usage": "80",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod2",
+                "usage": "40",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod3",
+                "usage": "70",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM1",
+                "usage": "20",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM3",
+                "usage": "100",
+              },
+            ],
+            "title": "Network",
+          },
+          "storage": Object {
+            "consumers": Array [
+              Object {
+                "kind": "Pod",
+                "name": "Pod1",
+                "usage": "80",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod2",
+                "usage": "40",
+              },
+              Object {
+                "kind": "Pod",
+                "name": "Pod3",
+                "usage": "70",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM1",
+                "usage": "20",
+              },
+              Object {
+                "kind": "VirtualMachine",
+                "name": "VM3",
+                "usage": "100",
+              },
+            ],
+            "title": "Storage",
+          },
+        }
+      }
+    />
+  </DashboardCardBody>
+</DashboardCard>
+`;

@@ -1,46 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Utilization /> renders correctly 1`] = `
-Array [
-  <UtilizationItem
-    data={
-      Array [
-        20,
-        50,
-        15,
-        70,
-        10,
-      ]
-    }
-    id="cpuStats"
-    title="CPU"
-    unit="%"
-  />,
-  <UtilizationItem
-    data={
-      Array [
-        12000,
-        10000,
-        5000,
-        20000,
-      ]
-    }
-    id="ioStats"
-    title="I/O"
-    unit="MBps"
-  />,
-  <UtilizationItem
-    data={
-      Array [
-        2.5,
-        1,
-        20,
-        3.5,
-      ]
-    }
-    id="latencyStats"
-    title="Latency"
-    unit="ms"
-  />,
-]
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle>
+      Cluster utilization
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <UtilizationBody
+      stats={
+        Object {
+          "cpuStats": Object {
+            "data": Array [
+              20,
+              50,
+              15,
+              70,
+              10,
+            ],
+            "title": "CPU",
+            "unit": "%",
+          },
+          "ioStats": Object {
+            "data": Array [
+              12000,
+              10000,
+              5000,
+              20000,
+            ],
+            "title": "I/O",
+            "unit": "MBps",
+          },
+          "latencyStats": Object {
+            "data": Array [
+              2.5,
+              1,
+              20,
+              3.5,
+            ],
+            "title": "Latency",
+            "unit": "ms",
+          },
+        }
+      }
+    />
+  </DashboardCardBody>
+</DashboardCard>
 `;

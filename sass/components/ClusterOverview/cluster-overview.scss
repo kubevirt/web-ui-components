@@ -1,43 +1,14 @@
-.kubevirt-cluster-overview {
-  display: flex;
-  flex-direction: column;
-}
-
 .kubevirt-cluster-overview__body {
-  padding: 10px;
+  padding: 1em;
   background-color: gray;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-}
-
-.kubevirt-cluster-overview__column-first {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-}
-
-.kubevirt-cluster-overview__column-second {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-}
-
-.kubevirt-cluster-overview__column-second-row {
-  display: flex;
-}
-
-.kubevirt-cluster-overview__column-third {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
 }
 
 .kubevirt-cluster-overview__item {
-  margin: 10px;
+  margin: 1em;
 }
 
 .kubevirt-cluster-overview__item-heading {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
