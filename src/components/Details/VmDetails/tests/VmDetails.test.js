@@ -11,7 +11,7 @@ import {
   updatesDescriptionOnSave,
   updatesFlavorOnSave,
 } from '../../common/tests/details';
-import { getId } from '../../../../utils';
+import { getId } from '../../../../selectors';
 
 const testVmDetails = (vm, otherProps) => <VmDetails {...VmDetailsFixture[0].props} vm={vm} {...otherProps} />;
 

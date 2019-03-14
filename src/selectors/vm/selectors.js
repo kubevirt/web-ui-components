@@ -8,7 +8,7 @@ import {
   TEMPLATE_WORKLOAD_LABEL,
   OS_WINDOWS_PREFIX,
   TEMPLATE_OS_NAME_ANNOTATION,
-} from '../../../constants';
+} from '../../constants';
 
 import { getValueByPrefix, findKeySuffixValue } from '../internal';
 

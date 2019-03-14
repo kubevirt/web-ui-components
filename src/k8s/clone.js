@@ -14,7 +14,7 @@ import {
   getDataVolumeStorageClassName,
   getOperatingSystemName,
   getOperatingSystem,
-} from '../utils/selectors';
+} from '../selectors';
 import { getStartStopPatch, generateDiskName } from '../utils';
 import { addDataVolumeTemplate, addTemplateLabel } from './vmBuilder';
 import { TEMPLATE_VM_NAME_LABEL, TEMPLATE_OS_NAME_ANNOTATION } from '../constants';

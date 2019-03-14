@@ -6,7 +6,7 @@ import { Modal, Button, Icon, Alert } from 'patternfly-react';
 import { ConfigurationSummary } from '../../ConfigurationSummary';
 import { FormFactory, CUSTOM, CHECKBOX, DROPDOWN, TEXT_AREA } from '../../Form';
 import { NAME_KEY, DESCRIPTION_KEY, NAMESPACE_KEY, START_VM_KEY } from '../../Wizard/CreateVmWizard/constants';
-import { getDescription, getNamespace, getName } from '../../../utils/selectors';
+import { getDescription, getNamespace, getName } from '../../../selectors';
 import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
 import { settingsValue } from '../../../k8s/selectors';
 import { clone } from '../../../k8s/clone';

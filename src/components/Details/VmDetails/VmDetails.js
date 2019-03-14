@@ -13,16 +13,18 @@ import {
   getVmTemplate,
   getWorkloadProfile,
   getVmiIpAddresses,
-  getUpdateDescriptionPatch,
-  getUpdateFlavorPatch,
   getOperatingSystemName,
   getHostName,
-  retrieveVmTemplate,
   getFlavor,
-  getUpdateCpuMemoryPatch,
   getId,
-  prefixedId,
   getDescription,
+} from '../../../selectors';
+import {
+  getUpdateDescriptionPatch,
+  getUpdateFlavorPatch,
+  retrieveVmTemplate,
+  getUpdateCpuMemoryPatch,
+  prefixedId,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
 import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';

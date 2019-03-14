@@ -10,7 +10,7 @@ import {
   getName,
   getNamespace,
   getDataVolumeSourceType,
-} from './selectors';
+} from '../selectors';
 import { selectVm } from '../k8s/selectors';
 import { baseTemplates } from '../k8s/objects/template';
 

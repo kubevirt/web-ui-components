@@ -4,7 +4,7 @@ import {
   DATA_VOLUME_SOURCE_URL,
   DATA_VOLUME_SOURCE_PVC,
   DATA_VOLUME_SOURCE_BLANK,
-} from '../../../components/Wizard/CreateVmWizard/constants';
+} from '../../components/Wizard/CreateVmWizard/constants';
 
 import { getStorageSize } from '../common';
 

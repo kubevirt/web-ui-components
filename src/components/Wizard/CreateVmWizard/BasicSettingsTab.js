@@ -11,7 +11,7 @@ import {
   TEXT_AREA,
   POSITIVE_NUMBER,
 } from '../../Form';
-import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../utils/selectors';
+import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../selectors';
 import { getTemplate, getTemplateProvisionSource } from '../../../utils/templates';
 import { validateDNS1123SubdomainValue, validateURL, validateContainer } from '../../../utils/validations';
 import {

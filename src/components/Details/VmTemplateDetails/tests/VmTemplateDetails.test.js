@@ -12,7 +12,7 @@ import {
   updatesDescriptionOnSave,
   updatesFlavorOnSave,
 } from '../../common/tests/details';
-import { getId } from '../../../../utils';
+import { getId } from '../../../../selectors';
 
 const testVmTemplateDetails = (vmTemplate, props, dataVolumes = []) => (
   <VmTemplateDetails

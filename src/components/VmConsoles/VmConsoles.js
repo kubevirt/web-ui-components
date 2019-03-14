@@ -6,7 +6,7 @@ import { Button } from 'patternfly-react';
 
 import { isVmiRunning, isVmStarting } from '../VmStatus';
 import { SerialConsoleConnector } from './SerialConsoleConnector';
-import { isWindows, isGuestAgentConnected } from '../../utils';
+import { isWindows, isGuestAgentConnected } from '../../selectors';
 import { DEFAULT_RDP_PORT, TEMPLATE_VM_NAME_LABEL } from '../../constants';
 import { DesktopViewerSelector } from './DesktopViewerSelector';
 

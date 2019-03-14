@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Url } from '../Details/Url';
 import { getTemplateProvisionSource } from '../../utils/templates';
 import { PROVISION_SOURCE_URL } from '../../constants';
-import { getId } from '../../utils/selectors';
+import { getId } from '../../selectors';
 import { prefixedId } from '../../utils/utils';
 
 const Type = ({ type, source, id, isInline }) => (

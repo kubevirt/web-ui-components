@@ -13,7 +13,7 @@ import { BasicSettingsTab } from '../BasicSettingsTab';
 import { NetworksTab } from '../NetworksTab';
 import { StorageTab } from '../StorageTab';
 import { ResultTab } from '../ResultTab';
-import { getName } from '../../../../utils/selectors';
+import { getName } from '../../../../selectors';
 import { selectVm } from '../../../../k8s/selectors';
 import { getTemplateInterfaces } from '../../../../utils/templates';
 

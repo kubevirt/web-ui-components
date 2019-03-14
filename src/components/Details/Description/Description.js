@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDescription, prefixedId } from '../../../utils';
+import { prefixedId } from '../../../utils';
+import { getDescription } from '../../../selectors';
 import { InlineEdit } from '../../InlineEdit';
 import { Loading } from '../../Loading';
 import { TEXT_AREA } from '../../Form';

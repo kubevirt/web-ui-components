@@ -21,7 +21,7 @@ import {
 
 import { CONNECT_TO_NEW_INSTANCE } from '../strings';
 import { settingsValue, getV2VVmwareName } from '../../../../k8s/selectors';
-import { getName } from '../../../../utils/selectors';
+import { getName } from '../../../../selectors';
 
 export const onVmwareCheckConnection = async (basicSettings, onChange, k8sCreate) => {
   // Note: any changes to the dialog since issuing the Check-button action till it's finish will be lost due to tight binding of the onFormChange to basicSettings set at promise creation

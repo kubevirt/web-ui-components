@@ -57,7 +57,7 @@ import {
   hasAutoAttachPodInterface,
 } from '../../../utils/templates';
 
-import { getName } from '../../../utils/selectors';
+import { getName } from '../../../selectors';
 
 // left intentionally empty
 const TEMPLATE_ROOT_STORAGE = {};

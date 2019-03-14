@@ -1,6 +1,6 @@
 import { get, has, findIndex } from 'lodash';
 
-import { getDisks, getInterfaces, getName, getDescription, getFlavor, getCpu, getMemory } from './selectors';
+import { getDisks, getInterfaces, getName, getDescription, getFlavor, getCpu, getMemory } from '../selectors';
 import { getBootDeviceIndex } from './utils';
 import {
   ANNOTATION_FIRST_BOOT,

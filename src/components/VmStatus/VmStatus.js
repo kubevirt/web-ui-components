@@ -19,7 +19,7 @@ import {
 import { getSubPagePath } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
 import { getVmStatusDetail } from './getVmStatus';
-import { getId } from '../../utils/selectors';
+import { getId } from '../../selectors';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 

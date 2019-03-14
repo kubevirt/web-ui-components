@@ -8,7 +8,7 @@ import { baseTemplates } from '../../../../k8s/objects/template';
 import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
 import { DNS1123_START_ERROR } from '../../../../utils/strings';
 import { getValidationObject } from '../../../../utils/validations';
-import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../../utils/selectors';
+import { getName, getMemory, getCpu, getCloudInitUserData } from '../../../../selectors';
 import { getTemplateProvisionSource } from '../../../../utils/templates';
 import { Dropdown } from '../../../Form';
 import { NO_TEMPLATE } from '../strings';

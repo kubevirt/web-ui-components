@@ -2,7 +2,7 @@ import { urlTemplateDataVolume, urlTemplate } from '../mocks/user_template/url.m
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC } from '../../components/Wizard/CreateVmWizard/constants';
 import { persistentVolumeClaims } from '../mocks/persistentVolumeClaim';
 import { dataVolumes } from '../mocks/dataVolume';
-import { getName } from '../../utils';
+import { getName } from '../../selectors';
 
 export const pvcDisk = {
   id: 1,

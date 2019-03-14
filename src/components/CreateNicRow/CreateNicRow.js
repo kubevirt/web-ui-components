@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { CreateDeviceRow } from '../CreateDeviceRow';
-import { getName, getNetworks, getInterfaces } from '../../utils/selectors';
+import { getName, getNetworks, getInterfaces } from '../../selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
 import { POD_NETWORK } from '../../constants';
 import { HEADER_NAME, HEADER_MAC, SELECT_NETWORK } from '../Wizard/CreateVmWizard/strings';

@@ -17,7 +17,7 @@ import {
   getDataVolumeTemplates,
   getNamespace,
   getStorageSize,
-} from '../../utils';
+} from '../../selectors';
 import { CUSTOM_FLAVOR, DASHES } from '../../constants';
 
 const getNicsDescription = vm => {
