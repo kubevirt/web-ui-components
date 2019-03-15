@@ -8,8 +8,9 @@ import {
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
 import HealthBody from './HealthBody';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
-const Health = ({ data, loaded }) => (
+export const Health = ({ data, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster Health</DashboardCardTitle>
@@ -29,4 +30,6 @@ Health.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default Health;
+const HealthConnected = () => <ClusterOverviewContextGenericConsumer Component={Health} dataPath="healthData" />;
+
+export default HealthConnected;

@@ -13,6 +13,7 @@ import {
   DashboardCardTitle,
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
 const sortConsumers = (metrics, filter, sortBy) => {
   const metricKey = Object.keys(metrics).find(key => metrics[key].title === sortBy);
@@ -71,7 +72,7 @@ TopConsumersBody.propTypes = {
   metrics: PropTypes.object.isRequired,
 };
 
-const TopConsumers = ({ metrics, loaded }) => (
+export const TopConsumers = ({ metrics, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Top Consumers</DashboardCardTitle>
@@ -92,4 +93,8 @@ TopConsumers.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default TopConsumers;
+const TopConsumersConnected = () => (
+  <ClusterOverviewContextGenericConsumer Component={TopConsumers} dataPath="consumersData" />
+);
+
+export default TopConsumersConnected;

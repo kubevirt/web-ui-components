@@ -1,25 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Events /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Cluster Events
-    </DashboardCardTitle>
-    <DashboardCardTitleHelp>
-      help for events
-    </DashboardCardTitleHelp>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    className="kubevirt-events__body"
-    isLoading={false}
+    </h2>
+    <button
+      class="btn btn-link"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-info-circle fa-2x"
+      />
+    </button>
+  </div>
+  <div
+    class="card-pf-body kubevirt-events__body"
   >
-    <Component />
-  </DashboardCardBody>
-</DashboardCard>
+    <div>
+      Requires component from tectonic
+    </div>
+  </div>
+</div>
 `;

@@ -1,31 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Details /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Details
-    </DashboardCardTitle>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    isLoading={false}
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
   >
-    <DetailsBody
-      data={
-        Object {
-          "dockerVersion": "v1.12.5",
-          "name": "cluster-name",
-          "openshiftVersion": "v4.0",
-          "osVendor": "RHEL Server",
-          "provider": "Bare Metal",
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
+    <dl>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        Name
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        cluster-name
+      </dd>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        Provider
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        Bare Metal
+      </dd>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        Openshift version
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        v4.0
+      </dd>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        Docker version
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        v1.12.5
+      </dd>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        OS vendor
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        RHEL Server
+      </dd>
+    </dl>
+  </div>
+</div>
 `;

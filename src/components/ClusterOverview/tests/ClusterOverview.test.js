@@ -1,15 +1,26 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, render } from 'enzyme';
 
 import { ClusterOverview } from '..';
 
+import { ClusterOverviewContext } from '../ClusterOverviewContext';
+
 import { default as ClusterOverviewFixtures } from '../fixtures/ClusterOverview.fixture';
 
-const testClusterOverview = () => <ClusterOverview {...ClusterOverviewFixtures[0].props} />;
+const providerValue = ClusterOverviewFixtures[0].props;
 
 describe('<ClusterOverview />', () => {
-  it('renders correctly', () => {
-    const component = shallow(testClusterOverview());
+  it('shallow-renders correctly', () => {
+    const component = shallow(<ClusterOverview />);
+    expect(component).toMatchSnapshot();
+  });
+
+  it('renders correctly with Provider', () => {
+    const component = render(
+      <ClusterOverviewContext.Provider value={providerValue}>
+        <ClusterOverview />
+      </ClusterOverviewContext.Provider>
+    );
     expect(component).toMatchSnapshot();
   });
 });

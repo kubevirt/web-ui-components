@@ -1,29 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Compliance /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Cluster Compliance
-    </DashboardCardTitle>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    className="kubevirt-compliance__body"
-    isLoading={false}
+    </h2>
+  </div>
+  <div
+    class="card-pf-body kubevirt-compliance__body"
   >
-    <HealthBody
-      data={
-        Object {
-          "healthy": true,
-          "message": "All nodes compliant",
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
+    <div
+      class="kubevirt-health__icon--ok"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-check-circle"
+      />
+    </div>
+    All nodes compliant
+  </div>
+</div>
 `;

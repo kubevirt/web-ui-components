@@ -1,4 +1,4 @@
-import Details from '../Details';
+import { Details } from '../Details';
 
 import { detailsData } from '../..';
 

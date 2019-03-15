@@ -1,57 +1,108 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Utilization /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Cluster utilization
-    </DashboardCardTitle>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    isLoading={false}
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
   >
-    <UtilizationBody
-      stats={
-        Object {
-          "cpuStats": Object {
-            "data": Array [
-              20,
-              50,
-              15,
-              70,
-              10,
-            ],
-            "title": "CPU",
-            "unit": "%",
-          },
-          "ioStats": Object {
-            "data": Array [
-              12000,
-              10000,
-              5000,
-              20000,
-            ],
-            "title": "I/O",
-            "unit": "MBps",
-          },
-          "latencyStats": Object {
-            "data": Array [
-              2.5,
-              1,
-              20,
-              3.5,
-            ],
-            "title": "Latency",
-            "unit": "ms",
-          },
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
+    <div
+      class="kubevirt-utilization__item"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+        >
+          <h2>
+            CPU
+          </h2>
+        </div>
+        <div
+          class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+        >
+          <h2>
+            10 %
+          </h2>
+        </div>
+        <div
+          class="col-lg-7 col-md-7 col-sm-7 col-xs-7"
+        >
+          <div
+            class=" chart-pf-sparkline"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-utilization__item"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+        >
+          <h2>
+            I/O
+          </h2>
+        </div>
+        <div
+          class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+        >
+          <h2>
+            20000 MBps
+          </h2>
+        </div>
+        <div
+          class="col-lg-7 col-md-7 col-sm-7 col-xs-7"
+        >
+          <div
+            class=" chart-pf-sparkline"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-utilization__item"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+        >
+          <h2>
+            Latency
+          </h2>
+        </div>
+        <div
+          class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+        >
+          <h2>
+            3.5 ms
+          </h2>
+        </div>
+        <div
+          class="col-lg-7 col-md-7 col-sm-7 col-xs-7"
+        >
+          <div
+            class=" chart-pf-sparkline"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
