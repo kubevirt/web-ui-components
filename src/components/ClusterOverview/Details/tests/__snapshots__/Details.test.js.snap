@@ -1,26 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Details /> renders correctly 1`] = `
-<dl>
-  <DetailItem
-    title="Name"
-    value="cluster-name"
-  />
-  <DetailItem
-    title="Provider"
-    value="Bare Metal"
-  />
-  <DetailItem
-    title="Openshift version"
-    value="v4.0"
-  />
-  <DetailItem
-    title="Docker version"
-    value="v1.12.5"
-  />
-  <DetailItem
-    title="OS vendor"
-    value="RHEL Server"
-  />
-</dl>
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle>
+      Details
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <DetailsBody
+      data={
+        Object {
+          "dockerVersion": "v1.12.5",
+          "name": "cluster-name",
+          "openshiftVersion": "v4.0",
+          "osVendor": "RHEL Server",
+          "provider": "Bare Metal",
+        }
+      }
+    />
+  </DashboardCardBody>
+</DashboardCard>
 `;

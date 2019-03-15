@@ -2,12 +2,19 @@ import React from 'react';
 import { DonutChart } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+} from '../../Dashboard/DashboardCard';
+
 const pfGetUtilizationDonutTooltipContents = d =>
   `<span class="donut-tooltip-pf" style="white-space: nowrap;">${Math.round(d[0].ratio * 1000) / 10} ${
     d[0].name
   }</span>`;
 
-export class Capacity extends React.PureComponent {
+class CapacityBody extends React.PureComponent {
   render() {
     const { stats } = this.props;
     return (
@@ -49,8 +56,28 @@ export class Capacity extends React.PureComponent {
   }
 }
 
-Capacity.title = 'Cluster capacity';
+CapacityBody.propTypes = {
+  stats: PropTypes.object.isRequired,
+};
+
+const Capacity = ({ stats, loaded }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Cluster capacity</DashboardCardTitle>
+    </DashboardCardHeader>
+    <DashboardCardBody isLoading={!loaded}>
+      <CapacityBody stats={stats} />
+    </DashboardCardBody>
+  </DashboardCard>
+);
+
+Capacity.defaultProps = {
+  loaded: false,
+};
 
 Capacity.propTypes = {
   stats: PropTypes.object.isRequired,
+  loaded: PropTypes.bool,
 };
+
+export default Capacity;

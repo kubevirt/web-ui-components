@@ -1,4 +1,4 @@
-import { Utilization } from '../Utilization';
+import Utilization from '../Utilization';
 
 import { utilizationStats } from '../..';
 

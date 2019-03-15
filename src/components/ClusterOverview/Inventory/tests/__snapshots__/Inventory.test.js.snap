@@ -1,33 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Inventory /> renders correctly 1`] = `
-Array [
-  <div
-    className="kubevirt-inventory__item"
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
   >
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={9}
-      md={9}
-      sm={9}
-      xs={9}
-    >
-      2
-       
-      Hosts
-    </Col>
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={3}
-      md={3}
-      sm={3}
-      xs={3}
-    >
-      <InventoryItemStatus
-        item={
-          Object {
+    <DashboardCardTitle>
+      Cluster inventory
+    </DashboardCardTitle>
+    <DashboardCardTitleHelp>
+      help for inventory
+    </DashboardCardTitleHelp>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    className="kubevirt-inventory__body"
+    isLoading={false}
+  >
+    <InventoryBody
+      inventory={
+        Object {
+          "disks": Object {
+            "data": Array [
+              Object {
+                "status": "ok",
+              },
+            ],
+            "title": "Disks",
+          },
+          "hosts": Object {
             "data": Array [
               Object {
                 "status": "ok",
@@ -37,74 +40,8 @@ Array [
               },
             ],
             "title": "Hosts",
-          }
-        }
-      />
-    </Col>
-  </div>,
-  <div
-    className="kubevirt-inventory__item"
-  >
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={9}
-      md={9}
-      sm={9}
-      xs={9}
-    >
-      1
-       
-      Disks
-    </Col>
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={3}
-      md={3}
-      sm={3}
-      xs={3}
-    >
-      <InventoryItemStatus
-        item={
-          Object {
-            "data": Array [
-              Object {
-                "status": "ok",
-              },
-            ],
-            "title": "Disks",
-          }
-        }
-      />
-    </Col>
-  </div>,
-  <div
-    className="kubevirt-inventory__item"
-  >
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={9}
-      md={9}
-      sm={9}
-      xs={9}
-    >
-      4
-       
-      Pods
-    </Col>
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={3}
-      md={3}
-      sm={3}
-      xs={3}
-    >
-      <InventoryItemStatus
-        item={
-          Object {
+          },
+          "pods": Object {
             "data": Array [
               Object {
                 "status": "ok",
@@ -120,47 +57,18 @@ Array [
               },
             ],
             "title": "Pods",
-          }
-        }
-      />
-    </Col>
-  </div>,
-  <div
-    className="kubevirt-inventory__item"
-  >
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={9}
-      md={9}
-      sm={9}
-      xs={9}
-    >
-      1
-       
-      VMs
-    </Col>
-    <Col
-      bsClass="col"
-      componentClass="div"
-      lg={3}
-      md={3}
-      sm={3}
-      xs={3}
-    >
-      <InventoryItemStatus
-        item={
-          Object {
+          },
+          "vms": Object {
             "data": Array [
               Object {
                 "status": "ok",
               },
             ],
             "title": "VMs",
-          }
+          },
         }
-      />
-    </Col>
-  </div>,
-]
+      }
+    />
+  </DashboardCardBody>
+</DashboardCard>
 `;

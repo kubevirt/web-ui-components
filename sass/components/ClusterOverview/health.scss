@@ -1,10 +1,6 @@
-.kubevirt-health {
-  max-height: 180px;
-  flex: 1;
-}
-
 .kubevirt-health__body {
   text-align: center;
+  max-height: 130px;
 }
 
 .kubevirt-health__icon--error {

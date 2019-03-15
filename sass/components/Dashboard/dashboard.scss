@@ -1,0 +1,14 @@
+.kubevirt-dashboard__body {
+  padding: 1em;
+  background-color: whitesmoke;
+}
+
+.kubevirt-dashboard__card {
+  margin: 1em;
+}
+
+.kubevirt-dashboard__card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

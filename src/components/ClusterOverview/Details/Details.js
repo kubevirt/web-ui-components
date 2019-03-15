@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+} from '../../Dashboard/DashboardCard';
+
 const DetailItem = ({ title, value }) => (
   <React.Fragment>
     <dt className="kubevirt-detail__item-title">{title}</dt>
@@ -13,7 +20,7 @@ DetailItem.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-export const Details = ({ data }) => (
+const DetailsBody = ({ data }) => (
   <dl>
     <DetailItem title="Name" value={data.name} />
     <DetailItem title="Provider" value={data.provider} />
@@ -23,7 +30,28 @@ export const Details = ({ data }) => (
   </dl>
 );
 
-Details.title = 'Details';
-Details.propTypes = {
+DetailsBody.propTypes = {
   data: PropTypes.object.isRequired,
 };
+
+const Details = ({ data, loaded }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Details</DashboardCardTitle>
+    </DashboardCardHeader>
+    <DashboardCardBody isLoading={!loaded}>
+      <DetailsBody data={data} />
+    </DashboardCardBody>
+  </DashboardCard>
+);
+
+Details.defaultProps = {
+  loaded: false,
+};
+
+Details.propTypes = {
+  data: PropTypes.object.isRequired,
+  loaded: PropTypes.bool,
+};
+
+export default Details;

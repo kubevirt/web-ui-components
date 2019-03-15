@@ -1,10 +1,8 @@
-.kubevirt-events {
-  max-height: 500px;
-}
-
 .kubevirt-events__body {
+  display: flex;
+  flex-direction: column;
   margin: 0 -15px;
-  max-height: 80%;
+  max-height: 400px;
   overflow-y: auto;
 }
 

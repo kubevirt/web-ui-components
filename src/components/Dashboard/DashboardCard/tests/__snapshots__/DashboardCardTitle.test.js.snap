@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardCardTitle /> renders correctly 1`] = `
+<CardTitle
+  className=""
+>
+  content
+</CardTitle>
+`;

@@ -1,3 +1,4 @@
+export * from './mediaQuery';
 export * from './selectors';
 export * from './templates';
 export * from './utils';

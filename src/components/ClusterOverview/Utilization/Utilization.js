@@ -2,6 +2,13 @@ import React from 'react';
 import { SparklineChart, Row, Col } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+} from '../../Dashboard/DashboardCard';
+
 const UtilizationItem = ({ id, title, data, unit }) => (
   <div key={id} className="kubevirt-utilization__item">
     <Row>
@@ -34,7 +41,7 @@ UtilizationItem.propTypes = {
   unit: PropTypes.string.isRequired,
 };
 
-export class Utilization extends React.PureComponent {
+class UtilizationBody extends React.PureComponent {
   render() {
     const { stats } = this.props;
     return Object.keys(stats).map(key => (
@@ -43,8 +50,28 @@ export class Utilization extends React.PureComponent {
   }
 }
 
-Utilization.title = 'Cluster utilization';
+UtilizationBody.propTypes = {
+  stats: PropTypes.object.isRequired,
+};
+
+const Utilization = ({ stats, loaded }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Cluster utilization</DashboardCardTitle>
+    </DashboardCardHeader>
+    <DashboardCardBody isLoading={!loaded}>
+      <UtilizationBody stats={stats} />
+    </DashboardCardBody>
+  </DashboardCard>
+);
+
+Utilization.defaultProps = {
+  loaded: false,
+};
 
 Utilization.propTypes = {
   stats: PropTypes.object.isRequired,
+  loaded: PropTypes.bool,
 };
+
+export default Utilization;

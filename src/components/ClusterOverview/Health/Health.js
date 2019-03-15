@@ -1,32 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'patternfly-react';
 
-const healtyIcon = (
-  <div className="kubevirt-health__icon--ok">
-    <Icon type="fa" name="check-circle" />
-  </div>
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+} from '../../Dashboard/DashboardCard';
+import HealthBody from './HealthBody';
+
+const Health = ({ data, loaded }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Cluster Health</DashboardCardTitle>
+    </DashboardCardHeader>
+    <DashboardCardBody className="kubevirt-health__body" isLoading={!loaded}>
+      <HealthBody data={data} />
+    </DashboardCardBody>
+  </DashboardCard>
 );
 
-const errorIcon = (
-  <div className="kubevirt-health__icon--error">
-    <Icon type="fa" name="exclamation-circle" />
-  </div>
-);
-
-const HealthBase = ({ data }) => (
-  <React.Fragment>
-    {data.healthy ? healtyIcon : errorIcon}
-    {data.message}
-  </React.Fragment>
-);
-
-HealthBase.propTypes = {
-  data: PropTypes.object.isRequired,
+Health.defaultProps = {
+  loaded: false,
 };
 
-export const Health = props => <HealthBase {...props} />;
-Health.title = 'Cluster health';
+Health.propTypes = {
+  data: PropTypes.object.isRequired,
+  loaded: PropTypes.bool,
+};
 
-export const Compliance = props => <HealthBase {...props} />;
-Compliance.title = 'Cluster compliance';
+export default Health;

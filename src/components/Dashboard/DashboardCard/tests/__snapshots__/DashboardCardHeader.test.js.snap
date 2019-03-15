@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardCardHeader /> renders correctly 1`] = `
+<CardHeading
+  className="kubevirt-dashboard__card-heading"
+>
+  content
+</CardHeading>
+`;

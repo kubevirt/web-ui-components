@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Capacity } from '../Capacity';
+import Capacity from '../Capacity';
 import { default as CapacityFixtures } from '../fixtures/Capacity.fixture';
 
 const testCapacityOverview = () => <Capacity {...CapacityFixtures.props} />;

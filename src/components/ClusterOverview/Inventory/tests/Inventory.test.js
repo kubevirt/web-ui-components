@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Inventory } from '../Inventory';
+import Inventory from '../Inventory';
 import { default as InventoryFixtures } from '../fixtures/Inventory.fixture';
 
 const testInventoryOverview = () => <Inventory {...InventoryFixtures.props} />;

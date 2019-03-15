@@ -1,6 +1,33 @@
 import React from 'react';
 
-export const Events = props => <props.Component />;
+import PropTypes from 'prop-types';
 
-Events.title = 'Cluster Events';
-Events.help = 'help for events';
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+  DashboardCardTitleHelp,
+} from '../../Dashboard/DashboardCard';
+
+const Events = ({ Component }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Cluster Events</DashboardCardTitle>
+      <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
+    </DashboardCardHeader>
+    <DashboardCardBody className="kubevirt-events__body">
+      <Component />
+    </DashboardCardBody>
+  </DashboardCard>
+);
+
+Events.defaultProps = {
+  Component: React.Fragment,
+};
+
+Events.propTypes = {
+  Component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+};
+
+export default Events;

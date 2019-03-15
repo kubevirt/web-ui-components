@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardCardTitleHelp /> renders correctly 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  overlay={
+    <Popover
+      bsClass="popover"
+      id="popover"
+      placement="right"
+    >
+      content
+    </Popover>
+  }
+  placement="top"
+  rootClose={true}
+  trigger={
+    Array [
+      "click",
+    ]
+  }
+>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="link"
+    disabled={false}
+  >
+    <Icon
+      name="info-circle"
+      size="2x"
+      type="fa"
+    />
+  </Button>
+</OverlayTrigger>
+`;

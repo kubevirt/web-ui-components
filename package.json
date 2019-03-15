@@ -34,6 +34,7 @@
   },
   "peerDependencies": {
     "patternfly-react": "2.x",
+    "@patternfly/react-core": "1.43.x",
     "prop-types": "15.x",
     "react": "16.x",
     "react-dom": "16.x",
@@ -46,6 +47,7 @@
     "lodash": "4.x",
     "react-dnd": "2.6.x",
     "react-dnd-html5-backend": "5.0.x",
+    "react-responsive": "6.1.x",
     "reactabular-dnd": "8.16.x"
   },
   "devDependencies": {
@@ -85,6 +87,7 @@
     "jest": "23.x",
     "node-sass": "4.x",
     "patternfly-react": "2.x",
+    "@patternfly/react-core": "1.43.x",
     "prettier": "1.x",
     "prop-types": "15.x",
     "react": "16.x",

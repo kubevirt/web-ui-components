@@ -1,344 +1,765 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ClusterOverview /> renders correctly 1`] = `
-<div
-  className="kubevirt-cluster-overview"
->
-  <div
-    className="co-m-nav-title"
+<Dashboard>
+  <DashboardHeader>
+    Cluster Dashboard
+  </DashboardHeader>
+  <DashboardBody
+    className={null}
   >
-    <h1
-      className="co-m-pane__heading"
+    <Grid
+      className=""
+      gutter={null}
+      lg={null}
+      md={null}
+      sm={null}
+      span={null}
+      xl={null}
     >
-      Cluster Dashboard
-    </h1>
-  </div>
-  <div
-    className="kubevirt-cluster-overview__body"
-  >
-    <Col
-      bsClass="col"
-      className="kubevirt-cluster-overview__column-first"
-      componentClass="div"
-      lg={3}
-      md={3}
-      sm={3}
-      xs={3}
-    >
-      <Component
-        data={
-          Object {
-            "dockerVersion": "v1.12.5",
-            "name": "cluster-name",
-            "openshiftVersion": "v4.0",
-            "osVendor": "RHEL Server",
-            "provider": "Bare Metal",
-          }
-        }
-        loaded={true}
-      />
-      <Component
-        inventory={
-          Object {
-            "disks": Object {
-              "data": Array [
-                Object {
-                  "status": "ok",
-                },
-              ],
-              "title": "Disks",
-            },
-            "hosts": Object {
-              "data": Array [
-                Object {
-                  "status": "ok",
-                },
-                Object {
-                  "status": "ok",
-                },
-              ],
-              "title": "Hosts",
-            },
-            "pods": Object {
-              "data": Array [
-                Object {
-                  "status": "ok",
-                },
-                Object {
-                  "status": "ok",
-                },
-                Object {
-                  "status": "ok",
-                },
-                Object {
-                  "status": "ok",
-                },
-              ],
-              "title": "Pods",
-            },
-            "vms": Object {
-              "data": Array [
-                Object {
-                  "status": "ok",
-                },
-              ],
-              "title": "VMs",
-            },
-          }
-        }
-        loaded={true}
-      />
-    </Col>
-    <Col
-      bsClass="col"
-      className="kubevirt-cluster-overview__column-second"
-      componentClass="div"
-      lg={6}
-      md={6}
-      sm={6}
-      xs={6}
-    >
-      <div
-        className="kubevirt-cluster-overview__column-second-row"
+      <MediaQuery
+        key="main-medium"
+        maxWidth={991.9}
+        values={Object {}}
       >
-        <Component
-          data={
-            Object {
-              "healthy": false,
-              "message": "Error message",
-            }
-          }
-          loaded={true}
-        />
-        <Component
-          data={
-            Object {
-              "healthy": true,
-              "message": "All nodes compliant",
-            }
-          }
-          loaded={true}
-        />
-      </div>
-      <Component
-        loaded={true}
-        stats={
-          Object {
-            "cpuStats": Object {
-              "data": Object {
-                "total": 4.3,
-                "used": 2.2,
-              },
-              "title": "CPU",
-              "unit": "Ghz",
-            },
-            "memoryStats": Object {
-              "data": Object {
-                "total": 200,
-                "used": 80,
-              },
-              "title": "Memory",
-              "unit": "Ti",
-            },
-            "networkStats": Object {
-              "data": Object {
-                "total": 10,
-                "used": 3,
-              },
-              "title": "Network",
-              "unit": "GBps",
-            },
-            "storageStats": Object {
-              "data": Object {
-                "total": 800,
-                "used": 400,
-              },
-              "title": "Storage",
-              "unit": "Ti",
-            },
-          }
-        }
-      />
-      <Component
-        loaded={true}
-        stats={
-          Object {
-            "cpuStats": Object {
-              "data": Array [
-                20,
-                50,
-                15,
-                70,
-                10,
-              ],
-              "title": "CPU",
-              "unit": "%",
-            },
-            "ioStats": Object {
-              "data": Array [
-                12000,
-                10000,
-                5000,
-                20000,
-              ],
-              "title": "I/O",
-              "unit": "MBps",
-            },
-            "latencyStats": Object {
-              "data": Array [
-                2.5,
-                1,
-                20,
-                3.5,
-              ],
-              "title": "Latency",
-              "unit": "ms",
-            },
-          }
-        }
-      />
-    </Col>
-    <Col
-      bsClass="col"
-      className="kubevirt-cluster-overview__column-third"
-      componentClass="div"
-      lg={3}
-      md={3}
-      sm={3}
-      xs={3}
-    >
-      <Component
-        Component={[Function]}
-        loaded={true}
-      />
-      <Component
-        loaded={true}
-        metrics={
-          Object {
-            "cpu": Object {
-              "consumers": Array [
+        <GridItem
+          className=""
+          lg={6}
+          lgOffset={null}
+          lgRowSpan={null}
+          md={12}
+          mdOffset={null}
+          mdRowSpan={null}
+          offset={null}
+          rowSpan={null}
+          sm={12}
+          smOffset={null}
+          smRowSpan={null}
+          span={null}
+          xl={null}
+          xlOffset={null}
+          xlRowSpan={null}
+        >
+          <Grid
+            className=""
+            gutter={null}
+            lg={null}
+            md={null}
+            sm={null}
+            span={null}
+            xl={null}
+          >
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={6}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Health
+                data={
+                  Object {
+                    "healthy": false,
+                    "message": "Error message",
+                  }
+                }
+                loaded={true}
+              />
+            </GridItem>
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={6}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Compliance
+                data={
+                  Object {
+                    "healthy": true,
+                    "message": "All nodes compliant",
+                  }
+                }
+                loaded={true}
+              />
+            </GridItem>
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={12}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Capacity
+                loaded={true}
+                stats={
+                  Object {
+                    "cpuStats": Object {
+                      "data": Object {
+                        "total": 4.3,
+                        "used": 2.2,
+                      },
+                      "title": "CPU",
+                      "unit": "Ghz",
+                    },
+                    "memoryStats": Object {
+                      "data": Object {
+                        "total": 200,
+                        "used": 80,
+                      },
+                      "title": "Memory",
+                      "unit": "Ti",
+                    },
+                    "networkStats": Object {
+                      "data": Object {
+                        "total": 10,
+                        "used": 3,
+                      },
+                      "title": "Network",
+                      "unit": "GBps",
+                    },
+                    "storageStats": Object {
+                      "data": Object {
+                        "total": 800,
+                        "used": 400,
+                      },
+                      "title": "Storage",
+                      "unit": "Ti",
+                    },
+                  }
+                }
+              />
+            </GridItem>
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={12}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Utilization
+                loaded={true}
+                stats={
+                  Object {
+                    "cpuStats": Object {
+                      "data": Array [
+                        20,
+                        50,
+                        15,
+                        70,
+                        10,
+                      ],
+                      "title": "CPU",
+                      "unit": "%",
+                    },
+                    "ioStats": Object {
+                      "data": Array [
+                        12000,
+                        10000,
+                        5000,
+                        20000,
+                      ],
+                      "title": "I/O",
+                      "unit": "MBps",
+                    },
+                    "latencyStats": Object {
+                      "data": Array [
+                        2.5,
+                        1,
+                        20,
+                        3.5,
+                      ],
+                      "title": "Latency",
+                      "unit": "ms",
+                    },
+                  }
+                }
+              />
+            </GridItem>
+          </Grid>
+        </GridItem>
+      </MediaQuery>
+      <GridItem
+        className=""
+        key="left"
+        lg={3}
+        lgOffset={null}
+        lgRowSpan={null}
+        md={12}
+        mdOffset={null}
+        mdRowSpan={null}
+        offset={null}
+        rowSpan={null}
+        sm={12}
+        smOffset={null}
+        smRowSpan={null}
+        span={null}
+        xl={null}
+        xlOffset={null}
+        xlRowSpan={null}
+      >
+        <Grid
+          className=""
+          gutter={null}
+          lg={null}
+          md={null}
+          sm={null}
+          span={null}
+          xl={null}
+        >
+          <GridItem
+            className=""
+            lg={12}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={6}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={12}
+            smOffset={null}
+            smRowSpan={null}
+            span={null}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            <Details
+              data={
                 Object {
-                  "kind": "Pod",
-                  "name": "Pod1",
-                  "usage": "80",
-                },
+                  "dockerVersion": "v1.12.5",
+                  "name": "cluster-name",
+                  "openshiftVersion": "v4.0",
+                  "osVendor": "RHEL Server",
+                  "provider": "Bare Metal",
+                }
+              }
+              loaded={true}
+            />
+          </GridItem>
+          <GridItem
+            className=""
+            lg={12}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={6}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={12}
+            smOffset={null}
+            smRowSpan={null}
+            span={null}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            <Inventory
+              inventory={
                 Object {
-                  "kind": "Pod",
-                  "name": "Pod2",
-                  "usage": "40",
-                },
+                  "disks": Object {
+                    "data": Array [
+                      Object {
+                        "status": "ok",
+                      },
+                    ],
+                    "title": "Disks",
+                  },
+                  "hosts": Object {
+                    "data": Array [
+                      Object {
+                        "status": "ok",
+                      },
+                      Object {
+                        "status": "ok",
+                      },
+                    ],
+                    "title": "Hosts",
+                  },
+                  "pods": Object {
+                    "data": Array [
+                      Object {
+                        "status": "ok",
+                      },
+                      Object {
+                        "status": "ok",
+                      },
+                      Object {
+                        "status": "ok",
+                      },
+                      Object {
+                        "status": "ok",
+                      },
+                    ],
+                    "title": "Pods",
+                  },
+                  "vms": Object {
+                    "data": Array [
+                      Object {
+                        "status": "ok",
+                      },
+                    ],
+                    "title": "VMs",
+                  },
+                }
+              }
+              loaded={true}
+            />
+          </GridItem>
+        </Grid>
+      </GridItem>
+      <MediaQuery
+        key="main-large"
+        minWidth={992}
+        values={Object {}}
+      >
+        <GridItem
+          className=""
+          lg={6}
+          lgOffset={null}
+          lgRowSpan={null}
+          md={12}
+          mdOffset={null}
+          mdRowSpan={null}
+          offset={null}
+          rowSpan={null}
+          sm={12}
+          smOffset={null}
+          smRowSpan={null}
+          span={null}
+          xl={null}
+          xlOffset={null}
+          xlRowSpan={null}
+        >
+          <Grid
+            className=""
+            gutter={null}
+            lg={null}
+            md={null}
+            sm={null}
+            span={null}
+            xl={null}
+          >
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={6}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Health
+                data={
+                  Object {
+                    "healthy": false,
+                    "message": "Error message",
+                  }
+                }
+                loaded={true}
+              />
+            </GridItem>
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={6}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Compliance
+                data={
+                  Object {
+                    "healthy": true,
+                    "message": "All nodes compliant",
+                  }
+                }
+                loaded={true}
+              />
+            </GridItem>
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={12}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Capacity
+                loaded={true}
+                stats={
+                  Object {
+                    "cpuStats": Object {
+                      "data": Object {
+                        "total": 4.3,
+                        "used": 2.2,
+                      },
+                      "title": "CPU",
+                      "unit": "Ghz",
+                    },
+                    "memoryStats": Object {
+                      "data": Object {
+                        "total": 200,
+                        "used": 80,
+                      },
+                      "title": "Memory",
+                      "unit": "Ti",
+                    },
+                    "networkStats": Object {
+                      "data": Object {
+                        "total": 10,
+                        "used": 3,
+                      },
+                      "title": "Network",
+                      "unit": "GBps",
+                    },
+                    "storageStats": Object {
+                      "data": Object {
+                        "total": 800,
+                        "used": 400,
+                      },
+                      "title": "Storage",
+                      "unit": "Ti",
+                    },
+                  }
+                }
+              />
+            </GridItem>
+            <GridItem
+              className=""
+              lg={null}
+              lgOffset={null}
+              lgRowSpan={null}
+              md={null}
+              mdOffset={null}
+              mdRowSpan={null}
+              offset={null}
+              rowSpan={null}
+              sm={null}
+              smOffset={null}
+              smRowSpan={null}
+              span={12}
+              xl={null}
+              xlOffset={null}
+              xlRowSpan={null}
+            >
+              <Utilization
+                loaded={true}
+                stats={
+                  Object {
+                    "cpuStats": Object {
+                      "data": Array [
+                        20,
+                        50,
+                        15,
+                        70,
+                        10,
+                      ],
+                      "title": "CPU",
+                      "unit": "%",
+                    },
+                    "ioStats": Object {
+                      "data": Array [
+                        12000,
+                        10000,
+                        5000,
+                        20000,
+                      ],
+                      "title": "I/O",
+                      "unit": "MBps",
+                    },
+                    "latencyStats": Object {
+                      "data": Array [
+                        2.5,
+                        1,
+                        20,
+                        3.5,
+                      ],
+                      "title": "Latency",
+                      "unit": "ms",
+                    },
+                  }
+                }
+              />
+            </GridItem>
+          </Grid>
+        </GridItem>
+      </MediaQuery>
+      <GridItem
+        className=""
+        key="right"
+        lg={3}
+        lgOffset={null}
+        lgRowSpan={null}
+        md={12}
+        mdOffset={null}
+        mdRowSpan={null}
+        offset={null}
+        rowSpan={null}
+        sm={12}
+        smOffset={null}
+        smRowSpan={null}
+        span={null}
+        xl={null}
+        xlOffset={null}
+        xlRowSpan={null}
+      >
+        <Grid
+          className=""
+          gutter={null}
+          lg={null}
+          md={null}
+          sm={null}
+          span={null}
+          xl={null}
+        >
+          <GridItem
+            className=""
+            lg={12}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={6}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={12}
+            smOffset={null}
+            smRowSpan={null}
+            span={null}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            <Events
+              Component={[Function]}
+              loaded={true}
+            />
+          </GridItem>
+          <GridItem
+            className=""
+            lg={12}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={6}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={12}
+            smOffset={null}
+            smRowSpan={null}
+            span={null}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            <TopConsumers
+              loaded={true}
+              metrics={
                 Object {
-                  "kind": "Pod",
-                  "name": "Pod3",
-                  "usage": "70",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM1",
-                  "usage": "20",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM3",
-                  "usage": "100",
-                },
-              ],
-              "title": "CPU",
-            },
-            "memory": Object {
-              "consumers": Array [
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod1",
-                  "usage": "80",
-                },
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod2",
-                  "usage": "40",
-                },
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod3",
-                  "usage": "70",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM1",
-                  "usage": "20",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM3",
-                  "usage": "100",
-                },
-              ],
-              "title": "Memory",
-            },
-            "network": Object {
-              "consumers": Array [
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod1",
-                  "usage": "80",
-                },
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod2",
-                  "usage": "40",
-                },
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod3",
-                  "usage": "70",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM1",
-                  "usage": "20",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM3",
-                  "usage": "100",
-                },
-              ],
-              "title": "Network",
-            },
-            "storage": Object {
-              "consumers": Array [
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod1",
-                  "usage": "80",
-                },
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod2",
-                  "usage": "40",
-                },
-                Object {
-                  "kind": "Pod",
-                  "name": "Pod3",
-                  "usage": "70",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM1",
-                  "usage": "20",
-                },
-                Object {
-                  "kind": "VirtualMachine",
-                  "name": "VM3",
-                  "usage": "100",
-                },
-              ],
-              "title": "Storage",
-            },
-          }
-        }
-      />
-    </Col>
-  </div>
-</div>
+                  "cpu": Object {
+                    "consumers": Array [
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod1",
+                        "usage": "80",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod2",
+                        "usage": "40",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod3",
+                        "usage": "70",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM1",
+                        "usage": "20",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM3",
+                        "usage": "100",
+                      },
+                    ],
+                    "title": "CPU",
+                  },
+                  "memory": Object {
+                    "consumers": Array [
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod1",
+                        "usage": "80",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod2",
+                        "usage": "40",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod3",
+                        "usage": "70",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM1",
+                        "usage": "20",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM3",
+                        "usage": "100",
+                      },
+                    ],
+                    "title": "Memory",
+                  },
+                  "network": Object {
+                    "consumers": Array [
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod1",
+                        "usage": "80",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod2",
+                        "usage": "40",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod3",
+                        "usage": "70",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM1",
+                        "usage": "20",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM3",
+                        "usage": "100",
+                      },
+                    ],
+                    "title": "Network",
+                  },
+                  "storage": Object {
+                    "consumers": Array [
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod1",
+                        "usage": "80",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod2",
+                        "usage": "40",
+                      },
+                      Object {
+                        "kind": "Pod",
+                        "name": "Pod3",
+                        "usage": "70",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM1",
+                        "usage": "20",
+                      },
+                      Object {
+                        "kind": "VirtualMachine",
+                        "name": "VM3",
+                        "usage": "100",
+                      },
+                    ],
+                    "title": "Storage",
+                  },
+                }
+              }
+            />
+          </GridItem>
+        </Grid>
+      </GridItem>
+    </Grid>
+  </DashboardBody>
+</Dashboard>
 `;

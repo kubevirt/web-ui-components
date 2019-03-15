@@ -1,9 +1,18 @@
 import React from 'react';
 import { UtilizationBar } from 'patternfly-react';
 
+import PropTypes from 'prop-types';
+
 import { getFormElement } from '../../Form';
 import { DROPDOWN } from '../../Form/constants';
 import { PodModel, VirtualMachineModel } from '../../../models';
+import {
+  DashboardCard,
+  DashboardCardBody,
+  DashboardCardHeader,
+  DashboardCardTitle,
+  DashboardCardTitleHelp,
+} from '../../Dashboard/DashboardCard';
 
 const sortConsumers = (metrics, filter, sortBy) => {
   const metricKey = Object.keys(metrics).find(key => metrics[key].title === sortBy);
@@ -18,7 +27,7 @@ const sortConsumers = (metrics, filter, sortBy) => {
     .sort((a, b) => b.now - a.now);
 };
 
-export class Consumers extends React.PureComponent {
+class TopConsumersBody extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,5 +67,29 @@ export class Consumers extends React.PureComponent {
   }
 }
 
-Consumers.title = 'Top consumers';
-Consumers.help = 'help for top consumers';
+TopConsumersBody.propTypes = {
+  metrics: PropTypes.object.isRequired,
+};
+
+const TopConsumers = ({ metrics, loaded }) => (
+  <DashboardCard>
+    <DashboardCardHeader>
+      <DashboardCardTitle>Top Consumers</DashboardCardTitle>
+      <DashboardCardTitleHelp>help for top consumers</DashboardCardTitleHelp>
+    </DashboardCardHeader>
+    <DashboardCardBody isLoading={!loaded}>
+      <TopConsumersBody metrics={metrics} />
+    </DashboardCardBody>
+  </DashboardCard>
+);
+
+TopConsumers.defaultProps = {
+  loaded: false,
+};
+
+TopConsumers.propTypes = {
+  metrics: PropTypes.object.isRequired,
+  loaded: PropTypes.bool,
+};
+
+export default TopConsumers;
