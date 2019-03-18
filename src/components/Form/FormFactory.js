@@ -176,6 +176,16 @@ const onChange = (formFields, formValues, value, key, onFormChange) => {
   onFormChange({ value, validation }, key, formValid); // to update state data
 };
 
+const getLabel = field =>
+  field.type !== 'checkbox' && (
+    <React.Fragment>
+      <ControlLabel className={field.required ? 'required-pf' : null}>{field.title}</ControlLabel>
+      {field.help && (
+        <FieldLevelHelp className="kubevirt-form-group__field-help" placement="right" content={field.help} />
+      )}
+    </React.Fragment>
+  );
+
 const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, labelSize, controlSize, horizontal }) =>
   Object.keys(fields)
     .filter(key => fields[key] && (!fields[key].isVisible || fields[key].isVisible(fieldsValues)))
@@ -187,6 +197,9 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
       const validationMessage = get(validation, 'message');
       const hasValidationMessage = !!validationMessage;
       const hasAddendum = !!field.addendum;
+      let colProps = {
+        sm: controlSize,
+      };
 
       const child = getFormElement({
         ...field,
@@ -200,19 +213,21 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
       });
 
       let label;
-      if (horizontal && field.title) {
-        label = (
-          <Col sm={labelSize} className={textPosition}>
-            {field.type !== 'checkbox' && (
-              <React.Fragment>
-                <ControlLabel className={field.required ? 'required-pf' : null}>{field.title}</ControlLabel>
-                {field.help && (
-                  <FieldLevelHelp className="kubevirt-form-group__field-help" placement="right" content={field.help} />
-                )}
-              </React.Fragment>
-            )}
-          </Col>
-        );
+
+      if (field.title) {
+        if (horizontal) {
+          label = (
+            <Col sm={labelSize} className={textPosition}>
+              {getLabel(field)}
+            </Col>
+          );
+        } else {
+          label = getLabel(field);
+        }
+      }
+
+      if (!horizontal) {
+        colProps = {};
       }
 
       return (
@@ -225,8 +240,9 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
             'kubevirt-form-group--no-help': !horizontal && !hasValidationMessage,
           })}
         >
-          {label}
-          <Col sm={controlSize}>
+          {horizontal && label}
+          <Col {...colProps}>
+            {!horizontal && label}
             {child}
             {hasAddendum && <span className="kubevirt-form-group__addendum">{field.addendum}</span>}
             {hasValidationMessage && <HelpBlock>{validationMessage}</HelpBlock>}
@@ -276,6 +292,7 @@ export const FormFactory = ({
   labelSize,
   controlSize,
   formClassName,
+  horizontal,
 }) => {
   const formGroups = getFormGroups({
     fields,
@@ -284,10 +301,10 @@ export const FormFactory = ({
     textPosition,
     labelSize,
     controlSize,
-    horizontal: true,
+    horizontal,
   });
   return (
-    <Form horizontal className={formClassName}>
+    <Form horizontal={horizontal} className={formClassName}>
       {formGroups}
     </Form>
   );
@@ -298,6 +315,7 @@ FormFactory.defaultProps = {
   labelSize: 3,
   controlSize: 5,
   formClassName: undefined,
+  horizontal: true,
 };
 
 FormFactory.propTypes = {
@@ -308,4 +326,5 @@ FormFactory.propTypes = {
   labelSize: PropTypes.number,
   controlSize: PropTypes.number,
   formClassName: PropTypes.string,
+  horizontal: PropTypes.bool,
 };

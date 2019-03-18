@@ -355,6 +355,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
     }
   }
   fieldsValues={Object {}}
+  horizontal={true}
   labelSize={3}
   onFormChange={[Function]}
   textPosition="text-right"
@@ -716,6 +717,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
     }
   }
   fieldsValues={Object {}}
+  horizontal={true}
   labelSize={3}
   onFormChange={[Function]}
   textPosition="text-right"

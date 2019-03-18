@@ -35,6 +35,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
         },
       }
     }
+    horizontal={true}
     labelSize={3}
     onFormChange={[Function]}
     textPosition="text-right"
