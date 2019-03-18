@@ -12,6 +12,7 @@ import { settingsValue } from '../../k8s/selectors';
 import { TEXT_AREA, DROPDOWN, CHECKBOX, POSITIVE_NUMBER, LABEL, CUSTOM, PASSWORD } from './constants';
 
 export const getFormElement = props => {
+  /* eslint-disable react/prop-types */
   const {
     type,
     id,
@@ -28,6 +29,7 @@ export const getFormElement = props => {
     CustomComponent,
     extraProps,
   } = props;
+  /* eslint-enable react/prop-types */
   switch (type) {
     case TEXT_AREA:
       return (

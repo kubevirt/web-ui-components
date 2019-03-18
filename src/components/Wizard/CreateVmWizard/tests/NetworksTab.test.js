@@ -344,8 +344,8 @@ describe('<NetworksTab />', () => {
 
     pxeDropdown
       .find(MenuItem)
-      .find('a')
       .findWhere(item => item.text() === pxeRow2.name)
+      .find('a')
       .simulate('click');
     component.update();
     expect(component.state().rows[0].isBootable).toBeFalsy();
