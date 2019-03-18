@@ -77,3 +77,7 @@ export const getFlavorDescription = vm => {
   const resourceStr = cpuStr && memoryStr ? `${cpuStr}, ${memoryStr}` : `${cpuStr}${memoryStr}`;
   return resourceStr || undefined;
 };
+
+export const isVmRunning = vm => get(vm, 'spec.running', false);
+export const isVmReady = vm => get(vm, 'status.ready', false);
+export const isVmCreated = vm => get(vm, 'status.created', false);

@@ -1,19 +1,17 @@
 import React from 'react';
-import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { Modal, Button, Icon, Alert } from 'patternfly-react';
 
 import { ConfigurationSummary } from '../../ConfigurationSummary';
 import { FormFactory, CUSTOM, CHECKBOX, DROPDOWN, TEXT_AREA } from '../../Form';
 import { NAME_KEY, DESCRIPTION_KEY, NAMESPACE_KEY, START_VM_KEY } from '../../Wizard/CreateVmWizard/constants';
-import { getDescription, getNamespace, getName } from '../../../selectors';
+import { getDescription, getNamespace, getName, isVmRunning } from '../../../selectors';
 import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
 import { settingsValue } from '../../../k8s/selectors';
 import { clone } from '../../../k8s/clone';
 import { Loading } from '../../Loading';
 import { VALIDATION_ERROR_TYPE } from '../../../constants';
 import { VIRTUAL_MACHINE_EXISTS } from '../../../utils/strings';
-import { isRunning, VM_STATUS_OFF } from '../../../utils/status/vm';
 
 const vmAlreadyExists = (name, namespace, vms) => {
   const exists = vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);
@@ -61,8 +59,6 @@ const getFormFields = (namespaces, vm, persistentVolumeClaims, dataVolumes, virt
     ),
   },
 });
-
-const vmIsRunning = vm => get(isRunning(vm), 'status') !== VM_STATUS_OFF;
 
 export class CloneDialog extends React.Component {
   constructor(props) {
@@ -169,7 +165,7 @@ export class CloneDialog extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <div className="kubevirt-clone-dialog__content">
-            {vmIsRunning(this.props.vm) && (
+            {isVmRunning(this.props.vm) && (
               <Alert type="warning">
                 The VM {getName(this.props.vm)} is still running. It will be powered off while cloning.
               </Alert>

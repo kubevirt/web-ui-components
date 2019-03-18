@@ -4,9 +4,8 @@ import { get } from 'lodash';
 import { AccessConsoles, VncConsole } from '@patternfly/react-console';
 import { Button } from 'patternfly-react';
 
-import { isVmiRunning, isVmStarting } from '../../utils/status/vm';
 import { SerialConsoleConnector } from './SerialConsoleConnector';
-import { isWindows, isGuestAgentConnected } from '../../selectors';
+import { isWindows, isGuestAgentConnected, isVmiRunning, isVmStarting } from '../../selectors';
 import { DEFAULT_RDP_PORT, TEMPLATE_VM_NAME_LABEL } from '../../constants';
 import { DesktopViewerSelector } from './DesktopViewerSelector';
 
