@@ -5,13 +5,14 @@ import { healthData } from '../Health/fixtures/Health.fixture';
 import { eventsData } from '../Events/fixtures/Events.fixture';
 import { consumersData } from '../TopConsumers/fixtures/TopConsumers.fixture';
 import { inventoryData } from '../Inventory/fixtures/Inventory.fixture';
+import { clusterDetailsData } from '../Details/fixtures/ClusterDetails.fixture';
 
-import { detailsData, complianceData, capacityStats, utilizationStats } from '..';
+import { complianceData, capacityStats, utilizationStats } from '..';
 
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 
 const ClusterOverview = props => (
-  <ClusterOverviewContext.Provider {...props}>
+  <ClusterOverviewContext.Provider value={props}>
     <ClusterOverviewComponent />
   </ClusterOverviewContext.Provider>
 );
@@ -20,7 +21,7 @@ export default [
   {
     component: ClusterOverview,
     props: {
-      detailsData,
+      detailsData: clusterDetailsData,
       healthData,
       capacityStats,
       complianceData,
@@ -34,7 +35,7 @@ export default [
     component: ClusterOverview,
     name: 'Loading overview',
     props: {
-      detailsData: { loaded: false },
+      detailsData: {},
       healthData: { loaded: false },
       capacityStats: { loaded: false },
       complianceData: { loaded: false },
