@@ -3,7 +3,8 @@ import { noop } from 'patternfly-react';
 
 import { clone } from '../clone';
 import { emptyVm } from '../../tests/mocks/vm/empty_vm.mock';
-import { getName, getNamespace, getDescription, getVolumes, generateDiskName } from '../../utils';
+import { getName, getNamespace, getDescription, getVolumes } from '../../selectors';
+import { generateDiskName } from '../../utils';
 import { addDisk, addDataVolumeTemplate, addDataVolume, addPvcVolume, getDataVolumeTemplateSpec } from '../vmBuilder';
 import { pvcDisk, dataVolumeTemplate, dataVolumeDisk } from '../../tests/forms_mocks/disk.mock';
 import { persistentVolumeClaims } from '../../tests/mocks/persistentVolumeClaim';

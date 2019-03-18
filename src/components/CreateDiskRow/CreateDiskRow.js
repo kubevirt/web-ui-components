@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { CreateDeviceRow } from '../CreateDeviceRow';
-import { getName } from '../../utils/selectors';
+import { getName } from '../../selectors';
 import { validateDNS1123SubdomainValue } from '../../utils/validations';
 import { settingsValue } from '../../k8s/selectors';
 import { NAME_KEY } from '../Wizard/CreateVmWizard/constants';

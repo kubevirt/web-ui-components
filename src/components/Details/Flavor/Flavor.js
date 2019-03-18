@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getCpu, getMemory, getFlavorDescription, prefixedId } from '../../../utils';
+import { prefixedId } from '../../../utils';
+import { getCpu, getMemory, getFlavorDescription } from '../../../selectors';
 import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';

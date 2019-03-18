@@ -50,7 +50,8 @@ import {
   WORKLOAD_PROFILE_KEY,
   DESCRIPTION_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
-import { getName, generateDiskName, getNamespace } from '../../utils';
+import { getName, getNamespace } from '../../selectors';
+import { generateDiskName } from '../../utils';
 
 const templates = [...baseTemplates, ...userTemplates];
 

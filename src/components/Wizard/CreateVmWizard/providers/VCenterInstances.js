@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getName } from '../../../../utils/selectors';
+import { getName } from '../../../../selectors';
 import { settingsValue } from '../../../../k8s/selectors';
 
 import { getResource } from '../../../../utils';

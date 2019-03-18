@@ -8,15 +8,17 @@ import {
   getMemory,
   getOperatingSystem,
   getWorkloadProfile,
+  getOperatingSystemName,
+  getFlavor,
+  getVmTemplate,
+  getId,
+} from '../../../selectors';
+import {
   getUpdateDescriptionPatch,
   getUpdateFlavorPatch,
   getUpdateCpuMemoryPatch,
-  getOperatingSystemName,
   retrieveVmTemplate,
-  getFlavor,
-  getVmTemplate,
   addPrefixToPatch,
-  getId,
   prefixedId,
 } from '../../../utils';
 import { TemplateModel } from '../../../models';

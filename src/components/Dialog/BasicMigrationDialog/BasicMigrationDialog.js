@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MessageDialog } from 'patternfly-react';
 
-import { getName } from '../../../utils/selectors';
+import { getName } from '../../../selectors';
 import { migrate } from '../../../k8s/migrate';
 
 export const BasicMigrationDialog = ({ k8sCreate, onCancel, onClose, onMigrationError, virtualMachineInstance }) => {

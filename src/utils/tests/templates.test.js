@@ -37,7 +37,7 @@ import {
   pxeTemplate,
   urlNoNetworkTemplate,
 } from '../../tests/mocks/user_template';
-import { getNamespace } from '../selectors';
+import { getNamespace } from '../../selectors';
 import { urlTemplateDataVolume, LONG_ISO_URL } from '../../tests/mocks/user_template/url.mock';
 
 const templates = [...baseTemplates, ...userTemplates];

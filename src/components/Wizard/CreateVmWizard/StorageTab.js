@@ -21,7 +21,7 @@ import {
   getDataVolumeStorageClassName,
   getPvcResources,
   getDataVolumeResources,
-} from '../../../utils/selectors';
+} from '../../../selectors';
 
 import {
   ERROR_NO_BOOTABLE_DISK,

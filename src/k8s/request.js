@@ -11,7 +11,7 @@ import {
   getDataVolumeStorageSize,
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
-} from '../utils/selectors';
+} from '../selectors';
 import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, SecretModel } from '../models';
 
 import {

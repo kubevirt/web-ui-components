@@ -9,7 +9,7 @@ import { clone } from '../../../../k8s/clone';
 import { default as CloneDialogFixture } from '../fixtures/CloneDialog.fixture';
 import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { Text, TextArea, Dropdown, Checkbox } from '../../../Form';
-import { getName, getDescription, getNamespace } from '../../../../utils';
+import { getName, getDescription, getNamespace } from '../../../../selectors';
 import { VIRTUAL_MACHINE_EXISTS } from '../../../../utils/strings';
 import { settingsValue } from '../../../../k8s/selectors';
 import { DESCRIPTION_KEY, NAME_KEY, NAMESPACE_KEY } from '../../../Wizard/CreateVmWizard/constants';

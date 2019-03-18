@@ -17,7 +17,7 @@ import {
   DATA_VOLUME_SOURCE_URL,
   DATA_VOLUME_SOURCE_BLANK,
 } from '../components/Wizard/CreateVmWizard/constants';
-import { getCloudInitVolume } from '../utils';
+import { getCloudInitVolume } from '../selectors';
 
 export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {

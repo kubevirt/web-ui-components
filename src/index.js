@@ -21,6 +21,7 @@ export * from './components/ClusterOverview';
 
 // helpers
 export * from './constants';
+export * from './selectors';
 export * from './utils';
 export * from './models';
 export * from './k8s/request';

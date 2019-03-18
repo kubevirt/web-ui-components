@@ -1,5 +1,5 @@
 import { dataVolumes } from '../dataVolume';
-import { getName } from '../../../utils';
+import { getName } from '../../../selectors';
 import { persistentVolumeClaims } from '../persistentVolumeClaim';
 
 export const fullVm = {
