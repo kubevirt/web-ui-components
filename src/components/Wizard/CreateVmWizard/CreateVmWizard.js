@@ -34,7 +34,6 @@ import {
   NAMESPACE_KEY,
   PROVIDER_VMWARE_VM_KEY,
   INTERMEDIARY_STORAGE_TAB_KEY,
-  STORAGE_TYPE_PVC,
 } from './constants';
 
 import {
@@ -229,7 +228,7 @@ export const onVmwareVmChanged = (props, stepData) => {
         rootStorage: {},
         name: src.name,
         isBootable: false, // TODO
-        storageType: STORAGE_TYPE_PVC,
+        storageType: STORAGE_TYPE_DATAVOLUME, // TODO: PVC should be enough but validation expects the PVC to be already created
         size: src.capacity / (1024 * 1024 * 1024), // bytes to GB
         storageClass: undefined, // Let the user select proper mapping
 
