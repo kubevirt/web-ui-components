@@ -1,4 +1,4 @@
-import Compliance from '../Compliance';
+import { Compliance } from '../Compliance';
 
 import { complianceData } from '../..';
 

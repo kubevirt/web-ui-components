@@ -1,4 +1,4 @@
-import TopConsumers from '../TopConsumers';
+import { TopConsumers } from '../TopConsumers';
 import { PodModel, VirtualMachineModel } from '../../../../models';
 
 export const consumersData = {

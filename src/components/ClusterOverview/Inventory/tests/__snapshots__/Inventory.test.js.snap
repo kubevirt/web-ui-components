@@ -1,74 +1,126 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Inventory /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Cluster inventory
-    </DashboardCardTitle>
-    <DashboardCardTitleHelp>
-      help for inventory
-    </DashboardCardTitleHelp>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    className="kubevirt-inventory__body"
-    isLoading={false}
+    </h2>
+    <button
+      class="btn btn-link"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-info-circle fa-2x"
+      />
+    </button>
+  </div>
+  <div
+    class="card-pf-body kubevirt-inventory__body"
   >
-    <InventoryBody
-      inventory={
-        Object {
-          "disks": Object {
-            "data": Array [
-              Object {
-                "status": "ok",
-              },
-            ],
-            "title": "Disks",
-          },
-          "hosts": Object {
-            "data": Array [
-              Object {
-                "status": "ok",
-              },
-              Object {
-                "status": "ok",
-              },
-            ],
-            "title": "Hosts",
-          },
-          "pods": Object {
-            "data": Array [
-              Object {
-                "status": "ok",
-              },
-              Object {
-                "status": "ok",
-              },
-              Object {
-                "status": "ok",
-              },
-              Object {
-                "status": "ok",
-              },
-            ],
-            "title": "Pods",
-          },
-          "vms": Object {
-            "data": Array [
-              Object {
-                "status": "ok",
-              },
-            ],
-            "title": "VMs",
-          },
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
+    <div
+      class="kubevirt-inventory__item"
+    >
+      <div
+        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
+      >
+        2 Hosts
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+      >
+        <div
+          class="kubevirt-inventory__item-status"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
+          />
+          <span>
+            2
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__item"
+    >
+      <div
+        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
+      >
+        1 Disks
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+      >
+        <div
+          class="kubevirt-inventory__item-status"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
+          />
+          <span>
+            1
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__item"
+    >
+      <div
+        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
+      >
+        4 Pods
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+      >
+        <div
+          class="kubevirt-inventory__item-status"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
+          />
+          <span>
+            4
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__item"
+    >
+      <div
+        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
+      >
+        1 VMs
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+      >
+        <div
+          class="kubevirt-inventory__item-status"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
+          />
+          <span>
+            1
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

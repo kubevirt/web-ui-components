@@ -1,4 +1,4 @@
-import Health from '../Health';
+import { Health } from '../Health';
 
 export const healthData = {
   data: {

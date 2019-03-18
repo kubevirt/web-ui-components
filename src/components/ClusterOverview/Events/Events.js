@@ -9,8 +9,9 @@ import {
   DashboardCardTitle,
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
-const Events = ({ Component }) => (
+export const Events = ({ Component }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster Events</DashboardCardTitle>
@@ -21,7 +22,6 @@ const Events = ({ Component }) => (
     </DashboardCardBody>
   </DashboardCard>
 );
-
 Events.defaultProps = {
   Component: React.Fragment,
 };
@@ -30,4 +30,6 @@ Events.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-export default Events;
+const EventsConnected = () => <ClusterOverviewContextGenericConsumer Component={Events} dataPath="eventsData" />;
+
+export default EventsConnected;

@@ -7,6 +7,7 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
 const DetailItem = ({ title, value }) => (
   <React.Fragment>
@@ -34,7 +35,7 @@ DetailsBody.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-const Details = ({ data, loaded }) => (
+export const Details = ({ data, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Details</DashboardCardTitle>
@@ -54,4 +55,6 @@ Details.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default Details;
+const DetailsConnected = () => <ClusterOverviewContextGenericConsumer Component={Details} dataPath="detailsData" />;
+
+export default DetailsConnected;

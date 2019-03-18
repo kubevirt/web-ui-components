@@ -8,9 +8,10 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
 const UtilizationItem = ({ id, title, data, unit }) => (
-  <div key={id} className="kubevirt-utilization__item">
+  <div className="kubevirt-utilization__item">
     <Row>
       <Col lg={2} md={2} sm={2} xs={2}>
         <h2>{title}</h2>
@@ -45,7 +46,7 @@ class UtilizationBody extends React.PureComponent {
   render() {
     const { stats } = this.props;
     return Object.keys(stats).map(key => (
-      <UtilizationItem id={key} title={stats[key].title} data={stats[key].data} unit={stats[key].unit} />
+      <UtilizationItem id={key} key={key} title={stats[key].title} data={stats[key].data} unit={stats[key].unit} />
     ));
   }
 }
@@ -54,7 +55,7 @@ UtilizationBody.propTypes = {
   stats: PropTypes.object.isRequired,
 };
 
-const Utilization = ({ stats, loaded }) => (
+export const Utilization = ({ stats, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster utilization</DashboardCardTitle>
@@ -74,4 +75,8 @@ Utilization.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default Utilization;
+const UtilizationConnected = () => (
+  <ClusterOverviewContextGenericConsumer Component={Utilization} dataPath="utilizationStats" />
+);
+
+export default UtilizationConnected;

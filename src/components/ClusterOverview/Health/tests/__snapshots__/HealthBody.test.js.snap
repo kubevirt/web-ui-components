@@ -1,29 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Health /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Cluster Health
-    </DashboardCardTitle>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    className="kubevirt-health__body"
-    isLoading={false}
+    </h2>
+  </div>
+  <div
+    class="card-pf-body kubevirt-health__body"
   >
-    <HealthBody
-      data={
-        Object {
-          "healthy": false,
-          "message": "Error message",
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
+    <div
+      class="kubevirt-health__icon--error"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-exclamation-circle"
+      />
+    </div>
+    Error message
+  </div>
+</div>
 `;

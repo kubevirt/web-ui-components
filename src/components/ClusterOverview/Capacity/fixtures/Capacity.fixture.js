@@ -1,4 +1,4 @@
-import Capacity from '../Capacity';
+import { Capacity } from '../Capacity';
 
 import { capacityStats } from '../..';
 

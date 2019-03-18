@@ -8,8 +8,9 @@ import {
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
 import HealthBody from '../Health/HealthBody';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
-const Compliance = ({ data, loaded }) => (
+export const Compliance = ({ data, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
@@ -29,4 +30,8 @@ Compliance.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default Compliance;
+const ComplianceConnected = () => (
+  <ClusterOverviewContextGenericConsumer Component={Compliance} dataPath="complianceData" />
+);
+
+export default ComplianceConnected;

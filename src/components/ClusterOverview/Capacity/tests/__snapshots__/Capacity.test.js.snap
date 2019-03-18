@@ -1,58 +1,93 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Capacity /> renders correctly 1`] = `
-<DashboardCard
-  className={null}
+<div
+  class="card-pf kubevirt-dashboard__card"
 >
-  <DashboardCardHeader
-    className={null}
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <DashboardCardTitle>
+    <h2
+      class="card-pf-title"
+    >
       Cluster capacity
-    </DashboardCardTitle>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    isLoading={false}
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
   >
-    <CapacityBody
-      stats={
-        Object {
-          "cpuStats": Object {
-            "data": Object {
-              "total": 4.3,
-              "used": 2.2,
-            },
-            "title": "CPU",
-            "unit": "Ghz",
-          },
-          "memoryStats": Object {
-            "data": Object {
-              "total": 200,
-              "used": 80,
-            },
-            "title": "Memory",
-            "unit": "Ti",
-          },
-          "networkStats": Object {
-            "data": Object {
-              "total": 10,
-              "used": 3,
-            },
-            "title": "Network",
-            "unit": "GBps",
-          },
-          "storageStats": Object {
-            "data": Object {
-              "total": 800,
-              "used": 400,
-            },
-            "title": "Storage",
-            "unit": "Ti",
-          },
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
+    <div
+      class="kubevirt-capacity__items"
+    >
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          CPU
+        </h2>
+        <h6>
+          2.1Ghz available out of 4.3Ghz
+        </h6>
+        <div>
+          <div
+            class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Memory
+        </h2>
+        <h6>
+          120Ti available out of 200Ti
+        </h6>
+        <div>
+          <div
+            class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Storage
+        </h2>
+        <h6>
+          400Ti available out of 800Ti
+        </h6>
+        <div>
+          <div
+            class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Network
+        </h2>
+        <h6>
+          7GBps available out of 10GBps
+        </h6>
+        <div>
+          <div
+            class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

@@ -8,6 +8,7 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
 const pfGetUtilizationDonutTooltipContents = d =>
   `<span class="donut-tooltip-pf" style="white-space: nowrap;">${Math.round(d[0].ratio * 1000) / 10} ${
@@ -60,7 +61,7 @@ CapacityBody.propTypes = {
   stats: PropTypes.object.isRequired,
 };
 
-const Capacity = ({ stats, loaded }) => (
+export const Capacity = ({ stats, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster capacity</DashboardCardTitle>
@@ -80,4 +81,6 @@ Capacity.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default Capacity;
+const CapacityConnected = () => <ClusterOverviewContextGenericConsumer Component={Capacity} dataPath="capacityStats" />;
+
+export default CapacityConnected;

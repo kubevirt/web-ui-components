@@ -10,6 +10,7 @@ import {
   DashboardCardTitle,
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
+import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
 const InventoryItemStatus = ({ item }) => {
   let ok = true;
@@ -36,7 +37,7 @@ const InventoryBody = ({ inventory }) =>
   Object.keys(inventory).map(key => {
     const item = inventory[key];
     return (
-      <div key={inventory.key} className="kubevirt-inventory__item">
+      <div key={key} className="kubevirt-inventory__item">
         <Col lg={9} md={9} sm={9} xs={9}>
           {item.data.length} {item.title}
         </Col>
@@ -51,7 +52,7 @@ InventoryBody.propTypes = {
   inventory: PropTypes.object.isRequired,
 };
 
-const Inventory = ({ inventory, loaded }) => (
+export const Inventory = ({ inventory, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster inventory</DashboardCardTitle>
@@ -72,4 +73,8 @@ Inventory.propTypes = {
   loaded: PropTypes.bool,
 };
 
-export default Inventory;
+const InventoryConnected = () => (
+  <ClusterOverviewContextGenericConsumer Component={Inventory} dataPath="inventoryData" />
+);
+
+export default InventoryConnected;

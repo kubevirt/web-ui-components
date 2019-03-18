@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Events from '../Events';
+import { Events } from '../Events';
 
 export const eventsData = {
   Component: () => <div>Requires component from tectonic</div>,
