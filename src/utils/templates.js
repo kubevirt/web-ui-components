@@ -157,17 +157,19 @@ export const retrieveVmTemplate = (k8sGet, vm) =>
       resolve(null);
     }
     const getTemplatePromise = k8sGet(TemplateModel, template.name, template.namespace);
-    getTemplatePromise.then(result => resolve(result)).catch(error => {
-      let mockedTemplate;
-      if (get(error, 'json.code') === 404) {
-        // maybe common-templates are not installed, fallback on mocked templates
-        mockedTemplate = baseTemplates.find(
-          bTemplate => getNamespace(bTemplate) === template.namespace && getName(bTemplate) === template.name
-        );
-      }
-      if (mockedTemplate) {
-        resolve(mockedTemplate);
-      }
-      reject(error);
-    });
+    getTemplatePromise
+      .then(result => resolve(result))
+      .catch(error => {
+        let mockedTemplate;
+        if (get(error, 'json.code') === 404) {
+          // maybe common-templates are not installed, fallback on mocked templates
+          mockedTemplate = baseTemplates.find(
+            bTemplate => getNamespace(bTemplate) === template.namespace && getName(bTemplate) === template.name
+          );
+        }
+        if (mockedTemplate) {
+          resolve(mockedTemplate);
+        }
+        reject(error);
+      });
   });

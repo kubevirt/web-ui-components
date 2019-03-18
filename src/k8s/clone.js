@@ -90,46 +90,50 @@ const updateVm = (vm, name, namespace, description, startVm, osName) => {
 
 const addDataVolumeClones = (vm, newName, dataVolumes) => {
   const volumes = getVolumes(vm);
-  volumes.filter(volume => volume.dataVolume).forEach(volume => {
-    const dvName = volume.dataVolume.name;
-    const dataVolume = dataVolumes.find(dv => getName(dv) === dvName && getNamespace(dv) === getNamespace(vm));
+  volumes
+    .filter(volume => volume.dataVolume)
+    .forEach(volume => {
+      const dvName = volume.dataVolume.name;
+      const dataVolume = dataVolumes.find(dv => getName(dv) === dvName && getNamespace(dv) === getNamespace(vm));
 
-    if (dataVolume) {
-      const template = addTemplateClone(
-        vm,
-        dvName,
-        getNamespace(dataVolume),
-        getDataVolumeAccessModes(dataVolume),
-        getDataVolumeStorageSize(dataVolume),
-        getDataVolumeStorageClassName(dataVolume),
-        newName
-      );
-      volume.dataVolume = {
-        name: getName(template),
-      };
-    }
-  });
+      if (dataVolume) {
+        const template = addTemplateClone(
+          vm,
+          dvName,
+          getNamespace(dataVolume),
+          getDataVolumeAccessModes(dataVolume),
+          getDataVolumeStorageSize(dataVolume),
+          getDataVolumeStorageClassName(dataVolume),
+          newName
+        );
+        volume.dataVolume = {
+          name: getName(template),
+        };
+      }
+    });
 };
 
 const addPvcClones = (vm, newName, persistentVolumeClaims) => {
   const volumes = getVolumes(vm);
-  volumes.filter(volume => volume.persistentVolumeClaim).forEach(volume => {
-    const pvcName = volume.persistentVolumeClaim.claimName;
-    const pvc = persistentVolumeClaims.find(p => getName(p) === pvcName && getNamespace(p) === getNamespace(vm));
-    const template = addTemplateClone(
-      vm,
-      pvcName,
-      getNamespace(pvc),
-      getPvcAccessModes(pvc),
-      getPvcStorageSize(pvc),
-      getPvcStorageClassName(pvc),
-      newName
-    );
-    delete volume.persistentVolumeClaim;
-    volume.dataVolume = {
-      name: getName(template),
-    };
-  });
+  volumes
+    .filter(volume => volume.persistentVolumeClaim)
+    .forEach(volume => {
+      const pvcName = volume.persistentVolumeClaim.claimName;
+      const pvc = persistentVolumeClaims.find(p => getName(p) === pvcName && getNamespace(p) === getNamespace(vm));
+      const template = addTemplateClone(
+        vm,
+        pvcName,
+        getNamespace(pvc),
+        getPvcAccessModes(pvc),
+        getPvcStorageSize(pvc),
+        getPvcStorageClassName(pvc),
+        newName
+      );
+      delete volume.persistentVolumeClaim;
+      volume.dataVolume = {
+        name: getName(template),
+      };
+    });
 };
 
 export const addTemplateClone = (vm, pvcName, pvcNamespace, accessModes, size, storageClassName, vmName) => {
