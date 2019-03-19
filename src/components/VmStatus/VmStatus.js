@@ -2,6 +2,10 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../constants';
+
+import { getSubPagePath } from '../../utils';
+import { PodModel, VirtualMachineModel } from '../../models';
 import {
   VM_STATUS_VMI_WAITING,
   VM_STATUS_STARTING,
@@ -12,13 +16,8 @@ import {
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_MIGRATING,
-  CDI_KUBEVIRT_IO,
-  STORAGE_IMPORT_PVC_NAME,
-} from '../../constants';
-
-import { getSubPagePath } from '../../utils';
-import { PodModel, VirtualMachineModel } from '../../models';
-import { getVmStatusDetail } from './getVmStatus';
+  getVmStatus,
+} from '../../utils/status/vm';
 import { getId } from '../../selectors';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
@@ -79,7 +78,7 @@ const StateError = ({ children, ...props }) => (
 
 export const VmStatuses = props => {
   const { vm, launcherPod, importerPods, migration } = props;
-  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
+  const statusDetail = getVmStatus(vm, launcherPod, importerPods, migration);
   if (importerPods && importerPods.length > 1) {
     switch (statusDetail.status) {
       case VM_STATUS_IMPORTING:
@@ -117,7 +116,7 @@ VmStatuses.propTypes = {
 };
 
 export const VmStatus = ({ vm, launcherPod, importerPods, migration, verbose }) => {
-  const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
+  const statusDetail = getVmStatus(vm, launcherPod, importerPods, migration);
   switch (statusDetail.status) {
     case VM_STATUS_OFF:
       return <StateOff />;

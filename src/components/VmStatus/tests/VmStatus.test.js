@@ -4,8 +4,7 @@ import { shape } from 'prop-types';
 import { render } from 'enzyme';
 
 import { VmStatus, VmStatuses } from '../VmStatus';
-import { getVmStatusDetail, getVmStatus } from '../getVmStatus';
-import { vmFixtures } from '../fixtures/VmStatus.fixture';
+import vmFixtures from '../../../utils/status/vm/fixtures/VmStatus.fixture';
 
 const router = {
   history: new BrowserRouter().history,
@@ -27,17 +26,6 @@ describe('<VmStatus vm />', () => {
   });
 });
 
-describe('getVmStatusDetail()', () => {
-  it('macthes API objects correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
-      expect(
-        getVmStatusDetail(fixture, fixture.podFixture, fixture.importerPodsFixture, fixture.migration).status
-      ).toBe(fixture.expectedDetail || fixture.expected);
-    }
-  });
-});
-
 describe('<VmStatus vm pod />', () => {
   it('renders correctly', () => {
     for (let index = 0; index < vmFixtures.length; index++) {
@@ -53,9 +41,6 @@ describe('<VmStatus vm pod />', () => {
           createContext()
         )
       ).toMatchSnapshot();
-      expect(getVmStatus(fixture, fixture.podFixture, fixture.importerPodsFixture, fixture.migration)).toBe(
-        fixture.expected
-      );
     }
   });
 });

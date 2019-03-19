@@ -4,7 +4,8 @@ import { get } from 'lodash';
 import { Button, Alert, FieldLevelHelp } from 'patternfly-react';
 import classNames from 'classnames';
 
-import { VmStatuses, getVmStatusDetail } from '../../VmStatus';
+import { VmStatuses } from '../../VmStatus';
+import { getVmStatus, VM_STATUS_OFF } from '../../../utils/status/vm';
 import {
   getCpu,
   getMemory,
@@ -27,7 +28,7 @@ import {
   prefixedId,
 } from '../../../utils';
 import { VirtualMachineModel } from '../../../models';
-import { CUSTOM_FLAVOR, DASHES, VM_STATUS_OFF } from '../../../constants';
+import { CUSTOM_FLAVOR, DASHES } from '../../../constants';
 import { settingsValue, selectVm } from '../../../k8s/selectors';
 import { Flavor } from '../Flavor';
 import { Description } from '../Description';
@@ -129,7 +130,7 @@ export class VmDetails extends React.Component {
   }
 
   isVmOff = (vm, launcherPod, importerPods, migration) => {
-    const statusDetail = getVmStatusDetail(vm, launcherPod, importerPods, migration);
+    const statusDetail = getVmStatus(vm, launcherPod, importerPods, migration);
     return statusDetail.status === VM_STATUS_OFF;
   };
 
