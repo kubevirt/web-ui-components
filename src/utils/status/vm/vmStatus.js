@@ -38,7 +38,7 @@ const getNotRedyConditionMessage = pod => {
 
 const findFailingContainerStatus = pod => getContainerStatuses(pod).find(isContainerFailing);
 
-const isBeingMigrated = (vm, migration) => {
+export const isBeingMigrated = (vm, migration) => {
   if (isMigrating(migration)) {
     return { status: VM_STATUS_MIGRATING, message: getMigrationStatusPhase(migration) };
   }
