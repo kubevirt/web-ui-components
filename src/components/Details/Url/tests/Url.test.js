@@ -5,6 +5,7 @@ import { Url } from '..';
 
 import { default as urlFixtures } from '../fixtures/Url.fixture';
 
+// eslint-disable-next-line react/prop-types
 const testUrl = ({ props }) => <Url {...props} />;
 
 describe('<Url />', () => {

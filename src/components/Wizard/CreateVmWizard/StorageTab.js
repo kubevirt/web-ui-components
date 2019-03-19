@@ -89,12 +89,14 @@ const validateContainerStorage = storage => {
 
 const validateDiskNamespace = (storages, pvcs, namespace) => {
   const availablePvcs = pvcs.filter(pvc => pvc.metadata.namespace === namespace);
-  storages.filter(storage => storage.storageType === STORAGE_TYPE_PVC).forEach(storage => {
-    if (!storage.errors) {
-      storage.errors = initalStorageErrorsArray();
-    }
-    storage.errors[1] = availablePvcs.some(pvc => pvc.metadata.name === storage.name) ? null : ERROR_DISK_NOT_FOUND;
-  });
+  storages
+    .filter(storage => storage.storageType === STORAGE_TYPE_PVC)
+    .forEach(storage => {
+      if (!storage.errors) {
+        storage.errors = initalStorageErrorsArray();
+      }
+      storage.errors[1] = availablePvcs.some(pvc => pvc.metadata.name === storage.name) ? null : ERROR_DISK_NOT_FOUND;
+    });
 };
 
 const setBootableDisk = (disks, bootDisk) => {
@@ -114,12 +116,14 @@ const findBootDisk = bootableDisks => {
   let bootDisk;
 
   // lets check template storage boot order
-  bootableDisks.filter(disk => disk.templateStorage).forEach(disk => {
-    const bootOrder = get(disk.templateStorage, 'disk.bootOrder');
-    if (bootOrder && (!bootDisk || bootOrder < bootDisk.templateStorage.disk.bootOrder)) {
-      bootDisk = disk;
-    }
-  });
+  bootableDisks
+    .filter(disk => disk.templateStorage)
+    .forEach(disk => {
+      const bootOrder = get(disk.templateStorage, 'disk.bootOrder');
+      if (bootOrder && (!bootDisk || bootOrder < bootDisk.templateStorage.disk.bootOrder)) {
+        bootDisk = disk;
+      }
+    });
 
   // if we still did not find any boot disk, lets mark the first one
   if (!bootDisk) {
@@ -487,10 +491,12 @@ export class StorageTab extends React.Component {
       title: BOOTABLE_DISK,
       type: DROPDOWN,
       defaultValue: SELECT_BOOTABLE_DISK,
-      choices: disks.filter(disk => !hasError(disk)).map(disk => ({
-        name: disk.name,
-        id: disk.id,
-      })),
+      choices: disks
+        .filter(disk => !hasError(disk))
+        .map(disk => ({
+          name: disk.name,
+          id: disk.id,
+        })),
       disabled: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
       required: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
     },

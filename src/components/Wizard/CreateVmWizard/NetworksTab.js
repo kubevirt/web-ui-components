@@ -45,14 +45,16 @@ const validateNetwork = network => {
 
 export const validateNetworksNamespace = (networkConfigs, namespace, networks) => {
   const availableNetworkConfigs = networkConfigs.filter(nc => nc.metadata.namespace === namespace);
-  networks.filter(network => isBootableNetwork(network)).forEach(network => {
-    if (!network.errors) {
-      network.errors = Array(4).fill(null);
-    }
-    network.errors[3] = availableNetworkConfigs.some(nc => nc.metadata.name === network.network)
-      ? null
-      : ERROR_NETWORK_NOT_FOUND;
-  });
+  networks
+    .filter(network => isBootableNetwork(network))
+    .forEach(network => {
+      if (!network.errors) {
+        network.errors = Array(4).fill(null);
+      }
+      network.errors[3] = availableNetworkConfigs.some(nc => nc.metadata.name === network.network)
+        ? null
+        : ERROR_NETWORK_NOT_FOUND;
+    });
 };
 
 export const hasError = network => (network.errors ? network.errors.some(error => !!error) : false);
@@ -64,12 +66,14 @@ const resolveBootableNetwork = (sourceType, rows) => {
     const bootableNetworks = rows.filter(row => isBootableNetwork(row));
     if (bootableNetworks.length > 0) {
       let bootableNetwork;
-      bootableNetworks.filter(n => n.templateNetwork && n.templateNetwork.interface.bootOrder).forEach(n => {
-        const { bootOrder } = n.templateNetwork.interface;
-        if (!bootableNetwork || bootOrder < bootableNetwork.templateNetwork.interface.bootOrder) {
-          bootableNetwork = n;
-        }
-      });
+      bootableNetworks
+        .filter(n => n.templateNetwork && n.templateNetwork.interface.bootOrder)
+        .forEach(n => {
+          const { bootOrder } = n.templateNetwork.interface;
+          if (!bootableNetwork || bootOrder < bootableNetwork.templateNetwork.interface.bootOrder) {
+            bootableNetwork = n;
+          }
+        });
 
       if (!bootableNetwork) {
         [bootableNetwork] = bootableNetworks;
@@ -306,10 +310,12 @@ export class NetworksTab extends React.Component {
       title: PXE_NIC,
       type: 'dropdown',
       defaultValue: SELECT_PXE_NIC,
-      choices: pxeNetworks.filter(n => !hasError(n)).map(n => ({
-        name: n.name,
-        id: n.id,
-      })),
+      choices: pxeNetworks
+        .filter(n => !hasError(n))
+        .map(n => ({
+          name: n.name,
+          id: n.id,
+        })),
       required: true,
       help: PXE_INFO,
     },

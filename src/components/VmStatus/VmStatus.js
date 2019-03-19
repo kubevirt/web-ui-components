@@ -70,11 +70,20 @@ const StateImporting = ({ additionalText, ...props }) => (
     {additionalText}
   </StateValue>
 );
+StateImporting.defaultProps = {
+  additionalText: undefined,
+};
+StateImporting.propTypes = {
+  additionalText: PropTypes.string,
+};
 const StateError = ({ children, ...props }) => (
   <StateValue iconClass="pficon pficon-error-circle-o" {...props}>
     {children}
   </StateValue>
 );
+StateError.propTypes = {
+  children: PropTypes.any.isRequired,
+};
 
 export const VmStatuses = props => {
   const { vm, launcherPod, importerPods, migration } = props;
@@ -163,6 +172,7 @@ VmStatus.defaultProps = {
   launcherPod: undefined,
   importerPods: undefined,
   migration: undefined,
+  verbose: false,
 };
 
 VmStatus.propTypes = {
@@ -170,4 +180,5 @@ VmStatus.propTypes = {
   launcherPod: PropTypes.object,
   importerPods: PropTypes.array,
   migration: PropTypes.object,
+  verbose: PropTypes.bool,
 };

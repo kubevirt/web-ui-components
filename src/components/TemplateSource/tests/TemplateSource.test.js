@@ -5,6 +5,7 @@ import { TemplateSource } from '../TemplateSource';
 import { default as urlFixtures } from '../fixtures/TemplateSource.fixture';
 import { containerTemplate, pxeTemplate } from '../../../tests/mocks/user_template';
 
+// eslint-disable-next-line react/prop-types
 const testTemplateSource = ({ props }) => <TemplateSource {...props} />;
 
 describe('<TemplateSource />', () => {

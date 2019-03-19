@@ -256,8 +256,8 @@ describe('<StorageTab />', () => {
 
     dropdown
       .find(MenuItem)
-      .find('a')
       .findWhere(item => item.text() === rows[1].templateStorage.disk.name)
+      .find('a')
       .simulate('click');
     component.update();
     expect(component.state().rows[0].isBootable).toBeFalsy();
