@@ -4,17 +4,13 @@ import { Grid, GridItem } from '@patternfly/react-core';
 
 import { Dashboard, DashboardBody, DashboardHeader } from '../Dashboard';
 
-import { StorageDetails } from './Details/storageDetails'; // TODO: re-export
-import InventoryConnected from './Inventory/Inventory';
+import { StorageDetailsConnected } from './Details/storageDetails'; // TODO: re-export
 
 const LeftCards = () => (
   <GridItem key="left" lg={3} md={12} sm={12}>
     <Grid>
       <GridItem lg={12} md={6} sm={12}>
-        <StorageDetails />
-      </GridItem>
-      <GridItem lg={12} md={6} sm={12}>
-        <InventoryConnected />
+        <StorageDetailsConnected />
       </GridItem>
     </Grid>
   </GridItem>
@@ -24,9 +20,9 @@ export const StorageOverview = () => (
   <Dashboard>
     <DashboardHeader>Storage Overview</DashboardHeader>
     <DashboardBody>
-       <Grid>
+      <Grid>
         <LeftCards />
-      </Grid> 
+      </Grid>
     </DashboardBody>
   </Dashboard>
 );

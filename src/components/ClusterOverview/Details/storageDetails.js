@@ -1,41 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
 import { Details } from './Details';
 
-export const StorageDetails = ({LoadingComponent }) => {
+export const StorageDetails = ({ LoadingComponent, storageCluster }) => {
   const items = {
     name: {
       title: 'Name',
-      value: 'rook-ceph',
-      isLoading: false,
+      value: storageCluster && storageCluster.length ? getClusterName(storageCluster) : null,
+      isLoading: !storageCluster,
     },
     provider: {
       title: 'Provider',
-      //value: get(infrastructure, 'status.platform'),
-      value: 'Ceph',
+      value: 'Ceph', // this will be hardcoded for the demo
       isLoading: false,
     },
     ocs: {
       title: 'OCS version',
       value: 'v4.2', // this will be hardcoded for the demo
       isLoading: false,
-    }
+    },
   };
-
-  return <Details items={items} LoadingComponent={LoadingComponent} />;
+  return <Details items={items} heading="OCS Details" LoadingComponent={LoadingComponent} />;
 };
 
-StorageDetails.defaultProps = {
-  LoadingComponent: InlineLoading,
-};
-
-StorageDetails.propTypes = {
-  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+const getClusterName = storageCluster => {
+  const clusterName = get(storageCluster[0], 'metadata.name');
+  return clusterName;
 };
 
 export const StorageDetailsConnected = () => (
   <ClusterOverviewContextGenericConsumer Component={StorageDetails} dataPath="detailsData" />
 );
+
+StorageDetails.defaultProps = {
+  storageCluster: null,
+  LoadingComponent: InlineLoading,
+};
+
+StorageDetails.propTypes = {
+  storageCluster: PropTypes.object,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+};
