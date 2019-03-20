@@ -59,7 +59,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
           ],
           "results": Array [
             Object {
-              "isThrow": false,
+              "type": "return",
               "value": false,
             },
           ],
