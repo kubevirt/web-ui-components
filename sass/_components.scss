@@ -24,11 +24,12 @@
 @import './components/Dashboard/detail';
 @import './components/Dashboard/capacity';
 @import './components/Dashboard/utilization';
+@import './components/Dashboard/consumers';
 @import './components/ClusterOverview/cluster-overview';
 @import './components/ClusterOverview/events';
-@import './components/ClusterOverview/consumers';
 @import './components/ClusterOverview/health';
 @import './components/ClusterOverview/compliance';
+@import './components/ClusterOverview/consumers';
 @import './components/CreateBaremetalHostDialog/create-baremetal-host-dialog';
 
 /*

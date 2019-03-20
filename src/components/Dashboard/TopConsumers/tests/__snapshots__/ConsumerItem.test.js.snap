@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConsumerItem /> renders correctly 1`] = `
+<Row
+  bsClass="row"
+  className="kubevirt-consumers__bar"
+  componentClass="div"
+>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    lg={4}
+    md={4}
+    sm={4}
+    xs={4}
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="tooltip-for-description"
+          placement="right"
+        >
+          description
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={false}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <div
+        className="kubevirt-consumers__bar-description"
+      >
+        description
+      </div>
+    </OverlayTrigger>
+  </Col>
+  <Col
+    bsClass="col"
+    className="kubevirt-consumers__bar-column-progress"
+    componentClass="div"
+    lg={5}
+    md={5}
+    sm={5}
+    xs={5}
+  >
+    <div
+      className="progress kubevirt-consumers__bar-progress"
+    >
+      <ProgressBar
+        active={false}
+        bsClass="progress-bar"
+        isChild={true}
+        key="1"
+        max={100}
+        min={0}
+        now={30}
+        srOnly={false}
+        striped={false}
+      />
+      <ProgressBar
+        active={false}
+        bsClass="progress-bar progress-bar-remaining"
+        isChild={true}
+        key="2"
+        max={100}
+        min={0}
+        now={70}
+        srOnly={false}
+        striped={false}
+      />
+    </div>
+  </Col>
+  <Col
+    bsClass="col"
+    className="kubevirt-consumers__bar-label"
+    componentClass="div"
+    lg={3}
+    md={3}
+    sm={3}
+    xs={3}
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="tooltip-for-label"
+          placement="right"
+        >
+          label
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={false}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <span>
+        label
+      </span>
+    </OverlayTrigger>
+  </Col>
+</Row>
+`;
