@@ -41,17 +41,6 @@ export const capacityStats = {
   loaded: true,
 };
 
-export const detailsData = {
-  data: {
-    name: 'cluster-name',
-    provider: 'Bare Metal',
-    openshiftVersion: 'v4.0',
-    dockerVersion: 'v1.12.5',
-    osVendor: 'RHEL Server',
-  },
-  loaded: true,
-};
-
 export const complianceData = {
   data: {
     healthy: true,

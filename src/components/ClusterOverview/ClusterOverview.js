@@ -6,7 +6,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { Dashboard, DashboardBody, DashboardHeader } from '../Dashboard';
 import { MEDIA_QUERY_EXCLUSIVE_DEVIATION, MEDIA_QUERY_LG } from '../../utils';
 
-import DetailsConnected from './Details/Details'; // TODO: re-export
+import { ClusterDetailsConnected } from './Details/ClusterDetails'; // TODO: re-export
 import HealthConnected from './Health/Health';
 import ComplianceConnected from './Compliance/Compliance';
 import EventsConnected from './Events/Events';
@@ -38,7 +38,7 @@ const LeftCards = () => (
   <GridItem key="left" lg={3} md={12} sm={12}>
     <Grid>
       <GridItem lg={12} md={6} sm={12}>
-        <DetailsConnected />
+        <ClusterDetailsConnected />
       </GridItem>
       <GridItem lg={12} md={6} sm={12}>
         <InventoryConnected />
