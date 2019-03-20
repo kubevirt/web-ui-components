@@ -3,6 +3,7 @@
 */
 
 // components
+export * from './components/BareMetalHosts';
 export * from './components/CancelAcceptButtons';
 export * from './components/CreateDiskRow';
 export * from './components/CreateNicRow';
