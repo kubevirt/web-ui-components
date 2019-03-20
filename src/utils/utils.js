@@ -68,3 +68,25 @@ export const getResource = (
 
   return res;
 };
+
+const BYTE_UNITS = {
+  B: 0,
+  KB: 1,
+  MB: 2,
+  GB: 3,
+  TB: 4,
+  PB: 5,
+};
+
+export const formatBytes = (bytes, unit, fixed = 2) => {
+  unit = unit || Object.keys(BYTE_UNITS).find(key => bytes < 1024 ** (BYTE_UNITS[key] + 1)) || 'PB';
+  return { value: Number((bytes / 1024 ** BYTE_UNITS[unit]).toFixed(fixed)), unit };
+};
+
+export const formatCores = cores => ({ value: cores, unit: 'cores' });
+
+export const formatNetTraffic = (bytesPerSecond, preferredUnit, fixed = 2) => {
+  const formatted = formatBytes(bytesPerSecond, preferredUnit, fixed);
+  formatted.unit = `${formatted.unit}ps`;
+  return formatted;
+};

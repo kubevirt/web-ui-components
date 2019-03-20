@@ -2,6 +2,8 @@ import React from 'react';
 import { DonutChart } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
+import { InlineLoading } from '../../Loading';
+
 import {
   DashboardCard,
   DashboardCardBody,
@@ -15,70 +17,114 @@ const pfGetUtilizationDonutTooltipContents = d =>
     d[0].name
   }</span>`;
 
-class CapacityBody extends React.PureComponent {
-  render() {
-    const { stats } = this.props;
-    return (
-      <div className="kubevirt-capacity__items">
-        {Object.keys(stats).map(key => {
-          const available = stats[key].data.total - stats[key].data.used;
-          const columns = [['Used', stats[key].data.used], ['Available', available]];
-          const sum = columns.reduce((acc, x) => acc + x[1], 0);
-          return (
-            <div key={key} className="kubevirt-capacity__item">
-              <h2 className="kubevirt-capacity__item-title">{stats[key].title}</h2>
-              <h6>
-                {`${Number.isInteger(available) ? available : available.toFixed(1)}${
-                  stats[key].unit
-                } available out of ${stats[key].data.total}${stats[key].unit}`}
-              </h6>
-              <div>
-                <DonutChart
-                  id={`donut-chart-${key}`}
-                  size={{ width: 150, height: 150 }}
-                  data={{
-                    unload: true,
-                    columns,
-                    order: null,
-                  }}
-                  unloadBeforeLoad
-                  tooltip={{ contents: pfGetUtilizationDonutTooltipContents }}
-                  title={{
-                    primary: `${Math.round((100 * columns[0][1]) / sum).toString()}%`,
-                    secondary: columns[0][0],
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-}
+const CapacityItem = ({ idSuffix, title, used, total, unit, formatValue }) => {
+  const totalFormatted = formatValue(total, unit);
+  const usedFormatted = formatValue(used, totalFormatted.unit);
 
-CapacityBody.propTypes = {
-  stats: PropTypes.object.isRequired,
+  unit = totalFormatted.unit; // eslint-disable-line prefer-destructuring
+  total = totalFormatted.value;
+  used = usedFormatted.value;
+
+  const available = total - used;
+  const columns = [['Used', used], ['Available', available]];
+
+  const percentageUsed = total > 0 ? Math.round((100 * used) / total) : 0;
+  const availableNice = Number.isInteger(available) ? available : available.toFixed(1);
+  const totalNice = Number.isInteger(total) ? total : total.toFixed(1);
+
+  return (
+    <div className="kubevirt-capacity__item">
+      <h2 className="kubevirt-capacity__item-title">{title}</h2>
+      <h6>{`${availableNice} ${unit} available out of ${totalNice} ${unit}`}</h6>
+      <div>
+        <DonutChart
+          id={`donut-chart-${idSuffix}`}
+          size={{ width: 150, height: 150 }}
+          data={{
+            unload: true,
+            columns,
+            order: null,
+          }}
+          unloadBeforeLoad
+          tooltip={{ contents: pfGetUtilizationDonutTooltipContents }}
+          title={{
+            primary: `${percentageUsed.toString()}%`,
+            secondary: columns[0][0],
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+CapacityItem.defaultProps = {
+  formatValue: (value, unit) => ({ value, unit }),
+  unit: undefined,
+};
+CapacityItem.propTypes = {
+  idSuffix: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  used: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  unit: PropTypes.string,
+  formatValue: PropTypes.func,
 };
 
-export const Capacity = ({ stats, loaded }) => (
+const CapacityItemLoading = ({ title, LoadingComponent }) => (
+  <div className="kubevirt-capacity__item">
+    <h2 className="kubevirt-capacity__item-title">{title}</h2>
+    <LoadingComponent />
+  </div>
+);
+CapacityItemLoading.propTypes = {
+  title: PropTypes.string.isRequired,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+};
+
+const isLoaded = data =>
+  data && 'used' in data && 'total' in data && !Number.isNaN(data.used) && !Number.isNaN(data.total);
+
+const CapacityBody = ({ stats, LoadingComponent }) => (
+  <div className="kubevirt-capacity__items">
+    {Object.keys(stats).map(key =>
+      isLoaded(stats[key].data) ? (
+        <CapacityItem
+          key={key}
+          idSuffix={key}
+          title={stats[key].title}
+          unit={stats[key].unit}
+          total={stats[key].data.total}
+          used={stats[key].data.used}
+          formatValue={stats[key].formatValue}
+        />
+      ) : (
+        <CapacityItemLoading key={key} title={stats[key].title} LoadingComponent={LoadingComponent} />
+      )
+    )}
+  </div>
+);
+CapacityBody.propTypes = {
+  stats: PropTypes.object.isRequired,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+};
+
+export const Capacity = ({ stats, LoadingComponent }) => (
   <DashboardCard>
     <DashboardCardHeader>
-      <DashboardCardTitle>Cluster capacity</DashboardCardTitle>
+      <DashboardCardTitle>Cluster Capacity</DashboardCardTitle>
     </DashboardCardHeader>
-    <DashboardCardBody isLoading={!loaded}>
-      <CapacityBody stats={stats} />
+    <DashboardCardBody isLoading={false}>
+      <CapacityBody stats={stats} LoadingComponent={LoadingComponent} />
     </DashboardCardBody>
   </DashboardCard>
 );
 
 Capacity.defaultProps = {
-  loaded: false,
+  LoadingComponent: InlineLoading,
 };
 
 Capacity.propTypes = {
   stats: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 const CapacityConnected = () => <ClusterOverviewContextGenericConsumer Component={Capacity} dataPath="capacityStats" />;
