@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BaremetalHostStatus /> renders a generic status message 1`] = `
+<GenericStatus
+  status="unknown state"
+  text="unknown state"
+/>
+`;
+
+exports[`<BaremetalHostStatus /> renders a generic success message 1`] = `
+<GenericSuccess
+  status="provisioned"
+  text="Provisioned"
+/>
+`;

@@ -1,6 +1,18 @@
-import { HOST_STATUS_READY } from './constants';
+import { getOperationalStatus, getProvisioningState } from '../../../selectors';
 
-// TODO(honza): Fill this out
-export const getHostStatus = host => ({
-  status: HOST_STATUS_READY,
-});
+import { HOST_STATUS_TO_TEXT } from './constants';
+
+export const getHostStatus = host => {
+  // Returns a status string based on the available host information.
+  const operationalStatus = getOperationalStatus(host);
+  const provisioningState = getProvisioningState(host);
+
+  const hostStatus = provisioningState || operationalStatus;
+  return {
+    status: hostStatus,
+    text: HOST_STATUS_TO_TEXT[hostStatus] || hostStatus,
+    errorMessage: host.status.errorMessage,
+  };
+};
+
+export const getSimpleHostStatus = host => getHostStatus(host).status;
