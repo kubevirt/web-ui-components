@@ -38,16 +38,16 @@ const getNotRedyConditionMessage = pod => {
 
 const findFailingContainerStatus = pod => getContainerStatuses(pod).find(isContainerFailing);
 
-export const isBeingMigrated = (vm, migration) => {
+const isBeingMigrated = (vm, migration) => {
   if (isMigrating(migration)) {
     return { status: VM_STATUS_MIGRATING, message: getMigrationStatusPhase(migration) };
   }
   return NOT_HANDLED;
 };
 
-export const isRunning = vm => (isVmRunning(vm) ? NOT_HANDLED : { status: VM_STATUS_OFF });
+const isRunning = vm => (isVmRunning(vm) ? NOT_HANDLED : { status: VM_STATUS_OFF });
 
-export const isReady = vm => {
+const isReady = vm => {
   if (isVmReady(vm)) {
     // we are all set
     return { status: VM_STATUS_RUNNING };
@@ -55,7 +55,7 @@ export const isReady = vm => {
   return NOT_HANDLED;
 };
 
-export const isVmError = vm => {
+const isVmError = vm => {
   // is an issue with the VM definition?
   const condition = getStatusConditions(vm)[0];
   if (condition) {
@@ -67,7 +67,7 @@ export const isVmError = vm => {
   return NOT_HANDLED;
 };
 
-export const isCreated = (vm, launcherPod = null) => {
+const isCreated = (vm, launcherPod = null) => {
   if (isVmCreated(vm)) {
     // created but not yet ready
     let message;
@@ -89,7 +89,7 @@ export const isCreated = (vm, launcherPod = null) => {
   return NOT_HANDLED;
 };
 
-export const isBeingImported = (vm, importerPods) => {
+const isBeingImported = (vm, importerPods) => {
   if (importerPods && importerPods.length > 0 && !isVmCreated(vm)) {
     const importerPodsStatuses = importerPods.map(pod => {
       if (!isPodSchedulable(pod)) {
@@ -129,7 +129,7 @@ export const isBeingImported = (vm, importerPods) => {
   return NOT_HANDLED;
 };
 
-export const isWaitingForVmi = vm => {
+const isWaitingForVmi = vm => {
   // assumption: spec.running === true
   if (!isVmCreated(vm)) {
     return { status: VM_STATUS_VMI_WAITING };
