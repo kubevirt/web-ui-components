@@ -2,6 +2,7 @@ import { containerTemplate } from './container.mock';
 import { containerCloudTemplate } from './container-cloud.mock';
 import { containerMultusTemplate } from './container-multus.mock';
 
+import { pvcTemplate } from './pvc.mock';
 import { pxeTemplate } from './pxe.mock';
 import { pxeDataVolumeTemplate } from './pxe-dv.mock';
 import { pxePvcTemplate } from './pxe-pvc.mock';
@@ -14,6 +15,7 @@ export {
   containerTemplate,
   containerCloudTemplate,
   containerMultusTemplate,
+  pvcTemplate,
   pxeTemplate,
   pxeDataVolumeTemplate,
   pxePvcTemplate,
@@ -26,6 +28,7 @@ export const userTemplates = [
   containerTemplate,
   containerCloudTemplate,
   containerMultusTemplate,
+  pvcTemplate,
   pxeTemplate,
   pxeDataVolumeTemplate,
   pxePvcTemplate,

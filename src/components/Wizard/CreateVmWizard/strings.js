@@ -1,3 +1,11 @@
+import {
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_IMPORT,
+} from '../../../constants';
+
 export const CREATE_VM = 'Create Virtual Machine';
 export const CREATE_VM_TEMPLATE = `${CREATE_VM} Template`;
 export const STEP_BASIC_SETTINGS = 'Basic Settings';
@@ -19,6 +27,7 @@ export const HELP_PROVISION_SOURCE_PXE = 'Discover provisionable virtual machine
 export const HELP_PROVISION_SOURCE_CONTAINER =
   'Ephemeral virtual machine disk image which will be pulled from container registry.';
 export const HELP_PROVISION_SOURCE_IMPORT = 'Import a virtual machine from external service using a provider.';
+export const HELP_PROVISION_SOURCE_IMAGE = 'Select an existing PVC in Storage tab';
 export const HELP_OS = 'The primary operating system that will run on the virtual machine.';
 export const HELP_FLAVOR =
   'The combination of processing power and memory that will be provided to the virtual machine.';
@@ -47,6 +56,7 @@ export const ERROR_NETWORK_NOT_SELECTED = 'Network config must be selected';
 
 // StorageTab
 export const ERROR_NO_BOOTABLE_DISK = 'A bootable disk could not be found';
+export const ERROR_NO_BOOTABLE_ATTACHED_DISK = 'A bootable attached disk could not be found';
 export const ERROR_POSITIVE_SIZE = 'Size must be positive';
 export const ERROR_NO_STORAGE_CLASS_SELECTED = 'Storage Class not selected';
 export const ERROR_NO_STORAGE_SELECTED = 'No storage is selected';
@@ -63,3 +73,16 @@ export const SELECT_BOOTABLE_DISK = '--- Select Bootable Disk ---';
 export const ERROR = 'Error';
 export const CREATED = 'created';
 export const NOT_CREATED = 'not created';
+
+export const getNoBootableError = sourceType =>
+  sourceType === PROVISION_SOURCE_IMAGE ? ERROR_NO_BOOTABLE_ATTACHED_DISK : ERROR_NO_BOOTABLE_DISK;
+
+const provisionSourceHelpResolver = {
+  [PROVISION_SOURCE_URL]: HELP_PROVISION_SOURCE_URL,
+  [PROVISION_SOURCE_PXE]: HELP_PROVISION_SOURCE_PXE,
+  [PROVISION_SOURCE_CONTAINER]: HELP_PROVISION_SOURCE_CONTAINER,
+  [PROVISION_SOURCE_IMPORT]: HELP_PROVISION_SOURCE_IMPORT,
+  [PROVISION_SOURCE_IMAGE]: HELP_PROVISION_SOURCE_IMAGE,
+};
+
+export const getProvisionSourceHelp = sourceType => provisionSourceHelpResolver[sourceType];

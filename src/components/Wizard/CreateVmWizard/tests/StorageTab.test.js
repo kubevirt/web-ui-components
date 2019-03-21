@@ -5,7 +5,12 @@ import { MenuItem } from 'patternfly-react';
 
 import { StorageTab } from '../StorageTab';
 import { units, storageClasses } from '../fixtures/CreateVmWizard.fixture';
-import { PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_PXE } from '../../../../constants';
+import {
+  PROVISION_SOURCE_URL,
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_IMAGE,
+} from '../../../../constants';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } from '../constants';
 import { ERROR_POSITIVE_SIZE } from '../strings';
 import { EMPTY_ERROR, DNS1123_UPPERCASE_ERROR } from '../../../../utils/strings';
@@ -78,7 +83,7 @@ const containerTemplateStorage = {
 const pvcStorage = {
   id: 3,
   isBootable: false,
-  name: 'pvcStorage',
+  name: persistentVolumeClaims[0].metadata.name,
   size: '15',
   storageClass: 'glusterfs',
   storageType: STORAGE_TYPE_PVC,
@@ -104,6 +109,17 @@ const checkBootableStorage = (provisionSource, storages, bootable) => {
   expect(component.state().rows[0].isBootable).toEqual(bootable[0]);
   expect(component.state().rows[1].isBootable).toEqual(bootable[1]);
   expect(component.state().rows[2].isBootable).toEqual(bootable[2]);
+};
+
+const expectOnChange = (provisionSource, storages, expectValidity = true) => {
+  const onChange = jest.fn();
+  const component = shallow(testStorageTab(onChange, storages, provisionSource));
+
+  expect(component.state().rows).toHaveLength(storages.length);
+
+  expect(onChange).toHaveBeenCalledTimes(1);
+  expect(onChange.mock.calls[0][0]).toHaveLength(storages.length);
+  expect(onChange.mock.calls[0][1]).toBe(expectValidity);
 };
 
 describe('<StorageTab />', () => {
@@ -141,6 +157,19 @@ describe('<StorageTab />', () => {
     expect(component.state().rows[0].isBootable).toBeTruthy();
     expect(component.state().rows[1].isBootable).toBeFalsy();
     expect(component.state().rows[2].isBootable).toBeFalsy();
+  });
+
+  it('test initial onChange validity', () => {
+    expectOnChange(PROVISION_SOURCE_URL, [], false);
+
+    expectOnChange(PROVISION_SOURCE_IMAGE, [containerStorage, dataVolumeStorage], false);
+    expectOnChange(PROVISION_SOURCE_IMAGE, [pvcStorage], true);
+
+    expectOnChange(PROVISION_SOURCE_CONTAINER, [], false);
+    expectOnChange(PROVISION_SOURCE_CONTAINER, [containerStorage], true);
+
+    expectOnChange(PROVISION_SOURCE_PXE, [], true);
+    expectOnChange(PROVISION_SOURCE_PXE, [pvcStorage], true);
   });
 
   it('resolves template disks', () => {
@@ -196,6 +225,12 @@ describe('<StorageTab />', () => {
       PROVISION_SOURCE_PXE,
       [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage],
       [true, false, false]
+    );
+
+    checkBootableStorage(
+      PROVISION_SOURCE_IMAGE,
+      [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage],
+      [false, false, true]
     );
 
     // no storage has boot order, the first bootable storage is chosen
