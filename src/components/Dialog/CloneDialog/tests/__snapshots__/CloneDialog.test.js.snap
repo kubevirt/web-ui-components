@@ -119,6 +119,7 @@ exports[`<CloneDialog /> renders correctly 1`] = `
             "valid": true,
           }
         }
+        horizontal={true}
         labelSize={2}
         onFormChange={[Function]}
         textPosition="text-right"

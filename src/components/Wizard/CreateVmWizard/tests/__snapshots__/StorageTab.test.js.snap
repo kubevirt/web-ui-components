@@ -104,6 +104,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
       }
     }
     formClassName="kubevirt-create-vm-wizard__pxe-form"
+    horizontal={true}
     labelSize={2}
     onFormChange={[Function]}
     textPosition="text-left"
