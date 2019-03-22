@@ -5,9 +5,10 @@ import { healthData } from '../Health/fixtures/Health.fixture';
 import { eventsData } from '../Events/fixtures/Events.fixture';
 import { consumersData } from '../TopConsumers/fixtures/TopConsumers.fixture';
 import { inventoryData } from '../Inventory/fixtures/Inventory.fixture';
+import { capacityStats } from '../Capacity/fixtures/Capacity.fixture';
 import { clusterDetailsData } from '../Details/fixtures/ClusterDetails.fixture';
 
-import { complianceData, capacityStats, utilizationStats } from '..';
+import { complianceData, utilizationStats } from '..';
 
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 

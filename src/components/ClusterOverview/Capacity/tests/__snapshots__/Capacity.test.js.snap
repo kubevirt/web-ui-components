@@ -10,7 +10,7 @@ exports[`<Capacity /> renders correctly 1`] = `
     <h2
       class="card-pf-title"
     >
-      Cluster capacity
+      Cluster Capacity
     </h2>
   </div>
   <div
@@ -28,7 +28,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           CPU
         </h2>
         <h6>
-          2.1Ghz available out of 4.3Ghz
+          2.1 Ghz available out of 4.3 Ghz
         </h6>
         <div>
           <div
@@ -45,7 +45,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           Memory
         </h2>
         <h6>
-          120Ti available out of 200Ti
+          120 Ti available out of 200 Ti
         </h6>
         <div>
           <div
@@ -62,7 +62,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           Storage
         </h2>
         <h6>
-          400Ti available out of 800Ti
+          400 Ti available out of 800 Ti
         </h6>
         <div>
           <div
@@ -79,11 +79,91 @@ exports[`<Capacity /> renders correctly 1`] = `
           Network
         </h2>
         <h6>
-          7GBps available out of 10GBps
+          7 GBps available out of 10 GBps
         </h6>
         <div>
           <div
             class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Capacity /> renders correctly in Loading state 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title"
+    >
+      Cluster Capacity
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div
+      class="kubevirt-capacity__items"
+    >
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          CPU
+        </h2>
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
+          />
+        </div>
+      </div>
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Memory
+        </h2>
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
+          />
+        </div>
+      </div>
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Storage
+        </h2>
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
+          />
+        </div>
+      </div>
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Network
+        </h2>
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
           />
         </div>
       </div>
