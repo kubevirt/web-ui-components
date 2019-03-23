@@ -10,6 +10,7 @@ export * from './components/Dashboard';
 export * from './components/Details';
 export * from './components/Dialog';
 export * from './components/Form';
+export * from './components/CreateBaremetalHostDialog';
 // Loading component group not exported
 // Table component group not exported
 export * from './components/TemplateSource';

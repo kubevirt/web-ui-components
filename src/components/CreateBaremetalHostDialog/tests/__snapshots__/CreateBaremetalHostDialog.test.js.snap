@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CreateBaremetalHostDialog /> renders correctly 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  bsSize="large"
+  className="kubevirt-create-baremetal-host-dialog"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      Add Host
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      sm={12}
+    >
+      <p
+        className="kubevirt-create-baremetal-host-dialog--paragraph"
+      >
+        Specify the host's name, management controller IP address, and credentials to add it to the cluster.
+      </p>
+      <FormFactory
+        controlSize={5}
+        fields={
+          Object {
+            "controller": Object {
+              "id": "controller",
+              "required": true,
+              "title": "Management Controller Address",
+            },
+            "name": Object {
+              "id": "name",
+              "required": false,
+              "title": "Name",
+            },
+            "password": Object {
+              "id": "password",
+              "required": true,
+              "title": "Password",
+              "type": "password",
+            },
+            "username": Object {
+              "id": "username",
+              "required": true,
+              "title": "Username",
+            },
+          }
+        }
+        fieldsValues={Object {}}
+        horizontal={false}
+        labelSize={3}
+        onFormChange={[Function]}
+        showLabels={true}
+        textPosition="text-right"
+      />
+    </Col>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Cancel
+    </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={true}
+      onClick={[Function]}
+    >
+      Add Host
+    </Button>
+  </ModalFooter>
+</Modal>
+`;

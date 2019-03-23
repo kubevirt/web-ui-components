@@ -12,6 +12,7 @@ import {
   getDataVolumeStorageClassName,
   getPvcStorageClassName,
 } from '../selectors';
+
 import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, SecretModel } from '../models';
 
 import {
@@ -103,6 +104,8 @@ import {
 } from './vmBuilder';
 
 import { getImportProviderSecretObject } from '../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
+
+export * from './requests/hosts';
 
 const FALLBACK_DISK = {
   disk: {
