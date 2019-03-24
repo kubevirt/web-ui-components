@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, mount } from 'enzyme';
 
+import { clickButton, flushPromises } from '../../../../tests/enzyme';
 import { cloudInitTestVmi } from '../../../../tests/mocks/vmi/cloudInitTestVmi.mock';
 import { VmDetails } from '../index';
 import { vmFixtures, default as VmDetailsFixture } from '../fixtures/VmDetails.fixture';
@@ -59,6 +60,23 @@ describe('<VmDetails />', () => {
   it('renders correctly as overview', () => {
     const component = render(testVmDetails(vmFixtures.runningVm, { overview: true }));
     expect(component).toMatchSnapshot();
+  });
+
+  it('renders deleted template correctly', async () => {
+    const component = mount(testVmDetails(vmFixtures.vmWithDeletedTemplate));
+    await flushPromises();
+    component.update();
+    expect(component.render()).toMatchSnapshot();
+  });
+});
+
+describe('<VmDetails /> edit', () => {
+  it('renders deleted template correctly', async () => {
+    const component = mount(testVmDetails(vmFixtures.vmWithDeletedTemplate));
+    clickButton(component, 'Edit');
+    await flushPromises();
+    component.update();
+    expect(component.render()).toMatchSnapshot();
   });
 });
 

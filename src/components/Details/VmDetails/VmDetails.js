@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Button, Alert, FieldLevelHelp } from 'patternfly-react';
+import { Button, Alert, FieldLevelHelp, Icon, Tooltip, OverlayTrigger } from 'patternfly-react';
 import classNames from 'classnames';
 
 import { VmStatuses } from '../../VmStatus';
@@ -12,6 +12,7 @@ import {
   getNodeName,
   getOperatingSystem,
   getVmTemplate,
+  getTemplateDisplayName,
   getWorkloadProfile,
   getVmiIpAddresses,
   getOperatingSystemName,
@@ -46,7 +47,9 @@ export class VmDetails extends React.Component {
       editing: false,
       updating: false,
       k8sError: null,
+      templateError: null,
       form: {},
+      template: null,
     };
   }
 
@@ -68,11 +71,6 @@ export class VmDetails extends React.Component {
         },
       },
     }));
-
-  onLoadError = error =>
-    this.setState({
-      k8sError: error,
-    });
 
   updateVmDetails = () => {
     this.setEditing(false);
@@ -131,6 +129,28 @@ export class VmDetails extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { k8sGet, vm } = this.props;
+    this.setState({
+      updating: true,
+    });
+    retrieveVmTemplate(k8sGet, vm)
+      .then(result => {
+        this.onFormChange('flavor', result, 'template', true);
+        return this.setState({
+          updating: false,
+          template: result,
+        });
+      })
+      .catch(error =>
+        this.setState({
+          updating: false,
+          template: null,
+          templateError: error.message || 'An error occurred. Please try again.',
+        })
+      );
+  }
+
   render() {
     const {
       pods,
@@ -141,8 +161,8 @@ export class VmDetails extends React.Component {
       vmi,
       PodResourceLink,
       NamespaceResourceLink,
+      TemplateResourceLink,
       LoadingComponent,
-      k8sGet,
       overview,
     } = this.props;
 
@@ -185,6 +205,20 @@ export class VmDetails extends React.Component {
         {this.state.k8sError && <Alert onDismiss={this.onErrorDismiss}>{this.state.k8sError}</Alert>}
       </Fragment>
     );
+    const titleWithWarning = (key, title, tooltipText) => {
+      const icon = <Icon name="warning" className="pficon-warning-triangle-o" />;
+      const tooltip = <Tooltip id={`tooltip-${key}`}>{tooltipText}</Tooltip>;
+      return (
+        <Fragment>
+          <span className="kubevirt-vm-details-item-text">{title} </span>
+          <OverlayTrigger key="template" overlay={tooltip} placement="top">
+            {icon}
+          </OverlayTrigger>
+        </Fragment>
+      );
+    };
+    const templateLink = () =>
+      TemplateResourceLink ? <TemplateResourceLink template={template} /> : getTemplateDisplayName(template);
 
     return (
       <Fragment>
@@ -231,8 +265,12 @@ export class VmDetails extends React.Component {
               <dt>Workload Profile</dt>
               <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vm) || DASHES}</dd>
 
-              <dt>Template</dt>
-              <dd id={prefixedId(id, 'template')}>{template ? `${template.namespace}/${template.name}` : DASHES}</dd>
+              <dt>
+                {this.state.templateError
+                  ? titleWithWarning('template', 'Template', 'This template is no longer available.')
+                  : 'Template'}
+              </dt>
+              <dd id={prefixedId(id, 'template')}>{template ? templateLink() : DASHES}</dd>
             </dl>
             <div className="kubevirt-vm-details__other-details">
               <dl className="kubevirt-vm-details__details-list">
@@ -264,9 +302,8 @@ export class VmDetails extends React.Component {
                     updating={this.state.updating}
                     LoadingComponent={LoadingComponent}
                     onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
-                    retrieveVmTemplate={() => retrieveVmTemplate(k8sGet, vm)}
                     formValues={settingsValue(this.state.form, FLAVOR_KEY)}
-                    onLoadError={this.onLoadError}
+                    template={this.state.template}
                   />
                 </dd>
               </dl>
@@ -287,6 +324,7 @@ VmDetails.propTypes = {
   NodeLink: PropTypes.func,
   NamespaceResourceLink: PropTypes.func,
   PodResourceLink: PropTypes.func,
+  TemplateResourceLink: PropTypes.func,
   k8sPatch: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
@@ -300,6 +338,7 @@ VmDetails.defaultProps = {
   migrations: undefined,
   NamespaceResourceLink: undefined,
   PodResourceLink: undefined,
+  TemplateResourceLink: undefined,
   LoadingComponent: Loading,
   NodeLink: undefined,
   overview: false,

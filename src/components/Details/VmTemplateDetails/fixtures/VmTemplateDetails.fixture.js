@@ -1,6 +1,18 @@
+import { LABEL_USED_TEMPLATE_NAME } from '../../../../constants';
 import { VmTemplateDetails } from '../VmTemplateDetails';
-import { fedora28 } from '../../../../k8s/objects/template/fedora28';
 import { containerCloudTemplate, urlCustomFlavorTemplate } from '../../../../tests/mocks/user_template';
+import { k8sPatch, k8sGet } from '../../../../tests/k8s';
+
+const containerCloudDeletedTemplate = {
+  ...containerCloudTemplate,
+  metadata: {
+    ...containerCloudTemplate.metadata,
+    labels: {
+      ...containerCloudTemplate.metadata.labels,
+      [LABEL_USED_TEMPLATE_NAME]: 'deleted-template',
+    },
+  },
+};
 
 export default [
   {
@@ -9,14 +21,8 @@ export default [
     props: {
       vmTemplate: containerCloudTemplate,
       NamespaceResourceLink: () => containerCloudTemplate.metadata.namespace,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
     },
   },
   {
@@ -25,14 +31,18 @@ export default [
     props: {
       vmTemplate: urlCustomFlavorTemplate,
       NamespaceResourceLink: () => urlCustomFlavorTemplate.metadata.namespace,
-      k8sPatch: () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-      k8sGet: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      k8sPatch,
+      k8sGet,
+    },
+  },
+  {
+    component: VmTemplateDetails,
+    name: 'Container VM Template with deleted base template',
+    props: {
+      vmTemplate: containerCloudDeletedTemplate,
+      NamespaceResourceLink: () => containerCloudDeletedTemplate.metadata.namespace,
+      k8sPatch,
+      k8sGet,
     },
   },
 ];

@@ -97,3 +97,14 @@ export const containerCloudTemplate = {
     },
   ],
 };
+
+export const containerCloudDeletedTemplate = {
+  ...containerCloudTemplate,
+  metadata: {
+    ...containerCloudTemplate.metadata,
+    labels: {
+      ...containerCloudTemplate.metadata.labels,
+      [LABEL_USED_TEMPLATE_NAME]: 'deleted-template',
+    },
+  },
+};

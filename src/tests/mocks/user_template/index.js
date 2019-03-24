@@ -1,5 +1,5 @@
 import { containerTemplate } from './container.mock';
-import { containerCloudTemplate } from './container-cloud.mock';
+import { containerCloudTemplate, containerCloudDeletedTemplate } from './container-cloud.mock';
 import { containerMultusTemplate } from './container-multus.mock';
 
 import { pvcTemplate } from './pvc.mock';
@@ -14,6 +14,7 @@ import { urlNoNetworkTemplate } from './url-nonetwork.mock';
 export {
   containerTemplate,
   containerCloudTemplate,
+  containerCloudDeletedTemplate,
   containerMultusTemplate,
   pvcTemplate,
   pxeTemplate,

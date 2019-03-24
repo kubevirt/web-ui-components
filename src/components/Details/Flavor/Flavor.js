@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { prefixedId } from '../../../utils';
@@ -7,15 +7,11 @@ import { InlineEdit } from '../../InlineEdit/InlineEdit';
 import { CUSTOM_FLAVOR } from '../../../constants';
 import { getTemplateFlavors, settingsValue } from '../../../k8s/selectors';
 import { Loading } from '../../Loading/Loading';
-import { validateForm, DROPDOWN, POSITIVE_NUMBER } from '../../Form';
+import { DROPDOWN, POSITIVE_NUMBER } from '../../Form';
 
 export class Flavor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loadingTemplate: false,
-      template: null,
-    };
     this.resolveInitialValues();
   }
 
@@ -31,46 +27,30 @@ export class Flavor extends React.Component {
     }
   };
 
-  componentDidMount() {
-    this.setState({
-      loadingTemplate: true,
-    });
-    this.props
-      .retrieveVmTemplate()
-      .then(result => {
-        this.props.onFormChange(result, 'template', validateForm(this.flavorFormFields(), this.props.formValues));
-        return this.setState({
-          loadingTemplate: false,
-          template: result,
-        });
-      })
-      .catch(error => {
-        this.props.onLoadError(error.message || 'An error occurred while loading vm flavors. Please try again.');
-        return this.setState({
-          loadingTemplate: false,
-          template: null,
-        });
-      });
-  }
-
   getFlavorChoices = () => {
     const flavors = [];
-    if (this.state.template) {
-      flavors.push(...getTemplateFlavors([this.state.template]));
+    if (this.props.template) {
+      flavors.push(...getTemplateFlavors([this.props.template]));
     }
     if (!flavors.some(flavor => flavor === CUSTOM_FLAVOR)) {
       flavors.push(CUSTOM_FLAVOR);
+    }
+    if (!flavors.some(flavor => flavor === this.props.flavor)) {
+      flavors.push(this.props.flavor);
     }
     return flavors;
   };
 
   flavorFormFields = () => {
-    const { id } = this.props;
+    const { id, flavor } = this.props;
+    const choices = this.getFlavorChoices();
+
     return {
       flavor: {
         id: prefixedId(id, 'flavor-dropdown'),
         type: DROPDOWN,
-        choices: this.getFlavorChoices(),
+        choices,
+        isVisible: () => choices.length > 1 || flavor !== CUSTOM_FLAVOR,
       },
       cpu: {
         id: prefixedId(id, 'flavor-cpu'),
@@ -90,21 +70,30 @@ export class Flavor extends React.Component {
   };
 
   render() {
-    const { id, editing, updating, LoadingComponent, onFormChange, flavor } = this.props;
+    const { id, editing, updating, LoadingComponent, onFormChange, flavor, formValues, vm } = this.props;
     const formFields = this.flavorFormFields();
+    const choices = this.getFlavorChoices();
 
     return (
-      <InlineEdit
-        formFields={formFields}
-        editing={editing}
-        updating={updating || (editing && this.state.loadingTemplate)}
-        LoadingComponent={LoadingComponent}
-        onFormChange={onFormChange}
-        fieldsValues={this.props.formValues}
-      >
-        <div id={prefixedId(id, 'flavor')}>{flavor}</div>
-        <div id={prefixedId(id, 'flavor-description')}>{getFlavorDescription(this.props.vm)}</div>
-      </InlineEdit>
+      <Fragment>
+        {choices.length === 1 && flavor === CUSTOM_FLAVOR && editing ? (
+          <div className="kubevirt-flavor__label">{CUSTOM_FLAVOR}</div>
+        ) : (
+          ''
+        )}
+        <InlineEdit
+          formFields={formFields}
+          editing={editing}
+          updating={updating}
+          LoadingComponent={LoadingComponent}
+          onFormChange={onFormChange}
+          fieldsValues={formValues}
+          showLabels
+        >
+          <div id={prefixedId(id, 'flavor')}>{flavor}</div>
+          <div id={prefixedId(id, 'flavor-description')}>{getFlavorDescription(vm)}</div>
+        </InlineEdit>
+      </Fragment>
     );
   }
 }
@@ -116,10 +105,9 @@ Flavor.propTypes = {
   onFormChange: PropTypes.func.isRequired,
   updating: PropTypes.bool,
   editing: PropTypes.bool,
-  retrieveVmTemplate: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
   formValues: PropTypes.object,
-  onLoadError: PropTypes.func,
+  template: PropTypes.object,
 };
 
 Flavor.defaultProps = {
@@ -128,5 +116,5 @@ Flavor.defaultProps = {
   editing: false,
   LoadingComponent: Loading,
   formValues: undefined,
-  onLoadError: () => {},
+  template: null,
 };

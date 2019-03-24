@@ -2,7 +2,11 @@ import React from 'react';
 import { render, mount } from 'enzyme';
 
 import { VmTemplateDetails } from '../index';
-import { containerCloudTemplate, pxeDataVolumeTemplate } from '../../../../tests/mocks/user_template';
+import {
+  containerCloudTemplate,
+  pxeDataVolumeTemplate,
+  containerCloudDeletedTemplate,
+} from '../../../../tests/mocks/user_template';
 import { urlTemplate, urlTemplateDataVolume } from '../../../../tests/mocks/user_template/url.mock';
 import { default as VmTemplateDetailsFixture } from '../fixtures/VmTemplateDetails.fixture';
 import {
@@ -13,10 +17,21 @@ import {
   updatesFlavorOnSave,
 } from '../../common/tests/details';
 import { getId } from '../../../../selectors';
+import { flushPromises } from '../../../../tests/enzyme';
 
 const testVmTemplateDetails = (vmTemplate, props, dataVolumes = []) => (
   <VmTemplateDetails
     {...VmTemplateDetailsFixture[0].props}
+    vmTemplate={vmTemplate}
+    dataVolumes={dataVolumes}
+    NamespaceResourceLink={() => vmTemplate.metadata.namespace}
+    {...props}
+  />
+);
+
+const testVmDeletedTemplateDetails = (vmTemplate, props, dataVolumes = []) => (
+  <VmTemplateDetails
+    {...VmTemplateDetailsFixture[2].props}
     vmTemplate={vmTemplate}
     dataVolumes={dataVolumes}
     NamespaceResourceLink={() => vmTemplate.metadata.namespace}
@@ -38,6 +53,13 @@ describe('<VmTemplateDetails />', () => {
   it('renders pxe correctly', () => {
     const component = render(testVmTemplateDetails(pxeDataVolumeTemplate));
     expect(component).toMatchSnapshot();
+  });
+
+  it('renders container with deleted template correctly', async () => {
+    const component = mount(testVmDeletedTemplateDetails(containerCloudDeletedTemplate));
+    await flushPromises();
+    component.update();
+    expect(component.render()).toMatchSnapshot();
   });
 });
 
