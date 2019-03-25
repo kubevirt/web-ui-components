@@ -107,6 +107,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
     horizontal={true}
     labelSize={2}
     onFormChange={[Function]}
+    showLabels={true}
     textPosition="text-left"
   />
 </Fragment>

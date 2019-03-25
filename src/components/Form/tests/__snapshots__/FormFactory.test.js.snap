@@ -122,6 +122,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
   horizontal={true}
   labelSize={3}
   onFormChange={[MockFunction]}
+  showLabels={true}
   textPosition="text-right"
 >
   <Form

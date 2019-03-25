@@ -38,6 +38,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
     horizontal={true}
     labelSize={3}
     onFormChange={[Function]}
+    showLabels={true}
     textPosition="text-right"
   />
   <RdpServiceNotConfigured

@@ -188,7 +188,16 @@ const getLabel = field =>
     </React.Fragment>
   );
 
-const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, labelSize, controlSize, horizontal }) =>
+const getFormGroups = ({
+  fields,
+  fieldsValues,
+  onFormChange,
+  textPosition,
+  showLabels,
+  labelSize,
+  controlSize,
+  horizontal,
+}) =>
   Object.keys(fields)
     .filter(key => fields[key] && (!fields[key].isVisible || fields[key].isVisible(fieldsValues)))
     .map(key => {
@@ -216,7 +225,7 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
 
       let label;
 
-      if (field.title) {
+      if (showLabels && field.title) {
         if (horizontal) {
           label = (
             <Col sm={labelSize} className={textPosition}>
@@ -253,11 +262,11 @@ const getFormGroups = ({ fields, fieldsValues, onFormChange, textPosition, label
       );
     });
 
-export const InlineFormFactory = ({ fields, fieldsValues, onFormChange }) =>
-  getFormGroups({ fields, fieldsValues, onFormChange, horizontal: true });
+export const InlineFormFactory = ({ fields, fieldsValues, onFormChange, showLabels }) =>
+  getFormGroups({ fields, fieldsValues, onFormChange, horizontal: true, showLabels });
 
-export const ListFormFactory = ({ fields, fieldsValues, onFormChange, actions, columnSizes }) => {
-  const formGroups = getFormGroups({ fields, fieldsValues, onFormChange });
+export const ListFormFactory = ({ fields, fieldsValues, onFormChange, actions, columnSizes, showLabels }) => {
+  const formGroups = getFormGroups({ fields, fieldsValues, onFormChange, showLabels });
   const form = formGroups.map((formGroup, index) => (
     <Col
       key={`col-${index}`}
@@ -278,12 +287,17 @@ export const ListFormFactory = ({ fields, fieldsValues, onFormChange, actions, c
   );
 };
 
+ListFormFactory.defaultProps = {
+  showLabels: true,
+};
+
 ListFormFactory.propTypes = {
   fields: PropTypes.object.isRequired,
   fieldsValues: PropTypes.object.isRequired,
   onFormChange: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
   columnSizes: PropTypes.object.isRequired,
+  showLabels: PropTypes.bool,
 };
 
 export const FormFactory = ({
@@ -295,6 +309,7 @@ export const FormFactory = ({
   controlSize,
   formClassName,
   horizontal,
+  showLabels,
 }) => {
   const formGroups = getFormGroups({
     fields,
@@ -304,6 +319,7 @@ export const FormFactory = ({
     labelSize,
     controlSize,
     horizontal,
+    showLabels,
   });
   return (
     <Form horizontal={horizontal} className={formClassName}>
@@ -318,6 +334,7 @@ FormFactory.defaultProps = {
   controlSize: 5,
   formClassName: undefined,
   horizontal: true,
+  showLabels: true,
 };
 
 FormFactory.propTypes = {
@@ -329,4 +346,5 @@ FormFactory.propTypes = {
   controlSize: PropTypes.number,
   formClassName: PropTypes.string,
   horizontal: PropTypes.bool,
+  showLabels: PropTypes.bool,
 };
