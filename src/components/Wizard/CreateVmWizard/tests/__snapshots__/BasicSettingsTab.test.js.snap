@@ -360,6 +360,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
   horizontal={true}
   labelSize={3}
   onFormChange={[Function]}
+  showLabels={true}
   textPosition="text-right"
 />
 `;
@@ -724,6 +725,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
   horizontal={true}
   labelSize={3}
   onFormChange={[Function]}
+  showLabels={true}
   textPosition="text-right"
 />
 `;

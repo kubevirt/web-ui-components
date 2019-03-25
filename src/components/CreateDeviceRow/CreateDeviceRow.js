@@ -33,6 +33,7 @@ export class CreateDeviceRow extends React.Component {
         actions={actions}
         onFormChange={this.onFormChange}
         columnSizes={columnSizes}
+        showLabels={false}
       />
     );
   }
