@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Icon } from 'patternfly-react';
 
-import { getNodeErrorStatuses } from './nodeStatus';
 import {
   DashboardCard,
   DashboardCardBody,
@@ -10,71 +8,59 @@ import {
   DashboardCardTitle,
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
-import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
+import { ClusterOverviewContext } from '../ClusterOverviewContext';
+import { mapNodesToProps, mapPodsToProps, mapPvcsToProps, mapVmsToProps } from './utils';
+import { InventoryRow } from './InventoryRow';
 
-const InventoryItemStatus = ({ item }) => {
-  let ok = true;
-  if (item.kind === 'Node') {
-    ok = !item.data.some(i => getNodeErrorStatuses(i).length > 0);
-  }
-  return ok ? (
-    <div className="kubevirt-inventory__item-status">
-      <Icon type="fa" name="check-circle" size="2x" className="kubevirt-inventory__item-status-icon" />
-      <span>{item.data.length}</span>
-    </div>
-  ) : (
-    <div>
-      <span className="glyphicon glyphicon-remove-circle" />
-    </div>
-  );
+const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations }) => (
+  <React.Fragment>
+    <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} />
+    <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} />
+    <InventoryRow title="Pods" {...mapPodsToProps(pods)} />
+    <InventoryRow title="VMs" {...mapVmsToProps(vms, pods, migrations)} />
+  </React.Fragment>
+);
+
+InventoryBody.defaultProps = {
+  nodes: undefined,
+  pods: undefined,
+  vms: undefined,
+  vmis: undefined,
+  pvcs: undefined,
+  migrations: undefined,
 };
-
-InventoryItemStatus.propTypes = {
-  item: PropTypes.object.isRequired,
-};
-
-const InventoryBody = ({ inventory }) =>
-  Object.keys(inventory).map(key => {
-    const item = inventory[key];
-    return (
-      <div key={key} className="kubevirt-inventory__item">
-        <Col lg={9} md={9} sm={9} xs={9}>
-          {item.data.length} {item.title}
-        </Col>
-        <Col lg={3} md={3} sm={3} xs={3}>
-          <InventoryItemStatus item={item} />
-        </Col>
-      </div>
-    );
-  });
 
 InventoryBody.propTypes = {
-  inventory: PropTypes.object.isRequired,
+  nodes: PropTypes.array,
+  pods: PropTypes.array,
+  vms: PropTypes.array,
+  vmis: PropTypes.array,
+  pvcs: PropTypes.array,
+  migrations: PropTypes.array,
 };
 
-export const Inventory = ({ inventory, loaded }) => (
+export const Inventory = props => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster inventory</DashboardCardTitle>
       <DashboardCardTitleHelp>help for inventory</DashboardCardTitleHelp>
     </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-inventory__body" isLoading={!loaded}>
-      <InventoryBody inventory={inventory} />
+    <DashboardCardBody className="kubevirt-inventory__body">
+      <InventoryBody {...props} />
     </DashboardCardBody>
   </DashboardCard>
 );
 
 Inventory.defaultProps = {
-  loaded: false,
+  ...InventoryBody.defaultProps,
 };
 
 Inventory.propTypes = {
-  inventory: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  ...InventoryBody.propTypes,
 };
 
 const InventoryConnected = () => (
-  <ClusterOverviewContextGenericConsumer Component={Inventory} dataPath="inventoryData" />
+  <ClusterOverviewContext.Consumer>{props => <Inventory {...props} />}</ClusterOverviewContext.Consumer>
 );
 
 export default InventoryConnected;

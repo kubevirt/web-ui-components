@@ -4,7 +4,7 @@ import { shape } from 'prop-types';
 import { render } from 'enzyme';
 
 import { VmStatus, VmStatuses } from '../VmStatus';
-import vmFixtures from '../../../utils/status/vm/fixtures/VmStatus.fixture';
+import vmFixtures from '../../../utils/status/vm/fixtures/vmStatus.fixture';
 
 const router = {
   history: new BrowserRouter().history,
@@ -27,39 +27,39 @@ describe('<VmStatus vm />', () => {
 });
 
 describe('<VmStatus vm pod />', () => {
-  it('renders correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
+  vmFixtures.forEach((fixture, idx) => {
+    const resultStatus = fixture.expected || fixture.expectedSimple;
+    it(`renders correctly ${idx} (${resultStatus})`, () => {
       expect(
         render(
           <VmStatus
-            vm={fixture}
-            launcherPod={fixture.podFixture}
+            vm={fixture.vm}
+            pods={fixture.podsFixture}
             importerPods={fixture.importerPodsFixture}
-            migration={fixture.migration}
+            migrations={fixture.migrations}
           />,
           createContext()
         )
       ).toMatchSnapshot();
-    }
+    });
   });
 });
 
 describe('<VmStatuses vm pod />', () => {
-  it('renders correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
+  vmFixtures.forEach((fixture, idx) => {
+    const resultStatus = fixture.expected || fixture.expectedSimple;
+    it(`renders correctly ${idx} (${resultStatus})`, () => {
       expect(
         render(
           <VmStatuses
-            vm={fixture}
-            launcherPod={fixture.podFixture}
+            vm={fixture.vm}
+            pods={fixture.podsFixture}
             importerPods={fixture.importerPodsFixture}
-            migration={fixture.migration}
+            migrations={fixture.migrations}
           />,
           createContext()
         )
       ).toMatchSnapshot();
-    }
+    });
   });
 });

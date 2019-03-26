@@ -13,7 +13,7 @@ describe('<Capacity />', () => {
   });
 
   it('renders correctly in Loading state', () => {
-    const component = render(<Capacity {...emptyCapacityStats} />);
+    const component = render(<Capacity capacityStats={emptyCapacityStats} />);
     expect(component).toMatchSnapshot();
   });
 });

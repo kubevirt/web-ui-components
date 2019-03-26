@@ -86,8 +86,8 @@ StateError.propTypes = {
 };
 
 export const VmStatuses = props => {
-  const { vm, launcherPod, importerPods, migration } = props;
-  const statusDetail = getVmStatus(vm, launcherPod, importerPods, migration);
+  const { vm, pods, importerPods, migrations } = props;
+  const statusDetail = getVmStatus(vm, pods, migrations, importerPods);
   if (importerPods && importerPods.length > 1) {
     switch (statusDetail.status) {
       case VM_STATUS_IMPORTING:
@@ -112,29 +112,34 @@ export const VmStatuses = props => {
 };
 
 VmStatuses.defaultProps = {
-  launcherPod: undefined,
+  pods: undefined,
   importerPods: undefined,
-  migration: undefined,
+  migrations: undefined,
 };
 
 VmStatuses.propTypes = {
   vm: PropTypes.object.isRequired,
-  launcherPod: PropTypes.object,
+  pods: PropTypes.array,
   importerPods: PropTypes.array,
-  migration: PropTypes.object,
+  migrations: PropTypes.array,
 };
 
-export const VmStatus = ({ vm, launcherPod, importerPods, migration, verbose }) => {
-  const statusDetail = getVmStatus(vm, launcherPod, importerPods, migration);
+export const VmStatus = ({ vm, pods, importerPods, migrations, verbose }) => {
+  const statusDetail = getVmStatus(vm, pods, migrations, importerPods);
   switch (statusDetail.status) {
     case VM_STATUS_OFF:
       return <StateOff />;
     case VM_STATUS_RUNNING:
-      return <StateRunning linkTo={getSubPagePath(launcherPod, PodModel)} />;
+      return <StateRunning linkTo={getSubPagePath(statusDetail.launcherPod, PodModel)} />;
     case VM_STATUS_VMI_WAITING:
       return <StateVmiWaiting linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} />;
     case VM_STATUS_STARTING:
-      return <StateStarting linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message} />;
+      return (
+        <StateStarting
+          linkTo={getSubPagePath(statusDetail.launcherPod, PodModel, 'events')}
+          message={statusDetail.message}
+        />
+      );
     case VM_STATUS_IMPORTING:
       return (
         <StateImporting
@@ -146,7 +151,10 @@ export const VmStatus = ({ vm, launcherPod, importerPods, migration, verbose }) 
       return <StateMigrating />; // TODO: add linkTo once migration monitoring page is available
     case VM_STATUS_POD_ERROR:
       return (
-        <StateError linkTo={getSubPagePath(launcherPod, PodModel, 'events')} message={statusDetail.message}>
+        <StateError
+          linkTo={getSubPagePath(statusDetail.launcherPod, PodModel, 'events')}
+          message={statusDetail.message}
+        >
           Pod Error
         </StateError>
       );
@@ -169,16 +177,16 @@ export const VmStatus = ({ vm, launcherPod, importerPods, migration, verbose }) 
 };
 
 VmStatus.defaultProps = {
-  launcherPod: undefined,
+  pods: undefined,
   importerPods: undefined,
-  migration: undefined,
+  migrations: undefined,
   verbose: false,
 };
 
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
-  launcherPod: PropTypes.object,
+  pods: PropTypes.array,
   importerPods: PropTypes.array,
-  migration: PropTypes.object,
+  migrations: PropTypes.array,
   verbose: PropTypes.bool,
 };

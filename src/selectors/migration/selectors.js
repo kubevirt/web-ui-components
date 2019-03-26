@@ -1,11 +1,13 @@
 import { get } from 'lodash';
 
-export const getMigrationStatusPhase = migration => get(migration, 'status.phase');
+import { getStatusPhase } from '../common';
 
 export const hasMigrationStatus = (migration, status) => {
-  const phase = getMigrationStatusPhase(migration);
+  const phase = getStatusPhase(migration);
   return phase && phase.toLowerCase() === status.toLowerCase();
 };
 
 export const isMigrating = migration =>
   migration && !hasMigrationStatus(migration, 'succeeded') && !hasMigrationStatus(migration, 'failed');
+
+export const getMigrationVmiName = migration => get(migration, 'spec.vmiName');

@@ -69,3 +69,5 @@ export const VCENTER_TEMPORARY_LABEL = 'cnv.io/temporary';
 
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note: common-templates are in the "openshift" namespace
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single OnfigMap per cluster, contains mapping of vmware guestId to common-templates OS ID
+
+export const VIRT_LAUNCHER_POD_PREFIX = 'virt-launcher-';

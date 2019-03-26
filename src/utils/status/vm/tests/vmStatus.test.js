@@ -1,24 +1,23 @@
 import { getVmStatus, getSimpleVmStatus } from '../vmStatus';
-import vmFixtures from '../fixtures/VmStatus.fixture';
+import vmFixtures from '../fixtures/vmStatus.fixture';
 
 describe('getVmStatus()', () => {
-  it('matches API objects correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
-      expect(getVmStatus(fixture, fixture.podFixture, fixture.importerPodsFixture, fixture.migration).status).toBe(
-        fixture.expectedDetail || fixture.expected
+  vmFixtures.forEach((fixture, idx) => {
+    const resultStatus = fixture.expected || fixture.expectedSimple;
+    it(`return status correctly ${idx} (${resultStatus})`, () => {
+      expect(getVmStatus(fixture.vm, fixture.podsFixture, fixture.migrations, fixture.importerPodsFixture).status).toBe(
+        resultStatus
       );
-    }
+    });
   });
 });
 
 describe('getSimpleVmStatus()', () => {
-  it('return simple status correctly', () => {
-    for (let index = 0; index < vmFixtures.length; index++) {
-      const fixture = vmFixtures[index];
-      expect(getSimpleVmStatus(fixture, fixture.podFixture, fixture.importerPodsFixture, fixture.migration)).toBe(
-        fixture.expected
+  vmFixtures.forEach((fixture, idx) => {
+    it(`return simple status correctly ${idx} (${fixture.expectedSimple})`, () => {
+      expect(getSimpleVmStatus(fixture.vm, fixture.podsFixture, fixture.migrations, fixture.importerPodsFixture)).toBe(
+        fixture.expectedSimple
       );
-    }
+    });
   });
 });

@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InventoryItemStatus /> renders correctly 1`] = `
+<div
+  class="kubevirt-inventory__row-status"
+>
+  <div
+    class="kubevirt-inventory__row-status-item"
+  >
+    <span
+      aria-hidden="true"
+      class="pficon pficon-in-progress"
+    />
+    <span
+      class="kubevirt-inventory__row-status-item-text"
+    >
+      1
+    </span>
+  </div>
+  <div
+    class="kubevirt-inventory__row-status-item"
+  >
+    <span
+      aria-hidden="true"
+      class="fa fa-exclamation-circle fa-2x kubevirt-inventory__row-status-item-icon--error"
+    />
+    <span
+      class="kubevirt-inventory__row-status-item-text"
+    >
+      2
+    </span>
+  </div>
+  <div
+    class="kubevirt-inventory__row-status-item"
+  >
+    <span
+      aria-hidden="true"
+      class="fa fa-exclamation-triangle fa-2x kubevirt-inventory__row-status-item-icon--warn"
+    />
+    <span
+      class="kubevirt-inventory__row-status-item-text"
+    >
+      3
+    </span>
+  </div>
+  <div
+    class="kubevirt-inventory__row-status-item"
+  >
+    <span
+      aria-hidden="true"
+      class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+    />
+    <span
+      class="kubevirt-inventory__row-status-item-text"
+    >
+      5
+    </span>
+  </div>
+</div>
+`;

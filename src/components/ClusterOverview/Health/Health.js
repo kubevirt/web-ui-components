@@ -9,13 +9,14 @@ import {
 } from '../../Dashboard/DashboardCard';
 import HealthBody from './HealthBody';
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
+import { InlineLoading } from '../../Loading';
 
 export const Health = ({ data, loaded }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster Health</DashboardCardTitle>
     </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-health__body" isLoading={!loaded}>
+    <DashboardCardBody className="kubevirt-health__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
       <HealthBody data={data} />
     </DashboardCardBody>
   </DashboardCard>

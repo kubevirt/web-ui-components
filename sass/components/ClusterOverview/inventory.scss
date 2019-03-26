@@ -3,18 +3,48 @@
   flex-direction: column;
 }
 
-.kubevirt-inventory__item {
+.kubevirt-inventory__row {
   display: flex;
   border-bottom: 1px solid #ededed;
-  font-size: 16px;
-  padding: 15px 0;
+  font-size: 1.333em;
+  padding: 1em 0;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.kubevirt-inventory__item-status {
+.kubevirt-inventory__row-title {
+  margin-right: 0.5em;
+}
+
+.kubevirt-inventory__row-status {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  :last-child {
+    margin-right: 0;
+  }
 }
 
-.kubevirt-inventory__item-status-icon {
-  color: #3f9c35;
-  margin-right: 5px;
+.kubevirt-inventory__row-status-item {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5em;
+  flex-shrink: 0;
+}
+
+.kubevirt-inventory__row-status-item-text {
+  margin-left: 0.25em;
+}
+
+.kubevirt-inventory__row-status-item-icon--ok {
+  color: yellowgreen;
+}
+
+.kubevirt-inventory__row-status-item-icon--error {
+  color: red;
+}
+
+.kubevirt-inventory__row-status-item-icon--warn {
+  color: goldenrod;
 }
