@@ -132,7 +132,8 @@ export const getVmStatus = (vm, pods, migrations, importerPods = null) => {
   const migration = findVMIMigration(migrations, vm);
   const vmImporterPods = getVmImporterPods(importerPods || pods, vm);
   return (
-    isBeingMigrated(vm, migration) || // must be precceding isRunning() since vm.status.ready is true for a migrating VM
+    isBeingMigrated(vm, migration) || // must precede isRunning() since vm.status.ready is true for a migrating VM
+    isBeingImported(vm, importerPods) || // must precede isRunning() since importing doesn't rely on the running status
     isRunning(vm) ||
     isReady(vm, launcherPod) ||
     isVmError(vm) ||
