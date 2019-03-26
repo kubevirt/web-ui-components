@@ -31,7 +31,7 @@ export const PROVISION_SOURCE_PXE = 'PXE';
 export const PROVISION_SOURCE_CONTAINER = 'Container';
 export const PROVISION_SOURCE_URL = 'URL';
 export const PROVISION_SOURCE_IMPORT = 'Import';
-export const PROVISION_SOURCE_IMAGE = 'Image'; // PVC or upload image to PVC
+export const PROVISION_SOURCE_CLONED_DISK = 'Cloned Disk'; // PVC or upload image to PVC
 
 export const PVC_ACCESSMODE_RWO = 'ReadWriteOnce';
 

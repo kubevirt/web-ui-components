@@ -9,7 +9,7 @@ import {
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
 } from '../../../../constants';
 import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } from '../constants';
 import { ERROR_POSITIVE_SIZE } from '../strings';
@@ -162,8 +162,8 @@ describe('<StorageTab />', () => {
   it('test initial onChange validity', () => {
     expectOnChange(PROVISION_SOURCE_URL, [], false);
 
-    expectOnChange(PROVISION_SOURCE_IMAGE, [containerStorage, dataVolumeStorage], false);
-    expectOnChange(PROVISION_SOURCE_IMAGE, [pvcStorage], true);
+    expectOnChange(PROVISION_SOURCE_CLONED_DISK, [containerStorage, dataVolumeStorage], false);
+    expectOnChange(PROVISION_SOURCE_CLONED_DISK, [pvcStorage], true);
 
     expectOnChange(PROVISION_SOURCE_CONTAINER, [], false);
     expectOnChange(PROVISION_SOURCE_CONTAINER, [containerStorage], true);
@@ -228,7 +228,7 @@ describe('<StorageTab />', () => {
     );
 
     checkBootableStorage(
-      PROVISION_SOURCE_IMAGE,
+      PROVISION_SOURCE_CLONED_DISK,
       [dataVolumeTemplateStorage, containerTemplateStorage, pvcTemplateStorage],
       [false, false, true]
     );

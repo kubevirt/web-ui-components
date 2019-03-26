@@ -5,7 +5,7 @@ import { get, findIndex } from 'lodash';
 import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
   VALIDATION_ERROR_TYPE,
 } from '../../../constants';
 import { TableFactory } from '../../Table/TableFactory';
@@ -497,7 +497,7 @@ export class StorageTab extends React.Component {
       required:
         sourceType === PROVISION_SOURCE_CONTAINER ||
         sourceType === PROVISION_SOURCE_URL ||
-        sourceType === PROVISION_SOURCE_IMAGE,
+        sourceType === PROVISION_SOURCE_CLONED_DISK,
     },
   });
 
