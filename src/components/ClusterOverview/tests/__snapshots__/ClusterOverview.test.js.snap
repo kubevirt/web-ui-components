@@ -250,6 +250,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
               </div>
               <div
                 class="card-pf-body kubevirt-events__body"
+                id="events-body"
               >
                 <div>
                   Requires component from tectonic
