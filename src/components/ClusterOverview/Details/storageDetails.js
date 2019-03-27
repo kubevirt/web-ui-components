@@ -42,6 +42,6 @@ StorageDetails.defaultProps = {
 };
 
 StorageDetails.propTypes = {
-  storageCluster: PropTypes.object,
+  storageCluster: PropTypes.array,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };

@@ -64,10 +64,10 @@ DetailsBody.propTypes = {
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-export const Details = ({ items, LoadingComponent }) => (
+export const Details = ({ items, LoadingComponent, heading }) => (
   <DashboardCard>
     <DashboardCardHeader>
-      <DashboardCardTitle>Details</DashboardCardTitle>
+      <DashboardCardTitle>{heading}</DashboardCardTitle>
     </DashboardCardHeader>
     <DashboardCardBody>
       <DetailsBody items={items} LoadingComponent={LoadingComponent} />
@@ -77,10 +77,12 @@ export const Details = ({ items, LoadingComponent }) => (
 
 Details.defaultProps = {
   LoadingComponent: InlineLoading,
+  heading: 'Details',
 };
 
 Details.propTypes = {
   items: PropTypes.object.isRequired,
+  heading: PropTypes.string,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
