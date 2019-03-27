@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
@@ -10,7 +9,7 @@ export const StorageDetails = ({LoadingComponent }) => {
   const items = {
     name: {
       title: 'Name',
-      value: 'Cluster 1',
+      value: 'rook-ceph',
       isLoading: false,
     },
     provider: {
@@ -21,7 +20,7 @@ export const StorageDetails = ({LoadingComponent }) => {
     },
     ocs: {
       title: 'OCS version',
-      value: 'v1.0', // this will be hardcoded for the demo
+      value: 'v4.2', // this will be hardcoded for the demo
       isLoading: false,
     }
   };
@@ -36,3 +35,7 @@ StorageDetails.defaultProps = {
 StorageDetails.propTypes = {
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
+
+export const StorageDetailsConnected = () => (
+  <ClusterOverviewContextGenericConsumer Component={StorageDetails} dataPath="detailsData" />
+);
