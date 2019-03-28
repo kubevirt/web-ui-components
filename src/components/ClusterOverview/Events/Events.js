@@ -17,7 +17,7 @@ export const Events = ({ Component }) => (
       <DashboardCardTitle>Cluster Events</DashboardCardTitle>
       <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
     </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-events__body">
+    <DashboardCardBody id="events-body" className="kubevirt-events__body">
       <Component />
     </DashboardCardBody>
   </DashboardCard>

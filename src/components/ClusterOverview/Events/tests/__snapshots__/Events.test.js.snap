@@ -24,6 +24,7 @@ exports[`<Events /> renders correctly 1`] = `
   </div>
   <div
     class="card-pf-body kubevirt-events__body"
+    id="events-body"
   >
     <div>
       Requires component from tectonic
