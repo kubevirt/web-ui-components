@@ -41,7 +41,7 @@ import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
 } from '../../../../constants';
 import { getButton } from '../../../../tests/enzyme';
 
@@ -354,7 +354,7 @@ describe('<CreateVmWizard />', () => {
         value: getName(pvcTemplate),
       },
       [PROVISION_SOURCE_TYPE_KEY]: {
-        value: PROVISION_SOURCE_IMAGE,
+        value: PROVISION_SOURCE_CLONED_DISK,
       },
     };
 

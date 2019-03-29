@@ -21,7 +21,7 @@ import {
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
 } from '../constants';
 import { TemplateModel } from '../models';
 import { DATA_VOLUME_SOURCE_URL, DATA_VOLUME_SOURCE_PVC } from '../components/Wizard/CreateVmWizard/constants';
@@ -144,7 +144,7 @@ export const getTemplateProvisionSource = (template, dataVolumes) => {
             };
           case DATA_VOLUME_SOURCE_PVC:
             return {
-              type: PROVISION_SOURCE_IMAGE,
+              type: PROVISION_SOURCE_CLONED_DISK,
               source: `${source.namespace}/${source.name}`,
             };
           default:

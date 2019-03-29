@@ -1,6 +1,6 @@
 import {
   PROVISION_SOURCE_CONTAINER,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_URL,
 } from '../../../../constants';
@@ -11,7 +11,7 @@ const possibleBootabilityResolver = {
   [PROVISION_SOURCE_PXE]: disk =>
     disk.rootStorage || disk.storageType === STORAGE_TYPE_PVC || disk.storageType === STORAGE_TYPE_DATAVOLUME,
   [PROVISION_SOURCE_CONTAINER]: disk => disk.rootStorage || disk.storageType === STORAGE_TYPE_CONTAINER,
-  [PROVISION_SOURCE_IMAGE]: disk => disk.rootStorage || disk.storageType === STORAGE_TYPE_PVC,
+  [PROVISION_SOURCE_CLONED_DISK]: disk => disk.rootStorage || disk.storageType === STORAGE_TYPE_PVC,
 };
 
 export const canBeBootable = (disk, sourceType) => {

@@ -18,7 +18,7 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_IMPORT,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
 } from '../../../constants';
 
 import {
@@ -75,7 +75,7 @@ const getInitialDisk = provisionSource => {
     case PROVISION_SOURCE_CONTAINER:
       return rootContainerDisk;
     case PROVISION_SOURCE_PXE:
-    case PROVISION_SOURCE_IMAGE:
+    case PROVISION_SOURCE_CLONED_DISK:
     case PROVISION_SOURCE_IMPORT:
       return null;
     default:

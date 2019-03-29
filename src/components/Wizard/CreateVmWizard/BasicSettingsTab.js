@@ -44,7 +44,7 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_IMPORT,
-  PROVISION_SOURCE_IMAGE,
+  PROVISION_SOURCE_CLONED_DISK,
   TEMPLATE_TYPE_VM,
 } from '../../../constants';
 
@@ -90,7 +90,12 @@ export const getFormFields = (
   const workloadProfiles = getWorkloadProfiles(basicSettings, templates, userTemplate);
   const operatingSystems = getOperatingSystems(basicSettings, templates, userTemplate);
   const flavors = getFlavors(basicSettings, templates, userTemplate);
-  const imageSources = [PROVISION_SOURCE_PXE, PROVISION_SOURCE_URL, PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_IMAGE];
+  const imageSources = [
+    PROVISION_SOURCE_PXE,
+    PROVISION_SOURCE_URL,
+    PROVISION_SOURCE_CONTAINER,
+    PROVISION_SOURCE_CLONED_DISK,
+  ];
   const userTemplateNames = getTemplate(templates, TEMPLATE_TYPE_VM).map(getName);
   userTemplateNames.push(NO_TEMPLATE);
 
