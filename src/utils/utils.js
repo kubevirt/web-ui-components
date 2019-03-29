@@ -86,6 +86,8 @@ export const formatBytes = (bytes, unit, fixed = 2) => {
 export const formatCores = cores => ({ value: cores, unit: 'cores' });
 
 export const formatNetTraffic = (bytesPerSecond, preferredUnit, fixed = 2) => {
+  preferredUnit =
+    preferredUnit && preferredUnit.endsWith('ps') ? preferredUnit.slice(0, preferredUnit.length - 2) : preferredUnit;
   const formatted = formatBytes(bytesPerSecond, preferredUnit, fixed);
   formatted.unit = `${formatted.unit}ps`;
   return formatted;
