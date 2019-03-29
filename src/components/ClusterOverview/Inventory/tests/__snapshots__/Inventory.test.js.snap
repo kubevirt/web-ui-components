@@ -26,97 +26,109 @@ exports[`<Inventory /> renders correctly 1`] = `
     class="card-pf-body kubevirt-inventory__body"
   >
     <div
-      class="kubevirt-inventory__item"
+      class="kubevirt-inventory__row"
+      id="inventory-nodes"
     >
       <div
-        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
+        class="kubevirt-inventory__row-title"
       >
-        2 Hosts
+        1 Nodes
       </div>
       <div
-        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+        class="kubevirt-inventory__row-status"
       >
         <div
-          class="kubevirt-inventory__item-status"
+          class="kubevirt-inventory__row-status-item"
         >
           <span
             aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
           />
-          <span>
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            1
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
+      id="inventory-pvcs"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        5 PVCs
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            5
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
+      id="inventory-pods"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        1 Pods
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            1
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
+      id="inventory-vms"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        2 VMs
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
             2
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="kubevirt-inventory__item"
-    >
-      <div
-        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
-      >
-        1 Disks
-      </div>
-      <div
-        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-      >
-        <div
-          class="kubevirt-inventory__item-status"
-        >
-          <span
-            aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
-          />
-          <span>
-            1
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="kubevirt-inventory__item"
-    >
-      <div
-        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
-      >
-        4 Pods
-      </div>
-      <div
-        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-      >
-        <div
-          class="kubevirt-inventory__item-status"
-        >
-          <span
-            aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
-          />
-          <span>
-            4
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="kubevirt-inventory__item"
-    >
-      <div
-        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
-      >
-        1 VMs
-      </div>
-      <div
-        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-      >
-        <div
-          class="kubevirt-inventory__item-status"
-        >
-          <span
-            aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__item-status-icon"
-          />
-          <span>
-            1
           </span>
         </div>
       </div>

@@ -130,9 +130,6 @@ Array [
           >
             ---
           </dd>
-          <dd>
-            ---
-          </dd>
           <dt>
             Boot Order
           </dt>
@@ -303,9 +300,6 @@ Array [
           <dd
             id="my-namespace-my-vm-pod"
           >
-            ---
-          </dd>
-          <dd>
             ---
           </dd>
           <dt>
@@ -494,9 +488,6 @@ Array [
           <dd
             id="my-namespace-my-vm-pod"
           >
-            ---
-          </dd>
-          <dd>
             ---
           </dd>
           <dt>
@@ -689,9 +680,6 @@ Array [
           >
             ---
           </dd>
-          <dd>
-            ---
-          </dd>
           <dt>
             Boot Order
           </dt>
@@ -848,9 +836,6 @@ exports[`<VmDetails /> renders correctly as overview 1`] = `
         <dd
           id="my-namespace-my-vm-pod"
         >
-          ---
-        </dd>
-        <dd>
           ---
         </dd>
         <dt>
@@ -1042,9 +1027,6 @@ Array [
           >
             ---
           </dd>
-          <dd>
-            ---
-          </dd>
           <dt>
             Boot Order
           </dt>
@@ -1215,9 +1197,6 @@ Array [
           <dd
             id="my-namespace-my-vm-pod"
           >
-            ---
-          </dd>
-          <dd>
             ---
           </dd>
           <dt>
@@ -1404,9 +1383,6 @@ Array [
           <dd
             id="my-namespace-my-vm-pod"
           >
-            ---
-          </dd>
-          <dd>
             ---
           </dd>
           <dt>
@@ -1597,9 +1573,6 @@ Array [
           <dd
             id="my-namespace-my-vm-pod"
           >
-            ---
-          </dd>
-          <dd>
             ---
           </dd>
           <dt>

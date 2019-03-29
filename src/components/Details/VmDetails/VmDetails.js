@@ -37,6 +37,8 @@ import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
 import { BootOrder } from '../BootOrder';
 import { getBootableDevicesInOrder } from '../../../k8s/vmBuilder';
 
+export const isVmOff = vmStatus => vmStatus.status === VM_STATUS_OFF;
+
 export class VmDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -123,22 +125,17 @@ export class VmDetails extends React.Component {
   isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
   componentDidUpdate() {
-    const { launcherPod, importerPods, migration, vm } = this.props;
-    if (this.state.editing && !this.isVmOff(vm, launcherPod, importerPods, migration)) {
+    const { pods, importerPods, migrations, vm } = this.props;
+    if (this.state.editing && !isVmOff(getVmStatus(vm, pods, migrations, importerPods))) {
       this.setEditing(false);
     }
   }
 
-  isVmOff = (vm, launcherPod, importerPods, migration) => {
-    const statusDetail = getVmStatus(vm, launcherPod, importerPods, migration);
-    return statusDetail.status === VM_STATUS_OFF;
-  };
-
   render() {
     const {
-      launcherPod,
+      pods,
       importerPods,
-      migration,
+      migrations,
       NodeLink,
       vm,
       vmi,
@@ -149,7 +146,9 @@ export class VmDetails extends React.Component {
       overview,
     } = this.props;
 
-    const vmIsOff = this.isVmOff(vm, launcherPod, importerPods, migration);
+    const vmStatus = getVmStatus(vm, pods, migrations, importerPods);
+    const { launcherPod } = vmStatus;
+    const vmIsOff = isVmOff(vmStatus);
     const nodeName = getNodeName(launcherPod);
     const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
     const hostName = getHostName(launcherPod);
@@ -220,12 +219,7 @@ export class VmDetails extends React.Component {
             <dl className="kubevirt-vm-details__details-list">
               <dt>Status</dt>
               <dd>
-                <VmStatuses
-                  vm={this.props.vm}
-                  launcherPod={launcherPod}
-                  importerPods={importerPods}
-                  migration={migration}
-                />
+                <VmStatuses vm={vm} pods={pods} importerPods={importerPods} migrations={migrations} />
               </dd>
 
               <dt>Operating System</dt>
@@ -249,8 +243,7 @@ export class VmDetails extends React.Component {
                 <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
 
                 <dt>Pod</dt>
-                <dd id={prefixedId(id, 'pod')}>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
-                <dd>{PodResourceLink ? <PodResourceLink /> : DASHES}</dd>
+                <dd id={prefixedId(id, 'pod')}>{PodResourceLink ? <PodResourceLink pod={launcherPod} /> : DASHES}</dd>
 
                 <dt>Boot Order</dt>
                 <dd id={prefixedId(id, 'boot-order')}>
@@ -288,9 +281,9 @@ export class VmDetails extends React.Component {
 VmDetails.propTypes = {
   vm: PropTypes.object.isRequired,
   vmi: PropTypes.object,
-  launcherPod: PropTypes.object,
+  pods: PropTypes.array,
   importerPods: PropTypes.array,
-  migration: PropTypes.object,
+  migrations: PropTypes.array,
   NodeLink: PropTypes.func,
   NamespaceResourceLink: PropTypes.func,
   PodResourceLink: PropTypes.func,
@@ -302,9 +295,9 @@ VmDetails.propTypes = {
 
 VmDetails.defaultProps = {
   vmi: undefined,
-  launcherPod: undefined,
+  pods: undefined,
   importerPods: undefined,
-  migration: undefined,
+  migrations: undefined,
   NamespaceResourceLink: undefined,
   PodResourceLink: undefined,
   LoadingComponent: Loading,

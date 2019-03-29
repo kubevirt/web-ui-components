@@ -10,7 +10,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 1`] = `
+exports[`<VmStatus vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -20,7 +20,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 2`] = `
+exports[`<VmStatus vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -30,7 +30,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 3`] = `
+exports[`<VmStatus vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -46,7 +46,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 4`] = `
+exports[`<VmStatus vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -56,7 +56,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 5`] = `
+exports[`<VmStatus vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -71,7 +71,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 6`] = `
+exports[`<VmStatus vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -87,7 +87,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 7`] = `
+exports[`<VmStatus vm pod /> renders correctly 6 (VM_STATUS_VMI_WAITING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -102,7 +102,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 8`] = `
+exports[`<VmStatus vm pod /> renders correctly 7 (VM_STATUS_VMI_WAITING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -117,7 +117,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 9`] = `
+exports[`<VmStatus vm pod /> renders correctly 8 (VM_STATUS_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -133,7 +133,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 10`] = `
+exports[`<VmStatus vm pod /> renders correctly 9 (VM_STATUS_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -149,7 +149,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 11`] = `
+exports[`<VmStatus vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -165,7 +165,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 12`] = `
+exports[`<VmStatus vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -181,7 +181,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 13`] = `
+exports[`<VmStatus vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -191,7 +191,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 14`] = `
+exports[`<VmStatus vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -201,7 +201,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 15`] = `
+exports[`<VmStatus vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -216,7 +216,7 @@ Array [
 ]
 `;
 
-exports[`<VmStatus vm pod /> renders correctly 16`] = `
+exports[`<VmStatus vm pod /> renders correctly 15 (VM_STATUS_IMPORT_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
@@ -234,7 +234,7 @@ virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
 ]
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 1`] = `
+exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -244,7 +244,7 @@ exports[`<VmStatuses vm pod /> renders correctly 1`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 2`] = `
+exports[`<VmStatuses vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -254,7 +254,7 @@ exports[`<VmStatuses vm pod /> renders correctly 2`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 3`] = `
+exports[`<VmStatuses vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -270,7 +270,7 @@ exports[`<VmStatuses vm pod /> renders correctly 3`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 4`] = `
+exports[`<VmStatuses vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -280,7 +280,7 @@ exports[`<VmStatuses vm pod /> renders correctly 4`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 5`] = `
+exports[`<VmStatuses vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -295,7 +295,7 @@ exports[`<VmStatuses vm pod /> renders correctly 5`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 6`] = `
+exports[`<VmStatuses vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -311,7 +311,7 @@ exports[`<VmStatuses vm pod /> renders correctly 6`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 7`] = `
+exports[`<VmStatuses vm pod /> renders correctly 6 (VM_STATUS_VMI_WAITING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -326,7 +326,7 @@ exports[`<VmStatuses vm pod /> renders correctly 7`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 8`] = `
+exports[`<VmStatuses vm pod /> renders correctly 7 (VM_STATUS_VMI_WAITING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -341,7 +341,7 @@ exports[`<VmStatuses vm pod /> renders correctly 8`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 9`] = `
+exports[`<VmStatuses vm pod /> renders correctly 8 (VM_STATUS_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -357,7 +357,7 @@ exports[`<VmStatuses vm pod /> renders correctly 9`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 10`] = `
+exports[`<VmStatuses vm pod /> renders correctly 9 (VM_STATUS_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -373,7 +373,7 @@ exports[`<VmStatuses vm pod /> renders correctly 10`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 11`] = `
+exports[`<VmStatuses vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -389,7 +389,7 @@ exports[`<VmStatuses vm pod /> renders correctly 11`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 12`] = `
+exports[`<VmStatuses vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -405,7 +405,7 @@ exports[`<VmStatuses vm pod /> renders correctly 12`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 13`] = `
+exports[`<VmStatuses vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -415,7 +415,7 @@ exports[`<VmStatuses vm pod /> renders correctly 13`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 14`] = `
+exports[`<VmStatuses vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -425,7 +425,7 @@ exports[`<VmStatuses vm pod /> renders correctly 14`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 15`] = `
+exports[`<VmStatuses vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
@@ -440,7 +440,7 @@ exports[`<VmStatuses vm pod /> renders correctly 15`] = `
 </div>
 `;
 
-exports[`<VmStatuses vm pod /> renders correctly 16`] = `
+exports[`<VmStatuses vm pod /> renders correctly 15 (VM_STATUS_IMPORT_ERROR) 1`] = `
 Array [
   <div>
     <span

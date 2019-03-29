@@ -1,17 +1,13 @@
 import { ClusterDetails } from '../ClusterDetails';
 
 export const clusterDetailsData = {
-  openshiftVersionResponse: {
-    data: {
-      result: [
-        {
-          metric: {
-            gitVersion: 'v4.0.0',
-          },
-        },
-      ],
+  openshiftClusterVersions: [
+    {
+      metric: {
+        gitVersion: 'v4.0.0',
+      },
     },
-  },
+  ],
   infrastructure: {
     status: {
       platform: 'AWS',
@@ -23,7 +19,7 @@ export const clusterDetailsData = {
 export default [
   {
     component: ClusterDetails,
-    props: { ...clusterDetailsData },
+    props: clusterDetailsData,
   },
   {
     component: ClusterDetails,

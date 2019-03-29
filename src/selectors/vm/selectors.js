@@ -1,5 +1,7 @@
 import { get } from 'lodash';
 
+import { getLabelValue, getLabelKeyValue, getAnnotationValue } from '../common';
+
 import {
   LABEL_USED_TEMPLATE_NAME,
   LABEL_USED_TEMPLATE_NAMESPACE,
@@ -9,8 +11,6 @@ import {
   OS_WINDOWS_PREFIX,
   TEMPLATE_OS_NAME_ANNOTATION,
 } from '../../constants';
-
-import { getValueByPrefix, findKeySuffixValue } from '../internal';
 
 export const getDisks = vm => get(vm, 'spec.template.spec.domain.devices.disks', []);
 export const getInterfaces = vm => get(vm, 'spec.template.spec.domain.devices.interfaces', []);
@@ -53,18 +53,6 @@ export const getCloudInitVolume = vm => {
 export const getCloudInitUserData = vm => {
   const volume = getCloudInitVolume(vm);
   return volume && volume.cloudInitNoCloud.userData;
-};
-
-export const getLabelKeyValue = (vm, label) => {
-  const labels = get(vm, 'metadata.labels', {});
-  return findKeySuffixValue(labels, label);
-};
-
-export const getLabelValue = (vm, label) => get(vm, ['metadata', 'labels', label]);
-
-export const getAnnotationValue = (vm, annotation) => {
-  const annotations = get(vm, 'metadata.annotations', {});
-  return getValueByPrefix(annotations, annotation);
 };
 
 export const isWindows = vm => (getOperatingSystem(vm) || '').startsWith(OS_WINDOWS_PREFIX);

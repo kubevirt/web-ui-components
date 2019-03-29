@@ -1,56 +1,21 @@
 import { Inventory } from '../Inventory';
+import { nodes, pvcs, pods, vms, vmis, migrations } from '../../fixtures/ClusterOverview.fixture';
 
-export const inventoryData = {
-  inventory: {
-    hosts: {
-      title: 'Hosts',
-      data: [
-        {
-          status: 'ok',
-        },
-        {
-          status: 'ok',
-        },
-      ],
-    },
-    disks: {
-      title: 'Disks',
-      data: [
-        {
-          status: 'ok',
-        },
-      ],
-    },
-    pods: {
-      title: 'Pods',
-      data: [
-        {
-          status: 'ok',
-        },
-        {
-          status: 'ok',
-        },
-        {
-          status: 'ok',
-        },
-        {
-          status: 'ok',
-        },
-      ],
-    },
-    vms: {
-      title: 'VMs',
-      data: [
-        {
-          status: 'ok',
-        },
-      ],
+export default [
+  {
+    component: Inventory,
+    props: {
+      nodes,
+      pvcs,
+      pods,
+      vms,
+      vmis,
+      migrations,
     },
   },
-  loaded: true,
-};
-
-export default {
-  component: Inventory,
-  props: { ...inventoryData },
-};
+  {
+    name: 'loading',
+    component: Inventory,
+    props: {},
+  },
+];
