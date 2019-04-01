@@ -11,6 +11,11 @@ import {
   OS_WINDOWS_PREFIX,
   TEMPLATE_OS_NAME_ANNOTATION,
 } from '../../constants';
+import {
+  NETWORK_BINDING_BRIDGE,
+  NETWORK_BINDING_SRIOV,
+  NETWORK_BINDING_MASQUERADE,
+} from '../../components/Wizard/CreateVmWizard/constants';
 
 export const getDisks = vm => get(vm, 'spec.template.spec.domain.devices.disks', []);
 export const getInterfaces = vm => get(vm, 'spec.template.spec.domain.devices.interfaces', []);
@@ -69,3 +74,16 @@ export const getFlavorDescription = vm => {
 export const isVmRunning = vm => get(vm, 'spec.running', false);
 export const isVmReady = vm => get(vm, 'status.ready', false);
 export const isVmCreated = vm => get(vm, 'status.created', false);
+
+export const getInterfaceBinding = intface => {
+  if (intface.bridge) {
+    return NETWORK_BINDING_BRIDGE;
+  }
+  if (intface.sriov) {
+    return NETWORK_BINDING_SRIOV;
+  }
+  if (intface.masquerade) {
+    return NETWORK_BINDING_MASQUERADE;
+  }
+  return null;
+};

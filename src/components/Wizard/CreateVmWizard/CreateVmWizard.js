@@ -35,6 +35,7 @@ import {
   NAMESPACE_KEY,
   PROVIDER_VMWARE_VM_KEY,
   INTERMEDIARY_STORAGE_TAB_KEY,
+  NETWORK_BINDING_MASQUERADE,
 } from './constants';
 
 import {
@@ -264,6 +265,7 @@ const podNetwork = {
   editable: true,
   edit: false,
   networkType: NETWORK_TYPE_POD,
+  binding: NETWORK_BINDING_MASQUERADE,
 };
 
 export class CreateVmWizard extends React.Component {

@@ -16,6 +16,9 @@ import {
   NETWORK_TYPE_POD,
   DATA_VOLUME_SOURCE_URL,
   DATA_VOLUME_SOURCE_BLANK,
+  NETWORK_BINDING_BRIDGE,
+  NETWORK_BINDING_MASQUERADE,
+  NETWORK_BINDING_SRIOV,
 } from '../components/Wizard/CreateVmWizard/constants';
 import { getCloudInitVolume } from '../selectors';
 
@@ -95,6 +98,7 @@ export const addInterface = (vm, defaultInterface, network) => {
     ...(network.templateNetwork ? network.templateNetwork.interface : defaultInterface),
     name: network.name,
   };
+
   if (network.mac) {
     interfaceSpec.macAddress = network.mac;
   }
@@ -104,8 +108,29 @@ export const addInterface = (vm, defaultInterface, network) => {
     interfaceSpec.bootOrder = interfaceSpec.bootOrder ? interfaceSpec.bootOrder : assignBootOrderIndex(vm);
   }
 
+  addBindingToInterface(interfaceSpec, network.binding);
+
   const interfaces = getInterfaces(vm);
   interfaces.push(interfaceSpec);
+};
+
+export const addBindingToInterface = (interfaceSpec, binding) => {
+  delete interfaceSpec.bridge;
+  delete interfaceSpec.masquerade;
+  delete interfaceSpec.sriov;
+
+  switch (binding) {
+    case NETWORK_BINDING_MASQUERADE:
+      interfaceSpec.masquerade = {};
+      break;
+    case NETWORK_BINDING_SRIOV:
+      interfaceSpec.sriov = {};
+      break;
+    case NETWORK_BINDING_BRIDGE:
+    default:
+      interfaceSpec.bridge = {};
+      break;
+  }
 };
 
 export const addNetwork = (vm, network) => {

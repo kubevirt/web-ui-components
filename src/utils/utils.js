@@ -1,5 +1,13 @@
 import { NamespaceModel, ProjectModel } from '../models';
 
+import {
+  NETWORK_TYPE_POD,
+  NETWORK_TYPE_MULTUS,
+  NETWORK_BINDING_BRIDGE,
+  NETWORK_BINDING_SRIOV,
+  NETWORK_BINDING_MASQUERADE,
+} from '../components/Wizard/CreateVmWizard/constants';
+
 export function prefixedId(idPrefix, id) {
   return idPrefix && id ? `${idPrefix}-${id}` : null;
 }
@@ -91,4 +99,24 @@ export const formatNetTraffic = (bytesPerSecond, preferredUnit, fixed = 2) => {
   const formatted = formatBytes(bytesPerSecond, preferredUnit, fixed);
   formatted.unit = `${formatted.unit}ps`;
   return formatted;
+};
+
+export const getNetworkBindings = networkType => {
+  switch (networkType) {
+    case NETWORK_TYPE_MULTUS:
+      return [NETWORK_BINDING_BRIDGE, NETWORK_BINDING_SRIOV];
+    case NETWORK_TYPE_POD:
+    default:
+      return [NETWORK_BINDING_MASQUERADE, NETWORK_BINDING_BRIDGE, NETWORK_BINDING_SRIOV];
+  }
+};
+
+export const getDefaultNetworkBinding = networkType => {
+  switch (networkType) {
+    case NETWORK_TYPE_MULTUS:
+      return NETWORK_BINDING_BRIDGE;
+    case NETWORK_TYPE_POD:
+    default:
+      return NETWORK_BINDING_MASQUERADE;
+  }
 };

@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Alert } from 'patternfly-react';
 import { default as EditableDraggableTable } from './EditableDraggableTable';
 import { ON_CONFIRM, ON_DELETE, ON_MOVE, ON_CANCEL, ON_CHANGE, ON_ACTIVATE } from './constants';
 
-const onChange = (rows, { editing, type, id }, onRowUpdate, onRowDeleteOrMove, onRowActivate) => {
+const onChange = (rows, { editing, type, id, key, newValue }, onRowUpdate, onRowDeleteOrMove, onRowActivate) => {
   switch (type) {
     case ON_ACTIVATE:
       onRowActivate(rows);
@@ -13,7 +13,7 @@ const onChange = (rows, { editing, type, id }, onRowUpdate, onRowDeleteOrMove, o
     case ON_CONFIRM:
     case ON_CANCEL:
     case ON_CHANGE:
-      onRowUpdate(rows, id, editing);
+      onRowUpdate(rows, id, editing, key, newValue);
       break;
     case ON_DELETE:
     case ON_MOVE:

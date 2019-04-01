@@ -30,6 +30,9 @@ export const BATCH_CHANGES_KEY = 'internalBatchChanges';
 // NetworksTab
 export const NETWORK_TYPE_MULTUS = 'multus';
 export const NETWORK_TYPE_POD = 'pod';
+export const NETWORK_BINDING_MASQUERADE = 'masquerade';
+export const NETWORK_BINDING_BRIDGE = 'bridge';
+export const NETWORK_BINDING_SRIOV = 'sriov';
 
 // StorageTab
 export const STORAGE_TYPE_PVC = 'pvc';

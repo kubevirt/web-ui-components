@@ -43,6 +43,7 @@ export const getVmwareOsString = osName => `Select matching for: ${osName}`;
 
 // NetworksTab
 export const SELECT_NETWORK = '--- Select Network Definition ---';
+export const SELECT_BINDING = '--- Select binding ---';
 export const REMOVE_NIC_BUTTON = 'Remove NIC';
 export const CREATE_NIC_BUTTON = 'Create NIC';
 export const PXE_INFO = 'Pod network is not PXE bootable';
@@ -53,6 +54,7 @@ export const HEADER_MAC = 'MAC Address';
 export const HEADER_NETWORK = 'Network Configuration';
 export const ERROR_NETWORK_NOT_FOUND = 'Network config not found';
 export const ERROR_NETWORK_NOT_SELECTED = 'Network config must be selected';
+export const HEADER_BINDING_METHOD = 'Binding method';
 
 // StorageTab
 export const ERROR_NO_BOOTABLE_DISK = 'A bootable disk could not be found';

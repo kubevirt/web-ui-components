@@ -46,5 +46,5 @@ CreateDeviceRow.propTypes = {
   onCancel: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func.isRequired,
   deviceFields: PropTypes.object.isRequired,
-  columnSizes: PropTypes.object.isRequired,
+  columnSizes: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
