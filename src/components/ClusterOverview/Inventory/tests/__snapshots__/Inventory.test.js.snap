@@ -23,7 +23,7 @@ exports[`<Inventory /> renders correctly 1`] = `
     </button>
   </div>
   <div
-    class="card-pf-body kubevirt-inventory__body"
+    class="card-pf-body"
   >
     <div
       class="kubevirt-inventory__row"

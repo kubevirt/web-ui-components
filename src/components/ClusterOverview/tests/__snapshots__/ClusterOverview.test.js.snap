@@ -71,7 +71,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                     class="kubevirt-detail__item-value"
                   >
                     <span>
-                      hardcoded-version
+                      1.0
                     </span>
                   </dd>
                   <dt
@@ -115,7 +115,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 </button>
               </div>
               <div
-                class="card-pf-body kubevirt-inventory__body"
+                class="card-pf-body"
               >
                 <div
                   class="kubevirt-inventory__row"

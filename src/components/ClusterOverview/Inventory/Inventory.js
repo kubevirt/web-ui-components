@@ -10,7 +10,7 @@ import {
 } from '../../Dashboard/DashboardCard';
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { mapNodesToProps, mapPodsToProps, mapPvcsToProps, mapVmsToProps } from './utils';
-import { InventoryRow } from './InventoryRow';
+import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
 
 const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations }) => (
   <React.Fragment>
@@ -45,7 +45,7 @@ export const Inventory = props => (
       <DashboardCardTitle>Cluster inventory</DashboardCardTitle>
       <DashboardCardTitleHelp>help for inventory</DashboardCardTitleHelp>
     </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-inventory__body">
+    <DashboardCardBody>
       <InventoryBody {...props} />
     </DashboardCardBody>
   </DashboardCard>
@@ -59,8 +59,6 @@ Inventory.propTypes = {
   ...InventoryBody.propTypes,
 };
 
-const InventoryConnected = () => (
+export const InventoryConnected = () => (
   <ClusterOverviewContext.Consumer>{props => <Inventory {...props} />}</ClusterOverviewContext.Consumer>
 );
-
-export default InventoryConnected;
