@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { prefixedId } from '../../utils';
 
+export const TinyInlineLoading = () => <span className="spinner spinner-xs spinner-inline" />;
+
 export const InlineLoading = ({ id, size }) => (
   <div id={id} key={prefixedId(id, 'progress') || 'progress'}>
     <div className={`spinner spinner-${size} blank-slate-pf-icon`} />
