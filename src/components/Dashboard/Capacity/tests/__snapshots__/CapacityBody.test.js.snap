@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CapacityBody /> renders correctly 1`] = `
+<div
+  className="kubevirt-capacity__items"
+>
+  <CapacityItem
+    LoadingComponent={[Function]}
+    formatValue={[Function]}
+    id="item-id"
+    isLoading={false}
+    title="title"
+    total={100}
+    unit="unit"
+    used={50}
+  />
+</div>
+`;

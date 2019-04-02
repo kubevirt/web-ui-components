@@ -4,7 +4,7 @@ import { ClusterOverview as ClusterOverviewComponent } from '../ClusterOverview'
 import { healthData } from '../Health/fixtures/Health.fixture';
 import { eventsData } from '../Events/fixtures/Events.fixture';
 import { consumersData } from '../TopConsumers/fixtures/TopConsumers.fixture';
-import { capacityStats, emptyCapacityStats } from '../Capacity/fixtures/Capacity.fixture';
+import { capacityStats } from '../Capacity/fixtures/Capacity.fixture';
 import { clusterDetailsData } from '../Details/fixtures/Details.fixture';
 
 import { complianceData, utilizationStats } from '..';
@@ -37,7 +37,7 @@ export default [
     props: {
       ...clusterDetailsData,
       healthData,
-      capacityStats,
+      ...capacityStats,
       complianceData,
       eventsData,
       utilizationStats,
@@ -55,7 +55,6 @@ export default [
     name: 'Loading overview',
     props: {
       healthData: { loaded: false },
-      capacityStats: emptyCapacityStats,
       complianceData: { loaded: false },
       eventsData: { loaded: false },
       utilizationStats: { loaded: false },

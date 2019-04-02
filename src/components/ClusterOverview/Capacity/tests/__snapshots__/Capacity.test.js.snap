@@ -28,7 +28,11 @@ exports[`<Capacity /> renders correctly 1`] = `
           CPU
         </h2>
         <h6>
-          2.1 Ghz available out of 4.3 Ghz
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
         </h6>
         <div>
           <div
@@ -45,7 +49,11 @@ exports[`<Capacity /> renders correctly 1`] = `
           Memory
         </h2>
         <h6>
-          120 Ti available out of 200 Ti
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
         </h6>
         <div>
           <div
@@ -62,7 +70,11 @@ exports[`<Capacity /> renders correctly 1`] = `
           Storage
         </h2>
         <h6>
-          400 Ti available out of 800 Ti
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
         </h6>
         <div>
           <div
@@ -79,7 +91,11 @@ exports[`<Capacity /> renders correctly 1`] = `
           Network
         </h2>
         <h6>
-          7 GBps available out of 10 GBps
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
         </h6>
         <div>
           <div
@@ -119,9 +135,16 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
         >
           CPU
         </h2>
+        <h6>
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
+        </h6>
         <div>
           <div
-            class="spinner spinner-md blank-slate-pf-icon"
+            class=" donut-chart-pf"
           />
         </div>
       </div>
@@ -133,9 +156,16 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
         >
           Memory
         </h2>
+        <h6>
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
+        </h6>
         <div>
           <div
-            class="spinner spinner-md blank-slate-pf-icon"
+            class=" donut-chart-pf"
           />
         </div>
       </div>
@@ -147,9 +177,16 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
         >
           Storage
         </h2>
+        <h6>
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
+        </h6>
         <div>
           <div
-            class="spinner spinner-md blank-slate-pf-icon"
+            class=" donut-chart-pf"
           />
         </div>
       </div>
@@ -161,9 +198,16 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
         >
           Network
         </h2>
+        <h6>
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
+        </h6>
         <div>
           <div
-            class="spinner spinner-md blank-slate-pf-icon"
+            class=" donut-chart-pf"
           />
         </div>
       </div>

@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CapacityItem /> renders correctly 1`] = `
+<div
+  className="kubevirt-capacity__item"
+>
+  <h2
+    className="kubevirt-capacity__item-title"
+  >
+    title
+  </h2>
+  <h6>
+    50 unit available out of 100 unit
+  </h6>
+  <div>
+    <DonutChart
+      className="donut-chart-pf"
+      color={
+        Object {
+          "pattern": Array [
+            "#0088ce",
+            "#d1d1d1",
+          ],
+        }
+      }
+      data={
+        Object {
+          "columns": Array [
+            Array [
+              "Used",
+              50,
+            ],
+            Array [
+              "Available",
+              50,
+            ],
+          ],
+          "order": null,
+          "unload": true,
+        }
+      }
+      donut={
+        Object {
+          "label": Object {
+            "show": false,
+          },
+          "title": undefined,
+          "width": 11,
+        }
+      }
+      id="donut-chart-item-id"
+      legend={
+        Object {
+          "show": false,
+        }
+      }
+      size={
+        Object {
+          "height": 150,
+          "width": 150,
+        }
+      }
+      title={
+        Object {
+          "primary": "50%",
+          "secondary": "Used",
+        }
+      }
+      tooltip={
+        Object {
+          "contents": [Function],
+        }
+      }
+      type="donut"
+      unloadBeforeLoad={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`<CapacityItem /> renders correctly 2`] = `
+<div
+  className="kubevirt-capacity__item"
+>
+  <h2
+    className="kubevirt-capacity__item-title"
+  >
+    title
+  </h2>
+  <h6>
+    <InlineLoading
+      size="md"
+    />
+  </h6>
+  <div>
+    <DonutChart
+      className="donut-chart-pf"
+      color={
+        Object {
+          "pattern": Array [
+            "#0088ce",
+            "#d1d1d1",
+          ],
+        }
+      }
+      data={
+        Object {
+          "columns": Array [
+            Array [
+              "Used",
+              0,
+            ],
+            Array [
+              "Available",
+              100,
+            ],
+          ],
+          "order": null,
+          "unload": true,
+        }
+      }
+      donut={
+        Object {
+          "label": Object {
+            "show": false,
+          },
+          "title": undefined,
+          "width": 11,
+        }
+      }
+      id="donut-chart-item-id"
+      legend={
+        Object {
+          "show": false,
+        }
+      }
+      size={
+        Object {
+          "height": 150,
+          "width": 150,
+        }
+      }
+      title={
+        Object {
+          "primary": "Loading",
+          "secondary": "Capacity",
+        }
+      }
+      tooltip={
+        Object {
+          "show": false,
+        }
+      }
+      type="donut"
+      unloadBeforeLoad={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`<CapacityItem /> renders correctly 3`] = `
+<div
+  className="kubevirt-capacity__item"
+>
+  <h2
+    className="kubevirt-capacity__item-title"
+  >
+    title
+  </h2>
+  <h6>
+    Not available
+  </h6>
+  <div>
+    <DonutChart
+      className="donut-chart-pf"
+      color={
+        Object {
+          "pattern": Array [
+            "#0088ce",
+            "#d1d1d1",
+          ],
+        }
+      }
+      data={
+        Object {
+          "columns": Array [
+            Array [
+              "Used",
+              0,
+            ],
+            Array [
+              "Available",
+              100,
+            ],
+          ],
+          "order": null,
+          "unload": true,
+        }
+      }
+      donut={
+        Object {
+          "label": Object {
+            "show": false,
+          },
+          "title": undefined,
+          "width": 11,
+        }
+      }
+      id="donut-chart-item-id"
+      legend={
+        Object {
+          "show": false,
+        }
+      }
+      size={
+        Object {
+          "height": 150,
+          "width": 150,
+        }
+      }
+      title={
+        Object {
+          "primary": "Unknown",
+          "secondary": "Capacity",
+        }
+      }
+      tooltip={
+        Object {
+          "show": false,
+        }
+      }
+      type="donut"
+      unloadBeforeLoad={true}
+    />
+  </div>
+</div>
+`;
