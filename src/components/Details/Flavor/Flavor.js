@@ -42,7 +42,7 @@ export class Flavor extends React.Component {
   };
 
   flavorFormFields = () => {
-    const { id, flavor } = this.props;
+    const { id } = this.props;
     const choices = this.getFlavorChoices();
 
     return {
@@ -50,7 +50,7 @@ export class Flavor extends React.Component {
         id: prefixedId(id, 'flavor-dropdown'),
         type: DROPDOWN,
         choices,
-        isVisible: () => choices.length > 1 || flavor !== CUSTOM_FLAVOR,
+        isVisible: () => choices.length > 1,
       },
       cpu: {
         id: prefixedId(id, 'flavor-cpu'),
@@ -76,11 +76,7 @@ export class Flavor extends React.Component {
 
     return (
       <Fragment>
-        {choices.length === 1 && flavor === CUSTOM_FLAVOR && editing ? (
-          <div className="kubevirt-flavor__label">{CUSTOM_FLAVOR}</div>
-        ) : (
-          ''
-        )}
+        {choices.length === 1 && editing ? <div className="kubevirt-flavor__label">{flavor}</div> : ''}
         <InlineEdit
           formFields={formFields}
           editing={editing}
