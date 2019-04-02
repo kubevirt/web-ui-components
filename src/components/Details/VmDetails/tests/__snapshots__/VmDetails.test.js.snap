@@ -165,6 +165,23 @@ Array [
               />
             </div>
           </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
+            </div>
+          </dd>
         </dl>
       </div>
     </div>
@@ -347,6 +364,23 @@ Array [
               </div>
             </div>
           </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
+            </div>
+          </dd>
         </dl>
       </div>
     </div>
@@ -519,6 +553,23 @@ Array [
               >
                 2 CPU, 4G Memory
               </div>
+            </div>
+          </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
             </div>
           </dd>
         </dl>
@@ -725,6 +776,23 @@ Array [
               />
             </div>
           </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
+            </div>
+          </dd>
         </dl>
       </div>
     </div>
@@ -895,6 +963,23 @@ Array [
               <div
                 id="my-namespace-my-vm-flavor-description"
               />
+            </div>
+          </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
             </div>
           </dd>
         </dl>
@@ -1073,10 +1158,214 @@ exports[`<VmDetails /> renders correctly as overview 1`] = `
             />
           </div>
         </dd>
+        <dt>
+          Services
+        </dt>
+        <dd>
+          <div
+            class="blank-slate-pf"
+          >
+            <div
+              class="spinner spinner-lg blank-slate-pf-icon"
+            />
+            <h3
+              class="blank-slate-pf-main-action"
+            >
+              Loading
+            </h3>
+          </div>
+        </dd>
       </dl>
     </div>
   </div>
 </div>
+`;
+
+exports[`<VmDetails /> renders correctly with services 1`] = `
+Array [
+  <h1
+    class="co-m-pane__heading"
+  >
+    Virtual Machine Overview
+    <div>
+      <button
+        class="btn btn-default"
+        type="button"
+      >
+        Edit
+      </button>
+    </div>
+  </h1>,
+  <div
+    class="kubevirt-vm-details__content"
+  >
+    <dl
+      class="kubevirt-vm-details__name-list"
+    >
+      <dt
+        class=""
+      >
+        Name
+      </dt>
+      <dd
+        class=""
+        id="my-namespace-my-vm-name"
+      >
+        my-vm
+      </dd>
+      <dt
+        class=""
+      >
+        Description
+      </dt>
+      <dd>
+        <div
+          class="kubevirt-vm-details__description"
+        >
+          <div
+            id="my-namespace-my-vm-description"
+          >
+            ---
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <div
+      class="kubevirt-vm-details__details"
+    >
+      <dl
+        class="kubevirt-vm-details__details-list"
+      >
+        <dt>
+          Status
+        </dt>
+        <dd>
+          <div>
+            <span
+              aria-hidden="true"
+              class="kubevirt-vm-status__icon pficon pficon-off"
+            />
+            Off
+          </div>
+        </dd>
+        <dt>
+          Operating System
+        </dt>
+        <dd
+          id="my-namespace-my-vm-os"
+        >
+          ---
+        </dd>
+        <dt>
+          IP Addresses
+        </dt>
+        <dd
+          id="my-namespace-my-vm-ip-addresses"
+        >
+          ---
+        </dd>
+        <dt>
+          Workload Profile
+        </dt>
+        <dd
+          id="my-namespace-my-vm-workload-profile"
+        >
+          ---
+        </dd>
+        <dt>
+          Template
+        </dt>
+        <dd
+          id="my-namespace-my-vm-template"
+        >
+          ---
+        </dd>
+      </dl>
+      <div
+        class="kubevirt-vm-details__other-details"
+      >
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            FQDN
+          </dt>
+          <dd
+            id="my-namespace-my-vm-fqdn"
+          >
+            ---
+          </dd>
+          <dt>
+            Namespace
+          </dt>
+          <dd
+            id="my-namespace-my-vm-namespace"
+          >
+            ---
+          </dd>
+          <dt>
+            Pod
+          </dt>
+          <dd
+            id="my-namespace-my-vm-pod"
+          >
+            ---
+          </dd>
+          <dt>
+            Boot Order
+          </dt>
+          <dd
+            id="my-namespace-my-vm-boot-order"
+          >
+            ---
+          </dd>
+        </dl>
+        <dl
+          class="kubevirt-vm-details__details-list"
+        >
+          <dt>
+            Node
+          </dt>
+          <dd
+            id="my-namespace-my-vm-node"
+          >
+            ---
+          </dd>
+          <dt>
+            Flavor
+          </dt>
+          <dd>
+            <div>
+              <div
+                id="my-namespace-my-vm-flavor"
+              >
+                Custom
+              </div>
+              <div
+                id="my-namespace-my-vm-flavor-description"
+              />
+            </div>
+          </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div>
+              <a>
+                fooService
+              </a>
+            </div>
+            <div>
+              <a>
+                fooService1
+              </a>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>,
+]
 `;
 
 exports[`<VmDetails /> renders deleted template correctly 1`] = `
@@ -1254,6 +1543,23 @@ Array [
               </div>
             </div>
           </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
+            </div>
+          </dd>
         </dl>
       </div>
     </div>
@@ -1426,6 +1732,23 @@ Array [
               />
             </div>
           </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
+            </div>
+          </dd>
         </dl>
       </div>
     </div>
@@ -1596,6 +1919,23 @@ Array [
               <div
                 id="my-namespace-my-vm-flavor-description"
               />
+            </div>
+          </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
             </div>
           </dd>
         </dl>
@@ -1802,6 +2142,23 @@ Array [
               />
             </div>
           </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
+            </div>
+          </dd>
         </dl>
       </div>
     </div>
@@ -1974,6 +2331,23 @@ Array [
               >
                 2 CPU, 2G Memory
               </div>
+            </div>
+          </dd>
+          <dt>
+            Services
+          </dt>
+          <dd>
+            <div
+              class="blank-slate-pf"
+            >
+              <div
+                class="spinner spinner-lg blank-slate-pf-icon"
+              />
+              <h3
+                class="blank-slate-pf-main-action"
+              >
+                Loading
+              </h3>
             </div>
           </dd>
         </dl>

@@ -37,6 +37,7 @@ import { Loading } from '../../Loading';
 import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
 import { BootOrder } from '../BootOrder';
 import { getBootableDevicesInOrder } from '../../../k8s/vmBuilder';
+import { Services } from '../Services/Services';
 
 export const isVmOff = vmStatus => vmStatus.status === VM_STATUS_OFF;
 
@@ -164,6 +165,8 @@ export class VmDetails extends React.Component {
       TemplateResourceLink,
       LoadingComponent,
       overview,
+      services,
+      ResourceLinkComponent,
     } = this.props;
 
     const vmStatus = getVmStatus(vm, pods, migrations, importerPods);
@@ -312,6 +315,15 @@ export class VmDetails extends React.Component {
                     template={this.state.template}
                   />
                 </dd>
+                <dt>Services</dt>
+                <dd>
+                  <Services
+                    services={services}
+                    vm={vm}
+                    LoadingComponent={LoadingComponent}
+                    ResourceLinkComponent={ResourceLinkComponent}
+                  />
+                </dd>
               </dl>
             </div>
           </div>
@@ -335,6 +347,8 @@ VmDetails.propTypes = {
   k8sGet: PropTypes.func.isRequired,
   LoadingComponent: PropTypes.func,
   overview: PropTypes.bool,
+  services: PropTypes.array,
+  ResourceLinkComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
 VmDetails.defaultProps = {
@@ -348,4 +362,5 @@ VmDetails.defaultProps = {
   LoadingComponent: Loading,
   NodeLink: undefined,
   overview: false,
+  services: undefined,
 };

@@ -5,6 +5,7 @@ import { clickButton, flushPromises } from '../../../../tests/enzyme';
 import { cloudInitTestVmi } from '../../../../tests/mocks/vmi/cloudInitTestVmi.mock';
 import { VmDetails } from '../index';
 import { vmFixtures, default as VmDetailsFixture } from '../fixtures/VmDetails.fixture';
+import { services } from '../../Services/fixtures/Services.fixture';
 import {
   disablesEditOnCancel,
   disablesSaveOnInvalidForm,
@@ -59,6 +60,11 @@ describe('<VmDetails />', () => {
 
   it('renders correctly as overview', () => {
     const component = render(testVmDetails(vmFixtures.runningVm, { overview: true }));
+    expect(component).toMatchSnapshot();
+  });
+
+  it('renders correctly with services', () => {
+    const component = render(testVmDetails(vmFixtures.downVm, { services }));
     expect(component).toMatchSnapshot();
   });
 
