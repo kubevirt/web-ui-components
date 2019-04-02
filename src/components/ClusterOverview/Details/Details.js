@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Tooltip } from 'patternfly-react';
-
-import { DASHES } from '../../../constants';
 
 import {
   DashboardCard,
@@ -10,79 +7,64 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
-import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
+import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
+import { getClusterName, getInfrastructurePlatform, getOpenshiftVersion } from '../../../selectors';
+import { DetailItem } from '../../Dashboard/Details/DetailItem';
+import { DetailsBody } from '../../Dashboard/Details/DetailsBody';
 
-const DetailItem = ({ title, value, isLoading, LoadingComponent }) => {
-  const description = value ? (
-    <OverlayTrigger
-      overlay={<Tooltip id={`tooltip-for-${title}`}>{value}</Tooltip>}
-      placement="top"
-      trigger={['hover', 'focus']}
-      rootClose={false}
-    >
-      <span>{value}</span>
-    </OverlayTrigger>
-  ) : (
-    DASHES
-  );
-  return (
-    <React.Fragment>
-      <dt className="kubevirt-detail__item-title">{title}</dt>
-      <dd className="kubevirt-detail__item-value">{isLoading ? <LoadingComponent /> : description}</dd>
-    </React.Fragment>
-  );
-};
-
-DetailItem.defaultProps = {
-  value: null,
-};
-
-DetailItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
-  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-};
-
-const DetailsBody = ({ items, LoadingComponent }) => (
-  <dl>
-    {Object.keys(items).map(key => (
-      <DetailItem
-        key={key}
-        title={items[key].title}
-        value={items[key].value}
-        isLoading={items[key].isLoading}
-        LoadingComponent={LoadingComponent}
-      />
-    ))}
-  </dl>
-);
-
-DetailsBody.propTypes = {
-  items: PropTypes.object.isRequired,
-  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-};
-
-export const Details = ({ items, LoadingComponent }) => (
+export const Details = ({ infrastructure, openshiftClusterVersions, LoadingComponent }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Details</DashboardCardTitle>
     </DashboardCardHeader>
     <DashboardCardBody>
-      <DetailsBody items={items} LoadingComponent={LoadingComponent} />
+      <DetailsBody>
+        <DetailItem
+          key="name"
+          title="Name"
+          value={getClusterName(infrastructure)}
+          isLoading={!infrastructure}
+          LoadingComponent={LoadingComponent}
+        />
+        <DetailItem
+          key="provider"
+          title="Provider"
+          value={getInfrastructurePlatform(infrastructure)}
+          isLoading={!infrastructure}
+          LoadingComponent={LoadingComponent}
+        />
+        <DetailItem
+          key="rhhi"
+          title="RHHI version"
+          value="1.0" // this will be hardcoded for the demo
+          isLoading={false}
+          LoadingComponent={LoadingComponent}
+        />
+        <DetailItem
+          key="openshift"
+          title="Openshift version"
+          value={getOpenshiftVersion(openshiftClusterVersions)}
+          isLoading={!openshiftClusterVersions}
+          LoadingComponent={LoadingComponent}
+        />
+      </DetailsBody>
     </DashboardCardBody>
   </DashboardCard>
 );
 
 Details.defaultProps = {
+  infrastructure: null,
+  openshiftClusterVersions: null,
   LoadingComponent: InlineLoading,
 };
 
 Details.propTypes = {
-  items: PropTypes.object.isRequired,
+  infrastructure: PropTypes.object,
+  openshiftClusterVersions: PropTypes.array,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const DetailsConnected = () => <ClusterOverviewContextGenericConsumer Component={Details} dataPath="detailsData" />;
-export default DetailsConnected;
+export const DetailsConnected = () => (
+  <ClusterOverviewContext.Consumer>{props => <Details {...props} />}</ClusterOverviewContext.Consumer>
+);

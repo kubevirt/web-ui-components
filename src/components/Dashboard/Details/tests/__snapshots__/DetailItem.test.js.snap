@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DetailItem /> renders correctly 1`] = `
+Array [
+  <dt
+    class="kubevirt-detail__item-title"
+  >
+    title1
+  </dt>,
+  <dd
+    class="kubevirt-detail__item-value"
+  >
+    <span>
+      value1
+    </span>
+  </dd>,
+]
+`;

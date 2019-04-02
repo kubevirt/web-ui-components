@@ -5,7 +5,7 @@ import { healthData } from '../Health/fixtures/Health.fixture';
 import { eventsData } from '../Events/fixtures/Events.fixture';
 import { consumersData } from '../TopConsumers/fixtures/TopConsumers.fixture';
 import { capacityStats, emptyCapacityStats } from '../Capacity/fixtures/Capacity.fixture';
-import { clusterDetailsData } from '../Details/fixtures/ClusterDetails.fixture';
+import { clusterDetailsData } from '../Details/fixtures/Details.fixture';
 
 import { complianceData, utilizationStats } from '..';
 
