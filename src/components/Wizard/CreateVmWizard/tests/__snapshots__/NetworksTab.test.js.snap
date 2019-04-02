@@ -21,7 +21,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             "label": "Name",
             "props": Object {
               "style": Object {
-                "width": "32%",
+                "width": "24%",
               },
             },
           },
@@ -33,7 +33,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             "label": "MAC Address",
             "props": Object {
               "style": Object {
-                "width": "32%",
+                "width": "24%",
               },
             },
           },
@@ -45,11 +45,23 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             "label": "Network Configuration",
             "props": Object {
               "style": Object {
-                "width": "32%",
+                "width": "24%",
               },
             },
           },
           "property": "network",
+          "renderConfig": [Function],
+        },
+        Object {
+          "header": Object {
+            "label": "Binding method",
+            "props": Object {
+              "style": Object {
+                "width": "24%",
+              },
+            },
+          },
+          "property": "binding",
           "renderConfig": [Function],
         },
         Object {

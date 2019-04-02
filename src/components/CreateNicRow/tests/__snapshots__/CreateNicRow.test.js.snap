@@ -4,16 +4,55 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
 <CreateDeviceRow
   LoadingComponent={[Function]}
   columnSizes={
-    Object {
-      "lg": 3,
-      "md": 3,
-      "sm": 3,
-      "xs": 3,
-    }
+    Array [
+      Object {
+        "lg": 3,
+        "md": 3,
+        "sm": 3,
+        "xs": 3,
+      },
+      Object {
+        "lg": 3,
+        "md": 3,
+        "sm": 3,
+        "xs": 3,
+      },
+      Object {
+        "lg": 2,
+        "md": 2,
+        "sm": 2,
+        "xs": 2,
+      },
+      Object {
+        "lg": 2,
+        "md": 2,
+        "sm": 2,
+        "xs": 2,
+      },
+      Object {
+        "lg": 2,
+        "md": 2,
+        "sm": 2,
+        "xs": 2,
+      },
+    ]
   }
   device={Object {}}
   deviceFields={
     Object {
+      "binding": Object {
+        "choices": Array [
+          "masquerade",
+          "bridge",
+          "sriov",
+        ],
+        "defaultValue": "--- Select binding ---",
+        "disabled": undefined,
+        "id": "binding",
+        "required": true,
+        "title": "Binding method",
+        "type": "dropdown",
+      },
       "mac": Object {
         "disabled": false,
         "id": "mac-address",
@@ -41,6 +80,7 @@ exports[`<CreateNicRow /> renders correctly 1`] = `
         "disabled": false,
         "id": "network-type",
         "required": true,
+        "title": "Network",
         "type": "dropdown",
       },
     }

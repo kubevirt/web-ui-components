@@ -270,7 +270,7 @@ export const ListFormFactory = ({ fields, fieldsValues, onFormChange, actions, c
   const form = formGroups.map((formGroup, index) => (
     <Col
       key={`col-${index}`}
-      {...columnSizes}
+      {...(Array.isArray(columnSizes) ? columnSizes[index] : columnSizes)}
       className={classNames('kubevirt-list-form-factory__column', {
         'kubevirt-list-form-factory__column--last': index === formGroups.length - 1,
       })}
@@ -296,7 +296,7 @@ ListFormFactory.propTypes = {
   fieldsValues: PropTypes.object.isRequired,
   onFormChange: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
-  columnSizes: PropTypes.object.isRequired,
+  columnSizes: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   showLabels: PropTypes.bool,
 };
 

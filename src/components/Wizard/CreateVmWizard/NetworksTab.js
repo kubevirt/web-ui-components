@@ -6,6 +6,7 @@ import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
 import { getValidationObject } from '../../../utils/validations';
+import { getNetworkBindings, getDefaultNetworkBinding } from '../../../utils/utils';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from './constants';
 
 import {
@@ -23,7 +24,10 @@ import {
   HEADER_MAC,
   HEADER_NAME,
   HEADER_NETWORK,
+  HEADER_BINDING_METHOD,
+  SELECT_BINDING,
 } from './strings';
+import { getInterfaceBinding } from '../../../selectors';
 
 const validateNetwork = network => {
   const errors = Array(4).fill(null);
@@ -106,6 +110,7 @@ const resolveInitialNetworks = (networks, networkConfigs, namespace, sourceType)
         editable: true,
         edit: false,
         networkType,
+        binding: getInterfaceBinding(templateNetwork.interface),
       };
     }
     return {
@@ -138,7 +143,7 @@ export class NetworksTab extends React.Component {
   publishResults = rows => {
     let valid = this.props.sourceType === PROVISION_SOURCE_PXE ? rows.some(row => row.isBootable) : true;
     const nics = rows.map(
-      ({ templateNetwork, rootNetwork, id, isBootable, name, mac, network, errors, networkType }) => {
+      ({ templateNetwork, rootNetwork, id, isBootable, name, mac, network, errors, networkType, binding }) => {
         const result = {
           id,
           isBootable,
@@ -148,6 +153,7 @@ export class NetworksTab extends React.Component {
           errors,
           networkType,
           rootNetwork,
+          binding,
         };
 
         if (templateNetwork) {
@@ -173,15 +179,19 @@ export class NetworksTab extends React.Component {
     this.setState({ rows, editing: true });
   };
 
-  onRowUpdate = (rows, updatedRowId, editing) => {
+  onRowUpdate = (rows, updatedRowId, editing, property, newValue) => {
     const updatedRow = rows.find(r => r.id === updatedRowId);
     if (updatedRow.isBootable && updatedRow.network === POD_NETWORK) {
       updatedRow.isBootable = false;
     }
-    if (updatedRow.network === POD_NETWORK) {
-      updatedRow.networkType = NETWORK_TYPE_POD;
-    } else {
-      updatedRow.networkType = NETWORK_TYPE_MULTUS;
+    if (property === 'network') {
+      if (newValue === POD_NETWORK && updatedRow.networkType !== NETWORK_TYPE_POD) {
+        updatedRow.networkType = NETWORK_TYPE_POD;
+        updatedRow.binding = getDefaultNetworkBinding(NETWORK_TYPE_POD);
+      } else if (updatedRow.networkType !== NETWORK_TYPE_MULTUS) {
+        updatedRow.networkType = NETWORK_TYPE_MULTUS;
+        updatedRow.binding = getDefaultNetworkBinding(NETWORK_TYPE_MULTUS);
+      }
     }
     updatedRow.errors = validateNetwork(updatedRow);
     this.rowsChanged(rows, editing);
@@ -206,6 +216,7 @@ export class NetworksTab extends React.Component {
           name: `nic${state.nextId - 1}`,
           mac: '',
           network: '',
+          binding: '',
         },
       ],
     }));
@@ -218,7 +229,7 @@ export class NetworksTab extends React.Component {
           label: HEADER_NAME,
           props: {
             style: {
-              width: '32%',
+              width: '24%',
             },
           },
         },
@@ -233,7 +244,7 @@ export class NetworksTab extends React.Component {
           label: HEADER_MAC,
           props: {
             style: {
-              width: '32%',
+              width: '24%',
             },
           },
         },
@@ -251,7 +262,7 @@ export class NetworksTab extends React.Component {
           label: HEADER_NETWORK,
           props: {
             style: {
-              width: '32%',
+              width: '24%',
             },
           },
         },
@@ -265,6 +276,23 @@ export class NetworksTab extends React.Component {
             .concat(POD_NETWORK)
             .filter(networkConfig => !this.state.rows.some(r => r.network === networkConfig)),
           initialValue: SELECT_NETWORK,
+        }),
+      },
+      {
+        header: {
+          label: HEADER_BINDING_METHOD,
+          props: {
+            style: {
+              width: '24%',
+            },
+          },
+        },
+        property: 'binding',
+        renderConfig: nic => ({
+          id: 'binding-edit',
+          type: DROPDOWN,
+          choices: getNetworkBindings(nic.networkType),
+          initialValue: SELECT_BINDING,
         }),
       },
     ];

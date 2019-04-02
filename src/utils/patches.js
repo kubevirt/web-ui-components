@@ -12,7 +12,7 @@ import {
   DEVICE_TYPE_INTERFACE,
 } from '../constants';
 import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
-import { assignBootOrderIndex, getBootableDevicesInOrder, getDevices } from '../k8s/vmBuilder';
+import { assignBootOrderIndex, getBootableDevicesInOrder, getDevices, addBindingToInterface } from '../k8s/vmBuilder';
 
 export const getPxeBootPatch = vm => {
   const patches = [];
@@ -315,12 +315,13 @@ export const getAddNicPatch = (vm, nic) => {
   const i = {
     name: nic.name,
     model: nic.model,
-    bridge: {},
     bootOrder: assignBootOrderIndex(vm),
   };
   if (nic.mac) {
     i.macAddress = nic.mac;
   }
+
+  addBindingToInterface(i, nic.binding);
 
   const network = {
     name: nic.name,

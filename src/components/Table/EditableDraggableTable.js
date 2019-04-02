@@ -124,6 +124,8 @@ class EditableDraggableTable extends React.Component {
         type: ON_CHANGE,
         id,
         editing,
+        key: property,
+        newValue: value,
       });
     },
   };

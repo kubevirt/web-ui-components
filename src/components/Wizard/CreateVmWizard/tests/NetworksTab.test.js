@@ -292,7 +292,7 @@ describe('<NetworksTab />', () => {
     const udpatedRows = cloneDeep(rows);
     udpatedRows[0].network = POD_NETWORK;
 
-    component.instance().onRowUpdate(udpatedRows, 0, true);
+    component.instance().onRowUpdate(udpatedRows, 0, true, 'network', POD_NETWORK);
 
     expect(component.state().rows[0].isBootable).toBeFalsy();
     expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
@@ -301,7 +301,7 @@ describe('<NetworksTab />', () => {
 
     udpatedRows[1].network = NetworksTabFixture.props.networkConfigs[0].metadata.name;
 
-    component.instance().onRowUpdate(udpatedRows, 1, true);
+    component.instance().onRowUpdate(udpatedRows, 1, true, 'network', udpatedRows[1].network);
 
     expect(component.state().rows[0].isBootable).toBeFalsy();
     expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
