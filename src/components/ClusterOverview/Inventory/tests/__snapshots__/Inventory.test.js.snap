@@ -10,7 +10,7 @@ exports[`<Inventory /> renders correctly 1`] = `
     <h2
       class="card-pf-title"
     >
-      Cluster inventory
+      Cluster Inventory
     </h2>
     <button
       class="btn btn-link"
