@@ -163,17 +163,20 @@ export class VmTemplateDetails extends React.Component {
         </Button>
       </Fragment>
     );
-    const titleWithWarning = (key, title, tooltipText) => {
+    const titleWithWarning = (key, title, error, tooltipText) => {
       const icon = <Icon name="warning" className="pficon-warning-triangle-o" />;
       const tooltip = <Tooltip id={`tooltip-${key}`}>{tooltipText}</Tooltip>;
-      return (
-        <Fragment>
-          <span className="kubevirt-vm-details-item-text">{title} </span>
-          <OverlayTrigger key="template" overlay={tooltip} placement="top">
-            {icon}
-          </OverlayTrigger>
-        </Fragment>
-      );
+      if (error) {
+        return (
+          <Fragment>
+            <span className="kubevirt-vm-details-item-text">{title} </span>
+            <OverlayTrigger key="template" overlay={tooltip} placement="top">
+              {icon}
+            </OverlayTrigger>
+          </Fragment>
+        );
+      }
+      return title;
     };
 
     return (
@@ -216,9 +219,12 @@ export class VmTemplateDetails extends React.Component {
                   <dt>Workload Profile</dt>
                   <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vmTemplate) || DASHES}</dd>
                   <dt>
-                    {this.state.templateError
-                      ? titleWithWarning('template', 'Base Template', 'This template is no longer available.')
-                      : 'Base Template'}
+                    {titleWithWarning(
+                      'template',
+                      'Base Template',
+                      this.state.templateError,
+                      'This template is no longer available.'
+                    )}
                   </dt>
                   <dd id={prefixedId(id, 'base-template')}>{baseTemplateDisplayName}</dd>
                 </dl>

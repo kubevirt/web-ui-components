@@ -205,17 +205,20 @@ export class VmDetails extends React.Component {
         {this.state.k8sError && <Alert onDismiss={this.onErrorDismiss}>{this.state.k8sError}</Alert>}
       </Fragment>
     );
-    const titleWithWarning = (key, title, tooltipText) => {
+    const titleWithWarning = (key, title, error, tooltipText) => {
       const icon = <Icon name="warning" className="pficon-warning-triangle-o" />;
       const tooltip = <Tooltip id={`tooltip-${key}`}>{tooltipText}</Tooltip>;
-      return (
-        <Fragment>
-          <span className="kubevirt-vm-details-item-text">{title} </span>
-          <OverlayTrigger key="template" overlay={tooltip} placement="top">
-            {icon}
-          </OverlayTrigger>
-        </Fragment>
-      );
+      if (error) {
+        return (
+          <Fragment>
+            <span className="kubevirt-vm-details-item-text">{title} </span>
+            <OverlayTrigger key="template" overlay={tooltip} placement="top">
+              {icon}
+            </OverlayTrigger>
+          </Fragment>
+        );
+      }
+      return title;
     };
     const templateLink = () =>
       TemplateResourceLink ? <TemplateResourceLink template={template} /> : getTemplateDisplayName(template);
@@ -266,9 +269,12 @@ export class VmDetails extends React.Component {
               <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vm) || DASHES}</dd>
 
               <dt>
-                {this.state.templateError
-                  ? titleWithWarning('template', 'Template', 'This template is no longer available.')
-                  : 'Template'}
+                {titleWithWarning(
+                  'template',
+                  'Template',
+                  this.state.templateError,
+                  'This template is no longer available.'
+                )}
               </dt>
               <dd id={prefixedId(id, 'template')}>{template ? templateLink() : DASHES}</dd>
             </dl>
