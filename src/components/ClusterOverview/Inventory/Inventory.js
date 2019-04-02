@@ -42,7 +42,7 @@ InventoryBody.propTypes = {
 export const Inventory = props => (
   <DashboardCard>
     <DashboardCardHeader>
-      <DashboardCardTitle>Inventory</DashboardCardTitle>
+      <DashboardCardTitle>Cluster Inventory</DashboardCardTitle>
       <DashboardCardTitleHelp>help for inventory</DashboardCardTitleHelp>
     </DashboardCardHeader>
     <DashboardCardBody className="kubevirt-inventory__body">

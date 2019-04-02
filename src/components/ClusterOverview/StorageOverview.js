@@ -4,7 +4,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 
 import { Dashboard, DashboardBody, DashboardHeader } from '../Dashboard';
 
-import { StorageDetailsConnected } from './Details/storageDetails'; // TODO: re-export
+import { StorageDetailsConnected } from './Details/StorageDetails'; // TODO: re-export
 import InventoryConnected from './Inventory/Inventory';
 
 const LeftCards = () => (

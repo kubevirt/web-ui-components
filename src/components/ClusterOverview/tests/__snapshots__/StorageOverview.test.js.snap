@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StorageOverview /> renders correctly with Provider 1`] = `
+<div>
+  <div>
+    <h1>
+      Storage Overview
+    </h1>
+  </div>
+  <div
+    class="kubevirt-dashboard__body"
+  >
+    <div
+      class="pf-l-grid"
+    >
+      <div
+        class="pf-l-grid__item pf-m-12-col-on-sm pf-m-12-col-on-md pf-m-3-col-on-lg"
+      >
+        <div
+          class="pf-l-grid"
+        >
+          <div
+            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+          >
+            <div
+              class="card-pf kubevirt-dashboard__card"
+            >
+              <div
+                class="card-pf-heading kubevirt-dashboard__card-heading"
+              >
+                <h2
+                  class="card-pf-title"
+                >
+                  OCS Details
+                </h2>
+              </div>
+              <div
+                class="card-pf-body"
+              >
+                <dl>
+                  <dt
+                    class="kubevirt-detail__item-title"
+                  >
+                    Name
+                  </dt>
+                  <dd
+                    class="kubevirt-detail__item-value"
+                  >
+                    <span>
+                      rook-ceph
+                    </span>
+                  </dd>
+                  <dt
+                    class="kubevirt-detail__item-title"
+                  >
+                    Provider
+                  </dt>
+                  <dd
+                    class="kubevirt-detail__item-value"
+                  >
+                    <span>
+                      Ceph
+                    </span>
+                  </dd>
+                  <dt
+                    class="kubevirt-detail__item-title"
+                  >
+                    OCS version
+                  </dt>
+                  <dd
+                    class="kubevirt-detail__item-value"
+                  >
+                    <span>
+                      v4.2
+                    </span>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div
+            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+          >
+            <div
+              class="card-pf kubevirt-dashboard__card"
+            >
+              <div
+                class="card-pf-heading kubevirt-dashboard__card-heading"
+              >
+                <h2
+                  class="card-pf-title"
+                >
+                  Cluster Inventory
+                </h2>
+                <button
+                  class="btn btn-link"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-info-circle fa-2x"
+                  />
+                </button>
+              </div>
+              <div
+                class="card-pf-body kubevirt-inventory__body"
+              >
+                <div
+                  class="kubevirt-inventory__row"
+                  id="inventory-nodes"
+                >
+                  <div
+                    class="kubevirt-inventory__row-title"
+                  >
+                    1 Nodes
+                  </div>
+                  <div
+                    class="kubevirt-inventory__row-status"
+                  >
+                    <div
+                      class="kubevirt-inventory__row-status-item"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+                      />
+                      <span
+                        class="kubevirt-inventory__row-status-item-text"
+                      >
+                        1
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="kubevirt-inventory__row"
+                  id="inventory-pvcs"
+                >
+                  <div
+                    class="kubevirt-inventory__row-title"
+                  >
+                    5 PVCs
+                  </div>
+                  <div
+                    class="kubevirt-inventory__row-status"
+                  >
+                    <div
+                      class="kubevirt-inventory__row-status-item"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+                      />
+                      <span
+                        class="kubevirt-inventory__row-status-item-text"
+                      >
+                        5
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="kubevirt-inventory__row"
+                  id="inventory-pods"
+                >
+                  <div
+                    class="kubevirt-inventory__row-title"
+                  >
+                    1 Pods
+                  </div>
+                  <div
+                    class="kubevirt-inventory__row-status"
+                  >
+                    <div
+                      class="kubevirt-inventory__row-status-item"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+                      />
+                      <span
+                        class="kubevirt-inventory__row-status-item-text"
+                      >
+                        1
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="kubevirt-inventory__row"
+                  id="inventory-vms"
+                >
+                  <div
+                    class="kubevirt-inventory__row-title"
+                  >
+                    2 VMs
+                  </div>
+                  <div
+                    class="kubevirt-inventory__row-status"
+                  >
+                    <div
+                      class="kubevirt-inventory__row-status-item"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+                      />
+                      <span
+                        class="kubevirt-inventory__row-status-item-text"
+                      >
+                        2
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<StorageOverview /> shallow-renders correctly 1`] = `
+<Dashboard>
+  <DashboardHeader>
+    Storage Overview
+  </DashboardHeader>
+  <DashboardBody
+    className={null}
+  >
+    <Grid
+      className=""
+      gutter={null}
+      lg={null}
+      md={null}
+      sm={null}
+      span={null}
+      xl={null}
+    >
+      <LeftCards />
+    </Grid>
+  </DashboardBody>
+</Dashboard>
+`;
