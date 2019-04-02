@@ -13,12 +13,20 @@ export const InlineEdit = ({
   onFormChange,
   fieldsValues,
   id,
+  showLabels,
 }) => {
   if (updating) {
     return <LoadingComponent id={id} />;
   }
   if (editing) {
-    return <InlineFormFactory fields={formFields} fieldsValues={fieldsValues} onFormChange={onFormChange} />;
+    return (
+      <InlineFormFactory
+        fields={formFields}
+        fieldsValues={fieldsValues}
+        onFormChange={onFormChange}
+        showLabels={showLabels}
+      />
+    );
   }
   return <div id={id}>{children}</div>;
 };
@@ -32,6 +40,7 @@ InlineEdit.propTypes = {
   onFormChange: PropTypes.func,
   fieldsValues: PropTypes.object,
   id: PropTypes.string,
+  showLabels: PropTypes.bool,
 };
 
 InlineEdit.defaultProps = {
@@ -42,4 +51,5 @@ InlineEdit.defaultProps = {
   onFormChange: () => {},
   fieldsValues: {},
   id: undefined,
+  showLabels: false,
 };

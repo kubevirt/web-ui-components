@@ -1,47 +1,115 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Flavor /> renders correctly 1`] = `
-<InlineEdit
-  LoadingComponent={[Function]}
-  editing={false}
-  fieldsValues={Object {}}
-  formFields={
-    Object {
-      "cpu": Object {
-        "id": "myflavor-flavor-cpu",
-        "isVisible": [Function],
-        "required": true,
-        "title": "CPU",
-        "type": "positive-number",
-      },
-      "flavor": Object {
-        "choices": Array [
-          "Custom",
-        ],
-        "id": "myflavor-flavor-dropdown",
-        "type": "dropdown",
-      },
-      "memory": Object {
-        "id": "myflavor-flavor-memory",
-        "isVisible": [Function],
-        "required": true,
-        "title": "Memory (GB)",
-        "type": "positive-number",
-      },
+<Fragment>
+  <InlineEdit
+    LoadingComponent={[Function]}
+    editing={false}
+    fieldsValues={Object {}}
+    formFields={
+      Object {
+        "cpu": Object {
+          "id": "myflavor-flavor-cpu",
+          "isVisible": [Function],
+          "required": true,
+          "title": "CPU",
+          "type": "positive-number",
+        },
+        "flavor": Object {
+          "choices": Array [
+            "Custom",
+            "small",
+          ],
+          "id": "myflavor-flavor-dropdown",
+          "isVisible": [Function],
+          "type": "dropdown",
+        },
+        "memory": Object {
+          "id": "myflavor-flavor-memory",
+          "isVisible": [Function],
+          "required": true,
+          "title": "Memory (GB)",
+          "type": "positive-number",
+        },
+      }
     }
-  }
-  onFormChange={[Function]}
-  updating={false}
->
-  <div
-    id="myflavor-flavor"
+    onFormChange={[Function]}
+    showLabels={true}
+    updating={false}
   >
-    small
-  </div>
-  <div
-    id="myflavor-flavor-description"
+    <div
+      id="myflavor-flavor"
+    >
+      small
+    </div>
+    <div
+      id="myflavor-flavor-description"
+    >
+      2 CPU, 2G Memory
+    </div>
+  </InlineEdit>
+</Fragment>
+`;
+
+exports[`<Flavor /> renders edit view correctly 1`] = `
+<Fragment>
+  <InlineEdit
+    LoadingComponent={[Function]}
+    editing={true}
+    fieldsValues={
+      Object {
+        "cpu": Object {
+          "value": "2",
+        },
+        "flavor": Object {
+          "value": "Custom",
+        },
+        "memory": Object {
+          "value": "2",
+        },
+      }
+    }
+    formFields={
+      Object {
+        "cpu": Object {
+          "id": "myflavor-flavor-cpu",
+          "isVisible": [Function],
+          "required": true,
+          "title": "CPU",
+          "type": "positive-number",
+        },
+        "flavor": Object {
+          "choices": Array [
+            "small",
+            "Custom",
+          ],
+          "id": "myflavor-flavor-dropdown",
+          "isVisible": [Function],
+          "type": "dropdown",
+        },
+        "memory": Object {
+          "id": "myflavor-flavor-memory",
+          "isVisible": [Function],
+          "required": true,
+          "title": "Memory (GB)",
+          "type": "positive-number",
+        },
+      }
+    }
+    onFormChange={[Function]}
+    showLabels={true}
+    updating={false}
   >
-    2 CPU, 2G Memory
-  </div>
-</InlineEdit>
+    <div
+      id="myflavor-flavor"
+    >
+      small
+    </div>
+    <div
+      id="myflavor-flavor-description"
+    >
+      2 CPU, 2G Memory
+    </div>
+  </InlineEdit>
+</Fragment>
 `;

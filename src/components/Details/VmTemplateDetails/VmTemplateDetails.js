@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { Row, Col, Button, Alert } from 'patternfly-react';
+import { Row, Col, Button, Alert, Icon, Tooltip, OverlayTrigger } from 'patternfly-react';
 
 import {
   getCpu,
@@ -11,6 +11,7 @@ import {
   getOperatingSystemName,
   getFlavor,
   getVmTemplate,
+  getTemplateDisplayName,
   getId,
 } from '../../../selectors';
 import {
@@ -39,7 +40,9 @@ export class VmTemplateDetails extends React.Component {
       editing: false,
       updating: false,
       k8sError: null,
+      templateError: null,
       form: {},
+      baseTemplate: null,
     };
   }
 
@@ -61,11 +64,6 @@ export class VmTemplateDetails extends React.Component {
         },
       },
     }));
-
-  onLoadError = error =>
-    this.setState({
-      k8sError: error,
-    });
 
   updateVmDetails = () => {
     const { vmTemplate } = this.props;
@@ -116,6 +114,28 @@ export class VmTemplateDetails extends React.Component {
     }
   };
 
+  componentDidMount() {
+    const { k8sGet, vmTemplate } = this.props;
+    this.setState({
+      updating: true,
+    });
+    retrieveVmTemplate(k8sGet, vmTemplate)
+      .then(result => {
+        this.onFormChange('flavor', result, 'template', true);
+        return this.setState({
+          updating: false,
+          baseTemplate: result,
+        });
+      })
+      .catch(error =>
+        this.setState({
+          updating: false,
+          baseTemplate: null,
+          templateError: error.message || 'An error occurred. Please try again.',
+        })
+      );
+  }
+
   onErrorDismiss = () =>
     this.setState({
       k8sError: null,
@@ -124,10 +144,10 @@ export class VmTemplateDetails extends React.Component {
   isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
   render() {
-    const { vmTemplate, dataVolumes, NamespaceResourceLink, LoadingComponent, k8sGet } = this.props;
+    const { vmTemplate, dataVolumes, NamespaceResourceLink, LoadingComponent } = this.props;
     const id = getId(vmTemplate);
     const vm = selectVm(vmTemplate.objects);
-    const baseTemplate = getVmTemplate(vmTemplate);
+    const baseTemplateDisplayName = getTemplateDisplayName(getVmTemplate(vmTemplate));
     const sortedBootableDevices = getBootableDevicesInOrder(vm);
 
     const editButton = (
@@ -143,6 +163,21 @@ export class VmTemplateDetails extends React.Component {
         </Button>
       </Fragment>
     );
+    const titleWithWarning = (key, title, error, tooltipText) => {
+      const icon = <Icon name="warning" className="pficon-warning-triangle-o" />;
+      const tooltip = <Tooltip id={`tooltip-${key}`}>{tooltipText}</Tooltip>;
+      if (error) {
+        return (
+          <Fragment>
+            <span className="kubevirt-vm-details-item-text">{title} </span>
+            <OverlayTrigger key="template" overlay={tooltip} placement="top">
+              {icon}
+            </OverlayTrigger>
+          </Fragment>
+        );
+      }
+      return title;
+    };
 
     return (
       <div className="co-m-pane__body">
@@ -183,10 +218,15 @@ export class VmTemplateDetails extends React.Component {
                   </dd>
                   <dt>Workload Profile</dt>
                   <dd id={prefixedId(id, 'workload-profile')}>{getWorkloadProfile(vmTemplate) || DASHES}</dd>
-                  <dt>Base Template</dt>
-                  <dd id={prefixedId(id, 'base-template')}>
-                    {baseTemplate ? `${baseTemplate.namespace}/${baseTemplate.name}` : DASHES}
-                  </dd>
+                  <dt>
+                    {titleWithWarning(
+                      'template',
+                      'Base Template',
+                      this.state.templateError,
+                      'This template is no longer available.'
+                    )}
+                  </dt>
+                  <dd id={prefixedId(id, 'base-template')}>{baseTemplateDisplayName}</dd>
                 </dl>
               </Col>
 
@@ -218,9 +258,8 @@ export class VmTemplateDetails extends React.Component {
                       updating={this.state.updating}
                       LoadingComponent={LoadingComponent}
                       onFormChange={(newValue, key, valid) => this.onFormChange('flavor', newValue, key, valid)}
-                      retrieveVmTemplate={() => retrieveVmTemplate(k8sGet, vmTemplate)}
                       formValues={settingsValue(this.state.form, FLAVOR_KEY)}
-                      onLoadError={this.onLoadError}
+                      template={this.state.baseTemplate}
                     />
                   </dd>
                 </dl>

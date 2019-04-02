@@ -10,6 +10,7 @@ import {
   TEMPLATE_WORKLOAD_LABEL,
   OS_WINDOWS_PREFIX,
   TEMPLATE_OS_NAME_ANNOTATION,
+  DASHES,
 } from '../../constants';
 
 export const getDisks = vm => get(vm, 'spec.template.spec.domain.devices.disks', []);
@@ -35,6 +36,7 @@ export const getVmTemplate = vm => {
   }
   return null;
 };
+export const getTemplateDisplayName = template => (template ? `${template.namespace}/${template.name}` : DASHES);
 export const getDescription = vm => get(vm, 'metadata.annotations.description');
 export const getCloudInitVolume = vm => {
   const volumes = getVolumes(vm);

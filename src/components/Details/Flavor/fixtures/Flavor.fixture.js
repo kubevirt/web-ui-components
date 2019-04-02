@@ -9,19 +9,18 @@ export default [
     component: Flavor,
     name: 'Flavor',
     props: {
+      id: 'Flavor',
       vm: cloudInitTestVm,
       flavor: getFlavor(cloudInitTestVm),
       onFormChange: () => {},
-      retrieveVmTemplate: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      template: null,
     },
   },
   {
     component: Flavor,
     name: 'Flavor editing',
     props: {
+      id: 'Flavor editing',
       vm: cloudInitTestVm,
       flavor: getFlavor(cloudInitTestVm),
       formValues: {
@@ -37,24 +36,19 @@ export default [
       },
       editing: true,
       onFormChange: () => {},
-      retrieveVmTemplate: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      template: fedora28,
     },
   },
   {
     component: Flavor,
     name: 'Flavor updating',
     props: {
+      id: 'Flavor updating',
       vm: cloudInitTestVm,
       flavor: getFlavor(cloudInitTestVm),
       updating: true,
       onFormChange: () => {},
-      retrieveVmTemplate: () =>
-        new Promise(resolve => {
-          resolve(fedora28);
-        }),
+      template: null,
     },
   },
 ];

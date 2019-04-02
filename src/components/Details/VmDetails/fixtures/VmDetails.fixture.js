@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { VmDetails } from '../VmDetails';
 import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../../constants';
 import { k8sPatch, k8sGet } from '../../../../tests/k8s';
@@ -65,6 +67,35 @@ export const vmFixtures = {
         'flavor.template.cnv.io/small': 'true',
         'os.template.cnv.io/fedora29': 'true',
         [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
+        [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
+        'workload.template.cnv.io/generic': 'true',
+      },
+    },
+    spec: {
+      template: {
+        spec: {
+          domain: {
+            cpu: {
+              cores: 2,
+            },
+            resources: {
+              requests: {
+                memory: '2G',
+              },
+            },
+          },
+        },
+      },
+      running: false,
+    },
+  },
+  vmWithDeletedTemplate: {
+    metadata: {
+      ...metadata,
+      labels: {
+        'flavor.template.cnv.io/small': 'true',
+        'os.template.cnv.io/fedora29': 'true',
+        [LABEL_USED_TEMPLATE_NAME]: 'deleted-template',
         [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
         'workload.template.cnv.io/generic': 'true',
       },
@@ -185,6 +216,17 @@ export default [
   },
   {
     component: VmDetails,
+    name: 'VM with flavor with template resource link',
+    props: {
+      vm: vmFixtures.vmWithLabels,
+      k8sPatch,
+      k8sGet,
+      NodeLink: () => true,
+      TemplateResourceLink: () => <a>default/fedora28</a>,
+    },
+  },
+  {
+    component: VmDetails,
     name: 'VM with custom flavor',
     props: {
       vm: vmFixtures.customVm,
@@ -202,6 +244,16 @@ export default [
       k8sGet,
       NodeLink: () => true,
       overview: true,
+    },
+  },
+  {
+    component: VmDetails,
+    name: 'VM detail with deleted template',
+    props: {
+      vm: vmFixtures.vmWithDeletedTemplate,
+      k8sPatch,
+      k8sGet,
+      NodeLink: () => true,
     },
   },
 ];
