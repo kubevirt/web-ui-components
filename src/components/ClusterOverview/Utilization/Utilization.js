@@ -28,7 +28,6 @@ const UtilizationItem = ({ id, title, data, unit }) => (
             type: 'area',
           }}
           unloadBeforeLoad
-          size={{ width: 430, height: 70 }}
         />
       </Col>
     </Row>
