@@ -3,6 +3,7 @@ import React from 'react';
 import { VmDetails } from '../VmDetails';
 import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../../constants';
 import { k8sPatch, k8sGet } from '../../../../tests/k8s';
+import { services, ResourceLinkComponent } from '../../Services/fixtures/Services.fixture';
 
 const metadata = {
   name: 'my-vm',
@@ -181,6 +182,7 @@ export default [
       vm: vmFixtures.downVm,
       k8sPatch,
       k8sGet,
+      ResourceLinkComponent,
     },
   },
   {
@@ -192,6 +194,7 @@ export default [
       k8sPatch,
       k8sGet,
       NodeLink: () => true,
+      ResourceLinkComponent,
     },
   },
   {
@@ -202,6 +205,7 @@ export default [
       k8sPatch,
       k8sGet,
       NodeLink: () => true,
+      ResourceLinkComponent,
     },
   },
   {
@@ -212,6 +216,7 @@ export default [
       k8sPatch,
       k8sGet,
       NodeLink: () => true,
+      ResourceLinkComponent,
     },
   },
   {
@@ -223,6 +228,7 @@ export default [
       k8sGet,
       NodeLink: () => true,
       TemplateResourceLink: () => <a>default/fedora28</a>,
+      ResourceLinkComponent,
     },
   },
   {
@@ -233,6 +239,7 @@ export default [
       k8sPatch,
       k8sGet,
       NodeLink: () => true,
+      ResourceLinkComponent,
     },
   },
   {
@@ -244,6 +251,7 @@ export default [
       k8sGet,
       NodeLink: () => true,
       overview: true,
+      ResourceLinkComponent,
     },
   },
   {
@@ -254,6 +262,19 @@ export default [
       k8sPatch,
       k8sGet,
       NodeLink: () => true,
+      ResourceLinkComponent,
+    },
+  },
+  {
+    component: VmDetails,
+    name: 'VM with services',
+    props: {
+      vm: vmFixtures.downVm,
+      k8sPatch,
+      k8sGet,
+      NodeLink: () => true,
+      ResourceLinkComponent,
+      services,
     },
   },
 ];

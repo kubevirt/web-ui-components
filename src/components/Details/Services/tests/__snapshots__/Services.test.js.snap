@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Services /> renders correctly 1`] = `
+Array [
+  <ResourceLinkComponent
+    kind="Service"
+    name="fooService"
+  />,
+  <ResourceLinkComponent
+    kind="Service"
+    name="fooService1"
+  />,
+]
+`;
+
+exports[`<Services /> renders correctly 2`] = `"---"`;
+
+exports[`<Services /> renders correctly 3`] = `
+<InlineLoading
+  size="md"
+/>
+`;
