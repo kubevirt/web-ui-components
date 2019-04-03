@@ -1,57 +1,24 @@
 import { Capacity } from '../Capacity';
 
-export const emptyCapacityStats = {
-  cpuStats: {
-    title: 'CPU',
-    data: {},
+const getPromResponse = value => ({
+  data: {
+    result: [
+      {
+        value: [0, value],
+      },
+    ],
   },
-  memoryStats: {
-    title: 'Memory',
-    data: {},
-  },
-  storageStats: {
-    title: 'Storage',
-    data: {},
-  },
-  networkStats: {
-    title: 'Network',
-    data: {},
-  },
-};
+});
 
 export const capacityStats = {
-  cpuStats: {
-    title: 'CPU',
-    unit: 'Ghz',
-    data: {
-      total: 4.3,
-      used: 2.2,
-    },
-  },
-  memoryStats: {
-    title: 'Memory',
-    unit: 'Ti',
-    data: {
-      total: 200,
-      used: 80,
-    },
-  },
-  storageStats: {
-    title: 'Storage',
-    unit: 'Ti',
-    data: {
-      total: 800,
-      used: 400,
-    },
-  },
-  networkStats: {
-    title: 'Network',
-    unit: 'GBps',
-    data: {
-      total: 10,
-      used: 3,
-    },
-  },
+  cpuTotal: getPromResponse(10),
+  cpuUsed: getPromResponse(5),
+  memoryTotal: getPromResponse(10),
+  memoryUsed: getPromResponse(5),
+  storageTotal: getPromResponse(10),
+  storageUsed: getPromResponse(5),
+  networkTotal: getPromResponse(10),
+  networkUsed: getPromResponse(5),
 };
 
 export default {

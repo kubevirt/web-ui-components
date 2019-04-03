@@ -11,7 +11,7 @@ import HealthConnected from './Health/Health';
 import ComplianceConnected from './Compliance/Compliance';
 import EventsConnected from './Events/Events';
 import { InventoryConnected } from './Inventory/Inventory';
-import CapacityConnected from './Capacity/Capacity';
+import { CapacityConnected } from './Capacity/Capacity';
 import UtilizationConnected from './Utilization/Utilization';
 import TopConsumersConnected from './TopConsumers/TopConsumers';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'enzyme';
 
 import { Capacity } from '../Capacity';
-import { default as CapacityFixtures, emptyCapacityStats } from '../fixtures/Capacity.fixture';
+import { default as CapacityFixtures } from '../fixtures/Capacity.fixture';
 
 const testCapacityOverview = () => <Capacity {...CapacityFixtures.props} />;
 
@@ -13,7 +13,7 @@ describe('<Capacity />', () => {
   });
 
   it('renders correctly in Loading state', () => {
-    const component = render(<Capacity capacityStats={emptyCapacityStats} />);
+    const component = render(<Capacity />);
     expect(component).toMatchSnapshot();
   });
 });
