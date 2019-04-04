@@ -1,6 +1,7 @@
 .kubevirt-capacity__items {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .kubevirt-capacity__item {
