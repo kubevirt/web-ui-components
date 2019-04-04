@@ -11,12 +11,11 @@ import {
 } from '../../Dashboard/DashboardCard';
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { CapacityItem } from '../../Dashboard/Capacity/CapacityItem';
-import { formatBytes, formatCores, formatNetTraffic } from '../../../utils';
+import { formatBytes, formatPercents, formatNetTraffic } from '../../../utils';
 import { getCapacityStats } from '../../../selectors';
 import { CapacityBody } from '../../Dashboard/Capacity/CapacityBody';
 
 export const Capacity = ({
-  cpuTotal,
   cpuUsed,
   memoryTotal,
   memoryUsed,
@@ -36,10 +35,10 @@ export const Capacity = ({
           id="cpu"
           title="CPU"
           used={getCapacityStats(cpuUsed)}
-          total={getCapacityStats(cpuTotal)}
-          formatValue={formatCores}
+          total={100}
+          formatValue={formatPercents}
           LoadingComponent={LoadingComponent}
-          isLoading={!(cpuUsed && cpuTotal)}
+          isLoading={!cpuUsed}
         />
         <CapacityItem
           id="memory"
@@ -74,7 +73,6 @@ export const Capacity = ({
 );
 
 Capacity.defaultProps = {
-  cpuTotal: null,
   cpuUsed: null,
   memoryTotal: null,
   memoryUsed: null,
@@ -86,7 +84,6 @@ Capacity.defaultProps = {
 };
 
 Capacity.propTypes = {
-  cpuTotal: PropTypes.object,
   cpuUsed: PropTypes.object,
   memoryTotal: PropTypes.object,
   memoryUsed: PropTypes.object,
