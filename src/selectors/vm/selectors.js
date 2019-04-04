@@ -89,3 +89,5 @@ export const getInterfaceBinding = intface => {
   }
   return null;
 };
+
+export const getVmiTemplateLabels = vm => get(vm, 'spec.template.metadata.labels', {});
