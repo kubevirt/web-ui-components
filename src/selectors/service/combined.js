@@ -1,7 +1,11 @@
-import { get } from 'lodash';
+import { getVmiTemplateLabels } from '../vm/selectors';
+import { getServiceSelectors } from './selectors';
 
-import { TEMPLATE_VM_NAME_LABEL } from '../../constants';
-import { getName } from '../common';
-
-export const getServicesForVm = (services, vm) =>
-  services.filter(service => get(service, ['spec', 'selector', TEMPLATE_VM_NAME_LABEL]) === getName(vm));
+export const getServicesForVm = (services, vm) => {
+  const vmLabels = getVmiTemplateLabels(vm);
+  return services.filter(service => {
+    const selectors = getServiceSelectors(service);
+    const selectorKeys = Object.keys(selectors);
+    return selectorKeys.length > 0 ? selectorKeys.every(key => vmLabels[key] === selectors[key]) : false;
+  });
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { VmDetails } from '../VmDetails';
-import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../../constants';
+import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE, TEMPLATE_VM_NAME_LABEL } from '../../../../constants';
 import { k8sPatch, k8sGet } from '../../../../tests/k8s';
 import { services, ResourceLinkComponent } from '../../Services/fixtures/Services.fixture';
 
@@ -154,6 +154,21 @@ export const vmFixtures = {
     },
     spec: { running: false },
   },
+  vmWithVmiLabels: {
+    metadata: {
+      ...metadata,
+    },
+    spec: {
+      template: {
+        metadata: {
+          labels: {
+            [TEMPLATE_VM_NAME_LABEL]: 'my-vm',
+            fooSelector: 'fooValue',
+          },
+        },
+      },
+    },
+  },
 };
 
 const vmiFixture = {
@@ -269,7 +284,7 @@ export default [
     component: VmDetails,
     name: 'VM with services',
     props: {
-      vm: vmFixtures.downVm,
+      vm: vmFixtures.vmWithVmiLabels,
       k8sPatch,
       k8sGet,
       NodeLink: () => true,

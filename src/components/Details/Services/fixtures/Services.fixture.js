@@ -5,9 +5,15 @@ import { Services } from '../Services';
 import { TEMPLATE_VM_NAME_LABEL } from '../../../../constants';
 
 const vm = {
-  metadata: {
-    name: 'my-vm',
-    namespace: 'my-namespace',
+  spec: {
+    template: {
+      metadata: {
+        labels: {
+          [TEMPLATE_VM_NAME_LABEL]: 'my-vm',
+          fooSelector: 'fooValue',
+        },
+      },
+    },
   },
 };
 
@@ -29,6 +35,7 @@ export const services = [
     spec: {
       selector: {
         [TEMPLATE_VM_NAME_LABEL]: 'my-vm',
+        fooSelector: 'fooValue',
       },
     },
   },
@@ -39,6 +46,18 @@ export const services = [
     spec: {
       selector: {
         [TEMPLATE_VM_NAME_LABEL]: 'fooName',
+      },
+    },
+  },
+  {
+    metadata: {
+      name: 'fooService3',
+    },
+    spec: {
+      selector: {
+        [TEMPLATE_VM_NAME_LABEL]: 'my-vm',
+        fooSelector: 'fooValue',
+        anotherFooSelector: 'fooValue',
       },
     },
   },

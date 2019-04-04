@@ -64,7 +64,7 @@ describe('<VmDetails />', () => {
   });
 
   it('renders correctly with services', () => {
-    const component = render(testVmDetails(vmFixtures.downVm, { services }));
+    const component = render(testVmDetails(vmFixtures.vmWithVmiLabels, { services }));
     expect(component).toMatchSnapshot();
   });
 
