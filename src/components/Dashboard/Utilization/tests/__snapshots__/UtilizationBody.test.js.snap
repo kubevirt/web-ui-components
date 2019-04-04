@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UtilizationBody /> renders correctly 1`] = `
+<div
+  className="kubevirt-utilization__items"
+>
+  <UtilizationItem
+    LoadingComponent={[Function]}
+    data={
+      Array [
+        10,
+        0,
+        15,
+        100,
+        5,
+      ]
+    }
+    id="item-id"
+    isLoading={false}
+    maxY={null}
+    title="title"
+    unit="%"
+  />
+</div>
+`;

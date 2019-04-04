@@ -10,96 +10,87 @@ exports[`<Utilization /> renders correctly 1`] = `
     <h2
       class="card-pf-title"
     >
-      Cluster utilization
+      Cluster Utilization
     </h2>
   </div>
   <div
     class="card-pf-body"
   >
     <div
-      class="kubevirt-utilization__item"
+      class="kubevirt-utilization__items"
     >
       <div
-        class="row"
+        class="kubevirt-utilization__item"
       >
         <div
-          class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+          class="row"
         >
-          <h2>
+          <div
+            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+          >
             CPU
-          </h2>
-        </div>
-        <div
-          class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-        >
-          <h2>
-            10 %
-          </h2>
-        </div>
-        <div
-          class="col-lg-7 col-md-7 col-sm-7 col-xs-7"
-        >
+          </div>
           <div
-            class=" chart-pf-sparkline"
-          />
+            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+          >
+            50 %
+          </div>
+          <div
+            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+          >
+            <div
+              class=" chart-pf-sparkline"
+            />
+          </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`<Utilization /> renders correctly in Loading state 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title"
+    >
+      Cluster Utilization
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
     <div
-      class="kubevirt-utilization__item"
+      class="kubevirt-utilization__items"
     >
       <div
-        class="row"
+        class="kubevirt-utilization__item"
       >
         <div
-          class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
-        >
-          <h2>
-            I/O
-          </h2>
-        </div>
-        <div
-          class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-        >
-          <h2>
-            20000 MBps
-          </h2>
-        </div>
-        <div
-          class="col-lg-7 col-md-7 col-sm-7 col-xs-7"
+          class="row"
         >
           <div
-            class=" chart-pf-sparkline"
-          />
-        </div>
-      </div>
-    </div>
-    <div
-      class="kubevirt-utilization__item"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
-        >
-          <h2>
-            Latency
-          </h2>
-        </div>
-        <div
-          class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-        >
-          <h2>
-            3.5 ms
-          </h2>
-        </div>
-        <div
-          class="col-lg-7 col-md-7 col-sm-7 col-xs-7"
-        >
+            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+          >
+            CPU
+          </div>
           <div
-            class=" chart-pf-sparkline"
+            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
           />
+          <div
+            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+          >
+            <div>
+              <div
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

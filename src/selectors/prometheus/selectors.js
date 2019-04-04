@@ -19,3 +19,8 @@ export const getCapacityStats = response => {
   const value = get(response, 'data.result[0].value[1]');
   return parseNumber(value);
 };
+
+export const getUtilizationCpuStats = response => {
+  const values = get(response, 'data.result[0].values');
+  return values && Array.isArray(values) ? values.map(timeValuePair => parseNumber(timeValuePair[1])) : null;
+};

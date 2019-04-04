@@ -1,0 +1,248 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UtilizationItem /> renders correctly 1`] = `
+<div
+  className="kubevirt-utilization__item"
+>
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      lg={2}
+      md={2}
+      sm={2}
+      xs={2}
+    >
+      title
+    </Col>
+    <Col
+      bsClass="col"
+      className="kubevirt-utilization__item-actual"
+      componentClass="div"
+      lg={3}
+      md={3}
+      sm={3}
+      xs={3}
+    >
+      5 %
+    </Col>
+    <Col
+      bsClass="col"
+      className="kubevirt-utilization__item-chart"
+      componentClass="div"
+      lg={7}
+      md={7}
+      sm={7}
+      xs={7}
+    >
+      <SparklineChart
+        area={
+          Object {
+            "zerobased": true,
+          }
+        }
+        axis={
+          Object {
+            "x": Object {
+              "show": false,
+            },
+            "y": Object {
+              "padding": Object {
+                "bottom": 0,
+                "top": 0,
+              },
+              "show": true,
+              "tick": Object {
+                "count": 3,
+              },
+            },
+          }
+        }
+        className="chart-pf-sparkline"
+        color={
+          Object {
+            "pattern": Array [
+              "#0088ce",
+              "#39a5dc",
+              "#3f9c35",
+              "#ec7a08",
+              "#cc0000",
+            ],
+          }
+        }
+        data={
+          Object {
+            "columns": Array [
+              Array [
+                "%",
+                "10.0",
+                "0.0",
+                "15.0",
+                "100.0",
+                "5.0",
+              ],
+            ],
+            "type": "area",
+            "unload": true,
+          }
+        }
+        id="item-id"
+        legend={
+          Object {
+            "show": false,
+          }
+        }
+        point={
+          Object {
+            "focus": Object {
+              "expand": Object {
+                "r": 4,
+              },
+            },
+            "r": 1,
+          }
+        }
+        size={
+          Object {
+            "height": 60,
+          }
+        }
+        tooltip={
+          Object {
+            "contents": [Function],
+          }
+        }
+        type="area"
+        unloadBeforeLoad={true}
+      />
+    </Col>
+  </Row>
+</div>
+`;
+
+exports[`<UtilizationItem /> renders correctly 2`] = `
+<div
+  className="kubevirt-utilization__item"
+>
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      lg={2}
+      md={2}
+      sm={2}
+      xs={2}
+    >
+      title
+    </Col>
+    <Col
+      bsClass="col"
+      className="kubevirt-utilization__item-actual"
+      componentClass="div"
+      lg={3}
+      md={3}
+      sm={3}
+      xs={3}
+    >
+      5 %
+    </Col>
+    <Col
+      bsClass="col"
+      className="kubevirt-utilization__item-chart"
+      componentClass="div"
+      lg={7}
+      md={7}
+      sm={7}
+      xs={7}
+    >
+      <SparklineChart
+        area={
+          Object {
+            "zerobased": true,
+          }
+        }
+        axis={
+          Object {
+            "x": Object {
+              "show": false,
+            },
+            "y": Object {
+              "max": 100,
+              "padding": Object {
+                "bottom": 0,
+                "top": 0,
+              },
+              "show": true,
+              "tick": Object {
+                "count": 3,
+              },
+            },
+          }
+        }
+        className="chart-pf-sparkline"
+        color={
+          Object {
+            "pattern": Array [
+              "#0088ce",
+              "#39a5dc",
+              "#3f9c35",
+              "#ec7a08",
+              "#cc0000",
+            ],
+          }
+        }
+        data={
+          Object {
+            "columns": Array [
+              Array [
+                "%",
+                "10.0",
+                "0.0",
+                "15.0",
+                "100.0",
+                "5.0",
+              ],
+            ],
+            "type": "area",
+            "unload": true,
+          }
+        }
+        id="item-id"
+        legend={
+          Object {
+            "show": false,
+          }
+        }
+        point={
+          Object {
+            "focus": Object {
+              "expand": Object {
+                "r": 4,
+              },
+            },
+            "r": 1,
+          }
+        }
+        size={
+          Object {
+            "height": 60,
+          }
+        }
+        tooltip={
+          Object {
+            "contents": [Function],
+          }
+        }
+        type="area"
+        unloadBeforeLoad={true}
+      />
+    </Col>
+  </Row>
+</div>
+`;

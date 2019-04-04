@@ -1,0 +1,19 @@
+.kubevirt-utilization__item {
+  border-bottom: 1px solid #d1d1d1;
+  font-size: 1.333em; // aligned with the Inventory card
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.kubevirt-utilization__item-actual {
+  text-align: right;
+}
+
+.kubevirt-utilization__item-chart {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: rgb(209, 209, 209);
+}
