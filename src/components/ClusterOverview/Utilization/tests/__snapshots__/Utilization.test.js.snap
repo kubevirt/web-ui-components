@@ -44,6 +44,31 @@ exports[`<Utilization /> renders correctly 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="kubevirt-utilization__item"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+          >
+            Memory
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+          >
+            30 KB
+          </div>
+          <div
+            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+          >
+            <div
+              class=" chart-pf-sparkline"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -78,6 +103,31 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
             class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
           >
             CPU
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+          />
+          <div
+            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+          >
+            <div>
+              <div
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="kubevirt-utilization__item"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+          >
+            Memory
           </div>
           <div
             class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"

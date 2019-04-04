@@ -11,10 +11,28 @@ import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
 import { UtilizationBody } from '../../Dashboard/Utilization/UtilizationBody';
 import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
-import { getUtilizationCpuStats } from '../../../selectors';
+import { getCapacityStats, getUtilizationVectorStats } from '../../../selectors';
+import { formatBytes } from '../../../utils';
 
-export const Utilization = ({ cpuUtilization, LoadingComponent }) => {
-  const cpuStats = getUtilizationCpuStats(cpuUtilization);
+export const Utilization = ({ cpuUtilization, memoryUtilization, memoryTotal, LoadingComponent }) => {
+  const cpuStats = getUtilizationVectorStats(cpuUtilization);
+
+  let memoryStats = null;
+  let memoryTotalConverted;
+  let memoryMax = 0;
+  let maxConverted;
+  const memoryStatsRaw = getUtilizationVectorStats(memoryUtilization);
+  if (memoryStatsRaw) {
+    memoryMax = Math.max(0, ...memoryStatsRaw);
+    maxConverted = formatBytes(memoryMax);
+    memoryStats = memoryStatsRaw.map(bytes => formatBytes(bytes, maxConverted.unit, 1).value);
+    memoryTotalConverted = memoryTotal
+      ? formatBytes(getCapacityStats(memoryTotal), maxConverted.unit, 1).value
+      : undefined;
+  } else {
+    maxConverted = formatBytes(memoryMax); // B
+  }
+
   return (
     <DashboardCard>
       <DashboardCardHeader>
@@ -31,6 +49,15 @@ export const Utilization = ({ cpuUtilization, LoadingComponent }) => {
             LoadingComponent={LoadingComponent}
             isLoading={!cpuUtilization}
           />
+          <UtilizationItem
+            unit={maxConverted.unit}
+            id="memory"
+            title="Memory"
+            data={memoryStats}
+            maxY={memoryTotalConverted}
+            LoadingComponent={LoadingComponent}
+            isLoading={!memoryUtilization}
+          />
         </UtilizationBody>
       </DashboardCardBody>
     </DashboardCard>
@@ -39,11 +66,15 @@ export const Utilization = ({ cpuUtilization, LoadingComponent }) => {
 
 Utilization.defaultProps = {
   cpuUtilization: null,
+  memoryUtilization: null,
+  memoryTotal: null,
   LoadingComponent: InlineLoading,
 };
 
 Utilization.propTypes = {
   cpuUtilization: PropTypes.object,
+  memoryUtilization: PropTypes.object,
+  memoryTotal: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
