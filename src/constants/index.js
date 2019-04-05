@@ -1,3 +1,5 @@
+export * from './storage';
+
 export const ANNOTATION_DEFAULT_DISK = 'defaults.template.kubevirt.io/disk';
 export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.kubevirt.io/network';
 export const ANNOTATION_FIRST_BOOT = 'kubevirt.ui/firstBoot ';

@@ -15,17 +15,19 @@ import {
   mapPvcsToProps,
   mapVmsToProps,
   mapHostsToProps,
+  mapDiskStatsToProps,
 } from '../../Dashboard/Inventory/utils';
 import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
 import { InlineLoading } from '../../Loading';
 
-const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations, hosts, LoadingComponent }) => (
+const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations, hosts, diskStats, LoadingComponent }) => (
   <React.Fragment>
     <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="Hosts" {...mapHostsToProps(hosts)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="Pods" {...mapPodsToProps(pods)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="VMs" {...mapVmsToProps(vms, pods, migrations)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="Disks" {...mapDiskStatsToProps(diskStats)} LoadingComponent={LoadingComponent} />
   </React.Fragment>
 );
 

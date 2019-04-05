@@ -236,6 +236,21 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  class="kubevirt-inventory__row"
+                  id="inventory-disks"
+                >
+                  <div
+                    class="kubevirt-inventory__row-title"
+                  >
+                    Disks
+                  </div>
+                  <div>
+                    <div
+                      class="spinner spinner-md blank-slate-pf-icon"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
