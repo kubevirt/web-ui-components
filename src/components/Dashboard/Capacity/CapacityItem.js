@@ -43,7 +43,7 @@ export const CapacityItem = ({ id, title, used, total, unit, formatValue, Loadin
     primaryTitle = `${percentageUsed.toString()}%`;
     secondaryTitle = USED;
   }
-
+  // TODO(mlibra): align text font
   return (
     <div className="kubevirt-capacity__item">
       <h2 className="kubevirt-capacity__item-title">{title}</h2>

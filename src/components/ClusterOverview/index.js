@@ -10,24 +10,3 @@ export const complianceData = {
   },
   loaded: true,
 };
-
-export const utilizationStats = {
-  stats: {
-    cpuStats: {
-      title: 'CPU',
-      unit: '%',
-      data: [20, 50, 15, 70, 10],
-    },
-    ioStats: {
-      title: 'I/O',
-      unit: 'MBps',
-      data: [12000, 10000, 5000, 20000],
-    },
-    latencyStats: {
-      title: 'Latency',
-      unit: 'ms',
-      data: [2.5, 1, 20, 3.5],
-    },
-  },
-  loaded: true,
-};
