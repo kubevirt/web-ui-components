@@ -3,6 +3,7 @@ import React from 'react';
 import { StorageOverview as StorageOverviewComponent } from '../StorageOverview';
 import { cephCluster } from '../Details/fixtures/Details.fixture';
 import { ocsHealthData } from '../OCSHealth/fixtures/Health.fixture';
+import { capacityStats } from '../Capacity/fixtures/Capacity.fixture';
 
 import { StorageOverviewContext } from '../StorageOverviewContext';
 
@@ -26,9 +27,17 @@ export default [
     props: {
       cephCluster,
       ocsHealthData,
+      ...capacityStats,
       nodes,
       pvcs,
       pvs,
+    },
+  },
+  {
+    component: StorageOverview,
+    name: 'Loading overview',
+    props: {
+      ocsHealthData: { loaded: false },
     },
   },
 ];
