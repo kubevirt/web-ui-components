@@ -20,7 +20,7 @@ export const getCapacityStats = response => {
   return parseNumber(value);
 };
 
-export const getUtilizationCpuStats = response => {
+export const getUtilizationVectorStats = response => {
   const values = get(response, 'data.result[0].values');
   return values && Array.isArray(values) ? values.map(timeValuePair => parseNumber(timeValuePair[1])) : null;
 };
