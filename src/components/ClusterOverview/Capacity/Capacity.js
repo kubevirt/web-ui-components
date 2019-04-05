@@ -12,13 +12,13 @@ import {
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { CapacityItem } from '../../Dashboard/Capacity/CapacityItem';
 import { formatBytes, formatPercents, formatNetTraffic } from '../../../utils';
-import { getCapacityStats } from '../../../selectors';
+import { getCapacityStats, getLastUtilizationStat } from '../../../selectors';
 import { CapacityBody } from '../../Dashboard/Capacity/CapacityBody';
 
 export const Capacity = ({
-  cpuUsed,
+  cpuUtilization,
   memoryTotal,
-  memoryUsed,
+  memoryUtilization,
   storageTotal,
   storageUsed,
   networkTotal,
@@ -34,20 +34,20 @@ export const Capacity = ({
         <CapacityItem
           id="cpu"
           title="CPU"
-          used={getCapacityStats(cpuUsed)}
+          used={getLastUtilizationStat(cpuUtilization)}
           total={100}
           formatValue={formatPercents}
           LoadingComponent={LoadingComponent}
-          isLoading={!cpuUsed}
+          isLoading={!cpuUtilization}
         />
         <CapacityItem
           id="memory"
           title="Memory"
-          used={getCapacityStats(memoryUsed)}
+          used={getLastUtilizationStat(memoryUtilization)}
           total={getCapacityStats(memoryTotal)}
           formatValue={formatBytes}
           LoadingComponent={LoadingComponent}
-          isLoading={!(memoryUsed && memoryTotal)}
+          isLoading={!(memoryUtilization && memoryTotal)}
         />
         <CapacityItem
           id="storage"
@@ -73,9 +73,9 @@ export const Capacity = ({
 );
 
 Capacity.defaultProps = {
-  cpuUsed: null,
+  cpuUtilization: null,
   memoryTotal: null,
-  memoryUsed: null,
+  memoryUtilization: null,
   storageTotal: null,
   storageUsed: null,
   networkTotal: null,
@@ -84,9 +84,9 @@ Capacity.defaultProps = {
 };
 
 Capacity.propTypes = {
-  cpuUsed: PropTypes.object,
+  cpuUtilization: PropTypes.object,
   memoryTotal: PropTypes.object,
-  memoryUsed: PropTypes.object,
+  memoryUtilization: PropTypes.object,
   storageTotal: PropTypes.object,
   storageUsed: PropTypes.object,
   networkTotal: PropTypes.object,

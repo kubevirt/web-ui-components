@@ -28,7 +28,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           CPU
         </h2>
         <h6>
-          95 % available out of 100 %
+          50 % available out of 100 %
         </h6>
         <div>
           <div
@@ -45,7 +45,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           Memory
         </h2>
         <h6>
-          5 B available out of 10 B
+          1.0 MB available out of 1 MB
         </h6>
         <div>
           <div

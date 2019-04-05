@@ -24,3 +24,8 @@ export const getUtilizationVectorStats = response => {
   const values = get(response, 'data.result[0].values');
   return values && Array.isArray(values) ? values.map(timeValuePair => parseNumber(timeValuePair[1])) : null;
 };
+
+export const getLastUtilizationStat = response => {
+  const history = getUtilizationVectorStats(response);
+  return history ? history[history.length - 1] : null;
+};
