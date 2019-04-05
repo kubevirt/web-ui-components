@@ -54,6 +54,21 @@ exports[`<Inventory /> renders correctly 1`] = `
     </div>
     <div
       class="kubevirt-inventory__row"
+      id="inventory-hosts"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        Hosts
+      </div>
+      <div>
+        <div
+          class="spinner spinner-md blank-slate-pf-icon"
+        />
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
       id="inventory-pvcs"
     >
       <div

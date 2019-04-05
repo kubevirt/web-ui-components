@@ -2,6 +2,7 @@ import { getVmStatus, VM_STATUS_ALL_ERROR, VM_STATUS_ALL_PROGRESS } from '../../
 import { getPodStatus, POD_STATUS_ALL_ERROR, POD_STATUS_ALL_PROGRESS } from '../../../utils/status/pod';
 import { getNodeStatus, NODE_STATUS_ALL_ERROR, NODE_STATUS_ALL_WARN } from '../../../utils/status/node';
 import { getPvcStatus, PVC_STATUS_ALL_ERROR, PVC_STATUS_ALL_PROGRESS } from '../../../utils/status/pvc';
+import { getHostStatus, HOST_STATUS_ALL_ERROR, HOST_STATUS_ALL_WARN } from '../../../utils/status/host';
 
 // same as InventoryItemStatus props
 const STATUS_RESULT_OK = 'ok';
@@ -61,5 +62,13 @@ export const mapPodsToProps = pods =>
     resolveStatusResult(getPodStatus(pod).status, {
       [STATUS_RESULT_ERROR]: POD_STATUS_ALL_ERROR,
       [STATUS_RESULT_IN_PROGRESS]: POD_STATUS_ALL_PROGRESS,
+    })
+  );
+
+export const mapHostsToProps = hosts =>
+  mapStatuses(hosts, host =>
+    resolveStatusResult(getHostStatus(host).status, {
+      [STATUS_RESULT_ERROR]: HOST_STATUS_ALL_ERROR,
+      [STATUS_RESULT_WARN]: HOST_STATUS_ALL_WARN,
     })
   );

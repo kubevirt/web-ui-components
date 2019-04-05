@@ -9,12 +9,13 @@ import {
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
-import { mapNodesToProps, mapPodsToProps, mapPvcsToProps, mapVmsToProps } from './utils';
+import { mapNodesToProps, mapPodsToProps, mapPvcsToProps, mapVmsToProps, mapHostsToProps } from './utils';
 import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
 
-const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations }) => (
+const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations, hosts }) => (
   <React.Fragment>
     <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} />
+    <InventoryRow title="Hosts" {...mapHostsToProps(hosts)} />
     <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} />
     <InventoryRow title="Pods" {...mapPodsToProps(pods)} />
     <InventoryRow title="VMs" {...mapVmsToProps(vms, pods, migrations)} />
@@ -28,6 +29,7 @@ InventoryBody.defaultProps = {
   vmis: undefined,
   pvcs: undefined,
   migrations: undefined,
+  hosts: undefined,
 };
 
 InventoryBody.propTypes = {
@@ -37,6 +39,7 @@ InventoryBody.propTypes = {
   vmis: PropTypes.array,
   pvcs: PropTypes.array,
   migrations: PropTypes.array,
+  hosts: PropTypes.array,
 };
 
 export const Inventory = props => (
