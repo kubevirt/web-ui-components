@@ -20,23 +20,27 @@ exports[`<Utilization /> renders correctly 1`] = `
       class="kubevirt-utilization__items"
     >
       <div
-        class="kubevirt-utilization__item"
+        class="kubevirt-utilization__item-narrow"
       >
         <div
           class="row"
         >
           <div
-            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             CPU
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             50 %
           </div>
+        </div>
+        <div
+          class="row"
+        >
           <div
-            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+            class="kubevirt-utilization__item-narrow-chart"
           >
             <div
               class=" chart-pf-sparkline"
@@ -45,23 +49,27 @@ exports[`<Utilization /> renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="kubevirt-utilization__item"
+        class="kubevirt-utilization__item-narrow"
       >
         <div
           class="row"
         >
           <div
-            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             Memory
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             30 KB
           </div>
+        </div>
+        <div
+          class="row"
+        >
           <div
-            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+            class="kubevirt-utilization__item-narrow-chart"
           >
             <div
               class=" chart-pf-sparkline"
@@ -94,21 +102,25 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
       class="kubevirt-utilization__items"
     >
       <div
-        class="kubevirt-utilization__item"
+        class="kubevirt-utilization__item-narrow"
       >
         <div
           class="row"
         >
           <div
-            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             CPU
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
           />
+        </div>
+        <div
+          class="row"
+        >
           <div
-            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+            class="kubevirt-utilization__item-narrow-chart"
           >
             <div>
               <div
@@ -119,21 +131,25 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
         </div>
       </div>
       <div
-        class="kubevirt-utilization__item"
+        class="kubevirt-utilization__item-narrow"
       >
         <div
           class="row"
         >
           <div
-            class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             Memory
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-3 col-md-3 col-sm-3 col-xs-3"
+            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
           />
+        </div>
+        <div
+          class="row"
+        >
           <div
-            class="kubevirt-utilization__item-chart col-lg-7 col-md-7 col-sm-7 col-xs-7"
+            class="kubevirt-utilization__item-narrow-chart"
           >
             <div>
               <div
