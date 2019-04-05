@@ -11,7 +11,6 @@ const getPromResponse = value => ({
 });
 
 export const capacityStats = {
-  cpuTotal: getPromResponse(10),
   cpuUsed: getPromResponse(5),
   memoryTotal: getPromResponse(10),
   memoryUsed: getPromResponse(5),
@@ -23,5 +22,5 @@ export const capacityStats = {
 
 export default {
   component: Capacity,
-  props: { capacityStats },
+  props: capacityStats,
 };

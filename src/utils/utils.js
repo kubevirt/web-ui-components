@@ -97,6 +97,7 @@ export const formatBytes = (bytes, unit, fixed = 2) => {
 };
 
 export const formatCores = cores => ({ value: cores, unit: 'cores' });
+export const formatPercents = percents => ({ value: percents, unit: '%' });
 
 export const formatNetTraffic = (bytesPerSecond, preferredUnit, fixed = 2) => {
   preferredUnit =
