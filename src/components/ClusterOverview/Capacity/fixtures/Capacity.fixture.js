@@ -1,4 +1,5 @@
 import { Capacity } from '../Capacity';
+import { utilizationStats } from '../../Utilization/fixtures/Utilization.fixture';
 
 const getPromResponse = value => ({
   data: {
@@ -11,9 +12,9 @@ const getPromResponse = value => ({
 });
 
 export const capacityStats = {
-  cpuUsed: getPromResponse(5),
-  memoryTotal: getPromResponse(10),
-  memoryUsed: getPromResponse(5),
+  cpuUtilization: utilizationStats.cpuUtilization,
+  memoryTotal: getPromResponse(1024 * 1024),
+  memoryUtilization: utilizationStats.memoryUtilization,
   storageTotal: getPromResponse(10),
   storageUsed: getPromResponse(5),
   networkTotal: getPromResponse(10),
