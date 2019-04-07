@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Inventory /> renders correctly 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title"
+    >
+      Inventory
+    </h2>
+    <button
+      class="btn btn-link"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-info-circle fa-2x"
+      />
+    </button>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div
+      class="kubevirt-inventory__row"
+      id="inventory-nodes"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        1 Nodes
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            1
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
+      id="inventory-pvs"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        5 PVs
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            5
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
+      id="inventory-pvcs"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        5 PVCs
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            5
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

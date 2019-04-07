@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Details /> renders correctly 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title"
+    >
+      Details
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <dl>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        Name
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        <span>
+          rook-ceph
+        </span>
+      </dd>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        Provider
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        <span>
+          Ceph
+        </span>
+      </dd>
+      <dt
+        class="kubevirt-detail__item-title"
+      >
+        OCS version
+      </dt>
+      <dd
+        class="kubevirt-detail__item-value"
+      >
+        <span>
+          4.1
+        </span>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;
