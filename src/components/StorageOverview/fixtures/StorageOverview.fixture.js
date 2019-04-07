@@ -9,10 +9,12 @@ import { StorageOverviewContext } from '../StorageOverviewContext';
 import { localhostNode } from '../../../tests/mocks/node';
 import { persistentVolumeClaims } from '../../../tests/mocks/persistentVolumeClaim';
 import { persistentVolumes } from '../../../tests/mocks/persistentVolume';
+import { osdDisksCount } from '../../../tests/mocks/disks';
 
 export const nodes = [localhostNode];
 export const pvcs = persistentVolumeClaims;
 export const pvs = persistentVolumes;
+export const diskStats = osdDisksCount;
 
 const StorageOverview = props => (
   <StorageOverviewContext.Provider value={props}>
@@ -29,6 +31,7 @@ export default [
       nodes,
       pvcs,
       pvs,
+      diskStats,
     },
   },
 ];
