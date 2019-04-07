@@ -101,6 +101,22 @@ describe('<CreateNicRow />', () => {
     ).toEqual(POD_NETWORK);
   });
 
+  it('falls back to template namespace when vm is missing namespace', () => {
+    const vm = cloneDeep(cloudInitTestVm);
+    delete vm.metadata.namespace;
+
+    const component = mount(testCreateNicRow(networkConfigs, { vm, vmTemplate: cloudInitTestVm }));
+    expect(getNetworkConfigs(component)).toHaveLength(1);
+  });
+
+  it('show all namespaces when vm and template do not have a namespace', () => {
+    const vm = cloneDeep(cloudInitTestVm);
+    delete vm.metadata.namespace;
+
+    const component = mount(testCreateNicRow(networkConfigs, { vm }));
+    expect(getNetworkConfigs(component)).toHaveLength(2);
+  });
+
   it('shows loading while getting network configs', () => {
     const component = mount(testCreateNicRow(undefined));
     expect(component.find(Loading).exists()).toBeTruthy();
