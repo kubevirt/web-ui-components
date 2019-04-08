@@ -34,10 +34,11 @@ describe('<CreateNicRow />', () => {
       vm: cloudInitTestVm,
     };
 
-    // Filter networkConfigs for nic's namespace (should be done in caller component)
-    const component = mount(
-      testCreateNicRow(networkConfigs.filter(network => getNamespace(network === getNamespace(nic.vm)), nic))
-    );
+    // Filter networkConfigs for nic's namespace (should be done in caller component),
+    // we assume networkConfigs include only currect namespaced networks.
+    const filteredNetworkConfig = networkConfigs.filter(network => getNamespace(network) === getNamespace(nic.vm));
+
+    const component = mount(testCreateNicRow(filteredNetworkConfig, nic));
     expect(getNetworkConfigs(component)).toHaveLength(1);
     expect(
       getNetworkConfigs(component)
