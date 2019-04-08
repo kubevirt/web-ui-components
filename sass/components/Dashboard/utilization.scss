@@ -8,8 +8,26 @@
   }
 }
 
+.kubevirt-utilization__item-narrow {
+  border-bottom: 1px solid #d1d1d1;
+  font-size: 1.333em; // aligned with the Inventory card
+
+  .row {
+    margin-right: 0.25em;
+  }
+
+  .row:first-of-type {
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+  }
+}
+
 .kubevirt-utilization__item-actual {
   text-align: right;
+}
+
+.kubevirt-utilization__item-narrow-chart {
+  text-align: center;
 }
 
 .kubevirt-utilization__item-chart {

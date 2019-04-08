@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from 'enzyme';
 
 import { UtilizationBody } from '../UtilizationBody';
 import { default as UtilizationItemFixture } from '../fixtures/UtilizationItem.fixture';
@@ -13,7 +13,7 @@ const testUtilizationBody = () => (
 
 describe('<UtilizationBody />', () => {
   it('renders correctly', () => {
-    const component = shallow(testUtilizationBody());
+    const component = render(testUtilizationBody());
     expect(component).toMatchSnapshot();
   });
 });

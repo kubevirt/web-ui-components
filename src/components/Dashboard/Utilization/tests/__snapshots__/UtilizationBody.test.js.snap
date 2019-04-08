@@ -2,24 +2,36 @@
 
 exports[`<UtilizationBody /> renders correctly 1`] = `
 <div
-  className="kubevirt-utilization__items"
+  class="kubevirt-utilization__items"
 >
-  <UtilizationItem
-    LoadingComponent={[Function]}
-    data={
-      Array [
-        10,
-        0,
-        15,
-        100,
-        5,
-      ]
-    }
-    id="item-id"
-    isLoading={false}
-    maxY={null}
-    title="title"
-    unit="%"
-  />
+  <div
+    class="kubevirt-utilization__item-narrow"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      >
+        title
+      </div>
+      <div
+        class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      >
+        5 %
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="kubevirt-utilization__item-narrow-chart"
+      >
+        <div
+          class=" chart-pf-sparkline"
+        />
+      </div>
+    </div>
+  </div>
 </div>
 `;
