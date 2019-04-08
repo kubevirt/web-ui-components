@@ -9,7 +9,7 @@ import { Dropdown } from '../../Form/Dropdown';
 import CreateNicRowFixture from '../fixtures/CreateNicRow.fixture';
 import { networkConfigs } from '../../../tests/mocks/networkAttachmentDefinition';
 import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
-import { getName } from '../../../selectors';
+import { getName, getNamespace } from '../../../selectors';
 import { Loading } from '../../Loading';
 import { POD_NETWORK } from '../../../constants';
 
@@ -34,7 +34,10 @@ describe('<CreateNicRow />', () => {
       vm: cloudInitTestVm,
     };
 
-    const component = mount(testCreateNicRow(networkConfigs, nic));
+    // Filter networkConfigs for nic's namespace (should be done in caller component)
+    const component = mount(
+      testCreateNicRow(networkConfigs.filter(network => getNamespace(network === getNamespace(nic.vm)), nic))
+    );
     expect(getNetworkConfigs(component)).toHaveLength(1);
     expect(
       getNetworkConfigs(component)
@@ -99,22 +102,6 @@ describe('<CreateNicRow />', () => {
         .find('a')
         .text()
     ).toEqual(POD_NETWORK);
-  });
-
-  it('falls back to template namespace when vm is missing namespace', () => {
-    const vm = cloneDeep(cloudInitTestVm);
-    delete vm.metadata.namespace;
-
-    const component = mount(testCreateNicRow(networkConfigs, { vm, vmTemplate: cloudInitTestVm }));
-    expect(getNetworkConfigs(component)).toHaveLength(1);
-  });
-
-  it('show all namespaces when vm and template do not have a namespace', () => {
-    const vm = cloneDeep(cloudInitTestVm);
-    delete vm.metadata.namespace;
-
-    const component = mount(testCreateNicRow(networkConfigs, { vm }));
-    expect(getNetworkConfigs(component)).toHaveLength(2);
   });
 
   it('shows loading while getting network configs', () => {

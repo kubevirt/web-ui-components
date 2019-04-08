@@ -53,12 +53,11 @@ const getUsedNetworks = vm => {
   return usedNetworks;
 };
 
-const getNetworkChoices = (vm, networks, namespace) => {
+const getNetworkChoices = (vm, networks) => {
   const usedNetworks = getUsedNetworks(vm);
   const networkChoices = networks
     .filter(
       network =>
-        (!namespace || network.metadata.namespace === namespace) &&
         !usedNetworks
           .filter(usedNetwork => usedNetwork.networkType === NETWORK_TYPE_MULTUS)
           .find(usedNetwork => usedNetwork.name === getName(network))
@@ -78,10 +77,9 @@ const getNetworkChoices = (vm, networks, namespace) => {
 
 const getNicColumns = (nic, networks, LoadingComponent) => {
   const bindingChoices = getNetworkBindings(get(settingsValue(nic, 'network'), 'networkType'));
-  const namespace = (nic.vm && nic.vm.metadata.namespace) || (nic.vmTemplate && nic.vmTemplate.metadata.namespace);
   let network;
   if (networks) {
-    const networkChoices = getNetworkChoices(nic.vm, networks, namespace);
+    const networkChoices = getNetworkChoices(nic.vm, networks);
     network = {
       id: 'network-type',
       type: DROPDOWN,
