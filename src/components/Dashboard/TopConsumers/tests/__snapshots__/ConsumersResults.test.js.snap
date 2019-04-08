@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConsumersResults /> renders correctly 1`] = `
+<div
+  className="kubevirt-consumers__results"
+>
+  <ConsumerItem
+    description="description"
+    key="0"
+    label="label"
+    now={30}
+  />
+  <ConsumerItem
+    description="description"
+    key="1"
+    label="label"
+    now={30}
+  />
+</div>
+`;

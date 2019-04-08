@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConsumersFilter /> renders correctly 1`] = `
+<div
+  className="kubevirt-consumers__filters"
+>
+  <Dropdown
+    choices={
+      Array [
+        "choice1",
+        "choice2",
+      ]
+    }
+    disabled={false}
+    id="id"
+    onChange={[Function]}
+    value="fooValue"
+    withTooltips={false}
+  />
+</div>
+`;

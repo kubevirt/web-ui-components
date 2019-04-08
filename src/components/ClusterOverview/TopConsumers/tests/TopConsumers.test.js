@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from 'enzyme';
 
 import { TopConsumers } from '../TopConsumers';
-import { default as ConsumersFixtures } from '../fixtures/TopConsumers.fixture';
+import { consumersData } from '../fixtures/TopConsumers.fixture';
 
-const testTopConsumersOverview = () => <TopConsumers {...ConsumersFixtures.props} />;
+const testTopConsumersOverview = () => <TopConsumers {...consumersData} />;
 
 describe('<TopConsumers />', () => {
   it('renders correctly', () => {

@@ -2,13 +2,12 @@ import { get } from 'lodash';
 
 import { parseNumber } from '../../utils';
 
-export const getConsumers = (kind, results, nameLabel, formatLabel) => {
-  if (!results) {
+export const getConsumers = (results, nameLabel, formatLabel) => {
+  const result = get(results, 'data.result');
+  if (!result) {
     return null;
   }
-  const result = get(results, 'data.result');
   return result.map(r => ({
-    kind,
     name: r.metric[nameLabel],
     usage: r.value[1],
     label: formatLabel ? formatLabel(r.value[1]) : r.value[1],

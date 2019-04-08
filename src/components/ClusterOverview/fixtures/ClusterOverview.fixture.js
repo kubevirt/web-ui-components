@@ -42,7 +42,7 @@ export default [
       complianceData,
       eventsData,
       utilizationStats,
-      consumersData,
+      ...consumersData,
       nodes,
       pvcs,
       pods,
@@ -59,7 +59,7 @@ export default [
       complianceData: { loaded: false },
       eventsData: { loaded: false },
       utilizationStats: { loaded: false },
-      consumersData: { loaded: false },
+      inventoryData: { loaded: false },
     },
   },
 ];

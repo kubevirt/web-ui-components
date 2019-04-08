@@ -1,10 +1,9 @@
-.kubevirt-consumers__bar .progress {
-  height: 10px;
-  margin-top: 15px;
+.kubevirt-consumers__dropdown-type-filter {
+  padding-left: 0;
+  padding-right: 0.3em;
 }
 
-.kubevirt-consumers__filters {
-  display: flex;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d1d1d1;
+.kubevirt-consumers__dropdown-sort-filter {
+  padding-right: 0;
+  padding-left: 0.3em;
 }

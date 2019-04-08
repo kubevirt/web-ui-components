@@ -13,7 +13,7 @@ import EventsConnected from './Events/Events';
 import { InventoryConnected } from './Inventory/Inventory';
 import { CapacityConnected } from './Capacity/Capacity';
 import { UtilizationConnected } from './Utilization/Utilization';
-import TopConsumersConnected from './TopConsumers/TopConsumers';
+import { TopConsumersConnected } from './TopConsumers/TopConsumers';
 
 const MainCards = () => (
   <GridItem lg={6} md={12} sm={12}>

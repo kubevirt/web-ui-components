@@ -312,9 +312,11 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
               <div
                 class="card-pf-body"
               >
-                <div>
+                <div
+                  class="kubevirt-consumers__filters"
+                >
                   <div
-                    class="kubevirt-consumers__filters"
+                    class="kubevirt-consumers__dropdown-type-filter col-lg-6 col-md-6 col-sm-6 col-xs-6"
                   >
                     <div
                       class="btn-group btn-group-justified"
@@ -326,17 +328,17 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                           aria-expanded="false"
                           aria-haspopup="true"
                           class="kubevirt-dropdown dropdown-toggle btn btn-default"
-                          id="filter-dropdown"
+                          id="type-dropdown"
                           role="button"
                           type="button"
                         >
-                          All 
+                          Pods & VMs 
                           <span
                             class="caret"
                           />
                         </button>
                         <ul
-                          aria-labelledby="filter-dropdown"
+                          aria-labelledby="type-dropdown"
                           class="dropdown-menu"
                           role="menu"
                         >
@@ -349,7 +351,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                               role="menuitem"
                               tabindex="-1"
                             >
-                              All
+                              Pods & VMs
                             </a>
                           </li>
                           <li
@@ -361,24 +363,16 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                               role="menuitem"
                               tabindex="-1"
                             >
-                              Pod
-                            </a>
-                          </li>
-                          <li
-                            class=""
-                            role="presentation"
-                          >
-                            <a
-                              href="#"
-                              role="menuitem"
-                              tabindex="-1"
-                            >
-                              VirtualMachine
+                              Nodes
                             </a>
                           </li>
                         </ul>
                       </div>
                     </div>
+                  </div>
+                  <div
+                    class="kubevirt-consumers__dropdown-sort-filter col-lg-6 col-md-6 col-sm-6 col-xs-6"
+                  >
                     <div
                       class="btn-group btn-group-justified"
                     >
@@ -393,7 +387,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                           role="button"
                           type="button"
                         >
-                          CPU 
+                          By CPU 
                           <span
                             class="caret"
                           />
@@ -412,7 +406,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                               role="menuitem"
                               tabindex="-1"
                             >
-                              CPU
+                              By CPU
                             </a>
                           </li>
                           <li
@@ -424,7 +418,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                               role="menuitem"
                               tabindex="-1"
                             >
-                              Memory
+                              By Memory
                             </a>
                           </li>
                           <li
@@ -436,7 +430,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                               role="menuitem"
                               tabindex="-1"
                             >
-                              Network
+                              By Storage
                             </a>
                           </li>
                           <li
@@ -448,176 +442,249 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                               role="menuitem"
                               tabindex="-1"
                             >
-                              Storage
+                              By Network
                             </a>
                           </li>
                         </ul>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div
+                  class="kubevirt-consumers__results"
+                >
                   <div
-                    class="progress-container progress-description-left kubevirt-consumers__bar utilization-bar-pf"
+                    class="kubevirt-consumers__description row"
                   >
                     <div
-                      class="progress-bar"
+                      class="kubevirt-consumers__metric-type col-lg-4 col-md-4 col-sm-4 col-xs-4"
                     >
-                      <div
-                        class="progress-description label-text"
-                      >
-                        VM3
-                      </div>
+                      Workloads
                     </div>
                     <div
-                      class="progress"
+                      class="kubevirt-consumers__metric-description col-lg-8 col-md-8 col-sm-8 col-xs-8"
                     >
-                      <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="100"
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width:100%"
-                      />
-                      <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="0"
-                        class="progress-bar progress-bar-remaining"
-                        role="progressbar"
-                        style="width:0%"
-                      />
+                      CPU Time
                     </div>
                   </div>
                   <div
-                    class="progress-container progress-description-left kubevirt-consumers__bar utilization-bar-pf"
+                    class="kubevirt-consumers__bar row"
                   >
                     <div
-                      class="progress-bar"
+                      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                     >
                       <div
-                        class="progress-description label-text"
+                        class="kubevirt-consumers__bar-description"
                       >
-                        Pod1
+                        key4
                       </div>
                     </div>
                     <div
-                      class="progress"
+                      class="kubevirt-consumers__bar-column-progress col-lg-5 col-md-5 col-sm-5 col-xs-5"
                     >
                       <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="80"
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width:80%"
-                      />
-                      <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="20"
-                        class="progress-bar progress-bar-remaining"
-                        role="progressbar"
-                        style="width:20%"
-                      />
+                        class="progress kubevirt-consumers__bar-progress"
+                      >
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="100"
+                          class="progress-bar"
+                          role="progressbar"
+                          style="width:100%"
+                        />
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="0"
+                          class="progress-bar progress-bar-remaining"
+                          role="progressbar"
+                          style="width:0%"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    >
+                      <span>
+                        55
+                      </span>
                     </div>
                   </div>
                   <div
-                    class="progress-container progress-description-left kubevirt-consumers__bar utilization-bar-pf"
+                    class="kubevirt-consumers__bar row"
                   >
                     <div
-                      class="progress-bar"
+                      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                     >
                       <div
-                        class="progress-description label-text"
+                        class="kubevirt-consumers__bar-description"
                       >
-                        Pod3
+                        key5
                       </div>
                     </div>
                     <div
-                      class="progress"
+                      class="kubevirt-consumers__bar-column-progress col-lg-5 col-md-5 col-sm-5 col-xs-5"
                     >
                       <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="70"
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width:70%"
-                      />
-                      <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="30"
-                        class="progress-bar progress-bar-remaining"
-                        role="progressbar"
-                        style="width:30%"
-                      />
+                        class="progress kubevirt-consumers__bar-progress"
+                      >
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="82"
+                          class="progress-bar"
+                          role="progressbar"
+                          style="width:82%"
+                        />
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="18"
+                          class="progress-bar progress-bar-remaining"
+                          role="progressbar"
+                          style="width:18%"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    >
+                      <span>
+                        45
+                      </span>
                     </div>
                   </div>
                   <div
-                    class="progress-container progress-description-left kubevirt-consumers__bar utilization-bar-pf"
+                    class="kubevirt-consumers__bar row"
                   >
                     <div
-                      class="progress-bar"
+                      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                     >
                       <div
-                        class="progress-description label-text"
+                        class="kubevirt-consumers__bar-description"
                       >
-                        Pod2
+                        key3
                       </div>
                     </div>
                     <div
-                      class="progress"
+                      class="kubevirt-consumers__bar-column-progress col-lg-5 col-md-5 col-sm-5 col-xs-5"
                     >
                       <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="40"
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width:40%"
-                      />
-                      <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="60"
-                        class="progress-bar progress-bar-remaining"
-                        role="progressbar"
-                        style="width:60%"
-                      />
+                        class="progress kubevirt-consumers__bar-progress"
+                      >
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="64"
+                          class="progress-bar"
+                          role="progressbar"
+                          style="width:64%"
+                        />
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="36"
+                          class="progress-bar progress-bar-remaining"
+                          role="progressbar"
+                          style="width:36%"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    >
+                      <span>
+                        35
+                      </span>
                     </div>
                   </div>
                   <div
-                    class="progress-container progress-description-left kubevirt-consumers__bar utilization-bar-pf"
+                    class="kubevirt-consumers__bar row"
                   >
                     <div
-                      class="progress-bar"
+                      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                     >
                       <div
-                        class="progress-description label-text"
+                        class="kubevirt-consumers__bar-description"
                       >
-                        VM1
+                        key2
                       </div>
                     </div>
                     <div
-                      class="progress"
+                      class="kubevirt-consumers__bar-column-progress col-lg-5 col-md-5 col-sm-5 col-xs-5"
                     >
                       <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="20"
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width:20%"
-                      />
+                        class="progress kubevirt-consumers__bar-progress"
+                      >
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="45"
+                          class="progress-bar"
+                          role="progressbar"
+                          style="width:45%"
+                        />
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="55"
+                          class="progress-bar progress-bar-remaining"
+                          role="progressbar"
+                          style="width:55%"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    >
+                      <span>
+                        25
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="kubevirt-consumers__bar row"
+                  >
+                    <div
+                      class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    >
                       <div
-                        aria-valuemax="100"
-                        aria-valuemin="0"
-                        aria-valuenow="80"
-                        class="progress-bar progress-bar-remaining"
-                        role="progressbar"
-                        style="width:80%"
-                      />
+                        class="kubevirt-consumers__bar-description"
+                      >
+                        key1
+                      </div>
+                    </div>
+                    <div
+                      class="kubevirt-consumers__bar-column-progress col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                    >
+                      <div
+                        class="progress kubevirt-consumers__bar-progress"
+                      >
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="27"
+                          class="progress-bar"
+                          role="progressbar"
+                          style="width:27%"
+                        />
+                        <div
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="73"
+                          class="progress-bar progress-bar-remaining"
+                          role="progressbar"
+                          style="width:73%"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    >
+                      <span>
+                        15
+                      </span>
                     </div>
                   </div>
                 </div>

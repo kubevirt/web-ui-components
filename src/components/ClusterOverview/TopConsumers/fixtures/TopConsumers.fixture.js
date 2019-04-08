@@ -1,133 +1,88 @@
 import { TopConsumers } from '../TopConsumers';
-import { PodModel, VirtualMachineModel } from '../../../../models';
+
+const getResults = key => [
+  {
+    metric: {
+      [key]: 'key1',
+    },
+    value: [0, 15],
+  },
+  {
+    metric: {
+      [key]: 'key2',
+    },
+    value: [0, 25],
+  },
+  {
+    metric: {
+      [key]: 'key3',
+    },
+    value: [0, 35],
+  },
+  {
+    metric: {
+      [key]: 'key4',
+    },
+    value: [0, 55],
+  },
+  {
+    metric: {
+      [key]: 'key5',
+    },
+    value: [0, 45],
+  },
+];
 
 export const consumersData = {
-  metrics: {
-    cpu: {
-      title: 'CPU',
-      consumers: [
-        {
-          kind: PodModel.kind,
-          name: 'Pod1',
-          usage: '80',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod2',
-          usage: '40',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod3',
-          usage: '70',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM1',
-          usage: '20',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM3',
-          usage: '100',
-        },
-      ],
-    },
-    memory: {
-      title: 'Memory',
-      consumers: [
-        {
-          kind: PodModel.kind,
-          name: 'Pod1',
-          usage: '80',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod2',
-          usage: '40',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod3',
-          usage: '70',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM1',
-          usage: '20',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM3',
-          usage: '100',
-        },
-      ],
-    },
-    network: {
-      title: 'Network',
-      consumers: [
-        {
-          kind: PodModel.kind,
-          name: 'Pod1',
-          usage: '80',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod2',
-          usage: '40',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod3',
-          usage: '70',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM1',
-          usage: '20',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM3',
-          usage: '100',
-        },
-      ],
-    },
-    storage: {
-      title: 'Storage',
-      consumers: [
-        {
-          kind: PodModel.kind,
-          name: 'Pod1',
-          usage: '80',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod2',
-          usage: '40',
-        },
-        {
-          kind: PodModel.kind,
-          name: 'Pod3',
-          usage: '70',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM1',
-          usage: '20',
-        },
-        {
-          kind: VirtualMachineModel.kind,
-          name: 'VM3',
-          usage: '100',
-        },
-      ],
+  workloadCpuResults: {
+    data: {
+      result: getResults('pod_name'),
     },
   },
-  loaded: true,
+  workloadMemoryResults: {
+    data: {
+      result: getResults('pod_name'),
+    },
+  },
+  workloadStorageResults: {
+    data: {
+      result: getResults('pod_name'),
+    },
+  },
+  workloadNetworkResults: {
+    data: {
+      result: getResults('pod_name'),
+    },
+  },
+  infraCpuResults: {
+    data: {
+      result: getResults('node'),
+    },
+  },
+  infraMemoryResults: {
+    data: {
+      result: getResults('node'),
+    },
+  },
+  infraStorageResults: {
+    data: {
+      result: getResults('node'),
+    },
+  },
+  infraNetworkResults: {
+    data: {
+      result: getResults('node'),
+    },
+  },
 };
 
-export default {
-  component: TopConsumers,
-  props: { ...consumersData },
-};
+export default [
+  {
+    component: TopConsumers,
+    props: { ...consumersData },
+  },
+  {
+    component: TopConsumers,
+    name: 'Loading top consumers',
+  },
+];

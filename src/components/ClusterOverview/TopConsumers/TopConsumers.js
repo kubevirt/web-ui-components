@@ -1,11 +1,10 @@
 import React from 'react';
-import { UtilizationBar } from 'patternfly-react';
-
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
+import { Col } from 'patternfly-react';
 
 import { getFormElement } from '../../Form';
 import { DROPDOWN } from '../../Form/constants';
-import { PodModel, VirtualMachineModel } from '../../../models';
 import {
   DashboardCard,
   DashboardCardBody,
@@ -13,88 +12,159 @@ import {
   DashboardCardTitle,
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
-import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
+import { ClusterOverviewContext } from '../ClusterOverviewContext';
+import { InlineLoading } from '../../Loading';
+import { ConsumerItem } from '../../Dashboard/TopConsumers/ConsumerItem';
+import { ConsumersResults } from '../../Dashboard/TopConsumers/ConsumersResults';
+import {
+  BY_CPU,
+  BY_NETWORK,
+  BY_STORAGE,
+  BY_MEMORY,
+  PODS_AND_VMS,
+  INFRASTRUCTURE,
+  NODES,
+  WORKLOADS,
+  CPU_DESC,
+  MEMORY_DESC,
+  STORAGE_DESC,
+  NETWORK_DESC,
+} from './strings';
+import { ConsumersFilter } from '../../Dashboard/TopConsumers/ConsumersFilter';
+import { formatCpu, getMetric, formatBytesWithUnits } from './utils';
+import { getMetricConsumers } from '../../Dashboard/TopConsumers/utils';
 
-const sortConsumers = (metrics, filter, sortBy) => {
-  const metricKey = Object.keys(metrics).find(key => metrics[key].title === sortBy);
-  const filteredConsumers =
-    filter !== 'All' ? metrics[metricKey].consumers.filter(c => c.kind === filter) : metrics[metricKey].consumers;
-  const max = Math.max(...filteredConsumers.map(c => c.usage));
-  return filteredConsumers
-    .map(c => ({
-      now: Math.round((100 * c.usage) / max),
-      description: c.name,
-    }))
-    .sort((a, b) => b.now - a.now);
-};
+const metricTypes = [{ name: PODS_AND_VMS, description: WORKLOADS }, { name: NODES, description: INFRASTRUCTURE }];
 
-class TopConsumersBody extends React.PureComponent {
+const sortBy = [
+  { name: BY_CPU, description: CPU_DESC },
+  { name: BY_MEMORY, description: MEMORY_DESC },
+  { name: BY_STORAGE, description: STORAGE_DESC },
+  { name: BY_NETWORK, description: NETWORK_DESC },
+];
+
+export class TopConsumers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: 'All',
-      sortBy: 'CPU',
+      type: metricTypes[0],
+      sortBy: sortBy[0],
     };
   }
 
-  onDropdownChange = (key, newValue) => this.setState({ [key]: newValue });
+  getCurrentMetric = () => {
+    switch (this.state.type.name) {
+      case PODS_AND_VMS:
+        switch (this.state.sortBy.name) {
+          case BY_CPU:
+            return getMetric(this.props.workloadCpuResults, 'pod_name', formatCpu);
+          case BY_MEMORY:
+            return getMetric(this.props.workloadMemoryResults, 'pod_name', formatBytesWithUnits);
+          case BY_STORAGE:
+            return getMetric(this.props.workloadStorageResults, 'pod_name', formatBytesWithUnits);
+          case BY_NETWORK:
+            return getMetric(this.props.workloadNetworkResults, 'pod_name');
+          default:
+            // eslint-disable-next-line no-console
+            console.log(`Unknown metric ${this.state.sortBy.name}`);
+            return null;
+        }
+      case NODES:
+        switch (this.state.sortBy.name) {
+          case BY_CPU:
+            return getMetric(this.props.infraCpuResults, 'node', cpu => formatCpu(cpu, 1));
+          case BY_MEMORY:
+            return getMetric(this.props.infraMemoryResults, 'node', formatBytesWithUnits);
+          case BY_STORAGE:
+            return getMetric(this.props.infraStorageResults, 'node', formatBytesWithUnits);
+          case BY_NETWORK:
+            return getMetric(this.props.infraNetworkResults, 'node');
+          default:
+            // eslint-disable-next-line no-console
+            console.log(`Unknown metric ${this.state.sortBy.name}`);
+            return null;
+        }
+      default:
+        // eslint-disable-next-line no-console
+        console.log(`Unknown metric type ${this.state.type.name}`);
+        return null;
+    }
+  };
 
   render() {
+    const typeDropdown = {
+      id: 'type-dropdown',
+      type: DROPDOWN,
+      choices: metricTypes,
+      onChange: newValue => this.setState({ type: newValue }),
+      value: this.state.type,
+    };
     const sortByDropdown = {
       id: 'sort-by-dropdown',
       type: DROPDOWN,
-      choices: ['CPU', 'Memory', 'Network', 'Storage'],
-      onChange: newValue => this.onDropdownChange('sortBy', newValue),
+      choices: sortBy,
+      onChange: newValue => this.setState({ sortBy: newValue }),
       value: this.state.sortBy,
     };
-    const filterDropdown = {
-      id: 'filter-dropdown',
-      type: DROPDOWN,
-      choices: ['All', PodModel.kind, VirtualMachineModel.kind],
-      onChange: newValue => this.onDropdownChange('filter', newValue),
-      value: this.state.filter,
-    };
+
+    const metric = this.getCurrentMetric();
+
     return (
-      <div>
-        <div className="kubevirt-consumers__filters">
-          {getFormElement(filterDropdown)}
-          {getFormElement(sortByDropdown)}
-        </div>
-        {sortConsumers(this.props.metrics, this.state.filter, this.state.sortBy).map((c, index) => (
-          <UtilizationBar key={index} {...c} className="kubevirt-consumers__bar" />
-        ))}
-      </div>
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Top Consumers</DashboardCardTitle>
+          <DashboardCardTitleHelp>
+            Consumption bar is relative to biggest consumer which is always 100%
+          </DashboardCardTitleHelp>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <ConsumersFilter>
+            <Col lg={6} md={6} sm={6} xs={6} className="kubevirt-consumers__dropdown-type-filter">
+              {getFormElement(typeDropdown)}
+            </Col>
+            <Col lg={6} md={6} sm={6} xs={6} className="kubevirt-consumers__dropdown-sort-filter">
+              {getFormElement(sortByDropdown)}
+            </Col>
+          </ConsumersFilter>
+          <ConsumersResults
+            isLoading={get(metric, 'isLoading')}
+            LoadingComponent={this.props.LoadingComponent}
+            type={this.state.type.description}
+            description={this.state.sortBy.description}
+          >
+            {get(metric, 'consumers') &&
+              getMetricConsumers(metric).map((c, index) => <ConsumerItem key={index} {...c} />)}
+          </ConsumersResults>
+        </DashboardCardBody>
+      </DashboardCard>
     );
   }
 }
 
-TopConsumersBody.propTypes = {
-  metrics: PropTypes.object.isRequired,
-};
-
-export const TopConsumers = ({ metrics, loaded }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Top Consumers</DashboardCardTitle>
-      <DashboardCardTitleHelp>help for top consumers</DashboardCardTitleHelp>
-    </DashboardCardHeader>
-    <DashboardCardBody isLoading={!loaded}>
-      <TopConsumersBody metrics={metrics} />
-    </DashboardCardBody>
-  </DashboardCard>
-);
-
 TopConsumers.defaultProps = {
-  loaded: false,
+  workloadCpuResults: null,
+  workloadMemoryResults: null,
+  workloadStorageResults: null,
+  workloadNetworkResults: null,
+  infraCpuResults: null,
+  infraMemoryResults: null,
+  infraStorageResults: null,
+  infraNetworkResults: null,
+  LoadingComponent: InlineLoading,
 };
 
 TopConsumers.propTypes = {
-  metrics: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  infraCpuResults: PropTypes.object,
+  infraMemoryResults: PropTypes.object,
+  infraStorageResults: PropTypes.object,
+  infraNetworkResults: PropTypes.object,
+  workloadCpuResults: PropTypes.object,
+  workloadMemoryResults: PropTypes.object,
+  workloadStorageResults: PropTypes.object,
+  workloadNetworkResults: PropTypes.object,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const TopConsumersConnected = () => (
-  <ClusterOverviewContextGenericConsumer Component={TopConsumers} dataPath="consumersData" />
+export const TopConsumersConnected = () => (
+  <ClusterOverviewContext.Consumer>{props => <TopConsumers {...props} />}</ClusterOverviewContext.Consumer>
 );
-
-export default TopConsumersConnected;
