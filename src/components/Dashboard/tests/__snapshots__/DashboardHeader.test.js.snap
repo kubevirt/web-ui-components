@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<DashboardHeader /> renders correctly 1`] = `
-<div>
-  <h1>
-    content
-  </h1>
-</div>
-`;

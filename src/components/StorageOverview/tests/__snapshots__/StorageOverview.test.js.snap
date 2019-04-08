@@ -2,11 +2,6 @@
 
 exports[`<StorageOverview /> renders correctly with Provider 1`] = `
 <div>
-  <div>
-    <h1>
-      Storage Overview
-    </h1>
-  </div>
   <div
     class="kubevirt-dashboard__body"
   >
@@ -198,9 +193,6 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
 
 exports[`<StorageOverview /> shallow-renders correctly 1`] = `
 <Dashboard>
-  <DashboardHeader>
-    Storage Overview
-  </DashboardHeader>
   <DashboardBody
     className={null}
   >

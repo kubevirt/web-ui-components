@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 
 import { Grid, GridItem } from '@patternfly/react-core';
 
-import { Dashboard, DashboardBody, DashboardHeader } from '../Dashboard';
+import { Dashboard, DashboardBody } from '../Dashboard';
 import { MEDIA_QUERY_EXCLUSIVE_DEVIATION, MEDIA_QUERY_LG } from '../../utils';
 
 import { DetailsConnected } from './Details/Details';
@@ -62,7 +62,6 @@ const RightCards = () => (
 
 export const ClusterOverview = () => (
   <Dashboard>
-    <DashboardHeader>Cluster Dashboard</DashboardHeader>
     <DashboardBody>
       <Grid>
         <MediaQuery key="main-medium" maxWidth={MEDIA_QUERY_LG - MEDIA_QUERY_EXCLUSIVE_DEVIATION}>
