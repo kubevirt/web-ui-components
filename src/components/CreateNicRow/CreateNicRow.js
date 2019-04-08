@@ -58,7 +58,6 @@ const getNetworkChoices = (vm, networks) => {
   const networkChoices = networks
     .filter(
       network =>
-        network.metadata.namespace === vm.metadata.namespace &&
         !usedNetworks
           .filter(usedNetwork => usedNetwork.networkType === NETWORK_TYPE_MULTUS)
           .find(usedNetwork => usedNetwork.name === getName(network))

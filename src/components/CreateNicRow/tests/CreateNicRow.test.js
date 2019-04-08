@@ -34,7 +34,7 @@ describe('<CreateNicRow />', () => {
       vm: cloudInitTestVm,
     };
 
-    const component = mount(testCreateNicRow(networkConfigs, nic));
+    const component = mount(testCreateNicRow([networkConfigs[0]], nic));
     expect(getNetworkConfigs(component)).toHaveLength(1);
     expect(
       getNetworkConfigs(component)
