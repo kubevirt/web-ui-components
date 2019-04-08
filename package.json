@@ -47,6 +47,7 @@
     "lodash": "4.x",
     "react-dnd": "2.6.x",
     "react-dnd-html5-backend": "5.0.x",
+    "react-measure": "2.x",
     "react-responsive": "6.1.x",
     "reactabular-dnd": "8.16.x"
   },
