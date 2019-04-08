@@ -14,24 +14,38 @@ import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
 import { getCapacityStats, getUtilizationVectorStats } from '../../../selectors';
 import { formatBytes } from '../../../utils';
 
-export const Utilization = ({ cpuUtilization, memoryUtilization, memoryTotal, LoadingComponent }) => {
-  const cpuStats = getUtilizationVectorStats(cpuUtilization);
+const getMemoryData = (memoryUtilization, memoryTotal) => {
+  let memoryStats;
+  let maxValueConverted;
 
-  let memoryStats = null;
-  let memoryTotalConverted;
-  let memoryMax = 0;
-  let maxConverted;
   const memoryStatsRaw = getUtilizationVectorStats(memoryUtilization);
   if (memoryStatsRaw) {
-    memoryMax = Math.max(0, ...memoryStatsRaw);
-    maxConverted = formatBytes(memoryMax);
-    memoryStats = memoryStatsRaw.map(bytes => formatBytes(bytes, maxConverted.unit, 1).value);
-    memoryTotalConverted = memoryTotal
-      ? formatBytes(getCapacityStats(memoryTotal), maxConverted.unit, 1).value
-      : undefined;
+    const maxValue = Math.min(Math.max(...memoryStatsRaw) * 2, getCapacityStats(memoryTotal));
+    maxValueConverted = formatBytes(maxValue, undefined, 1);
+    memoryStats = memoryStatsRaw.map(bytes => formatBytes(bytes, maxValueConverted.unit, 1).value);
   } else {
-    maxConverted = formatBytes(memoryMax); // B
+    maxValueConverted = formatBytes(0); // 0 B
+    memoryStats = null;
   }
+
+  return {
+    unit: maxValueConverted.unit,
+    values: memoryStats,
+    maxValue: maxValueConverted.value,
+  };
+};
+
+export const Utilization = ({
+  cpuUtilization,
+  memoryUtilization,
+  memoryTotal,
+  storageTotal,
+  storageUsed,
+  LoadingComponent,
+}) => {
+  const cpuStats = getUtilizationVectorStats(cpuUtilization);
+  const memoryData = getMemoryData(memoryUtilization, memoryTotal);
+  const storageUsageData = getMemoryData(storageUsed, storageTotal);
 
   return (
     <DashboardCard>
@@ -50,13 +64,22 @@ export const Utilization = ({ cpuUtilization, memoryUtilization, memoryTotal, Lo
             isLoading={!cpuUtilization}
           />
           <UtilizationItem
-            unit={maxConverted.unit}
+            unit={memoryData.unit}
             id="memory"
             title="Memory"
-            data={memoryStats}
-            maxY={memoryTotalConverted}
+            data={memoryData.values}
+            maxY={memoryData.maxValue}
             LoadingComponent={LoadingComponent}
-            isLoading={!memoryUtilization}
+            isLoading={!(memoryUtilization && memoryTotal)}
+          />
+          <UtilizationItem
+            unit={storageUsageData.unit}
+            id="diskUsage"
+            title="Disk Usage"
+            data={storageUsageData.values}
+            maxY={storageUsageData.maxValue}
+            LoadingComponent={LoadingComponent}
+            isLoading={!(storageUsed && storageTotal)}
           />
         </UtilizationBody>
       </DashboardCardBody>
@@ -68,6 +91,8 @@ Utilization.defaultProps = {
   cpuUtilization: null,
   memoryUtilization: null,
   memoryTotal: null,
+  storageTotal: null,
+  storageUsed: null,
   LoadingComponent: InlineLoading,
 };
 
@@ -75,6 +100,8 @@ Utilization.propTypes = {
   cpuUtilization: PropTypes.object,
   memoryUtilization: PropTypes.object,
   memoryTotal: PropTypes.object,
+  storageTotal: PropTypes.object,
+  storageUsed: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 

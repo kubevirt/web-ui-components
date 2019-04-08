@@ -77,6 +77,35 @@ exports[`<Utilization /> renders correctly 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="kubevirt-utilization__item-narrow"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            Disk Usage
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            5 KB
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-chart"
+          >
+            <div
+              class=" chart-pf-sparkline"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -140,6 +169,35 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
             class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             Memory
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          />
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-chart"
+          >
+            <div>
+              <div
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="kubevirt-utilization__item-narrow"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            Disk Usage
           </div>
           <div
             class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"

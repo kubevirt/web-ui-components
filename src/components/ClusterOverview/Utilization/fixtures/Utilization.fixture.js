@@ -37,6 +37,30 @@ export const utilizationStats = {
       ],
     },
   },
+  storageTotal: {
+    data: {
+      result: [
+        {
+          value: [0, 10 * KiB],
+        },
+      ],
+    },
+  },
+  storageUsed: {
+    data: {
+      result: [
+        {
+          values: [
+            [time0, 1 * KiB],
+            [time0 + 10, 3 * KiB],
+            [time0 + 20, 4 * KiB],
+            [time0 + 30, 8 * KiB],
+            [time0 + 40, 5 * KiB],
+          ],
+        },
+      ],
+    },
+  },
 };
 
 export default {
