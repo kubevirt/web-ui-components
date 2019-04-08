@@ -33,6 +33,7 @@ export class UtilizationItem extends React.PureComponent {
         },
         tick: {
           count: 3,
+          format: v => `${v} ${unit}`,
         },
       },
       x: {
