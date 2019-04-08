@@ -366,26 +366,29 @@ const addNetworks = (vm, template, getSetting, networks) => {
 };
 
 const addCloudInit = (vm, defaultDisk, getSetting) => {
-  if (getSetting(USE_CLOUD_INIT_KEY)) {
-    const existingCloudInitVolume = getCloudInitVolume(vm);
-    const cloudInit = new CloudInit({
-      volume: existingCloudInitVolume,
+  vm.spec.template.spec.hostname = getSetting(HOST_NAME_KEY) || getSetting(NAME_KEY);
+  if (!getSetting(USE_CLOUD_INIT_KEY)) {
+    return;
+  }
+
+  const existingCloudInitVolume = getCloudInitVolume(vm);
+  const cloudInit = new CloudInit({
+    volume: existingCloudInitVolume,
+  });
+
+  if (getSetting(USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY)) {
+    cloudInit.setUserData(getSetting(CLOUD_INIT_CUSTOM_SCRIPT_KEY));
+  } else {
+    cloudInit.setPredefinedUserData({
+      hostname: getSetting(HOST_NAME_KEY),
+      sshAuthorizedKeys: getSetting(AUTHKEYS_KEY),
     });
+  }
 
-    if (getSetting(USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY)) {
-      cloudInit.setUserData(getSetting(CLOUD_INIT_CUSTOM_SCRIPT_KEY));
-    } else {
-      cloudInit.setPredefinedUserData({
-        hostname: getSetting(HOST_NAME_KEY),
-        sshAuthorizedKeys: getSetting(AUTHKEYS_KEY),
-      });
-    }
-
-    const { volume, disk } = cloudInit.build();
-    if (volume !== existingCloudInitVolume) {
-      addDisk(vm, defaultDisk, disk, getSetting);
-      addVolume(vm, volume);
-    }
+  const { volume, disk } = cloudInit.build();
+  if (volume !== existingCloudInitVolume) {
+    addDisk(vm, defaultDisk, disk, getSetting);
+    addVolume(vm, volume);
   }
 };
 
