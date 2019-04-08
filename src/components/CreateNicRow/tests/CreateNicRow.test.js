@@ -9,7 +9,7 @@ import { Dropdown } from '../../Form/Dropdown';
 import CreateNicRowFixture from '../fixtures/CreateNicRow.fixture';
 import { networkConfigs } from '../../../tests/mocks/networkAttachmentDefinition';
 import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
-import { getName, getNamespace } from '../../../selectors';
+import { getName } from '../../../selectors';
 import { Loading } from '../../Loading';
 import { POD_NETWORK } from '../../../constants';
 
@@ -34,11 +34,7 @@ describe('<CreateNicRow />', () => {
       vm: cloudInitTestVm,
     };
 
-    // Filter networkConfigs for nic's namespace (should be done in caller component),
-    // we assume networkConfigs include only currect namespaced networks.
-    const filteredNetworkConfig = networkConfigs.filter(network => getNamespace(network) === getNamespace(nic.vm));
-
-    const component = mount(testCreateNicRow(filteredNetworkConfig, nic));
+    const component = mount(testCreateNicRow([networkConfigs[0]], nic));
     expect(getNetworkConfigs(component)).toHaveLength(1);
     expect(
       getNetworkConfigs(component)
