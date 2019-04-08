@@ -10,12 +10,12 @@ import {
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
 import EventsBody from '../../Dashboard/Events/EventsBody';
-import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
+import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
 
 export const Events = ({ Component }) => (
   <DashboardCard>
     <DashboardCardHeader>
-      <DashboardCardTitle>Cluster Events</DashboardCardTitle>
+      <DashboardCardTitle>Events</DashboardCardTitle>
       <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
     </DashboardCardHeader>
     <DashboardCardBody>
@@ -33,6 +33,6 @@ Events.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const EventsConnected = () => <ClusterOverviewContextGenericConsumer Component={Events} dataPath="eventsData" />;
+const EventsConnected = () => <StorageOverviewContextGenericConsumer Component={Events} dataPath="eventsData" />;
 
 export default EventsConnected;

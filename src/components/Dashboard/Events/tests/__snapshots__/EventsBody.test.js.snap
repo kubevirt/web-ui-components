@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EventsBody /> renders correctly 1`] = `
+<div
+  class="kubevirt-events__body"
+  id="events-body"
+>
+  <div>
+    Requires component from tectonic
+  </div>
+</div>
+`;

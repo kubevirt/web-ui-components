@@ -226,6 +226,52 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="pf-l-grid__item pf-m-12-col-on-sm pf-m-12-col-on-md pf-m-3-col-on-lg"
+      >
+        <div
+          class="pf-l-grid"
+        >
+          <div
+            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+          >
+            <div
+              class="card-pf kubevirt-dashboard__card"
+            >
+              <div
+                class="card-pf-heading kubevirt-dashboard__card-heading"
+              >
+                <h2
+                  class="card-pf-title"
+                >
+                  Events
+                </h2>
+                <button
+                  class="btn btn-link"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-info-circle fa-2x"
+                  />
+                </button>
+              </div>
+              <div
+                class="card-pf-body"
+              >
+                <div
+                  class="kubevirt-events__body"
+                  id="events-body"
+                >
+                  <div>
+                    Requires component from tectonic
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -260,6 +306,7 @@ exports[`<StorageOverview /> shallow-renders correctly 1`] = `
       >
         <MainCards />
       </MediaQuery>
+      <RightCards />
     </Grid>
   </DashboardBody>
 </Dashboard>
