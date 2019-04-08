@@ -30,6 +30,7 @@
 @import './components/ClusterOverview/health';
 @import './components/ClusterOverview/compliance';
 @import './components/CreateBaremetalHostDialog/create-baremetal-host-dialog';
+@import './components/StorageOverview/ocs-health';
 
 /*
   TODO: these styles should be backported to the corresponding PF-React package
