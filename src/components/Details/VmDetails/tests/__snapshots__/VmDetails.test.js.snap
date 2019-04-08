@@ -107,10 +107,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -304,10 +304,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -495,10 +495,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -700,10 +700,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -907,10 +907,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -1082,10 +1082,10 @@ exports[`<VmDetails /> renders correctly as overview 1`] = `
         class="kubevirt-vm-details__details-list"
       >
         <dt>
-          FQDN
+          Hostname
         </dt>
         <dd
-          id="my-namespace-my-vm-fqdn"
+          id="my-namespace-my-vm-hostname"
         >
           ---
         </dd>
@@ -1288,10 +1288,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -1483,10 +1483,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -1674,10 +1674,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -1863,10 +1863,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -2066,10 +2066,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>
@@ -2273,10 +2273,10 @@ Array [
           class="kubevirt-vm-details__details-list"
         >
           <dt>
-            FQDN
+            Hostname
           </dt>
           <dd
-            id="my-namespace-my-vm-fqdn"
+            id="my-namespace-my-vm-hostname"
           >
             ---
           </dd>

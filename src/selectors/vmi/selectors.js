@@ -9,6 +9,8 @@ export const getVmiIpAddresses = vmi =>
     .map(i => i.ipAddress)
     .filter(ip => ip && ip.trim().length > 0);
 
+export const getHostname = vmi => get(vmi, 'spec.hostname');
+
 export const isGuestAgentConnected = vmi =>
   get(vmi, 'status.conditions', []).some(
     condition => condition.type === 'AgentConnected' && condition.status === 'True'
