@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AlertItem /> renders correctly 1`] = `
+<div
+  className="kubevirt-alert__item"
+>
+  <Icon
+    className="kubevirt-alert__icon kubevirt-alert__icon--warning"
+    name="exclamation-triangle"
+    type="fa"
+  />
+  <div
+    className="kubevirt-alert__item-message"
+  >
+    20% of the metrics targets are down.
+  </div>
+</div>
+`;
