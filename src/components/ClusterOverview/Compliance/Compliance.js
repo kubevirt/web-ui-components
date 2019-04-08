@@ -11,16 +11,21 @@ import HealthBody from '../Health/HealthBody';
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
 
-export const Compliance = ({ data, loaded }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-compliance__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
-      <HealthBody data={data} />
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Compliance extends React.PureComponent {
+  render() {
+    const { data, loaded } = this.props;
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody className="kubevirt-compliance__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
+          <HealthBody data={data} />
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Compliance.defaultProps = {
   loaded: false,

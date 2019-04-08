@@ -14,55 +14,58 @@ import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
 import { getCapacityStats, getUtilizationVectorStats } from '../../../selectors';
 import { formatBytes } from '../../../utils';
 
-export const Utilization = ({ cpuUtilization, memoryUtilization, memoryTotal, LoadingComponent }) => {
-  const cpuStats = getUtilizationVectorStats(cpuUtilization);
+export class Utilization extends React.PureComponent {
+  render() {
+    const { cpuUtilization, memoryUtilization, memoryTotal, LoadingComponent } = this.props;
+    const cpuStats = getUtilizationVectorStats(cpuUtilization);
 
-  let memoryStats = null;
-  let memoryTotalConverted;
-  let memoryMax = 0;
-  let maxConverted;
-  const memoryStatsRaw = getUtilizationVectorStats(memoryUtilization);
-  if (memoryStatsRaw) {
-    memoryMax = Math.max(0, ...memoryStatsRaw);
-    maxConverted = formatBytes(memoryMax);
-    memoryStats = memoryStatsRaw.map(bytes => formatBytes(bytes, maxConverted.unit, 1).value);
-    memoryTotalConverted = memoryTotal
-      ? formatBytes(getCapacityStats(memoryTotal), maxConverted.unit, 1).value
-      : undefined;
-  } else {
-    maxConverted = formatBytes(memoryMax); // B
+    let memoryStats = null;
+    let memoryTotalConverted;
+    let memoryMax = 0;
+    let maxConverted;
+    const memoryStatsRaw = getUtilizationVectorStats(memoryUtilization);
+    if (memoryStatsRaw) {
+      memoryMax = Math.max(0, ...memoryStatsRaw);
+      maxConverted = formatBytes(memoryMax);
+      memoryStats = memoryStatsRaw.map(bytes => formatBytes(bytes, maxConverted.unit, 1).value);
+      memoryTotalConverted = memoryTotal
+        ? formatBytes(getCapacityStats(memoryTotal), maxConverted.unit, 1).value
+        : undefined;
+    } else {
+      maxConverted = formatBytes(memoryMax); // B
+    }
+
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Utilization</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <UtilizationBody>
+            <UtilizationItem
+              unit="%"
+              id="cpu"
+              title="CPU"
+              data={cpuStats}
+              maxY={100}
+              LoadingComponent={LoadingComponent}
+              isLoading={!cpuUtilization}
+            />
+            <UtilizationItem
+              unit={maxConverted.unit}
+              id="memory"
+              title="Memory"
+              data={memoryStats}
+              maxY={memoryTotalConverted}
+              LoadingComponent={LoadingComponent}
+              isLoading={!memoryUtilization}
+            />
+          </UtilizationBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
   }
-
-  return (
-    <DashboardCard>
-      <DashboardCardHeader>
-        <DashboardCardTitle>Cluster Utilization</DashboardCardTitle>
-      </DashboardCardHeader>
-      <DashboardCardBody>
-        <UtilizationBody>
-          <UtilizationItem
-            unit="%"
-            id="cpu"
-            title="CPU"
-            data={cpuStats}
-            maxY={100}
-            LoadingComponent={LoadingComponent}
-            isLoading={!cpuUtilization}
-          />
-          <UtilizationItem
-            unit={maxConverted.unit}
-            id="memory"
-            title="Memory"
-            data={memoryStats}
-            maxY={memoryTotalConverted}
-            LoadingComponent={LoadingComponent}
-            isLoading={!memoryUtilization}
-          />
-        </UtilizationBody>
-      </DashboardCardBody>
-    </DashboardCard>
-  );
-};
+}
 
 Utilization.defaultProps = {
   cpuUtilization: null,
@@ -79,5 +82,22 @@ Utilization.propTypes = {
 };
 
 export const UtilizationConnected = () => (
-  <ClusterOverviewContext.Consumer>{props => <Utilization {...props} />}</ClusterOverviewContext.Consumer>
+  <ClusterOverviewContext.Consumer>
+    {props => (
+      <Utilization
+        cpuUtilization={props.cpuUtilization}
+        LoadingComponent={props.LoadingComponent}
+        memoryUtilization={props.memoryUtilization}
+        memoryTotal={props.memoryTotal}
+      />
+    )}
+  </ClusterOverviewContext.Consumer>
 );
+
+UtilizationConnected.defaultProps = {
+  ...Utilization.defaultProps,
+};
+
+UtilizationConnected.propTypes = {
+  ...Utilization.propTypes,
+};

@@ -11,16 +11,21 @@ import HealthBody from './HealthBody';
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
 
-export const Health = ({ data, loaded }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Cluster Health</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-health__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
-      <HealthBody data={data} />
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Health extends React.PureComponent {
+  render() {
+    const { data, loaded } = this.props;
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Health</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody className="kubevirt-health__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
+          <HealthBody data={data} />
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Health.defaultProps = {
   loaded: false,

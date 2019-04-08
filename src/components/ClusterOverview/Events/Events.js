@@ -11,17 +11,23 @@ import {
 } from '../../Dashboard/DashboardCard';
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
-export const Events = ({ Component }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Cluster Events</DashboardCardTitle>
-      <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
-    </DashboardCardHeader>
-    <DashboardCardBody id="events-body" className="kubevirt-events__body">
-      <Component />
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Events extends React.PureComponent {
+  render() {
+    const { Component } = this.props;
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Events</DashboardCardTitle>
+          <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
+        </DashboardCardHeader>
+        <DashboardCardBody id="events-body" className="kubevirt-events__body">
+          <Component />
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
+
 Events.defaultProps = {
   Component: React.Fragment,
 };
