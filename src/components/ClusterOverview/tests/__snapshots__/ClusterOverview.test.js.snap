@@ -2,11 +2,6 @@
 
 exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
 <div>
-  <div>
-    <h1>
-      Cluster Dashboard
-    </h1>
-  </div>
   <div
     class="kubevirt-dashboard__body"
   >
@@ -633,9 +628,6 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
 
 exports[`<ClusterOverview /> shallow-renders correctly 1`] = `
 <Dashboard>
-  <DashboardHeader>
-    Cluster Dashboard
-  </DashboardHeader>
   <DashboardBody
     className={null}
   >

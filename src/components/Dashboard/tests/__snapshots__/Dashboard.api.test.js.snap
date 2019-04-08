@@ -3,13 +3,6 @@
 exports[`<Dashboard /> API renders correctly 1`] = `
 <Dashboard>
   <div>
-    <DashboardHeader>
-      <div>
-        <h1>
-          Dashboard
-        </h1>
-      </div>
-    </DashboardHeader>
     <DashboardBody
       className={null}
     >

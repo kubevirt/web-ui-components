@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 
 import { Grid, GridItem } from '@patternfly/react-core';
 
-import { Dashboard, DashboardBody, DashboardHeader } from '../Dashboard';
+import { Dashboard, DashboardBody } from '../Dashboard';
 import { MEDIA_QUERY_EXCLUSIVE_DEVIATION, MEDIA_QUERY_LG } from '../../utils';
 
 import { StorageDetailsConnected } from './Details/Details';
@@ -35,7 +35,6 @@ const LeftCards = () => (
 
 export const StorageOverview = () => (
   <Dashboard>
-    <DashboardHeader>Storage Overview</DashboardHeader>
     <DashboardBody>
       <Grid>
         <MediaQuery key="main-medium" maxWidth={MEDIA_QUERY_LG - MEDIA_QUERY_EXCLUSIVE_DEVIATION}>

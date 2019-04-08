@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 
 import Dashboard from '../Dashboard';
 import DashboardBody from '../DashboardBody';
-import DashboardHeader from '../DashboardHeader';
 import DashboardCard from '../DashboardCard/DashboardCard';
 import DashboardCardHeader from '../DashboardCard/DashboardCardHeader';
 import DashboardCardTitle from '../DashboardCard/DashboardCardTitle';
@@ -12,7 +11,6 @@ import DashboardCardBody from '../DashboardCard/DashboardCardBody';
 
 const testDashboard = () => (
   <Dashboard>
-    <DashboardHeader>Dashboard</DashboardHeader>
     <DashboardBody>
       <DashboardCard>
         <DashboardCardHeader>
