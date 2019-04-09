@@ -22,11 +22,11 @@ exports[`<Capacity /> renders correctly 1`] = `
       <div
         class="kubevirt-capacity__item"
       >
-        <h2
+        <h3
           class="kubevirt-capacity__item-title"
         >
           Total capacity
-        </h2>
+        </h3>
         <h6>
           <div>
             <div
@@ -67,11 +67,11 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
       <div
         class="kubevirt-capacity__item"
       >
-        <h2
+        <h3
           class="kubevirt-capacity__item-title"
         >
           Total capacity
-        </h2>
+        </h3>
         <h6>
           <div>
             <div

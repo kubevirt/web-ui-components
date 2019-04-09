@@ -4,11 +4,11 @@ exports[`<CapacityItem /> renders correctly 1`] = `
 <div
   className="kubevirt-capacity__item"
 >
-  <h2
+  <h3
     className="kubevirt-capacity__item-title"
   >
     title
-  </h2>
+  </h3>
   <h6>
     50 unit available out of 100 unit
   </h6>
@@ -82,11 +82,11 @@ exports[`<CapacityItem /> renders correctly 2`] = `
 <div
   className="kubevirt-capacity__item"
 >
-  <h2
+  <h3
     className="kubevirt-capacity__item-title"
   >
     title
-  </h2>
+  </h3>
   <h6>
     <InlineLoading
       size="md"
@@ -162,11 +162,11 @@ exports[`<CapacityItem /> renders correctly 3`] = `
 <div
   className="kubevirt-capacity__item"
 >
-  <h2
+  <h3
     className="kubevirt-capacity__item-title"
   >
     title
-  </h2>
+  </h3>
   <h6>
     Not available
   </h6>

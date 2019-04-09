@@ -84,15 +84,15 @@ export const getResource = (
 
 const BYTE_UNITS = {
   B: 0,
-  KB: 1,
-  MB: 2,
-  GB: 3,
-  TB: 4,
-  PB: 5,
+  KiB: 1,
+  MiB: 2,
+  GiB: 3,
+  TiB: 4,
+  PiB: 5,
 };
 
 export const formatBytes = (bytes, unit, fixed = 2) => {
-  unit = unit || Object.keys(BYTE_UNITS).find(key => bytes < 1024 ** (BYTE_UNITS[key] + 1)) || 'PB';
+  unit = unit || Object.keys(BYTE_UNITS).find(key => bytes < 1024 ** (BYTE_UNITS[key] + 1)) || 'PiB';
   return { value: Number((bytes / 1024 ** BYTE_UNITS[unit]).toFixed(fixed)), unit };
 };
 
