@@ -1,6 +1,6 @@
 import { getOperationalStatus, getProvisioningState } from '../../../selectors';
 
-import { HOST_STATUS_TO_TEXT } from './constants';
+import { HOST_STATUS_TO_TEXT, HOST_STATUS_READY } from './constants';
 
 export const getHostStatus = host => {
   // Returns a status string based on the available host information.
@@ -16,3 +16,5 @@ export const getHostStatus = host => {
 };
 
 export const getSimpleHostStatus = host => getHostStatus(host).status;
+
+export const canHostAddMachine = host => [HOST_STATUS_READY].includes(getSimpleHostStatus(host));
