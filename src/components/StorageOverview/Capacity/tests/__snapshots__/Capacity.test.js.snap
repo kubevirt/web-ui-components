@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Capacity /> renders correctly 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title"
+    >
+      Capacity
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div
+      class="kubevirt-capacity__items"
+    >
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Total capacity
+        </h2>
+        <h6>
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
+        </h6>
+        <div>
+          <div
+            class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Capacity /> renders correctly in Loading state 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title"
+    >
+      Capacity
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div
+      class="kubevirt-capacity__items"
+    >
+      <div
+        class="kubevirt-capacity__item"
+      >
+        <h2
+          class="kubevirt-capacity__item-title"
+        >
+          Total capacity
+        </h2>
+        <h6>
+          <div>
+            <div
+              class="spinner spinner-md blank-slate-pf-icon"
+            />
+          </div>
+        </h6>
+        <div>
+          <div
+            class=" donut-chart-pf"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -9,12 +9,16 @@ import { MEDIA_QUERY_EXCLUSIVE_DEVIATION, MEDIA_QUERY_LG } from '../../utils';
 import { StorageDetailsConnected } from './Details/Details';
 import { InventoryConnected } from './Inventory/Inventory';
 import OCSHealthConnected from './OCSHealth/Health';
+import { CapacityConnected } from './Capacity/Capacity';
 
 const MainCards = () => (
   <GridItem lg={6} md={12} sm={12}>
     <Grid>
       <GridItem span={12}>
         <OCSHealthConnected />
+      </GridItem>
+      <GridItem span={6}>
+        <CapacityConnected />
       </GridItem>
     </Grid>
   </GridItem>
