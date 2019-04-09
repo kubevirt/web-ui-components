@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { parseNumber } from '../../utils';
+import { parseNumber, formatBytes } from '../../utils';
 
 export const getConsumers = (results, nameLabel, formatLabel) => {
   const result = get(results, 'data.result');
@@ -27,4 +27,23 @@ export const getUtilizationVectorStats = response => {
 export const getLastUtilizationStat = response => {
   const history = getUtilizationVectorStats(response);
   return history ? history[history.length - 1] : null;
+};
+
+const formatTime = time => {
+  const d = new Date(time * 1000);
+  const t = `${d.getHours()}${d.getMinutes()}`;
+  return parseNumber(t);
+};
+
+export const getTopConsumerVectorStats = result => {
+  const unit = { ...formatBytes(result[0].values[0][1]) };
+
+  const yAxisData = result.map(r => [
+    r.metric.namespace,
+    ...r.values.map(array => formatBytes(array[1], unit.unit, 2).value),
+  ]);
+
+  const xAxisData = ['x', ...result[0].values.map(array => formatTime(array[0]))];
+
+  return [xAxisData, ...yAxisData];
 };

@@ -14,6 +14,8 @@ import { persistentVolumeClaims } from '../../../tests/mocks/persistentVolumeCla
 import { persistentVolumes } from '../../../tests/mocks/persistentVolume';
 import { osdDisksCount } from '../../../tests/mocks/disks';
 
+import { TopConsumerStats } from '../TopConsumers/fixtures/TopConsumers.fixture';
+
 export const nodes = [localhostNode];
 export const pvcs = persistentVolumeClaims;
 export const pvs = persistentVolumes;
@@ -38,6 +40,7 @@ export default [
       diskStats,
       eventsData,
       ...utilizationStats,
+      ...TopConsumerStats,
     },
   },
   {
