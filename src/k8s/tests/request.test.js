@@ -35,6 +35,8 @@ import {
   TEMPLATE_TYPE_LABEL,
   TEMPLATE_PARAM_VM_NAME_DESC,
   TEMPLATE_OS_NAME_ANNOTATION,
+  ANNOTATION_PXE_INTERFACE,
+  ANNOTATION_FIRST_BOOT,
 } from '../../constants';
 
 import {
@@ -135,8 +137,8 @@ const testPXE = (results, firstBoot = true) => {
   expect(vm.spec.template.spec.networks[1].name).toEqual(multusNetwork.name);
   expect(vm.spec.template.spec.networks[1].multus.networkName).toEqual(multusNetwork.network);
 
-  expect(vm.metadata.annotations['cnv.ui.pxeInterface']).toEqual(multusNetwork.name);
-  expect(vm.metadata.annotations['cnv.ui.firstBoot']).toEqual(`${firstBoot}`);
+  expect(vm.metadata.annotations[ANNOTATION_PXE_INTERFACE]).toEqual(multusNetwork.name);
+  expect(vm.metadata.annotations[ANNOTATION_FIRST_BOOT]).toEqual(`${firstBoot}`);
   return vm;
 };
 
@@ -231,8 +233,8 @@ describe('request.js - networks', () => {
       expect(vm.spec.template.spec.networks[0].name).toEqual(podNetwork.name);
       expect(vm.spec.template.spec.networks[0].pod).toEqual({});
 
-      expect(get(vm.metadata.annotations, 'cnv.ui.pxeInterface')).toBeUndefined();
-      expect(get(vm.metadata.annotations, 'cnv.ui.firstBoot')).toBeUndefined();
+      expect(get(vm.metadata.annotations, [ANNOTATION_PXE_INTERFACE])).toBeUndefined();
+      expect(get(vm.metadata.annotations, [ANNOTATION_FIRST_BOOT])).toBeUndefined();
       return results;
     }));
   it('default network model is used for all networks', () =>

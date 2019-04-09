@@ -65,11 +65,11 @@ export const vmFixtures = {
     metadata: {
       ...metadata,
       labels: {
-        'flavor.template.cnv.io/small': 'true',
-        'os.template.cnv.io/fedora29': 'true',
+        'flavor.template.kubevirt.io/small': 'true',
+        'os.template.kubevirt.io/fedora29': 'true',
         [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
         [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
-        'workload.template.cnv.io/generic': 'true',
+        'workload.template.kubevirt.io/generic': 'true',
       },
     },
     spec: {
@@ -94,11 +94,11 @@ export const vmFixtures = {
     metadata: {
       ...metadata,
       labels: {
-        'flavor.template.cnv.io/small': 'true',
-        'os.template.cnv.io/fedora29': 'true',
+        'flavor.template.kubevirt.io/small': 'true',
+        'os.template.kubevirt.io/fedora29': 'true',
         [LABEL_USED_TEMPLATE_NAME]: 'deleted-template',
         [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
-        'workload.template.cnv.io/generic': 'true',
+        'workload.template.kubevirt.io/generic': 'true',
       },
     },
     spec: {
@@ -123,7 +123,7 @@ export const vmFixtures = {
     metadata: {
       ...metadata,
       labels: {
-        'flavor.template.cnv.io/Custom': 'true',
+        'flavor.template.kubevirt.io/Custom': 'true',
       },
     },
     spec: {
@@ -149,7 +149,7 @@ export const vmFixtures = {
     metadata: {
       ...metadata,
       labels: {
-        'flavor.template.cnv.io/small': 'true',
+        'flavor.template.kubevirt.io/small': 'true',
       },
     },
     spec: { running: false },

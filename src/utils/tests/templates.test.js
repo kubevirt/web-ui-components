@@ -44,16 +44,19 @@ const templates = [...baseTemplates, ...userTemplates];
 
 describe('templates.js', () => {
   it('getTemplatesWithLabels returns templates with given label', () => {
-    expect(getTemplatesWithLabels(baseTemplates, ['os.template.cnv.io/fedora29'])).toEqual([fedora28]);
+    expect(getTemplatesWithLabels(baseTemplates, ['os.template.kubevirt.io/fedora29'])).toEqual([fedora28]);
     expect(getTemplatesWithLabels(templates, [])).toEqual(templates);
-    expect(getTemplatesWithLabels(baseTemplates, ['workload.template.cnv.io/generic'])).toEqual([
+    expect(getTemplatesWithLabels(baseTemplates, ['workload.template.kubevirt.io/generic'])).toEqual([
       fedora28,
       rhel75,
       ubuntu1804,
       windows,
     ]);
     expect(
-      getTemplatesWithLabels(baseTemplates, ['workload.template.cnv.io/generic', 'flavor.template.cnv.io/small'])
+      getTemplatesWithLabels(baseTemplates, [
+        'workload.template.kubevirt.io/generic',
+        'flavor.template.kubevirt.io/small',
+      ])
     ).toEqual([fedora28, rhel75, ubuntu1804]);
   });
   it('getTemplatesLabelValues returns values for given label', () => {

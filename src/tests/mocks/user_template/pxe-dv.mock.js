@@ -1,19 +1,24 @@
-import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../constants';
+import {
+  LABEL_USED_TEMPLATE_NAME,
+  LABEL_USED_TEMPLATE_NAMESPACE,
+  ANNOTATION_FIRST_BOOT,
+  ANNOTATION_PXE_INTERFACE,
+} from '../../../constants';
 
 export const pxeDataVolumeTemplate = {
   apiVersion: 'template.openshift.io/v1',
   kind: 'Template',
   metadata: {
     labels: {
-      'flavor.template.cnv.io/small': 'true',
-      'os.template.cnv.io/fedora29': 'true',
-      'template.cnv.io/type': 'vm',
+      'flavor.template.kubevirt.io/small': 'true',
+      'os.template.kubevirt.io/fedora29': 'true',
+      'template.kubevirt.io/type': 'vm',
       [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
       [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
-      'workload.template.cnv.io/generic': 'true',
+      'workload.template.kubevirt.io/generic': 'true',
     },
     annotations: {
-      'name.os.template.cnv.io/fedora29': 'Fedora 29',
+      'name.os.template.kubevirt.io/fedora29': 'Fedora 29',
     },
     name: 'pxe-template-dv',
     namespace: 'myproject',
@@ -24,8 +29,8 @@ export const pxeDataVolumeTemplate = {
       kind: 'VirtualMachine',
       metadata: {
         annotations: {
-          'cnv.ui.firstBoot': 'true',
-          'cnv.ui.pxeInterface': 'eth1',
+          [ANNOTATION_FIRST_BOOT]: 'true',
+          [ANNOTATION_PXE_INTERFACE]: 'eth1',
         },
         // eslint-disable-next-line no-template-curly-in-string
         name: '${NAME}',

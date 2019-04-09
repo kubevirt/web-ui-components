@@ -6,15 +6,15 @@ export const urlNoNetworkTemplate = {
   kind: 'Template',
   metadata: {
     labels: {
-      'flavor.template.cnv.io/small': 'true',
-      'os.template.cnv.io/fedora29': 'true',
-      'template.cnv.io/type': 'vm',
+      'flavor.template.kubevirt.io/small': 'true',
+      'os.template.kubevirt.io/fedora29': 'true',
+      'template.kubevirt.io/type': 'vm',
       [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
       [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
-      'workload.template.cnv.io/generic': 'true',
+      'workload.template.kubevirt.io/generic': 'true',
     },
     annotations: {
-      'name.os.template.cnv.io/fedora29': 'Fedora 29',
+      'name.os.template.kubevirt.io/fedora29': 'Fedora 29',
     },
     name: 'url-template-nonetwork',
     namespace: 'myproject',

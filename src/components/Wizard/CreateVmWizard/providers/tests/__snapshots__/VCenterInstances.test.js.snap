@@ -70,11 +70,11 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
             "selector": Object {
               "matchExpressions": Array [
                 Object {
-                  "key": "cnv.io/vcenter",
+                  "key": "kubevirt.io/vcenter",
                   "operator": "Exists",
                 },
                 Object {
-                  "key": "cnv.io/temporary",
+                  "key": "kubevirt.io/temporary",
                   "operator": "DoesNotExist",
                 },
               ],
