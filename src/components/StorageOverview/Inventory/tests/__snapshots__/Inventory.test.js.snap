@@ -54,6 +54,46 @@ exports[`<Inventory /> renders correctly 1`] = `
     </div>
     <div
       class="kubevirt-inventory__row"
+      id="inventory-disks"
+    >
+      <div
+        class="kubevirt-inventory__row-title"
+      >
+        7 Disks
+      </div>
+      <div
+        class="kubevirt-inventory__row-status"
+      >
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-exclamation-circle fa-2x kubevirt-inventory__row-status-item-icon--error"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            2
+          </span>
+        </div>
+        <div
+          class="kubevirt-inventory__row-status-item"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+          />
+          <span
+            class="kubevirt-inventory__row-status-item-text"
+          >
+            5
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-inventory__row"
       id="inventory-pvs"
     >
       <div

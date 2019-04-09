@@ -6,10 +6,10 @@ import { getHostStatus, HOST_STATUS_ALL_ERROR, HOST_STATUS_ALL_WARN } from '../.
 import { getPvStatus, PV_STATUS_ALL_ERROR, PV_STATUS_ALL_PROGRESS } from '../../../utils/status/pv';
 
 // same as InventoryItemStatus props
-const STATUS_RESULT_OK = 'ok';
-const STATUS_RESULT_WARN = 'warn';
-const STATUS_RESULT_ERROR = 'error';
-const STATUS_RESULT_IN_PROGRESS = 'inProgress';
+export const STATUS_RESULT_OK = 'ok';
+export const STATUS_RESULT_WARN = 'warn';
+export const STATUS_RESULT_ERROR = 'error';
+export const STATUS_RESULT_IN_PROGRESS = 'inProgress';
 
 const mapStatuses = (entities, mapEntityToStatusResult) => {
   const result = {
