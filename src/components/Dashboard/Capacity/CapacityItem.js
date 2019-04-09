@@ -46,7 +46,7 @@ export const CapacityItem = ({ id, title, used, total, unit, formatValue, Loadin
   // TODO(mlibra): align text font
   return (
     <div className="kubevirt-capacity__item">
-      <h2 className="kubevirt-capacity__item-title">{title}</h2>
+      <h3 className="kubevirt-capacity__item-title">{title}</h3>
       <h6>{description}</h6>
       <div>
         <DonutChart
