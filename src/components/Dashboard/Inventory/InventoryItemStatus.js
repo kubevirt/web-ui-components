@@ -42,14 +42,24 @@ const InProgressStatus = ({ count }) => (
 
 InProgressStatus.propTypes = StatusPropTypes;
 
+const OffStatus = ({ count }) => (
+  <div className="kubevirt-inventory__row-status-item">
+    <Icon type="pf" name="off" size="2x" className="kubevirt-inventory__row-status-item-icon--off" />
+    <span className="kubevirt-inventory__row-status-item-text">{count}</span>
+  </div>
+);
+
+OffStatus.propTypes = StatusPropTypes;
+
 const Status = ({ Component, count, ...props }) => count > 0 && <Component count={count} {...props} />;
 
-export const InventoryItemStatus = ({ ok, warn, error, inProgress }) => (
+export const InventoryItemStatus = ({ ok, warn, error, inProgress, off }) => (
   <div className="kubevirt-inventory__row-status">
     <Status Component={InProgressStatus} count={inProgress} />
     <Status Component={ErrorStatus} count={error} />
     <Status Component={WarnStatus} count={warn} />
     <Status Component={OkStatus} count={ok} />
+    <Status Component={OffStatus} count={off} />
   </div>
 );
 
@@ -58,6 +68,7 @@ InventoryItemStatus.defaultProps = {
   warn: 0,
   error: 0,
   inProgress: 0,
+  off: 0,
 };
 
 InventoryItemStatus.propTypes = {
@@ -65,4 +76,5 @@ InventoryItemStatus.propTypes = {
   warn: PropTypes.number,
   error: PropTypes.number,
   inProgress: PropTypes.number,
+  off: PropTypes.number,
 };

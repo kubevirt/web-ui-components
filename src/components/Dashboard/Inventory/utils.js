@@ -3,6 +3,7 @@ import {
   VM_STATUS_ALL_WARNING,
   VM_STATUS_ALL_ERROR,
   VM_STATUS_ALL_PROGRESS,
+  VM_STATUS_ALL_OFF,
 } from '../../../utils/status/vm';
 import { getPodStatus, POD_STATUS_ALL_ERROR, POD_STATUS_ALL_PROGRESS } from '../../../utils/status/pod';
 import { getNodeStatus, NODE_STATUS_ALL_ERROR, NODE_STATUS_ALL_WARN } from '../../../utils/status/node';
@@ -15,6 +16,7 @@ export const STATUS_RESULT_OK = 'ok';
 export const STATUS_RESULT_WARN = 'warn';
 export const STATUS_RESULT_ERROR = 'error';
 export const STATUS_RESULT_IN_PROGRESS = 'inProgress';
+export const STATUS_RESULT_OFF = 'off';
 
 const mapStatuses = (entities, mapEntityToStatusResult) => {
   const result = {
@@ -22,6 +24,7 @@ const mapStatuses = (entities, mapEntityToStatusResult) => {
     [STATUS_RESULT_WARN]: 0,
     [STATUS_RESULT_ERROR]: 0,
     [STATUS_RESULT_IN_PROGRESS]: 0,
+    [STATUS_RESULT_OFF]: 0,
     count: null,
   };
 
@@ -53,6 +56,7 @@ export const mapVmsToProps = (vms, pods, migrations) =>
       [STATUS_RESULT_WARN]: VM_STATUS_ALL_WARNING,
       [STATUS_RESULT_ERROR]: VM_STATUS_ALL_ERROR,
       [STATUS_RESULT_IN_PROGRESS]: VM_STATUS_ALL_PROGRESS,
+      [STATUS_RESULT_OFF]: VM_STATUS_ALL_OFF,
     })
   );
 
