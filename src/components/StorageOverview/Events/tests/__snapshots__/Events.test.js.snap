@@ -10,7 +10,7 @@ exports[`<Events /> renders correctly 1`] = `
     <h2
       class="card-pf-title"
     >
-      Cluster Events
+      Events
     </h2>
     <button
       class="btn btn-link"

@@ -271,11 +271,15 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 </button>
               </div>
               <div
-                class="card-pf-body kubevirt-events__body"
-                id="events-body"
+                class="card-pf-body"
               >
-                <div>
-                  Requires component from tectonic
+                <div
+                  class="kubevirt-events__body"
+                  id="events-body"
+                >
+                  <div>
+                    Requires component from tectonic
+                  </div>
                 </div>
               </div>
             </div>
