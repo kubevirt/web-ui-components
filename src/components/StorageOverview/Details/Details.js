@@ -16,7 +16,7 @@ import { getName } from '../../../selectors';
 export const StorageDetails = ({ LoadingComponent, cephCluster }) => (
   <DashboardCard>
     <DashboardCardHeader>
-      <DashboardCardTitle>Details</DashboardCardTitle>
+      <DashboardCardTitle>OCS Details</DashboardCardTitle>
     </DashboardCardHeader>
     <DashboardCardBody>
       <DetailsBody>
@@ -30,14 +30,7 @@ export const StorageDetails = ({ LoadingComponent, cephCluster }) => (
         <DetailItem
           key="provider"
           title="Provider"
-          value="Ceph"
-          isLoading={false}
-          LoadingComponent={LoadingComponent}
-        />
-        <DetailItem
-          key="ocs"
-          title="OCS version"
-          value="4.1" // this will be hardcoded for the demo
+          value="Bare Metal"
           isLoading={false}
           LoadingComponent={LoadingComponent}
         />

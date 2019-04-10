@@ -34,7 +34,7 @@ export const Utilization = ({ iopsUtilization, latencyUtilization, throughputUti
   return (
     <DashboardCard>
       <DashboardCardHeader>
-        <DashboardCardTitle>OCS Perfrormance</DashboardCardTitle>
+        <DashboardCardTitle>Perfrormance</DashboardCardTitle>
       </DashboardCardHeader>
       <DashboardCardBody>
         <UtilizationBody>

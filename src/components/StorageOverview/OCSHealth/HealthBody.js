@@ -5,17 +5,17 @@ import { get } from 'lodash';
 
 const HealthStatus = {
   0: {
-    message: 'OCS is Healthy',
+    message: 'OCS is healthy',
     iconname: 'check-circle',
     classname: 'ok',
   },
   1: {
-    message: 'OCS health is Degraded',
+    message: 'OCS is degraded',
     iconname: 'exclamation-circle',
     classname: 'warning',
   },
   2: {
-    message: 'OCS health is in Error State',
+    message: 'OCS health is in error state',
     iconname: 'exclamation-triangle',
     classname: 'error',
   },
