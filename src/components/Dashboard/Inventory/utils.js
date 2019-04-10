@@ -1,4 +1,9 @@
-import { getVmStatus, VM_STATUS_ALL_ERROR, VM_STATUS_ALL_PROGRESS } from '../../../utils/status/vm';
+import {
+  getVmStatus,
+  VM_STATUS_ALL_WARNING,
+  VM_STATUS_ALL_ERROR,
+  VM_STATUS_ALL_PROGRESS,
+} from '../../../utils/status/vm';
 import { getPodStatus, POD_STATUS_ALL_ERROR, POD_STATUS_ALL_PROGRESS } from '../../../utils/status/pod';
 import { getNodeStatus, NODE_STATUS_ALL_ERROR, NODE_STATUS_ALL_WARN } from '../../../utils/status/node';
 import { getPvcStatus, PVC_STATUS_ALL_ERROR, PVC_STATUS_ALL_PROGRESS } from '../../../utils/status/pvc';
@@ -45,6 +50,7 @@ export const mapNodesToProps = nodes =>
 export const mapVmsToProps = (vms, pods, migrations) =>
   mapStatuses(vms, vm =>
     resolveStatusResult(getVmStatus(vm, pods, migrations).status, {
+      [STATUS_RESULT_WARN]: VM_STATUS_ALL_WARNING,
       [STATUS_RESULT_ERROR]: VM_STATUS_ALL_ERROR,
       [STATUS_RESULT_IN_PROGRESS]: VM_STATUS_ALL_PROGRESS,
     })
