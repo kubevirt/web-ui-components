@@ -138,7 +138,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+            class="pficon pficon-off kubevirt-inventory__row-status-item-icon--off"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"
@@ -151,7 +151,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="pficon pficon-off kubevirt-inventory__row-status-item-icon--off"
+            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"
