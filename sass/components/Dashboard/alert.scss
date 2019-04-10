@@ -1,0 +1,26 @@
+.kubevirt-alert__alerts-body {
+  max-height: 10em;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.kubevirt-alert__item {
+  margin-bottom: 0.5em;
+  display: table;
+}
+
+.kubevirt-alert__item-message {
+  display: table-cell;
+}
+
+.kubevirt-alert__icon {
+  margin-right: 1.5em;
+}
+
+.kubevirt-alert__icon--critical {
+  color: red;
+}
+
+.kubevirt-alert__icon--warning {
+  color: goldenrod;
+}

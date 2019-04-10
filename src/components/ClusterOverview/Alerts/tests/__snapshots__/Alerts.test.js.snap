@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Alerts /> renders correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle>
+      Alerts
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <AlertsBody>
+      <AlertItem
+        alert={
+          Object {
+            "annotations": Object {
+              "message": "Critical alert",
+            },
+            "labels": Object {
+              "alertname": "fooName",
+              "severity": "critical",
+            },
+          }
+        }
+        key="alert-0"
+      />
+      <AlertItem
+        alert={
+          Object {
+            "annotations": Object {
+              "message": "unknown type alert",
+            },
+            "labels": Object {
+              "alertname": "fooName",
+              "severity": "unknown",
+            },
+          }
+        }
+        key="alert-1"
+      />
+      <AlertItem
+        alert={
+          Object {
+            "annotations": Object {
+              "message": "20% of the metrics targets are down.",
+            },
+            "labels": Object {
+              "alertname": "TargetDown",
+              "severity": "warning",
+            },
+          }
+        }
+        key="alert-2"
+      />
+    </AlertsBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;

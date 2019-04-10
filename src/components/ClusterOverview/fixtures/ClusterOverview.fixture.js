@@ -18,6 +18,7 @@ import { persistentVolumeClaims } from '../../../tests/mocks/persistentVolumeCla
 import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { fullVm } from '../../../tests/mocks/vm/vm.mock';
 import { cloudInitTestVmi } from '../../../tests/mocks/vmi/cloudInitTestVmi.mock';
+import { warningAlert, unknownTypeAlert, criticalAlert } from '../../Dashboard/Alert/fixtures/AlertItem.fixture';
 
 export const nodes = [localhostNode];
 export const pvcs = persistentVolumeClaims;
@@ -60,6 +61,26 @@ export default [
       eventsData: { loaded: false },
       utilizationStats: { loaded: false },
       inventoryData: { loaded: false },
+    },
+  },
+  {
+    component: ClusterOverview,
+    name: 'Overview with alerts',
+    props: {
+      ...clusterDetailsData,
+      healthData,
+      ...capacityStats,
+      complianceData,
+      eventsData,
+      utilizationStats,
+      ...consumersData,
+      nodes,
+      pvcs,
+      pods,
+      vms,
+      vmis,
+      migrations,
+      alertsResponse: [warningAlert, unknownTypeAlert, criticalAlert],
     },
   },
 ];

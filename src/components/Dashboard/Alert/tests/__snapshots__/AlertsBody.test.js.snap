@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AlertsBody /> renders correctly 1`] = `
+<div
+  className="kubevirt-alert__alerts-body"
+>
+  <AlertItem
+    alert={
+      Object {
+        "annotations": Object {
+          "message": "Critical alert",
+        },
+        "labels": Object {
+          "alertname": "fooName",
+          "severity": "critical",
+        },
+      }
+    }
+    key="1"
+  />
+  <AlertItem
+    alert={
+      Object {
+        "annotations": Object {
+          "message": "unknown type alert",
+        },
+        "labels": Object {
+          "alertname": "fooName",
+          "severity": "unknown",
+        },
+      }
+    }
+    key="2"
+  />
+  <AlertItem
+    alert={
+      Object {
+        "annotations": Object {
+          "message": "20% of the metrics targets are down.",
+        },
+        "labels": Object {
+          "alertname": "TargetDown",
+          "severity": "warning",
+        },
+      }
+    }
+    key="3"
+  />
+</div>
+`;

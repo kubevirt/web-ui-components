@@ -12,3 +12,17 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.kubevirt-cluster-overview__health-grid {
+  margin: 1em;
+
+  /* stylelint-disable plugin/selector-bem-pattern */
+  .kubevirt-dashboard__card {
+    margin: 0;
+  }
+  /* stylelint-enable */
+}
+
+.kubevirt-cluster-overview__card--top-border {
+  border-top: 1px solid #d1d1d1;
+}
