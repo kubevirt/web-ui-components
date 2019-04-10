@@ -11,6 +11,7 @@ import { InventoryConnected } from './Inventory/Inventory';
 import OCSHealthConnected from './OCSHealth/Health';
 import { CapacityConnected } from './Capacity/Capacity';
 import EventsConnected from './Events/Events';
+import { UtilizationConnected } from './Utilization/Utilization';
 
 const MainCards = () => (
   <GridItem lg={6} md={12} sm={12}>
@@ -41,6 +42,9 @@ const LeftCards = () => (
 const RightCards = () => (
   <GridItem key="right" lg={3} md={12} sm={12}>
     <Grid>
+      <GridItem lg={12} md={6} sm={12}>
+        <UtilizationConnected />
+      </GridItem>
       <GridItem lg={12} md={6} sm={12}>
         <EventsConnected />
       </GridItem>
