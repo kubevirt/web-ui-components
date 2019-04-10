@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 
 import { Alert, Spinner } from 'patternfly-react';
 
-import { NAMESPACE_KEY, PROVIDER_STATUS_CONNECTING, PROVIDER_STATUS_CONNECTION_FAILED } from '../constants';
+import {
+  NAMESPACE_KEY,
+  PROVIDER_STATUS_CONNECTING,
+  PROVIDER_STATUS_CONNECTION_FAILED,
+  PROVIDER_VMWARE_CONNECTION,
+  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
+} from '../constants';
 import { getResource } from '../../../../utils';
 import { V2VVMwareModel } from '../../../../models';
 import { settingsValue } from '../../../../k8s/selectors';
@@ -106,18 +112,22 @@ VMWareProviderStatusByPhase.propTypes = {
   phase: PropTypes.string,
 };
 
+const getConnection = basicSettings =>
+  get(settingsValue(basicSettings, PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_CONNECTION);
+
+export const hasConnection = basicSettings => {
+  const connValue = getConnection(basicSettings);
+  return connValue && !!connValue.V2VVmwareName;
+};
+
 // see onVmwareCheckConnection() for details
-const VMWareProviderStatus = ({ connValue, extraProps }) => {
-  if (!connValue) {
-    return null;
-  }
-  const { providerStatus, V2VVmwareName } = connValue;
-
-  if (!V2VVmwareName) {
-    return null;
-  }
-
+const VMWareProviderStatus = ({ extraProps }) => {
   const { WithResources, basicSettings } = extraProps;
+
+  if (!hasConnection(basicSettings)) {
+    return null;
+  }
+  const { providerStatus, V2VVmwareName } = getConnection(basicSettings);
 
   if (providerStatus === PROVIDER_STATUS_CONNECTION_FAILED) {
     return <ConnectionFailedInfra />;
@@ -148,12 +158,9 @@ const VMWareProviderStatus = ({ connValue, extraProps }) => {
     </WithResources>
   );
 };
-VMWareProviderStatus.defaultProps = {
-  connValue: null,
-};
+VMWareProviderStatus.defaultProps = {};
 VMWareProviderStatus.propTypes = {
   extraProps: PropTypes.object.isRequired,
-  connValue: PropTypes.object,
 };
 
 export default VMWareProviderStatus;

@@ -31,15 +31,7 @@ describe('<VmStatus vm pod />', () => {
     const resultStatus = fixture.expected || fixture.expectedSimple;
     it(`renders correctly ${idx} (${resultStatus})`, () => {
       expect(
-        render(
-          <VmStatus
-            vm={fixture.vm}
-            pods={fixture.podsFixture}
-            importerPods={fixture.importerPodsFixture}
-            migrations={fixture.migrations}
-          />,
-          createContext()
-        )
+        render(<VmStatus vm={fixture.vm} pods={fixture.podsFixture} migrations={fixture.migrations} />, createContext())
       ).toMatchSnapshot();
     });
   });
@@ -51,12 +43,7 @@ describe('<VmStatuses vm pod />', () => {
     it(`renders correctly ${idx} (${resultStatus})`, () => {
       expect(
         render(
-          <VmStatuses
-            vm={fixture.vm}
-            pods={fixture.podsFixture}
-            importerPods={fixture.importerPodsFixture}
-            migrations={fixture.migrations}
-          />,
+          <VmStatuses vm={fixture.vm} pods={fixture.podsFixture} migrations={fixture.migrations} />,
           createContext()
         )
       ).toMatchSnapshot();

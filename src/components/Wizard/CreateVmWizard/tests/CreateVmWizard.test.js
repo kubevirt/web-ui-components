@@ -28,6 +28,7 @@ import {
   STORAGE_TYPE_DATAVOLUME,
   INTERMEDIARY_NETWORKS_TAB_KEY,
   INTERMEDIARY_STORAGE_TAB_KEY,
+  STORAGE_TYPE_EXTERNAL_IMPORT,
 } from '../constants';
 
 import {
@@ -465,15 +466,24 @@ describe('<CreateVmWizard />', () => {
             value: [
               {
                 name: 'disk0',
-                id: 'id0',
-                fileName: 'filename0',
-                capacity: 1024,
+                isBootable: true,
+                storageType: STORAGE_TYPE_EXTERNAL_IMPORT,
+                id: '0',
+                data: {
+                  fileName: 'filename0',
+                  mountPath: '/test/mount/path/1',
+                },
+                size: 1,
               },
               {
                 name: 'disk1',
-                id: 'id1',
-                fileName: 'filename1',
-                capacity: 2048,
+                id: '1',
+                storageType: STORAGE_TYPE_EXTERNAL_IMPORT,
+                data: {
+                  fileName: 'filename1',
+                  mountPath: '/test/mount/path/2',
+                },
+                size: 2,
               },
             ],
           },
@@ -485,9 +495,9 @@ describe('<CreateVmWizard />', () => {
     };
     const result = onVmwareVmChanged(props, stepData);
     expect(result[STORAGE_TAB_KEY].value).toHaveLength(2);
-    expect(result[STORAGE_TAB_KEY].value[0].importSourceId).toBe('id0');
+    expect(result[STORAGE_TAB_KEY].value[0].id).toBe('0');
     expect(result[STORAGE_TAB_KEY].value[0].name).toBe('disk0');
-    expect(result[STORAGE_TAB_KEY].value[0].size).toBe(1024 / (1024 * 1024 * 1024));
+    expect(result[STORAGE_TAB_KEY].value[0].size).toBe(1);
     expect(result[STORAGE_TAB_KEY].value[0].storageClass).toBe(undefined);
   });
 });

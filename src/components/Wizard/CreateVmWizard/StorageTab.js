@@ -12,10 +12,18 @@ import { TableFactory } from '../../Table/TableFactory';
 import { FormFactory, DROPDOWN, POSITIVE_NUMBER, TEXT } from '../../Form';
 import { getValidationObject, validateDNS1123SubdomainValue } from '../../../utils/validations';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
-import { STORAGE_TYPE_PVC, STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_CONTAINER } from './constants';
+import {
+  STORAGE_TYPE_PVC,
+  STORAGE_TYPE_DATAVOLUME,
+  STORAGE_TYPE_CONTAINER,
+  STORAGE_TYPE_EXTERNAL_IMPORT,
+  STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
+} from './constants';
 
 import {
   getName,
+  getNamespace,
   getGibStorageSize,
   getPvcStorageClassName,
   getDataVolumeStorageClassName,
@@ -42,62 +50,61 @@ import { canBeBootable, needsBootableDisk } from './utils/storageTabUtils';
 
 const initalStorageErrorsArray = () => Array(4).fill(null);
 
-const validateDataVolumeStorage = storage => {
-  const errors = initalStorageErrorsArray();
+const genericValidator = (storage, validationResolvers) =>
+  initalStorageErrorsArray().map((error, idx) => {
+    if (idx === 0 && (!storage || storage.id == null)) {
+      return ERROR_EMPTY_ENTITY;
+    }
+    const validationResolver = validationResolvers[idx - 1];
+    return typeof validationResolver === 'function' ? validationResolver(storage) : null;
+  });
 
-  if (!storage || storage.id == null) {
-    errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
+const nameValidation = storage => {
+  const validation = validateDNS1123SubdomainValue(storage && storage.name);
+  if (get(validation, 'type') === VALIDATION_ERROR_TYPE) {
+    return `Name ${validation.message}`;
   }
-
-  const nameValidation = validateDNS1123SubdomainValue(storage.name);
-  if (get(nameValidation, 'type') === VALIDATION_ERROR_TYPE) {
-    errors[1] = `Name ${nameValidation.message}`;
-  }
-
-  if (!storage.size || storage.size <= 0) {
-    errors[2] = ERROR_POSITIVE_SIZE;
-  }
-
-  return errors;
+  return null;
 };
 
-const validatePvcStorage = storage => {
-  const errors = initalStorageErrorsArray();
-  if (!storage || storage.id == null) {
-    errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
+const positiveSizeValidation = storage => {
+  if (!storage || !storage.size || storage.size <= 0) {
+    return ERROR_POSITIVE_SIZE;
   }
-
-  const nameValidation = validateDNS1123SubdomainValue(storage.name);
-  if (get(nameValidation, 'type') === VALIDATION_ERROR_TYPE) {
-    errors[1] = `Name ${nameValidation.message}`;
-  }
-
-  return errors;
+  return null;
 };
 
-const validateContainerStorage = storage => {
-  const errors = initalStorageErrorsArray();
-  if (!storage || storage.id == null) {
-    errors[0] = ERROR_EMPTY_ENTITY; // row error on index 0
-  }
+const validatePvcStorage = storage => genericValidator(storage, [nameValidation]);
+const validateDataVolumeStorage = storage => genericValidator(storage, [nameValidation, positiveSizeValidation]);
+const validateContainerStorage = storage => genericValidator(storage, [nameValidation]);
+const validateExternalImportStorage = storage => genericValidator(storage, [nameValidation, positiveSizeValidation]);
+const validateExternalTempImportStorage = storage =>
+  genericValidator(storage, [nameValidation, positiveSizeValidation]);
+const validateExternalVddkImportStorage = storage => genericValidator(storage, [nameValidation]);
 
-  const nameValidation = validateDNS1123SubdomainValue(storage.name);
-  if (get(nameValidation, 'type') === VALIDATION_ERROR_TYPE) {
-    errors[1] = `Name ${nameValidation.message}`;
-  }
+const validateResolver = {
+  [STORAGE_TYPE_PVC]: validatePvcStorage,
+  [STORAGE_TYPE_DATAVOLUME]: validateDataVolumeStorage,
+  [STORAGE_TYPE_CONTAINER]: validateContainerStorage,
+  [STORAGE_TYPE_EXTERNAL_IMPORT]: validateExternalImportStorage,
+  [STORAGE_TYPE_EXTERNAL_V2V_TEMP]: validateExternalTempImportStorage,
+  [STORAGE_TYPE_EXTERNAL_V2V_VDDK]: validateExternalVddkImportStorage,
+};
 
-  return errors;
+const validateStorage = row => {
+  const validator = validateResolver[row.storageType];
+  return validator ? validator(row) : initalStorageErrorsArray();
 };
 
 const validateDiskNamespace = (storages, pvcs, namespace) => {
-  const availablePvcs = pvcs.filter(pvc => pvc.metadata.namespace === namespace);
+  const availablePvcs = pvcs.filter(pvc => getNamespace(pvc) === namespace);
   storages
     .filter(storage => storage.storageType === STORAGE_TYPE_PVC)
     .forEach(storage => {
       if (!storage.errors) {
         storage.errors = initalStorageErrorsArray();
       }
-      storage.errors[1] = availablePvcs.some(pvc => pvc.metadata.name === storage.name) ? null : ERROR_DISK_NOT_FOUND;
+      storage.errors[1] = availablePvcs.some(pvc => getName(pvc) === storage.name) ? null : ERROR_DISK_NOT_FOUND;
     });
 };
 
@@ -225,12 +232,10 @@ const resolveInitialStorages = (
     } else {
       switch (storage.storageType) {
         case STORAGE_TYPE_CONTAINER:
-          result = {
-            ...result,
-            ...storage,
-          };
-          break;
         case STORAGE_TYPE_DATAVOLUME:
+        case STORAGE_TYPE_EXTERNAL_IMPORT:
+        case STORAGE_TYPE_EXTERNAL_V2V_TEMP:
+        case STORAGE_TYPE_EXTERNAL_V2V_VDDK:
           result = {
             ...result,
             ...storage,
@@ -244,6 +249,7 @@ const resolveInitialStorages = (
           };
       }
     }
+    result.errors = validateStorage(result);
     return result;
   });
 
@@ -252,24 +258,11 @@ const resolveInitialStorages = (
   return storages;
 };
 
-export const validateStorage = row => {
-  switch (row.storageType) {
-    case STORAGE_TYPE_PVC:
-      return validatePvcStorage(row);
-    case STORAGE_TYPE_DATAVOLUME:
-      return validateDataVolumeStorage(row);
-    case STORAGE_TYPE_CONTAINER:
-      return validateContainerStorage(row);
-    default:
-      return initalStorageErrorsArray();
-  }
-};
-
 const publishResults = (rows, otherStorages, sourceType, publish) => {
   let valid = !needsBootableDisk(rows, sourceType);
 
   const storages = rows.map(
-    ({ templateStorage, rootStorage, storageType, id, name, size, storageClass, isBootable, errors }) => {
+    ({ templateStorage, data, rootStorage, storageType, id, name, size, storageClass, isBootable, errors }) => {
       const result = {
         rootStorage,
         storageType,
@@ -281,8 +274,13 @@ const publishResults = (rows, otherStorages, sourceType, publish) => {
         errors,
       };
 
+      // TODO: refactor to data field
       if (templateStorage) {
         result.templateStorage = templateStorage;
+      }
+
+      if (data) {
+        result.data = data;
       }
 
       if (valid && errors) {
@@ -384,21 +382,26 @@ export class StorageTab extends React.Component {
         },
       },
       property: 'name',
-      renderConfig: storage =>
-        storage.storageType === STORAGE_TYPE_PVC
-          ? {
-              id: 'name-attach-edit',
-              type: DROPDOWN,
-              choices: this.props.persistentVolumeClaims
-                .filter(pvc => pvc.metadata.namespace === this.props.namespace)
-                .map(getName)
-                .filter(pvc => !this.state.rows.some(row => row.name === pvc)),
-              initialValue: '--- Select Storage ---',
-            }
-          : {
-              id: 'name-edit',
-              type: TEXT,
-            },
+      renderConfig: storage => {
+        if (storage.storageType === STORAGE_TYPE_PVC) {
+          return {
+            id: 'name-attach-edit',
+            type: DROPDOWN,
+            choices: this.props.persistentVolumeClaims
+              .filter(pvc => pvc.metadata.namespace === this.props.namespace)
+              .map(getName)
+              .filter(pvc => !this.state.rows.some(row => row.name === pvc)),
+            initialValue: '--- Select Storage ---',
+          };
+        }
+        if ([STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(storage.storageType)) {
+          return null;
+        }
+        return {
+          id: 'name-edit',
+          type: TEXT,
+        };
+      },
     },
     {
       header: {
@@ -430,7 +433,9 @@ export class StorageTab extends React.Component {
       property: 'storageClass',
 
       renderConfig: storage =>
-        storage.storageType === STORAGE_TYPE_DATAVOLUME
+        [STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(
+          storage.storageType
+        )
           ? {
               id: 'storage-edit',
               type: DROPDOWN,
@@ -449,7 +454,10 @@ export class StorageTab extends React.Component {
       },
       type: ACTIONS_TYPE,
       renderConfig: storage =>
-        storage.rootStorage
+        storage.rootStorage ||
+        [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(
+          storage.storageType
+        )
           ? null
           : {
               id: 'actions',
@@ -493,11 +501,8 @@ export class StorageTab extends React.Component {
           name: disk.name,
           id: disk.id,
         })),
-      disabled: sourceType === PROVISION_SOURCE_CONTAINER || sourceType === PROVISION_SOURCE_URL,
-      required:
-        sourceType === PROVISION_SOURCE_CONTAINER ||
-        sourceType === PROVISION_SOURCE_URL ||
-        sourceType === PROVISION_SOURCE_CLONED_DISK,
+      disabled: [PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL].includes(sourceType),
+      required: [PROVISION_SOURCE_CONTAINER, PROVISION_SOURCE_URL, PROVISION_SOURCE_CLONED_DISK].includes(sourceType),
     },
   });
 

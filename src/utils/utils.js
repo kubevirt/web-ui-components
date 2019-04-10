@@ -20,9 +20,9 @@ export const parseUrl = url => {
   }
 };
 
-export const parseNumber = value => {
+export const parseNumber = (value, defaultValue = null) => {
   const number = Number(value);
-  return !Number.isNaN(parseFloat(value)) && !Number.isNaN(number) ? number : null;
+  return !Number.isNaN(parseFloat(value)) && !Number.isNaN(number) ? number : defaultValue;
 };
 
 export const getSequence = (from, to) => Array.from({ length: to - from + 1 }, (v, i) => i + from);

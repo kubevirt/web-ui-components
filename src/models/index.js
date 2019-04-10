@@ -6,6 +6,8 @@
  * TODO: we should find a way to avoid duplicating this code
  */
 
+import { getApiVersion, getKind, getApiGroup } from '../selectors';
+
 export const VirtualMachineModel = {
   label: 'Virtual Machine',
   labelPlural: 'Virtual Machines',
@@ -239,3 +241,40 @@ export const ConfigMapModel = {
   id: 'configmap',
   labelPlural: 'Config Maps',
 };
+
+export const ALL_MODELS = [
+  VirtualMachineModel,
+  BaremetalHostModel,
+  ProcessedTemplatesModel,
+  VirtualMachineInstanceMigrationModel,
+  PodModel,
+  ServiceModel,
+  RouteModel,
+  TemplateModel,
+  PersistentVolumeClaimModel,
+  DataVolumeModel,
+  NamespaceModel,
+  ProjectModel,
+  SecretModel,
+  V2VVMwareModel,
+  DeploymentModel,
+  ServiceAccountModel,
+  RoleModel,
+  RoleBindingModel,
+  ConfigMapModel,
+];
+
+export const getModelIndexId = obj => {
+  const apiGroup = getApiGroup(obj);
+  const apiVersion = getApiVersion(obj);
+  // models include apiGroup and objects have it as part of apiVersion
+  const fragment = apiGroup ? `${apiGroup}/${apiVersion}` : apiVersion;
+  return `${fragment}/${getKind(obj)}`;
+};
+
+export const ALL_MODELS_MAP = ALL_MODELS.reduce((accumulator, model) => {
+  accumulator[getModelIndexId(model)] = model;
+  return accumulator;
+}, {});
+
+export const findModel = obj => ALL_MODELS_MAP[getModelIndexId(obj)];

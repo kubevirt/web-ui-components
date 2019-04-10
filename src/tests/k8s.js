@@ -9,6 +9,7 @@ import {
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
 } from '../constants';
 import { fedora28 } from '../k8s/objects/template/fedora28';
+import { osV2VConfigMap } from './mocks/configMap';
 
 const processTemplate = template =>
   new Promise((resolve, reject) => {
@@ -42,18 +43,7 @@ export const k8sGet = (model, name, ns, opts) => {
     name === VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME &&
     ns === VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE
   ) {
-    const configMap = {
-      data: {
-        // purely dummy testing data
-        rhel7_64Guest: 'rhel7.0',
-        windows7Server64Guest: 'win2k8',
-        fedora28_guest: 'fedora28',
-        windows9Server64Guest: '',
-      },
-      kind: 'ConfigMap',
-      metadata: {},
-    };
-    return Promise.resolve(configMap);
+    return Promise.resolve(osV2VConfigMap);
   }
 
   if (model.kind === TemplateModel.kind && name === 'fedora-generic' && ns === 'default') {

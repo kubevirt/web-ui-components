@@ -20,7 +20,7 @@ import {
   PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
   PROVIDER_VMWARE_CONNECTION,
   PROVIDER_VMWARE_USER_PWD_KEY,
-  PROVIDER_VMWARE_URL_KEY,
+  PROVIDER_VMWARE_HOSTNAME_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
 } from '../../components/Wizard/CreateVmWizard/constants';
@@ -155,7 +155,7 @@ export const basicSettingsImportVmwareNewConnection = {
   [PROVIDER_VMWARE_USER_NAME_KEY]: {
     value: 'username',
   },
-  [PROVIDER_VMWARE_URL_KEY]: {
+  [PROVIDER_VMWARE_HOSTNAME_KEY]: {
     value: 'my.domain.com',
   },
   [PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY]: {

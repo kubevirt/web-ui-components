@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Col, Button, Alert } from 'patternfly-react';
 
 import { FormFactory } from '../Form/FormFactory';
-import { createBaremetalHost } from '../../k8s/request';
+import { createBaremetalHost } from '../../k8s/requests';
 import { TinyInlineLoading } from '../Loading/Loading';
 import { CREATE_HOST_FORM_TEXT } from './strings';
 

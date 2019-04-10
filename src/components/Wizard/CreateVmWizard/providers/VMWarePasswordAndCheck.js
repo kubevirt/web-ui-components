@@ -5,10 +5,8 @@ import { get } from 'lodash';
 import { Button } from 'patternfly-react';
 
 import { PASSWORD, Text } from '../../../Form';
-import { PROVIDER_VMWARE_USER_PWD_KEY, PROVIDER_VMWARE_CONNECTION, PROVIDER_VMWARE_URL_KEY } from '../constants';
+import { PROVIDER_VMWARE_USER_PWD_KEY, PROVIDER_VMWARE_CONNECTION, PROVIDER_VMWARE_HOSTNAME_KEY } from '../constants';
 import { settingsValue } from '../../../../k8s/selectors';
-
-import VMWareProviderStatus from './VMWareProviderStatus';
 
 // workaround to wrap two components at a single row
 const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
@@ -33,7 +31,7 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
         <Button
           id={`${id}-check-button`}
           className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button"
-          disabled={!settingsValue(basicSettings, PROVIDER_VMWARE_URL_KEY)}
+          disabled={!settingsValue(basicSettings, PROVIDER_VMWARE_HOSTNAME_KEY)}
           onClick={() => {
             onCheckConnection(newValue =>
               onChange({
@@ -45,7 +43,6 @@ const VMWarePasswordAndCheck = ({ onChange, id, value, extraProps }) => {
         >
           Check
         </Button>
-        <VMWareProviderStatus connValue={connValue} extraProps={extraProps} />
       </div>
     </Fragment>
   );

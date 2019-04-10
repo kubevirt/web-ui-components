@@ -8,6 +8,7 @@ import { settingsValue } from '../../../../k8s/selectors';
 import {
   BATCH_CHANGES_KEY,
   CPU_KEY,
+  PROVIDER_VMWARE_VM_DATA_KEY,
   DESCRIPTION_KEY,
   FLAVOR_KEY,
   MEMORY_KEY,
@@ -16,15 +17,22 @@ import {
   OPERATING_SYSTEM_KEY,
   PROVIDER_VMWARE_VM_KEY,
   INTERMEDIARY_STORAGE_TAB_KEY,
+  STORAGE_TYPE_EXTERNAL_IMPORT,
+  STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../constants';
-import { getVmwareToKubevirtOS } from './vmwareActions';
 import { getValidationObject } from '../../../../utils';
 import { CUSTOM_FLAVOR, VALIDATION_INFO_TYPE } from '../../../../constants';
 import { getVmwareOsString } from '../strings';
+import { CONVERSION_POD_TEMP_MOUNT_PATH, CONVERSION_POD_VDDK_MOUNT_PATH } from '../../../../k8s/requests/v2v';
 
-const prefillGeneric = ({ basicSettings, formKey, lastPrefilledValue, vmVmware, vmwareValuePath }) => {
+const prefillGeneric = ({ basicSettings, formKey, lastPrefilledValue, vmVmware, vmwareValuePath, convertNewValue }) => {
   let pair;
-  const value = get(vmVmware, vmwareValuePath);
+  let value = get(vmVmware, vmwareValuePath);
+  if (convertNewValue) {
+    value = convertNewValue(value);
+  }
+
   if (value) {
     const formValue = settingsValue(basicSettings, formKey);
     if (!formValue || formValue === lastPrefilledValue) {
@@ -43,22 +51,48 @@ const prefillVmDescription = params =>
   prefillGeneric({ ...params, formKey: DESCRIPTION_KEY, vmwareValuePath: ['Config', 'Annotation'] });
 
 const prefillMemory = params =>
-  prefillGeneric({ ...params, formKey: MEMORY_KEY, vmwareValuePath: ['Config', 'Hardware', 'MemoryMB'] });
+  prefillGeneric({
+    ...params,
+    formKey: MEMORY_KEY,
+    vmwareValuePath: ['Config', 'Hardware', 'MemoryMB'],
+    convertNewValue: value => value / 1024,
+  });
 
 const prefillCpu = params =>
   prefillGeneric({ ...params, formKey: CPU_KEY, vmwareValuePath: ['Config', 'Hardware', 'NumCPU'] });
 
+export const prefillVmData = async ({ basicSettings, additionalData, lastPrefilledValue }) => {
+  if (!isEqual(additionalData, lastPrefilledValue)) {
+    return {
+      value: additionalData,
+      target: PROVIDER_VMWARE_VM_DATA_KEY,
+    };
+  }
+  return undefined;
+};
+
+/**
+ * Provides mapping from VMWare GuesId to common-templates operating system.
+ *
+ * https://code.vmware.com/docs/4206/vsphere-web-services-api-reference#/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+ *
+ * The vmwareToKubevirtOsConfigMap is usually created by the web-ui-operator and can be missing.
+ *
+ * operatingSystems - see getTemplateOperatingSystems() in selectors.js
+ */
 export const prefillOperatingSystem = async ({
   basicSettings,
   operatingSystems,
   vmVmware,
-  k8sGet,
+  vmwareToKubevirtOsConfigMap,
   lastPrefilledValue,
 }) => {
   const formValue = settingsValue(basicSettings, OPERATING_SYSTEM_KEY);
 
   const guestId = get(vmVmware, ['Config', 'GuestId']);
-  const os = await getVmwareToKubevirtOS(operatingSystems, guestId, k8sGet);
+
+  const kubevirtId = get(vmwareToKubevirtOsConfigMap, ['data', guestId]);
+  const os = operatingSystems.find(o => o.id === kubevirtId);
   if (os) {
     // os is of format: { id, name }
     if (!formValue) {
@@ -105,7 +139,7 @@ export const prefillNics = ({ vmVmware, lastPrefilledValue }) => {
 };
 
 // Just store data here, actual prefill will be handled within a callback in CreateVmWizard after passing through data in BasicSettingsTab
-export const prefillDisks = ({ vmVmware, lastPrefilledValue }) => {
+export const prefillDisks = ({ vmVmware, lastDisks }) => {
   const devices = get(vmVmware, ['Config', 'Hardware', 'Device']);
 
   // if the device is a disk, it has "capacityInKB" present
@@ -119,16 +153,51 @@ export const prefillDisks = ({ vmVmware, lastPrefilledValue }) => {
     device => device.hasOwnProperty('CapacityInKB') || device.hasOwnProperty('CapacityInBytes')
   );
 
-  const value = diskDevices.map(device => ({
-    name: get(device, ['DeviceInfo', 'Label']),
-    fileName: get(device, ['Backing', 'FileName']),
-    capacity: device.CapacityInBytes || device.CapacityInKB * 1024,
-    id: device.Key, // TODO: verify once the Conversion pod is implemented
-  }));
+  const diskRows = diskDevices.map((device, idx) => {
+    const capacityKib = device.CapacityInBytes / 1024 || device.CapacityInKB;
 
-  if (!isEqual(lastPrefilledValue, value)) {
+    return {
+      id: idx,
+      storageType: STORAGE_TYPE_EXTERNAL_IMPORT,
+      name: get(device, ['DeviceInfo', 'Label']),
+      size: capacityKib / (1024 * 1024),
+      storageClass: undefined, // Let the user select proper mapping
+      isBootable: idx === 0, // TODO get and set the real boot order
+      data: {
+        fileName: get(device, ['Backing', 'FileName']),
+        mountPath: `/data/vm/disk${idx + 1}`, // hardcoded
+      },
+    };
+  });
+
+  // temp disk needed for conversion pod
+  diskRows.push({
+    id: diskRows.length,
+    storageType: STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+    name: 'v2v-conversion-temp',
+    size: 2,
+    storageClass: undefined,
+    data: {
+      mountPath: CONVERSION_POD_TEMP_MOUNT_PATH,
+    },
+  });
+
+  // TODO: make vddk configurable or move setup to somewhere else
+  // vddk pvc must be present in the same namespace as the VM
+  diskRows.push({
+    editable: false,
+    id: diskRows.length,
+    storageType: STORAGE_TYPE_EXTERNAL_V2V_VDDK,
+    name: 'vddk-pvc',
+    storageClass: undefined,
+    data: {
+      mountPath: CONVERSION_POD_VDDK_MOUNT_PATH,
+    },
+  });
+
+  if (!isEqual(lastDisks, diskRows)) {
     // avoid infinite loop
-    return { value, target: INTERMEDIARY_STORAGE_TAB_KEY }; // value is expected to be passed to STORAGE_TAB_KEY
+    return { value: diskRows, target: INTERMEDIARY_STORAGE_TAB_KEY }; // value is expected to be passed to STORAGE_TAB_KEY
   }
 
   return undefined;
@@ -139,14 +208,15 @@ class VCenterVmsWithPrefill extends React.Component {
     lastName: undefined, // last prefilled VM name value
     lastDescription: undefined,
     lastOS: undefined,
+    lastVmData: undefined,
     lastCpu: undefined,
     lastMem: undefined,
     lastNics: undefined,
     lastDisks: undefined,
   };
 
-  async prefillValues(vmVmware) {
-    const { onFormChange, k8sGet, basicSettings, operatingSystems } = this.props;
+  async prefillValues(vmVmware, additionalData) {
+    const { onFormChange, vmwareToKubevirtOsConfigMap, basicSettings, operatingSystems } = this.props;
     const result = [];
     const newState = {};
 
@@ -166,12 +236,22 @@ class VCenterVmsWithPrefill extends React.Component {
       basicSettings,
       vmVmware,
       lastPrefilledValue: this.state.lastOS,
-      k8sGet,
+      vmwareToKubevirtOsConfigMap,
       operatingSystems,
     });
     if (osPair) {
       newState.lastOS = osPair.value;
       result.push(osPair);
+    }
+
+    const vmDataPair = await prefillVmData({
+      basicSettings,
+      additionalData,
+      lastPrefilledValue: this.state.lastVmData,
+    });
+    if (vmDataPair) {
+      newState.lastVmData = vmDataPair.value;
+      result.push(vmDataPair);
     }
 
     const memPair = prefillMemory({ basicSettings, vmVmware, lastPrefilledValue: this.state.lastMem });
@@ -193,7 +273,7 @@ class VCenterVmsWithPrefill extends React.Component {
       result.push(nics);
     }
 
-    const disks = prefillDisks({ vmVmware, lastPrefilledValue: this.state.lastDisks });
+    const disks = prefillDisks({ vmVmware, lastDisks: this.state.lastDisks });
     if (disks) {
       newState.lastDisks = disks.value;
       result.push(disks);
@@ -215,8 +295,9 @@ class VCenterVmsWithPrefill extends React.Component {
         const vms = get(v2vvmware, 'spec.vms');
         const vmWithDetail = (vms || []).find(vm => vm.name === selectedVmName && vm.detail && vm.detail.raw);
         if (vmWithDetail) {
-          const vmVmware = JSON.parse(vmWithDetail.detail.raw);
-          this.prefillValues(vmVmware);
+          const { hostPath, raw } = vmWithDetail.detail;
+          const vmVmware = JSON.parse(raw);
+          this.prefillValues(vmVmware, { hostPath, thumbPrint: get(v2vvmware, 'spec.thumbprint') });
         }
       }
     }
@@ -232,6 +313,7 @@ VCenterVmsWithPrefill.defaultProps = {
   choices: [],
   disabled: true,
   v2vvmware: undefined,
+  vmwareToKubevirtOsConfigMap: undefined,
 };
 VCenterVmsWithPrefill.propTypes = {
   id: PropTypes.string.isRequired,
@@ -239,7 +321,7 @@ VCenterVmsWithPrefill.propTypes = {
   onFormChange: PropTypes.func.isRequired,
   basicSettings: PropTypes.object.isRequired,
   operatingSystems: PropTypes.array.isRequired,
-  k8sGet: PropTypes.func.isRequired,
+  vmwareToKubevirtOsConfigMap: PropTypes.object,
   v2vvmware: PropTypes.object,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   choices: PropTypes.array,

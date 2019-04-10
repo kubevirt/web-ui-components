@@ -74,7 +74,7 @@ export const SELECT_BOOTABLE_DISK = '--- Select Bootable Disk ---';
 
 export const ERROR = 'Error';
 export const CREATED = 'created';
-export const NOT_CREATED = 'not created';
+export const FAILED = 'failed';
 
 export const getNoBootableError = sourceType =>
   sourceType === PROVISION_SOURCE_CLONED_DISK ? ERROR_NO_BOOTABLE_ATTACHED_DISK : ERROR_NO_BOOTABLE_DISK;

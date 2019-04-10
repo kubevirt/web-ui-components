@@ -144,13 +144,13 @@ export const validateForm = (formFields, formValues) => {
 
 export const getFieldValidation = (changedField, value, newFormValues) => {
   let validation;
-  if (changedField.required && String(value).trim().length === 0) {
+  if (changedField && changedField.required && String(value).trim().length === 0) {
     validation = getValidationObject(ERROR_IS_REQUIRED);
-  } else if (changedField.validate) {
+  } else if (changedField && changedField.validate) {
     validation = changedField.validate(newFormValues);
   }
 
-  if (validation) {
+  if (changedField && validation) {
     validation.message = `${changedField.title} ${validation.message}`;
   }
 

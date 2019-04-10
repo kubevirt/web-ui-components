@@ -3,6 +3,8 @@ import {
   POD_STATUS_CONTAINER_FAILING,
   POD_STATUS_NOT_READY,
   POD_STATUS_NOT_SCHEDULABLE,
+  POD_STATUS_FAILED,
+  POD_STATUS_CRASHLOOP_BACKOFF,
 } from '../constants';
 
 const metadata = {
@@ -25,11 +27,21 @@ const getCondition = (type, status, reason) => ({
   reason,
 });
 
-const getContainerStatus = (ready = false, reason) => ({
+const getWaitingContainerStatus = (ready = false, reason) => ({
   ready: false,
   state: {
     waiting: {
       reason,
+    },
+  },
+});
+
+const getTerminatedContainerStatus = (ready = false, reason, exitCode = 5) => ({
+  ready: false,
+  state: {
+    terminated: {
+      reason,
+      exitCode,
     },
   },
 });
@@ -49,8 +61,16 @@ export default [
     expected: getResult(POD_STATUS_NOT_SCHEDULABLE, 'Pod scheduling failed.'),
   },
   {
-    pod: getPod(null, [], [getContainerStatus(false, 'CrashLoopBackOff')]),
-    expected: getResult(POD_STATUS_CONTAINER_FAILING),
+    pod: getPod('Failed', [], [getTerminatedContainerStatus(false, 'Error')]),
+    expected: getResult(POD_STATUS_FAILED, 'Terminated with Error (exit code 5).'),
+  },
+  {
+    pod: getPod('CrashLoopBackOff', [], [getWaitingContainerStatus(false, 'CrashLoopBackOff')]),
+    expected: getResult(POD_STATUS_CRASHLOOP_BACKOFF, 'Waiting (CrashLoopBackOff).'),
+  },
+  {
+    pod: getPod(null, [], [getWaitingContainerStatus(false, 'CrashLoopBackOff')]),
+    expected: getResult(POD_STATUS_CONTAINER_FAILING, 'Waiting (CrashLoopBackOff).'),
   },
   {
     pod: getPod(null, [getCondition('test', 'False', 'waiting-reason')]),

@@ -33,7 +33,7 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
         "vCenterInstance": Object {
           "value": "Connect to New Instance",
         },
-        "vmwareURL": Object {
+        "vmwareHostname": Object {
           "value": "my.domain.com",
         },
         "vmwareUserName": Object {
@@ -96,7 +96,7 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
       disabled={false}
       id="test-dropdown-id"
       key=".0"
-      onChange={[MockFunction]}
+      onChange={[Function]}
       value="test-instance-1"
       withTooltips={false}
     >
@@ -115,7 +115,7 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
             className="kubevirt-dropdown"
             disabled={false}
             id="test-dropdown-id"
-            onSelect={[MockFunction]}
+            onSelect={[Function]}
             title="test-instance-1"
           >
             <DropdownButton
@@ -123,14 +123,14 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
               className="kubevirt-dropdown"
               disabled={false}
               id="test-dropdown-id"
-              onSelect={[MockFunction]}
+              onSelect={[Function]}
               title="test-instance-1"
             >
               <Uncontrolled(Dropdown)
                 bsStyle="default"
                 disabled={false}
                 id="test-dropdown-id"
-                onSelect={[MockFunction]}
+                onSelect={[Function]}
               >
                 <Dropdown
                   bsClass="dropdown"
@@ -138,7 +138,7 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
                   componentClass={[Function]}
                   disabled={false}
                   id="test-dropdown-id"
-                  onSelect={[MockFunction]}
+                  onSelect={[Function]}
                   onToggle={[Function]}
                 >
                   <ButtonGroup
@@ -328,6 +328,7 @@ exports[`<VCenterInstancesConnected /> for list of vCenter secrets renders corre
         </div>
       </ButtonGroup>
     </Dropdown>
+     
   </WithResources>
 </VCenterInstances>
 `;

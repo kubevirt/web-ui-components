@@ -1,4 +1,6 @@
 import {
+  VM_STATUS_V2V_CONVERSION_ERROR,
+  VM_STATUS_V2V_CONVERSION_IN_PROGRESS,
   VM_STATUS_POD_ERROR,
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
@@ -23,13 +25,25 @@ import {
   findVMIMigration,
   findVmPod,
   getVmImporterPods,
+  findConversionPod,
+  getAnnotationValue,
 } from '../../../selectors';
 
-import { getPodStatus, POD_STATUS_ALL_ERROR, POD_STATUS_READY, POD_STATUS_NOT_SCHEDULABLE } from '../pod';
+import {
+  getPodStatus,
+  POD_STATUS_ALL_ERROR,
+  POD_STATUS_READY,
+  POD_STATUS_NOT_SCHEDULABLE,
+  POD_PHASE_SUCEEDED,
+} from '../pod';
 
 import { NOT_HANDLED } from '..';
 
-const isBeingMigrated = (vm, migration) => {
+import { parseNumber } from '../../utils';
+import { CONVERSION_PROGRESS_ANNOTATION } from '../../../k8s/requests/v2v/constants';
+
+const isBeingMigrated = (vm, migrations) => {
+  const migration = findVMIMigration(migrations, vm);
   if (isMigrating(migration)) {
     return { status: VM_STATUS_MIGRATING, message: getStatusPhase(migration) };
   }
@@ -86,7 +100,8 @@ const isCreated = (vm, launcherPod = null) => {
   return NOT_HANDLED;
 };
 
-const isBeingImported = (vm, importerPods) => {
+const isBeingImported = (vm, pods) => {
+  const importerPods = getVmImporterPods(pods, vm);
   if (importerPods && importerPods.length > 0 && !isVmCreated(vm)) {
     const importerPodsStatuses = importerPods.map(pod => {
       const podStatus = getPodStatus(pod);
@@ -119,6 +134,31 @@ const isBeingImported = (vm, importerPods) => {
   return NOT_HANDLED;
 };
 
+const isV2VConversion = (vm, pods) => {
+  const conversionPod = findConversionPod(pods, vm);
+  if (conversionPod && getStatusPhase(conversionPod) !== POD_PHASE_SUCEEDED) {
+    const conversionPodStatus = getPodStatus(conversionPod);
+
+    if (POD_STATUS_ALL_ERROR.includes(conversionPodStatus.status)) {
+      return {
+        ...conversionPodStatus,
+        status: VM_STATUS_V2V_CONVERSION_ERROR,
+        pod: conversionPod,
+        progress: null,
+      };
+    }
+    const progress = parseNumber(getAnnotationValue(conversionPod, CONVERSION_PROGRESS_ANNOTATION), 0);
+    return {
+      ...conversionPodStatus,
+      status: VM_STATUS_V2V_CONVERSION_IN_PROGRESS,
+      message: `${progress}% progress`,
+      pod: conversionPod,
+      progress,
+    };
+  }
+  return NOT_HANDLED;
+};
+
 const isWaitingForVmi = vm => {
   // assumption: spec.running === true
   if (!isVmCreated(vm)) {
@@ -127,23 +167,21 @@ const isWaitingForVmi = vm => {
   return NOT_HANDLED;
 };
 
-export const getVmStatus = (vm, pods, migrations, importerPods = null) => {
+export const getVmStatus = (vm, pods, migrations) => {
   const launcherPod = findVmPod(pods, vm, VIRT_LAUNCHER_POD_PREFIX);
-  const migration = findVMIMigration(migrations, vm);
-  const vmImporterPods = getVmImporterPods(importerPods || pods, vm);
   return (
-    isBeingMigrated(vm, migration) || // must precede isRunning() since vm.status.ready is true for a migrating VM
-    isBeingImported(vm, importerPods) || // must precede isRunning() since importing doesn't rely on the running status
+    isV2VConversion(vm, pods) || // these statuses must precede isRunning() because they do not rely on ready vms
+    isBeingMigrated(vm, migrations) || //  -||-
+    isBeingImported(vm, pods) || //  -||-
     isRunning(vm) ||
     isReady(vm, launcherPod) ||
     isVmError(vm) ||
     isCreated(vm, launcherPod) ||
-    isBeingImported(vm, vmImporterPods) ||
     isWaitingForVmi(vm) || { status: VM_STATUS_UNKNOWN }
   );
 };
 
-export const getSimpleVmStatus = (vm, pods, migrations, importerPods) => {
-  const vmStatus = getVmStatus(vm, pods, migrations, importerPods).status;
+export const getSimpleVmStatus = (vm, pods, migrations) => {
+  const vmStatus = getVmStatus(vm, pods, migrations).status;
   return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_SIMPLE_STATUS_OTHER;
 };

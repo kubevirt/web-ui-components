@@ -20,7 +20,7 @@ import {
   NETWORK_BINDING_MASQUERADE,
   NETWORK_BINDING_SRIOV,
 } from '../components/Wizard/CreateVmWizard/constants';
-import { getCloudInitVolume } from '../selectors';
+import { getCloudInitVolume, getName } from '../selectors';
 
 export const addDisk = (vm, defaultDisk, storage, getSetting) => {
   const diskSpec = {
@@ -77,6 +77,16 @@ export const addPvcVolume = (vm, storage) => {
     persistentVolumeClaim: {
       ...(storage.templateStorage ? storage.templateStorage.volume.persistentVolumeClaim : {}),
       claimName: storage.name,
+    },
+  };
+  addVolume(vm, volume);
+};
+
+export const addExternalImportPvcVolume = (vm, storage) => {
+  const volume = {
+    name: storage.name,
+    persistentVolumeClaim: {
+      claimName: getName(storage.data.pvc),
     },
   };
   addVolume(vm, volume);
