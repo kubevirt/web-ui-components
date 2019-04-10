@@ -10,7 +10,7 @@ export const VM_STATUS_UNKNOWN = 'VM_STATUS_UNKNOWN';
 export const VM_STATUS_MIGRATING = 'VM_STATUS_MIGRATING';
 export const VM_STATUS_OTHER = 'VM_STATUS_OTHER'; // used for grouping filters
 
-export const VM_STATUS_ALL = [VM_STATUS_RUNNING, VM_STATUS_OFF, VM_STATUS_OTHER];
+export const VM_SIMPLE_STATUS_ALL = [VM_STATUS_RUNNING, VM_STATUS_OFF, VM_STATUS_OTHER];
 
 export const VM_STATUS_ALL_OFF = [VM_STATUS_OFF];
 export const VM_STATUS_ALL_WARNING = [VM_STATUS_UNKNOWN];
@@ -22,7 +22,7 @@ export const VM_STATUS_ALL_PROGRESS = [
   VM_STATUS_MIGRATING,
 ];
 
-export const VM_STATUS_TO_TEXT = {
+export const VM_SIMPLE_STATUS_TO_TEXT = {
   [VM_STATUS_RUNNING]: 'Running',
   [VM_STATUS_OFF]: 'Off',
   [VM_STATUS_OTHER]: 'Other',

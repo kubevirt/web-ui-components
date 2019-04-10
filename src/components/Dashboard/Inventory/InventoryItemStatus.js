@@ -58,8 +58,8 @@ export const InventoryItemStatus = ({ ok, warn, error, inProgress, off }) => (
     <Status Component={InProgressStatus} count={inProgress} />
     <Status Component={ErrorStatus} count={error} />
     <Status Component={WarnStatus} count={warn} />
-    <Status Component={OkStatus} count={ok} />
     <Status Component={OffStatus} count={off} />
+    <Status Component={OkStatus} count={ok} />
   </div>
 );
 
