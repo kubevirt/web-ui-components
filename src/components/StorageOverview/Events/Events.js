@@ -14,12 +14,12 @@ import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext
 
 export const Events = ({ Component }) => (
   <DashboardCard>
-    <DashboardCardHeader>
+    <DashboardCardHeader className="kubevirt-events__card-header">
       <DashboardCardTitle>Events</DashboardCardTitle>
       <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
     </DashboardCardHeader>
-    <DashboardCardBody>
-      <EventsBody id="events-body">
+    <DashboardCardBody id="events-body" className="kubevirt-events__card-body">
+      <EventsBody>
         <Component />
       </EventsBody>
     </DashboardCardBody>

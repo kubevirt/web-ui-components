@@ -1,10 +1,19 @@
 .kubevirt-events__body {
   display: flex;
   flex-direction: column;
-  margin: -15px -15px;
   min-height: 150px;
   max-height: 400px;
+  margin-top: 15px;
+}
+
+.kubevirt-events__card-body {
+  margin: 0 -15px;
+  padding: 0;
   overflow-y: auto;
+}
+
+.kubevirt-events__card-header {
+  margin-bottom: 0;
 }
 
 .kubevirt-events__event-item {
