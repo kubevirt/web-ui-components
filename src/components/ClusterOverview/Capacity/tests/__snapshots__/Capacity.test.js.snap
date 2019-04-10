@@ -45,7 +45,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           Memory
         </h3>
         <h6>
-          1.0 MiB available out of 1 MiB
+          1.0 Mi available out of 1 Mi
         </h6>
         <div>
           <div
