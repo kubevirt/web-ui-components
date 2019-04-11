@@ -10,7 +10,7 @@ exports[`<Utilization /> renders correctly 1`] = `
     <h2
       class="card-pf-title"
     >
-      OCS Perfrormance
+      Perfrormance
     </h2>
   </div>
   <div
@@ -121,7 +121,7 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
     <h2
       class="card-pf-title"
     >
-      OCS Perfrormance
+      Perfrormance
     </h2>
   </div>
   <div

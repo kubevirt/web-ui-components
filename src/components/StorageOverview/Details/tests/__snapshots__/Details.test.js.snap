@@ -10,7 +10,7 @@ exports[`<Details /> renders correctly 1`] = `
     <h2
       class="card-pf-title"
     >
-      Details
+      OCS Details
     </h2>
   </div>
   <div
@@ -38,19 +38,7 @@ exports[`<Details /> renders correctly 1`] = `
         class="kubevirt-detail__item-value"
       >
         <span>
-          Ceph
-        </span>
-      </dd>
-      <dt
-        class="kubevirt-detail__item-title"
-      >
-        OCS version
-      </dt>
-      <dd
-        class="kubevirt-detail__item-value"
-      >
-        <span>
-          4.1
+          Bare Metal
         </span>
       </dd>
     </dl>
