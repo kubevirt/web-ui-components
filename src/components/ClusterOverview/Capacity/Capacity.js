@@ -52,7 +52,7 @@ export const Capacity = ({
         <CapacityItem
           id="storage"
           title="Storage"
-          used={getCapacityStats(storageUsed)}
+          used={getLastUtilizationStat(storageUsed)}
           total={getCapacityStats(storageTotal)}
           formatValue={formatBytes}
           LoadingComponent={LoadingComponent}
