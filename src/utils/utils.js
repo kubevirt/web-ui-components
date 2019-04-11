@@ -82,30 +82,42 @@ export const getResource = (
   return res;
 };
 
-const BYTE_UNITS = {
-  B: 0,
-  KiB: 1,
-  MiB: 2,
-  GiB: 3,
-  TiB: 4,
-  PiB: 5,
+const BYTE_UNITS_CONFIG = {
+  conversion: 1024,
+  units: {
+    B: 0,
+    Ki: 1,
+    Mi: 2,
+    Gi: 3,
+    Ti: 4,
+    Pi: 5,
+  },
 };
 
-export const formatBytes = (bytes, unit, fixed = 2) => {
-  unit = unit || Object.keys(BYTE_UNITS).find(key => bytes < 1024 ** (BYTE_UNITS[key] + 1)) || 'PiB';
-  return { value: Number((bytes / 1024 ** BYTE_UNITS[unit]).toFixed(fixed)), unit };
+const NETWORK_BYTE_UNITS_CONFIG = {
+  conversion: 1000,
+  units: {
+    Bps: 0,
+    KBps: 1,
+    MBps: 2,
+    GBps: 3,
+    TBps: 4,
+    PBps: 5,
+  },
+};
+
+export const formatBytes = (bytes, unit, fixed = 2, conversionConfig = BYTE_UNITS_CONFIG) => {
+  const { units, conversion } = conversionConfig;
+  const unitKeys = Object.keys(units);
+  unit = unit || unitKeys.find(key => bytes < conversion ** (units[key] + 1)) || unitKeys[unitKeys.length - 1];
+  return { value: Number((bytes / conversion ** units[unit]).toFixed(fixed)), unit };
 };
 
 export const formatCores = cores => ({ value: cores, unit: 'cores' });
 export const formatPercents = percents => ({ value: percents, unit: '%' });
 
-export const formatNetTraffic = (bytesPerSecond, preferredUnit, fixed = 2) => {
-  preferredUnit =
-    preferredUnit && preferredUnit.endsWith('ps') ? preferredUnit.slice(0, preferredUnit.length - 2) : preferredUnit;
-  const formatted = formatBytes(bytesPerSecond, preferredUnit, fixed);
-  formatted.unit = `${formatted.unit}ps`;
-  return formatted;
-};
+export const formatNetTraffic = (bytesPerSecond, preferredUnit, fixed = 2) =>
+  formatBytes(bytesPerSecond, preferredUnit, fixed, NETWORK_BYTE_UNITS_CONFIG);
 
 export const getNetworkBindings = networkType => {
   switch (networkType) {
