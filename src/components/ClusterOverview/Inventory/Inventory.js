@@ -17,14 +17,15 @@ import {
   mapHostsToProps,
 } from '../../Dashboard/Inventory/utils';
 import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
+import { InlineLoading } from '../../Loading';
 
-const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations, hosts }) => (
+const InventoryBody = ({ nodes, pods, vms, vmis, pvcs, migrations, hosts, LoadingComponent }) => (
   <React.Fragment>
-    <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} />
-    <InventoryRow title="Hosts" {...mapHostsToProps(hosts)} />
-    <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} />
-    <InventoryRow title="Pods" {...mapPodsToProps(pods)} />
-    <InventoryRow title="VMs" {...mapVmsToProps(vms, pods, migrations)} />
+    <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="Hosts" {...mapHostsToProps(hosts)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="Pods" {...mapPodsToProps(pods)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="VMs" {...mapVmsToProps(vms, pods, migrations)} LoadingComponent={LoadingComponent} />
   </React.Fragment>
 );
 
@@ -36,6 +37,7 @@ InventoryBody.defaultProps = {
   pvcs: undefined,
   migrations: undefined,
   hosts: undefined,
+  LoadingComponent: InlineLoading,
 };
 
 InventoryBody.propTypes = {
@@ -46,6 +48,7 @@ InventoryBody.propTypes = {
   pvcs: PropTypes.array,
   migrations: PropTypes.array,
   hosts: PropTypes.array,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export const Inventory = props => (

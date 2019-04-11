@@ -12,13 +12,14 @@ import { StorageOverviewContext } from '../StorageOverviewContext';
 import { mapNodesToProps, mapPvcsToProps, mapPvsToProps } from '../../Dashboard/Inventory/utils';
 import diskStatsToProps from './diskInventoryUtils';
 import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
+import { InlineLoading } from '../../Loading';
 
-const InventoryBody = ({ nodes, pvs, pvcs, diskStats }) => (
+const InventoryBody = ({ nodes, pvs, pvcs, diskStats, LoadingComponent }) => (
   <React.Fragment>
-    <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} />
-    <InventoryRow title="Disks" {...diskStatsToProps(diskStats)} />
-    <InventoryRow title="PVs" {...mapPvsToProps(pvs)} />
-    <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} />
+    <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="Disks" {...diskStatsToProps(diskStats)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="PVs" {...mapPvsToProps(pvs)} LoadingComponent={LoadingComponent} />
+    <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} LoadingComponent={LoadingComponent} />
   </React.Fragment>
 );
 
@@ -27,6 +28,7 @@ InventoryBody.defaultProps = {
   diskStats: undefined,
   pvs: undefined,
   pvcs: undefined,
+  LoadingComponent: InlineLoading,
 };
 
 InventoryBody.propTypes = {
@@ -34,6 +36,7 @@ InventoryBody.propTypes = {
   diskStats: PropTypes.object,
   pvs: PropTypes.array,
   pvcs: PropTypes.array,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export const Inventory = props => (
