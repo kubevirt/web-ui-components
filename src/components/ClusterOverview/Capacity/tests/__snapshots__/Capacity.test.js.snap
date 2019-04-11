@@ -62,7 +62,7 @@ exports[`<Capacity /> renders correctly 1`] = `
           Storage
         </h3>
         <h6>
-          5 KB available out of 10 KB
+          5 Ki available out of 10 Ki
         </h6>
         <div>
           <div

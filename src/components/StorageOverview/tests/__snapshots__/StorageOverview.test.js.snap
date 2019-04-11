@@ -227,7 +227,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
               class="card-pf kubevirt-dashboard__card"
             >
               <div
-                class="card-pf-heading kubevirt-dashboard__card-heading kubevirt-events__card-header"
+                class="card-pf-heading kubevirt-dashboard__card-heading"
               >
                 <h2
                   class="card-pf-title"
@@ -313,7 +313,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
                       <div
                         class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
                       >
-                        30 KiB/s
+                        30 Ki/s
                       </div>
                     </div>
                     <div
@@ -339,7 +339,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
               class="card-pf kubevirt-dashboard__card"
             >
               <div
-                class="card-pf-heading kubevirt-dashboard__card-heading"
+                class="card-pf-heading kubevirt-dashboard__card-heading kubevirt-events__card-header"
               >
                 <h2
                   class="card-pf-title"

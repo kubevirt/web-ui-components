@@ -35,7 +35,7 @@ ErrorStatus.propTypes = StatusPropTypes;
 
 const InProgressStatus = ({ count }) => (
   <div className="kubevirt-inventory__row-status-item">
-    <Icon type="pf" name="in-progress" className="kubevirt-inventory__row-status-item-icon--in-progress"/>
+    <Icon type="pf" name="in-progress" className="kubevirt-inventory__row-status-item-icon--in-progress" />
     <span className="kubevirt-inventory__row-status-item-text">{count}</span>
   </div>
 );
