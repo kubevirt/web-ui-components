@@ -8,7 +8,8 @@ export default [
     props: {
       title: 'Error',
       content: 'Failed',
-      expanded: true,
+      isExpanded: true,
+      isError: true,
     },
   },
   {

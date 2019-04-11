@@ -28,7 +28,7 @@ import { getName } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { CONVERSION_GENERATE_NAME } from './constants';
-import { buildOwnerReference, buildAddOwnerReferencesPatch, replaceUpdatedObject } from '../../util/utils';
+import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
 
 const asImportProviderSecret = getSetting => {
   if (getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY)) {
@@ -60,20 +60,17 @@ const asVolume = ({ name, data }) => ({
   },
 });
 
-const createProviderSecret = async (getSetting, networks, storages, { k8sCreate }, { resultObjects }) => {
+const createProviderSecret = async (getSetting, networks, storages, { k8sCreate }) => {
   const importProviderSecret = asImportProviderSecret(getSetting);
-  let providerSecret;
 
   if (importProviderSecret) {
-    providerSecret = await k8sCreate(SecretModel, importProviderSecret);
+    await k8sCreate(SecretModel, importProviderSecret);
   }
 
-  return {
-    resultObjects: providerSecret ? [...resultObjects, providerSecret] : resultObjects,
-  };
+  return null;
 };
 
-const resolveStorages = async (getSetting, networks, storages, { k8sCreate }, { resultObjects }) => {
+const resolveStorages = async (getSetting, networks, storages, { k8sCreate }) => {
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
   const namespace = getSetting(NAMESPACE_KEY);
@@ -91,7 +88,6 @@ const resolveStorages = async (getSetting, networks, storages, { k8sCreate }, { 
   );
 
   const resultImportPvcs = await Promise.all(extImportPvcsPromises);
-  const tempImportPvcs = [...resultImportPvcs];
 
   const mappedStorages = storages.map(storage => {
     if (isImportStorage(storage)) {
@@ -99,19 +95,18 @@ const resolveStorages = async (getSetting, networks, storages, { k8sCreate }, { 
         ...storage,
         data: {
           ...storage.data,
-          pvc: tempImportPvcs.shift(),
+          pvc: resultImportPvcs.shift(),
         },
       };
     }
     return storage;
   });
   return {
-    resultObjects: [...resultObjects, ...resultImportPvcs],
     mappedStorages,
   };
 };
 
-const resolveRolesAndServiceAccount = async (getSetting, networks, storages, { k8sCreate }, { resultObjects }) => {
+const resolveRolesAndServiceAccount = async (getSetting, networks, storages, { k8sCreate }) => {
   const namespace = getSetting(NAMESPACE_KEY);
 
   const serviceAccount = await k8sCreate(
@@ -131,14 +126,13 @@ const resolveRolesAndServiceAccount = async (getSetting, networks, storages, { k
   );
 
   return {
-    resultObjects: [...resultObjects, serviceAccount, role, roleBinding],
     serviceAccount,
     role,
     roleBinding,
   };
 };
 
-const createConversionPodSecret = async (getSetting, networks, storages, { k8sCreate }, { resultObjects }) => {
+const createConversionPodSecret = async (getSetting, networks, storages, { k8sCreate }) => {
   const namespace = getSetting(NAMESPACE_KEY);
   const vmWareData = getSetting(PROVIDER_VMWARE_VM_DATA_KEY);
 
@@ -174,7 +168,6 @@ const createConversionPodSecret = async (getSetting, networks, storages, { k8sCr
   );
 
   return {
-    resultObjects: [...resultObjects, conversionPodSecret],
     conversionPodSecret,
   };
 };
@@ -185,7 +178,7 @@ const startConversionPod = async (
   networks,
   storages,
   { k8sCreate, k8sPatch },
-  { resultObjects, serviceAccount, role, roleBinding, mappedStorages, conversionPodSecret }
+  { serviceAccount, role, roleBinding, mappedStorages, conversionPodSecret }
 ) => {
   const namespace = getSetting(NAMESPACE_KEY);
   const volumes = [];
@@ -219,15 +212,14 @@ const startConversionPod = async (
       .filter(storage => storage.storageType === STORAGE_TYPE_EXTERNAL_V2V_TEMP)
       .map(({ data }) => data.pvc);
 
-    await [serviceAccount, role, roleBinding, conversionPodSecret, ...patchPvcs].forEach(async object => {
+    const patchPromises = [serviceAccount, role, roleBinding, conversionPodSecret, ...patchPvcs].map(object => {
       const patches = [buildAddOwnerReferencesPatch(object, newOwnerReferences)];
-      await k8sPatch(findModel(object), object, patches);
-      resultObjects = replaceUpdatedObject(resultObjects, object);
+      return k8sPatch(findModel(object), object, patches);
     });
+    await Promise.all(patchPromises);
   }
 
   return {
-    resultObjects: [...resultObjects, conversionPod],
     conversionPod,
   };
 };
@@ -239,25 +231,20 @@ export const importVmwareVm = async (getSetting, networks, storages, { k8sCreate
     resolveRolesAndServiceAccount,
     resolveStorages,
     startConversionPod,
-  ].reduce(
-    async (lastResultPromise, stepFunction) => {
-      const lastResult = await lastResultPromise;
-      const nextResult = await stepFunction(
-        getSetting,
-        networks,
-        storages,
-        {
-          k8sCreate,
-          k8sPatch,
-        },
-        lastResult
-      );
-      return {
-        ...lastResult,
-        ...nextResult,
-      };
-    },
-    Promise.resolve({
-      resultObjects: [],
-    })
-  );
+  ].reduce(async (lastResultPromise, stepFunction) => {
+    const lastResult = await lastResultPromise;
+    const nextResult = await stepFunction(
+      getSetting,
+      networks,
+      storages,
+      {
+        k8sCreate,
+        k8sPatch,
+      },
+      lastResult
+    );
+    return {
+      ...lastResult,
+      ...nextResult,
+    };
+  }, Promise.resolve({}));

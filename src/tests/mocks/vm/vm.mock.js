@@ -23,7 +23,7 @@ export const fullVm = {
     clusterName: '',
     creationTimestamp: '2018-11-06T14:32:07Z',
     generation: 1,
-    name: 'cloudinit-test-vm',
+    name: 'full-vm',
     namespace: 'default',
     resourceVersion: '10390764',
     selfLink: '/apis/kubevirt.io/v1alpha3/namespaces/default/virtualmachines/cloudinit-test-vm',

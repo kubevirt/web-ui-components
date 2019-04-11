@@ -1,16 +1,19 @@
-import { NamespaceModel, ProjectModel } from '../models';
+import { getModelIndexId, NamespaceModel, ProjectModel } from '../models';
 
 import {
-  NETWORK_TYPE_POD,
-  NETWORK_TYPE_MULTUS,
   NETWORK_BINDING_BRIDGE,
-  NETWORK_BINDING_SRIOV,
   NETWORK_BINDING_MASQUERADE,
+  NETWORK_BINDING_SRIOV,
+  NETWORK_TYPE_MULTUS,
+  NETWORK_TYPE_POD,
 } from '../components/Wizard/CreateVmWizard/constants';
+import { getName, getNamespace } from '../selectors';
 
 export function prefixedId(idPrefix, id) {
   return idPrefix && id ? `${idPrefix}-${id}` : null;
 }
+
+export const getFullResourceId = obj => `${getModelIndexId(obj)}/${getNamespace(obj)}/${getName(obj)}`;
 
 export const parseUrl = url => {
   try {
