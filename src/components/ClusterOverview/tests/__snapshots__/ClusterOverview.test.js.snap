@@ -253,7 +253,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
               class="card-pf kubevirt-dashboard__card"
             >
               <div
-                class="card-pf-heading kubevirt-dashboard__card-heading"
+                class="card-pf-heading kubevirt-dashboard__card-heading kubevirt-events__card-header"
               >
                 <h2
                   class="card-pf-title"
@@ -271,11 +271,11 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 </button>
               </div>
               <div
-                class="card-pf-body"
+                class="card-pf-body kubevirt-events__card-body"
+                id="events-body"
               >
                 <div
                   class="kubevirt-events__body"
-                  id="events-body"
                 >
                   <div>
                     Requires component from tectonic
