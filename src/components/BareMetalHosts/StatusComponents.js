@@ -15,18 +15,24 @@ IconAndText.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-// Generic success status component
-export const GenericSuccess = ({ status, text, errorMessage }) => <IconAndText icon="ok" text={text} />;
+// Generic status component as a fallback
+export const GenericStatus = ({ status, text, errorMessage }) => text;
 
-GenericSuccess.propTypes = {
+GenericStatus.propTypes = {
   status: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
 };
 
-GenericSuccess.defaultProps = {
+GenericStatus.defaultProps = {
   errorMessage: undefined,
 };
+
+// Generic success status component
+export const GenericSuccess = ({ status, text, errorMessage }) => <IconAndText icon="ok" text={text} />;
+
+GenericSuccess.propTypes = GenericStatus.propTypes;
+GenericSuccess.defaultProps = GenericStatus.defaultProps;
 
 // Generic error status component
 // If the errorMessage property isn't empty its contents are
@@ -40,41 +46,14 @@ export const GenericError = ({ status, text, errorMessage }) =>
     <IconAndText icon="error-circle-o" text={text} />
   );
 
-GenericError.propTypes = {
-  status: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string,
-};
-
-GenericError.defaultProps = {
-  errorMessage: undefined,
-};
-
-// Generic status component as a fallback
-export const GenericStatus = ({ status, text, errorMessage }) => text;
-
-GenericStatus.propTypes = {
-  status: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string,
-};
-
-GenericSuccess.defaultProps = {
-  errorMessage: undefined,
-};
+GenericError.propTypes = GenericStatus.propTypes;
+GenericError.defaultProps = GenericStatus.defaultProps;
 
 // Generic progress status component
 export const GenericProgress = ({ status, text, errorMessage }) => <IconAndText icon="in-progress" text={text} />;
 
-GenericProgress.propTypes = {
-  status: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string,
-};
-
-GenericProgress.defaultProps = {
-  errorMessage: undefined,
-};
+GenericProgress.propTypes = GenericStatus.propTypes;
+GenericProgress.defaultProps = GenericStatus.defaultProps;
 
 // Validation Error component
 // (TODO) Add details for validation errors in Popover component
