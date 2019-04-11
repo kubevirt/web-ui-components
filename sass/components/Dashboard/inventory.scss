@@ -43,3 +43,11 @@
 .kubevirt-inventory__row-status-item-icon--warn {
   color: goldenrod;
 }
+
+.kubevirt-inventory__row-status-item-icon--off {
+  font-size: 1.7em;
+}
+
+.kubevirt-inventory__row-status-item-icon--in-progress {
+  font-size: 1.6em;
+}

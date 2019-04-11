@@ -6,7 +6,7 @@ import {
   VM_STATUS_STARTING,
   VM_STATUS_MIGRATING,
   VM_STATUS_RUNNING,
-  VM_STATUS_OTHER,
+  VM_SIMPLE_STATUS_OTHER,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_IMPORTING,
 } from '../constants';
@@ -217,7 +217,7 @@ export default [
 
     podsFixture: [podFixture], // helper, not part of the API object
     expected: VM_STATUS_STARTING,
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
   },
 
   {
@@ -228,7 +228,7 @@ export default [
 
     podsFixture: undefined, // pod not yet created
     expected: VM_STATUS_STARTING,
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
   },
 
   {
@@ -240,7 +240,7 @@ export default [
 
     podsFixture: [podFixtureNoConditions], // helper, not part of the API object
     expected: VM_STATUS_STARTING,
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
   },
 
   {
@@ -250,7 +250,7 @@ export default [
     }),
 
     podsFixture: [podNotScheduledFixture], // helper, not part of the API object
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_POD_ERROR,
   },
 
@@ -261,13 +261,13 @@ export default [
     }),
 
     expected: VM_STATUS_VMI_WAITING,
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
   },
 
   {
     vm: getVm(true),
     expected: VM_STATUS_VMI_WAITING,
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
   },
 
   {
@@ -283,7 +283,7 @@ export default [
       ],
     }),
 
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_ERROR,
   },
 
@@ -301,7 +301,7 @@ export default [
       ],
     }),
 
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_ERROR,
   },
 
@@ -309,7 +309,7 @@ export default [
     vm: getVm(true, null, dataVolumeTemplates),
 
     importerPodsFixture: [podNotScheduledFixture], // helper, not part of the API object
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_IMPORT_ERROR,
   },
 
@@ -319,7 +319,7 @@ export default [
     }),
 
     podsFixture: [podPullBackOff],
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_POD_ERROR,
   },
 
@@ -330,7 +330,7 @@ export default [
     }),
 
     migrations: [getMigration('Scheduling')],
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_MIGRATING,
   },
 
@@ -349,7 +349,7 @@ export default [
     vm: getVm(true, null, dataVolumeTemplates),
 
     importerPodsFixture: [importPod],
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_IMPORTING,
   },
 
@@ -357,7 +357,7 @@ export default [
     vm: getVm(true, null, dataVolumeTemplates),
 
     importerPodsFixture: [importPod, podNotScheduledFixture],
-    expectedSimple: VM_STATUS_OTHER,
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_IMPORT_ERROR,
   },
 ];

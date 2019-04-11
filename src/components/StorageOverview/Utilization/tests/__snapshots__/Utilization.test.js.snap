@@ -91,7 +91,7 @@ exports[`<Utilization /> renders correctly 1`] = `
           <div
             class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
-            30 KiB/s
+            30 Ki/s
           </div>
         </div>
         <div

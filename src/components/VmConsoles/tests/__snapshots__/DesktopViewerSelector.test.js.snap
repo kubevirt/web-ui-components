@@ -91,7 +91,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
               },
             },
           ],
-          "running": false,
+          "running": true,
           "template": Object {
             "spec": Object {
               "domain": Object {
@@ -197,6 +197,10 @@ hostname: cloudinit-test
               ],
             },
           },
+        },
+        "status": Object {
+          "created": true,
+          "ready": true,
         },
       }
     }

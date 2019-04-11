@@ -27,6 +27,10 @@ export const fullVm = {
     selfLink: '/apis/kubevirt.io/v1alpha3/namespaces/default/virtualmachines/cloudinit-test-vm',
     uid: 'bcc1d0b1-e1d0-11e8-82b4-54ee7586b9c3',
   },
+  status: {
+    created: true,
+    ready: true,
+  },
   spec: {
     dataVolumeTemplates: [
       {
@@ -51,7 +55,7 @@ export const fullVm = {
         },
       },
     ],
-    running: false,
+    running: true,
     template: {
       spec: {
         domain: {

@@ -9,7 +9,7 @@ import {
   VM_STATUS_STARTING,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_UNKNOWN,
-  VM_STATUS_OTHER,
+  VM_SIMPLE_STATUS_OTHER,
 } from './constants';
 
 import { VIRT_LAUNCHER_POD_PREFIX } from '../../../constants';
@@ -145,5 +145,5 @@ export const getVmStatus = (vm, pods, migrations, importerPods = null) => {
 
 export const getSimpleVmStatus = (vm, pods, migrations, importerPods) => {
   const vmStatus = getVmStatus(vm, pods, migrations, importerPods).status;
-  return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_STATUS_OTHER;
+  return vmStatus === VM_STATUS_OFF || vmStatus === VM_STATUS_RUNNING ? vmStatus : VM_SIMPLE_STATUS_OTHER;
 };
