@@ -8,6 +8,7 @@ export default [
       warn: 3,
       error: 2,
       inProgress: 1,
+      off: 3,
     },
   },
   {
@@ -18,6 +19,7 @@ export default [
       warn: 0,
       error: 0,
       inProgress: 0,
+      off: 0,
     },
   },
 ];
