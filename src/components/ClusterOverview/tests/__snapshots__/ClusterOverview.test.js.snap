@@ -60,18 +60,6 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                   <dt
                     class="kubevirt-detail__item-title"
                   >
-                    RHHI version
-                  </dt>
-                  <dd
-                    class="kubevirt-detail__item-value"
-                  >
-                    <span>
-                      1.0
-                    </span>
-                  </dd>
-                  <dt
-                    class="kubevirt-detail__item-title"
-                  >
                     Openshift version
                   </dt>
                   <dd
