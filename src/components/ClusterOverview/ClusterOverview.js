@@ -20,7 +20,7 @@ const MainCards = () => (
   <GridItem lg={6} md={12} sm={12}>
     <Grid>
       <GridItem span={12}>
-        <Grid className="kubevirt-cluster-overview__health-grid">
+        <Grid className="kubevirt-dashbord__health-grid">
           <GridItem span={6}>
             <HealthConnected />
           </GridItem>
@@ -28,7 +28,7 @@ const MainCards = () => (
             <ComplianceConnected />
           </GridItem>
           <GridItem span={12}>
-            <AlertsConnected className="kubevirt-cluster-overview__card--top-border" />
+            <AlertsConnected className="kubevirt-dashbord__card--top-border" />
           </GridItem>
         </Grid>
       </GridItem>
