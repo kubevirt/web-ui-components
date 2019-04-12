@@ -138,3 +138,10 @@ export const getDefaultNetworkBinding = networkType => {
       return NETWORK_BINDING_MASQUERADE;
   }
 };
+
+export const formatToShortTime = timestamp => {
+  const dt = new Date(timestamp);
+
+  // returns in HH:MM format
+  return dt.toString().substring(16, 21);
+};

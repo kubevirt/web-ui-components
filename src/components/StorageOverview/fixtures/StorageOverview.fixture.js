@@ -16,6 +16,8 @@ import { persistentVolumes } from '../../../tests/mocks/persistentVolume';
 import { osdDisksCount } from '../../../tests/mocks/disks';
 import { cephDiskInaccessibleAlert, cephDataRecoveryAlert } from '../Alerts/fixtures/Alerts.fixture';
 
+import { TopConsumerStats } from '../TopConsumers/fixtures/TopConsumers.fixture';
+
 export const nodes = [localhostNode];
 export const pvcs = persistentVolumeClaims;
 export const pvs = persistentVolumes;
@@ -42,6 +44,7 @@ export default [
       ...utilizationStats,
       ...dataResiliencyData[0],
       alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
+      ...TopConsumerStats[1],
     },
   },
   {
