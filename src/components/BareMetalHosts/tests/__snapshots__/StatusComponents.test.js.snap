@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GenericError /> renders an error message 1`] = `
+<IconAndText
+  icon="error-circle-o"
+  text="Registration Error"
+/>
+`;
+
+exports[`<GenericError /> with details renders an error message with details 1`] = `
+<Popover
+  appendTo={[Function]}
+  aria-label=""
+  bodyContent="some error details"
+  className={null}
+  closeBtnAriaLabel="Close"
+  enableFlip={true}
+  headerContent={
+    <div>
+      Errors
+    </div>
+  }
+  hideOnOutsideClick={true}
+  isVisible={null}
+  onHidden={[Function]}
+  onHide={[Function]}
+  onMount={[Function]}
+  onShow={[Function]}
+  onShown={[Function]}
+  position="right"
+  shouldClose={[Function]}
+  size="regular"
+  zIndex={9999}
+>
+  <IconAndText
+    icon="error-circle-o"
+    text="Registration Error"
+  />
+</Popover>
+`;
+
+exports[`<GenericProgress /> renders a progress message 1`] = `
+<IconAndText
+  icon="in-progress"
+  text="Provisioning"
+/>
+`;
+
+exports[`<GenericStatus /> renders a generic status string 1`] = `"Provisioned"`;
+
+exports[`<GenericSuccess /> renders a success message 1`] = `
+<IconAndText
+  icon="ok"
+  text="Provisioned"
+/>
+`;
+
+exports[`<ValidationError /> renders a validation error 1`] = `
+<Popover
+  appendTo={[Function]}
+  aria-label=""
+  bodyContent="some validation errors"
+  className={null}
+  closeBtnAriaLabel="Close"
+  enableFlip={true}
+  headerContent={
+    <div>
+      Errors
+    </div>
+  }
+  hideOnOutsideClick={true}
+  isVisible={null}
+  onHidden={[Function]}
+  onHide={[Function]}
+  onMount={[Function]}
+  onShow={[Function]}
+  onShown={[Function]}
+  position="right"
+  shouldClose={[Function]}
+  size="regular"
+  zIndex={9999}
+>
+  <IconAndText
+    icon="error-circle-o"
+    text="Validation Error(s)"
+  />
+</Popover>
+`;
