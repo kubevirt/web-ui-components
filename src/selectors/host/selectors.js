@@ -7,3 +7,4 @@ export const getHostRole = hostMachine =>
   get(hostMachine, ['metadata', 'labels', 'machine.openshift.io/cluster-api-machine-role']);
 
 export const getHostMachineName = host => get(host, 'spec.machineRef.name');
+export const getHostErrorMessage = host => get(host, 'status.errorMessage');
