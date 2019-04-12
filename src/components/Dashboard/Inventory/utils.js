@@ -8,7 +8,12 @@ import {
 import { getPodStatus, POD_STATUS_ALL_ERROR, POD_STATUS_ALL_PROGRESS } from '../../../utils/status/pod';
 import { getNodeStatus, NODE_STATUS_ALL_ERROR, NODE_STATUS_ALL_WARN } from '../../../utils/status/node';
 import { getPvcStatus, PVC_STATUS_ALL_ERROR, PVC_STATUS_ALL_PROGRESS } from '../../../utils/status/pvc';
-import { getHostStatus, HOST_STATUS_ALL_ERROR, HOST_STATUS_ALL_WARN } from '../../../utils/status/host';
+import {
+  getHostStatus,
+  HOST_STATUS_ALL_ERROR,
+  HOST_STATUS_ALL_WARN,
+  HOST_STATUS_ALL_PROGRESS,
+} from '../../../utils/status/host';
 import { getPvStatus, PV_STATUS_ALL_ERROR, PV_STATUS_ALL_PROGRESS } from '../../../utils/status/pv';
 
 // same as InventoryItemStatus props
@@ -89,5 +94,6 @@ export const mapHostsToProps = hosts =>
     resolveStatusResult(getHostStatus(host).status, {
       [STATUS_RESULT_ERROR]: HOST_STATUS_ALL_ERROR,
       [STATUS_RESULT_WARN]: HOST_STATUS_ALL_WARN,
+      [STATUS_RESULT_IN_PROGRESS]: HOST_STATUS_ALL_PROGRESS,
     })
   );
