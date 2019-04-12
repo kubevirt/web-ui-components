@@ -1,6 +1,7 @@
 import { dataVolumes } from '../dataVolume';
 import { getName } from '../../../selectors';
 import { persistentVolumeClaims } from '../persistentVolumeClaim';
+import { LABEL_USED_TEMPLATE_NAME, LABEL_USED_TEMPLATE_NAMESPACE } from '../../../constants';
 
 export const fullVm = {
   apiVersion: 'kubevirt.io/v1alpha3',
@@ -13,10 +14,11 @@ export const fullVm = {
         'Fusce cursus orci vitae nisl hendrerit mollis. Nullam at nulla ut ipsum malesuada laoreet a sit amet est.',
     },
     labels: {
-      'flavor.template.cnv.io/small': 'true',
-      'os.template.cnv.io/fedora29': 'true',
-      'template.cnv.ui': 'default_fedora-generic',
-      'workload.template.cnv.io/generic': 'true',
+      'flavor.template.kubevirt.io/small': 'true',
+      'os.template.kubevirt.io/fedora29': 'true',
+      [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
+      [LABEL_USED_TEMPLATE_NAMESPACE]: 'default',
+      'workload.template.kubevirt.io/generic': 'true',
     },
     clusterName: '',
     creationTimestamp: '2018-11-06T14:32:07Z',

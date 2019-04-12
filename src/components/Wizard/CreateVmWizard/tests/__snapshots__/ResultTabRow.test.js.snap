@@ -37,10 +37,11 @@ exports[`<ResultTabRow /> renders correctly 2`] = `
    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacus nibh, convallis vel nunc id,tempus vulputate augue. Proin eget nisl vel ante tincidunt accumsan vel at elit. Fusce eget tincidunt sem. Fusce cursus orci vitae nisl hendrerit mollis. Nullam at nulla ut ipsum malesuada laoreet a sit amet est."
   },
   "labels": {
-   "flavor.template.cnv.io/small": "true",
-   "os.template.cnv.io/fedora29": "true",
-   "template.cnv.ui": "default_fedora-generic",
-   "workload.template.cnv.io/generic": "true"
+   "flavor.template.kubevirt.io/small": "true",
+   "os.template.kubevirt.io/fedora29": "true",
+   "vm.kubevirt.io/template": "fedora-generic",
+   "vm.kubevirt.io/template-namespace": "default",
+   "workload.template.kubevirt.io/generic": "true"
   },
   "clusterName": "",
   "creationTimestamp": "2018-11-06T14:32:07Z",

@@ -1,13 +1,13 @@
-export const ANNOTATION_DEFAULT_DISK = 'defaults.template.cnv.io/disk';
-export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.cnv.io/network';
-export const ANNOTATION_FIRST_BOOT = 'cnv.ui.firstBoot';
-export const ANNOTATION_PXE_INTERFACE = 'cnv.ui.pxeInterface';
+export const ANNOTATION_DEFAULT_DISK = 'defaults.template.kubevirt.io/disk';
+export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.kubevirt.io/network';
+export const ANNOTATION_FIRST_BOOT = 'kubevirt.ui/firstBoot ';
+export const ANNOTATION_PXE_INTERFACE = 'kubevirt.ui/pxeInterface';
 
 export const ANNOTATION_CLONE_REQUEST = 'k8s.io/CloneRequest';
 export const LABEL_CLONE_APP = 'Host-Assisted-Cloning';
 
-export const LABEL_USED_TEMPLATE_NAME = 'vm.cnv.io/template';
-export const LABEL_USED_TEMPLATE_NAMESPACE = 'vm.cnv.io/template-namespace';
+export const LABEL_USED_TEMPLATE_NAME = 'vm.kubevirt.io/template';
+export const LABEL_USED_TEMPLATE_NAMESPACE = 'vm.kubevirt.io/template-namespace';
 
 export const CLOUDINIT_DISK = 'cloudinitdisk';
 export const CLOUDINIT_NOCLOUD = 'cloudInitNoCloud';
@@ -36,16 +36,16 @@ export const PROVISION_SOURCE_CLONED_DISK = 'Cloned Disk'; // PVC or upload imag
 export const PVC_ACCESSMODE_RWO = 'ReadWriteOnce';
 
 export const TEMPLATE_API_VERSION = 'template.openshift.io/v1';
-export const TEMPLATE_FLAVOR_LABEL = 'flavor.template.cnv.io';
-export const TEMPLATE_OS_LABEL = 'os.template.cnv.io';
+export const TEMPLATE_FLAVOR_LABEL = 'flavor.template.kubevirt.io';
+export const TEMPLATE_OS_LABEL = 'os.template.kubevirt.io';
 export const TEMPLATE_PARAM_VM_NAME = 'NAME';
 export const TEMPLATE_PARAM_VM_NAME_DESC = 'Name for the new VM';
-export const TEMPLATE_TYPE_LABEL = 'template.cnv.io/type';
+export const TEMPLATE_TYPE_LABEL = 'template.kubevirt.io/type';
 export const TEMPLATE_TYPE_VM = 'vm';
 export const TEMPLATE_TYPE_BASE = 'base';
-export const TEMPLATE_WORKLOAD_LABEL = 'workload.template.cnv.io';
-export const TEMPLATE_VM_NAME_LABEL = 'vm.cnv.io/name';
-export const TEMPLATE_OS_NAME_ANNOTATION = 'name.os.template.cnv.io';
+export const TEMPLATE_WORKLOAD_LABEL = 'workload.template.kubevirt.io';
+export const TEMPLATE_VM_NAME_LABEL = 'vm.kubevirt.io/name';
+export const TEMPLATE_OS_NAME_ANNOTATION = 'name.os.template.kubevirt.io';
 
 export const VIRTIO_BUS = 'virtio';
 
@@ -64,8 +64,8 @@ export const DASHES = '---';
 export const CDI_KUBEVIRT_IO = 'cdi.kubevirt.io';
 export const STORAGE_IMPORT_PVC_NAME = 'storage.import.importPvcName';
 
-export const VCENTER_TYPE_LABEL = 'cnv.io/vcenter';
-export const VCENTER_TEMPORARY_LABEL = 'cnv.io/temporary';
+export const VCENTER_TYPE_LABEL = 'kubevirt.io/vcenter';
+export const VCENTER_TEMPORARY_LABEL = 'kubevirt.io/temporary';
 
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note: common-templates are in the "openshift" namespace
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single OnfigMap per cluster, contains mapping of vmware guestId to common-templates OS ID

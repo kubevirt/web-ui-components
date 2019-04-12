@@ -104,11 +104,11 @@ export const updatesFlavorOnSave = (component, id, k8sPatchMock, resourcesPatchP
     expectMockWasCalledWith(k8sPatchMock, [
       {
         op: 'remove',
-        path: '/metadata/labels/flavor.template.cnv.io~1small',
+        path: '/metadata/labels/flavor.template.kubevirt.io~1small',
       },
       {
         op: 'add',
-        path: '/metadata/labels/flavor.template.cnv.io~1Custom',
+        path: '/metadata/labels/flavor.template.kubevirt.io~1Custom',
         value: 'true',
       },
       {
