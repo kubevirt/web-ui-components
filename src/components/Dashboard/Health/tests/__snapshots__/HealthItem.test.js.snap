@@ -5,13 +5,13 @@ exports[`<HealthItem /> renders correctly 1`] = `
   className="kubevirt-dashboard-health__icon"
 >
   <Icon
-    className="kubevirt-dashboard-health__icon--ok"
+    className="kubevirt-health__icon kubevirt-dashboard-health__icon--ok"
     name="check-circle"
     size="2x"
     type="fa"
   />
   <span
-    className="kubevirt-dashboard-health__row-status-item-text"
+    className="kubevirt-health__text"
   >
     OCS is Healthy
   </span>

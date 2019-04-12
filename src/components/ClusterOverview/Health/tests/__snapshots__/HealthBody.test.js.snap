@@ -8,7 +8,7 @@ exports[`<Health /> renders correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Cluster Health
     </h2>
@@ -17,7 +17,7 @@ exports[`<Health /> renders correctly 1`] = `
     class="card-pf-body kubevirt-health__body"
   >
     <div
-      class="kubevirt-health__icon--error"
+      class="kubevirt-health__icon--error kubevirt-health__icon"
     >
       <span
         aria-hidden="true"

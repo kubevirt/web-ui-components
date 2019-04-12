@@ -12,202 +12,190 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
         class="pf-l-grid__item pf-m-12-col-on-sm pf-m-12-col-on-md pf-m-3-col-on-lg"
       >
         <div
-          class="pf-l-grid"
+          class="card-pf kubevirt-dashboard__card kubevirt-detail__card"
         >
           <div
-            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+            class="card-pf-heading kubevirt-dashboard__card-heading"
           >
-            <div
-              class="card-pf kubevirt-dashboard__card"
+            <h2
+              class="card-pf-title kubevirt-dashboard__card-title"
             >
-              <div
-                class="card-pf-heading kubevirt-dashboard__card-heading"
-              >
-                <h2
-                  class="card-pf-title"
-                >
-                  OCS Details
-                </h2>
-              </div>
-              <div
-                class="card-pf-body"
-              >
-                <dl>
-                  <dt
-                    class="kubevirt-detail__item-title"
-                  >
-                    Name
-                  </dt>
-                  <dd
-                    class="kubevirt-detail__item-value"
-                  >
-                    <span>
-                      rook-ceph
-                    </span>
-                  </dd>
-                  <dt
-                    class="kubevirt-detail__item-title"
-                  >
-                    Provider
-                  </dt>
-                  <dd
-                    class="kubevirt-detail__item-value"
-                  >
-                    <span>
-                      Bare Metal
-                    </span>
-                  </dd>
-                </dl>
-              </div>
-            </div>
+              OCS Details
+            </h2>
           </div>
           <div
-            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+            class="card-pf-body"
+          >
+            <dl>
+              <dt
+                class="kubevirt-detail__item-title"
+              >
+                Name
+              </dt>
+              <dd
+                class="kubevirt-detail__item-value"
+              >
+                <span>
+                  rook-ceph
+                </span>
+              </dd>
+              <dt
+                class="kubevirt-detail__item-title"
+              >
+                Provider
+              </dt>
+              <dd
+                class="kubevirt-detail__item-value"
+              >
+                <span>
+                  Bare Metal
+                </span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div
+          class="card-pf kubevirt-dashboard__card"
+        >
+          <div
+            class="card-pf-heading kubevirt-dashboard__card-heading"
+          >
+            <h2
+              class="card-pf-title kubevirt-dashboard__card-title"
+            >
+              Inventory
+            </h2>
+            <button
+              class="btn btn-link"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="fa fa-info-circle kubevirt-dashboard__icon-sm"
+              />
+            </button>
+          </div>
+          <div
+            class="card-pf-body"
           >
             <div
-              class="card-pf kubevirt-dashboard__card"
+              class="kubevirt-inventory__row"
+              id="inventory-nodes"
             >
               <div
-                class="card-pf-heading kubevirt-dashboard__card-heading"
+                class="kubevirt-inventory__row-title"
               >
-                <h2
-                  class="card-pf-title"
-                >
-                  Inventory
-                </h2>
-                <button
-                  class="btn btn-link"
-                  type="button"
+                1 Nodes
+              </div>
+              <div
+                class="kubevirt-inventory__row-status"
+              >
+                <div
+                  class="kubevirt-inventory__row-status-item"
                 >
                   <span
                     aria-hidden="true"
-                    class="fa fa-info-circle fa-2x"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
                   />
-                </button>
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
+                  >
+                    1
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-disks"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                7 Disks
               </div>
               <div
-                class="card-pf-body"
+                class="kubevirt-inventory__row-status"
               >
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-nodes"
+                  class="kubevirt-inventory__row-status-item"
                 >
-                  <div
-                    class="kubevirt-inventory__row-title"
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-exclamation-circle kubevirt-inventory__row-status-item-icon--error kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    1 Nodes
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        1
-                      </span>
-                    </div>
-                  </div>
+                    2
+                  </span>
                 </div>
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-disks"
+                  class="kubevirt-inventory__row-status-item"
                 >
-                  <div
-                    class="kubevirt-inventory__row-title"
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    7 Disks
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-exclamation-circle fa-2x kubevirt-inventory__row-status-item-icon--error"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        2
-                      </span>
-                    </div>
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        5
-                      </span>
-                    </div>
-                  </div>
+                    5
+                  </span>
                 </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-pvs"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                5 PVs
+              </div>
+              <div
+                class="kubevirt-inventory__row-status"
+              >
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-pvs"
+                  class="kubevirt-inventory__row-status-item"
                 >
-                  <div
-                    class="kubevirt-inventory__row-title"
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    5 PVs
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        5
-                      </span>
-                    </div>
-                  </div>
+                    5
+                  </span>
                 </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-pvcs"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                5 PVCs
+              </div>
+              <div
+                class="kubevirt-inventory__row-status"
+              >
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-pvcs"
+                  class="kubevirt-inventory__row-status-item"
                 >
-                  <div
-                    class="kubevirt-inventory__row-title"
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    5 PVCs
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        5
-                      </span>
-                    </div>
-                  </div>
+                    5
+                  </span>
                 </div>
               </div>
             </div>
@@ -230,7 +218,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
                 class="card-pf-heading kubevirt-dashboard__card-heading"
               >
                 <h2
-                  class="card-pf-title"
+                  class="card-pf-title kubevirt-dashboard__card-title"
                 >
                   Perfrormance
                 </h2>
@@ -371,7 +359,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
                 class="card-pf-heading kubevirt-dashboard__card-heading kubevirt-events__card-header"
               >
                 <h2
-                  class="card-pf-title"
+                  class="card-pf-title kubevirt-dashboard__card-title"
                 >
                   Events
                 </h2>
@@ -381,7 +369,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    class="fa fa-info-circle fa-2x"
+                    class="fa fa-info-circle kubevirt-dashboard__icon-sm"
                   />
                 </button>
               </div>

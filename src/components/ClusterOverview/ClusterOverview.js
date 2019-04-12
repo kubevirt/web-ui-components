@@ -20,15 +20,15 @@ const MainCards = () => (
   <GridItem lg={6} md={12} sm={12}>
     <Grid>
       <GridItem span={12}>
-        <Grid className="kubevirt-dashbord__health-grid">
-          <GridItem span={6}>
+        <Grid className="kubevirt-dashboard__health-grid">
+          <GridItem lg={6} md={12} sm={12}>
             <HealthConnected />
           </GridItem>
-          <GridItem span={6}>
+          <GridItem lg={6} md={12} sm={12}>
             <ComplianceConnected />
           </GridItem>
           <GridItem span={12}>
-            <AlertsConnected className="kubevirt-dashbord__card--top-border" />
+            <AlertsConnected className="kubevirt-dashboard__card--top-border" />
           </GridItem>
         </Grid>
       </GridItem>
@@ -44,14 +44,8 @@ const MainCards = () => (
 
 const LeftCards = () => (
   <GridItem key="left" lg={3} md={12} sm={12}>
-    <Grid>
-      <GridItem lg={12} md={6} sm={12}>
-        <DetailsConnected />
-      </GridItem>
-      <GridItem lg={12} md={6} sm={12}>
-        <InventoryConnected />
-      </GridItem>
-    </Grid>
+    <DetailsConnected className="kubevirt-detail__card" />
+    <InventoryConnected />
   </GridItem>
 );
 

@@ -8,8 +8,13 @@ export const HealthItem = ({ icon, classname, message, isLoading, LoadingCompone
   const description = isLoading ? <LoadingComponent /> : message;
   return (
     <div className="kubevirt-dashboard-health__icon">
-      <Icon type="fa" size="2x" name={icon} className={`kubevirt-dashboard-health__icon--${classname}`} />
-      <span className="kubevirt-dashboard-health__row-status-item-text">{description}</span>
+      <Icon
+        type="fa"
+        size="2x"
+        name={icon}
+        className={`kubevirt-health__icon kubevirt-dashboard-health__icon--${classname}`}
+      />
+      <span className="kubevirt-health__text">{description}</span>
     </div>
   );
 };

@@ -1,10 +1,18 @@
 .kubevirt-dashboard__body {
-  padding: 1em;
-  background-color: whitesmoke;
+  background-color: #ededed;
+  padding: 1rem;
+
+  .pf-l-grid {
+    grid-gap: 1rem;
+  }
 }
 
 .kubevirt-dashboard__card {
-  margin: 1em;
+  margin: 0;
+}
+
+.kubevirt-dashboard__card-title {
+  font-size: 1rem;
 }
 
 .kubevirt-dashboard__card-heading {
@@ -13,16 +21,10 @@
   align-items: center;
 }
 
-.kubevirt-dashboard__health-grid {
-  margin: 1em;
-
-  /* stylelint-disable plugin/selector-bem-pattern */
-  .kubevirt-dashboard__card {
-    margin: 0;
-  }
-  /* stylelint-enable */
-}
-
 .kubevirt-dashboard__card--top-border {
   border-top: 1px solid #d1d1d1;
+}
+
+.kubevirt-dashboard__icon-sm {
+  font-size: 1.125rem;
 }

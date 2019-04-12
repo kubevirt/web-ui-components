@@ -8,7 +8,7 @@ exports[`<Details /> renders correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       OCS Details
     </h2>

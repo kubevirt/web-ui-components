@@ -1,27 +1,22 @@
 .kubevirt-health__body {
-  max-height: 100px;
-}
-
-.kubevirt-health__icon {
-  font-size: 1.333em;
-  line-height: 1.333em;
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
-.kubevirt-health__icon--ok {
-  color: yellowgreen;
+.kubevirt-health__text {
+  font-size: 0.875rem;
+  margin-left: 1rem;
 }
 
-.kubevirt-health__icon--warning {
-  color: goldenrod;
+.kubevirt-health__icon {
+  font-size: 1.5rem;
 }
 
 .kubevirt-health__icon--error {
-  color: red;
+  color: #c9190b;
 }
 
-.kubevirt-health__row-status-item-text {
-  margin-left: 1em;
-  font-size: 1em;
+.kubevirt-health__icon--ok {
+  color: #92d400;
 }

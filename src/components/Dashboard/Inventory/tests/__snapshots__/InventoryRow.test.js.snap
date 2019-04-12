@@ -18,7 +18,7 @@ exports[`<InventoryRow /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="pficon pficon-in-progress kubevirt-inventory__row-status-item-icon--in-progress"
+        class="pficon pficon-in-progress kubevirt-inventory__row-status-item-icon--in-progress kubevirt-dashboard__icon-sm"
       />
       <span
         class="kubevirt-inventory__row-status-item-text"
@@ -31,7 +31,7 @@ exports[`<InventoryRow /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="fa fa-exclamation-circle fa-2x kubevirt-inventory__row-status-item-icon--error"
+        class="fa fa-exclamation-circle kubevirt-inventory__row-status-item-icon--error kubevirt-dashboard__icon-sm"
       />
       <span
         class="kubevirt-inventory__row-status-item-text"
@@ -44,7 +44,7 @@ exports[`<InventoryRow /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="fa fa-exclamation-triangle fa-2x kubevirt-inventory__row-status-item-icon--warn"
+        class="fa fa-exclamation-triangle kubevirt-inventory__row-status-item-icon--warn kubevirt-dashboard__icon-sm"
       />
       <span
         class="kubevirt-inventory__row-status-item-text"
@@ -70,7 +70,7 @@ exports[`<InventoryRow /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+        class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
       />
       <span
         class="kubevirt-inventory__row-status-item-text"

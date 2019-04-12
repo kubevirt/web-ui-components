@@ -8,7 +8,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Top Consumers
     </h2>
@@ -18,7 +18,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="fa fa-info-circle fa-2x"
+        class="fa fa-info-circle kubevirt-dashboard__icon-sm"
       />
     </button>
   </div>

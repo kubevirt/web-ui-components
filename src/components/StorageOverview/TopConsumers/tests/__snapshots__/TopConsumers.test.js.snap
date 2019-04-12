@@ -8,7 +8,7 @@ exports[`<TopConsumers /> data-renders-correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Top Projects by Used Capacity
     </h2>
@@ -50,7 +50,7 @@ exports[`<TopConsumers /> no-data-renders-correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Top Projects by Used Capacity
     </h2>
@@ -73,7 +73,7 @@ exports[`<TopConsumers /> render-correctly-on-loading 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Top Projects by Used Capacity
     </h2>

@@ -2,7 +2,7 @@
 
 exports[`<DashboardCardTitle /> renders correctly 1`] = `
 <CardTitle
-  className=""
+  className="kubevirt-dashboard__card-title"
 >
   content
 </CardTitle>
