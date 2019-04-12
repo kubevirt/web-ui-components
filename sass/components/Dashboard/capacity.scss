@@ -1,13 +1,16 @@
 .kubevirt-capacity__items {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 
 .kubevirt-capacity__item {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  flex: 1;
+  flex-grow: 0;
+  width: 11em;
+  height: 15em;
 }
 
 .kubevirt-capacity__item-title {
@@ -17,3 +20,14 @@
 .kubevirt-capacity__item .donut-title-big-pf {
   font-size: 24px;
 }
+
+/* stylelint-disable plugin/selector-bem-pattern */
+.kubevirt-capacity__graph {
+  display: flex;
+  flex-direction: column;
+
+  svg {
+    overflow: visible;
+  }
+}
+/* stylelint-enable */

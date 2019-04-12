@@ -2,7 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Measure from 'react-measure';
 
-import { Col, Row, SparklineChart } from 'patternfly-react';
+import { Col, Row } from 'patternfly-react';
+
+import { ChartArea, ChartVoronoiContainer, Chart, ChartAxis, ChartTooltip } from '@patternfly/react-charts';
 
 import { MEDIA_QUERY_SM } from '../../../utils';
 
@@ -49,13 +51,26 @@ export class UtilizationItem extends React.PureComponent {
     if (isLoading) {
       chart = <LoadingComponent />;
     } else if (data) {
-      const chartData = {
-        columns: [[unit, ...data.map(val => val.toFixed(1))]],
-        unload: true,
-        type: 'area',
-      };
+      const chartData = data.map((val, index) => ({ x: index, y: Number(val.toFixed(1)) }));
       actual = `${Math.round(data[data.length - 1])} ${unit}`;
-      chart = <SparklineChart id={id} data={chartData} axis={axis} unloadBeforeLoad />;
+      chart = (
+        <Chart
+          id={id}
+          height={60}
+          width={300}
+          containerComponent={
+            <ChartVoronoiContainer
+              labels={datum => `${datum.y} ${unit}`}
+              labelComponent={<ChartTooltip style={{ fontSize: 12, padding: 5 }} />}
+            />
+          }
+          padding={{ top: 10, left: 40, bottom: 5 }}
+          domainPadding={{ x: 0, y: 10 }}
+        >
+          <ChartArea data={chartData} />
+          <ChartAxis dependentAxis tickValues={[0, maxY / 2, maxY]} style={{ tickLabels: { fontSize: 10 } }} />
+        </Chart>
+      );
     }
 
     let topClass;
@@ -73,7 +88,7 @@ export class UtilizationItem extends React.PureComponent {
             </Col>
           </Row>
           <Row>
-            <Col className="kubevirt-utilization__item-narrow-chart">{chart}</Col>
+            <Col className="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow">{chart}</Col>
           </Row>
         </Fragment>
       );
@@ -87,7 +102,13 @@ export class UtilizationItem extends React.PureComponent {
           <Col className="kubevirt-utilization__item-actual" lg={3} md={3} sm={3} xs={3}>
             {actual}
           </Col>
-          <Col className="kubevirt-utilization__item-chart" lg={7} md={7} sm={7} xs={7}>
+          <Col
+            className="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--wide"
+            lg={7}
+            md={7}
+            sm={7}
+            xs={7}
+          >
             {chart}
           </Col>
         </Row>

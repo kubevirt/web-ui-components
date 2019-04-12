@@ -40,11 +40,144 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div
-              class=" chart-pf-sparkline"
-            />
+              class="VictoryContainer"
+              style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
+            >
+              <svg
+                aria-labelledby="victory-container-1-title victory-container-1-desc"
+                height="60"
+                role="img"
+                style="pointer-events:all;width:100%;height:100%"
+                viewBox="0 0 300 60"
+                width="300"
+              >
+                <g
+                  clip-path="url(#victory-clip-2)"
+                  style="height:100%;width:100%;user-select:none"
+                >
+                  <defs>
+                    <clipPath
+                      id="victory-clip-2"
+                    >
+                      <rect
+                        height="45"
+                        role="presentation"
+                        shape-rendering="auto"
+                        vector-effect="non-scaling-stroke"
+                        width="260"
+                        x="40"
+                        y="10"
+                      />
+                    </clipPath>
+                  </defs>
+                  <g>
+                    <path
+                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689L300,55L235,55L170,55L105,55L40,55Z"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
+                    />
+                    <path
+                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                    />
+                  </g>
+                </g>
+                <g
+                  role="presentation"
+                >
+                  <line
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    vector-effect="non-scaling-stroke"
+                    x1="40"
+                    x2="40"
+                    y1="10"
+                    y2="55"
+                  />
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="55"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        0
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                  </g>
+                </g>
+              </svg>
+              <div
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+              >
+                <svg
+                  height="60"
+                  style="overflow:visible;width:100%;height:100%"
+                  viewBox="0 0 300 60"
+                  width="300"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -69,11 +202,144 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div
-              class=" chart-pf-sparkline"
-            />
+              class="VictoryContainer"
+              style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
+            >
+              <svg
+                aria-labelledby="victory-container-3-title victory-container-3-desc"
+                height="60"
+                role="img"
+                style="pointer-events:all;width:100%;height:100%"
+                viewBox="0 0 300 60"
+                width="300"
+              >
+                <g
+                  clip-path="url(#victory-clip-4)"
+                  style="height:100%;width:100%;user-select:none"
+                >
+                  <defs>
+                    <clipPath
+                      id="victory-clip-4"
+                    >
+                      <rect
+                        height="45"
+                        role="presentation"
+                        shape-rendering="auto"
+                        vector-effect="non-scaling-stroke"
+                        width="260"
+                        x="40"
+                        y="10"
+                      />
+                    </clipPath>
+                  </defs>
+                  <g>
+                    <path
+                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845L300,55L235,55L170,55L105,55L40,55Z"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
+                    />
+                    <path
+                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                    />
+                  </g>
+                </g>
+                <g
+                  role="presentation"
+                >
+                  <line
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    vector-effect="non-scaling-stroke"
+                    x1="40"
+                    x2="40"
+                    y1="10"
+                    y2="55"
+                  />
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="55"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        0
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                  </g>
+                </g>
+              </svg>
+              <div
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+              >
+                <svg
+                  height="60"
+                  style="overflow:visible;width:100%;height:100%"
+                  viewBox="0 0 300 60"
+                  width="300"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -98,11 +364,144 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div
-              class=" chart-pf-sparkline"
-            />
+              class="VictoryContainer"
+              style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
+            >
+              <svg
+                aria-labelledby="victory-container-5-title victory-container-5-desc"
+                height="60"
+                role="img"
+                style="pointer-events:all;width:100%;height:100%"
+                viewBox="0 0 300 60"
+                width="300"
+              >
+                <g
+                  clip-path="url(#victory-clip-6)"
+                  style="height:100%;width:100%;user-select:none"
+                >
+                  <defs>
+                    <clipPath
+                      id="victory-clip-6"
+                    >
+                      <rect
+                        height="45"
+                        role="presentation"
+                        shape-rendering="auto"
+                        vector-effect="non-scaling-stroke"
+                        width="260"
+                        x="40"
+                        y="10"
+                      />
+                    </clipPath>
+                  </defs>
+                  <g>
+                    <path
+                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845L300,55L235,55L170,55L105,55L40,55Z"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
+                    />
+                    <path
+                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                    />
+                  </g>
+                </g>
+                <g
+                  role="presentation"
+                >
+                  <line
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    vector-effect="non-scaling-stroke"
+                    x1="40"
+                    x2="40"
+                    y1="10"
+                    y2="55"
+                  />
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="55"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        0
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                  </g>
+                </g>
+              </svg>
+              <div
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+              >
+                <svg
+                  height="60"
+                  style="overflow:visible;width:100%;height:100%"
+                  viewBox="0 0 300 60"
+                  width="300"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -127,11 +526,144 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div
-              class=" chart-pf-sparkline"
-            />
+              class="VictoryContainer"
+              style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
+            >
+              <svg
+                aria-labelledby="victory-container-7-title victory-container-7-desc"
+                height="60"
+                role="img"
+                style="pointer-events:all;width:100%;height:100%"
+                viewBox="0 0 300 60"
+                width="300"
+              >
+                <g
+                  clip-path="url(#victory-clip-8)"
+                  style="height:100%;width:100%;user-select:none"
+                >
+                  <defs>
+                    <clipPath
+                      id="victory-clip-8"
+                    >
+                      <rect
+                        height="45"
+                        role="presentation"
+                        shape-rendering="auto"
+                        vector-effect="non-scaling-stroke"
+                        width="260"
+                        x="40"
+                        y="10"
+                      />
+                    </clipPath>
+                  </defs>
+                  <g>
+                    <path
+                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689L300,55L235,55L170,55L105,55L40,55Z"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
+                    />
+                    <path
+                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689"
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                    />
+                  </g>
+                </g>
+                <g
+                  role="presentation"
+                >
+                  <line
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    vector-effect="non-scaling-stroke"
+                    x1="40"
+                    x2="40"
+                    y1="10"
+                    y2="55"
+                  />
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="55"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        0
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="55"
+                      y2="55"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="55"
+                      y2="55"
+                    />
+                  </g>
+                </g>
+              </svg>
+              <div
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+              >
+                <svg
+                  height="60"
+                  style="overflow:visible;width:100%;height:100%"
+                  viewBox="0 0 300 60"
+                  width="300"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -178,7 +710,7 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div>
               <div
@@ -207,7 +739,7 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div>
               <div
@@ -236,7 +768,7 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div>
               <div
@@ -265,7 +797,7 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
           class="row"
         >
           <div
-            class="kubevirt-utilization__item-narrow-chart"
+            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
             <div>
               <div

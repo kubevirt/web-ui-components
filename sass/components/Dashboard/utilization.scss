@@ -32,14 +32,21 @@
   /* stylelint-enable */
 }
 
-.kubevirt-utilization__item-narrow-chart {
+/* stylelint-disable plugin/selector-bem-pattern */
+.kubevirt-utilization__item-chart svg {
+  overflow: visible;
+}
+/* stylelint-enable */
+
+.kubevirt-utilization__item-chart--narrow {
   text-align: center;
 }
 
-.kubevirt-utilization__item-chart {
+.kubevirt-utilization__item-chart--wide {
   border-left-width: 1px;
   border-left-style: solid;
   border-left-color: rgb(209, 209, 209);
+  padding-left: 0;
 }
 
 .kubevirt-utilization__item-narrow-title {

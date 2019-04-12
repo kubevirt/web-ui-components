@@ -30,10 +30,62 @@ exports[`<Capacity /> renders correctly 1`] = `
         <h6>
           50 % available out of 100 %
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-cpu"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,1.0378342131579386,87.99387990164998L1.0378342131579519,79.99326784265035A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M-1.037834213157928,87.99387990164998A88,88,0,0,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,0,0,-1.0378342131579419,79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                50%
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Used
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
       <div
@@ -47,10 +99,62 @@ exports[`<Capacity /> renders correctly 1`] = `
         <h6>
           1.0 Mi available out of 1 Mi
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-memory"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,16.888067747731125,-86.36430493987689L15.260176232599017,-78.53105768643397A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M18.920315265745387,-85.94196687442522A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,17.292423750613303,-78.1087196209823Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                3%
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Used
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
       <div
@@ -64,10 +168,62 @@ exports[`<Capacity /> renders correctly 1`] = `
         <h6>
           5 Ki available out of 10 Ki
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-storage"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,1.0378342131579386,87.99387990164998L1.0378342131579519,79.99326784265035A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M-1.037834213157928,87.99387990164998A88,88,0,0,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,0,0,-1.0378342131579419,79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                50%
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Used
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
       <div
@@ -81,10 +237,62 @@ exports[`<Capacity /> renders correctly 1`] = `
         <h6>
           5 Bps available out of 10 Bps
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-network"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,1.0378342131579386,87.99387990164998L1.0378342131579519,79.99326784265035A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M-1.037834213157928,87.99387990164998A88,88,0,0,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,0,0,-1.0378342131579419,79.99326784265035Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                50%
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Used
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
     </div>
@@ -126,10 +334,62 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
             />
           </div>
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-cpu"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Loading
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Capacity
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
       <div
@@ -147,10 +407,62 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
             />
           </div>
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-memory"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Loading
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Capacity
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
       <div
@@ -168,10 +480,62 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
             />
           </div>
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-storage"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Loading
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Capacity
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
       <div
@@ -189,10 +553,62 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
             />
           </div>
         </h6>
-        <div>
-          <div
-            class=" donut-chart-pf"
-          />
+        <div
+          class="kubevirt-capacity__graph"
+          id="donut-chart-network"
+        >
+          <svg
+            viewBox="0 0 200 200"
+          >
+            <g>
+              <path
+                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+              <path
+                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                transform="translate(100, 100)"
+              />
+            </g>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="8.875"
+              x="100"
+              y="88"
+            >
+              <tspan
+                dx="0"
+                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Loading
+              </tspan>
+            </text>
+            <text
+              direction="inherit"
+              dx="0"
+              dy="5.324999999999999"
+              x="100"
+              y="112"
+            >
+              <tspan
+                dx="0"
+                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                text-anchor="middle"
+                x="100"
+              >
+                Capacity
+              </tspan>
+            </text>
+          </svg>
         </div>
       </div>
     </div>
