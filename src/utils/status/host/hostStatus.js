@@ -3,12 +3,28 @@ import {
   getProvisioningState,
   getHostErrorMessage,
   isNodeUnschedulable,
+  getMachineNode,
 } from '../../../selectors';
 
-import { HOST_STATUS_TO_TEXT, HOST_STATUS_READY, HOST_STATUS_REGISTERING } from './constants';
+import {
+  HOST_STATUS_TO_TEXT,
+  HOST_STATUS_READY,
+  HOST_STATUS_REGISTERING,
+  HOST_STATUS_STARTING_MAINTENANCE,
+} from './constants';
+import { NOT_HANDLED } from '../common';
 
-export const getHostStatus = host => {
-  // Returns a status string based on the available host information.
+const isStartingMaintenance = node => {
+  if (isNodeUnschedulable(node)) {
+    return {
+      status: HOST_STATUS_STARTING_MAINTENANCE,
+      text: HOST_STATUS_TO_TEXT[HOST_STATUS_STARTING_MAINTENANCE],
+    };
+  }
+  return NOT_HANDLED;
+};
+
+const useBaremetalHostStatus = host => {
   const operationalStatus = getOperationalStatus(host);
   const provisioningState = getProvisioningState(host);
 
@@ -18,6 +34,13 @@ export const getHostStatus = host => {
     text: HOST_STATUS_TO_TEXT[hostStatus] || hostStatus,
     errorMessage: getHostErrorMessage(host),
   };
+};
+
+export const getHostStatus = (host, machine, nodes) => {
+  const node = getMachineNode(nodes, machine);
+
+  // TODO(jtomasek): make this more robust by including node/machine status
+  return isStartingMaintenance(node) || useBaremetalHostStatus(host);
 };
 
 export const getSimpleHostStatus = host => getHostStatus(host).status;
