@@ -9,7 +9,27 @@
   margin-left: 1rem;
 }
 
+.kubevirt-health__row {
+  margin-top: 1em;
+  border-top: 1px solid #ededed;
+  padding-top: 1em;
+}
+
+.kubevirt-health__message {
+  display: table-cell;
+}
+
+.kubevirt-health__title {
+  padding-left: 0.6rem;
+}
+
+.kubevirt-health__subtitle {
+  font-size: 1rem;
+  color: grey;
+}
+
 .kubevirt-health__icon {
+  display: table-cell;
   font-size: 1.5rem;
 }
 

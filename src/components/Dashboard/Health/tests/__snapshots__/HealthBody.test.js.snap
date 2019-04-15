@@ -6,7 +6,9 @@ exports[`<HealthBody /> renders correctly 1`] = `
 >
   <HealthItem
     classname="ok"
+    details=""
     icon="check-circle"
+    isRow={false}
     message="OCS is Healthy"
   />
 </div>

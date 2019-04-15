@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SubsystemHealth /> renders correctly 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title kubevirt-dashboard__card-title"
+    >
+      Subsystem health
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div
+      class="kubevirt-health__body"
+    >
+      <div
+        class="kubevirt-health__body"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
+        />
+        <div
+          class="kubevirt-health__message"
+        >
+          <span
+            class="kubevirt-health__title"
+          >
+            OpenShift
+          </span>
+          <span
+            class="kubevirt-health__title kubevirt-health__subtitle"
+          >
+            OpenShift is healthy
+          </span>
+        </div>
+      </div>
+      <div
+        class="kubevirt-health__body kubevirt-health__row"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-circle fa-2x kubevirt-health__icon kubevirt-health__icon--warning"
+        />
+        <div
+          class="kubevirt-health__message"
+        >
+          <span
+            class="kubevirt-health__title"
+          >
+            CNV
+          </span>
+          <span
+            class="kubevirt-health__title kubevirt-health__subtitle"
+          >
+            CNV health is degraded
+          </span>
+        </div>
+      </div>
+      <div
+        class="kubevirt-health__body kubevirt-health__row"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-triangle fa-2x kubevirt-health__icon kubevirt-health__icon--error"
+        />
+        <div
+          class="kubevirt-health__message"
+        >
+          <span
+            class="kubevirt-health__title"
+          >
+            Ceph Storage
+          </span>
+          <span
+            class="kubevirt-health__title kubevirt-health__subtitle"
+          >
+            Ceph Storage health is degraded
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -26,11 +26,18 @@ exports[`<Health /> renders correctly 1`] = `
           aria-hidden="true"
           class="fa fa-exclamation-triangle fa-2x kubevirt-health__icon kubevirt-health__icon--error"
         />
-        <span
-          class="kubevirt-health__text"
+        <div
+          class="kubevirt-health__message"
         >
-          Not available
-        </span>
+          <span
+            class="kubevirt-health__title"
+          >
+            Not available
+          </span>
+          <span
+            class="kubevirt-health__title kubevirt-health__subtitle"
+          />
+        </div>
       </div>
     </div>
   </div>

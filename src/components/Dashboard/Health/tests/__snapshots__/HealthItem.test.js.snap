@@ -10,10 +10,17 @@ exports[`<HealthItem /> renders correctly 1`] = `
     size="2x"
     type="fa"
   />
-  <span
-    className="kubevirt-health__text"
+  <div
+    className="kubevirt-health__message"
   >
-    OCS is Healthy
-  </span>
+    <span
+      className="kubevirt-health__title"
+    >
+      OCS is Healthy
+    </span>
+    <span
+      className="kubevirt-health__title kubevirt-health__subtitle"
+    />
+  </div>
 </div>
 `;
