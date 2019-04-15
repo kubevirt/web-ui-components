@@ -1,16 +1,10 @@
-.kubevirt-health__body {
-  text-align: center;
-  max-height: 130px;
+/* stylelint-disable plugin/selector-bem-pattern */
+.kubevirt-dashboard__health-grid.pf-l-grid {
+  grid-gap: 0;
 }
 
-.kubevirt-health__icon--error {
-  font-size: 67.2px;
-  color: red;
-  line-height: 67.2px;
-}
-
-.kubevirt-health__icon--ok {
-  font-size: 67.2px;
-  color: yellowgreen;
-  line-height: 67.2px;
+.kubevirt-compliance__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }

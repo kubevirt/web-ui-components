@@ -8,7 +8,7 @@ exports[`<Health /> renders correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Health
     </h2>
@@ -17,17 +17,17 @@ exports[`<Health /> renders correctly 1`] = `
     class="card-pf-body"
   >
     <div
-      class="kubevirt-dashboard-health__items"
+      class="kubevirt-health__body"
     >
       <div
         class="kubevirt-dashboard-health__icon"
       >
         <span
           aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-dashboard-health__icon--ok"
+          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-dashboard-health__icon--ok"
         />
         <span
-          class="kubevirt-dashboard-health__row-status-item-text"
+          class="kubevirt-health__text"
         >
           OCS is Healthy
         </span>

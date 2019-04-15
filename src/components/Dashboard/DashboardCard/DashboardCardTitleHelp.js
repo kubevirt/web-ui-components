@@ -10,7 +10,7 @@ const DashboardCardTitleHelp = ({ children }) => {
   return (
     <OverlayTrigger overlay={overlay} placement="top" trigger={['click']} rootClose>
       <Button bsStyle="link">
-        <Icon type="fa" name="info-circle" size="2x" />
+        <Icon type="fa" name="info-circle" className="kubevirt-dashboard__icon-sm" />
       </Button>
     </OverlayTrigger>
   );

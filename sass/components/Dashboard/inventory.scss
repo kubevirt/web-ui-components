@@ -1,7 +1,7 @@
 .kubevirt-inventory__row {
   display: flex;
   border-bottom: 1px solid #ededed;
-  font-size: 1.333em;
+  font-size: 1rem;
   padding: 1em 0;
   justify-content: space-between;
   align-items: center;
@@ -33,21 +33,13 @@
 }
 
 .kubevirt-inventory__row-status-item-icon--ok {
-  color: yellowgreen;
+  color: #92d400;
 }
 
 .kubevirt-inventory__row-status-item-icon--error {
-  color: red;
+  color: #c9190b;
 }
 
 .kubevirt-inventory__row-status-item-icon--warn {
-  color: goldenrod;
-}
-
-.kubevirt-inventory__row-status-item-icon--off {
-  font-size: 1.7em;
-}
-
-.kubevirt-inventory__row-status-item-icon--in-progress {
-  font-size: 1.6em;
+  color: #f0ab00;
 }

@@ -12,245 +12,233 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
         class="pf-l-grid__item pf-m-12-col-on-sm pf-m-12-col-on-md pf-m-3-col-on-lg"
       >
         <div
-          class="pf-l-grid"
+          class="card-pf kubevirt-dashboard__card kubevirt-detail__card"
         >
           <div
-            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+            class="card-pf-heading kubevirt-dashboard__card-heading"
           >
-            <div
-              class="card-pf kubevirt-dashboard__card"
+            <h2
+              class="card-pf-title kubevirt-dashboard__card-title"
             >
-              <div
-                class="card-pf-heading kubevirt-dashboard__card-heading"
-              >
-                <h2
-                  class="card-pf-title"
-                >
-                  Details
-                </h2>
-              </div>
-              <div
-                class="card-pf-body"
-              >
-                <dl>
-                  <dt
-                    class="kubevirt-detail__item-title"
-                  >
-                    Name
-                  </dt>
-                  <dd
-                    class="kubevirt-detail__item-value"
-                  >
-                    <span>
-                      clusterName.clusterDoman
-                    </span>
-                  </dd>
-                  <dt
-                    class="kubevirt-detail__item-title"
-                  >
-                    Provider
-                  </dt>
-                  <dd
-                    class="kubevirt-detail__item-value"
-                  >
-                    <span>
-                      AWS
-                    </span>
-                  </dd>
-                  <dt
-                    class="kubevirt-detail__item-title"
-                  >
-                    Openshift version
-                  </dt>
-                  <dd
-                    class="kubevirt-detail__item-value"
-                  >
-                    <span>
-                      v4.0.0
-                    </span>
-                  </dd>
-                </dl>
-              </div>
-            </div>
+              Details
+            </h2>
           </div>
           <div
-            class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-12-col-on-lg"
+            class="card-pf-body"
+          >
+            <dl>
+              <dt
+                class="kubevirt-detail__item-title"
+              >
+                Name
+              </dt>
+              <dd
+                class="kubevirt-detail__item-value"
+              >
+                <span>
+                  clusterName.clusterDoman
+                </span>
+              </dd>
+              <dt
+                class="kubevirt-detail__item-title"
+              >
+                Provider
+              </dt>
+              <dd
+                class="kubevirt-detail__item-value"
+              >
+                <span>
+                  AWS
+                </span>
+              </dd>
+              <dt
+                class="kubevirt-detail__item-title"
+              >
+                Openshift version
+              </dt>
+              <dd
+                class="kubevirt-detail__item-value"
+              >
+                <span>
+                  v4.0.0
+                </span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div
+          class="card-pf kubevirt-dashboard__card"
+        >
+          <div
+            class="card-pf-heading kubevirt-dashboard__card-heading"
+          >
+            <h2
+              class="card-pf-title kubevirt-dashboard__card-title"
+            >
+              Cluster inventory
+            </h2>
+            <button
+              class="btn btn-link"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="fa fa-info-circle kubevirt-dashboard__icon-sm"
+              />
+            </button>
+          </div>
+          <div
+            class="card-pf-body"
           >
             <div
-              class="card-pf kubevirt-dashboard__card"
+              class="kubevirt-inventory__row"
+              id="inventory-nodes"
             >
               <div
-                class="card-pf-heading kubevirt-dashboard__card-heading"
+                class="kubevirt-inventory__row-title"
               >
-                <h2
-                  class="card-pf-title"
-                >
-                  Cluster inventory
-                </h2>
-                <button
-                  class="btn btn-link"
-                  type="button"
+                1 Nodes
+              </div>
+              <div
+                class="kubevirt-inventory__row-status"
+              >
+                <div
+                  class="kubevirt-inventory__row-status-item"
                 >
                   <span
                     aria-hidden="true"
-                    class="fa fa-info-circle fa-2x"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
                   />
-                </button>
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
+                  >
+                    1
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-hosts"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                Hosts
+              </div>
+              <div>
+                <div
+                  class="spinner spinner-md blank-slate-pf-icon"
+                />
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-pvcs"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                5 PVCs
               </div>
               <div
-                class="card-pf-body"
+                class="kubevirt-inventory__row-status"
               >
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-nodes"
+                  class="kubevirt-inventory__row-status-item"
                 >
-                  <div
-                    class="kubevirt-inventory__row-title"
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    1 Nodes
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
+                    5
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-pods"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                1 Pods
+              </div>
+              <div
+                class="kubevirt-inventory__row-status"
+              >
+                <div
+                  class="kubevirt-inventory__row-status-item"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        1
-                      </span>
-                    </div>
-                  </div>
+                    1
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-vms"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                2 VMs
+              </div>
+              <div
+                class="kubevirt-inventory__row-status"
+              >
+                <div
+                  class="kubevirt-inventory__row-status-item"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="pficon pficon-off kubevirt-inventory__row-status-item-icon--off"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
+                  >
+                    1
+                  </span>
                 </div>
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-hosts"
+                  class="kubevirt-inventory__row-status-item"
                 >
-                  <div
-                    class="kubevirt-inventory__row-title"
+                  <span
+                    aria-hidden="true"
+                    class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+                  />
+                  <span
+                    class="kubevirt-inventory__row-status-item-text"
                   >
-                    Hosts
-                  </div>
-                  <div>
-                    <div
-                      class="spinner spinner-md blank-slate-pf-icon"
-                    />
-                  </div>
+                    1
+                  </span>
                 </div>
+              </div>
+            </div>
+            <div
+              class="kubevirt-inventory__row"
+              id="inventory-disks"
+            >
+              <div
+                class="kubevirt-inventory__row-title"
+              >
+                Disks
+              </div>
+              <div>
                 <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-pvcs"
-                >
-                  <div
-                    class="kubevirt-inventory__row-title"
-                  >
-                    5 PVCs
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        5
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-pods"
-                >
-                  <div
-                    class="kubevirt-inventory__row-title"
-                  >
-                    1 Pods
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        1
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-vms"
-                >
-                  <div
-                    class="kubevirt-inventory__row-title"
-                  >
-                    2 VMs
-                  </div>
-                  <div
-                    class="kubevirt-inventory__row-status"
-                  >
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="pficon pficon-off kubevirt-inventory__row-status-item-icon--off"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        1
-                      </span>
-                    </div>
-                    <div
-                      class="kubevirt-inventory__row-status-item"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
-                      />
-                      <span
-                        class="kubevirt-inventory__row-status-item-text"
-                      >
-                        1
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="kubevirt-inventory__row"
-                  id="inventory-disks"
-                >
-                  <div
-                    class="kubevirt-inventory__row-title"
-                  >
-                    Disks
-                  </div>
-                  <div>
-                    <div
-                      class="spinner spinner-md blank-slate-pf-icon"
-                    />
-                  </div>
-                </div>
+                  class="spinner spinner-md blank-slate-pf-icon"
+                />
               </div>
             </div>
           </div>
@@ -272,7 +260,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 class="card-pf-heading kubevirt-dashboard__card-heading kubevirt-events__card-header"
               >
                 <h2
-                  class="card-pf-title"
+                  class="card-pf-title kubevirt-dashboard__card-title"
                 >
                   Cluster Events
                 </h2>
@@ -282,7 +270,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    class="fa fa-info-circle fa-2x"
+                    class="fa fa-info-circle kubevirt-dashboard__icon-sm"
                   />
                 </button>
               </div>
@@ -310,7 +298,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 class="card-pf-heading kubevirt-dashboard__card-heading"
               >
                 <h2
-                  class="card-pf-title"
+                  class="card-pf-title kubevirt-dashboard__card-title"
                 >
                   Top Consumers
                 </h2>
@@ -320,7 +308,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    class="fa fa-info-circle fa-2x"
+                    class="fa fa-info-circle kubevirt-dashboard__icon-sm"
                   />
                 </button>
               </div>

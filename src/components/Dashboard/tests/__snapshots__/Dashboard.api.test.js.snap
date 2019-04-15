@@ -32,12 +32,14 @@ exports[`<Dashboard /> API renders correctly 1`] = `
                   <div
                     className="card-pf-heading kubevirt-dashboard__card-heading"
                   >
-                    <DashboardCardTitle>
+                    <DashboardCardTitle
+                      className={null}
+                    >
                       <CardTitle
-                        className=""
+                        className="kubevirt-dashboard__card-title"
                       >
                         <h2
-                          className="card-pf-title"
+                          className="card-pf-title kubevirt-dashboard__card-title"
                         >
                           Red Card
                         </h2>
@@ -78,17 +80,17 @@ exports[`<Dashboard /> API renders correctly 1`] = `
                             type="button"
                           >
                             <Icon
+                              className="kubevirt-dashboard__icon-sm"
                               name="info-circle"
-                              size="2x"
                               type="fa"
                             >
                               <FontAwesome
+                                className="kubevirt-dashboard__icon-sm"
                                 name="info-circle"
-                                size="2x"
                               >
                                 <span
                                   aria-hidden={true}
-                                  className="fa fa-info-circle fa-2x"
+                                  className="fa fa-info-circle kubevirt-dashboard__icon-sm"
                                 />
                               </FontAwesome>
                             </Icon>
@@ -155,12 +157,14 @@ exports[`<Dashboard /> API renders correctly 1`] = `
                   <div
                     className="card-pf-heading kubevirt-dashboard__card-heading"
                   >
-                    <DashboardCardTitle>
+                    <DashboardCardTitle
+                      className={null}
+                    >
                       <CardTitle
-                        className=""
+                        className="kubevirt-dashboard__card-title"
                       >
                         <h2
-                          className="card-pf-title"
+                          className="card-pf-title kubevirt-dashboard__card-title"
                         >
                           Blue Card
                         </h2>

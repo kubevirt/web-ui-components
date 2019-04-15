@@ -44,14 +44,8 @@ const MainCards = () => (
 
 const LeftCards = () => (
   <GridItem key="left" lg={3} md={12} sm={12}>
-    <Grid>
-      <GridItem lg={12} md={6} sm={12}>
-        <StorageDetailsConnected />
-      </GridItem>
-      <GridItem lg={12} md={6} sm={12}>
-        <InventoryConnected />
-      </GridItem>
-    </Grid>
+    <StorageDetailsConnected className="kubevirt-detail__card" />
+    <InventoryConnected />
   </GridItem>
 );
 

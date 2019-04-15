@@ -13,8 +13,8 @@ import { getClusterName, getInfrastructurePlatform, getOpenshiftVersion } from '
 import { DetailItem } from '../../Dashboard/Details/DetailItem';
 import { DetailsBody } from '../../Dashboard/Details/DetailsBody';
 
-export const Details = ({ infrastructure, openshiftClusterVersions, LoadingComponent }) => (
-  <DashboardCard>
+export const Details = ({ infrastructure, openshiftClusterVersions, LoadingComponent, className }) => (
+  <DashboardCard className={className}>
     <DashboardCardHeader>
       <DashboardCardTitle>Details</DashboardCardTitle>
     </DashboardCardHeader>
@@ -50,14 +50,26 @@ Details.defaultProps = {
   infrastructure: null,
   openshiftClusterVersions: null,
   LoadingComponent: InlineLoading,
+  className: null,
 };
 
 Details.propTypes = {
   infrastructure: PropTypes.object,
   openshiftClusterVersions: PropTypes.array,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  className: PropTypes.string,
 };
 
-export const DetailsConnected = () => (
-  <ClusterOverviewContext.Consumer>{props => <Details {...props} />}</ClusterOverviewContext.Consumer>
+export const DetailsConnected = ({ className }) => (
+  <ClusterOverviewContext.Consumer>
+    {props => <Details className={className} {...props} />}
+  </ClusterOverviewContext.Consumer>
 );
+
+DetailsConnected.defaultProps = {
+  className: null,
+};
+
+DetailsConnected.propTypes = {
+  className: PropTypes.string,
+};

@@ -1,10 +1,14 @@
+.kubevirt-detail__card {
+  margin-bottom: 1rem;
+}
+
 .kubevirt-detail__item-title {
   float: left;
   clear: left;
-  width: 150px;
+  // width: 150px;
   margin-bottom: 5px;
-  font-weight: 600;
   font-size: 14px;
+  text-transform: capitalize;
 }
 
 .kubevirt-detail__item-value {

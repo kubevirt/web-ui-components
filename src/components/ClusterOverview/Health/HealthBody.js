@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Icon } from 'patternfly-react';
 
 const healtyIcon = (
-  <div className="kubevirt-health__icon--ok">
+  <div className="kubevirt-health__icon--ok kubevirt-health__icon">
     <Icon type="fa" name="check-circle" />
   </div>
 );
 
 const errorIcon = (
-  <div className="kubevirt-health__icon--error">
+  <div className="kubevirt-health__icon--error kubevirt-health__icon">
     <Icon type="fa" name="exclamation-circle" />
   </div>
 );

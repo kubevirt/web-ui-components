@@ -13,8 +13,8 @@ import { DetailItem } from '../../Dashboard/Details/DetailItem';
 import { DetailsBody } from '../../Dashboard/Details/DetailsBody';
 import { getName } from '../../../selectors';
 
-export const StorageDetails = ({ LoadingComponent, cephCluster }) => (
-  <DashboardCard>
+export const StorageDetails = ({ LoadingComponent, cephCluster, className }) => (
+  <DashboardCard className={className}>
     <DashboardCardHeader>
       <DashboardCardTitle>OCS Details</DashboardCardTitle>
     </DashboardCardHeader>
@@ -42,13 +42,25 @@ export const StorageDetails = ({ LoadingComponent, cephCluster }) => (
 StorageDetails.defaultProps = {
   cephCluster: null,
   LoadingComponent: InlineLoading,
+  className: null,
 };
 
 StorageDetails.propTypes = {
   cephCluster: PropTypes.array,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  className: PropTypes.string,
 };
 
-export const StorageDetailsConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <StorageDetails {...props} />}</StorageOverviewContext.Consumer>
+export const StorageDetailsConnected = ({ className }) => (
+  <StorageOverviewContext.Consumer>
+    {props => <StorageDetails {...props} className={className} />}
+  </StorageOverviewContext.Consumer>
 );
+
+StorageDetailsConnected.defaultProps = {
+  className: null,
+};
+
+StorageDetailsConnected.propTypes = {
+  className: PropTypes.string,
+};

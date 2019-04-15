@@ -8,7 +8,7 @@ exports[`<Inventory /> renders correctly 1`] = `
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
     <h2
-      class="card-pf-title"
+      class="card-pf-title kubevirt-dashboard__card-title"
     >
       Inventory
     </h2>
@@ -18,7 +18,7 @@ exports[`<Inventory /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="fa fa-info-circle fa-2x"
+        class="fa fa-info-circle kubevirt-dashboard__icon-sm"
       />
     </button>
   </div>
@@ -42,7 +42,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+            class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"
@@ -69,7 +69,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="fa fa-exclamation-circle fa-2x kubevirt-inventory__row-status-item-icon--error"
+            class="fa fa-exclamation-circle kubevirt-inventory__row-status-item-icon--error kubevirt-dashboard__icon-sm"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"
@@ -82,7 +82,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+            class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"
@@ -109,7 +109,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+            class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"
@@ -136,7 +136,7 @@ exports[`<Inventory /> renders correctly 1`] = `
         >
           <span
             aria-hidden="true"
-            class="fa fa-check-circle fa-2x kubevirt-inventory__row-status-item-icon--ok"
+            class="fa fa-check-circle kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
           />
           <span
             class="kubevirt-inventory__row-status-item-text"

@@ -8,7 +8,11 @@ const StatusPropTypes = {
 
 const OkStatus = ({ count }) => (
   <div className="kubevirt-inventory__row-status-item">
-    <Icon type="fa" name="check-circle" size="2x" className="kubevirt-inventory__row-status-item-icon--ok" />
+    <Icon
+      type="fa"
+      name="check-circle"
+      className="kubevirt-inventory__row-status-item-icon--ok kubevirt-dashboard__icon-sm"
+    />
     <span className="kubevirt-inventory__row-status-item-text">{count}</span>
   </div>
 );
@@ -17,7 +21,11 @@ OkStatus.propTypes = StatusPropTypes;
 
 const WarnStatus = ({ count }) => (
   <div className="kubevirt-inventory__row-status-item">
-    <Icon type="fa" name="exclamation-triangle" size="2x" className="kubevirt-inventory__row-status-item-icon--warn" />
+    <Icon
+      type="fa"
+      name="exclamation-triangle"
+      className="kubevirt-inventory__row-status-item-icon--warn kubevirt-dashboard__icon-sm"
+    />
     <span className="kubevirt-inventory__row-status-item-text">{count}</span>
   </div>
 );
@@ -26,7 +34,11 @@ WarnStatus.propTypes = StatusPropTypes;
 
 const ErrorStatus = ({ count }) => (
   <div className="kubevirt-inventory__row-status-item">
-    <Icon type="fa" name="exclamation-circle" size="2x" className="kubevirt-inventory__row-status-item-icon--error" />
+    <Icon
+      type="fa"
+      name="exclamation-circle"
+      className="kubevirt-inventory__row-status-item-icon--error kubevirt-dashboard__icon-sm"
+    />
     <span className="kubevirt-inventory__row-status-item-text">{count}</span>
   </div>
 );
@@ -35,7 +47,11 @@ ErrorStatus.propTypes = StatusPropTypes;
 
 const InProgressStatus = ({ count }) => (
   <div className="kubevirt-inventory__row-status-item">
-    <Icon type="pf" name="in-progress" className="kubevirt-inventory__row-status-item-icon--in-progress" />
+    <Icon
+      type="pf"
+      name="in-progress"
+      className="kubevirt-inventory__row-status-item-icon--in-progress kubevirt-dashboard__icon-sm"
+    />
     <span className="kubevirt-inventory__row-status-item-text">{count}</span>
   </div>
 );

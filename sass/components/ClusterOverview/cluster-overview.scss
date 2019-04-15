@@ -1,5 +1,4 @@
 .kubevirt-cluster-overview__body {
-  padding: 1em;
   background-color: gray;
 }
 
@@ -11,4 +10,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.kubevirt-cluster-overview__card--top-border {
+  border-top: 1px solid #d1d1d1;
 }

@@ -7,7 +7,9 @@ exports[`<Alerts /> renders correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle>
+    <DashboardCardTitle
+      className={null}
+    >
       Alerts
     </DashboardCardTitle>
   </DashboardCardHeader>

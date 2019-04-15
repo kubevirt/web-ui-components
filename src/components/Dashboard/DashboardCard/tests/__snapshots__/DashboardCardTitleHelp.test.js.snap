@@ -28,8 +28,8 @@ exports[`<DashboardCardTitleHelp /> renders correctly 1`] = `
     disabled={false}
   >
     <Icon
+      className="kubevirt-dashboard__icon-sm"
       name="info-circle"
-      size="2x"
       type="fa"
     />
   </Button>
