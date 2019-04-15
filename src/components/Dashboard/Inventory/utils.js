@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import {
   getVmStatus,
   VM_STATUS_ALL_WARNING,
@@ -15,6 +17,8 @@ import {
   HOST_STATUS_ALL_PROGRESS,
 } from '../../../utils/status/host';
 import { getPvStatus, PV_STATUS_ALL_ERROR, PV_STATUS_ALL_PROGRESS } from '../../../utils/status/pv';
+
+import { getCapacityStats } from '../../../selectors';
 
 // same as InventoryItemStatus props
 export const STATUS_RESULT_OK = 'ok';
@@ -97,3 +101,21 @@ export const mapHostsToProps = hosts =>
       [STATUS_RESULT_IN_PROGRESS]: HOST_STATUS_ALL_PROGRESS,
     })
   );
+
+export const mapDiskStatsToProps = disks => {
+  const result = {
+    [STATUS_RESULT_OK]: 0,
+    [STATUS_RESULT_ERROR]: 0,
+  };
+
+  const cephOsdUpCount = getCapacityStats(get(disks, 'cephOsdUp'));
+  const cephOsdDownCount = getCapacityStats(get(disks, 'cephOsdDown'));
+
+  if (cephOsdUpCount || cephOsdDownCount) {
+    result[STATUS_RESULT_OK] = cephOsdUpCount;
+    result[STATUS_RESULT_ERROR] = cephOsdDownCount;
+    result.count = cephOsdUpCount + cephOsdDownCount;
+  }
+
+  return result;
+};
