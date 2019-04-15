@@ -14,20 +14,24 @@ exports[`<Health /> renders correctly 1`] = `
     </h2>
   </div>
   <div
-    class="card-pf-body kubevirt-ocs-health__body"
+    class="card-pf-body"
   >
     <div
-      class="kubevirt-ocs-health__icon"
+      class="kubevirt-health__items"
     >
-      <span
-        aria-hidden="true"
-        class="fa fa-exclamation-triangle fa-2x kubevirt-ocs-health__icon--error"
-      />
-      <span
-        class="kubevirt-ocs-health__row-status-item-text"
+      <div
+        class="kubevirt-ocs-health__icon"
       >
-        Cannot get OCS health
-      </span>
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle fa-2x kubevirt-ocs-health__icon--ok"
+        />
+        <span
+          class="kubevirt-ocs-health__row-status-item-text"
+        >
+          OCS is Healthy
+        </span>
+      </div>
     </div>
   </div>
 </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -7,20 +8,57 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
-import HealthBody from './HealthBody';
 import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
+import { HealthItem } from '../../Dashboard/Health/HealthItem';
+import { HealthBody } from '../../Dashboard/Health/HealthBody';
+
+import { HEALTHY, DEGRADED, ERROR, UNKNOWN } from './strings';
 import { InlineLoading } from '../../Loading';
 
-export const OCSHealth = ({ data, loaded }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Health</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-ocs-health__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
-      <HealthBody data={data} />
-    </DashboardCardBody>
-  </DashboardCard>
-);
+const OCSHealthStatus = {
+  0: {
+    message: HEALTHY,
+    iconname: 'check-circle',
+    classname: 'ok',
+  },
+  1: {
+    message: DEGRADED,
+    iconname: 'exclamation-circle',
+    classname: 'warning',
+  },
+  2: {
+    message: ERROR,
+    iconname: 'exclamation-triangle',
+    classname: 'error',
+  },
+  3: {
+    message: UNKNOWN,
+    iconname: 'exclamation-triangle',
+    classname: 'error',
+  },
+};
+
+export const OCSHealth = ({ data, loaded }) => {
+  const value = get(data, 'healthy', '3');
+  return (
+    <DashboardCard>
+      <DashboardCardHeader>
+        <DashboardCardTitle>Health</DashboardCardTitle>
+      </DashboardCardHeader>
+      <DashboardCardBody>
+        <HealthBody>
+          <HealthItem
+            message={data ? OCSHealthStatus[value].message : null}
+            icon={data ? OCSHealthStatus[value].iconname : null}
+            classname={data ? OCSHealthStatus[value].classname : null}
+            isLoading={!loaded}
+            LoadingComponent={InlineLoading}
+          />
+        </HealthBody>
+      </DashboardCardBody>
+    </DashboardCard>
+  );
+};
 
 OCSHealth.defaultProps = {
   loaded: false,
