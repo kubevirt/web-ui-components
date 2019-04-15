@@ -5,16 +5,13 @@ import { BaremetalHostStatus } from '..';
 
 import BaremetalHostStatusFixture from '../fixtures/BaremetalHostStatus.fixture';
 
-const testBaremetalHostStatus = () => <BaremetalHostStatus {...BaremetalHostStatusFixture[0].props} />;
-const testBaremetalHostStatusSuccess = () => <BaremetalHostStatus {...BaremetalHostStatusFixture[1].props} />;
+const getComponentFunction = props => () => <BaremetalHostStatus {...props} />;
 
 describe('<BaremetalHostStatus />', () => {
-  it('renders a generic status message', () => {
-    const component = shallow(testBaremetalHostStatus());
-    expect(component).toMatchSnapshot();
-  });
-  it('renders a generic success message', () => {
-    const component = shallow(testBaremetalHostStatusSuccess());
-    expect(component).toMatchSnapshot();
+  BaremetalHostStatusFixture.forEach((fixture, index) => {
+    it(`renders the correct subcomponent for the "${fixture.props.host.status.provisioning.state}" state`, () => {
+      const component = shallow(getComponentFunction(fixture.props)());
+      expect(component).toMatchSnapshot();
+    });
   });
 });
