@@ -17,17 +17,17 @@ exports[`<Health /> renders correctly 1`] = `
     class="card-pf-body"
   >
     <div
-      class="kubevirt-health__items"
+      class="kubevirt-dashboard-health__items"
     >
       <div
-        class="kubevirt-ocs-health__icon"
+        class="kubevirt-dashboard-health__icon"
       >
         <span
           aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-ocs-health__icon--ok"
+          class="fa fa-check-circle fa-2x kubevirt-dashboard-health__icon--ok"
         />
         <span
-          class="kubevirt-ocs-health__row-status-item-text"
+          class="kubevirt-dashboard-health__row-status-item-text"
         >
           OCS is Healthy
         </span>

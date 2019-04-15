@@ -2,21 +2,14 @@
 
 exports[`<HealthBody /> renders correctly 1`] = `
 <div
-  className="kubevirt-health__items"
+  className="kubevirt-dashboard-health__items"
 >
   <HealthItem
-    classname="error"
-    data={
-      Object {
-        "healthy": Object {
-          "classname": "ok",
-          "iconname": "check-circle",
-          "message": "OCS is Healthy",
-        },
-      }
-    }
-    icon="exclamation-triangle"
-    message="Cant get health"
+    LoadingComponent={[Function]}
+    classname="ok"
+    icon="check-circle"
+    isLoading={false}
+    message="OCS is Healthy"
   />
 </div>
 `;
