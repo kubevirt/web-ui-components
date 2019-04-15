@@ -14,7 +14,7 @@ exports[`<Utilization /> renders correctly 1`] = `
     </h2>
   </div>
   <div
-    class="card-pf-body"
+    class="card-pf-body kubevirt-utilization__card"
   >
     <div
       class="kubevirt-utilization__items"
@@ -125,7 +125,7 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
     </h2>
   </div>
   <div
-    class="card-pf-body"
+    class="card-pf-body kubevirt-utilization__card"
   >
     <div
       class="kubevirt-utilization__items"

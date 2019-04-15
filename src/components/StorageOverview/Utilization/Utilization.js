@@ -36,7 +36,7 @@ export const Utilization = ({ iopsUtilization, latencyUtilization, throughputUti
       <DashboardCardHeader>
         <DashboardCardTitle>Perfrormance</DashboardCardTitle>
       </DashboardCardHeader>
-      <DashboardCardBody>
+      <DashboardCardBody className="kubevirt-utilization__card">
         <UtilizationBody>
           <UtilizationItem
             unit="IOPS"

@@ -236,7 +236,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
                 </h2>
               </div>
               <div
-                class="card-pf-body"
+                class="card-pf-body kubevirt-utilization__card"
               >
                 <div
                   class="kubevirt-utilization__items"
