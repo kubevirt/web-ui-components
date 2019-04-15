@@ -14,6 +14,7 @@ import { localhostNode } from '../../../tests/mocks/node';
 import { persistentVolumeClaims } from '../../../tests/mocks/persistentVolumeClaim';
 import { persistentVolumes } from '../../../tests/mocks/persistentVolume';
 import { osdDisksCount } from '../../../tests/mocks/disks';
+import { cephDiskInaccessibleAlert, cephDataRecoveryAlert } from '../Alerts/fixtures/Alerts.fixture';
 
 export const nodes = [localhostNode];
 export const pvcs = persistentVolumeClaims;
@@ -40,6 +41,7 @@ export default [
       eventsData,
       ...utilizationStats,
       ...dataResiliencyData[0],
+      alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
     },
   },
   {

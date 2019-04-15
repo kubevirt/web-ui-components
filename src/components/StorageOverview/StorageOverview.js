@@ -13,12 +13,20 @@ import { CapacityConnected } from './Capacity/Capacity';
 import EventsConnected from './Events/Events';
 import { UtilizationConnected } from './Utilization/Utilization';
 import { DataResiliencyConnected } from './DataResiliency/DataResiliency';
+import { AlertsConnected } from './Alerts/Alerts';
 
 const MainCards = () => (
   <GridItem lg={6} md={12} sm={12}>
     <Grid>
       <GridItem span={12}>
-        <OCSHealthConnected />
+        <Grid className="kubevirt-dashboard__health-grid">
+          <GridItem span={12}>
+            <OCSHealthConnected />
+          </GridItem>
+          <GridItem span={12}>
+            <AlertsConnected className="kubevirt-dashboard__card--top-border" />
+          </GridItem>
+        </Grid>
       </GridItem>
       <GridItem span={6}>
         <CapacityConnected />

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Alerts /> renders correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle>
+      Alerts
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <AlertsBody>
+      <AlertItem
+        alert={
+          Object {
+            "annotations": Object {
+              "description": "Disk inaccessible on host ip-10-0-154-62.ec2.internal (device xvda)",
+              "message": "Disk is inaccessible",
+              "storage_type": "ceph",
+            },
+            "labels": Object {
+              "alertname": "CephOSDDiskUnavailable",
+              "severity": "critical",
+            },
+          }
+        }
+        key="alert-0"
+      />
+      <AlertItem
+        alert={
+          Object {
+            "annotations": Object {
+              "description": "Data recovery has been active for over 2h. Contact Support",
+              "message": "Data recovery is slow",
+              "storage_type": "ceph",
+            },
+            "labels": Object {
+              "alertname": "CephDataRecoveryTakingTooLong",
+              "severity": "warning",
+            },
+          }
+        }
+        key="alert-1"
+      />
+    </AlertsBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
