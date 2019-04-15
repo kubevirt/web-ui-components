@@ -14,7 +14,13 @@ import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
 import { getUtilizationVectorStats } from '../../../selectors';
 import { formatBytes } from '../../../utils';
 
-export const Utilization = ({ iopsUtilization, latencyUtilization, throughputUtilization, LoadingComponent }) => {
+export const Utilization = ({
+  iopsUtilization,
+  latencyUtilization,
+  throughputUtilization,
+  recoveryRateUtilization,
+  LoadingComponent,
+}) => {
   const iopsStats = getUtilizationVectorStats(iopsUtilization);
   const latencyStats = getUtilizationVectorStats(latencyUtilization);
 
@@ -31,6 +37,19 @@ export const Utilization = ({ iopsUtilization, latencyUtilization, throughputUti
   }
   const throughputUnit = `${throughputMaxConverted.unit}/s`;
 
+  const recoveryRateStatsRaw = getUtilizationVectorStats(recoveryRateUtilization);
+  let recoveryRateStats = null;
+  let recoveryRateMax = 0;
+  let recoveryRateMaxConverted;
+  if (recoveryRateStatsRaw) {
+    recoveryRateMax = Math.max(0, ...recoveryRateStatsRaw);
+    recoveryRateMaxConverted = formatBytes(recoveryRateMax);
+    recoveryRateStats = recoveryRateStatsRaw.map(bytes => formatBytes(bytes, recoveryRateMaxConverted.unit, 1).value);
+  } else {
+    recoveryRateMaxConverted = formatBytes(recoveryRateMax); // B
+  }
+  const recoveryRateUnit = `${recoveryRateMaxConverted.unit}/s`;
+
   return (
     <DashboardCard>
       <DashboardCardHeader>
@@ -38,6 +57,14 @@ export const Utilization = ({ iopsUtilization, latencyUtilization, throughputUti
       </DashboardCardHeader>
       <DashboardCardBody>
         <UtilizationBody>
+          <UtilizationItem
+            unit={throughputUnit}
+            id="throughput"
+            title="Throughput"
+            data={throughputStats}
+            LoadingComponent={LoadingComponent}
+            isLoading={!throughputUtilization}
+          />
           <UtilizationItem
             unit="IOPS"
             id="iops"
@@ -55,12 +82,12 @@ export const Utilization = ({ iopsUtilization, latencyUtilization, throughputUti
             isLoading={!latencyUtilization}
           />
           <UtilizationItem
-            unit={throughputUnit}
-            id="throughput"
-            title="Throughput"
-            data={throughputStats}
+            unit={recoveryRateUnit}
+            id="recoveryRate"
+            title="Recovery rate"
+            data={recoveryRateStats}
             LoadingComponent={LoadingComponent}
-            isLoading={!throughputUtilization}
+            isLoading={!recoveryRateUtilization}
           />
         </UtilizationBody>
       </DashboardCardBody>
@@ -72,6 +99,7 @@ Utilization.defaultProps = {
   iopsUtilization: null,
   latencyUtilization: null,
   throughputUtilization: null,
+  recoveryRateUtilization: null,
   LoadingComponent: InlineLoading,
 };
 
@@ -79,6 +107,7 @@ Utilization.propTypes = {
   iopsUtilization: PropTypes.object,
   latencyUtilization: PropTypes.object,
   throughputUtilization: PropTypes.object,
+  recoveryRateUtilization: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 

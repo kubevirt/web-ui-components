@@ -8,12 +8,12 @@ exports[`<UtilizationItem /> renders correctly 1`] = `
     class="row"
   >
     <div
-      class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
     >
       title
     </div>
     <div
-      class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
     >
       5 %
     </div>
@@ -40,12 +40,12 @@ exports[`<UtilizationItem /> renders correctly 2`] = `
     class="row"
   >
     <div
-      class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
     >
       title
     </div>
     <div
-      class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
     >
       5 %
     </div>

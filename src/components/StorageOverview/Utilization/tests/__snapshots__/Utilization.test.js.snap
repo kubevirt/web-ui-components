@@ -26,12 +26,41 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            Throughput
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            30 Ki/s
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-chart"
+          >
+            <div
+              class=" chart-pf-sparkline"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="kubevirt-utilization__item-narrow"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             IOPS
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             50 IOPS
           </div>
@@ -55,12 +84,12 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             Latency
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             50 ms
           </div>
@@ -84,12 +113,12 @@ exports[`<Utilization /> renders correctly 1`] = `
           class="row"
         >
           <div
-            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
-            Throughput
+            Recovery rate
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             30 Ki/s
           </div>
@@ -137,70 +166,99 @@ exports[`<Utilization /> renders correctly in Loading state 1`] = `
           class="row"
         >
           <div
-            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            IOPS
-          </div>
-          <div
-            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          />
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-narrow-chart"
-          >
-            <div>
-              <div
-                class="spinner spinner-md blank-slate-pf-icon"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="kubevirt-utilization__item-narrow"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            Latency
-          </div>
-          <div
-            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          />
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-narrow-chart"
-          >
-            <div>
-              <div
-                class="spinner spinner-md blank-slate-pf-icon"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="kubevirt-utilization__item-narrow"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
           >
             Throughput
           </div>
           <div
-            class="kubevirt-utilization__item-actual col-lg-6 col-md-6 col-sm-6 col-xs-6"
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          />
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-chart"
+          >
+            <div>
+              <div
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="kubevirt-utilization__item-narrow"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            IOPS
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          />
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-chart"
+          >
+            <div>
+              <div
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="kubevirt-utilization__item-narrow"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            Latency
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          />
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-chart"
+          >
+            <div>
+              <div
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="kubevirt-utilization__item-narrow"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
+          >
+            Recovery rate
+          </div>
+          <div
+            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
           />
         </div>
         <div
