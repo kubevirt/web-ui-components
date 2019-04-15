@@ -1,21 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<HealthItem /> renders correctly 1`] = `
-<Fragment>
-  <div
-    className="kubevirt-ocs-health__icon"
+<div
+  className="kubevirt-dashboard-health__icon"
+>
+  <Icon
+    className="kubevirt-dashboard-health__icon--ok"
+    name="check-circle"
+    size="2x"
+    type="fa"
+  />
+  <span
+    className="kubevirt-dashboard-health__row-status-item-text"
   >
-    <Icon
-      className="kubevirt-ocs-health__icon--error"
-      name="exclamation-triangle"
-      size="2x"
-      type="fa"
-    />
-    <span
-      className="kubevirt-ocs-health__row-status-item-text"
-    >
-      Cant get health
-    </span>
-  </div>
-</Fragment>
+    OCS is Healthy
+  </span>
+</div>
 `;

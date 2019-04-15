@@ -39,7 +39,8 @@ const OCSHealthStatus = {
 };
 
 export const OCSHealth = ({ data, loaded }) => {
-  const value = get(data, 'healthy', '3');
+  const value = get(data, 'healthy');
+  const status = OCSHealthStatus[value] || OCSHealthStatus[3];
   return (
     <DashboardCard>
       <DashboardCardHeader>
@@ -48,9 +49,9 @@ export const OCSHealth = ({ data, loaded }) => {
       <DashboardCardBody>
         <HealthBody>
           <HealthItem
-            message={data ? OCSHealthStatus[value].message : null}
-            icon={data ? OCSHealthStatus[value].iconname : null}
-            classname={data ? OCSHealthStatus[value].classname : null}
+            message={data ? status.message : null}
+            icon={data ? status.iconname : null}
+            classname={data ? status.classname : null}
             isLoading={!loaded}
             LoadingComponent={InlineLoading}
           />

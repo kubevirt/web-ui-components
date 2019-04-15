@@ -4,13 +4,9 @@ export default [
   {
     component: HealthItem,
     props: {
-      data: {
-        healthy: {
-          message: 'OCS is Healthy',
-          iconname: 'check-circle',
-          classname: 'ok',
-        },
-      },
+      message: 'OCS is Healthy',
+      icon: 'check-circle',
+      classname: 'ok',
     },
   },
 ];
