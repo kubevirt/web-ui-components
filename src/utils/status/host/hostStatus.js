@@ -1,4 +1,9 @@
-import { getOperationalStatus, getProvisioningState, getHostErrorMessage } from '../../../selectors';
+import {
+  getOperationalStatus,
+  getProvisioningState,
+  getHostErrorMessage,
+  isNodeUnschedulable,
+} from '../../../selectors';
 
 import { HOST_STATUS_TO_TEXT, HOST_STATUS_READY, HOST_STATUS_REGISTERING } from './constants';
 
@@ -18,3 +23,5 @@ export const getHostStatus = host => {
 export const getSimpleHostStatus = host => getHostStatus(host).status;
 
 export const canHostAddMachine = host => [HOST_STATUS_READY].includes(getSimpleHostStatus(host));
+export const canHostStartMaintenance = hostNode => hostNode && !isNodeUnschedulable(hostNode);
+export const canHostStopMaintenance = hostNode => isNodeUnschedulable(hostNode);
