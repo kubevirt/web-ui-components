@@ -9,4 +9,4 @@ export const getHostRole = hostMachine =>
 export const getHostMachineName = host => get(host, 'spec.machineRef.name');
 export const getHostBmcAddress = host => get(host, 'spec.bmc.address');
 export const getHostErrorMessage = host => get(host, 'status.errorMessage');
-export const getHostPoweredOn = host => _.get(host, 'status.poweredOn');
+export const isHostPoweredOn = host => get(host, 'status.poweredOn', false);

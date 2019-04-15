@@ -1,3 +1,3 @@
 import { get } from 'lodash';
 
-export const getNodeUnschedulable = node => get(node, 'spec.unschedulable', false);
+export const isNodeUnschedulable = node => get(node, 'spec.unschedulable', false);
