@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HealthBody /> renders correctly 1`] = `
+<div
+  className="kubevirt-health__items"
+>
+  <HealthItem
+    classname="error"
+    data={
+      Object {
+        "healthy": Object {
+          "classname": "ok",
+          "iconname": "check-circle",
+          "message": "OCS is Healthy",
+        },
+      }
+    }
+    icon="exclamation-triangle"
+    message="Cant get health"
+  />
+</div>
+`;

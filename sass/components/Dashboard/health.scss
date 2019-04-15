@@ -1,0 +1,27 @@
+.kubevirt-dashboard-health__body {
+  max-height: 100px;
+}
+
+.kubevirt-dashboard-health__icon {
+  font-size: 1.333em;
+  line-height: 1.333em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.kubevirt-dashboard-health__icon--ok {
+  color: yellowgreen;
+}
+
+.kubevirt-dashboard-health__icon--warning {
+  color: goldenrod;
+}
+
+.kubevirt-dashboard-health__icon--error {
+  color: red;
+}
+
+.kubevirt-dashboard-health__row-status-item-text {
+  margin-left: 1em;
+  font-size: 1em;
+}
