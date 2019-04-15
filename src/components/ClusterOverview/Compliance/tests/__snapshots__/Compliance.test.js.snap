@@ -24,7 +24,11 @@ exports[`<Compliance /> renders correctly 1`] = `
         class="fa fa-check-circle"
       />
     </div>
-    All nodes compliant
+    <span
+      class="kubevirt-health__text"
+    >
+      All nodes compliant
+    </span>
   </div>
 </div>
 `;

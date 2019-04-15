@@ -24,7 +24,11 @@ exports[`<Health /> renders correctly 1`] = `
         class="fa fa-exclamation-circle"
       />
     </div>
-    Error message
+    <span
+      class="kubevirt-health__text"
+    >
+      Error message
+    </span>
   </div>
 </div>
 `;

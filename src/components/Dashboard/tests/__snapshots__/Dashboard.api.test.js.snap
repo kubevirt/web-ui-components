@@ -80,17 +80,17 @@ exports[`<Dashboard /> API renders correctly 1`] = `
                             type="button"
                           >
                             <Icon
-                              className="kubevirt-dashboard__icon-sm"
+                              className="kubevirt-dashboard__icon-sm kubevirt-dashboard__heading-icon--info"
                               name="info-circle"
                               type="fa"
                             >
                               <FontAwesome
-                                className="kubevirt-dashboard__icon-sm"
+                                className="kubevirt-dashboard__icon-sm kubevirt-dashboard__heading-icon--info"
                                 name="info-circle"
                               >
                                 <span
                                   aria-hidden={true}
-                                  className="fa fa-info-circle kubevirt-dashboard__icon-sm"
+                                  className="fa fa-info-circle kubevirt-dashboard__icon-sm kubevirt-dashboard__heading-icon--info"
                                 />
                               </FontAwesome>
                             </Icon>
