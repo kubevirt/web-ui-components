@@ -65,10 +65,10 @@ export class UtilizationItem extends React.PureComponent {
       rows = (
         <Fragment>
           <Row>
-            <Col lg={6} md={6} sm={6} xs={6}>
+            <Col lg={6} md={6} sm={6} xs={6} className="kubevirt-utilization__item-narrow-title">
               {title}
             </Col>
-            <Col className="kubevirt-utilization__item-actual" lg={6} md={6} sm={6} xs={6}>
+            <Col className="kubevirt-utilization__item-actual item-actual--narrow" lg={6} md={6} sm={6} xs={6}>
               {actual}
             </Col>
           </Row>

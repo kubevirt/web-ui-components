@@ -37,6 +37,21 @@ export const utilizationStats = {
       ],
     },
   },
+  recoveryRateUtilization: {
+    data: {
+      result: [
+        {
+          values: [
+            [time0, 2 * KiB],
+            [time0 + 10, 5 * KiB],
+            [time0 + 20, 15 * KiB],
+            [time0 + 30, 10 * KiB],
+            [time0 + 40, 30 * KiB],
+          ],
+        },
+      ],
+    },
+  },
 };
 
 export default {
