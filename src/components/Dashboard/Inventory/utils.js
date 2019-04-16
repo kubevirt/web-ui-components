@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 import {
   getVmStatus,
   VM_STATUS_ALL_WARNING,
@@ -102,14 +100,15 @@ export const mapHostsToProps = hosts =>
     })
   );
 
-export const mapDiskStatsToProps = disks => {
+export const mapDiskStatsToProps = (cephOsdUp, cephOsdDown) => {
   const result = {
     [STATUS_RESULT_OK]: 0,
     [STATUS_RESULT_ERROR]: 0,
+    count: cephOsdUp && cephOsdDown ? 0 : null,
   };
 
-  const cephOsdUpCount = getCapacityStats(get(disks, 'cephOsdUp'));
-  const cephOsdDownCount = getCapacityStats(get(disks, 'cephOsdDown'));
+  const cephOsdUpCount = getCapacityStats(cephOsdUp);
+  const cephOsdDownCount = getCapacityStats(cephOsdDown);
 
   if (cephOsdUpCount || cephOsdDownCount) {
     result[STATUS_RESULT_OK] = cephOsdUpCount;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -9,15 +10,18 @@ import {
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
 import { StorageOverviewContext } from '../StorageOverviewContext';
-import { mapNodesToProps, mapPvcsToProps, mapPvsToProps } from '../../Dashboard/Inventory/utils';
-import diskStatsToProps from './diskInventoryUtils';
+import { mapNodesToProps, mapPvcsToProps, mapPvsToProps, mapDiskStatsToProps } from '../../Dashboard/Inventory/utils';
 import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
 import { InlineLoading } from '../../Loading';
 
 const InventoryBody = ({ nodes, pvs, pvcs, diskStats, LoadingComponent }) => (
   <React.Fragment>
     <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} LoadingComponent={LoadingComponent} />
-    <InventoryRow title="Disks" {...diskStatsToProps(diskStats)} LoadingComponent={LoadingComponent} />
+    <InventoryRow
+      title="Disks"
+      {...mapDiskStatsToProps(get(diskStats, 'cephOsdUp'), get(diskStats, 'cephOsdDown'))}
+      LoadingComponent={LoadingComponent}
+    />
     <InventoryRow title="PVs" {...mapPvsToProps(pvs)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} LoadingComponent={LoadingComponent} />
   </React.Fragment>
