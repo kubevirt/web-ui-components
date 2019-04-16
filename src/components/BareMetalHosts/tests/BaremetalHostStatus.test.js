@@ -9,7 +9,9 @@ const getComponentFunction = props => () => <BaremetalHostStatus {...props} />;
 
 describe('<BaremetalHostStatus />', () => {
   BaremetalHostStatusFixture.forEach((fixture, index) => {
-    it(`renders the correct subcomponent for the "${fixture.props.host.status.provisioning.state}" state`, () => {
+    it(`renders the correct subcomponent for the "${
+      fixture.props.host.status.provisioning.state
+    }" state (${index})`, () => {
       const component = shallow(getComponentFunction(fixture.props)());
       expect(component).toMatchSnapshot();
     });
