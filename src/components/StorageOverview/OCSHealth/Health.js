@@ -39,21 +39,19 @@ const OCSHealthStatus = {
 };
 
 export const OCSHealth = ({ data, loaded }) => {
-  const value = get(data, 'healthy');
+  const value = get(data, 'healthy.data.result[0].value[1]');
   const status = OCSHealthStatus[value] || OCSHealthStatus[3];
   return (
     <DashboardCard>
       <DashboardCardHeader>
         <DashboardCardTitle>Health</DashboardCardTitle>
       </DashboardCardHeader>
-      <DashboardCardBody>
+      <DashboardCardBody isLoading={!loaded} LoadingComponent={InlineLoading}>
         <HealthBody>
           <HealthItem
             message={data ? status.message : null}
             icon={data ? status.iconname : null}
             classname={data ? status.classname : null}
-            isLoading={!loaded}
-            LoadingComponent={InlineLoading}
           />
         </HealthBody>
       </DashboardCardBody>
