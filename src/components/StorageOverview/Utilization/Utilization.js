@@ -53,7 +53,7 @@ export const Utilization = ({
   return (
     <DashboardCard>
       <DashboardCardHeader>
-        <DashboardCardTitle>Perfrormance</DashboardCardTitle>
+        <DashboardCardTitle>Performance</DashboardCardTitle>
       </DashboardCardHeader>
       <DashboardCardBody>
         <UtilizationBody>
