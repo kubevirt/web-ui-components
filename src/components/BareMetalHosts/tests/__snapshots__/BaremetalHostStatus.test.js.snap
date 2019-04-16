@@ -1,15 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<BaremetalHostStatus /> renders a generic status message 1`] = `
-<GenericStatus
-  status="unknown state"
-  text="unknown state"
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "match profile" state (2) 1`] = `
+<GenericProgress
+  status="match profile"
+  text="Matching profile"
 />
 `;
 
-exports[`<BaremetalHostStatus /> renders a generic success message 1`] = `
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "power management error" state (4) 1`] = `
+<GenericError
+  status="power management error"
+  text="Power Management Error"
+/>
+`;
+
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "provisioned" state (1) 1`] = `
 <GenericSuccess
   status="provisioned"
   text="Provisioned"
+/>
+`;
+
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "provisioning error" state (3) 1`] = `
+<GenericError
+  status="provisioning error"
+  text="Provisioning Error"
+/>
+`;
+
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "unknown state" state (0) 1`] = `
+<GenericStatus
+  status="unknown state"
+  text="unknown state"
 />
 `;
