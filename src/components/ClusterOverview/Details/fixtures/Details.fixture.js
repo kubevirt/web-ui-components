@@ -1,13 +1,17 @@
 import { Details } from '../Details';
 
 export const clusterDetailsData = {
-  openshiftClusterVersions: [
-    {
-      metric: {
-        gitVersion: 'v4.0.0',
-      },
+  openshiftClusterVersionResponse: {
+    data: {
+      result: [
+        {
+          metric: {
+            gitVersion: 'v4.0.0',
+          },
+        },
+      ],
     },
-  ],
+  },
   infrastructure: {
     status: {
       platform: 'AWS',
