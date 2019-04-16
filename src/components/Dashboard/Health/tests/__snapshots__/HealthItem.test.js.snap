@@ -13,12 +13,12 @@ exports[`<HealthItem /> renders correctly 1`] = `
   <div
     className="kubevirt-health__message"
   >
-    <span
+    <div
       className="kubevirt-health__title"
     >
       OCS is Healthy
-    </span>
-    <span
+    </div>
+    <div
       className="kubevirt-health__title kubevirt-health__subtitle"
     />
   </div>

@@ -29,16 +29,16 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
         <div
           class="kubevirt-health__message"
         >
-          <span
+          <div
             class="kubevirt-health__title"
           >
             OpenShift
-          </span>
-          <span
+          </div>
+          <div
             class="kubevirt-health__title kubevirt-health__subtitle"
           >
             OpenShift is healthy
-          </span>
+          </div>
         </div>
       </div>
       <div
@@ -51,16 +51,16 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
         <div
           class="kubevirt-health__message"
         >
-          <span
+          <div
             class="kubevirt-health__title"
           >
             CNV
-          </span>
-          <span
+          </div>
+          <div
             class="kubevirt-health__title kubevirt-health__subtitle"
           >
             CNV health is degraded
-          </span>
+          </div>
         </div>
       </div>
       <div
@@ -73,16 +73,16 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
         <div
           class="kubevirt-health__message"
         >
-          <span
+          <div
             class="kubevirt-health__title"
           >
             Ceph Storage
-          </span>
-          <span
+          </div>
+          <div
             class="kubevirt-health__title kubevirt-health__subtitle"
           >
             Ceph Storage health is degraded
-          </span>
+          </div>
         </div>
       </div>
     </div>
