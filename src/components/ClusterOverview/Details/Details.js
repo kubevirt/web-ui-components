@@ -13,7 +13,7 @@ import { getClusterName, getInfrastructurePlatform, getOpenshiftVersion } from '
 import { DetailItem } from '../../Dashboard/Details/DetailItem';
 import { DetailsBody } from '../../Dashboard/Details/DetailsBody';
 
-export const Details = ({ infrastructure, openshiftClusterVersions, LoadingComponent, className }) => (
+export const Details = ({ infrastructure, openshiftClusterVersionResponse, LoadingComponent, className }) => (
   <DashboardCard className={className}>
     <DashboardCardHeader>
       <DashboardCardTitle>Details</DashboardCardTitle>
@@ -37,8 +37,8 @@ export const Details = ({ infrastructure, openshiftClusterVersions, LoadingCompo
         <DetailItem
           key="openshift"
           title="Openshift version"
-          value={getOpenshiftVersion(openshiftClusterVersions)}
-          isLoading={!openshiftClusterVersions}
+          value={getOpenshiftVersion(openshiftClusterVersionResponse)}
+          isLoading={!openshiftClusterVersionResponse}
           LoadingComponent={LoadingComponent}
         />
       </DetailsBody>
@@ -48,14 +48,14 @@ export const Details = ({ infrastructure, openshiftClusterVersions, LoadingCompo
 
 Details.defaultProps = {
   infrastructure: null,
-  openshiftClusterVersions: null,
+  openshiftClusterVersionResponse: null,
   LoadingComponent: InlineLoading,
   className: null,
 };
 
 Details.propTypes = {
   infrastructure: PropTypes.object,
-  openshiftClusterVersions: PropTypes.array,
+  openshiftClusterVersionResponse: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
 };
