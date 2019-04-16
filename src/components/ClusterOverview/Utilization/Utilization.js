@@ -12,7 +12,7 @@ import { InlineLoading } from '../../Loading';
 import { UtilizationBody } from '../../Dashboard/Utilization/UtilizationBody';
 import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
 import { getCapacityStats, getUtilizationVectorStats } from '../../../selectors';
-import { formatBytes } from '../../../utils';
+import { formatBytes, formatNetTraffic } from '../../../utils';
 
 const getMemoryData = (memoryUtilization, memoryTotal) => {
   let memoryStats;
@@ -35,17 +35,40 @@ const getMemoryData = (memoryUtilization, memoryTotal) => {
   };
 };
 
+const getThroughputData = iorw => {
+  let iorwStats;
+  let maxValueConverted;
+
+  const iorwRaw = getUtilizationVectorStats(iorw);
+  if (iorwRaw) {
+    const maxValue = Math.max(...iorwRaw);
+    maxValueConverted = formatNetTraffic(maxValue, undefined, 1);
+    iorwStats = iorwRaw.map(rws => formatNetTraffic(rws, maxValueConverted.unit, 1).value);
+  } else {
+    maxValueConverted = formatNetTraffic(0); // 0 Bps
+    iorwStats = null;
+  }
+
+  return {
+    unit: maxValueConverted.unit,
+    values: iorwStats,
+    maxValue: maxValueConverted.value,
+  };
+};
+
 export const Utilization = ({
   cpuUtilization,
   memoryUtilization,
   memoryTotal,
   storageTotal,
   storageUsed,
+  storageIORW,
   LoadingComponent,
 }) => {
   const cpuStats = getUtilizationVectorStats(cpuUtilization);
   const memoryData = getMemoryData(memoryUtilization, memoryTotal);
   const storageUsageData = getMemoryData(storageUsed, storageTotal);
+  const diskIORWData = getThroughputData(storageIORW);
 
   return (
     <DashboardCard>
@@ -73,6 +96,15 @@ export const Utilization = ({
             isLoading={!(memoryUtilization && memoryTotal)}
           />
           <UtilizationItem
+            unit={diskIORWData.unit}
+            id="diskIORW"
+            title="Disk IO R/W"
+            data={diskIORWData.values}
+            maxY={diskIORWData.maxValue}
+            LoadingComponent={LoadingComponent}
+            isLoading={!storageIORW}
+          />
+          <UtilizationItem
             unit={storageUsageData.unit}
             id="diskUsage"
             title="Disk Usage"
@@ -93,6 +125,7 @@ Utilization.defaultProps = {
   memoryTotal: null,
   storageTotal: null,
   storageUsed: null,
+  storageIORW: null,
   LoadingComponent: InlineLoading,
 };
 
@@ -102,6 +135,7 @@ Utilization.propTypes = {
   memoryTotal: PropTypes.object,
   storageTotal: PropTypes.object,
   storageUsed: PropTypes.object,
+  storageIORW: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 

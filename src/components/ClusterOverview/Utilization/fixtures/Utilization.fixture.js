@@ -61,6 +61,15 @@ export const utilizationStats = {
       ],
     },
   },
+  storageIORW: {
+    data: {
+      result: [
+        {
+          values: [[time0, 0], [time0 + 10, 200], [time0 + 20, 500], [time0 + 30, 300], [time0 + 40, 1000]],
+        },
+      ],
+    },
+  },
 };
 
 export default {

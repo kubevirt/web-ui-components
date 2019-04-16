@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Measure from 'react-measure';
 
 import { Col, Row } from 'patternfly-react';
-
 import { ChartArea, ChartVoronoiContainer, Chart, ChartAxis, ChartTooltip } from '@patternfly/react-charts';
 
 import { MEDIA_QUERY_SM } from '../../../utils';
@@ -96,10 +95,10 @@ export class UtilizationItem extends React.PureComponent {
       topClass = 'kubevirt-utilization__item';
       rows = (
         <Row>
-          <Col lg={2} md={2} sm={2} xs={2}>
+          <Col lg={3} md={3} sm={3} xs={3}>
             {title}
           </Col>
-          <Col className="kubevirt-utilization__item-actual" lg={3} md={3} sm={3} xs={3}>
+          <Col className="kubevirt-utilization__item-actual" lg={2} md={2} sm={2} xs={2}>
             {actual}
           </Col>
           <Col
