@@ -2,10 +2,10 @@
 
 exports[`<HealthItem /> renders correctly 1`] = `
 <div
-  className="kubevirt-dashboard-health__icon"
+  className="kubevirt-health__body"
 >
   <Icon
-    className="kubevirt-health__icon kubevirt-dashboard-health__icon--ok"
+    className="kubevirt-health__icon kubevirt-health__icon--ok"
     name="check-circle"
     size="2x"
     type="fa"

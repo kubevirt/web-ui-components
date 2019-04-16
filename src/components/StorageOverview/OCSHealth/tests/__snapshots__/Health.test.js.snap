@@ -20,16 +20,16 @@ exports[`<Health /> renders correctly 1`] = `
       class="kubevirt-health__body"
     >
       <div
-        class="kubevirt-dashboard-health__icon"
+        class="kubevirt-health__body"
       >
         <span
           aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-dashboard-health__icon--ok"
+          class="fa fa-exclamation-triangle fa-2x kubevirt-health__icon kubevirt-health__icon--error"
         />
         <span
           class="kubevirt-health__text"
         >
-          OCS is Healthy
+          Not available
         </span>
       </div>
     </div>
