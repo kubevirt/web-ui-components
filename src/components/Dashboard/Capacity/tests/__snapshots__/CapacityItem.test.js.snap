@@ -4,12 +4,14 @@ exports[`<CapacityItem /> renders correctly 1`] = `
 <div
   className="kubevirt-capacity__item"
 >
-  <h3
+  <div
     className="kubevirt-capacity__item-title"
   >
     title
-  </h3>
-  <h6>
+  </div>
+  <h6
+    className="kubevirt-capacity__item-description"
+  >
     50 unit available out of 100 unit
   </h6>
   <div
@@ -526,12 +528,14 @@ exports[`<CapacityItem /> renders correctly 2`] = `
 <div
   className="kubevirt-capacity__item"
 >
-  <h3
+  <div
     className="kubevirt-capacity__item-title"
   >
     title
-  </h3>
-  <h6>
+  </div>
+  <h6
+    className="kubevirt-capacity__item-description"
+  >
     <InlineLoading
       size="md"
     />
@@ -1048,12 +1052,14 @@ exports[`<CapacityItem /> renders correctly 3`] = `
 <div
   className="kubevirt-capacity__item"
 >
-  <h3
+  <div
     className="kubevirt-capacity__item-title"
   >
     title
-  </h3>
-  <h6>
+  </div>
+  <h6
+    className="kubevirt-capacity__item-description"
+  >
     Not available
   </h6>
   <div
