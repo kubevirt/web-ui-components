@@ -17,7 +17,7 @@ const errorIcon = (
 const HealthBody = ({ data }) => (
   <React.Fragment>
     {data.healthy ? healtyIcon : errorIcon}
-    {data.message}
+    <span className="kubevirt-health__text">{data.message}</span>
   </React.Fragment>
 );
 

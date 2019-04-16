@@ -28,7 +28,7 @@ exports[`<DashboardCardTitleHelp /> renders correctly 1`] = `
     disabled={false}
   >
     <Icon
-      className="kubevirt-dashboard__icon-sm"
+      className="kubevirt-dashboard__icon-sm kubevirt-dashboard__heading-icon--info"
       name="info-circle"
       type="fa"
     />

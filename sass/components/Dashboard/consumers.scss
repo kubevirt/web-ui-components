@@ -29,12 +29,13 @@
 }
 
 .kubevirt-consumers__metric-description {
-  text-align: left;
   padding: 0;
 }
 
+.kubevirt-consumers__metric-description,
 .kubevirt-consumers__metric-type {
   text-align: left;
+  font-size: 0.875rem;
 }
 
 .kubevirt-consumers__filters {

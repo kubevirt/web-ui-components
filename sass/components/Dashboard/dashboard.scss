@@ -21,6 +21,11 @@
   align-items: center;
 }
 
+.kubevirt-dashboard__heading-icon--info {
+  //spacer fix :(
+  margin-right: -10px;
+}
+
 .kubevirt-dashboard__card--top-border {
   border-top: 1px solid #d1d1d1;
 }

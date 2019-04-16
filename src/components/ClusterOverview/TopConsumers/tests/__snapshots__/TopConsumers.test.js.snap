@@ -18,7 +18,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
     >
       <span
         aria-hidden="true"
-        class="fa fa-info-circle kubevirt-dashboard__icon-sm"
+        class="fa fa-info-circle kubevirt-dashboard__icon-sm kubevirt-dashboard__heading-icon--info"
       />
     </button>
   </div>
