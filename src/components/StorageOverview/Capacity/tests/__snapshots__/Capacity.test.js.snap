@@ -22,12 +22,14 @@ exports[`<Capacity /> renders correctly 1`] = `
       <div
         class="kubevirt-capacity__item"
       >
-        <h3
+        <div
           class="kubevirt-capacity__item-title"
         >
           Total capacity
-        </h3>
-        <h6>
+        </div>
+        <h6
+          class="kubevirt-capacity__item-description"
+        >
           <div>
             <div
               class="spinner spinner-md blank-slate-pf-icon"
@@ -119,12 +121,14 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
       <div
         class="kubevirt-capacity__item"
       >
-        <h3
+        <div
           class="kubevirt-capacity__item-title"
         >
           Total capacity
-        </h3>
-        <h6>
+        </div>
+        <h6
+          class="kubevirt-capacity__item-description"
+        >
           <div>
             <div
               class="spinner spinner-md blank-slate-pf-icon"

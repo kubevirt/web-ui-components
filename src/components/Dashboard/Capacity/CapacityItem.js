@@ -55,8 +55,8 @@ export const CapacityItem = ({ id, title, used, total, unit, formatValue, Loadin
   }
   return (
     <div className="kubevirt-capacity__item">
-      <h3 className="kubevirt-capacity__item-title">{title}</h3>
-      <h6>{description}</h6>
+      <div className="kubevirt-capacity__item-title">{title}</div>
+      <h6 className="kubevirt-capacity__item-description">{description}</h6>
       <div id={prefixedId('donut-chart', id)} className="kubevirt-capacity__graph">
         <svg viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}>
           <ChartDonut
