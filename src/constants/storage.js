@@ -9,8 +9,7 @@ export const STORAGE_PROMETHEUS_QUERIES = {
   // from cluster
   CAPACITY_STORAGE_TOTAL_BASE_CEPH_METRIC: 'ceph_cluster_total_bytes', // available with Ceph only
   CAPACITY_STORAGE_TOTAL_QUERY: 'ceph_cluster_total_bytes',
-  CAPACITY_STORAGE_TOTAL_DEFAULT_QUERY: 'sum(node_filesystem_avail_bytes)',
+  CAPACITY_STORAGE_TOTAL_DEFAULT_QUERY: 'sum(node_filesystem_size_bytes)',
   UTILIZATION_STORAGE_USED_QUERY: 'ceph_cluster_total_used_bytes[60m:5m]',
-  UTILIZATION_STORAGE_USED_DEFAULT_QUERY:
-    '(sum(node_filesystem_avail_bytes) - sum(node_filesystem_free_bytes))[60m:5m]',
+  UTILIZATION_STORAGE_USED_DEFAULT_QUERY: '(sum(node_filesystem_size_bytes) - sum(node_filesystem_free_bytes))[60m:5m]',
 };
