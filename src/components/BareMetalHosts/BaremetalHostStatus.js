@@ -10,8 +10,8 @@ import {
   HOST_STATUS_ALL_SUCCESS,
 } from '../../utils/status/host/constants';
 
-export const BaremetalHostStatus = ({ host }) => {
-  const hostStatus = getHostStatus(host);
+export const BaremetalHostStatus = ({ host, machine, nodes }) => {
+  const hostStatus = getHostStatus(host, machine, nodes);
   const { status } = hostStatus;
 
   // Select the right component depending on the host status
@@ -31,4 +31,11 @@ export const BaremetalHostStatus = ({ host }) => {
 
 BaremetalHostStatus.propTypes = {
   host: PropTypes.object.isRequired,
+  machine: PropTypes.object,
+  nodes: PropTypes.array,
+};
+
+BaremetalHostStatus.defaultProps = {
+  machine: undefined,
+  nodes: undefined,
 };
