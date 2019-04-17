@@ -1,10 +1,14 @@
 import {
-  POD_STATUS_READY,
   POD_STATUS_CONTAINER_FAILING,
   POD_STATUS_NOT_READY,
   POD_STATUS_NOT_SCHEDULABLE,
   POD_STATUS_FAILED,
   POD_STATUS_CRASHLOOP_BACKOFF,
+  POD_STATUS_PENDING,
+  POD_STATUS_UNKNOWN,
+  POD_STATUS_COMPLETED,
+  POD_STATUS_RUNNING,
+  POD_STATUS_SUCCEEDED,
 } from '../constants';
 
 const metadata = {
@@ -52,9 +56,14 @@ const getResult = (status, message) => ({
 });
 
 export default [
+  // 0
   {
     pod: getPod(),
-    expected: getResult(POD_STATUS_READY),
+    expected: getResult(POD_STATUS_UNKNOWN),
+  },
+  {
+    pod: getPod('Unknown'),
+    expected: getResult(POD_STATUS_UNKNOWN),
   },
   {
     pod: getPod('Pending', [getCondition('PodScheduled', 'False', 'Unschedulable')]),
@@ -68,12 +77,29 @@ export default [
     pod: getPod('CrashLoopBackOff', [], [getWaitingContainerStatus(false, 'CrashLoopBackOff')]),
     expected: getResult(POD_STATUS_CRASHLOOP_BACKOFF, 'Waiting (CrashLoopBackOff).'),
   },
+  // 5
   {
-    pod: getPod(null, [], [getWaitingContainerStatus(false, 'CrashLoopBackOff')]),
+    pod: getPod('Pending', [], [getWaitingContainerStatus(false, 'CrashLoopBackOff')]),
     expected: getResult(POD_STATUS_CONTAINER_FAILING, 'Waiting (CrashLoopBackOff).'),
   },
   {
-    pod: getPod(null, [getCondition('test', 'False', 'waiting-reason')]),
+    pod: getPod('Pending', [getCondition('test', 'False', 'waiting-reason')]),
     expected: getResult(POD_STATUS_NOT_READY, 'Step: test'),
+  },
+  {
+    pod: getPod('Pending'),
+    expected: getResult(POD_STATUS_PENDING),
+  },
+  {
+    pod: getPod('Running'),
+    expected: getResult(POD_STATUS_RUNNING),
+  },
+  {
+    pod: getPod('Completed'),
+    expected: getResult(POD_STATUS_COMPLETED),
+  },
+  {
+    pod: getPod('Succeeded'),
+    expected: getResult(POD_STATUS_SUCCEEDED),
   },
 ];

@@ -32,7 +32,7 @@ import {
 import {
   getPodStatus,
   POD_STATUS_ALL_ERROR,
-  POD_STATUS_READY,
+  POD_STATUS_ALL_READY,
   POD_STATUS_NOT_SCHEDULABLE,
   POD_PHASE_SUCEEDED,
 } from '../pod';
@@ -87,7 +87,7 @@ const isCreated = (vm, launcherPod = null) => {
           launcherPod,
         };
       }
-      if (podStatus.status !== POD_STATUS_READY) {
+      if (!POD_STATUS_ALL_READY.includes(podStatus.status)) {
         return {
           ...podStatus,
           status: VM_STATUS_STARTING,

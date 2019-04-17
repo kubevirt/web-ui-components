@@ -2,9 +2,13 @@ import {
   POD_STATUS_NOT_SCHEDULABLE,
   POD_STATUS_CONTAINER_FAILING,
   POD_STATUS_NOT_READY,
-  POD_STATUS_READY,
   POD_STATUS_FAILED,
   POD_STATUS_CRASHLOOP_BACKOFF,
+  POD_STATUS_PENDING,
+  POD_STATUS_UNKNOWN,
+  POD_STATUS_COMPLETED,
+  POD_STATUS_RUNNING,
+  POD_STATUS_SUCCEEDED,
 } from './constants';
 
 import {
@@ -20,9 +24,17 @@ import { NOT_HANDLED } from '..';
 const errorStatusMapper = {
   Failed: POD_STATUS_FAILED,
   CrashLoopBackOff: POD_STATUS_CRASHLOOP_BACKOFF,
+  Unknown: POD_STATUS_UNKNOWN,
 };
 
-const isSchedulable = pod => {
+const okStatusMapper = {
+  Pending: POD_STATUS_PENDING,
+  Running: POD_STATUS_RUNNING,
+  Completed: POD_STATUS_COMPLETED,
+  Succeeded: POD_STATUS_SUCCEEDED,
+};
+
+const isNotSchedulable = pod => {
   if (!isPodSchedulable(pod)) {
     return {
       status: POD_STATUS_NOT_SCHEDULABLE,
@@ -64,8 +76,21 @@ const isNotReady = pod => {
   }
   return NOT_HANDLED;
 };
+
+const hasOkStatus = pod => {
+  const status = okStatusMapper[getStatusPhase(pod)];
+
+  if (status) {
+    return {
+      status,
+    };
+  }
+  return NOT_HANDLED;
+};
+
 export const getPodStatus = pod =>
-  isSchedulable(pod) ||
+  isNotSchedulable(pod) ||
   hasErrorStatus(pod) ||
   isContainerFailing(pod) ||
-  isNotReady(pod) || { status: POD_STATUS_READY };
+  isNotReady(pod) ||
+  hasOkStatus(pod) || { status: POD_STATUS_UNKNOWN };
