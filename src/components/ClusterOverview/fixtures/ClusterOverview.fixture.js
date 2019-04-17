@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ClusterOverview as ClusterOverviewComponent } from '../ClusterOverview';
-import { healthData } from '../Health/fixtures/Health.fixture';
+import { healthData, healthDataErrors } from '../Health/fixtures/Health.fixture';
 import { eventsData } from '../Events/fixtures/Events.fixture';
 import { consumersData } from '../TopConsumers/fixtures/TopConsumers.fixture';
 import { capacityStats } from '../Capacity/fixtures/Capacity.fixture';
@@ -64,10 +64,29 @@ export default [
   },
   {
     component: ClusterOverview,
+    name: 'Overview with multiple health errors',
+    props: {
+      ...clusterDetailsData,
+      ...healthDataErrors,
+      ...capacityStats,
+      complianceData,
+      eventsData,
+      utilizationStats,
+      ...consumersData,
+      nodes,
+      pvcs,
+      pods,
+      vms,
+      vmis,
+      migrations,
+    },
+  },
+  {
+    component: ClusterOverview,
     name: 'Overview with alerts',
     props: {
       ...clusterDetailsData,
-      healthData,
+      ...healthData,
       ...capacityStats,
       complianceData,
       eventsData,

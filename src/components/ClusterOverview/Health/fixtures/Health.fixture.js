@@ -18,9 +18,31 @@ export const healthData = {
   },
 };
 
+export const healthDataErrors = {
+  k8sHealth: {
+    response: 'error',
+  },
+  cephHealth: {
+    result: [
+      {
+        value: [null, 0],
+      },
+    ],
+  },
+  kubevirtHealth: {
+    apiserver: {
+      connectivity: 'error',
+    },
+  },
+};
+
 export default [
   {
     component: Health,
     props: { ...healthData },
+  },
+  {
+    component: Health,
+    props: { ...healthDataErrors },
   },
 ];

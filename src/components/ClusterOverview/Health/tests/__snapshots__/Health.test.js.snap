@@ -48,3 +48,57 @@ exports[`<Health /> renders correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`<Health /> renders multiple erros correctly 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title kubevirt-dashboard__card-title"
+    >
+      Cluster Health
+    </h2>
+    <button
+      class="btn btn-link"
+      type="button"
+    >
+      See all
+    </button>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div>
+      <div
+        class="kubevirt-health__item"
+      >
+        <div
+          class="kubevirt-health__icon kubevirt-health__icon--error"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-exclamation-circle"
+          />
+        </div>
+        <div
+          class="kubevirt-health__message"
+        >
+          <span
+            class="kubevirt-health__text"
+          >
+            Multiple errors
+          </span>
+          <div
+            class="kubevirt-health__text kubevirt-health__subtitle"
+          >
+            Cluster health is degrated
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
