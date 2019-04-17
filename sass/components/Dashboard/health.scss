@@ -1,12 +1,42 @@
-.kubevirt-health__body {
+.kubevirt-health__item {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
 
+.kubevirt-health__body {
+  height: 2.3em;
+}
+
+/* stylelint-disable plugin/selector-bem-pattern */
+.kubevirt-health__subsystem-body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: auto;
+
+  .kubevirt-health__item {
+    padding-top: 5px;
+  }
+
+  .kubevirt-health__separator {
+    border-bottom: 1px solid #ededed;
+  }
+}
+/* stylelint-enable */
+
 .kubevirt-health__text {
   font-size: 0.875rem;
   margin-left: 1rem;
+}
+
+.kubevirt-health__title {
+  padding-left: 0.6rem;
+}
+
+.kubevirt-health__subtitle {
+  font-size: 0.7rem;
+  color: grey;
 }
 
 .kubevirt-health__icon {

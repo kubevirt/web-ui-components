@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -9,50 +8,21 @@ import {
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
 import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
-import { HealthItem } from '../../Dashboard/Health/HealthItem';
+import { HealthItem, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
-
-import { HEALTHY, DEGRADED, ERROR, UNKNOWN } from './strings';
 import { InlineLoading } from '../../Loading';
+import { getOCSHealthState } from '../../Dashboard/Health/utils';
 
-const OCSHealthStatus = {
-  0: {
-    message: HEALTHY,
-    iconname: 'check-circle',
-    classname: 'ok',
-  },
-  1: {
-    message: DEGRADED,
-    iconname: 'exclamation-circle',
-    classname: 'warning',
-  },
-  2: {
-    message: ERROR,
-    iconname: 'exclamation-triangle',
-    classname: 'error',
-  },
-  3: {
-    message: UNKNOWN,
-    iconname: 'exclamation-triangle',
-    classname: 'error',
-  },
-};
-
-export const OCSHealth = ({ data, loaded }) => {
-  const value = get(data, 'healthy.data.result[0].value[1]');
-  const status = OCSHealthStatus[value] || OCSHealthStatus[3];
+export const OCSHealth = ({ response, LoadingComponent }) => {
+  const state = getOCSHealthState(response);
   return (
     <DashboardCard>
       <DashboardCardHeader>
         <DashboardCardTitle>Health</DashboardCardTitle>
       </DashboardCardHeader>
-      <DashboardCardBody isLoading={!loaded} LoadingComponent={InlineLoading}>
+      <DashboardCardBody isLoading={state.state === LOADING_STATE} LoadingComponent={LoadingComponent}>
         <HealthBody>
-          <HealthItem
-            message={data ? status.message : null}
-            icon={data ? status.iconname : null}
-            classname={data ? status.classname : null}
-          />
+          <HealthItem message={state.message} state={state.state} />
         </HealthBody>
       </DashboardCardBody>
     </DashboardCard>
@@ -60,12 +30,13 @@ export const OCSHealth = ({ data, loaded }) => {
 };
 
 OCSHealth.defaultProps = {
-  loaded: false,
+  response: null,
+  LoadingComponent: InlineLoading,
 };
 
 OCSHealth.propTypes = {
-  data: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  response: PropTypes.object,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 const OCSHealthConnected = () => (

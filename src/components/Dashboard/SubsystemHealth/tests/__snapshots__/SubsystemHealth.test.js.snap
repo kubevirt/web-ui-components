@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SubsystemHealth /> renders correctly 1`] = `
+<div>
+  <div
+    class="kubevirt-health__body kubevirt-health__subsystem-body"
+  >
+    <div
+      class="kubevirt-health__item"
+    >
+      <div
+        class="kubevirt-health__icon kubevirt-health__icon--ok"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle"
+        />
+      </div>
+      <div>
+        <span
+          class="kubevirt-health__text"
+        >
+          OpenShift
+        </span>
+        <div
+          class="kubevirt-health__text kubevirt-health__subtitle"
+        >
+          OpenShift is healthy
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-health__separator"
+    />
+    <div
+      class="kubevirt-health__item"
+    >
+      <div
+        class="kubevirt-health__icon kubevirt-health__icon--error"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-circle"
+        />
+      </div>
+      <div>
+        <span
+          class="kubevirt-health__text"
+        >
+          CNV
+        </span>
+        <div
+          class="kubevirt-health__text kubevirt-health__subtitle"
+        >
+          CNV is in error state
+        </div>
+      </div>
+    </div>
+    <div
+      class="kubevirt-health__separator"
+    />
+    <div
+      class="kubevirt-health__item"
+    >
+      <div
+        class="kubevirt-health__icon kubevirt-health__icon--warning"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-triangle"
+        />
+      </div>
+      <div>
+        <span
+          class="kubevirt-health__text"
+        >
+          Ceph
+        </span>
+        <div
+          class="kubevirt-health__text kubevirt-health__subtitle"
+        >
+          OCS health is degraded
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -12,23 +12,39 @@ exports[`<Health /> renders correctly 1`] = `
     >
       Cluster Health
     </h2>
+    <button
+      class="btn btn-link"
+      type="button"
+    >
+      See all
+    </button>
   </div>
   <div
-    class="card-pf-body kubevirt-health__body"
+    class="card-pf-body"
   >
     <div
-      class="kubevirt-health__icon--error kubevirt-health__icon"
+      class="kubevirt-health__body"
     >
-      <span
-        aria-hidden="true"
-        class="fa fa-exclamation-circle"
-      />
+      <div
+        class="kubevirt-health__item"
+      >
+        <div
+          class="kubevirt-health__icon kubevirt-health__icon--ok"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle"
+          />
+        </div>
+        <div>
+          <span
+            class="kubevirt-health__text"
+          >
+            Cluster is healthy
+          </span>
+        </div>
+      </div>
     </div>
-    <span
-      class="kubevirt-health__text"
-    >
-      Error message
-    </span>
   </div>
 </div>
 `;

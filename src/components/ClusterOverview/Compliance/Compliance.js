@@ -16,8 +16,8 @@ export const Compliance = ({ data, loaded }) => (
     <DashboardCardHeader>
       <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
     </DashboardCardHeader>
-    <DashboardCardBody className="kubevirt-compliance__body" isLoading={!loaded} LoadingComponent={InlineLoading}>
-      <HealthBody data={data} />
+    <DashboardCardBody isLoading={!loaded} LoadingComponent={InlineLoading}>
+      <HealthBody className="kubevirt-compliance__body" data={data} />
     </DashboardCardBody>
   </DashboardCard>
 );

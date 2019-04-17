@@ -16,22 +16,10 @@ exports[`<Health /> renders correctly 1`] = `
   <div
     class="card-pf-body"
   >
-    <div
-      class="kubevirt-health__body"
-    >
+    <div>
       <div
-        class="kubevirt-health__body"
-      >
-        <span
-          aria-hidden="true"
-          class="fa fa-exclamation-triangle fa-2x kubevirt-health__icon kubevirt-health__icon--error"
-        />
-        <span
-          class="kubevirt-health__text"
-        >
-          Not available
-        </span>
-      </div>
+        class="spinner spinner-md blank-slate-pf-icon"
+      />
     </div>
   </div>
 </div>

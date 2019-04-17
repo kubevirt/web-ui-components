@@ -14,15 +14,20 @@ const errorIcon = (
   </div>
 );
 
-const HealthBody = ({ data }) => (
-  <React.Fragment>
+const HealthBody = ({ data, className }) => (
+  <div className={className}>
     {data.healthy ? healtyIcon : errorIcon}
     <span className="kubevirt-health__text">{data.message}</span>
-  </React.Fragment>
+  </div>
 );
+
+HealthBody.defaultProps = {
+  className: null,
+};
 
 HealthBody.propTypes = {
   data: PropTypes.object.isRequired,
+  className: PropTypes.string,
 };
 
 export default HealthBody;

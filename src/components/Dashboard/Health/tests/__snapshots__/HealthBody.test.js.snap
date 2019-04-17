@@ -5,9 +5,12 @@ exports[`<HealthBody /> renders correctly 1`] = `
   className="kubevirt-health__body"
 >
   <HealthItem
+    LoadingComponent={[Function]}
     classname="ok"
+    details={null}
     icon="check-circle"
     message="OCS is Healthy"
+    state={null}
   />
 </div>
 `;
