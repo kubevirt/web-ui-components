@@ -61,7 +61,7 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
     <DashboardCard>
       <DashboardCardHeader>
         <DashboardCardTitle>Cluster Health</DashboardCardTitle>
-        <DashboardCardTitleSeeAll>
+        <DashboardCardTitleSeeAll title="Subsystem health">
           <SubsystemHealth
             k8sHealth={k8sHealthState}
             kubevirtHealth={kubevirtHealthState}

@@ -3,94 +3,83 @@
 exports[`<SubsystemHealth /> renders correctly 1`] = `
 <div>
   <div
-    class="modal-header"
+    class="kubevirt-health__body--subsystem"
   >
-    <h4
-      class="modal-title"
-    >
-      Subsystem health
-    </h4>
-  </div>
-  <div>
     <div
-      class="kubevirt-health__body--subsystem"
+      class="kubevirt-health__item"
     >
       <div
-        class="kubevirt-health__item"
+        class="kubevirt-health__icon kubevirt-health__icon--ok"
       >
-        <div
-          class="kubevirt-health__icon kubevirt-health__icon--ok"
-        >
-          <span
-            aria-hidden="true"
-            class="fa fa-check-circle"
-          />
-        </div>
-        <div
-          class="kubevirt-health__message"
-        >
-          <span
-            class="kubevirt-health__text"
-          >
-            OpenShift
-          </span>
-          <div
-            class="kubevirt-health__text kubevirt-health__subtitle"
-          >
-            OpenShift is healthy
-          </div>
-        </div>
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle"
+        />
       </div>
       <div
-        class="kubevirt-health__item"
+        class="kubevirt-health__message"
       >
-        <div
-          class="kubevirt-health__icon kubevirt-health__icon--error"
+        <span
+          class="kubevirt-health__text"
         >
-          <span
-            aria-hidden="true"
-            class="fa fa-exclamation-circle"
-          />
-        </div>
+          OpenShift
+        </span>
         <div
-          class="kubevirt-health__message"
+          class="kubevirt-health__text kubevirt-health__subtitle"
         >
-          <span
-            class="kubevirt-health__text"
-          >
-            CNV
-          </span>
-          <div
-            class="kubevirt-health__text kubevirt-health__subtitle"
-          >
-            CNV is in error state
-          </div>
+          OpenShift is healthy
         </div>
       </div>
+    </div>
+    <div
+      class="kubevirt-health__item"
+    >
       <div
-        class="kubevirt-health__item"
+        class="kubevirt-health__icon kubevirt-health__icon--error"
       >
-        <div
-          class="kubevirt-health__icon kubevirt-health__icon--warning"
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-circle"
+        />
+      </div>
+      <div
+        class="kubevirt-health__message"
+      >
+        <span
+          class="kubevirt-health__text"
         >
-          <span
-            aria-hidden="true"
-            class="fa fa-exclamation-triangle"
-          />
+          CNV
+        </span>
+        <div
+          class="kubevirt-health__text kubevirt-health__subtitle"
+        >
+          CNV is in error state
         </div>
-        <div
-          class="kubevirt-health__message"
+      </div>
+    </div>
+    <div
+      class="kubevirt-health__item"
+    >
+      <div
+        class="kubevirt-health__icon kubevirt-health__icon--warning"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-triangle"
+        />
+      </div>
+      <div
+        class="kubevirt-health__message"
+      >
+        <span
+          class="kubevirt-health__text"
         >
-          <span
-            class="kubevirt-health__text"
-          >
-            Ceph
-          </span>
-          <div
-            class="kubevirt-health__text kubevirt-health__subtitle"
-          >
-            OCS health is degraded
-          </div>
+          Ceph
+        </span>
+        <div
+          class="kubevirt-health__text kubevirt-health__subtitle"
+        >
+          OCS health is degraded
         </div>
       </div>
     </div>

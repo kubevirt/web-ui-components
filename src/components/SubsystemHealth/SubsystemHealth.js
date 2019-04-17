@@ -8,31 +8,26 @@ import { InlineLoading } from '../Loading';
 
 export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => (
   <div>
-    <div className="modal-header">
-      <h4 className="modal-title">Subsystem health</h4>
-    </div>
-    <div>
-      <HealthBody className="kubevirt-health__body--subsystem">
-        <HealthItem
-          message="OpenShift"
-          details={k8sHealth.message}
-          state={k8sHealth.state}
-          LoadingComponent={LoadingComponent}
-        />
-        <HealthItem
-          message="CNV"
-          details={kubevirtHealth.message}
-          state={kubevirtHealth.state}
-          LoadingComponent={LoadingComponent}
-        />
-        <HealthItem
-          message="Ceph"
-          details={cephHealth.message}
-          state={cephHealth.state}
-          LoadingComponent={LoadingComponent}
-        />
-      </HealthBody>
-    </div>
+    <HealthBody className="kubevirt-health__body--subsystem">
+      <HealthItem
+        message="OpenShift"
+        details={k8sHealth.message}
+        state={k8sHealth.state}
+        LoadingComponent={LoadingComponent}
+      />
+      <HealthItem
+        message="CNV"
+        details={kubevirtHealth.message}
+        state={kubevirtHealth.state}
+        LoadingComponent={LoadingComponent}
+      />
+      <HealthItem
+        message="Ceph"
+        details={cephHealth.message}
+        state={cephHealth.state}
+        LoadingComponent={LoadingComponent}
+      />
+    </HealthBody>
   </div>
 );
 
