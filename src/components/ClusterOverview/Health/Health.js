@@ -15,15 +15,36 @@ import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE } from '../../Dashboar
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
 import { getK8sHealthState, getKubevirtHealthState, getOCSHealthState } from '../../Dashboard/Health/utils';
 
-const getClusterHealth = (k8sHealthState, kubevirtHealthState, cephHealthState) => {
+const getClusterHealth = subsystemStates => {
   let healthState = { state: OK_STATE, message: 'Cluster is healthy' };
-  [k8sHealthState, kubevirtHealthState, cephHealthState].forEach(health => {
-    if (healthState.state !== ERROR_STATE && health.state === ERROR_STATE) {
-      healthState = health;
-    } else if (healthState.state !== WARNING_STATE && health.state === WARNING_STATE) {
-      healthState = health;
+  const sortedStates = {
+    errorStates: [],
+    warningStates: [],
+  };
+
+  subsystemStates.forEach(state => {
+    switch (state.state) {
+      case ERROR_STATE:
+        sortedStates.errorStates.push(state);
+        break;
+      case WARNING_STATE:
+        sortedStates.warningStates.push(state);
+        break;
+      default:
+        break;
     }
   });
+
+  if (sortedStates.errorStates.length > 1) {
+    healthState = { state: ERROR_STATE, message: 'Multiple errors', details: 'Cluster health is degrated' };
+  } else if(sortedStates.errorStates.length === 1) {
+    healthState = sortedStates.errorStates[0];
+  } else if (sortedStates.warningStates.length > 1) {
+    healthState = { state: WARNING_STATE, message: 'Multiple warnings', details: 'Cluster health is degrated' };
+  } else if (sortedStates.warningStates.length === 1) {
+    healthState = sortedStates.warningStates[0];
+  }
+
   return healthState;
 };
 
@@ -32,7 +53,7 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
   const kubevirtHealthState = getKubevirtHealthState(kubevirtHealth);
   const cephHealthState = getOCSHealthState(cephHealth);
 
-  const healthState = getClusterHealth(k8sHealthState, kubevirtHealthState, cephHealthState);
+  const healthState = getClusterHealth([k8sHealthState, kubevirtHealthState, cephHealthState]);
 
   return (
     <DashboardCard>
@@ -49,7 +70,7 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
       </DashboardCardHeader>
       <DashboardCardBody isLoading={!(k8sHealth && kubevirtHealth && cephHealth)} LoadingComponent={LoadingComponent}>
         <HealthBody>
-          <HealthItem state={healthState.state} message={healthState.message} />
+          <HealthItem state={healthState.state} message={healthState.message} details={healthState.details}/>
         </HealthBody>
       </DashboardCardBody>
     </DashboardCard>
