@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -17,7 +16,7 @@ import { HealthBody } from '../../Dashboard/Health/HealthBody';
 import { getK8sHealthState, getKubevirtHealthState, getOCSHealthState } from '../../Dashboard/Health/utils';
 
 const getClusterHealth = (k8sHealthState, kubevirtHealthState, cephHealthState) => {
-  let healthState = {state: OK_STATE, message: 'Cluster is healthy'};
+  let healthState = { state: OK_STATE, message: 'Cluster is healthy' };
   [k8sHealthState, kubevirtHealthState, cephHealthState].forEach(health => {
     if (healthState.state !== ERROR_STATE && health.state === ERROR_STATE) {
       healthState = health;
@@ -25,15 +24,15 @@ const getClusterHealth = (k8sHealthState, kubevirtHealthState, cephHealthState) 
       healthState = health;
     }
   });
-  return healthState
-}
+  return healthState;
+};
 
 export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => {
   const k8sHealthState = getK8sHealthState(k8sHealth);
   const kubevirtHealthState = getKubevirtHealthState(kubevirtHealth);
   const cephHealthState = getOCSHealthState(cephHealth);
 
-  const healthState = getClusterHealth(k8sHealthState, kubevirtHealthState, cephHealthState)
+  const healthState = getClusterHealth(k8sHealthState, kubevirtHealthState, cephHealthState);
 
   return (
     <DashboardCard>
