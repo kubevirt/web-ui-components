@@ -1,4 +1,5 @@
 import { SubsystemHealth } from '../SubsystemHealth';
+import { OK_STATE } from '../../Dashboard/Health/HealthItem';
 
 export const healthData = {
   k8sHealth: {
@@ -21,6 +22,6 @@ export const healthData = {
 export default [
   {
     component: SubsystemHealth,
-    props: { ...healthData },
+    props: { state: OK_STATE, ...healthData },
   },
 ];
