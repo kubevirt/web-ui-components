@@ -14,6 +14,7 @@ import { InlineLoading } from '../../Loading';
 import { SubsystemHealth } from '../../SubsystemHealth';
 import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
 import { getOCSHealthStatus } from '../../StorageOverview/OCSHealth/Health';
+import { HealthBody } from '../../Dashboard/Health/HealthBody';
 
 const getKubevirtHealthState = kubevirtHealth => {
   if (!kubevirtHealth) {
@@ -53,8 +54,10 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
           <SubsystemHealth k8sHealth={k8sHealthState} kubevirtHealth={kubevirtHealthState} cephHealth={cepthHealthState} LoadingComponent={LoadingComponent} />
         </DashboardCardTitleSeeAll>
       </DashboardCardHeader>
-      <DashboardCardBody className="kubevirt-health__body" isLoading={!(k8sHealth && kubevirtHealth && cephHealth)} LoadingComponent={LoadingComponent}>
-        <HealthItem state={healthState.state} message={healthState.message}/>
+      <DashboardCardBody isLoading={!(k8sHealth && kubevirtHealth && cephHealth)} LoadingComponent={LoadingComponent}>
+        <HealthBody>
+          <HealthItem state={healthState.state} message={healthState.message}/>
+        </HealthBody>
       </DashboardCardBody>
     </DashboardCard>
   );
