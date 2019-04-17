@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -9,41 +8,13 @@ import {
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
 import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
-import { HealthItem, OK_STATE, WARNING_STATE, ERROR_STATE, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
+import { HealthItem, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
-
-import { HEALTHY, DEGRADED, ERROR, UNKNOWN } from './strings';
 import { InlineLoading } from '../../Loading';
-
-const OCSHealthStatus = {
-  0: {
-    message: HEALTHY,
-    state: OK_STATE,
-  },
-  1: {
-    message: DEGRADED,
-    state: WARNING_STATE,
-  },
-  2: {
-    message: ERROR,
-    state: ERROR_STATE,
-  },
-  3: {
-    message: UNKNOWN,
-    state: ERROR_STATE,
-  },
-};
-
-export const getOCSHealthStatus = ocsResponse => {
-  if (!ocsResponse) {
-    return { state: LOADING_STATE };
-  }
-  const value = get(ocsResponse, 'result[0].value[1]');
-  return OCSHealthStatus[value] || OCSHealthStatus[3];
-};
+import { getOCSHealthState } from '../../Dashboard/Health/utils';
 
 export const OCSHealth = ({ response, LoadingComponent }) => {
-  const state = getOCSHealthStatus(response);
+  const state = getOCSHealthState(response);
   return (
     <DashboardCard>
       <DashboardCardHeader>

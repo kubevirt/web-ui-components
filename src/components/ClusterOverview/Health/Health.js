@@ -12,34 +12,12 @@ import {
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
 import { SubsystemHealth } from '../../SubsystemHealth';
-import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
-import { getOCSHealthStatus } from '../../StorageOverview/OCSHealth/Health';
+import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
+import { getK8sHealthState, getKubevirtHealthState, getOCSHealthState } from '../../Dashboard/Health/utils';
 
-const getKubevirtHealthState = kubevirtHealth => {
-  if (!kubevirtHealth) {
-    return { state: LOADING_STATE };
-  }
-  return get(kubevirtHealth, 'apiserver.connectivity') === 'ok'
-    ? { message: 'CNV is healthy', state: OK_STATE }
-    : { message: 'CNV is in error state', state: ERROR_STATE };
-};
-
-const getK8sHealthState = k8sHealth => {
-  if (!k8sHealth) {
-    return { state: LOADING_STATE };
-  }
-  return get(k8sHealth, 'response') === 'ok'
-    ? { message: 'OpenShift is healthy', state: OK_STATE }
-    : { message: 'Openshift is in error state', state: ERROR_STATE };
-};
-
-export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => {
-  const k8sHealthState = getK8sHealthState(k8sHealth);
-  const kubevirtHealthState = getKubevirtHealthState(kubevirtHealth);
-  const cephHealthState = getOCSHealthStatus(cephHealth);
-
-  let healthState = { state: OK_STATE, message: 'Cluster is healthy' };
+const getClusterHealth = (k8sHealthState, kubevirtHealthState, cephHealthState) => {
+  let healthState = {state: OK_STATE, message: 'Cluster is healthy'};
   [k8sHealthState, kubevirtHealthState, cephHealthState].forEach(health => {
     if (healthState.state !== ERROR_STATE && health.state === ERROR_STATE) {
       healthState = health;
@@ -47,6 +25,15 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
       healthState = health;
     }
   });
+  return healthState
+}
+
+export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => {
+  const k8sHealthState = getK8sHealthState(k8sHealth);
+  const kubevirtHealthState = getKubevirtHealthState(kubevirtHealth);
+  const cephHealthState = getOCSHealthState(cephHealth);
+
+  const healthState = getClusterHealth(k8sHealthState, kubevirtHealthState, cephHealthState)
 
   return (
     <DashboardCard>
