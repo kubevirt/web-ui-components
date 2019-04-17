@@ -8,7 +8,7 @@ export default [
       machine: {
         metadata: {
           labels: {
-            'machine.openshift.io/cluster-api-machine-role': 'worker',
+            'sigs.k8s.io/cluster-api-machine-role': 'worker',
           },
         },
       },

@@ -1,4 +1,4 @@
-import { getHostRole } from '../../selectors';
+import { getMachineRole } from '../../selectors';
 import { DASHES } from '../../constants';
 
-export const BaremetalHostRole = ({ machine }) => getHostRole(machine) || DASHES;
+export const BaremetalHostRole = ({ machine }) => getMachineRole(machine) || DASHES;
