@@ -220,7 +220,7 @@ exports[`<StorageOverview /> renders correctly with Provider 1`] = `
                 <h2
                   class="card-pf-title kubevirt-dashboard__card-title"
                 >
-                  Perfrormance
+                  Performance
                 </h2>
               </div>
               <div
