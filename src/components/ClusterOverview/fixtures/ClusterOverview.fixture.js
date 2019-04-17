@@ -38,7 +38,7 @@ export default [
     component: ClusterOverview,
     props: {
       ...clusterDetailsData,
-      healthData,
+      ...healthData,
       ...capacityStats,
       complianceData,
       eventsData,
@@ -56,7 +56,6 @@ export default [
     component: ClusterOverview,
     name: 'Loading overview',
     props: {
-      healthData: { loaded: false },
       complianceData: { loaded: false },
       eventsData: { loaded: false },
       utilizationStats: { loaded: false },

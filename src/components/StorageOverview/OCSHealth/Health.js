@@ -9,7 +9,7 @@ import {
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
 import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
-import { HealthItem } from '../../Dashboard/Health/HealthItem';
+import { HealthItem, OK_STATE, WARNING_STATE, ERROR_STATE, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
 
 import { HEALTHY, DEGRADED, ERROR, UNKNOWN } from './strings';
@@ -18,29 +18,32 @@ import { InlineLoading } from '../../Loading';
 const OCSHealthStatus = {
   0: {
     message: HEALTHY,
-    iconname: 'check-circle',
-    classname: 'ok',
+    state: OK_STATE,
   },
   1: {
     message: DEGRADED,
-    iconname: 'exclamation-circle',
-    classname: 'warning',
+    state: WARNING_STATE,
   },
   2: {
     message: ERROR,
-    iconname: 'exclamation-triangle',
-    classname: 'error',
+    state: ERROR_STATE,
   },
   3: {
     message: UNKNOWN,
-    iconname: 'exclamation-triangle',
-    classname: 'error',
+    state: ERROR_STATE,
   },
 };
 
+export const getOCSHealthStatus = ocsResponse => {
+  if (!ocsResponse) {
+    return {state: LOADING_STATE}
+  }
+  const value = get(ocsResponse, 'result[0].value[1]');
+  return OCSHealthStatus[value] || OCSHealthStatus[3];
+}
+
 export const OCSHealth = ({ data, loaded }) => {
-  const value = get(data, 'healthy.data.result[0].value[1]');
-  const status = OCSHealthStatus[value] || OCSHealthStatus[3];
+  const status = getOCSHealthStatus(get(data, 'healthy.data'));
   return (
     <DashboardCard>
       <DashboardCardHeader>
@@ -50,8 +53,7 @@ export const OCSHealth = ({ data, loaded }) => {
         <HealthBody>
           <HealthItem
             message={data ? status.message : null}
-            icon={data ? status.iconname : null}
-            classname={data ? status.classname : null}
+            state={data ? status.state : null}
           />
         </HealthBody>
       </DashboardCardBody>
