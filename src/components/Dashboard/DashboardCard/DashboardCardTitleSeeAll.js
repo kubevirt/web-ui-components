@@ -4,7 +4,7 @@ import { Button, OverlayTrigger, Popover } from 'patternfly-react';
 
 const SEE_ALL = 'See all';
 
-const DashboardCardTitleSeeAll = ({ title, children }) => {
+export const DashboardCardTitleSeeAll = ({ title, children }) => {
   if (React.Children.count(children) === 0) {
     return null;
   }
@@ -28,5 +28,3 @@ DashboardCardTitleSeeAll.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string.isRequired,
 };
-
-export default DashboardCardTitleSeeAll;

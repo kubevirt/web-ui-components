@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DashboardCardTitleSeeAll from '../DashboardCardTitleSeeAll';
+import { DashboardCardTitleSeeAll } from '../DashboardCardTitleSeeAll';
 
 const testDashboardCardTitleSeeAll = () => <DashboardCardTitleSeeAll>content</DashboardCardTitleSeeAll>;
 
