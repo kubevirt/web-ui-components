@@ -27,22 +27,23 @@ const getIcon = state => {
       className = 'warning';
   }
   return (
-    <Icon type="fa" size="2x" name={icon} className={`kubevirt-health__icon kubevirt-health__icon--${className}`} />
+    <div className={`kubevirt-health__icon kubevirt-health__icon--${className}`}>
+      <Icon type="fa" name={icon} />
+    </div>
   );
 };
 
-export const HealthItem = ({ state, LoadingComponent, message, details, isRow }) => (
-  <div className={isRow ? 'kubevirt-health__item kubevirt-health__row' : 'kubevirt-health__item'}>
+export const HealthItem = ({ state, LoadingComponent, message, details }) => (
+  <div className="kubevirt-health__item">
     {state === LOADING_STATE ? <LoadingComponent /> : getIcon(state)}
     <div className="kubevirt-health__message">
-      <div className="kubevirt-health__title">{message}</div>
+      <span className="kubevirt-health__text">{message}</span>
       {details && <div className="kubevirt-health__title kubevirt-health__subtitle">{details}</div>}
     </div>
   </div>
 );
 
 HealthItem.defaultProps = {
-  isRow: false,
   details: null,
   state: null,
   LoadingComponent: InlineLoading,
@@ -52,6 +53,5 @@ HealthItem.propTypes = {
   message: PropTypes.string.isRequired,
   details: PropTypes.string,
   state: PropTypes.string,
-  isRow: PropTypes.bool,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };

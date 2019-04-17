@@ -1,7 +1,12 @@
-.kubevirt-health__body {
-  display: table;
+.kubevirt-health__body--subsystem {
+  display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
+
+  .kubevirt-health__item {
+    border-top: 1px solid #ededed;
+    padding-top: 5px;
+  }
 }
 
 .kubevirt-health__text {
@@ -10,16 +15,9 @@
 }
 
 .kubevirt-health__item {
-  display: table;
-  min-height: 130px;
-  margin-top: 1em;
-  padding-top: 1em;
-  margin-left: 1em;
-  margin-bottom: 1em;
-}
-
-.kubevirt-health__row {
-  border-top: 1px solid #ededed59;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .kubevirt-health__message {

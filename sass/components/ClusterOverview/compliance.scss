@@ -1,4 +1,5 @@
 .kubevirt-compliance__body {
-  text-align: center;
-  max-height: 130px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }

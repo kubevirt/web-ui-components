@@ -12,7 +12,7 @@ export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, Loading
       <h4 className="modal-title">Subsystem health</h4>
     </div>
     <div>
-      <HealthBody>
+      <HealthBody className="kubevirt-health__body--subsystem">
         <HealthItem
           message="OpenShift"
           details={k8sHealth.message}
