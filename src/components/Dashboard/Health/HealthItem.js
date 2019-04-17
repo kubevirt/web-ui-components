@@ -41,7 +41,7 @@ export const HealthItem = ({ state, LoadingComponent, message, details, isRow })
 HealthItem.defaultProps = {
   isRow: false,
   details: null,
-  state: null,
+  state: LOADING_STATE,
   LoadingComponent: InlineLoading,
 };
 
