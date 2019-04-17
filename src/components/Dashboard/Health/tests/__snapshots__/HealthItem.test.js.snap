@@ -2,13 +2,10 @@
 
 exports[`<HealthItem /> renders correctly 1`] = `
 <div
-  className="kubevirt-health__body"
+  className="kubevirt-health__item"
 >
-  <Icon
-    className="kubevirt-health__icon kubevirt-health__icon--ok"
-    name="check-circle"
-    size="2x"
-    type="fa"
+  <InlineLoading
+    size="md"
   />
   <div
     className="kubevirt-health__message"
@@ -18,9 +15,6 @@ exports[`<HealthItem /> renders correctly 1`] = `
     >
       OCS is Healthy
     </div>
-    <div
-      className="kubevirt-health__title kubevirt-health__subtitle"
-    />
   </div>
 </div>
 `;

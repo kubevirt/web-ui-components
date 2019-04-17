@@ -1,5 +1,6 @@
 .kubevirt-health__body {
   display: table;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -8,10 +9,17 @@
   margin-left: 1rem;
 }
 
-.kubevirt-health__row {
+.kubevirt-health__item {
+  display: table;
+  min-height: 130px;
   margin-top: 1em;
   padding-top: 1em;
-  border-top: 1px solid #ededed;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.kubevirt-health__row {
+  border-top: 1px solid #ededed59;
 }
 
 .kubevirt-health__message {

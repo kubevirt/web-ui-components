@@ -36,11 +36,11 @@ const OCSHealthStatus = {
 
 export const getOCSHealthStatus = ocsResponse => {
   if (!ocsResponse) {
-    return {state: LOADING_STATE}
+    return { state: LOADING_STATE };
   }
   const value = get(ocsResponse, 'result[0].value[1]');
   return OCSHealthStatus[value] || OCSHealthStatus[3];
-}
+};
 
 export const OCSHealth = ({ response, LoadingComponent }) => {
   const state = getOCSHealthStatus(response);
@@ -51,10 +51,7 @@ export const OCSHealth = ({ response, LoadingComponent }) => {
       </DashboardCardHeader>
       <DashboardCardBody isLoading={state.state === LOADING_STATE} LoadingComponent={LoadingComponent}>
         <HealthBody>
-          <HealthItem
-            message={state.message}
-            state={state.state}
-          />
+          <HealthItem message={state.message} state={state.state} />
         </HealthBody>
       </DashboardCardBody>
     </DashboardCard>

@@ -8,25 +8,25 @@ import { InlineLoading } from '../Loading';
 
 export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => (
   <div>
-    <div>
-      <div>Subsystem health</div>
+    <div className="modal-header">
+      <h4 className="modal-title">Subsystem health</h4>
     </div>
     <div>
       <HealthBody>
         <HealthItem
-          message={'OpenShift'}
+          message="OpenShift"
           details={k8sHealth.message}
           state={k8sHealth.state}
           LoadingComponent={LoadingComponent}
         />
-          <HealthItem
-          message={'CNV'}
+        <HealthItem
+          message="CNV"
           details={kubevirtHealth.message}
           state={kubevirtHealth.state}
           LoadingComponent={LoadingComponent}
         />
         <HealthItem
-          message={'Ceph'}
+          message="Ceph"
           details={cephHealth.message}
           state={cephHealth.state}
           LoadingComponent={LoadingComponent}
@@ -39,13 +39,13 @@ export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, Loading
 SubsystemHealth.defaultProps = {
   k8sHealth: null,
   kubevirtHealth: null,
-  cepthHealth: null,
+  cephHealth: null,
   LoadingComponent: InlineLoading,
 };
 
 SubsystemHealth.propTypes = {
   k8sHealth: PropTypes.object,
   kubevirtHealth: PropTypes.object,
-  cepthHealth: PropTypes.object,
+  cephHealth: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };

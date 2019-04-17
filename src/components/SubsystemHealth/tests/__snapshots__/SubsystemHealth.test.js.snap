@@ -1,31 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SubsystemHealth /> renders correctly 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
->
+<div>
   <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
+    class="modal-header"
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <h4
+      class="modal-title"
     >
       Subsystem health
-    </h2>
+    </h4>
   </div>
-  <div
-    class="card-pf-body"
-  >
+  <div>
     <div
       class="kubevirt-health__body"
     >
       <div
-        class="kubevirt-health__body"
+        class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
-        />
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
@@ -34,20 +31,16 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
           >
             OpenShift
           </div>
-          <div
-            class="kubevirt-health__title kubevirt-health__subtitle"
-          >
-            OpenShift is healthy
-          </div>
         </div>
       </div>
       <div
-        class="kubevirt-health__body kubevirt-health__row"
+        class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-exclamation-circle fa-2x kubevirt-health__icon kubevirt-health__icon--warning"
-        />
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
@@ -56,32 +49,23 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
           >
             CNV
           </div>
-          <div
-            class="kubevirt-health__title kubevirt-health__subtitle"
-          >
-            CNV health is degraded
-          </div>
         </div>
       </div>
       <div
-        class="kubevirt-health__body kubevirt-health__row"
+        class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-exclamation-triangle fa-2x kubevirt-health__icon kubevirt-health__icon--error"
-        />
+        <div>
+          <div
+            class="spinner spinner-md blank-slate-pf-icon"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
           <div
             class="kubevirt-health__title"
           >
-            Ceph Storage
-          </div>
-          <div
-            class="kubevirt-health__title kubevirt-health__subtitle"
-          >
-            Ceph Storage health is degraded
+            Ceph
           </div>
         </div>
       </div>
