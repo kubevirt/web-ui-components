@@ -12,9 +12,7 @@ exports[`<HealthItem /> renders correctly 1`] = `
       type="fa"
     />
   </div>
-  <div
-    className="kubevirt-health__message"
-  >
+  <div>
     <span
       className="kubevirt-health__text"
     >

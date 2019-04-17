@@ -16,9 +16,7 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
           class="fa fa-check-circle"
         />
       </div>
-      <div
-        class="kubevirt-health__message"
-      >
+      <div>
         <span
           class="kubevirt-health__text"
         >
@@ -42,9 +40,7 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
           class="fa fa-exclamation-circle"
         />
       </div>
-      <div
-        class="kubevirt-health__message"
-      >
+      <div>
         <span
           class="kubevirt-health__text"
         >
@@ -68,9 +64,7 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
           class="fa fa-exclamation-triangle"
         />
       </div>
-      <div
-        class="kubevirt-health__message"
-      >
+      <div>
         <span
           class="kubevirt-health__text"
         >

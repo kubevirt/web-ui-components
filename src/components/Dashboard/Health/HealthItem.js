@@ -36,7 +36,7 @@ const getIcon = state => {
 export const HealthItem = ({ state, LoadingComponent, message, details }) => (
   <div className="kubevirt-health__item">
     {state === LOADING_STATE ? <LoadingComponent /> : getIcon(state)}
-    <div className="kubevirt-health__message">
+    <div>
       <span className="kubevirt-health__text">{message}</span>
       {details && <div className="kubevirt-health__text kubevirt-health__subtitle">{details}</div>}
     </div>
