@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DashboardCard, DashboardCardBody, DashboardCardHeader, DashboardCardTitle } from '../Dashboard/DashboardCard';
 import { HealthItem } from '../Dashboard/Health/HealthItem';
 import { HealthBody } from '../Dashboard/Health/HealthBody';
 
 import { InlineLoading } from '../Loading';
 
 export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Subsystem health</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody>
+  <div>
+    <div>
+      <div>Subsystem health</div>
+    </div>
+    <div>
       <HealthBody>
         <HealthItem
           message={'OpenShift'}
@@ -33,8 +32,8 @@ export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, Loading
           LoadingComponent={LoadingComponent}
         />
       </HealthBody>
-    </DashboardCardBody>
-  </DashboardCard>
+    </div>
+  </div>
 );
 
 SubsystemHealth.defaultProps = {

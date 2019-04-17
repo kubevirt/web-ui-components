@@ -1,7 +1,6 @@
 .kubevirt-health__body {
   display: table;
   align-items: center;
-  max-height: 130px;
 }
 
 .kubevirt-health__text {
@@ -10,10 +9,9 @@
 }
 
 .kubevirt-health__row {
-  display: table;
   margin-top: 1em;
-  border-top: 1px solid #ededed;
   padding-top: 1em;
+  border-top: 1px solid #ededed;
 }
 
 .kubevirt-health__message {
