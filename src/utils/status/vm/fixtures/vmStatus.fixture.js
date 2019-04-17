@@ -9,9 +9,15 @@ import {
   VM_SIMPLE_STATUS_OTHER,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_IMPORTING,
+  VM_STATUS_V2V_CONVERSION_ERROR,
+  VM_STATUS_V2V_CONVERSION_IN_PROGRESS,
 } from '../constants';
 
 import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../../../constants';
+import { buildOwnerReference } from '../../../../k8s/util';
+import { CONVERSION_BASE_NAME, CONVERSION_PROGRESS_ANNOTATION } from '../../../../k8s/requests/v2v';
+import { VirtualMachineModel } from '../../../../models';
+import { getNamespace } from '../../../../selectors';
 
 const podFixture = {
   metadata: {
@@ -100,6 +106,54 @@ const importPod = {
   },
 };
 
+const getFailedConversionPod = ({ vm }) => ({
+  metadata: {
+    name: `${CONVERSION_BASE_NAME}-15ac5`,
+    namespace: getNamespace(vm),
+    ownerReferences: [buildOwnerReference(vm)],
+  },
+  status: {
+    phase: 'Failed',
+    conditions: [
+      {
+        type: 'PodScheduled',
+        status: 'True',
+      },
+    ],
+    containerStatuses: [
+      {
+        name: 'compute',
+        state: {
+          terminated: {
+            exitCode: 2,
+            reason: 'Error',
+          },
+        },
+      },
+    ],
+  },
+});
+
+const getConversionPod = ({ vm }) => ({
+  metadata: {
+    name: `${CONVERSION_BASE_NAME}-15ac9`,
+    namespace: getNamespace(vm),
+    ownerReferences: [buildOwnerReference(vm)],
+    annotations: {
+      [CONVERSION_PROGRESS_ANNOTATION]: '35.0',
+    },
+  },
+  status: {
+    phase: 'Running',
+    conditions: [
+      {
+        type: 'PodScheduled',
+        status: 'True',
+      },
+    ],
+  },
+});
+
 const podPullBackOff = {
   metadata: {
     name: 'virt-launcher-my-vm-x9c99',
@@ -129,20 +183,20 @@ const podPullBackOff = {
     ],
     containerStatuses: [
       {
-        name: 'compute',
-        state: {
-          terminated: {
-            exitCode: 2,
-            reason: 'Error',
-          },
-        },
-      },
-      {
         name: 'volumerootvolume',
         state: {
           waiting: {
             reason: 'ImagePullBackOff',
             message: 'Back-off pulling image message',
+          },
+        },
+      },
+      {
+        name: 'compute',
+        state: {
+          terminated: {
+            exitCode: 2,
+            reason: 'Error',
           },
         },
       },
@@ -176,6 +230,8 @@ const dataVolumeTemplates = [
 ];
 
 const getVm = (running = false, status, dvTemplates) => ({
+  apiVersion: `${VirtualMachineModel.apiGroup}/${VirtualMachineModel.apiVersion}`,
+  kind: VirtualMachineModel.kind,
   metadata,
   spec: { running, dataVolumeTemplates: dvTemplates },
   status: {
@@ -308,7 +364,7 @@ export default [
   {
     vm: getVm(true, null, dataVolumeTemplates),
 
-    importerPodsFixture: [podNotScheduledFixture], // helper, not part of the API object
+    podsFixture: [podNotScheduledFixture], // helper, not part of the API object
     expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_IMPORT_ERROR,
   },
@@ -348,16 +404,27 @@ export default [
     // 15
     vm: getVm(true, null, dataVolumeTemplates),
 
-    importerPodsFixture: [importPod],
+    podsFixture: [importPod],
     expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_IMPORTING,
   },
-
   {
     vm: getVm(true, null, dataVolumeTemplates),
 
-    importerPodsFixture: [importPod, podNotScheduledFixture],
+    podsFixture: [importPod, podNotScheduledFixture],
     expectedSimple: VM_SIMPLE_STATUS_OTHER,
     expected: VM_STATUS_IMPORT_ERROR,
+  },
+  {
+    vm: getVm(),
+    podsFixture: [getConversionPod({ vm: getVm() })],
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
+    expected: VM_STATUS_V2V_CONVERSION_IN_PROGRESS,
+  },
+  {
+    vm: getVm(),
+    podsFixture: [getFailedConversionPod({ vm: getVm() })],
+    expectedSimple: VM_SIMPLE_STATUS_OTHER,
+    expected: VM_STATUS_V2V_CONVERSION_ERROR,
   },
 ];

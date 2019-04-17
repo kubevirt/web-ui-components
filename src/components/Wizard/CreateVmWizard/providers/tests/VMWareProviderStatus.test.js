@@ -6,6 +6,8 @@ import {
   PROVIDER_STATUS_CONNECTING,
   PROVIDER_STATUS_CONNECTION_FAILED,
   PROVIDER_STATUS_SUCCESS,
+  PROVIDER_VMWARE_CONNECTION,
+  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
 } from '../../constants';
 import VMWareProviderStatus from '../VMWareProviderStatus';
 import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/forms_mocks/basicSettings.mock';
@@ -19,10 +21,21 @@ export const rendersProviderStatus = (providerStatus, phase, removeV2VVmwareName
     V2VVmwareName: removeV2VVmwareName ? undefined : 'v2vvmware-object-name',
   };
 
+  const pwdAndCheck = basicSettingsImportVmwareNewConnection[PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY].value;
+  const basicSettings = {
+    ...basicSettingsImportVmwareNewConnection,
+    [PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY]: {
+      value: {
+        ...pwdAndCheck,
+        [PROVIDER_VMWARE_CONNECTION]: connValue,
+      },
+    },
+  };
+
   const extraProps = {
     onCheckConnection: () => {},
     WithResources: props => <WithResources {...props} tesOnlyPhase={phase} />,
-    basicSettings: basicSettingsImportVmwareNewConnection,
+    basicSettings,
   };
 
   const component = render(

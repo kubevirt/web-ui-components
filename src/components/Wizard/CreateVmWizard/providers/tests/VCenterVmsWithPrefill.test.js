@@ -18,10 +18,12 @@ import {
   MEMORY_KEY,
   CPU_KEY,
   INTERMEDIARY_STORAGE_TAB_KEY,
+  PROVIDER_VMWARE_VM_DATA_KEY,
 } from '../../constants';
 import { getOperatingSystems } from '../../../../../k8s/selectors';
 import { baseTemplates } from '../../../../../k8s/objects/template';
 import { CUSTOM_FLAVOR, VALIDATION_INFO_TYPE } from '../../../../../constants';
+import { osV2VConfigMap } from '../../../../../tests/mocks/configMap';
 
 const props = {
   id: 'my-id',
@@ -111,7 +113,7 @@ const vmwareVm = {
           ControllerKey: 1000,
           UnitNumber: 0,
           CapacityInKB: 1,
-          CapacityInBytes: 1024,
+          CapacityInBytes: 1024 * 1024 * 1024,
           Shares: {
             Shares: 1000,
             Level: 'normal',
@@ -139,7 +141,7 @@ const vmwareVm = {
           Backing: {
             FileName: 'filename1',
           },
-          CapacityInBytes: 2048,
+          CapacityInBytes: 2 * 1024 * 1024 * 1024,
         },
       ],
     },
@@ -148,6 +150,7 @@ const vmwareVm = {
 
 const v2vvmware = {
   spec: {
+    thumbprint: '39:5C:6A:2D:36:38:B2:52:2B:21:EA:74:11:59:89:5E:20:D5:D9:A2',
     vms: [
       {
         name: 'one-vm',
@@ -158,6 +161,7 @@ const v2vvmware = {
       {
         name: 'vm-name',
         detail: {
+          hostPath: '/test/path/to/vm',
           raw: JSON.stringify(vmwareVm),
         },
       },
@@ -191,32 +195,29 @@ describe('<VCenterVmsWithPrefill />', () => {
     await flushPromises();
     expect(onChange.mock.calls).toHaveLength(0);
     expect(onFormChange.mock.calls).toHaveLength(1);
-    expect(onFormChange.mock.calls[0][0].value).toHaveLength(7);
+    const firstResolvedValue = onFormChange.mock.calls[0][0].value;
+    expect(firstResolvedValue).toHaveLength(8);
     expect(onFormChange.mock.calls[0][1]).toBe(BATCH_CHANGES_KEY);
-    expect(onFormChange.mock.calls[0][0].value[0]).toEqual({ value: 'My description', target: DESCRIPTION_KEY }); // name is skipped as it was provided by the user
+    [
+      { value: 'My description', target: DESCRIPTION_KEY },
+      failedRhel7,
+      {
+        value: { hostPath: v2vvmware.spec.vms[2].detail.hostPath, thumbPrint: v2vvmware.spec.thumbprint },
+        target: PROVIDER_VMWARE_VM_DATA_KEY,
+      },
+      { value: CUSTOM_FLAVOR, target: FLAVOR_KEY },
+      { value: 0.125, target: MEMORY_KEY },
+      { value: 2, target: CPU_KEY },
+      {
+        value: [
+          { id: 4000, mac: '00:50:56:a5:ff:de', name: 'nic0' },
+          { id: 4001, mac: '00:50:56:a5:ff:de', name: 'nic1' },
+        ],
+        target: INTERMEDIARY_NETWORKS_TAB_KEY,
+      },
+    ].forEach((expectedValue, idx) => expect(firstResolvedValue[idx]).toEqual(expectedValue));
 
-    // the value is already pre-selected by the user, so no matching
-    expect(onFormChange.mock.calls[0][0].value[1]).toEqual(failedRhel7);
-
-    expect(onFormChange.mock.calls[0][0].value[2]).toEqual({ value: CUSTOM_FLAVOR, target: FLAVOR_KEY });
-    expect(onFormChange.mock.calls[0][0].value[3]).toEqual({ value: 128, target: MEMORY_KEY });
-    expect(onFormChange.mock.calls[0][0].value[4]).toEqual({ value: 2, target: CPU_KEY });
-
-    expect(onFormChange.mock.calls[0][0].value[5]).toEqual({
-      value: [
-        { id: 4000, mac: '00:50:56:a5:ff:de', name: 'nic0' },
-        { id: 4001, mac: '00:50:56:a5:ff:de', name: 'nic1' },
-      ],
-      target: INTERMEDIARY_NETWORKS_TAB_KEY,
-    });
-
-    expect(onFormChange.mock.calls[0][0].value[6]).toEqual({
-      value: [
-        { id: 2000, name: 'disk0', fileName: '[datastore12] ftp-01/ftp-01.vmdk', capacity: 1024 },
-        { id: 2001, name: 'disk1', fileName: 'filename1', capacity: 2048 },
-      ],
-      target: INTERMEDIARY_STORAGE_TAB_KEY,
-    });
+    expect(firstResolvedValue[7]).toMatchSnapshot(); // disks
 
     const newBasicSettings = cloneDeep(props.basicSettings);
     newBasicSettings[NAME_KEY] = '';
@@ -232,7 +233,7 @@ describe('<VCenterVmsWithPrefill />', () => {
       basicSettings: basicSettingsImportVmwareNewConnection,
       operatingSystems: getOperatingSystems(basicSettingsImportVmwareNewConnection, baseTemplates),
       vmVmware: vmwareVm,
-      k8sGet,
+      vmwareToKubevirtOsConfigMap: osV2VConfigMap,
       lastPrefilledValue: '',
     });
     expect(result).toEqual({
@@ -254,7 +255,7 @@ describe('<VCenterVmsWithPrefill />', () => {
       basicSettings,
       operatingSystems: getOperatingSystems(basicSettingsImportVmwareNewConnection, baseTemplates),
       vmVmware: fedora,
-      k8sGet,
+      vmwareToKubevirtOsConfigMap: osV2VConfigMap,
       lastPrefilledValue: '',
     });
     expect(result).toEqual({
@@ -275,7 +276,7 @@ describe('<VCenterVmsWithPrefill />', () => {
       basicSettings,
       operatingSystems: getOperatingSystems(basicSettingsImportVmwareNewConnection, baseTemplates),
       vmVmware: fedora,
-      k8sGet,
+      vmwareToKubevirtOsConfigMap: osV2VConfigMap,
       lastPrefilledValue: '',
     });
     expect(result).toEqual({
@@ -298,10 +299,10 @@ describe('<VCenterVmsWithPrefill />', () => {
   it('handlers prefillDisks()', () => {
     const result = prefillDisks({ vmVmware: vmwareVm, lastPrefilledValue: undefined });
     expect(result.target).toBe(INTERMEDIARY_STORAGE_TAB_KEY);
-    expect(result.value).toHaveLength(2);
-    expect(result.value[0].id).toBe(2000);
-    expect(result.value[1].id).toBe(2001);
-    expect(result.value[0].name).toBe('disk0');
-    expect(result.value[1].name).toBe('disk1');
+    expect(result.value).toHaveLength(4);
+    ['disk0', 'disk1', 'v2v-conversion-temp', 'vddk-pvc'].forEach((name, idx) => {
+      expect(result.value[idx].id).toBe(idx);
+      expect(result.value[idx].name).toBe(name);
+    });
   });
 });

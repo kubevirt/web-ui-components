@@ -35,12 +35,13 @@ const VCenterInstances = ({ onChange, id, value, extraProps }) => {
   };
   const resourceToProps = ({ vCenterSecrets }) => ({
     choices: getVCenterInstanceSecrets(vCenterSecrets),
+    onChange: name => onChange(vCenterSecrets.find(secret => getName(secret) === name)),
     disabled: !areResourcesLoaded(vCenterSecrets),
   });
 
   return (
     <WithResources resourceMap={resourceMap} resourceToProps={resourceToProps}>
-      <Dropdown id={id} value={value} onChange={onChange} />
+      <Dropdown id={id} value={getName(value) || value} /> {/* default value */}
     </WithResources>
   );
 };

@@ -234,6 +234,38 @@ virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
 ]
 `;
 
+exports[`<VmStatus vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PROGRESS) 1`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />,
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
+    title="35% progress"
+  >
+    V2V Conversion In Progress
+  </a>,
+]
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 1`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />,
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
+    title="Terminated with Error (exit code 2)."
+  >
+    V2V Conversion Error
+  </a>,
+]
+`;
+
 exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 <div>
   <span
@@ -384,7 +416,7 @@ exports[`<VmStatuses vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`]
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
     title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
   >
-    Importer Error
+    Importer Error (testdisk)
   </a>
 </div>
 `;
@@ -435,7 +467,7 @@ exports[`<VmStatuses vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = 
     class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
   >
-    Importing
+    Importing (testdisk)
   </a>
 </div>
 `;
@@ -468,4 +500,36 @@ Array [
     </a>
   </div>,
 ]
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PROGRESS) 1`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-import"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
+    title="35% progress"
+  >
+    V2V Conversion In Progress
+  </a>
+</div>
+`;
+
+exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 1`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+  />
+  <a
+    class="kubevirt-vm-status__link"
+    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
+    title="Terminated with Error (exit code 2)."
+  >
+    V2V Conversion Error
+  </a>
+</div>
 `;

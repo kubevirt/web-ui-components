@@ -19,7 +19,7 @@ import {
   basicSettingsUserTemplate,
 } from '../../tests/forms_mocks/basicSettings.mock';
 import { rootContainerDisk, rootDataVolumeDisk } from '../../components/Wizard/CreateVmWizard/CreateVmWizard';
-import { k8sCreate } from '../../tests/k8s';
+import { k8sCreate, k8sPatch } from '../../tests/k8s';
 
 import { settingsValue } from '../selectors';
 
@@ -164,34 +164,40 @@ const testCloudConfig = (results, cloudInit) => {
 
 describe('request.js - provision sources', () => {
   it('Container Image', () =>
-    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
+    createVm({ k8sCreate }, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
       testContainerImage
     ));
   it('URL', () =>
-    createVm(k8sCreate, templates, basicSettingsUrl, [], [rootDataVolumeDisk], persistentVolumeClaims).then(results => {
-      const vm = results[0];
-      expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
-      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
+    createVm({ k8sCreate }, templates, basicSettingsUrl, [], [rootDataVolumeDisk], persistentVolumeClaims).then(
+      results => {
+        const vm = results[0];
+        expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+        expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
 
-      expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootDataVolumeDisk.name);
+        expect(vm.spec.template.spec.domain.devices.disks[0].name).toBe(rootDataVolumeDisk.name);
 
-      expect(vm.spec.template.spec.volumes[0].name).toBe(rootDataVolumeDisk.name);
-      expect(vm.spec.template.spec.volumes[0].dataVolume.name).toBe(
-        generateDiskName(getName(vm), rootDataVolumeDisk.name)
-      );
+        expect(vm.spec.template.spec.volumes[0].name).toBe(rootDataVolumeDisk.name);
+        expect(vm.spec.template.spec.volumes[0].dataVolume.name).toBe(
+          generateDiskName(getName(vm), rootDataVolumeDisk.name)
+        );
 
-      expect(vm.spec.dataVolumeTemplates[0].metadata.name).toBe(generateDiskName(getName(vm), rootDataVolumeDisk.name));
-      expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(settingsValue(basicSettingsUrl, IMAGE_URL_KEY));
-      expect(vm.spec.dataVolumeTemplates[0].spec.pvc.resources.requests.storage).toBe(`${rootDataVolumeDisk.size}Gi`);
-      return results;
-    }));
+        expect(vm.spec.dataVolumeTemplates[0].metadata.name).toBe(
+          generateDiskName(getName(vm), rootDataVolumeDisk.name)
+        );
+        expect(vm.spec.dataVolumeTemplates[0].spec.source.http.url).toBe(
+          settingsValue(basicSettingsUrl, IMAGE_URL_KEY)
+        );
+        expect(vm.spec.dataVolumeTemplates[0].spec.pvc.resources.requests.storage).toBe(`${rootDataVolumeDisk.size}Gi`);
+        return results;
+      }
+    ));
   it('PXE', () =>
-    createVm(k8sCreate, templates, basicSettingsPxe, [podNetwork, multusNetwork], persistentVolumeClaims).then(
+    createVm({ k8sCreate }, templates, basicSettingsPxe, [podNetwork, multusNetwork], persistentVolumeClaims).then(
       testPXE
     ));
   it('User Template', () =>
     createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsUserTemplate,
       [],
@@ -221,25 +227,27 @@ describe('request.js - provision sources', () => {
 
 describe('request.js - networks', () => {
   it('with non bootable networks', () =>
-    createVm(k8sCreate, templates, basicSettingsContainer, [podNetwork], [], persistentVolumeClaims).then(results => {
-      const vm = results[0];
-      expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
-      expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
-      expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
-      expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
-      expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
-      expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toEqual(1);
-      expect(vm.spec.template.spec.networks).toHaveLength(1);
-      expect(vm.spec.template.spec.networks[0].name).toEqual(podNetwork.name);
-      expect(vm.spec.template.spec.networks[0].pod).toEqual({});
+    createVm({ k8sCreate }, templates, basicSettingsContainer, [podNetwork], [], persistentVolumeClaims).then(
+      results => {
+        const vm = results[0];
+        expect(vm.metadata.name).toBe(settingsValue(basicSettingsContainer, NAME_KEY));
+        expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsContainer, NAMESPACE_KEY));
+        expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeUndefined();
+        expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
+        expect(vm.spec.template.spec.domain.devices.interfaces[0].name).toEqual(podNetwork.name);
+        expect(vm.spec.template.spec.domain.devices.interfaces[0].bootOrder).toEqual(1);
+        expect(vm.spec.template.spec.networks).toHaveLength(1);
+        expect(vm.spec.template.spec.networks[0].name).toEqual(podNetwork.name);
+        expect(vm.spec.template.spec.networks[0].pod).toEqual({});
 
-      expect(get(vm.metadata.annotations, [ANNOTATION_PXE_INTERFACE])).toBeUndefined();
-      expect(get(vm.metadata.annotations, [ANNOTATION_FIRST_BOOT])).toBeUndefined();
-      return results;
-    }));
+        expect(get(vm.metadata.annotations, [ANNOTATION_PXE_INTERFACE])).toBeUndefined();
+        expect(get(vm.metadata.annotations, [ANNOTATION_FIRST_BOOT])).toBeUndefined();
+        return results;
+      }
+    ));
   it('default network model is used for all networks', () =>
     createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsContainerWindows,
       [podNetwork, multusNetwork],
@@ -260,7 +268,7 @@ describe('request.js - networks', () => {
       return results;
     }));
   it('without network', () =>
-    createVm(k8sCreate, templates, basicSettingsCustomFlavor, [], [], persistentVolumeClaims).then(results => {
+    createVm({ k8sCreate }, templates, basicSettingsCustomFlavor, [], [], persistentVolumeClaims).then(results => {
       const vm = results[0];
       expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeFalsy();
       expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(0);
@@ -268,7 +276,7 @@ describe('request.js - networks', () => {
       return results;
     }));
   it('with multus network and no pod network', () =>
-    createVm(k8sCreate, templates, basicSettingsCustomFlavor, [multusNetwork], [], persistentVolumeClaims).then(
+    createVm({ k8sCreate }, templates, basicSettingsCustomFlavor, [multusNetwork], [], persistentVolumeClaims).then(
       results => {
         const vm = results[0];
         expect(vm.spec.template.spec.domain.devices.autoattachPodInterface).toBeFalsy();
@@ -289,7 +297,7 @@ describe('request.js - networks', () => {
       isBootable: true,
     };
     return createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       vmPXEStart,
       [podNetwork, multusNetwork],
@@ -304,7 +312,7 @@ describe('request.js - networks', () => {
   it('network with mac address', () => {
     const withMac = cloneDeep(multusNetwork);
     withMac.mac = 'FF-FF-FF-FF-FF-FF';
-    return createVm(k8sCreate, templates, basicSettingsCustomFlavor, [withMac], [], persistentVolumeClaims).then(
+    return createVm({ k8sCreate }, templates, basicSettingsCustomFlavor, [withMac], [], persistentVolumeClaims).then(
       results => {
         const vm = results[0];
         expect(vm.spec.template.spec.domain.devices.interfaces).toHaveLength(1);
@@ -327,9 +335,14 @@ describe('request.js - cloudInit', () => {
       ],
       hostname: basicSettingsCloudInit[HOST_NAME_KEY].value,
     };
-    return createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootContainerDisk], persistentVolumeClaims).then(
-      results => testCloudConfig(results, cloudInit)
-    );
+    return createVm(
+      { k8sCreate },
+      templates,
+      basicSettingsCloudInit,
+      [],
+      [rootContainerDisk],
+      persistentVolumeClaims
+    ).then(results => testCloudConfig(results, cloudInit));
   });
   it('with CloudInit - only hostname', () => {
     const onlyHostname = cloneDeep(basicSettingsCloudInit);
@@ -338,8 +351,8 @@ describe('request.js - cloudInit', () => {
     const cloudInit = {
       hostname: onlyHostname[HOST_NAME_KEY].value,
     };
-    return createVm(k8sCreate, templates, onlyHostname, [], [rootContainerDisk], persistentVolumeClaims).then(results =>
-      testCloudConfig(results, cloudInit)
+    return createVm({ k8sCreate }, templates, onlyHostname, [], [rootContainerDisk], persistentVolumeClaims).then(
+      results => testCloudConfig(results, cloudInit)
     );
   });
   it('with CloudInit - only ssh', () => {
@@ -354,7 +367,7 @@ describe('request.js - cloudInit', () => {
         },
       ],
     };
-    return createVm(k8sCreate, templates, onlySSH, [], [rootContainerDisk], persistentVolumeClaims).then(results =>
+    return createVm({ k8sCreate }, templates, onlySSH, [], [rootContainerDisk], persistentVolumeClaims).then(results =>
       testCloudConfig(results, cloudInit)
     );
   });
@@ -362,12 +375,12 @@ describe('request.js - cloudInit', () => {
     const noConfig = cloneDeep(basicSettingsCloudInit);
     delete noConfig[HOST_NAME_KEY];
     delete noConfig[AUTHKEYS_KEY];
-    return createVm(k8sCreate, templates, noConfig, [], [rootContainerDisk], persistentVolumeClaims).then(results =>
+    return createVm({ k8sCreate }, templates, noConfig, [], [rootContainerDisk], persistentVolumeClaims).then(results =>
       testCloudConfig(results, {})
     );
   });
   it('without CloudInit - disk and volume is not present', () =>
-    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
+    createVm({ k8sCreate }, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
       results => {
         const vm = results[0];
         expect(vm.spec.template.spec.domain.devices.disks.some(disk => disk.name === 'cloudinitdisk')).toBeFalsy();
@@ -380,7 +393,7 @@ describe('request.js - cloudInit', () => {
 
 describe('request.js - flavors', () => {
   it('with custom flavor', () =>
-    createVm(k8sCreate, templates, basicSettingsCustomFlavor, [], persistentVolumeClaims).then(results => {
+    createVm({ k8sCreate }, templates, basicSettingsCustomFlavor, [], persistentVolumeClaims).then(results => {
       const vm = results[0];
       expect(vm.metadata.name).toBe(settingsValue(basicSettingsCustomFlavor, NAME_KEY));
       expect(vm.metadata.namespace).toBe(settingsValue(basicSettingsCustomFlavor, NAMESPACE_KEY));
@@ -392,16 +405,16 @@ describe('request.js - flavors', () => {
 
 describe('request.js - storages', () => {
   it('every disk has volume', () =>
-    createVm(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
+    createVm({ k8sCreate }, templates, basicSettingsContainer, [], [rootContainerDisk], persistentVolumeClaims).then(
       results => everyDiskHasVolume(results)
     ));
   it('every disk has volume - cloud init', () =>
-    createVm(k8sCreate, templates, basicSettingsCloudInit, [], [rootContainerDisk], persistentVolumeClaims).then(
+    createVm({ k8sCreate }, templates, basicSettingsCloudInit, [], [rootContainerDisk], persistentVolumeClaims).then(
       results => everyDiskHasVolume(results)
     ));
   it('ContainerImage with attached disks', () =>
     createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsContainer,
       [],
@@ -414,16 +427,21 @@ describe('request.js - storages', () => {
     }));
 
   it('url source with attached disks', () =>
-    createVm(k8sCreate, templates, basicSettingsUrl, [], [rootDataVolumeDisk, pvcDisk], persistentVolumeClaims).then(
-      results => {
-        testPvcStorage(results, 1, 1, 2, pvcDisk.name, getNamespace(results[0]));
-        return results;
-      }
-    ));
+    createVm(
+      { k8sCreate },
+      templates,
+      basicSettingsUrl,
+      [],
+      [rootDataVolumeDisk, pvcDisk],
+      persistentVolumeClaims
+    ).then(results => {
+      testPvcStorage(results, 1, 1, 2, pvcDisk.name, getNamespace(results[0]));
+      return results;
+    }));
 
   it('user template with attached disks', () =>
     createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsUserTemplate,
       [],
@@ -448,7 +466,7 @@ describe('request.js - storages', () => {
       isBootable: true,
     };
     return createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsPxe,
       [podNetwork, multusNetwork],
@@ -462,7 +480,7 @@ describe('request.js - storages', () => {
   });
   it('clones attached PVC disks', async () => {
     const results = await createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsPxe,
       [podNetwork, multusNetwork],
@@ -481,7 +499,7 @@ describe('request.js - metadata', () => {
     withDescription[DESCRIPTION_KEY] = {
       value: 'foo description',
     };
-    return createVm(k8sCreate, templates, withDescription, [], [rootContainerDisk], persistentVolumeClaims).then(
+    return createVm({ k8sCreate }, templates, withDescription, [], [rootContainerDisk], persistentVolumeClaims).then(
       results => {
         const vm = results[0];
         expect(vm.metadata.annotations.description).toEqual(settingsValue(withDescription, DESCRIPTION_KEY));
@@ -491,7 +509,7 @@ describe('request.js - metadata', () => {
   });
   it('VM has os/flavor/workload metadata', async () => {
     const results = await createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsContainer,
       [podNetwork, multusNetwork],
@@ -510,7 +528,7 @@ describe('request.js - metadata', () => {
   });
   it('VM has os/flavor/workload metadata - user template', async () => {
     const results = await createVm(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsUserTemplate,
       [podNetwork, multusNetwork],
@@ -528,7 +546,7 @@ describe('request.js - metadata', () => {
   });
   it('Import Secret is created', async () => {
     const results = await createVm(
-      k8sCreate,
+      { k8sCreate, k8sPatch },
       templates,
       basicSettingsImportVmwareNewConnection,
       [],
@@ -541,7 +559,7 @@ describe('request.js - metadata', () => {
 
 describe('request.js - Create Vm Template', () => {
   it('creates VM Template', async () => {
-    const results = await createVmTemplate(k8sCreate, templates, basicSettingsContainer, [], [rootContainerDisk]);
+    const results = await createVmTemplate({ k8sCreate }, templates, basicSettingsContainer, [], [rootContainerDisk]);
     const vmTemplate = results[0];
     expect(vmTemplate.metadata.name).toEqual(settingsValue(basicSettingsContainer, NAME_KEY));
     expect(vmTemplate.metadata.description).toBeUndefined();
@@ -579,14 +597,14 @@ describe('request.js - Create Vm Template', () => {
     withDescription[DESCRIPTION_KEY] = {
       value: 'foo description',
     };
-    const results = await createVmTemplate(k8sCreate, templates, withDescription, [], [rootContainerDisk]);
+    const results = await createVmTemplate({ k8sCreate }, templates, withDescription, [], [rootContainerDisk]);
     const vmTemplate = results[0];
     expect(vmTemplate.metadata.annotations.description).toEqual(settingsValue(withDescription, DESCRIPTION_KEY));
     expect(get(vmTemplate.objects[0].metadata, 'annotations.description')).toBeUndefined();
   });
   it('PVC storage is not appended with vm name', async () => {
     const results = await createVmTemplate(
-      k8sCreate,
+      { k8sCreate },
       templates,
       basicSettingsContainer,
       [],

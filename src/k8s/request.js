@@ -1,4 +1,4 @@
-import { cloneDeep, get } from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import {
@@ -13,7 +13,7 @@ import {
   getPvcStorageClassName,
 } from '../selectors';
 
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, SecretModel } from '../models';
+import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, PodModel } from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
@@ -21,7 +21,6 @@ import {
   TEMPLATE_PARAM_VM_NAME,
   CUSTOM_FLAVOR,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_IMPORT,
   TEMPLATE_TYPE_BASE,
   PROVISION_SOURCE_PXE,
   POD_NETWORK,
@@ -63,12 +62,9 @@ import {
   DATA_VOLUME_SOURCE_URL,
   IMAGE_URL_KEY,
   DATA_VOLUME_SOURCE_BLANK,
-  PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
-  PROVIDER_VMWARE_VCENTER_KEY,
-  PROVIDER_VMWARE_USER_NAME_KEY,
-  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
-  PROVIDER_VMWARE_USER_PWD_KEY,
-  PROVIDER_VMWARE_URL_KEY,
+  STORAGE_TYPE_EXTERNAL_IMPORT,
+  STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 import {
@@ -78,6 +74,7 @@ import {
   getTemplateAnnotations,
   settingsValue,
   selectVm,
+  isVmwareImport,
 } from './selectors';
 import { CloudInit } from './cloudInit';
 import { addTemplateClone } from './clone';
@@ -87,6 +84,7 @@ import {
   getDevice,
   addAnnotation,
   addContainerVolume,
+  addExternalImportPvcVolume,
   addDataVolume,
   addDataVolumeTemplate,
   addDisk,
@@ -103,7 +101,8 @@ import {
   sequentializeBootOrderIndexes,
 } from './vmBuilder';
 
-import { getImportProviderSecretObject } from '../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
+import { importVmwareVm } from './requests/v2v';
+import { buildOwnerReference, buildAddOwnerReferencesPatch, replaceUpdatedObject } from './util/utils';
 
 export * from './requests/hosts';
 
@@ -113,21 +112,36 @@ const FALLBACK_DISK = {
   },
 };
 
-const enhancedCreate = (k8sCreate, kind, data, aditionalObjects = [], ...rest) =>
-  k8sCreate(kind, data, ...rest).catch(error =>
-    // eslint-disable-next-line prefer-promise-reject-errors
-    Promise.reject({ error, message: error.message, objects: [data, ...aditionalObjects] })
-  );
+class K8sCreateError extends Error {
+  constructor(message, failedObject, objects) {
+    super(message);
+    this.failedObject = failedObject;
+    this.objects = objects;
+  }
+}
+
+const buildEnhancedCreate = k8sCreate => {
+  const history = [];
+  return async (kind, data, ...rest) => {
+    try {
+      const result = await k8sCreate(kind, data, ...rest);
+      history.push(result);
+      return result;
+    } catch (error) {
+      throw new K8sCreateError(error.message, data, history);
+    }
+  };
+};
 
 export const createVmTemplate = async (
-  k8sCreate,
+  { k8sCreate },
   templates,
   basicSettings,
   networks,
   storage,
   persistentVolumeClaims
 ) => {
-  const create = enhancedCreate.bind(undefined, k8sCreate);
+  const create = buildEnhancedCreate(k8sCreate);
   const getSetting = param => {
     switch (param) {
       case NAME_KEY:
@@ -195,15 +209,37 @@ export const createVmTemplate = async (
   return results;
 };
 
-export const createVm = async (k8sCreate, templates, basicSettings, networks, storage, persistentVolumeClaims) => {
-  const create = enhancedCreate.bind(undefined, k8sCreate);
+export const createVm = async (
+  { k8sCreate, k8sPatch },
+  templates,
+  basicSettings,
+  networks,
+  storages,
+  persistentVolumeClaims
+) => {
+  const create = buildEnhancedCreate(k8sCreate);
   const getSetting = settingsValue.bind(undefined, basicSettings);
+
+  let results = [];
+  let conversionPod;
+
+  if (isVmwareImport(basicSettings)) {
+    const importResult = await importVmwareVm(getSetting, networks, storages, {
+      k8sCreate: create,
+      k8sPatch,
+    });
+    // eslint-disable-next-line prefer-destructuring
+    conversionPod = importResult.conversionPod;
+    storages = importResult.mappedStorages;
+    results = [...results, ...importResult.resultObjects];
+  }
+
   const template = getModifiedVmTemplate(
     templates,
     basicSettings,
     getSetting,
     networks,
-    storage,
+    storages,
     persistentVolumeClaims
   );
 
@@ -225,32 +261,15 @@ export const createVm = async (k8sCreate, templates, basicSettings, networks, st
     vm.metadata.namespace = namespace;
   }
 
-  const results = [];
+  const virtualMachine = await create(VirtualMachineModel, vm);
+  results.push(virtualMachine);
 
-  const importProviderSecret = getImportProviderSecret(getSetting);
-  if (importProviderSecret) {
-    results.push(await k8sCreate(SecretModel, importProviderSecret));
+  if (conversionPod) {
+    const patches = [buildAddOwnerReferencesPatch(conversionPod, [buildOwnerReference(virtualMachine)])];
+    conversionPod = await k8sPatch(PodModel, conversionPod, patches);
+    results = replaceUpdatedObject(results, conversionPod);
   }
-
-  results.push(await k8sCreate(VirtualMachineModel, vm));
   return results;
-};
-
-const getImportProviderSecret = getSetting => {
-  if (
-    getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY) &&
-    getSetting(PROVIDER_VMWARE_VCENTER_KEY) &&
-    getSetting(PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_IMPORT
-  ) {
-    const url = getSetting(PROVIDER_VMWARE_URL_KEY);
-    const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
-    const password = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
-    const namespace = getSetting(NAMESPACE_KEY);
-
-    return getImportProviderSecretObject({ url, username, password, namespace });
-  }
-
-  return null;
 };
 
 const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage, persistentVolumeClaims) => {
@@ -416,24 +435,31 @@ const addStorages = (vm, template, storages, getSetting, persistentVolumeClaims)
   removeDisksAndVolumes(vm);
 
   if (storages) {
-    storages.forEach(storage => {
-      switch (storage.storageType) {
-        case STORAGE_TYPE_PVC:
-          addPvcVolume(vm, storage, getSetting, persistentVolumeClaims);
-          break;
-        case STORAGE_TYPE_DATAVOLUME:
-          addDataVolumeVolume(vm, storage, getSetting);
-          break;
-        case STORAGE_TYPE_CONTAINER:
-          addContainerVolume(vm, storage, getSetting);
-          break;
-        default:
-          if (storage.templateStorage) {
-            addVolume(vm, storage.templateStorage.volume);
-          }
-      }
-      addDisk(vm, defaultDisk, storage, getSetting);
-    });
+    storages
+      .filter(
+        storage => ![STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(storage.storageType)
+      )
+      .forEach(storage => {
+        switch (storage.storageType) {
+          case STORAGE_TYPE_PVC:
+            addPvcVolume(vm, storage, getSetting, persistentVolumeClaims);
+            break;
+          case STORAGE_TYPE_DATAVOLUME:
+            addDataVolumeVolume(vm, storage, getSetting);
+            break;
+          case STORAGE_TYPE_CONTAINER:
+            addContainerVolume(vm, storage, getSetting);
+            break;
+          case STORAGE_TYPE_EXTERNAL_IMPORT:
+            addExternalImportPvcVolume(vm, storage);
+            break;
+          default:
+            if (storage.templateStorage) {
+              addVolume(vm, storage.templateStorage.volume);
+            }
+        }
+        addDisk(vm, defaultDisk, storage, getSetting);
+      });
   }
   addCloudInit(vm, defaultDisk, getSetting);
 };

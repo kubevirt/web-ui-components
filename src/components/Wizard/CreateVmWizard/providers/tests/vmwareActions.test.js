@@ -1,6 +1,7 @@
 import { onVmwareCheckConnection, onVCenterInstanceSelected, onVCenterVmSelectedConnected } from '../vmwareActions';
 import { basicSettingsImportVmwareNewConnection } from '../../../../../tests/forms_mocks/basicSettings.mock';
 import { k8sCreate, k8sGet } from '../../../../../tests/k8s';
+
 import {
   PROVIDER_STATUS_CONNECTING,
   PROVIDER_STATUS_CONNECTION_FAILED,
@@ -31,7 +32,7 @@ describe('vmware UI action', () => {
     const onFormChange = jest.fn();
     await onVCenterInstanceSelected(
       k8sCreate,
-      { value: 'connection-secret-name' },
+      { value: { metadata: { name: 'connection-secret-name' } } },
       undefined, // key,
       undefined, // formValid
       basicSettingsImportVmwareNewConnection,
@@ -60,7 +61,7 @@ describe('vmware UI action', () => {
     expect(k8sPatch.mock.calls).toHaveLength(1);
     expect(k8sPatch.mock.calls[0][0].kind).toBe(V2VVMwareModel.kind);
     expect(k8sPatch.mock.calls[0][2][0].path).toBe('/spec/vms/1/detailRequest');
-    expect(k8sPatch.mock.calls[0][2][0].op).toBe('replace');
+    expect(k8sPatch.mock.calls[0][2][0].op).toBe('add');
 
     expect(onFormChange.mock.calls).toHaveLength(0); // VM Name is set by the user, so don't touch
   });

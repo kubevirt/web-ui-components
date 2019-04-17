@@ -124,8 +124,8 @@ export class VmDetails extends React.Component {
   isFormValid = () => Object.keys(this.state.form).every(key => this.state.form[key].valid);
 
   componentDidUpdate() {
-    const { pods, importerPods, migrations, vm } = this.props;
-    if (this.state.editing && !isVmOff(getVmStatus(vm, pods, migrations, importerPods))) {
+    const { pods, migrations, vm } = this.props;
+    if (this.state.editing && !isVmOff(getVmStatus(vm, pods, migrations))) {
       this.setEditing(false);
     }
   }
@@ -155,7 +155,6 @@ export class VmDetails extends React.Component {
   render() {
     const {
       pods,
-      importerPods,
       migrations,
       NodeLink,
       vm,
@@ -169,7 +168,7 @@ export class VmDetails extends React.Component {
       ResourceLinkComponent,
     } = this.props;
 
-    const vmStatus = getVmStatus(vm, pods, migrations, importerPods);
+    const vmStatus = getVmStatus(vm, pods, migrations);
     const { launcherPod } = vmStatus;
     const vmIsOff = isVmOff(vmStatus);
     const nodeName = getNodeName(launcherPod);
@@ -259,7 +258,7 @@ export class VmDetails extends React.Component {
             <dl className="kubevirt-vm-details__details-list">
               <dt>Status</dt>
               <dd>
-                <VmStatuses vm={vm} pods={pods} importerPods={importerPods} migrations={migrations} />
+                <VmStatuses vm={vm} pods={pods} migrations={migrations} />
               </dd>
 
               <dt>Operating System</dt>
@@ -337,7 +336,6 @@ VmDetails.propTypes = {
   vm: PropTypes.object.isRequired,
   vmi: PropTypes.object,
   pods: PropTypes.array,
-  importerPods: PropTypes.array,
   migrations: PropTypes.array,
   NodeLink: PropTypes.func,
   NamespaceResourceLink: PropTypes.func,
@@ -354,7 +352,6 @@ VmDetails.propTypes = {
 VmDetails.defaultProps = {
   vmi: undefined,
   pods: undefined,
-  importerPods: undefined,
   migrations: undefined,
   NamespaceResourceLink: undefined,
   PodResourceLink: undefined,

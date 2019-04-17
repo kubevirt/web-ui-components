@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { getResource } from '../../../../utils';
-import { V2VVMwareModel } from '../../../../models';
+import { ConfigMapModel, V2VVMwareModel } from '../../../../models';
 import { Dropdown } from '../../../Form';
 
 import { PROVIDER_SELECT_VM } from '../strings';
@@ -12,6 +12,10 @@ import { NAMESPACE_KEY } from '../constants';
 import { settingsValue, getV2VVmwareName } from '../../../../k8s/selectors';
 
 import VCenterVmsWithPrefill from './VCenterVmsWithPrefill';
+import {
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
+} from '../../../../constants';
 
 const VCenterVms = ({ onChange, onFormChange, id, value, extraProps, ...extra }) => {
   // the "value" is name of selected VMWare VM
@@ -28,6 +32,13 @@ const VCenterVms = ({ onChange, onFormChange, id, value, extraProps, ...extra })
       resource: getResource(V2VVMwareModel, {
         name: v2vvmwareName,
         namespace: settingsValue(basicSettings, NAMESPACE_KEY),
+        isList: false,
+      }),
+    },
+    vmwareToKubevirtOsConfigMap: {
+      resource: getResource(ConfigMapModel, {
+        name: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+        namespace: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
         isList: false,
       }),
     },

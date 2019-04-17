@@ -120,6 +120,7 @@ export const getFormFields = (
       id: 'start-vm',
       title: 'Start virtual machine on creation',
       type: CHECKBOX,
+      isVisible: basicVmSettings => !isImageSourceType(basicVmSettings, PROVISION_SOURCE_IMPORT),
       noBottom: true,
     };
     userTemplateDropdown = {
@@ -270,6 +271,14 @@ const asValueObject = (value, validation) => ({
 // The onChange() bellow should be called with just the diff, not whole copy of the stepData.
 const publish = ({ basicSettings, templates, onChange, dataVolumes }, value, target, formValid, formFields) => {
   let newBasicSettings;
+
+  if (target === PROVISION_SOURCE_TYPE_KEY && value.value === PROVISION_SOURCE_IMPORT) {
+    basicSettings = {
+      ...basicSettings,
+      [START_VM_KEY]: asValueObject(false),
+    };
+  }
+
   if (target === BATCH_CHANGES_KEY) {
     // the "value" is an array of pairs { value, target }
     const difference = value.value.reduce((map, obj) => {

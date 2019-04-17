@@ -2,7 +2,13 @@ import { get } from 'lodash';
 
 import { findKeySuffixValue, getValueByPrefix } from './internal';
 
+export const getKind = value => get(value, 'kind');
+export const getApiGroup = value => get(value, 'apiGroup');
+export const getApiVersion = value => get(value, 'apiVersion');
+
 export const getName = value => get(value, 'metadata.name');
+export const getGeneratedName = value => get(value, 'metadata.generateName');
+export const getOwnerReferences = value => get(value, 'metadata.ownerReferences');
 export const getNamespace = value => get(value, 'metadata.namespace');
 export const getUid = resource => get(resource, 'metadata.uid');
 export const getId = value => `${getNamespace(value)}-${getName(value)}`;

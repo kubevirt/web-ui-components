@@ -40,7 +40,7 @@ const dataVolumeStorage = {
 const dataVolumeTemplateStorage = {
   templateStorage: {
     disk: {
-      name: 'dataVolumeTemplateStorage',
+      name: 'data-volume-template-storage',
       bootOrder: 1,
     },
     volume: {
@@ -64,7 +64,7 @@ const dataVolumeTemplateStorage = {
 const containerStorage = {
   id: 2,
   isBootable: false,
-  name: 'containerStorage',
+  name: 'container-storage',
   storageType: STORAGE_TYPE_CONTAINER,
 };
 

@@ -7,6 +7,8 @@ import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../constants';
 import { getSubPagePath } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
 import {
+  VM_STATUS_V2V_CONVERSION_ERROR,
+  VM_STATUS_V2V_CONVERSION_IN_PROGRESS,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_STARTING,
   VM_STATUS_RUNNING,
@@ -18,7 +20,7 @@ import {
   VM_STATUS_MIGRATING,
   getVmStatus,
 } from '../../utils/status/vm';
-import { getId } from '../../selectors';
+import { getId, getVmImporterPods } from '../../selectors';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 
@@ -70,6 +72,25 @@ const StateImporting = ({ additionalText, ...props }) => (
     {additionalText}
   </StateValue>
 );
+
+const StateV2VConversionInProgress = ({ progress, ...props }) => (
+  <StateValue iconClass="pficon pficon-import" {...props}>
+    V2V Conversion In Progress
+  </StateValue>
+);
+
+StateV2VConversionInProgress.defaultProps = {
+  progress: null,
+};
+StateV2VConversionInProgress.propTypes = {
+  progress: PropTypes.number,
+};
+
+const StateV2VConversionError = ({ ...props }) => (
+  <StateValue iconClass="pficon pficon-error-circle-o" {...props}>
+    V2V Conversion Error
+  </StateValue>
+);
 StateImporting.defaultProps = {
   additionalText: undefined,
 };
@@ -86,23 +107,23 @@ StateError.propTypes = {
 };
 
 export const VmStatuses = props => {
-  const { vm, pods, importerPods, migrations } = props;
-  const statusDetail = getVmStatus(vm, pods, migrations, importerPods);
-  if (importerPods && importerPods.length > 1) {
-    switch (statusDetail.status) {
-      case VM_STATUS_IMPORTING:
-      case VM_STATUS_IMPORT_ERROR:
-        return (
-          <React.Fragment>
-            {importerPods.map(pod => (
-              <div key={getId(pod)}>
-                <VmStatus {...props} importerPods={[pod]} verbose />
-              </div>
-            ))}
-          </React.Fragment>
-        );
-      default:
-    }
+  const { vm, pods, migrations } = props;
+  const statusDetail = getVmStatus(vm, pods, migrations);
+  const importerPods = getVmImporterPods(pods, vm);
+
+  switch (statusDetail.status) {
+    case VM_STATUS_IMPORTING:
+    case VM_STATUS_IMPORT_ERROR:
+      return (
+        <React.Fragment>
+          {importerPods.map(pod => (
+            <div key={getId(pod)}>
+              <VmStatus {...props} pods={[pod]} verbose />
+            </div>
+          ))}
+        </React.Fragment>
+      );
+    default:
   }
   return (
     <div key={importerPods && importerPods.length > 0 ? getId(importerPods[0]) : '6d0c77-has-no-importer-pods'}>
@@ -113,20 +134,42 @@ export const VmStatuses = props => {
 
 VmStatuses.defaultProps = {
   pods: undefined,
-  importerPods: undefined,
   migrations: undefined,
 };
 
 VmStatuses.propTypes = {
   vm: PropTypes.object.isRequired,
   pods: PropTypes.array,
-  importerPods: PropTypes.array,
   migrations: PropTypes.array,
 };
 
-export const VmStatus = ({ vm, pods, importerPods, migrations, verbose }) => {
-  const statusDetail = getVmStatus(vm, pods, migrations, importerPods);
+export const VmStatus = ({ vm, pods, migrations, verbose }) => {
+  const statusDetail = getVmStatus(vm, pods, migrations);
   switch (statusDetail.status) {
+    case VM_STATUS_V2V_CONVERSION_IN_PROGRESS:
+      return (
+        <StateV2VConversionInProgress {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
+      );
+    case VM_STATUS_V2V_CONVERSION_ERROR:
+      return (
+        <StateV2VConversionError {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
+      );
+    case VM_STATUS_IMPORTING:
+      return (
+        <StateImporting
+          linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')}
+          additionalText={verbose ? getAdditionalImportText(statusDetail.pod) : ''}
+        />
+      );
+    case VM_STATUS_IMPORT_ERROR:
+      return (
+        <StateError linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} message={statusDetail.message}>
+          Importer Error
+          {verbose ? getAdditionalImportText(statusDetail.pod) : ''}
+        </StateError>
+      );
+    case VM_STATUS_MIGRATING:
+      return <StateMigrating />; // TODO: add linkTo once migration monitoring page is available
     case VM_STATUS_OFF:
       return <StateOff />;
     case VM_STATUS_RUNNING:
@@ -140,15 +183,6 @@ export const VmStatus = ({ vm, pods, importerPods, migrations, verbose }) => {
           message={statusDetail.message}
         />
       );
-    case VM_STATUS_IMPORTING:
-      return (
-        <StateImporting
-          linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')}
-          additionalText={verbose ? getAdditionalImportText(statusDetail.pod) : ''}
-        />
-      );
-    case VM_STATUS_MIGRATING:
-      return <StateMigrating />; // TODO: add linkTo once migration monitoring page is available
     case VM_STATUS_POD_ERROR:
       return (
         <StateError
@@ -156,13 +190,6 @@ export const VmStatus = ({ vm, pods, importerPods, migrations, verbose }) => {
           message={statusDetail.message}
         >
           Pod Error
-        </StateError>
-      );
-    case VM_STATUS_IMPORT_ERROR:
-      return (
-        <StateError linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} message={statusDetail.message}>
-          Importer Error
-          {verbose ? getAdditionalImportText(statusDetail.pod) : ''}
         </StateError>
       );
     case VM_STATUS_ERROR:
@@ -178,7 +205,6 @@ export const VmStatus = ({ vm, pods, importerPods, migrations, verbose }) => {
 
 VmStatus.defaultProps = {
   pods: undefined,
-  importerPods: undefined,
   migrations: undefined,
   verbose: false,
 };
@@ -186,7 +212,6 @@ VmStatus.defaultProps = {
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
   pods: PropTypes.array,
-  importerPods: PropTypes.array,
   migrations: PropTypes.array,
   verbose: PropTypes.bool,
 };

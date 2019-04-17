@@ -197,6 +197,7 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
       },
       "startVM": Object {
         "id": "start-vm",
+        "isVisible": [Function],
         "noBottom": true,
         "title": "Start virtual machine on creation",
         "type": "checkbox",
@@ -241,14 +242,33 @@ exports[`<BasicSettingsTab /> for Create VM Template renders correctly 1`] = `
         "title": "vCenter Instance",
         "type": "custom",
       },
-      "vmwareURL": Object {
+      "vmwareHostname": Object {
         "defaultValue": "https://host:port/",
         "help": "Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\".",
-        "id": "vcenter-url-dropdown",
+        "id": "vcenter-hostname-dropdown",
         "isVisible": [Function],
         "required": true,
-        "title": "vCenter URL",
+        "title": "vCenter Hostname",
         "validate": [Function],
+      },
+      "vmwareNamespaceAlert": Object {
+        "CustomComponent": [Function],
+        "id": "vcenter-namespace-alert",
+        "isVisible": [Function],
+        "title": " ",
+        "type": "custom",
+      },
+      "vmwareStatus": Object {
+        "CustomComponent": [Function],
+        "extraProps": Object {
+          "WithResources": [Function],
+          "basicSettings": Object {},
+          "onCheckConnection": [Function],
+        },
+        "id": "vcenter-status",
+        "isVisible": [Function],
+        "title": " ",
+        "type": "custom",
       },
       "vmwareUserName": Object {
         "help": "User name to be used for connection to a vCenter instance.",
@@ -562,6 +582,7 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
       },
       "startVM": Object {
         "id": "start-vm",
+        "isVisible": [Function],
         "noBottom": true,
         "title": "Start virtual machine on creation",
         "type": "checkbox",
@@ -606,14 +627,33 @@ exports[`<BasicSettingsTab /> renders correctly 1`] = `
         "title": "vCenter Instance",
         "type": "custom",
       },
-      "vmwareURL": Object {
+      "vmwareHostname": Object {
         "defaultValue": "https://host:port/",
         "help": "Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\".",
-        "id": "vcenter-url-dropdown",
+        "id": "vcenter-hostname-dropdown",
         "isVisible": [Function],
         "required": true,
-        "title": "vCenter URL",
+        "title": "vCenter Hostname",
         "validate": [Function],
+      },
+      "vmwareNamespaceAlert": Object {
+        "CustomComponent": [Function],
+        "id": "vcenter-namespace-alert",
+        "isVisible": [Function],
+        "title": " ",
+        "type": "custom",
+      },
+      "vmwareStatus": Object {
+        "CustomComponent": [Function],
+        "extraProps": Object {
+          "WithResources": [Function],
+          "basicSettings": Object {},
+          "onCheckConnection": [Function],
+        },
+        "id": "vcenter-status",
+        "isVisible": [Function],
+        "title": " ",
+        "type": "custom",
       },
       "vmwareUserName": Object {
         "help": "User name to be used for connection to a vCenter instance.",

@@ -31,7 +31,7 @@ exports[`<VCenterVmsWithPrefill /> does prefill 1`] = `
       "vCenterInstance": Object {
         "value": "Connect to New Instance",
       },
-      "vmwareURL": Object {
+      "vmwareHostname": Object {
         "value": "my.domain.com",
       },
       "vmwareUserName": Object {
@@ -315,6 +315,58 @@ exports[`<VCenterVmsWithPrefill /> does prefill 1`] = `
     </ButtonGroup>
   </Dropdown>
 </VCenterVmsWithPrefill>
+`;
+
+exports[`<VCenterVmsWithPrefill /> does prefill 2`] = `
+Object {
+  "target": "intermediaryStorageData",
+  "value": Array [
+    Object {
+      "data": Object {
+        "fileName": "[datastore12] ftp-01/ftp-01.vmdk",
+        "mountPath": "/data/vm/disk1",
+      },
+      "id": 0,
+      "isBootable": true,
+      "name": "disk0",
+      "size": 1,
+      "storageClass": undefined,
+      "storageType": "external-import",
+    },
+    Object {
+      "data": Object {
+        "fileName": "filename1",
+        "mountPath": "/data/vm/disk2",
+      },
+      "id": 1,
+      "isBootable": false,
+      "name": "disk1",
+      "size": 2,
+      "storageClass": undefined,
+      "storageType": "external-import",
+    },
+    Object {
+      "data": Object {
+        "mountPath": "/var/tmp",
+      },
+      "id": 2,
+      "name": "v2v-conversion-temp",
+      "size": 2,
+      "storageClass": undefined,
+      "storageType": "external-v2v-temp",
+    },
+    Object {
+      "data": Object {
+        "mountPath": "/opt/vmware-vix-disklib-distrib",
+      },
+      "editable": false,
+      "id": 3,
+      "name": "vddk-pvc",
+      "storageClass": undefined,
+      "storageType": "external-v2v-vddk",
+    },
+  ],
+}
 `;
 
 exports[`<VCenterVmsWithPrefill /> renders correctly 1`] = `

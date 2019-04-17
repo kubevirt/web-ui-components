@@ -4,7 +4,7 @@ import { findIndex } from 'lodash';
 import { Wizard } from 'patternfly-react';
 
 import { BasicSettingsTab, onCloseBasic } from './BasicSettingsTab';
-import { StorageTab, validateStorage } from './StorageTab';
+import { StorageTab } from './StorageTab';
 import { ResultTab } from './ResultTab';
 import { ResultTabRow } from './ResultTabRow';
 import { NetworksTab } from './NetworksTab';
@@ -48,7 +48,7 @@ import {
   NEXT,
   ERROR,
   CREATED,
-  NOT_CREATED,
+  FAILED,
 } from './strings';
 
 import {
@@ -58,7 +58,7 @@ import {
   hasAutoAttachPodInterface,
 } from '../../../utils/templates';
 
-import { getName } from '../../../selectors';
+import { getName, getGeneratedName } from '../../../selectors';
 
 // left intentionally empty
 const TEMPLATE_ROOT_STORAGE = {};
@@ -225,29 +225,11 @@ export const onVmwareVmChanged = (props, stepData) => {
   }
 
   if (sourceDisks) {
-    const rows = sourceDisks.map((src, index) => {
-      const row = {
-        rootStorage: {},
-        name: src.name,
-        isBootable: false, // TODO
-        storageType: STORAGE_TYPE_DATAVOLUME, // TODO: PVC should be enough but validation expects the PVC to be already created
-        size: src.capacity / (1024 * 1024 * 1024), // bytes to GB
-        storageClass: undefined, // Let the user select proper mapping
-
-        id: index,
-        editable: true,
-        edit: false,
-        importSourceId: src.id, // will be used for pairing when Conversion POD is executed
-      };
-      row.errors = validateStorage(row);
-      return row;
-    });
-
     stepData = {
       ...stepData,
       [STORAGE_TAB_KEY]: {
         ...stepData[STORAGE_TAB_KEY],
-        value: rows,
+        value: sourceDisks,
         // the "valid" field will be set within StorageTab constructor processing based on the "row.error"
       },
     };
@@ -338,13 +320,14 @@ export class CreateVmWizard extends React.Component {
     const create = this.props.createTemplate ? createVmTemplate : createVm;
     const k8sObjectToResult = (obj, jmessage) => ({
       content: obj,
-      title: `${obj.kind} ${getName(obj)} ${jmessage}`,
+      title: `${obj.kind} ${getName(obj) || getGeneratedName(obj)} ${jmessage}`,
     });
+    const basicSettings = this.state.stepData[BASIC_SETTINGS_TAB_KEY].value;
 
     create(
-      this.props.k8sCreate,
+      { k8sCreate: this.props.k8sCreate, k8sPatch: this.props.k8sPatch },
       this.props.templates,
-      this.state.stepData[BASIC_SETTINGS_TAB_KEY].value,
+      basicSettings,
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value,
       this.props.persistentVolumeClaims
@@ -352,7 +335,7 @@ export class CreateVmWizard extends React.Component {
       .then(objects =>
         this.onStepDataChanged(RESULT_TAB_KEY, objects.map(object => k8sObjectToResult(object, CREATED)), true)
       )
-      .catch(({ message, objects }) =>
+      .catch(({ message, failedObject, objects }) =>
         this.onStepDataChanged(
           RESULT_TAB_KEY,
           [
@@ -361,7 +344,8 @@ export class CreateVmWizard extends React.Component {
               title: ERROR,
               expanded: true,
             },
-            ...objects.map(object => k8sObjectToResult(object, NOT_CREATED)),
+            failedObject && k8sObjectToResult(failedObject, FAILED),
+            ...(objects && objects.map(object => k8sObjectToResult(object, CREATED))),
           ],
           false
         )
