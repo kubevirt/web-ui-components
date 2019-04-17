@@ -11,8 +11,11 @@
   flex-direction: column;
 
   .kubevirt-health__item {
-    border-bottom: 1px solid #ededed;
     padding-top: 5px;
+  }
+
+  .kubevirt-health__separator {
+    border-bottom: 1px solid #ededed;
   }
 }
 /* stylelint-enable */

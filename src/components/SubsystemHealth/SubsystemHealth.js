@@ -15,12 +15,14 @@ export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, Loading
         state={k8sHealth.state}
         LoadingComponent={LoadingComponent}
       />
+      <div className="kubevirt-health__separator" />
       <HealthItem
         message="CNV"
         details={kubevirtHealth.message}
         state={kubevirtHealth.state}
         LoadingComponent={LoadingComponent}
       />
+      <div className="kubevirt-health__separator" />
       <HealthItem
         message="Ceph"
         details={cephHealth.message}

@@ -30,6 +30,9 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
       </div>
     </div>
     <div
+      class="kubevirt-health__separator"
+    />
+    <div
       class="kubevirt-health__item"
     >
       <div
@@ -53,6 +56,9 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="kubevirt-health__separator"
+    />
     <div
       class="kubevirt-health__item"
     >
