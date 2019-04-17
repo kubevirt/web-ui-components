@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { HealthItem } from '../Dashboard/Health/HealthItem';
-import { HealthBody } from '../Dashboard/Health/HealthBody';
+import { HealthItem } from '../Health/HealthItem';
+import { HealthBody } from '../Health/HealthBody';
 
-import { InlineLoading } from '../Loading';
+import { InlineLoading } from '../../Loading';
 
 export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => (
   <div>

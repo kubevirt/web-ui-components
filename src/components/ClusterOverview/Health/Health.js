@@ -10,7 +10,7 @@ import {
 } from '../../Dashboard/DashboardCard';
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
-import { SubsystemHealth } from '../../SubsystemHealth';
+import { SubsystemHealth } from '../../Dashboard/SubsystemHealth';
 import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
 import { getK8sHealthState, getKubevirtHealthState, getOCSHealthState } from '../../Dashboard/Health/utils';

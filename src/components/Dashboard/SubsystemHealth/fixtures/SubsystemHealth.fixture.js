@@ -1,6 +1,6 @@
 import { SubsystemHealth } from '../SubsystemHealth';
-import { OK_STATE, WARNING_STATE, ERROR_STATE } from '../../Dashboard/Health/HealthItem';
-import { OCP_HEALTHY, CNV_ERROR, OCS_DEGRADED } from '../../Dashboard/Health/strings';
+import { OK_STATE, WARNING_STATE, ERROR_STATE } from '../../Health/HealthItem';
+import { OCP_HEALTHY, CNV_ERROR, OCS_DEGRADED } from '../../Health/strings';
 
 export const healthData = {
   k8sHealth: {
