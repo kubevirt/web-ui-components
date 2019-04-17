@@ -13,56 +13,83 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
   </div>
   <div>
     <div
-      class="kubevirt-health__body"
+      class="kubevirt-health__body--subsystem"
     >
       <div
         class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
-        />
+        <div
+          class="kubevirt-health__icon kubevirt-health__icon--ok"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
-          <div
-            class="kubevirt-health__title"
+          <span
+            class="kubevirt-health__text"
           >
             OpenShift
+          </span>
+          <div
+            class="kubevirt-health__text kubevirt-health__subtitle"
+          >
+            OpenShift is healthy
           </div>
         </div>
       </div>
       <div
         class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
-        />
+        <div
+          class="kubevirt-health__icon kubevirt-health__icon--error"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-exclamation-circle"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
-          <div
-            class="kubevirt-health__title"
+          <span
+            class="kubevirt-health__text"
           >
             CNV
+          </span>
+          <div
+            class="kubevirt-health__text kubevirt-health__subtitle"
+          >
+            CNV is in error state
           </div>
         </div>
       </div>
       <div
         class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
-        />
+        <div
+          class="kubevirt-health__icon kubevirt-health__icon--warning"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-exclamation-triangle"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
-          <div
-            class="kubevirt-health__title"
+          <span
+            class="kubevirt-health__text"
           >
             Ceph
+          </span>
+          <div
+            class="kubevirt-health__text kubevirt-health__subtitle"
+          >
+            OCS health is degraded
           </div>
         </div>
       </div>

@@ -1,3 +1,10 @@
+.kubevirt-health__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* stylelint-disable plugin/selector-bem-pattern */
 .kubevirt-health__body--subsystem {
   display: flex;
   flex-wrap: wrap;
@@ -8,16 +15,11 @@
     padding-top: 5px;
   }
 }
+/* stylelint-enable */
 
 .kubevirt-health__text {
   font-size: 0.875rem;
   margin-left: 1rem;
-}
-
-.kubevirt-health__item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
 }
 
 .kubevirt-health__message {

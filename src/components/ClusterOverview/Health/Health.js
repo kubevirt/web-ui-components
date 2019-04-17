@@ -35,14 +35,16 @@ const getClusterHealth = subsystemStates => {
     }
   });
 
-  if (sortedStates.errorStates.length > 1) {
-    healthState = { state: ERROR_STATE, message: 'Multiple errors', details: 'Cluster health is degrated' };
-  } else if(sortedStates.errorStates.length === 1) {
-    healthState = sortedStates.errorStates[0];
-  } else if (sortedStates.warningStates.length > 1) {
-    healthState = { state: WARNING_STATE, message: 'Multiple warnings', details: 'Cluster health is degrated' };
-  } else if (sortedStates.warningStates.length === 1) {
-    healthState = sortedStates.warningStates[0];
+  if (sortedStates.errorStates.length > 0) {
+    healthState =
+      sortedStates.errorStates.length === 1
+        ? sortedStates.errorStates[0]
+        : { state: ERROR_STATE, message: 'Multiple errors', details: 'Cluster health is degrated' };
+  } else if (sortedStates.warningStates.length > 0) {
+    healthState =
+      sortedStates.warningStates.length === 1
+        ? sortedStates.warningStates[0]
+        : { state: WARNING_STATE, message: 'Multiple warnings', details: 'Cluster health is degrated' };
   }
 
   return healthState;
@@ -70,7 +72,7 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
       </DashboardCardHeader>
       <DashboardCardBody isLoading={!(k8sHealth && kubevirtHealth && cephHealth)} LoadingComponent={LoadingComponent}>
         <HealthBody>
-          <HealthItem state={healthState.state} message={healthState.message} details={healthState.details}/>
+          <HealthItem state={healthState.state} message={healthState.message} details={healthState.details} />
         </HealthBody>
       </DashboardCardBody>
     </DashboardCard>

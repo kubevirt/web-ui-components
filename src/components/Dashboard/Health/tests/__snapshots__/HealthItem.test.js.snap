@@ -4,20 +4,22 @@ exports[`<HealthItem /> renders correctly 1`] = `
 <div
   className="kubevirt-health__item"
 >
-  <Icon
+  <div
     className="kubevirt-health__icon kubevirt-health__icon--warning"
-    name="exclamation-triangle"
-    size="2x"
-    type="fa"
-  />
+  >
+    <Icon
+      name="exclamation-triangle"
+      type="fa"
+    />
+  </div>
   <div
     className="kubevirt-health__message"
   >
-    <div
-      className="kubevirt-health__title"
+    <span
+      className="kubevirt-health__text"
     >
       OCS is Healthy
-    </div>
+    </span>
   </div>
 </div>
 `;

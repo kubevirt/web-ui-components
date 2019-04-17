@@ -22,24 +22,26 @@ exports[`<Health /> renders correctly 1`] = `
   <div
     class="card-pf-body"
   >
-    <div
-      class="kubevirt-health__body"
-    >
+    <div>
       <div
         class="kubevirt-health__item"
       >
-        <span
-          aria-hidden="true"
-          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
-        />
+        <div
+          class="kubevirt-health__icon kubevirt-health__icon--ok"
+        >
+          <span
+            aria-hidden="true"
+            class="fa fa-check-circle"
+          />
+        </div>
         <div
           class="kubevirt-health__message"
         >
-          <div
-            class="kubevirt-health__title"
+          <span
+            class="kubevirt-health__text"
           >
             Cluster is healthy
-          </div>
+          </span>
         </div>
       </div>
     </div>
