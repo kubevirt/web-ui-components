@@ -3,7 +3,7 @@
 exports[`<SubsystemHealth /> renders correctly 1`] = `
 <div>
   <div
-    class="kubevirt-health__body--subsystem"
+    class="kubevirt-health__body kubevirt-health__subsystem-body"
   >
     <div
       class="kubevirt-health__item"

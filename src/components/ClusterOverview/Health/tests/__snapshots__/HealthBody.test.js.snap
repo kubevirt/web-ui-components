@@ -22,7 +22,9 @@ exports[`<Health /> renders correctly 1`] = `
   <div
     class="card-pf-body"
   >
-    <div>
+    <div
+      class="kubevirt-health__body"
+    >
       <div
         class="kubevirt-health__item"
       >

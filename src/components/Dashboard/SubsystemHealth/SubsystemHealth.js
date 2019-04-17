@@ -8,7 +8,7 @@ import { InlineLoading } from '../../Loading';
 
 export const SubsystemHealth = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => (
   <div>
-    <HealthBody className="kubevirt-health__body--subsystem">
+    <HealthBody className="kubevirt-health__subsystem-body">
       <HealthItem
         message="OpenShift"
         details={k8sHealth.message}

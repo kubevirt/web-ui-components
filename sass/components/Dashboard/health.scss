@@ -4,11 +4,16 @@
   align-items: center;
 }
 
+.kubevirt-health__body {
+  height: 2.3em;
+}
+
 /* stylelint-disable plugin/selector-bem-pattern */
-.kubevirt-health__body--subsystem {
+.kubevirt-health__subsystem-body {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  height: auto;
 
   .kubevirt-health__item {
     padding-top: 5px;
@@ -30,7 +35,7 @@
 }
 
 .kubevirt-health__subtitle {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   color: grey;
 }
 

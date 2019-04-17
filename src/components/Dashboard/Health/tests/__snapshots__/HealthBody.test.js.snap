@@ -2,7 +2,7 @@
 
 exports[`<HealthBody /> renders correctly 1`] = `
 <div
-  className={null}
+  className="kubevirt-health__body"
 >
   <HealthItem
     LoadingComponent={[Function]}

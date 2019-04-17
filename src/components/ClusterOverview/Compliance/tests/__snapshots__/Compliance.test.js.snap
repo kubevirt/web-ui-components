@@ -14,21 +14,25 @@ exports[`<Compliance /> renders correctly 1`] = `
     </h2>
   </div>
   <div
-    class="card-pf-body kubevirt-compliance__body"
+    class="card-pf-body"
   >
     <div
-      class="kubevirt-health__icon--ok kubevirt-health__icon"
+      class="kubevirt-compliance__body"
     >
+      <div
+        class="kubevirt-health__icon--ok kubevirt-health__icon"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle"
+        />
+      </div>
       <span
-        aria-hidden="true"
-        class="fa fa-check-circle"
-      />
+        class="kubevirt-health__text"
+      >
+        All nodes compliant
+      </span>
     </div>
-    <span
-      class="kubevirt-health__text"
-    >
-      All nodes compliant
-    </span>
   </div>
 </div>
 `;
