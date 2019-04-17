@@ -42,18 +42,18 @@ export const getOCSHealthStatus = ocsResponse => {
   return OCSHealthStatus[value] || OCSHealthStatus[3];
 }
 
-export const OCSHealth = ({ data, loaded }) => {
-  const status = getOCSHealthStatus(get(data, 'healthy.data'));
+export const OCSHealth = ({ response, LoadingComponent }) => {
+  const state = getOCSHealthStatus(response);
   return (
     <DashboardCard>
       <DashboardCardHeader>
         <DashboardCardTitle>Health</DashboardCardTitle>
       </DashboardCardHeader>
-      <DashboardCardBody isLoading={!loaded} LoadingComponent={InlineLoading}>
+      <DashboardCardBody isLoading={state.state === LOADING_STATE} LoadingComponent={LoadingComponent}>
         <HealthBody>
           <HealthItem
-            message={data ? status.message : null}
-            state={data ? status.state : null}
+            message={state.message}
+            state={state.state}
           />
         </HealthBody>
       </DashboardCardBody>
@@ -62,12 +62,13 @@ export const OCSHealth = ({ data, loaded }) => {
 };
 
 OCSHealth.defaultProps = {
-  loaded: false,
+  response: null,
+  LoadingComponent: InlineLoading,
 };
 
 OCSHealth.propTypes = {
-  data: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  response: PropTypes.object,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 const OCSHealthConnected = () => (
