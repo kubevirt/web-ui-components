@@ -473,7 +473,7 @@ export class CreateVmWizard extends React.Component {
       render: () => {
         const stepData = this.state.stepData[RESULT_TAB_KEY];
         return (
-          <ResultTab isSuccessful={stepData.valid} createTemplate={this.props.createTemplate}>
+          <ResultTab isSuccessful={stepData.valid} isCreateTemplate={this.props.createTemplate}>
             {stepData.value.map((result, index) => (
               <ResultTabRow key={index} {...result} />
             ))}
@@ -488,6 +488,7 @@ export class CreateVmWizard extends React.Component {
     const lastStepReached = this.lastStepReached();
 
     const createVmText = this.props.createTemplate ? CREATE_VM_TEMPLATE : CREATE_VM;
+
     return (
       <Wizard.Pattern
         show
