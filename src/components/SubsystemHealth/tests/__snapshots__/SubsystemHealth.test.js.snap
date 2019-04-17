@@ -18,11 +18,10 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
       <div
         class="kubevirt-health__item"
       >
-        <div>
-          <div
-            class="spinner spinner-md blank-slate-pf-icon"
-          />
-        </div>
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
+        />
         <div
           class="kubevirt-health__message"
         >
@@ -36,11 +35,10 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
       <div
         class="kubevirt-health__item"
       >
-        <div>
-          <div
-            class="spinner spinner-md blank-slate-pf-icon"
-          />
-        </div>
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
+        />
         <div
           class="kubevirt-health__message"
         >
@@ -54,11 +52,10 @@ exports[`<SubsystemHealth /> renders correctly 1`] = `
       <div
         class="kubevirt-health__item"
       >
-        <div>
-          <div
-            class="spinner spinner-md blank-slate-pf-icon"
-          />
-        </div>
+        <span
+          aria-hidden="true"
+          class="fa fa-check-circle fa-2x kubevirt-health__icon kubevirt-health__icon--ok"
+        />
         <div
           class="kubevirt-health__message"
         >

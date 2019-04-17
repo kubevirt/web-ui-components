@@ -4,8 +4,11 @@ exports[`<HealthItem /> renders correctly 1`] = `
 <div
   className="kubevirt-health__item"
 >
-  <InlineLoading
-    size="md"
+  <Icon
+    className="kubevirt-health__icon kubevirt-health__icon--warning"
+    name="exclamation-triangle"
+    size="2x"
+    type="fa"
   />
   <div
     className="kubevirt-health__message"

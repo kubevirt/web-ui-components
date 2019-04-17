@@ -11,7 +11,7 @@ exports[`<HealthBody /> renders correctly 1`] = `
     icon="check-circle"
     isRow={false}
     message="OCS is Healthy"
-    state="LOADING_STATE"
+    state={null}
   />
 </div>
 `;
