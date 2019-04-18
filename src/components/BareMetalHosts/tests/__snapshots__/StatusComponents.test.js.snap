@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<AddDiscoveredHostLink /> renders a link to add discovered host 1`] = `
+<a>
+  <IconAndText
+    icon="add-circle-o"
+    text="Add host"
+  />
+</a>
+`;
+
 exports[`<GenericError /> renders an error message 1`] = `
 <IconAndText
   icon="error-circle-o"

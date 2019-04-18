@@ -1,4 +1,11 @@
-import { GenericError, GenericProgress, GenericSuccess, GenericStatus, ValidationError } from '../StatusComponents';
+import {
+  GenericError,
+  GenericProgress,
+  GenericSuccess,
+  GenericStatus,
+  ValidationError,
+  AddDiscoveredHostLink,
+} from '../StatusComponents';
 
 export default [
   {
@@ -49,6 +56,14 @@ export default [
     props: {
       status: 'provisioned',
       text: 'Provisioned',
+    },
+  },
+  {
+    component: AddDiscoveredHostLink,
+    name: 'Show AddDiscoveredHostLink',
+    props: {
+      status: 'discovered',
+      text: 'Add host',
     },
   },
 ];

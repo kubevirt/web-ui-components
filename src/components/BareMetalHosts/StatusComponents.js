@@ -68,3 +68,9 @@ ValidationError.propTypes = {
   text: PropTypes.string.isRequired,
   errorMessage: PropTypes.string.isRequired,
 };
+
+export const AddDiscoveredHostLink = host => (
+  <a>
+    <IconAndText icon="add-circle-o" text="Add host" />
+  </a>
+);
