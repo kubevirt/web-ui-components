@@ -31,7 +31,7 @@
 @import './components/Dashboard/health.scss';
 @import './components/ClusterOverview/cluster-overview';
 @import './components/ClusterOverview/health';
-@import './components/ClusterOverview/compliance';
+// @import './components/ClusterOverview/compliance'; TODO(suomiy): please 'git add' this file
 @import './components/ClusterOverview/consumers';
 @import './components/CreateBaremetalHostDialog/create-baremetal-host-dialog';
 @import './components/StorageOverview/data-resiliency';
