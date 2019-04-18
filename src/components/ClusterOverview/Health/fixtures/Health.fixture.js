@@ -5,11 +5,13 @@ export const healthData = {
     response: 'ok',
   },
   cephHealth: {
-    result: [
-      {
-        value: [null, 0],
-      },
-    ],
+    data: {
+      result: [
+        {
+          value: [null, 0],
+        },
+      ],
+    },
   },
   kubevirtHealth: {
     apiserver: {
