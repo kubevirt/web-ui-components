@@ -50,7 +50,7 @@ export class UtilizationItem extends React.PureComponent {
     if (isLoading) {
       chart = <LoadingComponent />;
     } else if (data) {
-      const chartData = data.map((val, index) => ({ x: index, y: Number(val.toFixed(1)) }));
+      const chartData = data.map((val, index) => ({ x: index, y: val ? Number(val.toFixed(1)) : 0 }));
       actual = `${Math.round(data[data.length - 1])} ${unit}`;
       chart = (
         <Chart
