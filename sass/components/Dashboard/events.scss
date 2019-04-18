@@ -38,6 +38,20 @@
     border-bottom: solid 1px #ededed;
     padding: 0;
   }
+
+  .co-m-resource-icon {
+    font-size: 0.75rem;
+    padding: 0 4px;
+    min-width: 17px;
+    min-height: 17px;
+    display: inline-flex;
+    justify-content: center;
+    line-height: inherit;
+  }
+
+  .co-sysevent__subheader > *:not(:first-child) {
+    margin-left: 6px;
+  }
 }
 
 .kubevirt-events__timestamp i {
@@ -65,5 +79,7 @@
 
 .kubevirt-events__icon--error {
   color: #c9190b;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
