@@ -11,7 +11,7 @@ import {
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
 import { SubsystemHealth } from '../../Dashboard/SubsystemHealth';
-import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE } from '../../Dashboard/Health/HealthItem';
+import { HealthItem, OK_STATE, ERROR_STATE, WARNING_STATE, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
 import { getK8sHealthState, getKubevirtHealthState, getOCSHealthState } from '../../Dashboard/Health/utils';
 
@@ -20,6 +20,7 @@ const getClusterHealth = subsystemStates => {
   const sortedStates = {
     errorStates: [],
     warningStates: [],
+    loadingStates: [],
   };
 
   subsystemStates.forEach(state => {
@@ -30,12 +31,17 @@ const getClusterHealth = subsystemStates => {
       case WARNING_STATE:
         sortedStates.warningStates.push(state);
         break;
+      case LOADING_STATE:
+        sortedStates.loadingStates.push(state);
+        break;
       default:
         break;
     }
   });
 
-  if (sortedStates.errorStates.length > 0) {
+  if (sortedStates.loadingStates.length > 0) {
+    healthState = { state: LOADING_STATE };
+  } else if (sortedStates.errorStates.length > 0) {
     healthState =
       sortedStates.errorStates.length === 1
         ? sortedStates.errorStates[0]
@@ -70,9 +76,14 @@ export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent
           />
         </DashboardCardTitleSeeAll>
       </DashboardCardHeader>
-      <DashboardCardBody isLoading={!(k8sHealth && kubevirtHealth && cephHealth)} LoadingComponent={LoadingComponent}>
+      <DashboardCardBody>
         <HealthBody>
-          <HealthItem state={healthState.state} message={healthState.message} details={healthState.details} />
+          <HealthItem
+            state={healthState.state}
+            message={healthState.message}
+            details={healthState.details}
+            LoadingComponent={LoadingComponent}
+          />
         </HealthBody>
       </DashboardCardBody>
     </DashboardCard>

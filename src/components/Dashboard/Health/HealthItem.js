@@ -37,7 +37,7 @@ export const HealthItem = ({ state, LoadingComponent, message, details }) => (
   <div className="kubevirt-health__item">
     {state === LOADING_STATE ? <LoadingComponent /> : getIcon(state)}
     <div>
-      <span className="kubevirt-health__text">{message}</span>
+      {message && <span className="kubevirt-health__text">{message}</span>}
       {details && <div className="kubevirt-health__text kubevirt-health__subtitle">{details}</div>}
     </div>
   </div>
@@ -46,11 +46,12 @@ export const HealthItem = ({ state, LoadingComponent, message, details }) => (
 HealthItem.defaultProps = {
   details: null,
   state: null,
+  message: null,
   LoadingComponent: InlineLoading,
 };
 
 HealthItem.propTypes = {
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   details: PropTypes.string,
   state: PropTypes.string,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
