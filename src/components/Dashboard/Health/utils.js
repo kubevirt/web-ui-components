@@ -53,6 +53,6 @@ export const getOCSHealthState = ocsResponse => {
   if (!ocsResponse) {
     return { state: LOADING_STATE };
   }
-  const value = get(ocsResponse, 'result[0].value[1]');
+  const value = get(ocsResponse, 'data.result[0].value[1]');
   return OCSHealthStatus[value] || OCSHealthStatus[3];
 };
