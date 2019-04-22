@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import { Button, Alert, FieldLevelHelp, Icon, Tooltip, OverlayTrigger } from 'patternfly-react';
 import classNames from 'classnames';
 
@@ -50,14 +50,20 @@ export class VmDetails extends React.Component {
       k8sError: null,
       templateError: null,
       form: {},
+      preEditForm: {},
       template: null,
     };
   }
 
-  setEditing = editing =>
-    this.setState({
-      editing,
-    });
+  setEditing = editing => this.setState({ editing });
+
+  onCancel = () => {
+    this.setState(prevState => ({ form: prevState.preEditForm, editing: false }));
+  };
+
+  onEdit = () => {
+    this.setState(prevState => ({ preEditForm: cloneDeep(prevState.form), editing: true }));
+  };
 
   onFormChange = (formKey, newValue, key, valid) =>
     this.setState(state => ({
@@ -185,14 +191,14 @@ export class VmDetails extends React.Component {
             <FieldLevelHelp placement="top" content="Please turn off the VM before editing" />
           </div>
         )}
-        <Button disabled={this.state.updating || !vmIsOff} onClick={() => this.setEditing(true)}>
+        <Button disabled={this.state.updating || !vmIsOff} onClick={() => this.onEdit()}>
           Edit
         </Button>
       </Fragment>
     );
     const cancelSaveButton = (
       <Fragment>
-        <Button onClick={() => this.setEditing(false)}>Cancel</Button>
+        <Button onClick={() => this.onCancel()}>Cancel</Button>
         <Button bsStyle="primary" disabled={!this.isFormValid()} onClick={this.updateVmDetails}>
           Save
         </Button>
