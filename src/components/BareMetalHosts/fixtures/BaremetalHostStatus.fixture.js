@@ -20,4 +20,5 @@ export default [
   createFixture('Show progress state for `match profile` status', 'match profile'),
   createFixture('Show error state for `provisioning error` status', 'provisioning error'),
   createFixture('Show error state for `power management error` status', 'power management error'),
+  createFixture('Show add host link for `discovered` status', 'discovered'),
 ];

@@ -1,7 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { GenericError, GenericProgress, GenericSuccess, GenericStatus, ValidationError } from '../StatusComponents';
+import {
+  GenericError,
+  GenericProgress,
+  GenericSuccess,
+  GenericStatus,
+  ValidationError,
+  AddDiscoveredHostLink,
+} from '../StatusComponents';
 
 import StatusComponentsFixture from '../fixtures/StatusComponents.fixture';
 
@@ -11,6 +18,7 @@ const testGenericSuccess = () => <GenericSuccess {...StatusComponentsFixture[2].
 const testGenericErrorWithDetails = () => <GenericError {...StatusComponentsFixture[3].props} />;
 const testValidationError = () => <ValidationError {...StatusComponentsFixture[4].props} />;
 const testGenericStatus = () => <GenericStatus {...StatusComponentsFixture[5].props} />;
+const testAddDiscoveredHostLink = () => <AddDiscoveredHostLink {...StatusComponentsFixture[6].props} />;
 
 describe('<GenericProgress />', () => {
   it('renders a progress message', () => {
@@ -45,6 +53,12 @@ describe('<ValidationError />', () => {
 describe('<GenericStatus />', () => {
   it('renders a generic status string', () => {
     const component = shallow(testGenericStatus());
+    expect(component).toMatchSnapshot();
+  });
+});
+describe('<AddDiscoveredHostLink />', () => {
+  it('renders a link to add discovered host', () => {
+    const component = shallow(testAddDiscoveredHostLink());
     expect(component).toMatchSnapshot();
   });
 });

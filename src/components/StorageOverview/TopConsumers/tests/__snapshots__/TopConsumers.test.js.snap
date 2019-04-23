@@ -1,91 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TopConsumers /> data-renders-correctly 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
->
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
-  >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
-    >
-      Top Projects by Used Capacity
-    </h2>
-  </div>
-  <div
-    class="card-pf-body"
-  >
-    <div>
-      <div
-        class="row"
-      >
-        <div
-          class="kubevirt-top-consumer__time-duration"
-        >
-          Last 6 hours
-        </div>
-      </div>
-      <div
-        class="row"
-      >
-        <div
-          class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-        >
-          <div
-            class=" kubevirt-top-consumer__line-chart"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
+exports[`<TopConsumers /> data-renders-correctly 1`] = `Object {}`;
 
 exports[`<TopConsumers /> no-data-renders-correctly 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
+<DashboardCard
+  className={null}
 >
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
+  <DashboardCardHeader
+    className={null}
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <DashboardCardTitle
+      className={null}
     >
-      Top Projects by Used Capacity
-    </h2>
-  </div>
-  <div
-    class="card-pf-body"
+      Top Projects by Requested Capacity
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
   >
-    <div>
-      No data available
-    </div>
-  </div>
-</div>
+    <TopConsumersBody
+      topConsumerStats={Array []}
+    />
+  </DashboardCardBody>
+</DashboardCard>
 `;
 
 exports[`<TopConsumers /> render-correctly-on-loading 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
+<DashboardCard
+  className={null}
 >
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
+  <DashboardCardHeader
+    className={null}
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <DashboardCardTitle
+      className={null}
     >
-      Top Projects by Used Capacity
-    </h2>
-  </div>
-  <div
-    class="card-pf-body"
+      Top Projects by Requested Capacity
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={true}
   >
-    <div>
-      <div
-        class="spinner spinner-md blank-slate-pf-icon"
-      />
-    </div>
-  </div>
-</div>
+    <TopConsumersBody
+      topConsumerStats={Array []}
+    />
+  </DashboardCardBody>
+</DashboardCard>
 `;

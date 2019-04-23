@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -7,32 +8,51 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
-import HealthBody from '../Health/HealthBody';
-import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
+import { ClusterOverviewContext } from '../ClusterOverviewContext';
 import { InlineLoading } from '../../Loading';
+import { HealthBody } from '../../Dashboard/Health/HealthBody';
+import { HealthItem, LOADING_STATE, OK_STATE, ERROR_STATE } from '../../Dashboard/Health/HealthItem';
 
-export const Compliance = ({ data, loaded }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody isLoading={!loaded} LoadingComponent={InlineLoading}>
-      <HealthBody className="kubevirt-compliance__body" data={data} />
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export const Compliance = ({ complianceData, LoadingComponent }) => {
+  let complianceState;
+  if (!complianceData) {
+    complianceState = { state: LOADING_STATE };
+  } else {
+    const compliaceIsOk = get(complianceData, 'result') === 'ok';
+    complianceState = {
+      state: compliaceIsOk ? OK_STATE : ERROR_STATE,
+      message: compliaceIsOk ? 'All nodes compliant' : 'Error occured',
+    };
+  }
+
+  return (
+    <DashboardCard>
+      <DashboardCardHeader>
+        <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
+      </DashboardCardHeader>
+      <DashboardCardBody>
+        <HealthBody>
+          <HealthItem
+            state={complianceState.state}
+            message={complianceState.message}
+            LoadingComponent={LoadingComponent}
+          />
+        </HealthBody>
+      </DashboardCardBody>
+    </DashboardCard>
+  );
+};
 
 Compliance.defaultProps = {
-  loaded: false,
+  LoadingComponent: InlineLoading,
+  complianceData: null,
 };
 
 Compliance.propTypes = {
-  data: PropTypes.object.isRequired,
-  loaded: PropTypes.bool,
+  complianceData: PropTypes.object,
+  LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const ComplianceConnected = () => (
-  <ClusterOverviewContextGenericConsumer Component={Compliance} dataPath="complianceData" />
+export const ComplianceConnected = () => (
+  <ClusterOverviewContext.Consumer>{props => <Compliance {...props} />}</ClusterOverviewContext.Consumer>
 );
-
-export default ComplianceConnected;

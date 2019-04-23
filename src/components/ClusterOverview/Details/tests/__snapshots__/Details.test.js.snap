@@ -46,7 +46,7 @@ exports[`<Details /> renders correctly 1`] = `
       <dt
         class="kubevirt-detail__item-title"
       >
-        Openshift version
+        OpenShift version
       </dt>
       <dd
         class="kubevirt-detail__item-value"

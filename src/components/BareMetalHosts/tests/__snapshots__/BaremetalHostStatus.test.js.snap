@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "discovered" state (5) 1`] = `
+<AddDiscoveredHostLink
+  host={
+    Object {
+      "status": Object {
+        "provisioning": Object {
+          "state": "discovered",
+        },
+      },
+    }
+  }
+/>
+`;
+
 exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "match profile" state (2) 1`] = `
 <GenericProgress
   status="match profile"

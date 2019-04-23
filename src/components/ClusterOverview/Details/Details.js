@@ -36,7 +36,7 @@ export const Details = ({ infrastructure, openshiftClusterVersionResponse, Loadi
         />
         <DetailItem
           key="openshift"
-          title="Openshift version"
+          title="OpenShift version"
           value={getOpenshiftVersion(openshiftClusterVersionResponse)}
           isLoading={!openshiftClusterVersionResponse}
           LoadingComponent={LoadingComponent}

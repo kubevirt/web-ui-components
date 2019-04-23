@@ -1,10 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { LineChart, Row, Col } from 'patternfly-react';
+import { Row, Col } from 'patternfly-react';
+import {
+  ChartGroup,
+  ChartLine,
+  ChartTheme,
+  ChartTooltip,
+  Chart,
+  ChartAxis,
+  ChartLegend,
+  ChartVoronoiContainer,
+} from '@patternfly/react-charts';
 
 import { InlineLoading } from '../../Loading';
-import { formatToShortTime } from '../../../utils';
 
 import {
   DashboardCard,
@@ -19,46 +28,56 @@ const TopConsumersBody = ({ topConsumerStats }) => {
   let results = 'No data available';
 
   if (topConsumerStats.length) {
-    const columnsConf = getTopConsumerVectorStats(topConsumerStats);
-    const { columns, unit } = columnsConf;
-    const formatTime = x => formatToShortTime(x);
+    const stats = getTopConsumerVectorStats(topConsumerStats);
+    const { chartData, legends, xAxisData, maxCapacity, unit } = stats;
+    const yTickValues = [
+      0,
+      Number((maxCapacity / 4).toFixed(1)),
+      Number((maxCapacity / 2).toFixed(1)),
+      Number(((3 * maxCapacity) / 4).toFixed(1)),
+      maxCapacity,
+    ];
 
+    const chartLineList = chartData.map((data, i) => <ChartLine key={i} data={data} x={0} y={1} />);
     results = (
       <React.Fragment>
         <Row>
-          <Col className="kubevirt-top-consumer__time-duration">Last 6 hours</Col>
+          <Col className="kubevirt-top-consumer__time-duration">Last 10 minutes</Col>
         </Row>
         <Row>
-          <Col lg={12} md={12} sm={12} xs={12}>
-            <LineChart
-              className="kubevirt-top-consumer__line-chart"
-              id="line-chart"
-              data={{
-                x: 'x',
-                columns,
-                type: 'line',
-              }}
-              axis={{
-                y: {
-                  label: {
-                    text: `Used Capacity(${unit})`,
-                    position: 'outer-top',
-                  },
-                  min: 0,
-                  padding: {
-                    bottom: 3,
-                  },
-                },
-                x: {
-                  tick: {
-                    format: formatTime,
-                    fit: true,
-                    values: [...columns[0].slice(1)],
-                  },
-                },
-              }}
-            />
-          </Col>
+          <div>
+            <Chart
+              domain={{ y: [0, maxCapacity + 2] }}
+              theme={ChartTheme.light.multi}
+              height={175}
+              padding={{ top: 20, bottom: 20, left: 40, right: 17 }}
+              containerComponent={
+                <ChartVoronoiContainer
+                  labels={datum => `${datum[1]} ${unit}`}
+                  labelComponent={<ChartTooltip style={{ fontSize: 8, padding: 5 }} />}
+                />
+              }
+            >
+              <ChartGroup>{chartLineList}</ChartGroup>
+              <ChartAxis tickValues={xAxisData} style={{ tickLabels: { fontSize: 8, padding: 5 } }} />
+              <ChartAxis
+                label={`Requested capacity(${unit})`}
+                dependentAxis
+                tickValues={yTickValues}
+                style={{ tickLabels: { fontSize: 8, padding: 5 }, axisLabel: { fontSize: 8, padding: 25 } }}
+              />
+            </Chart>
+          </div>
+          <ChartLegend
+            data={legends}
+            orientation="horizontal"
+            gutter={10}
+            height={30}
+            padding={{ top: 5, bottom: 5, left: 20 }}
+            theme={ChartTheme.light.multi}
+            x={50}
+            y={8}
+          />
         </Row>
       </React.Fragment>
     );
@@ -70,7 +89,7 @@ const TopConsumersBody = ({ topConsumerStats }) => {
 export const TopConsumers = ({ topConsumerStats, topConsumerLoaded, LoadingComponent }) => (
   <DashboardCard>
     <DashboardCardHeader>
-      <DashboardCardTitle>Top Projects by Used Capacity</DashboardCardTitle>
+      <DashboardCardTitle>Top Projects by Requested Capacity</DashboardCardTitle>
     </DashboardCardHeader>
     <DashboardCardBody isLoading={!topConsumerLoaded} LoadingComponent={LoadingComponent}>
       <TopConsumersBody topConsumerStats={topConsumerStats} />

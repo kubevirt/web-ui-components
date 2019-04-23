@@ -2,9 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { getHostStatus } from '../../utils/status/host/hostStatus';
-import { GenericStatus, GenericError, GenericProgress, GenericSuccess, ValidationError } from './StatusComponents';
+import {
+  AddDiscoveredHostLink,
+  GenericStatus,
+  GenericError,
+  GenericProgress,
+  GenericSuccess,
+  ValidationError,
+} from './StatusComponents';
 import {
   HOST_STATUS_VALIDATION_ERROR,
+  HOST_STATUS_DISCOVERED,
   HOST_STATUS_ALL_PROGRESS,
   HOST_STATUS_ALL_ERROR,
   HOST_STATUS_ALL_SUCCESS,
@@ -18,6 +26,8 @@ export const BaremetalHostStatus = ({ host, machine, nodes }) => {
   switch (true) {
     case status === HOST_STATUS_VALIDATION_ERROR:
       return <ValidationError {...hostStatus} />;
+    case status === HOST_STATUS_DISCOVERED:
+      return <AddDiscoveredHostLink host={host} />;
     case HOST_STATUS_ALL_PROGRESS.includes(status):
       return <GenericProgress {...hostStatus} />;
     case HOST_STATUS_ALL_SUCCESS.includes(status):

@@ -1,6 +1,7 @@
 export const HOST_STATUS_READY = 'ready';
 export const HOST_STATUS_DISCOVERED = 'discovered';
 export const HOST_STATUS_OK = 'OK';
+export const HOST_STATUS_EXTERNALLY_PROVISIONED = 'externally provisioned';
 export const HOST_STATUS_PROVISIONED = 'provisioned';
 export const HOST_STATUS_DEPROVISIONED = 'deprovisioned';
 export const HOST_STATUS_REGISTERING = 'registering';
@@ -45,6 +46,7 @@ export const HOST_STATUS_ALL_SUCCESS = [
   HOST_STATUS_DISCOVERED,
   HOST_STATUS_OK,
   HOST_STATUS_PROVISIONED,
+  HOST_STATUS_EXTERNALLY_PROVISIONED,
   HOST_STATUS_DEPROVISIONED,
 ];
 
@@ -53,6 +55,7 @@ export const HOST_STATUS_TO_TEXT = {
   [HOST_STATUS_DISCOVERED]: 'Discovered',
   [HOST_STATUS_OK]: 'OK',
   [HOST_STATUS_PROVISIONED]: 'Provisioned',
+  [HOST_STATUS_EXTERNALLY_PROVISIONED]: 'Externally provisioned',
   [HOST_STATUS_DEPROVISIONED]: 'Deprovisioned',
   [HOST_STATUS_REGISTERING]: 'Registering',
   [HOST_STATUS_INSPECTING]: 'Inspecting',
