@@ -42,15 +42,15 @@ const TopConsumersBody = ({ topConsumerStats }) => {
     results = (
       <React.Fragment>
         <Row>
-          <Col className="kubevirt-top-consumer__time-duration">Last 6 hours</Col>
+          <Col className="kubevirt-top-consumer__time-duration">Last 10 minutes</Col>
         </Row>
         <Row>
           <div>
             <Chart
-              domain={{ y: [0, maxCapacity] }}
+              domain={{ y: [0, maxCapacity + 2] }}
               theme={ChartTheme.light.multi}
               height={175}
-              padding={{ top: 30, bottom: 20, left: 40, right: 15 }}
+              padding={{ top: 20, bottom: 20, left: 40, right: 17 }}
               containerComponent={
                 <ChartVoronoiContainer
                   labels={datum => `${datum[1]} ${unit}`}
