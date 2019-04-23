@@ -3,4 +3,8 @@
   @media only screen and (min-width: 768px) {
     grid-gap: 0;
   }
+
+  .kubevirt-dashboard__card {
+    min-height: 120px;
+  }
 }
