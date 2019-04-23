@@ -58,7 +58,7 @@ export const DataResiliency = ({ totalPgRaw, cleanAndActivePgRaw, LoadingCompone
         isLoading={!(totalPgRaw && cleanAndActivePgRaw)}
         LoadingComponent={LoadingComponent}
       >
-        {progressPercentage === 100 || !progressPercentage ? (
+        {progressPercentage >= 100 || !progressPercentage ? (
           <DataResiliencyStatusBody isResilient={progressPercentage} />
         ) : (
           <DataResiliencyBuildBody progressPercentage={progressPercentage} />
