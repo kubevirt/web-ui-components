@@ -2,7 +2,7 @@ export * from './storage';
 
 export const ANNOTATION_DEFAULT_DISK = 'defaults.template.kubevirt.io/disk';
 export const ANNOTATION_DEFAULT_NETWORK = 'defaults.template.kubevirt.io/network';
-export const ANNOTATION_FIRST_BOOT = 'kubevirt.ui/firstBoot ';
+export const ANNOTATION_FIRST_BOOT = 'kubevirt.ui/firstBoot';
 export const ANNOTATION_PXE_INTERFACE = 'kubevirt.ui/pxeInterface';
 
 export const ANNOTATION_CLONE_REQUEST = 'k8s.io/CloneRequest';
