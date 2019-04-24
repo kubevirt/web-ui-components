@@ -9,7 +9,7 @@
   flex-direction: column;
   text-align: center;
   justify-content: space-between;
-  flex: 0 1 100px;
+  flex: 0 1 120px;
 }
 
 .kubevirt-capacity__item-title {
@@ -28,5 +28,13 @@
 .kubevirt-capacity__graph {
   display: flex;
   flex-direction: column;
+
+  svg {
+    overflow: visible;
+  }
+}
+
+.kubevirt-capacity__card {
+  height: 100%;
 }
 /* stylelint-enable */

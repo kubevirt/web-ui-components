@@ -4,11 +4,12 @@
     grid-gap: 0;
   }
 
+  .kubevirt-dashboard__card {
+    min-height: 120px;
+    height: 100%;
+  }
+
   .pf-l-grid-item {
     height: 100%;
-
-    .kubevirt-dashboard__card {
-      min-height: 120px;
-    }
   }
 }

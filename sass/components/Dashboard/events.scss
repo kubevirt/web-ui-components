@@ -6,6 +6,7 @@
   max-height: 400px;
   margin-top: 15px;
 
+
   .co-sysevent__icon-box {
     display: none;
   }
@@ -60,7 +61,7 @@
 /* stylelint-enable */
 
 .kubevirt-events__card-body {
-  margin: 0;
+  margin: 0 -15px 0 0;
   padding: 0;
   overflow-y: auto;
 }
