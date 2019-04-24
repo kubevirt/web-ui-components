@@ -36,6 +36,8 @@ const TopConsumersBody = ({ topConsumerStats }) => {
       Number((maxCapacity / 2).toFixed(1)),
       Number(((3 * maxCapacity) / 4).toFixed(1)),
       maxCapacity,
+      Number(((5 * maxCapacity) / 4).toFixed(1)),
+      Number(((6 * maxCapacity) / 4).toFixed(1)),
     ];
 
     const chartLineList = chartData.map((data, i) => <ChartLine key={i} data={data} x={0} y={1} />);
@@ -47,7 +49,7 @@ const TopConsumersBody = ({ topConsumerStats }) => {
         <Row>
           <div>
             <Chart
-              domain={{ y: [0, maxCapacity + 2] }}
+              domain={{ y: [0, 1.5 * maxCapacity] }}
               theme={ChartTheme.light.multi}
               height={175}
               padding={{ top: 20, bottom: 20, left: 40, right: 17 }}
