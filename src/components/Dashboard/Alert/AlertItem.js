@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'patternfly-react';
 
-import { getAlertSeverity, getAlertMessage } from '../../../selectors/prometheus';
+import { getAlertSeverity, getAlertMessage, getAlertDescription } from '../../../selectors/prometheus';
 
 const getSeverityIcon = severity => {
   switch (severity) {
@@ -21,7 +21,7 @@ const getSeverityIcon = severity => {
 export const AlertItem = ({ alert }) => (
   <div className="kubevirt-alert__item">
     {getSeverityIcon(getAlertSeverity(alert))}
-    <div className="kubevirt-alert__item-message">{getAlertMessage(alert)}</div>
+    <div className="kubevirt-alert__item-message">{getAlertDescription(alert) || getAlertMessage(alert)}</div>
   </div>
 );
 
