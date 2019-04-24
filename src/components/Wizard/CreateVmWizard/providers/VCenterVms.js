@@ -47,7 +47,7 @@ const VCenterVms = ({ onChange, onFormChange, id, value, extraProps, ...extra })
     const vms = get(v2vvmware, 'spec.vms');
     let choices = [];
     if (vms) {
-      choices = vms.map(vm => vm.name);
+      choices = Array.from(new Set(vms.map(vm => vm.name))).sort();
     }
 
     return {

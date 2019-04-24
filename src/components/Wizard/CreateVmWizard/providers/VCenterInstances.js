@@ -35,7 +35,7 @@ const VCenterInstances = ({ onChange, id, value, extraProps }) => {
   };
   const resourceToProps = ({ vCenterSecrets }) => ({
     choices: getVCenterInstanceSecrets(vCenterSecrets),
-    onChange: name => onChange(vCenterSecrets.find(secret => getName(secret) === name)),
+    onChange: name => onChange(vCenterSecrets.find(secret => getName(secret) === name) || name), // CONNECT_TO_NEW_INSTANCE
     disabled: !areResourcesLoaded(vCenterSecrets),
   });
 
