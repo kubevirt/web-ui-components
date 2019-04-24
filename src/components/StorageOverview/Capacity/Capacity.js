@@ -15,7 +15,7 @@ import { formatBytes } from '../../../utils';
 import { getCapacityStats } from '../../../selectors';
 import { CapacityBody } from '../../Dashboard/Capacity/CapacityBody';
 
-export const Capacity = ({ capacityTotal, capacityUsed, LoadingComponent, className }) => (
+export const Capacity = ({ capacityTotal, capacityUsed, LoadingComponent }) => (
   <DashboardCard className="kubevirt-capacity__card">
     <DashboardCardHeader>
       <DashboardCardTitle>Capacity</DashboardCardTitle>
@@ -40,18 +40,14 @@ Capacity.defaultProps = {
   capacityTotal: null,
   capacityUsed: null,
   LoadingComponent: InlineLoading,
-  className: null,
 };
 
 Capacity.propTypes = {
   capacityTotal: PropTypes.object,
   capacityUsed: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
 };
 
-export const CapacityConnected = ({ className }) => (
-  <StorageOverviewContext.Consumer>
-    {props => <Capacity {...props} className={className} />}
-  </StorageOverviewContext.Consumer>
+export const CapacityConnected = () => (
+  <StorageOverviewContext.Consumer>{props => <Capacity {...props} />}</StorageOverviewContext.Consumer>
 );
