@@ -14,6 +14,7 @@ import {
 } from '@patternfly/react-charts';
 
 import { InlineLoading } from '../../Loading';
+import { formatToShortTime } from '../../../utils';
 
 import {
   DashboardCard,
@@ -29,7 +30,7 @@ const TopConsumersBody = ({ topConsumerStats }) => {
 
   if (topConsumerStats.length) {
     const stats = getTopConsumerVectorStats(topConsumerStats);
-    const { chartData, legends, xAxisData, maxCapacity, unit } = stats;
+    const { chartData, legends, maxCapacity, unit } = stats;
     const yTickValues = [
       0,
       Number((maxCapacity / 4).toFixed(1)),
@@ -57,9 +58,10 @@ const TopConsumersBody = ({ topConsumerStats }) => {
                   labelComponent={<ChartTooltip style={{ fontSize: 8, padding: 5 }} />}
                 />
               }
+              scale={{ x: 'time' }}
             >
               <ChartGroup>{chartLineList}</ChartGroup>
-              <ChartAxis tickValues={xAxisData} style={{ tickLabels: { fontSize: 8, padding: 5 } }} />
+              <ChartAxis tickFormat={x => formatToShortTime(x)} style={{ tickLabels: { fontSize: 8, padding: 5 } }} />
               <ChartAxis
                 label={`Requested capacity(${unit})`}
                 dependentAxis
