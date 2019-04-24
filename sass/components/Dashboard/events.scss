@@ -52,6 +52,10 @@
   .co-sysevent__subheader > *:not(:first-child) {
     margin-left: 6px;
   }
+
+  .co-sysevent-stream__status-box-empty {
+    margin-right: 15px;
+  }
 }
 
 .kubevirt-events__timestamp i {
