@@ -14,6 +14,27 @@ import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
 import { getUtilizationVectorStats } from '../../../selectors';
 import { formatBytes } from '../../../utils';
 
+const getUtilizationData = data => {
+  let stats = null;
+  let maxValueConverted;
+
+  const statsRaw = getUtilizationVectorStats(data);
+  if (statsRaw) {
+    const maxValue = Math.max(0, ...statsRaw);
+    maxValueConverted = formatBytes(maxValue);
+    stats = statsRaw.map(bytes => formatBytes(bytes, maxValueConverted.unit, 1).value);
+  } else {
+    maxValueConverted = formatBytes(0);
+    stats = null;
+  }
+
+  return {
+    unit: `${maxValueConverted.unit}/s`,
+    values: stats,
+    maxValue: Number(maxValueConverted.value.toFixed(1)),
+  };
+};
+
 export const Utilization = ({
   iopsUtilization,
   latencyUtilization,
@@ -21,34 +42,19 @@ export const Utilization = ({
   recoveryRateUtilization,
   LoadingComponent,
 }) => {
+  const throughputData = getUtilizationData(throughputUtilization);
+  const recoveryRateData = getUtilizationData(recoveryRateUtilization);
+
   const iopsStats = getUtilizationVectorStats(iopsUtilization);
+  let iopsStatsMax = 0;
+  if (iopsStats) {
+    iopsStatsMax = Math.ceil(Math.max(0, ...iopsStats));
+  }
   const latencyStats = getUtilizationVectorStats(latencyUtilization);
-
-  const throughputStatsRaw = getUtilizationVectorStats(throughputUtilization);
-  let throughputStats = null;
-  let throughputMax = 0;
-  let throughputMaxConverted;
-  if (throughputStatsRaw) {
-    throughputMax = Math.max(0, ...throughputStatsRaw);
-    throughputMaxConverted = formatBytes(throughputMax);
-    throughputStats = throughputStatsRaw.map(bytes => formatBytes(bytes, throughputMaxConverted.unit, 1).value);
-  } else {
-    throughputMaxConverted = formatBytes(throughputMax); // B
+  let latencyStatsMax = 0;
+  if (latencyStats) {
+    latencyStatsMax = Math.max(0, ...latencyStats);
   }
-  const throughputUnit = `${throughputMaxConverted.unit}/s`;
-
-  const recoveryRateStatsRaw = getUtilizationVectorStats(recoveryRateUtilization);
-  let recoveryRateStats = null;
-  let recoveryRateMax = 0;
-  let recoveryRateMaxConverted;
-  if (recoveryRateStatsRaw) {
-    recoveryRateMax = Math.max(0, ...recoveryRateStatsRaw);
-    recoveryRateMaxConverted = formatBytes(recoveryRateMax);
-    recoveryRateStats = recoveryRateStatsRaw.map(bytes => formatBytes(bytes, recoveryRateMaxConverted.unit, 1).value);
-  } else {
-    recoveryRateMaxConverted = formatBytes(recoveryRateMax); // B
-  }
-  const recoveryRateUnit = `${recoveryRateMaxConverted.unit}/s`;
 
   return (
     <DashboardCard>
@@ -58,10 +64,12 @@ export const Utilization = ({
       <DashboardCardBody>
         <UtilizationBody>
           <UtilizationItem
-            unit={throughputUnit}
+            unit={throughputData.unit}
             id="throughput"
             title="Throughput"
-            data={throughputStats}
+            data={throughputData.values}
+            maxY={throughputData.maxValue}
+            decimalPoints={1}
             LoadingComponent={LoadingComponent}
             isLoading={!throughputUtilization}
           />
@@ -70,6 +78,8 @@ export const Utilization = ({
             id="iops"
             title="IOPS"
             data={iopsStats}
+            maxY={iopsStatsMax}
+            decimalPoints={0}
             LoadingComponent={LoadingComponent}
             isLoading={!iopsUtilization}
           />
@@ -78,14 +88,18 @@ export const Utilization = ({
             id="latency"
             title="Latency"
             data={latencyStats}
+            maxY={latencyStatsMax}
+            decimalPoints={1}
             LoadingComponent={LoadingComponent}
             isLoading={!latencyUtilization}
           />
           <UtilizationItem
-            unit={recoveryRateUnit}
+            unit={recoveryRateData.unit}
             id="recoveryRate"
             title="Recovery rate"
-            data={recoveryRateStats}
+            data={recoveryRateData.values}
+            maxY={recoveryRateData.maxValue}
+            decimalPoints={1}
             LoadingComponent={LoadingComponent}
             isLoading={!recoveryRateUtilization}
           />
