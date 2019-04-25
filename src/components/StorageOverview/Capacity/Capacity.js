@@ -16,7 +16,7 @@ import { getCapacityStats } from '../../../selectors';
 import { CapacityBody } from '../../Dashboard/Capacity/CapacityBody';
 
 export const Capacity = ({ capacityTotal, capacityUsed, LoadingComponent }) => (
-  <DashboardCard>
+  <DashboardCard className="kubevirt-capacity__card">
     <DashboardCardHeader>
       <DashboardCardTitle>Capacity</DashboardCardTitle>
     </DashboardCardHeader>

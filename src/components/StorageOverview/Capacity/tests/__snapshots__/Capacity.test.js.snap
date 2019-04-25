@@ -2,7 +2,7 @@
 
 exports[`<Capacity /> renders correctly 1`] = `
 <div
-  class="card-pf kubevirt-dashboard__card"
+  class="card-pf kubevirt-dashboard__card kubevirt-capacity__card"
 >
   <div
     class="card-pf-heading kubevirt-dashboard__card-heading"
@@ -101,7 +101,7 @@ exports[`<Capacity /> renders correctly 1`] = `
 
 exports[`<Capacity /> renders correctly in Loading state 1`] = `
 <div
-  class="card-pf kubevirt-dashboard__card"
+  class="card-pf kubevirt-dashboard__card kubevirt-capacity__card"
 >
   <div
     class="card-pf-heading kubevirt-dashboard__card-heading"
