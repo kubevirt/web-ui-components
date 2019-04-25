@@ -2,19 +2,22 @@
   margin-bottom: 1rem;
 }
 
+.kubevirt-detail__list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .kubevirt-detail__item-title {
-  float: left;
-  clear: left;
-  // width: 150px;
-  margin-bottom: 5px;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-transform: capitalize;
+  flex-basis: 100%;
 }
 
 .kubevirt-detail__item-value {
-  margin: 0 0 5px 160px;
-  font-size: 14px;
+  font-size: 0.875rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex-basis: 100%;
+  margin-bottom: 8px;
 }

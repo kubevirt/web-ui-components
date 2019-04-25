@@ -26,7 +26,9 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
           <div
             class="card-pf-body"
           >
-            <dl>
+            <dl
+              class="kubevirt-detail__list"
+            >
               <dt
                 class="kubevirt-detail__item-title"
               >
