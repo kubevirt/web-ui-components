@@ -45,12 +45,12 @@ const getClusterHealth = subsystemStates => {
     healthState =
       sortedStates.errorStates.length === 1
         ? sortedStates.errorStates[0]
-        : { state: ERROR_STATE, message: 'Multiple errors', details: 'Cluster health is degrated' };
+        : { state: ERROR_STATE, message: 'Multiple errors', details: 'Cluster health is degraded' };
   } else if (sortedStates.warningStates.length > 0) {
     healthState =
       sortedStates.warningStates.length === 1
         ? sortedStates.warningStates[0]
-        : { state: WARNING_STATE, message: 'Multiple warnings', details: 'Cluster health is degrated' };
+        : { state: WARNING_STATE, message: 'Multiple warnings', details: 'Cluster health is degraded' };
   }
 
   return healthState;
