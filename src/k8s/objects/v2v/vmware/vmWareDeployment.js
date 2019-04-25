@@ -1,3 +1,4 @@
+import { KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE } from '../../../../config';
 import { DeploymentModel } from '../../../../models';
 
 export const buildVmWareDeployment = ({ k8sCreate, name, namespace }) => ({
@@ -25,7 +26,7 @@ export const buildVmWareDeployment = ({ k8sCreate, name, namespace }) => ({
         containers: [
           {
             name,
-            image: 'quay.io/nyoxi/kubevirt-vmware:1.12.1-1', // TODO: parametrize from configuration (Web UI's ConfigMap)
+            image: KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE,
             imagePullPolicy: 'Always',
             command: ['kubevirt-vmware'],
             env: [

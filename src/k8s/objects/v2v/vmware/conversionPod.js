@@ -1,3 +1,4 @@
+import { KUBEVIRT_V2V_CONVERSION_CONTAINER_IMAGE } from '../../../../config';
 import { PodModel } from '../../../../models';
 import { CONVERSION_BASE_NAME, CONVERSION_GENERATE_NAME } from '../../../requests/v2v';
 
@@ -13,7 +14,7 @@ export const buildConversionPod = ({ volumes, volumeMounts, namespace, serviceAc
     containers: [
       {
         name: CONVERSION_BASE_NAME,
-        image: 'quay.io/nyoxi/kubevirt-v2v-conversion:1.12.1-1-gf665c0a', // TODO: parametrize from configuration (Web UI's ConfigMap)
+        image: KUBEVIRT_V2V_CONVERSION_CONTAINER_IMAGE,
         securityContext: {
           privileged: true,
         },
