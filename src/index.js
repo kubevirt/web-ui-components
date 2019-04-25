@@ -21,6 +21,8 @@ export * from './components/Wizard';
 export * from './components/ConfigurationSummary';
 export * from './components/ClusterOverview';
 export * from './components/StorageOverview';
+export * from './components/Status';
+export * from './components/NodeStatus';
 
 // helpers
 export * from './constants';

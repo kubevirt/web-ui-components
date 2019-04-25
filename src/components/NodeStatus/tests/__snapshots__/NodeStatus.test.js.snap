@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NodeStatus /> renders correctly 1`] = `
+<UnderMaintenanceStatus
+  TimestampComponent={[Function]}
+  maintenance={
+    Object {
+      "apiVersion": "kubevirt.io/v1alpha1",
+      "kind": "NodeMaintenance",
+      "metadata": Object {
+        "creationTimestamp": "2019-04-25T18:49:13Z",
+        "name": "nodemaintenance-fooNodeName",
+      },
+      "spec": Object {
+        "nodeName": "fooNodeName",
+        "reason": "some reason",
+      },
+    }
+  }
+  node={
+    Object {
+      "metadata": Object {
+        "name": "fooNodeName",
+      },
+    }
+  }
+/>
+`;

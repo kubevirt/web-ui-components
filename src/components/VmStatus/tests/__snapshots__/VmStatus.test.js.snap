@@ -4,7 +4,7 @@ exports[`<VmStatus vm /> renders correctly 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-off"
+    class="pficon pficon-off kubevirt-status__icon"
   />,
   "Off",
 ]
@@ -14,7 +14,7 @@ exports[`<VmStatus vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-off"
+    class="pficon pficon-off kubevirt-status__icon"
   />,
   "Off",
 ]
@@ -24,7 +24,7 @@ exports[`<VmStatus vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-on-running"
+    class="pficon pficon-on-running kubevirt-status__icon"
   />,
   "Running",
 ]
@@ -34,12 +34,10 @@ exports[`<VmStatus vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="fail description for Ready"
   >
     Starting
   </a>,
@@ -50,7 +48,7 @@ exports[`<VmStatus vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />,
   "Starting",
 ]
@@ -60,10 +58,9 @@ exports[`<VmStatus vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
   >
     Starting
@@ -75,12 +72,10 @@ exports[`<VmStatus vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Pod scheduling failed."
   >
     Pod Error
   </a>,
@@ -91,10 +86,9 @@ exports[`<VmStatus vm pod /> renders correctly 6 (VM_STATUS_VMI_WAITING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
   >
     Pending
@@ -106,10 +100,9 @@ exports[`<VmStatus vm pod /> renders correctly 7 (VM_STATUS_VMI_WAITING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
   >
     Pending
@@ -121,12 +114,10 @@ exports[`<VmStatus vm pod /> renders correctly 8 (VM_STATUS_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
   >
     VM Error
   </a>,
@@ -137,12 +128,10 @@ exports[`<VmStatus vm pod /> renders correctly 9 (VM_STATUS_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
   >
     VM Error
   </a>,
@@ -153,12 +142,10 @@ exports[`<VmStatus vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`] =
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
   >
     Importer Error
   </a>,
@@ -169,12 +156,10 @@ exports[`<VmStatus vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Back-off pulling image message"
   >
     Pod Error
   </a>,
@@ -185,7 +170,7 @@ exports[`<VmStatus vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-migration"
+    class="pficon pficon-migration kubevirt-status__icon"
   />,
   "Migrating",
 ]
@@ -195,7 +180,7 @@ exports[`<VmStatus vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-on-running"
+    class="pficon pficon-on-running kubevirt-status__icon"
   />,
   "Running",
 ]
@@ -205,10 +190,9 @@ exports[`<VmStatus vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-import"
+    class="pficon pficon-import kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
   >
     Importing
@@ -220,14 +204,10 @@ exports[`<VmStatus vm pod /> renders correctly 15 (VM_STATUS_IMPORT_ERROR) 1`] =
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="importer-datavolume-my-vm-x9c99: undefined
-
-virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
   >
     Importer Error
   </a>,
@@ -238,12 +218,10 @@ exports[`<VmStatus vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PROGR
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-import"
+    class="pficon pficon-import kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
-    title="35% progress"
   >
     V2V Conversion In Progress
   </a>,
@@ -254,12 +232,10 @@ exports[`<VmStatus vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 
 Array [
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />,
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
-    title="Terminated with Error (exit code 2)."
   >
     V2V Conversion Error
   </a>,
@@ -270,7 +246,7 @@ exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-off"
+    class="pficon pficon-off kubevirt-status__icon"
   />
   Off
 </div>
@@ -280,7 +256,7 @@ exports[`<VmStatuses vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-on-running"
+    class="pficon pficon-on-running kubevirt-status__icon"
   />
   Running
 </div>
@@ -290,12 +266,10 @@ exports[`<VmStatuses vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="fail description for Ready"
   >
     Starting
   </a>
@@ -306,7 +280,7 @@ exports[`<VmStatuses vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />
   Starting
 </div>
@@ -316,10 +290,9 @@ exports[`<VmStatuses vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
   >
     Starting
@@ -331,12 +304,10 @@ exports[`<VmStatuses vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Pod scheduling failed."
   >
     Pod Error
   </a>
@@ -347,10 +318,9 @@ exports[`<VmStatuses vm pod /> renders correctly 6 (VM_STATUS_VMI_WAITING) 1`] =
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
   >
     Pending
@@ -362,10 +332,9 @@ exports[`<VmStatuses vm pod /> renders correctly 7 (VM_STATUS_VMI_WAITING) 1`] =
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-pending"
+    class="pficon pficon-pending kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
   >
     Pending
@@ -377,12 +346,10 @@ exports[`<VmStatuses vm pod /> renders correctly 8 (VM_STATUS_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
   >
     VM Error
   </a>
@@ -393,12 +360,10 @@ exports[`<VmStatuses vm pod /> renders correctly 9 (VM_STATUS_ERROR) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
-    title="Failure backend description"
   >
     VM Error
   </a>
@@ -409,12 +374,10 @@ exports[`<VmStatuses vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`]
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
   >
     Importer Error (testdisk)
   </a>
@@ -425,12 +388,10 @@ exports[`<VmStatuses vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = 
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-    title="Back-off pulling image message"
   >
     Pod Error
   </a>
@@ -441,7 +402,7 @@ exports[`<VmStatuses vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = 
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-migration"
+    class="pficon pficon-migration kubevirt-status__icon"
   />
   Migrating
 </div>
@@ -451,7 +412,7 @@ exports[`<VmStatuses vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-on-running"
+    class="pficon pficon-on-running kubevirt-status__icon"
   />
   Running
 </div>
@@ -461,10 +422,9 @@ exports[`<VmStatuses vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = 
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-import"
+    class="pficon pficon-import kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
   >
     Importing (testdisk)
@@ -477,10 +437,9 @@ Array [
   <div>
     <span
       aria-hidden="true"
-      class="kubevirt-vm-status__icon pficon pficon-import"
+      class="pficon pficon-import kubevirt-status__icon"
     />
     <a
-      class="kubevirt-vm-status__link"
       href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
     >
       Importing (testdisk)
@@ -489,12 +448,10 @@ Array [
   <div>
     <span
       aria-hidden="true"
-      class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
     />
     <a
-      class="kubevirt-vm-status__link"
       href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
-      title="virt-launcher-my-vm-x9c99: Importer pod scheduling failed."
     >
       Importer Error (testdisk)
     </a>
@@ -506,12 +463,10 @@ exports[`<VmStatuses vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PRO
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-import"
+    class="pficon pficon-import kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
-    title="35% progress"
   >
     V2V Conversion In Progress
   </a>
@@ -522,12 +477,10 @@ exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED
 <div>
   <span
     aria-hidden="true"
-    class="kubevirt-vm-status__icon pficon pficon-error-circle-o"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <a
-    class="kubevirt-vm-status__link"
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
-    title="Terminated with Error (exit code 2)."
   >
     V2V Conversion Error
   </a>

@@ -42,3 +42,6 @@ export const getAnnotationValue = (entity, annotation) => {
   const annotations = get(entity, 'metadata.annotations', {});
   return getValueByPrefix(annotations, annotation);
 };
+
+export const getCreationTimestamp = resource => get(resource, 'metadata.creationTimestamp');
+export const getDeletionTimestamp = resource => get(resource, 'metadata.deletionTimestamp');
