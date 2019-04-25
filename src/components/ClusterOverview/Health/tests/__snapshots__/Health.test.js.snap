@@ -94,7 +94,7 @@ exports[`<Health /> renders multiple erros correctly 1`] = `
           <div
             class="kubevirt-health__text kubevirt-health__subtitle"
           >
-            Cluster health is degrated
+            Cluster health is degraded
           </div>
         </div>
       </div>
