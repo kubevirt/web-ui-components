@@ -22,7 +22,7 @@ export class UtilizationItem extends React.PureComponent {
   };
 
   render() {
-    const { id, title, data, maxY, unit, isLoading, LoadingComponent } = this.props;
+    const { id, title, data, maxY, unit, isLoading, LoadingComponent, decimalPoints } = this.props;
     const { width } = this.state.dimensions;
 
     const axis = {
@@ -46,12 +46,19 @@ export class UtilizationItem extends React.PureComponent {
     }
 
     let actual;
+    let yTickValues;
     let chart = NOT_AVAILABLE;
     if (isLoading) {
       chart = <LoadingComponent />;
     } else if (data) {
       const chartData = data.map((val, index) => ({ x: index, y: val ? Number(val.toFixed(1)) : 0 }));
       actual = `${Math.round(data[data.length - 1])} ${unit}`;
+      if (decimalPoints > -1) {
+        yTickValues = [0, Number((maxY / 2).toFixed(decimalPoints)), Number(maxY.toFixed(decimalPoints))];
+      } else {
+        yTickValues = [0, maxY / 2, maxY];
+      }
+
       chart = (
         <Chart
           id={id}
@@ -67,7 +74,7 @@ export class UtilizationItem extends React.PureComponent {
           domainPadding={{ x: 0, y: 10 }}
         >
           <ChartArea data={chartData} />
-          <ChartAxis dependentAxis tickValues={[0, maxY / 2, maxY]} style={{ tickLabels: { fontSize: 10 } }} />
+          <ChartAxis dependentAxis tickValues={yTickValues} style={{ tickLabels: { fontSize: 10 } }} />
         </Chart>
       );
     }
@@ -131,6 +138,7 @@ UtilizationItem.defaultProps = {
   data: null,
   LoadingComponent: InlineLoading,
   isLoading: false,
+  decimalPoints: -1,
 };
 
 UtilizationItem.propTypes = {
@@ -141,4 +149,5 @@ UtilizationItem.propTypes = {
   maxY: PropTypes.number,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   isLoading: PropTypes.bool,
+  decimalPoints: PropTypes.number,
 };

@@ -151,8 +151,8 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271844"
+                      y2="37.30582524271844"
                     />
                     <line
                       role="presentation"
@@ -161,9 +161,65 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="39"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271844"
+                      y2="37.30582524271844"
                     />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="37.30582524271844"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        15
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="19.61165048543689"
+                      y2="19.61165048543689"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="19.61165048543689"
+                      y2="19.61165048543689"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="19.61165048543689"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        30
+                      </tspan>
+                    </text>
                   </g>
                 </g>
               </svg>
@@ -313,8 +369,8 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271845"
+                      y2="37.30582524271845"
                     />
                     <line
                       role="presentation"
@@ -323,9 +379,65 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="39"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271845"
+                      y2="37.30582524271845"
                     />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="37.30582524271845"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        50
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="19.611650485436897"
+                      y2="19.611650485436897"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="19.611650485436897"
+                      y2="19.611650485436897"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="19.611650485436897"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        100
+                      </tspan>
+                    </text>
                   </g>
                 </g>
               </svg>
@@ -475,8 +587,8 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271845"
+                      y2="37.30582524271845"
                     />
                     <line
                       role="presentation"
@@ -485,9 +597,65 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="39"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271845"
+                      y2="37.30582524271845"
                     />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="37.30582524271845"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        50
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="19.611650485436897"
+                      y2="19.611650485436897"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="19.611650485436897"
+                      y2="19.611650485436897"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="19.611650485436897"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        100
+                      </tspan>
+                    </text>
                   </g>
                 </g>
               </svg>
@@ -637,8 +805,8 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271844"
+                      y2="37.30582524271844"
                     />
                     <line
                       role="presentation"
@@ -647,9 +815,65 @@ exports[`<Utilization /> renders correctly 1`] = `
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="39"
-                      y1="55"
-                      y2="55"
+                      y1="37.30582524271844"
+                      y2="37.30582524271844"
                     />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="37.30582524271844"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        15
+                      </tspan>
+                    </text>
+                  </g>
+                  <g
+                    role="presentation"
+                  >
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:none;fill:none;pointer-events:painted"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="300"
+                      y1="19.61165048543689"
+                      y2="19.61165048543689"
+                    />
+                    <line
+                      role="presentation"
+                      shape-rendering="auto"
+                      style="stroke:transparent;fill:transparent;size:1px"
+                      vector-effect="non-scaling-stroke"
+                      x1="40"
+                      x2="39"
+                      y1="19.61165048543689"
+                      y2="19.61165048543689"
+                    />
+                    <text
+                      direction="inherit"
+                      dx="0"
+                      dy="3.55"
+                      x="29"
+                      y="19.61165048543689"
+                    >
+                      <tspan
+                        dx="0"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        text-anchor="end"
+                        x="29"
+                      >
+                        30
+                      </tspan>
+                    </text>
                   </g>
                 </g>
               </svg>
