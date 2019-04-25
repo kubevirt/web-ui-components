@@ -52,6 +52,10 @@
   .co-sysevent__subheader > *:not(:first-child) {
     margin-left: 6px;
   }
+
+  .co-sysevent-stream__status-box-empty {
+    margin-right: 15px;
+  }
 }
 
 .kubevirt-events__timestamp i {
@@ -60,9 +64,10 @@
 /* stylelint-enable */
 
 .kubevirt-events__card-body {
-  margin: 0;
+  margin: 0 -15px 0 0;
   padding: 0;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .kubevirt-events__card-header {

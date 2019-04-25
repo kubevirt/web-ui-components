@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DetailsBody /> renders correctly 1`] = `
-<dl>
+<dl
+  class="kubevirt-detail__list"
+>
   <dt
     class="kubevirt-detail__item-title"
   >

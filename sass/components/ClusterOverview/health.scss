@@ -6,5 +6,10 @@
 
   .kubevirt-dashboard__card {
     min-height: 120px;
+    height: 100%;
+  }
+
+  .pf-l-grid-item {
+    height: 100%;
   }
 }
