@@ -20,7 +20,7 @@ import {
   getVmStatus,
 } from '../../utils/status/vm';
 import { getId, getVmImporterPods } from '../../selectors';
-import { Status, LinkStatus } from '../Status/Status';
+import { Status, LinkStatus } from '../Status';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 

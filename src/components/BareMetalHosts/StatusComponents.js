@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Popover } from '@patternfly/react-core';
 
-import { Status, OverlayStatus } from '../Status/Status';
+import { Status, OverlayStatus } from '../Status';
 
 // Generic status component as a fallback
 export const GenericStatus = ({ status, text, errorMessage }) => text;
