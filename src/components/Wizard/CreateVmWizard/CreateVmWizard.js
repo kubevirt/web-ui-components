@@ -48,9 +48,13 @@ import {
   NEXT,
   ERROR,
   CREATED,
-  FAILED,
+  CREATED_WITH_CLEANUP,
+  CREATED_WITH_FAILED_CLEANUP,
+  FAILED_TO_CREATE,
+  FAILED_TO_PATCH,
 } from './strings';
 
+import { getFullResourceId } from '../../../utils';
 import {
   getUserTemplate,
   getTemplateStorages,
@@ -58,7 +62,8 @@ import {
   hasAutoAttachPodInterface,
 } from '../../../utils/templates';
 
-import { getName, getGeneratedName } from '../../../selectors';
+import { getName, getGeneratedName, getKind } from '../../../selectors';
+import { EnhancedK8sMethods } from '../../../k8s/util/enhancedK8sMethods';
 
 // left intentionally empty
 const TEMPLATE_ROOT_STORAGE = {};
@@ -250,6 +255,76 @@ const podNetwork = {
   binding: NETWORK_BINDING_MASQUERADE,
 };
 
+const k8sObjectToResult = ({ obj, content, message, isExpanded, isError }) => ({
+  title: [getKind(obj), getName(obj) || getGeneratedName(obj), message].filter(a => a).join(' '),
+  content,
+  isExpanded,
+  isError,
+});
+
+const cleanupAndGetResults = async (enhancedK8sMethods, { message, failedObject, failedPatches }) => {
+  const actualState = enhancedK8sMethods.getActualState(); // actual state will differ after cleanup
+
+  let errors;
+  try {
+    await enhancedK8sMethods.rollback();
+  } catch (e) {
+    // eslint-disable-next-line prefer-destructuring
+    errors = e.errors;
+  }
+
+  const failedObjectsMap = {};
+
+  if (errors) {
+    errors.forEach(error => {
+      failedObjectsMap[getFullResourceId(error.failedObject)] = error.failedObject;
+    });
+  }
+
+  const cleanupArray = actualState
+    .map(resource => {
+      const failedToCleanup = !!failedObjectsMap[getFullResourceId(resource)];
+
+      return k8sObjectToResult({
+        obj: resource,
+        content: resource,
+        message: failedToCleanup ? CREATED_WITH_FAILED_CLEANUP : CREATED_WITH_CLEANUP,
+        isExpanded: failedToCleanup,
+        isError: failedToCleanup,
+      });
+    })
+    .reverse();
+
+  const results = [
+    k8sObjectToResult({
+      content: message,
+      message: ERROR,
+      isExpanded: true,
+      isError: true,
+    }),
+    k8sObjectToResult({
+      obj: failedObject,
+      content: failedPatches || failedObject,
+      message: failedPatches ? FAILED_TO_PATCH : FAILED_TO_CREATE,
+      isError: true,
+    }),
+    ...cleanupArray,
+  ];
+
+  return {
+    valid: false,
+    results,
+  };
+};
+
+const getResults = enhancedK8sMethods => ({
+  valid: true,
+  results: enhancedK8sMethods
+    .getActualState()
+    .map(obj => k8sObjectToResult({ obj, content: obj, message: CREATED }))
+    .reverse(),
+});
+
 export class CreateVmWizard extends React.Component {
   state = {
     activeStepIndex: 0,
@@ -318,38 +393,38 @@ export class CreateVmWizard extends React.Component {
 
   finish() {
     const create = this.props.createTemplate ? createVmTemplate : createVm;
-    const k8sObjectToResult = (obj, jmessage) => ({
-      content: obj,
-      title: `${obj.kind} ${getName(obj) || getGeneratedName(obj)} ${jmessage}`,
-    });
+
     const basicSettings = this.state.stepData[BASIC_SETTINGS_TAB_KEY].value;
 
+    const enhancedK8sMethods = new EnhancedK8sMethods(this.props);
+
     create(
-      { k8sCreate: this.props.k8sCreate, k8sPatch: this.props.k8sPatch },
+      enhancedK8sMethods,
       this.props.templates,
       basicSettings,
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value,
       this.props.persistentVolumeClaims
     )
-      .then(objects =>
-        this.onStepDataChanged(RESULT_TAB_KEY, objects.map(object => k8sObjectToResult(object, CREATED)), true)
-      )
-      .catch(({ message, failedObject, objects }) =>
+      .then(() => getResults(enhancedK8sMethods))
+      .catch(error => cleanupAndGetResults(enhancedK8sMethods, error))
+      .then(({ results, valid }) =>
         this.onStepDataChanged(
           RESULT_TAB_KEY,
-          [
-            {
-              content: message,
-              title: ERROR,
-              expanded: true,
-            },
-            failedObject && k8sObjectToResult(failedObject, FAILED),
-            ...(objects && objects.map(object => k8sObjectToResult(object, CREATED))),
-          ],
-          false
+          results
+            .map((result, sortIndex) => ({ ...result, sortIndex }))
+            // move errors to the top
+            .sort((a, b) => {
+              if (a.isError === b.isError) {
+                return a.sortIndex - b.sortIndex;
+              }
+              return a.isError ? -1 : 1;
+            }),
+          valid
         )
-      );
+      )
+      // eslint-disable-next-line no-console
+      .catch(e => console.error(e));
   }
 
   onStepChanged = newActiveStepIndex => {

@@ -1,7 +1,7 @@
 import { get, has } from 'lodash';
 
 import { getTemplatesLabelValues, getTemplatesWithLabels, getTemplate } from '../utils/templates';
-import { VirtualMachineModel } from '../models';
+import { VirtualMachineModel, TemplateModel, SecretModel } from '../models';
 
 import {
   CUSTOM_FLAVOR,
@@ -125,6 +125,10 @@ export const isFlavorType = (basicSettings, type) => settingsValue(basicSettings
 export const getTemplateAnnotations = (template, name) => get(template.metadata.annotations, [name]);
 
 export const selectVm = objects => objects.find(obj => obj.kind === VirtualMachineModel.kind);
+
+export const selectTemplate = objects => objects.find(obj => obj.kind === TemplateModel.kind);
+
+export const selectSecret = objects => objects.find(obj => obj.kind === SecretModel.kind);
 
 export const getModelApi = model => `${model.apiGroup}/${model.apiVersion}`;
 

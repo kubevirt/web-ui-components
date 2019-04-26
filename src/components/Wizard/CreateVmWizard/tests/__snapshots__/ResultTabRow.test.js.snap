@@ -10,7 +10,7 @@ exports[`<ResultTabRow /> renders correctly 1`] = `
   textExpanded="Error"
 >
   <pre
-    className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-tab-row"
+    className="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-tab-row kubevirt-create-vm-wizard__result-tab-row--error"
   >
     Failed
   </pre>

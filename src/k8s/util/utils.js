@@ -1,9 +1,8 @@
 import { get, isEmpty } from 'lodash';
 
-import { getApiVersion, getKind, getName, getNamespace, getOwnerReferences, getUid } from '../../selectors';
-import { getModelIndexId } from '../../models';
+import { getApiVersion, getKind, getName, getOwnerReferences, getUid } from '../../selectors';
 
-const getReferenceName = value => get(value, 'name');
+export const getReferenceName = value => get(value, 'name');
 
 export const buildOwnerReference = (owner, blockOwnerDeletion = true) => ({
   apiVersion: getApiVersion(owner),
@@ -28,15 +27,3 @@ export const buildAddOwnerReferencesPatch = (object, additionalOwnerReferences) 
       : additionalOwnerReferences,
   };
 };
-
-export const replaceUpdatedObject = (allResults, object) =>
-  allResults.map(result => {
-    if (
-      getModelIndexId(result) === getModelIndexId(object) &&
-      getReferenceName(result) === getReferenceName(object) &&
-      getNamespace(result) === getNamespace(object)
-    ) {
-      return object;
-    }
-    return result;
-  });

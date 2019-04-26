@@ -60,7 +60,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
             "vm.kubevirt.io/template-namespace": "default",
             "workload.template.kubevirt.io/generic": "true",
           },
-          "name": "cloudinit-test-vm",
+          "name": "full-vm",
           "namespace": "default",
           "resourceVersion": "10390764",
           "selfLink": "/apis/kubevirt.io/v1alpha3/namespaces/default/virtualmachines/cloudinit-test-vm",

@@ -1,108 +1,108 @@
 import { cloneDeep } from 'lodash';
 
-import { getTemplatesWithLabels, getTemplate } from '../utils/templates';
+import { getTemplate, getTemplatesWithLabels } from '../utils/templates';
 import {
   getCloudInitVolume,
+  getDataVolumeAccessModes,
+  getDataVolumeStorageClassName,
+  getDataVolumeStorageSize,
   getName,
   getNamespace,
   getPvcAccessModes,
-  getPvcStorageSize,
-  getDataVolumeAccessModes,
-  getDataVolumeStorageSize,
-  getDataVolumeStorageClassName,
   getPvcStorageClassName,
+  getPvcStorageSize,
 } from '../selectors';
 
-import { VirtualMachineModel, ProcessedTemplatesModel, TemplateModel, DataVolumeModel, PodModel } from '../models';
+import { DataVolumeModel, PodModel, ProcessedTemplatesModel, TemplateModel, VirtualMachineModel } from '../models';
 
 import {
   ANNOTATION_DEFAULT_DISK,
   ANNOTATION_DEFAULT_NETWORK,
-  TEMPLATE_PARAM_VM_NAME,
-  CUSTOM_FLAVOR,
-  PROVISION_SOURCE_URL,
-  TEMPLATE_TYPE_BASE,
-  PROVISION_SOURCE_PXE,
-  POD_NETWORK,
   ANNOTATION_FIRST_BOOT,
   ANNOTATION_PXE_INTERFACE,
+  CUSTOM_FLAVOR,
+  LABEL_USED_TEMPLATE_NAME,
+  LABEL_USED_TEMPLATE_NAMESPACE,
+  POD_NETWORK,
+  PROVISION_SOURCE_PXE,
+  PROVISION_SOURCE_URL,
   TEMPLATE_API_VERSION,
   TEMPLATE_FLAVOR_LABEL,
   TEMPLATE_OS_LABEL,
-  TEMPLATE_WORKLOAD_LABEL,
-  TEMPLATE_TYPE_LABEL,
+  TEMPLATE_OS_NAME_ANNOTATION,
+  TEMPLATE_PARAM_VM_NAME,
   TEMPLATE_PARAM_VM_NAME_DESC,
+  TEMPLATE_TYPE_BASE,
+  TEMPLATE_TYPE_LABEL,
   TEMPLATE_TYPE_VM,
   TEMPLATE_VM_NAME_LABEL,
-  TEMPLATE_OS_NAME_ANNOTATION,
-  LABEL_USED_TEMPLATE_NAME,
-  LABEL_USED_TEMPLATE_NAMESPACE,
+  TEMPLATE_WORKLOAD_LABEL,
 } from '../constants';
 
 import {
-  NAMESPACE_KEY,
-  DESCRIPTION_KEY,
-  PROVISION_SOURCE_TYPE_KEY,
-  USER_TEMPLATE_KEY,
-  FLAVOR_KEY,
-  MEMORY_KEY,
-  CPU_KEY,
-  START_VM_KEY,
-  CLOUD_INIT_KEY,
-  USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
-  CLOUD_INIT_CUSTOM_SCRIPT_KEY,
-  HOST_NAME_KEY,
   AUTHKEYS_KEY,
-  NAME_KEY,
-  OPERATING_SYSTEM_KEY,
-  WORKLOAD_PROFILE_KEY,
-  STORAGE_TYPE_PVC,
-  STORAGE_TYPE_DATAVOLUME,
-  STORAGE_TYPE_CONTAINER,
-  DATA_VOLUME_SOURCE_URL,
-  IMAGE_URL_KEY,
+  CLOUD_INIT_CUSTOM_SCRIPT_KEY,
+  CLOUD_INIT_KEY,
+  CPU_KEY,
   DATA_VOLUME_SOURCE_BLANK,
+  DATA_VOLUME_SOURCE_URL,
+  DESCRIPTION_KEY,
+  FLAVOR_KEY,
+  HOST_NAME_KEY,
+  IMAGE_URL_KEY,
+  MEMORY_KEY,
+  NAME_KEY,
+  NAMESPACE_KEY,
+  OPERATING_SYSTEM_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
+  START_VM_KEY,
+  STORAGE_TYPE_CONTAINER,
+  STORAGE_TYPE_DATAVOLUME,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
   STORAGE_TYPE_EXTERNAL_V2V_VDDK,
+  STORAGE_TYPE_PVC,
+  USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
+  USER_TEMPLATE_KEY,
+  WORKLOAD_PROFILE_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 
 import {
-  getOsLabel,
-  getWorkloadLabel,
   getFlavorLabel,
+  getOsLabel,
   getTemplateAnnotations,
-  settingsValue,
-  selectVm,
+  getWorkloadLabel,
   isVmwareImport,
+  selectVm,
+  settingsValue,
 } from './selectors';
 import { CloudInit } from './cloudInit';
 import { addTemplateClone } from './clone';
 import { generateDiskName } from '../utils';
 import {
-  getDevices,
-  getDevice,
   addAnnotation,
   addContainerVolume,
-  addExternalImportPvcVolume,
   addDataVolume,
   addDataVolumeTemplate,
   addDisk,
+  addExternalImportPvcVolume,
   addInterface,
   addLabel,
   addNetwork,
   addTemplateLabel,
-  getVolumes,
-  getDataVolumeTemplates,
-  removeInterfacesAndNetworks,
   addVolume,
-  removeDisksAndVolumes,
+  getDataVolumeTemplates,
   getDataVolumeTemplateSpec,
+  getDevice,
+  getDevices,
+  getVolumes,
+  removeDisksAndVolumes,
+  removeInterfacesAndNetworks,
   sequentializeBootOrderIndexes,
 } from './vmBuilder';
 
 import { importVmwareVm } from './requests/v2v';
-import { buildOwnerReference, buildAddOwnerReferencesPatch, replaceUpdatedObject } from './util/utils';
+import { buildAddOwnerReferencesPatch, buildOwnerReference } from './util/utils';
 
 export * from './requests/hosts';
 
@@ -112,36 +112,14 @@ const FALLBACK_DISK = {
   },
 };
 
-class K8sCreateError extends Error {
-  constructor(message, failedObject, objects) {
-    super(message);
-    this.failedObject = failedObject;
-    this.objects = objects;
-  }
-}
-
-const buildEnhancedCreate = k8sCreate => {
-  const history = [];
-  return async (kind, data, ...rest) => {
-    try {
-      const result = await k8sCreate(kind, data, ...rest);
-      history.push(result);
-      return result;
-    } catch (error) {
-      throw new K8sCreateError(error.message, data, history);
-    }
-  };
-};
-
 export const createVmTemplate = async (
-  { k8sCreate },
+  { k8sCreate, getActualState },
   templates,
   basicSettings,
   networks,
   storage,
   persistentVolumeClaims
 ) => {
-  const create = buildEnhancedCreate(k8sCreate);
   const getSetting = param => {
     switch (param) {
       case NAME_KEY:
@@ -189,9 +167,8 @@ export const createVmTemplate = async (
 
   sequentializeBootOrderIndexes(selectVm(template.objects));
 
-  const templateResult = await create(TemplateModel, vmTemplate);
+  const templateResult = await k8sCreate(TemplateModel, vmTemplate);
 
-  const results = [templateResult];
   if (bootDataVolume) {
     bootDataVolume.metadata.ownerReferences = [
       {
@@ -203,35 +180,32 @@ export const createVmTemplate = async (
         uid: templateResult.metadata.uid,
       },
     ];
-    const dvResult = await create(DataVolumeModel, bootDataVolume);
-    results.push(dvResult);
+    await k8sCreate(DataVolumeModel, bootDataVolume);
   }
-  return results;
+
+  return getActualState && getActualState();
 };
 
 export const createVm = async (
-  { k8sCreate, k8sPatch },
+  { k8sCreate, k8sPatch, getActualState },
   templates,
   basicSettings,
   networks,
   storages,
   persistentVolumeClaims
 ) => {
-  const create = buildEnhancedCreate(k8sCreate);
   const getSetting = settingsValue.bind(undefined, basicSettings);
 
-  let results = [];
   let conversionPod;
 
   if (isVmwareImport(basicSettings)) {
     const importResult = await importVmwareVm(getSetting, networks, storages, {
-      k8sCreate: create,
+      k8sCreate,
       k8sPatch,
     });
     // eslint-disable-next-line prefer-destructuring
     conversionPod = importResult.conversionPod;
     storages = importResult.mappedStorages;
-    results = [...results, ...importResult.resultObjects];
   }
 
   const template = getModifiedVmTemplate(
@@ -248,7 +222,7 @@ export const createVm = async (
   const postTemplate = cloneDeep(template);
   postTemplate.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
 
-  const processedTemplate = await create(ProcessedTemplatesModel, postTemplate);
+  const processedTemplate = await k8sCreate(ProcessedTemplatesModel, postTemplate, null, { disableHistory: true }); // temporary
 
   const vm = selectVm(processedTemplate.objects);
 
@@ -261,15 +235,14 @@ export const createVm = async (
     vm.metadata.namespace = namespace;
   }
 
-  const virtualMachine = await create(VirtualMachineModel, vm);
-  results.push(virtualMachine);
+  const virtualMachine = await k8sCreate(VirtualMachineModel, vm);
 
   if (conversionPod) {
     const patches = [buildAddOwnerReferencesPatch(conversionPod, [buildOwnerReference(virtualMachine)])];
-    conversionPod = await k8sPatch(PodModel, conversionPod, patches);
-    results = replaceUpdatedObject(results, conversionPod);
+    await k8sPatch(PodModel, conversionPod, patches);
   }
-  return results;
+
+  return getActualState && getActualState();
 };
 
 const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage, persistentVolumeClaims) => {
