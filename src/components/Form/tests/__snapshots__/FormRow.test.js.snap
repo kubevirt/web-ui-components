@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FormRow /> renders FormControlLabel correctly 1`] = `
+<Fragment>
+  <ControlLabel
+    bsClass="control-label"
+    className={null}
+    srOnly={false}
+  >
+    test
+  </ControlLabel>
+</Fragment>
+`;
+
+exports[`<FormRow /> renders FormRow correctly 1`] = `
+<ValidationFormRow
+  className={null}
+  controlSize={5}
+  help=""
+  id={null}
+  isHidden={false}
+  isRequired={false}
+  labelSize={3}
+  textPosition="text-right"
+  title=""
+  validation={Object {}}
+>
+  test
+</ValidationFormRow>
+`;
+
+exports[`<FormRow /> renders ValidationFormRow correctly 1`] = `
+<FormGroup
+  bsClass="form-group"
+  className="kubevirt-form-group"
+  id={null}
+>
+  <Col
+    bsClass="col"
+    className="text-right"
+    componentClass="div"
+    sm={3}
+  >
+    <FormControlLabel
+      help=""
+      isRequired={false}
+      title=""
+    />
+  </Col>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    sm={5}
+  >
+    test
+  </Col>
+</FormGroup>
+`;

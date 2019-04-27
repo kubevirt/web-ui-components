@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ImportProvider /> renders correctly 1`] = `
+<ImportProvider
+  isVisible={true}
+>
+  provider
+</ImportProvider>
+`;

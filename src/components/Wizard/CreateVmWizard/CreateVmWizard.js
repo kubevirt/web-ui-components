@@ -1,428 +1,149 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { findIndex } from 'lodash';
 import { Wizard } from 'patternfly-react';
 
-import { BasicSettingsTab, onCloseBasic } from './BasicSettingsTab';
+import { VmSettingsTab } from './VmSettingsTab';
+import { getInitialActiveStepIndex, getTabInitialState } from './initialState';
+
+import { validateTabData } from './validations';
 import { StorageTab } from './StorageTab';
 import { ResultTab } from './ResultTab';
 import { ResultTabRow } from './ResultTabRow';
 import { NetworksTab } from './NetworksTab';
-import { loadingWizardTab } from '../loadingWizardTab';
-import { settingsValue } from '../../../k8s/selectors';
+import { LoadingTab } from '../LoadingTab';
 import { createVm, createVmTemplate } from '../../../k8s/request';
 
 import {
-  POD_NETWORK,
-  PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_CONTAINER,
-  PROVISION_SOURCE_PXE,
-  PROVISION_SOURCE_IMPORT,
-  PROVISION_SOURCE_CLONED_DISK,
-} from '../../../constants';
-
-import {
-  PROVISION_SOURCE_TYPE_KEY,
-  USER_TEMPLATE_KEY,
-  BASIC_SETTINGS_TAB_KEY,
-  NETWORKS_TAB_KEY,
-  STORAGE_TAB_KEY,
-  RESULT_TAB_KEY,
-  STORAGE_TYPE_CONTAINER,
-  STORAGE_TYPE_DATAVOLUME,
-  NETWORK_TYPE_POD,
-  INTERMEDIARY_NETWORKS_TAB_KEY,
+  VM_SETTINGS_TAB_KEY,
   NAMESPACE_KEY,
-  PROVIDER_VMWARE_VM_KEY,
-  INTERMEDIARY_STORAGE_TAB_KEY,
-  NETWORK_BINDING_MASQUERADE,
+  NETWORKS_TAB_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
+  RESULT_TAB_KEY,
+  STORAGE_TAB_KEY,
 } from './constants';
 
 import {
   CREATE_VM,
   CREATE_VM_TEMPLATE,
+  NEXT,
   STEP_BASIC_SETTINGS,
   STEP_NETWORK,
-  STEP_STORAGE,
   STEP_RESULT,
-  NEXT,
-  ERROR,
-  CREATED,
-  CREATED_WITH_CLEANUP,
-  CREATED_WITH_FAILED_CLEANUP,
-  FAILED_TO_CREATE,
-  FAILED_TO_PATCH,
+  STEP_STORAGE,
 } from './strings';
 
-import { getFullResourceId } from '../../../utils';
-import {
-  getUserTemplate,
-  getTemplateStorages,
-  getTemplateInterfaces,
-  hasAutoAttachPodInterface,
-} from '../../../utils/templates';
-
-import { getName, getGeneratedName, getKind } from '../../../selectors';
 import { EnhancedK8sMethods } from '../../../k8s/util/enhancedK8sMethods';
+import { getUpdatedState } from './stateUpdate/stateUpdate';
+import { cleanupAndGetResults, errorsFirstSort, getResults } from '../../../k8s/util/k8sMethodsUtils';
+import { VMWareImportProvider } from './providers/VMwareImportProvider/VMWareImportProvider';
+import { ImportProvider } from './providers/ImportProvider/ImportProvider';
+import { isVmwareProvider } from './providers/VMwareImportProvider/selectors';
+import { getVmWareProviderRequestedResources } from './providers/VMwareImportProvider/requestedResources';
+import { getVmSettings, getVmSettingValue, onCloseVmSettings } from './utils/vmSettingsTabUtils';
 
-// left intentionally empty
-const TEMPLATE_ROOT_STORAGE = {};
+const ALL_TAB_KEYS = [VM_SETTINGS_TAB_KEY, NETWORKS_TAB_KEY, STORAGE_TAB_KEY, RESULT_TAB_KEY];
 
-const LoadingBasicWizardTab = loadingWizardTab(BasicSettingsTab);
-const LoadingStorageTab = loadingWizardTab(StorageTab);
-const LoadingNetworksTab = loadingWizardTab(NetworksTab);
-
-const getBasicSettingsValue = (stepData, key) => settingsValue(stepData[BASIC_SETTINGS_TAB_KEY].value, key);
-
-const getInitialDisk = provisionSource => {
-  switch (provisionSource) {
-    case PROVISION_SOURCE_URL:
-      return rootDataVolumeDisk;
-    case PROVISION_SOURCE_CONTAINER:
-      return rootContainerDisk;
-    case PROVISION_SOURCE_PXE:
-    case PROVISION_SOURCE_CLONED_DISK:
-    case PROVISION_SOURCE_IMPORT:
-      return null;
-    default:
-      // eslint-disable-next-line
-      console.warn(`Unknown provision source ${provisionSource}`);
-      return null;
-  }
-};
-
-const onUserTemplateChangedInStorageTab = (stepData, newUserTemplate, dataVolumes) => {
-  const withoutDiscardedTemplateStorage = stepData[STORAGE_TAB_KEY].value.filter(
-    storage => !(storage.templateStorage || storage.rootStorage)
+const getUpdatedValidatedState = (prevProps, prevState, props, state, extra) => {
+  const newState = ALL_TAB_KEYS.reduce(
+    (intermediaryState, tabKey) =>
+      getUpdatedState(tabKey, prevProps, prevState, props, intermediaryState, extra) || intermediaryState,
+    state
   );
 
-  const rows = [...withoutDiscardedTemplateStorage];
-
-  if (newUserTemplate) {
-    const templateStorages = getTemplateStorages(newUserTemplate, dataVolumes).map(storage => ({
-      templateStorage: storage,
-      rootStorage: storage.disk.bootOrder === 1 ? TEMPLATE_ROOT_STORAGE : undefined,
-    }));
-    rows.push(...templateStorages);
-  } else {
-    const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
-    const storage = getInitialDisk(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
-    if (storage) {
-      rows.push(storage);
-    }
+  if (state === newState) {
+    return state; // skip validation
   }
 
+  const validatedStepData = ALL_TAB_KEYS.reduce((resultStepData, tabKey) => {
+    const { value, valid } = newState.stepData[tabKey];
+    resultStepData[tabKey] = validateTabData(tabKey, value, valid);
+    return resultStepData;
+  }, {});
+
   return {
-    ...stepData,
-    [STORAGE_TAB_KEY]: {
-      ...stepData[STORAGE_TAB_KEY],
-      value: rows,
-    },
+    ...newState,
+    stepData: validatedStepData,
   };
 };
 
-const onUserTemplateChangedInNetworksTab = (stepData, newUserTemplate) => {
-  const withoutDiscardedTemplateNetworks = stepData[NETWORKS_TAB_KEY].value.filter(network => !network.templateNetwork);
+export class CreateVmWizard extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const rows = [...withoutDiscardedTemplateNetworks];
-  if (!rows.find(row => row.rootNetwork)) {
-    rows.push(podNetwork);
-  }
-
-  if (newUserTemplate) {
-    const templateInterfaces = getTemplateInterfaces(newUserTemplate);
-    const networks = templateInterfaces.map(i => ({
-      templateNetwork: i,
-    }));
-
-    // do not add root interface if there already is one or autoAttachPodInterface is set to false
-    if (networks.some(network => network.templateNetwork.network.pod) || !hasAutoAttachPodInterface(newUserTemplate)) {
-      const index = findIndex(rows, network => network.rootNetwork);
-      rows.splice(index, 1);
-    }
-
-    rows.push(...networks);
-  }
-
-  return {
-    ...stepData,
-    [NETWORKS_TAB_KEY]: {
-      ...stepData[NETWORKS_TAB_KEY],
-      value: rows,
-    },
-  };
-};
-
-const rootDisk = {
-  rootStorage: {},
-  name: 'rootdisk',
-  isBootable: true,
-};
-
-export const rootContainerDisk = {
-  ...rootDisk,
-  storageType: STORAGE_TYPE_CONTAINER,
-};
-
-export const rootDataVolumeDisk = {
-  ...rootDisk,
-  storageType: STORAGE_TYPE_DATAVOLUME,
-  size: 10,
-};
-
-const onImageSourceTypeChangedInStorageTab = stepData => {
-  const filteredStorage = stepData[STORAGE_TAB_KEY].value.filter(
-    storage => storage.templateStorage || !storage.rootStorage
-  );
-  const rows = [...filteredStorage];
-  const basicSettings = stepData[BASIC_SETTINGS_TAB_KEY].value;
-  if (!settingsValue(basicSettings, USER_TEMPLATE_KEY)) {
-    const storage = getInitialDisk(settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY));
-    if (storage) {
-      rows.push(storage);
-    }
-  }
-  return {
-    ...stepData,
-    [STORAGE_TAB_KEY]: {
-      ...stepData[STORAGE_TAB_KEY],
-      value: rows,
-    },
-  };
-};
-
-const onUserTemplateChanged = (props, stepData) => {
-  const userTemplateName = getBasicSettingsValue(stepData, USER_TEMPLATE_KEY);
-  const userTemplate = userTemplateName ? getUserTemplate(props.templates, userTemplateName) : undefined;
-  const newStepData = onUserTemplateChangedInStorageTab(stepData, userTemplate, props.dataVolumes);
-  return onUserTemplateChangedInNetworksTab(newStepData, userTemplate);
-};
-
-const onImageSourceTypeChanged = (props, stepData) => onImageSourceTypeChangedInStorageTab(stepData);
-
-export const onVmwareVmChanged = (props, stepData) => {
-  const sourceNetworks = getBasicSettingsValue(stepData, INTERMEDIARY_NETWORKS_TAB_KEY);
-  delete stepData[BASIC_SETTINGS_TAB_KEY].value[INTERMEDIARY_NETWORKS_TAB_KEY]; // not needed anymore, do not setState() that
-
-  const sourceDisks = getBasicSettingsValue(stepData, INTERMEDIARY_STORAGE_TAB_KEY);
-  delete stepData[BASIC_SETTINGS_TAB_KEY].value[INTERMEDIARY_STORAGE_TAB_KEY];
-
-  if (sourceNetworks) {
-    const rows = sourceNetworks.map((src, index) => ({
-      rootNetwork: {},
-      id: index,
-      name: src.name,
-      mac: src.mac,
-      network: undefined, // Let the user select proper mapping
-      networkType: undefined,
-      editable: true,
-      edit: false,
-      importSourceId: src.id, // will be used for pairing when Conversion POD is executed
-    }));
-
-    stepData = {
-      ...stepData,
-      [NETWORKS_TAB_KEY]: {
-        ...stepData[NETWORKS_TAB_KEY],
-        value: rows,
+    const initialState = ALL_TAB_KEYS.reduce(
+      (state, tabKey) => {
+        state.stepData[tabKey] = getTabInitialState(tabKey, props);
+        return state;
       },
-    };
-  }
+      {
+        activeStepIndex: getInitialActiveStepIndex(),
+        stepData: {},
+      }
+    );
 
-  if (sourceDisks) {
-    stepData = {
-      ...stepData,
-      [STORAGE_TAB_KEY]: {
-        ...stepData[STORAGE_TAB_KEY],
-        value: sourceDisks,
-        // the "valid" field will be set within StorageTab constructor processing based on the "row.error"
-      },
-    };
-  }
-
-  return stepData;
-};
-
-const podNetwork = {
-  rootNetwork: {},
-  id: 0,
-  name: 'nic0',
-  mac: '',
-  network: POD_NETWORK,
-  editable: true,
-  edit: false,
-  networkType: NETWORK_TYPE_POD,
-  binding: NETWORK_BINDING_MASQUERADE,
-};
-
-const k8sObjectToResult = ({ obj, content, message, isExpanded, isError }) => ({
-  title: [getKind(obj), getName(obj) || getGeneratedName(obj), message].filter(a => a).join(' '),
-  content,
-  isExpanded,
-  isError,
-});
-
-const cleanupAndGetResults = async (enhancedK8sMethods, { message, failedObject, failedPatches }) => {
-  const actualState = enhancedK8sMethods.getActualState(); // actual state will differ after cleanup
-
-  let errors;
-  try {
-    await enhancedK8sMethods.rollback();
-  } catch (e) {
-    // eslint-disable-next-line prefer-destructuring
-    errors = e.errors;
-  }
-
-  const failedObjectsMap = {};
-
-  if (errors) {
-    errors.forEach(error => {
-      failedObjectsMap[getFullResourceId(error.failedObject)] = error.failedObject;
+    this.state = getUpdatedValidatedState(null, null, props, initialState, {
+      // eslint-disable-next-line no-console
+      safeSetState: () => console.warn('setState not supported when initializing'),
     });
   }
 
-  const cleanupArray = actualState
-    .map(resource => {
-      const failedToCleanup = !!failedObjectsMap[getFullResourceId(resource)];
+  componentDidMount() {
+    this._unmounted = false;
+  }
 
-      return k8sObjectToResult({
-        obj: resource,
-        content: resource,
-        message: failedToCleanup ? CREATED_WITH_FAILED_CLEANUP : CREATED_WITH_CLEANUP,
-        isExpanded: failedToCleanup,
-        isError: failedToCleanup,
-      });
-    })
-    .reverse();
+  componentWillUnmount() {
+    this._unmounted = true;
+  }
 
-  const results = [
-    k8sObjectToResult({
-      content: message,
-      message: ERROR,
-      isExpanded: true,
-      isError: true,
-    }),
-    k8sObjectToResult({
-      obj: failedObject,
-      content: failedPatches || failedObject,
-      message: failedPatches ? FAILED_TO_PATCH : FAILED_TO_CREATE,
-      isError: true,
-    }),
-    ...cleanupArray,
-  ];
-
-  return {
-    valid: false,
-    results,
+  safeSetState = state => {
+    if (!this._unmounted) {
+      this.setState(state);
+    }
   };
-};
 
-const getResults = enhancedK8sMethods => ({
-  valid: true,
-  results: enhancedK8sMethods
-    .getActualState()
-    .map(obj => k8sObjectToResult({ obj, content: obj, message: CREATED }))
-    .reverse(),
-});
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const newState = getUpdatedValidatedState(prevProps, prevState, this.props, this.state, {
+      safeSetState: this.safeSetState,
+    });
 
-export class CreateVmWizard extends React.Component {
-  state = {
-    activeStepIndex: 0,
-    stepData: {
-      [BASIC_SETTINGS_TAB_KEY]: {
-        // Basic Settings
-        value: {},
-        valid: false,
-      },
-      [NETWORKS_TAB_KEY]: {
-        value: [podNetwork],
-        valid: true,
-      },
-      [STORAGE_TAB_KEY]: {
-        value: [], // Storages
-        valid: true, // empty Storages are valid
-      },
-      [RESULT_TAB_KEY]: {
-        value: [],
-        valid: null, // result of the request
-      },
-    },
-  };
+    if (this.state !== newState) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.safeSetState(newState);
+    }
+  }
 
   getLastStepIndex = () => this.wizardStepsNewVM.length - 1;
 
   lastStepReached = () => this.state.activeStepIndex === this.getLastStepIndex();
 
-  callbacks = [
-    {
-      field: USER_TEMPLATE_KEY,
-      callback: onUserTemplateChanged,
-    },
-    {
-      field: PROVISION_SOURCE_TYPE_KEY,
-      callback: onImageSourceTypeChanged,
-    },
-    {
-      field: INTERMEDIARY_NETWORKS_TAB_KEY, // can not use PROVIDER_VMWARE_VM_KEY to detect changes due to asynchronous load of details _after_ selection
-      callback: onVmwareVmChanged,
-    },
-  ];
-
-  onStepDataChanged = (key, value, valid) => {
-    this.setState((state, props) => {
-      let stepData = { ...state.stepData };
-
-      stepData[key] = {
-        value,
-        valid,
-      };
-
-      if (key === BASIC_SETTINGS_TAB_KEY) {
-        this.callbacks.forEach(callback => {
-          const oldValue = getBasicSettingsValue(state.stepData, callback.field);
-          const newValue = getBasicSettingsValue(stepData, callback.field);
-          if (oldValue !== newValue) {
-            stepData = callback.callback(props, stepData);
-          }
-        });
-      }
-
-      return { stepData };
-    });
+  onStepDataChanged = (tabKey, value, valid) => {
+    const validatedTabData = validateTabData(tabKey, value, valid);
+    this.safeSetState(state => ({
+      stepData: {
+        ...state.stepData,
+        [tabKey]: validatedTabData,
+      },
+    }));
   };
 
   finish() {
     const create = this.props.createTemplate ? createVmTemplate : createVm;
 
-    const basicSettings = this.state.stepData[BASIC_SETTINGS_TAB_KEY].value;
+    const vmSettings = this.state.stepData[VM_SETTINGS_TAB_KEY].value;
 
     const enhancedK8sMethods = new EnhancedK8sMethods(this.props);
 
     create(
       enhancedK8sMethods,
       this.props.templates,
-      basicSettings,
+      vmSettings,
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value,
       this.props.persistentVolumeClaims
     )
       .then(() => getResults(enhancedK8sMethods))
       .catch(error => cleanupAndGetResults(enhancedK8sMethods, error))
-      .then(({ results, valid }) =>
-        this.onStepDataChanged(
-          RESULT_TAB_KEY,
-          results
-            .map((result, sortIndex) => ({ ...result, sortIndex }))
-            // move errors to the top
-            .sort((a, b) => {
-              if (a.isError === b.isError) {
-                return a.sortIndex - b.sortIndex;
-              }
-              return a.isError ? -1 : 1;
-            }),
-          valid
-        )
-      )
+      .then(({ results, valid }) => this.onStepDataChanged(RESULT_TAB_KEY, errorsFirstSort(results), valid))
       // eslint-disable-next-line no-console
       .catch(e => console.error(e));
   }
@@ -436,7 +157,7 @@ export class CreateVmWizard extends React.Component {
       if (newActiveStepIndex === this.getLastStepIndex()) {
         this.finish();
       }
-      this.setState({ activeStepIndex: newActiveStepIndex });
+      this.safeSetState({ activeStepIndex: newActiveStepIndex });
     }
   };
 
@@ -458,28 +179,32 @@ export class CreateVmWizard extends React.Component {
   wizardStepsNewVM = [
     {
       title: STEP_BASIC_SETTINGS,
-      key: BASIC_SETTINGS_TAB_KEY,
-      onCloseWizard: onCloseBasic,
+      key: VM_SETTINGS_TAB_KEY,
+      onCloseWizard: onCloseVmSettings,
       render: () => {
-        const loadingData = {
-          namespaces: this.props.namespaces,
-          templates: this.props.templates,
-          dataVolumes: this.props.dataVolumes,
-        };
+        const { namespaces, templates, dataVolumes, WithResources } = this.props;
+
+        const loadingData = { namespaces, templates, dataVolumes };
+        const vmSettings = getVmSettings(this.state);
+
         return (
-          <LoadingBasicWizardTab
-            key="1"
-            selectedNamespace={this.props.selectedNamespace}
-            basicSettings={this.state.stepData[BASIC_SETTINGS_TAB_KEY].value}
-            onChange={(value, valid) => this.onStepDataChanged(BASIC_SETTINGS_TAB_KEY, value, valid)}
-            loadingData={loadingData}
-            createTemplate={this.props.createTemplate}
-            WithResources={this.props.WithResources}
-            k8sCreate={this.props.k8sCreate}
-            k8sGet={this.props.k8sGet}
-            k8sPatch={this.props.k8sPatch}
-            k8sKill={this.props.k8sKill}
-          />
+          <LoadingTab {...loadingData}>
+            <VmSettingsTab
+              key={VM_SETTINGS_TAB_KEY}
+              vmSettings={vmSettings}
+              onChange={(value, valid) => this.onStepDataChanged(VM_SETTINGS_TAB_KEY, value, valid)}
+              {...loadingData}
+            >
+              <ImportProvider isVisible={isVmwareProvider(this.state)}>
+                <WithResources resourceMap={getVmWareProviderRequestedResources(this.state)}>
+                  <VMWareImportProvider
+                    vmSettings={vmSettings}
+                    onChange={(value, valid) => this.onStepDataChanged(VM_SETTINGS_TAB_KEY, value, valid)}
+                  />
+                </WithResources>
+              </ImportProvider>
+            </VmSettingsTab>
+          </LoadingTab>
         );
       },
     },
@@ -490,17 +215,20 @@ export class CreateVmWizard extends React.Component {
         const loadingData = {
           networkConfigs: this.props.networkConfigs,
         };
-        const sourceType = getBasicSettingsValue(this.state.stepData, PROVISION_SOURCE_TYPE_KEY);
+        const sourceType = getVmSettingValue(this.state, PROVISION_SOURCE_TYPE_KEY);
         return (
-          <LoadingNetworksTab
-            onChange={(value, valid) => this.onStepDataChanged(NETWORKS_TAB_KEY, value, valid)}
-            networkConfigs={this.props.networkConfigs}
-            networks={this.state.stepData[NETWORKS_TAB_KEY].value || []}
-            sourceType={sourceType}
-            namespace={getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY)}
-            loadingData={loadingData}
-            isCreateRemoveDisabled={!!getBasicSettingsValue(this.state.stepData, PROVIDER_VMWARE_VM_KEY)}
-          />
+          <LoadingTab {...loadingData}>
+            <NetworksTab
+              key={NETWORKS_TAB_KEY}
+              onChange={(value, valid) => this.onStepDataChanged(NETWORKS_TAB_KEY, value, valid)}
+              networkConfigs={this.props.networkConfigs}
+              networks={this.state.stepData[NETWORKS_TAB_KEY].value || []}
+              sourceType={sourceType}
+              namespace={getVmSettingValue(this.state, NAMESPACE_KEY)}
+              isCreateRemoveDisabled={isVmwareProvider(this.state)}
+              {...loadingData}
+            />
+          </LoadingTab>
         );
       },
     },
@@ -512,17 +240,20 @@ export class CreateVmWizard extends React.Component {
           storageClasses: this.props.storageClasses,
           persistentVolumeClaims: this.props.persistentVolumeClaims,
         };
-        const sourceType = getBasicSettingsValue(this.state.stepData, PROVISION_SOURCE_TYPE_KEY);
+        const sourceType = getVmSettingValue(this.state, PROVISION_SOURCE_TYPE_KEY);
         return (
-          <LoadingStorageTab
-            initialStorages={this.state.stepData[STORAGE_TAB_KEY].value}
-            onChange={(value, valid) => this.onStepDataChanged(STORAGE_TAB_KEY, value, valid)}
-            units={this.props.units}
-            sourceType={sourceType}
-            namespace={getBasicSettingsValue(this.state.stepData, NAMESPACE_KEY)}
-            loadingData={loadingData}
-            isCreateRemoveDisabled={!!getBasicSettingsValue(this.state.stepData, PROVIDER_VMWARE_VM_KEY)}
-          />
+          <LoadingTab {...loadingData}>
+            <StorageTab
+              key={STORAGE_TAB_KEY}
+              initialStorages={this.state.stepData[STORAGE_TAB_KEY].value}
+              onChange={(value, valid) => this.onStepDataChanged(STORAGE_TAB_KEY, value, valid)}
+              units={this.props.units}
+              sourceType={sourceType}
+              namespace={getVmSettingValue(this.state, NAMESPACE_KEY)}
+              isCreateRemoveDisabled={isVmwareProvider(this.state)}
+              {...loadingData}
+            />
+          </LoadingTab>
         );
       },
     },
@@ -532,7 +263,7 @@ export class CreateVmWizard extends React.Component {
       render: () => {
         const stepData = this.state.stepData[RESULT_TAB_KEY];
         return (
-          <ResultTab isSuccessful={stepData.valid} isCreateTemplate={this.props.createTemplate}>
+          <ResultTab key={RESULT_TAB_KEY} isSuccessful={stepData.valid} isCreateTemplate={this.props.createTemplate}>
             {stepData.value.map((result, index) => (
               <ResultTabRow key={index} {...result} />
             ))}
@@ -554,7 +285,7 @@ export class CreateVmWizard extends React.Component {
         onHide={this.onHideWrapper}
         steps={this.wizardStepsNewVM}
         activeStepIndex={this.state.activeStepIndex}
-        onStepChanged={index => this.onStepChanged(index)}
+        onStepChanged={this.onStepChanged}
         previousStepDisabled={lastStepReached}
         cancelButtonDisabled={lastStepReached}
         stepButtonsDisabled={lastStepReached}

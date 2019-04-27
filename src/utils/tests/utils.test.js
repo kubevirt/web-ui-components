@@ -1,4 +1,4 @@
-import { formatBytes, formatCores, formatNetTraffic } from '../utils';
+import { formatBytes, formatCores, formatNetTraffic, hasObjectTruthyValue, objectMerge } from '../utils';
 
 describe('unit format functions', () => {
   it('formats bytes', () => {
@@ -19,5 +19,73 @@ describe('unit format functions', () => {
   });
   it('formats net traffic', () => {
     expect(formatNetTraffic(3 * 1000 * 1000)).toEqual({ value: 3, unit: 'MBps' });
+  });
+});
+
+describe('objectMerge', () => {
+  it('works with arrays', () => {
+    const destination = {
+      a: {},
+      b: {
+        e: {},
+        array: [1, 2, 3, 4],
+      },
+      c: {
+        f: {},
+      },
+      d: {},
+    };
+
+    const updateOne = {
+      b: {
+        e: {
+          c: 9,
+        },
+        array: [3, 5],
+      },
+      d: {
+        g: {
+          i: 10,
+        },
+      },
+    };
+
+    const updateTwo = {
+      d: {
+        g: {
+          h: 5,
+        },
+      },
+    };
+
+    const result = {
+      a: {},
+      b: {
+        e: {
+          c: 9,
+        },
+        array: [3, 5],
+      },
+      c: {
+        f: {},
+      },
+      d: {
+        g: {
+          h: 5,
+          i: 10,
+        },
+      },
+    };
+
+    expect(objectMerge(destination, updateOne, updateTwo)).toEqual(result);
+  });
+});
+
+describe('hasObjectTruthyValue', () => {
+  it('does not have', () => {
+    expect(hasObjectTruthyValue({ a: false, b: undefined, c: null })).toBeFalsy();
+  });
+  it('has', () => {
+    expect(hasObjectTruthyValue({ a: false, b: undefined, c: null, d: true })).toBeTruthy();
   });
 });

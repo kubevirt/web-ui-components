@@ -7,108 +7,41 @@ import {
   TEMPLATE_TYPE_VM,
 } from '../../constants';
 import {
-  isFlavorType,
   getWorkloadLabel,
   getOsLabel,
   getFlavorLabel,
   getFlavors,
   getOperatingSystems,
   getWorkloadProfiles,
-  isImageSourceType,
 } from '../selectors';
 import { getTemplate } from '../../utils/templates';
 import { baseTemplates } from '../objects/template';
 import { userTemplates } from '../../tests/mocks/user_template';
-import { PROVISION_SOURCE_TYPE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
 
 const templates = [...baseTemplates, ...userTemplates];
 
 const osId = (os, nextOs) => os.id.localeCompare(nextOs.id);
 
 describe('selectors.js', () => {
-  it('isImageSourceType', () => {
-    const basicVmSettings = {
-      [PROVISION_SOURCE_TYPE_KEY]: {
-        value: 'shouldReturnTrue',
-      },
-    };
-    expect(isImageSourceType(basicVmSettings, undefined)).toBeFalsy();
-    expect(isImageSourceType(basicVmSettings, 'shouldReturnTrue')).toBeTruthy();
-
-    basicVmSettings[PROVISION_SOURCE_TYPE_KEY].value = 'shouldReturnFalse';
-    expect(isImageSourceType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    basicVmSettings[PROVISION_SOURCE_TYPE_KEY].value = undefined;
-    expect(isImageSourceType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    basicVmSettings[PROVISION_SOURCE_TYPE_KEY] = undefined;
-    expect(isImageSourceType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    expect(isImageSourceType(undefined, 'thisIsNotTheValue')).toBeFalsy();
-  });
-  it('isFlavorType', () => {
-    const basicVmSettings = {
-      flavor: {
-        value: 'shouldReturnTrue',
-      },
-    };
-    expect(isFlavorType(basicVmSettings, undefined)).toBeFalsy();
-    expect(isFlavorType(basicVmSettings, 'shouldReturnTrue')).toBeTruthy();
-
-    basicVmSettings.flavor.value = 'shouldReturnFalse';
-    expect(isFlavorType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    basicVmSettings.flavor.value = undefined;
-    expect(isFlavorType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    basicVmSettings.flavor = undefined;
-    expect(isFlavorType(basicVmSettings, 'thisIsNotTheValue')).toBeFalsy();
-    expect(isFlavorType(undefined, 'thisIsNotTheValue')).toBeFalsy();
-  });
   it('getFlavorLabel', () => {
     expect(getFlavorLabel()).toBeUndefined();
 
-    expect(getFlavorLabel({})).toBeUndefined();
-
     const value = 'someFlavor';
-    expect(
-      getFlavorLabel({
-        flavor: {
-          value,
-        },
-      })
-    ).toEqual(`${TEMPLATE_FLAVOR_LABEL}/${value}`);
+    expect(getFlavorLabel(value)).toEqual(`${TEMPLATE_FLAVOR_LABEL}/${value}`);
 
-    expect(
-      getFlavorLabel({
-        flavor: {
-          value: CUSTOM_FLAVOR,
-        },
-      })
-    ).toBeUndefined();
+    expect(getFlavorLabel(CUSTOM_FLAVOR)).toBeUndefined();
   });
   it('getWorkloadLabel', () => {
     expect(getWorkloadLabel()).toBeUndefined();
 
-    expect(getWorkloadLabel({})).toBeUndefined();
-
     const value = 'someWorkload';
-    expect(
-      getWorkloadLabel({
-        workloadProfile: {
-          value,
-        },
-      })
-    ).toEqual(`${TEMPLATE_WORKLOAD_LABEL}/${value}`);
+    expect(getWorkloadLabel(value)).toEqual(`${TEMPLATE_WORKLOAD_LABEL}/${value}`);
   });
   it('getOsLabel', () => {
     expect(getOsLabel()).toBeUndefined();
 
-    expect(getOsLabel({})).toBeUndefined();
-
     const value = 'someOs';
-    expect(
-      getOsLabel({
-        operatingSystem: {
-          value,
-        },
-      })
-    ).toEqual(`${TEMPLATE_OS_LABEL}/${value}`);
+    expect(getOsLabel(value)).toEqual(`${TEMPLATE_OS_LABEL}/${value}`);
   });
 
   it('getTemplate', () => {
@@ -148,8 +81,18 @@ describe('selectors.js', () => {
         name: 'Fedora 29',
       },
     ];
-    const rhel = [{ id: 'rhel7.0', name: 'Red Hat Enterprise Linux 7.0' }];
-    const ubuntu = [{ id: 'ubuntu18.04', name: 'Ubuntu 18.04 LTS' }];
+    const rhel = [
+      {
+        id: 'rhel7.0',
+        name: 'Red Hat Enterprise Linux 7.0',
+      },
+    ];
+    const ubuntu = [
+      {
+        id: 'ubuntu18.04',
+        name: 'Ubuntu 18.04 LTS',
+      },
+    ];
     const windows = [
       {
         id: 'win2k12r2',
@@ -173,38 +116,30 @@ describe('selectors.js', () => {
       [...fedora, ...rhel, ...ubuntu, ...windows].sort(osId)
     );
 
-    const basicVmSettings = {
-      workloadProfile: {
-        value: 'generic',
-      },
+    const params = {
+      workload: 'generic',
     };
 
-    expect(getOperatingSystems(basicVmSettings, templates).sort(osId)).toEqual(
+    expect(getOperatingSystems(params, templates).sort(osId)).toEqual(
       [...fedora, ...rhel, ...ubuntu, ...windows].sort(osId)
     );
 
-    basicVmSettings.workloadProfile.value = 'high-performance';
+    params.workload = 'high-performance';
 
-    expect(getOperatingSystems(basicVmSettings, templates).sort(osId)).toEqual([...rhel]);
+    expect(getOperatingSystems(params, templates).sort(osId)).toEqual([...rhel]);
 
-    basicVmSettings.flavor = {
-      value: 'medium',
-    };
+    params.flavor = 'medium';
 
-    expect(getOperatingSystems(basicVmSettings, templates)).toEqual([...rhel]);
+    expect(getOperatingSystems(params, templates)).toEqual([...rhel]);
 
-    delete basicVmSettings.workloadProfile;
+    delete params.workload;
 
-    expect(getOperatingSystems(basicVmSettings, templates).sort(osId)).toEqual([...rhel, ...windows].sort(osId));
+    expect(getOperatingSystems(params, templates).sort(osId)).toEqual([...rhel, ...windows].sort(osId));
 
-    basicVmSettings.flavor.value = 'small';
-    basicVmSettings.workloadProfile = {
-      value: 'generic',
-    };
+    params.flavor = 'small';
+    params.workload = 'generic';
 
-    expect(getOperatingSystems(basicVmSettings, templates).sort(osId)).toEqual(
-      [...fedora, ...rhel, ...ubuntu].sort(osId)
-    );
+    expect(getOperatingSystems(params, templates).sort(osId)).toEqual([...fedora, ...rhel, ...ubuntu].sort(osId));
   });
 
   it('getFlavors', () => {
@@ -213,55 +148,45 @@ describe('selectors.js', () => {
 
     expect(getFlavors({}, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor, smallFlavor].sort());
 
-    const basicVmSettings = {
-      workloadProfile: {
-        value: 'generic',
-      },
+    const params = {
+      workload: 'generic',
     };
 
-    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
+    expect(getFlavors(params, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
 
-    basicVmSettings.workloadProfile.value = 'high-performance';
-    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor].sort());
+    params.workload = 'high-performance';
+    expect(getFlavors(params, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor].sort());
 
-    delete basicVmSettings.workloadProfile;
-    basicVmSettings.operatingSystem = {
-      value: 'fedora24',
-    };
-    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor].sort());
+    delete params.workload;
+    params.os = 'fedora24';
+    expect(getFlavors(params, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor].sort());
 
-    basicVmSettings.operatingSystem.value = 'rhel7.0';
-    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
+    params.os = 'rhel7.0';
+    expect(getFlavors(params, templates).sort()).toEqual([CUSTOM_FLAVOR, smallFlavor, mediumFlavor].sort());
 
-    basicVmSettings.workloadProfile = {
-      value: 'high-performance',
-    };
-    expect(getFlavors(basicVmSettings, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor].sort());
+    params.workload = 'high-performance';
+    expect(getFlavors(params, templates).sort()).toEqual([CUSTOM_FLAVOR, mediumFlavor].sort());
   });
 
-  it('getWorkloadProfiles', () => {
+  it('getworkloads', () => {
     const highPerformance = 'high-performance';
     const generic = 'generic';
 
     expect(getWorkloadProfiles({}, templates).sort()).toEqual([highPerformance, generic].sort());
 
-    const basicVmSettings = {
-      operatingSystem: {
-        value: 'fedora24',
-      },
+    const params = {
+      os: 'fedora24',
     };
-    expect(getWorkloadProfiles(basicVmSettings, templates)).toEqual([generic]);
+    expect(getWorkloadProfiles(params, templates)).toEqual([generic]);
 
-    basicVmSettings.operatingSystem.value = 'rhel7.0';
-    expect(getWorkloadProfiles(basicVmSettings, templates).sort()).toEqual([generic, highPerformance].sort());
+    params.os = 'rhel7.0';
+    expect(getWorkloadProfiles(params, templates).sort()).toEqual([generic, highPerformance].sort());
 
-    basicVmSettings.operatingSystem.value = 'rhel7.0';
-    basicVmSettings.flavor = {
-      value: 'medium',
-    };
-    expect(getWorkloadProfiles(basicVmSettings, templates)).toEqual([highPerformance]);
+    params.os = 'rhel7.0';
+    params.flavor = 'medium';
+    expect(getWorkloadProfiles(params, templates)).toEqual([highPerformance]);
 
-    basicVmSettings.flavor.value = 'small';
-    expect(getWorkloadProfiles(basicVmSettings, templates)).toEqual([generic]);
+    params.flavor = 'small';
+    expect(getWorkloadProfiles(params, templates)).toEqual([generic]);
   });
 });

@@ -23,10 +23,8 @@
   min-height: 100px;
 }
 
-.kubevirt-create-vm-wizard__import-vmware-passwordcheck-button-section {
-  margin-top: 10px; /* More compact, higher-level sections are 15px */
-  display: inline-flex;
-  width: 100%;
+.kubevirt-create-vm-wizard__import-vmware-password {
+  margin-bottom: 10px; /* More compact, higher-level sections are 15px */
 }
 
 .kubevirt-create-vm-wizard__import-vmware-passwordcheck-button {

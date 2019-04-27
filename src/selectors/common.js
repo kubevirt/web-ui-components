@@ -11,6 +11,7 @@ export const getGeneratedName = value => get(value, 'metadata.generateName');
 export const getOwnerReferences = value => get(value, 'metadata.ownerReferences');
 export const getNamespace = value => get(value, 'metadata.namespace');
 export const getUid = resource => get(resource, 'metadata.uid');
+export const getLabels = (entity, defaultValue) => get(entity, 'metadata.labels', defaultValue);
 export const getId = value => `${getNamespace(value)}-${getName(value)}`;
 
 export const getStorageSize = resources => get(resources, 'requests.storage');

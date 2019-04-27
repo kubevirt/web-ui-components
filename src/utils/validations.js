@@ -24,6 +24,7 @@ const alphanumberincRegex = '[a-zA-Z0-9]';
 export const getValidationObject = (message, type = VALIDATION_ERROR_TYPE) => ({
   message,
   type,
+  isEmptyError: message === EMPTY_ERROR,
 });
 
 // DNS-1123 subdomain
@@ -44,8 +45,10 @@ export const validateDNS1123SubdomainValue = value => {
     return getValidationObject(DNS1123_END_ERROR);
   }
   for (let i = 1; i < value.length - 1; i++) {
-    if (!value.charAt(i).match('[-a-zA-Z0-9.]')) {
-      return getValidationObject(`${DNS1123_CONTAINS_ERROR} ${value.charAt(i)}`);
+    const char = value.charAt(i);
+    if (!char.match('[-a-zA-Z0-9.]')) {
+      const offender = char.match('\\s') ? 'whitespace characters' : char;
+      return getValidationObject(`${DNS1123_CONTAINS_ERROR} ${offender}`);
     }
   }
   return null;

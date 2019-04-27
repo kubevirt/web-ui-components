@@ -20,6 +20,7 @@ const disableHistoryOpts = { disableHistory: true };
 const buildMethods = () =>
   new EnhancedK8sMethods({
     k8sCreate: (kind, data) => Promise.resolve(data),
+    k8sGet: (kind, data) => Promise.resolve(data),
     k8sPatch: (kind, data, patch) => Promise.resolve({ ...data, ...patch }),
     k8sKill: (kind, data) => Promise.resolve(data),
   });
@@ -65,10 +66,14 @@ describe('enhancedK8sMethods.js', () => {
 
     await methods.k8sCreate(VirtualMachineModel, fullVm);
     await methods.k8sPatch(VirtualMachineModel, fullVm);
+    await methods.k8sPatch(VirtualMachineModel, fullVm);
+    await methods.k8sGet(VirtualMachineModel, fullVm);
     await methods.k8sKill(VirtualMachineModel, fullVm);
     await methods.k8sCreate(VirtualMachineModel, cloudInitTestVm);
     await methods.k8sPatch(VirtualMachineModel, cloudInitTestVm);
+    await methods.k8sGet(VirtualMachineModel, cloudInitTestVm);
     await methods.k8sCreate(VirtualMachineModel, fullVm);
+    await methods.k8sGet(VirtualMachineModel, fullVm);
     await methods.k8sPatch(VirtualMachineModel, fullVm, mockPatch);
     const actualState = methods.getActualState();
 

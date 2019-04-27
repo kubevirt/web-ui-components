@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VMWareProviderStatus /> renders correctly 1`] = `
+<VMWareProviderStatus
+  status={null}
+>
+  <ConnectionUnknown>
+    <StatusField>
+      <div
+        className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+      >
+        Status unknown
+      </div>
+    </StatusField>
+  </ConnectionUnknown>
+</VMWareProviderStatus>
+`;

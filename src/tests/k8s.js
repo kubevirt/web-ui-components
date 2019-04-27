@@ -3,13 +3,10 @@ import React from 'react';
 import * as _ from 'lodash';
 
 import { ConfigMapModel, ProcessedTemplatesModel, V2VVMwareModel, TemplateModel } from '../models';
-import {
-  TEMPLATE_PARAM_VM_NAME,
-  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
-  VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
-} from '../constants';
+import { TEMPLATE_PARAM_VM_NAME } from '../constants';
 import { fedora28 } from '../k8s/objects/template/fedora28';
 import { osV2VConfigMap } from './mocks/configMap';
+import { VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME, VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE } from '../config';
 
 const processTemplate = template =>
   new Promise((resolve, reject) => {
@@ -84,11 +81,13 @@ const inject = (children, props) => {
   });
 };
 
-export const WithResources = ({ resourceMap, resourceToProps, children, tesOnlyPhase = 'ConnectionVerified' }) => {
-  let childrenProps = {
-    choices: ['test-vm1', 'test-vm2'],
-    disabled: false,
-  };
+export const WithResources = ({
+  resourceMap,
+  resourceToProps = resources => resources,
+  children,
+  tesOnlyPhase = 'ConnectionVerified',
+}) => {
+  let childrenProps = {};
 
   if (resourceMap.vCenterSecrets) {
     const vCenterSecrets = [
@@ -103,7 +102,7 @@ export const WithResources = ({ resourceMap, resourceToProps, children, tesOnlyP
         },
       },
     ];
-    childrenProps = resourceToProps({ vCenterSecrets });
+    childrenProps = { ...childrenProps, ...resourceToProps({ vCenterSecrets }) };
   }
 
   if (resourceMap.v2vvmware) {
@@ -125,7 +124,7 @@ export const WithResources = ({ resourceMap, resourceToProps, children, tesOnlyP
         phase: tesOnlyPhase,
       },
     };
-    childrenProps = resourceToProps({ v2vvmware });
+    childrenProps = { ...childrenProps, ...resourceToProps({ v2vvmware }) };
   }
 
   return inject(children, childrenProps);

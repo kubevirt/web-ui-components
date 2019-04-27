@@ -1,3 +1,10 @@
+export class K8sGetError extends Error {
+  constructor(message, failedObject) {
+    super(message);
+    this.failedObject = failedObject;
+  }
+}
+
 export class K8sCreateError extends Error {
   constructor(message, failedObject) {
     super(message);

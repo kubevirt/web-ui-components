@@ -11,33 +11,38 @@ import {
 } from '../../../models';
 import {
   NAMESPACE_KEY,
-  PROVIDER_VMWARE_HOSTNAME_KEY,
-  PROVIDER_VMWARE_USER_NAME_KEY,
-  PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY,
-  PROVIDER_VMWARE_USER_PWD_KEY,
-  PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY,
-  PROVIDER_VMWARE_VCENTER_KEY,
-  PROVIDER_VMWARE_VM_DATA_KEY,
-  PROVIDER_VMWARE_VM_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
   STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../../../components/Wizard/CreateVmWizard/constants';
-import { getImportProviderSecretObject } from '../../../components/Wizard/CreateVmWizard/providers/vmwareProviderPod';
 import { getName } from '../../../selectors';
-import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
+import { buildConversionPod, buildConversionPodSecret, buildV2VRole, buildVMwareSecret } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { CONVERSION_GENERATE_NAME } from './constants';
 import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
+import {
+  PROVIDER_VMWARE_HOSTNAME_KEY,
+  PROVIDER_VMWARE_USER_NAME_KEY,
+  PROVIDER_VMWARE_USER_PASSWORD_KEY,
+  PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
+  PROVIDER_VMWARE_VCENTER_KEY,
+  PROVIDER_VMWARE_VM_KEY,
+} from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/constants';
+import { settingsValue } from '../../selectors';
+import {
+  getVmwareAttribute,
+  getVmwareValue,
+  getVmwareField,
+} from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 
-const asImportProviderSecret = getSetting => {
-  if (getSetting(PROVIDER_VMWARE_USER_PWD_REMEMBER_KEY)) {
-    const url = getSetting(PROVIDER_VMWARE_HOSTNAME_KEY);
-    const username = getSetting(PROVIDER_VMWARE_USER_NAME_KEY);
-    const password = get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY);
-    const namespace = getSetting(NAMESPACE_KEY);
+const asImportProviderSecret = vmSettings => {
+  if (getVmwareValue(vmSettings, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY)) {
+    const url = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY);
+    const username = getVmwareValue(vmSettings, PROVIDER_VMWARE_USER_NAME_KEY);
+    const password = getVmwareValue(vmSettings, PROVIDER_VMWARE_USER_PASSWORD_KEY);
+    const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
-    return getImportProviderSecretObject({
+    return buildVMwareSecret({
       url,
       username,
       password,
@@ -60,8 +65,8 @@ const asVolume = ({ name, data }) => ({
   },
 });
 
-const createProviderSecret = async (getSetting, networks, storages, { k8sCreate }) => {
-  const importProviderSecret = asImportProviderSecret(getSetting);
+const createProviderSecret = async (vmSettings, networks, storages, { k8sCreate }) => {
+  const importProviderSecret = asImportProviderSecret(vmSettings);
 
   if (importProviderSecret) {
     await k8sCreate(SecretModel, importProviderSecret);
@@ -70,10 +75,10 @@ const createProviderSecret = async (getSetting, networks, storages, { k8sCreate 
   return null;
 };
 
-const resolveStorages = async (getSetting, networks, storages, { k8sCreate }) => {
+const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }) => {
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
-  const namespace = getSetting(NAMESPACE_KEY);
+  const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
   const extImportPvcsPromises = storages.filter(isImportStorage).map(storage =>
     k8sCreate(
@@ -106,8 +111,8 @@ const resolveStorages = async (getSetting, networks, storages, { k8sCreate }) =>
   };
 };
 
-const resolveRolesAndServiceAccount = async (getSetting, networks, storages, { k8sCreate }) => {
-  const namespace = getSetting(NAMESPACE_KEY);
+const resolveRolesAndServiceAccount = async (vmSettings, networks, storages, { k8sCreate }) => {
+  const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
   const serviceAccount = await k8sCreate(
     ServiceAccountModel,
@@ -132,18 +137,19 @@ const resolveRolesAndServiceAccount = async (getSetting, networks, storages, { k
   };
 };
 
-const createConversionPodSecret = async (getSetting, networks, storages, { k8sCreate }) => {
-  const namespace = getSetting(NAMESPACE_KEY);
-  const vmWareData = getSetting(PROVIDER_VMWARE_VM_DATA_KEY);
+const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCreate }) => {
+  const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
+  const { vm, thumbprint } = getVmwareField(vmSettings, PROVIDER_VMWARE_VM_KEY);
 
-  const extractFromSecret = name => atob(get(getSetting(PROVIDER_VMWARE_VCENTER_KEY), ['data', name]));
+  const extractFromSecret = name =>
+    atob(get(getVmwareAttribute(vmSettings, PROVIDER_VMWARE_VCENTER_KEY, 'secret'), ['data', name]));
 
-  const username = encodeURIComponent(getSetting(PROVIDER_VMWARE_USER_NAME_KEY) || extractFromSecret('username'));
-  const password =
-    get(getSetting(PROVIDER_VMWARE_USER_PWD_AND_CHECK_KEY), PROVIDER_VMWARE_USER_PWD_KEY) ||
-    extractFromSecret('password');
+  const username = encodeURIComponent(
+    getVmwareValue(vmSettings, PROVIDER_VMWARE_USER_NAME_KEY) || extractFromSecret('username')
+  );
+  const password = getVmwareValue(vmSettings, PROVIDER_VMWARE_USER_PASSWORD_KEY) || extractFromSecret('password');
 
-  const hostname = getSetting(PROVIDER_VMWARE_HOSTNAME_KEY) || extractFromSecret('url');
+  const hostname = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY) || extractFromSecret('url');
 
   const sourceDisks = storages
     .filter(storage => storage.storageType === STORAGE_TYPE_EXTERNAL_IMPORT)
@@ -152,11 +158,11 @@ const createConversionPodSecret = async (getSetting, networks, storages, { k8sCr
   const conversionData = {
     daemonize: false,
 
-    vm_name: getSetting(PROVIDER_VMWARE_VM_KEY),
+    vm_name: vm.name,
     transport_method: 'vddk',
 
-    vmware_fingerprint: vmWareData && vmWareData.thumbPrint,
-    vmware_uri: `vpx://${username}@${hostname}${vmWareData && vmWareData.hostPath}?no_verify=1`,
+    vmware_fingerprint: thumbprint,
+    vmware_uri: `vpx://${username}@${hostname}${vm.detail.hostPath}?no_verify=1`,
     vmware_password: password,
 
     source_disks: sourceDisks,
@@ -174,13 +180,13 @@ const createConversionPodSecret = async (getSetting, networks, storages, { k8sCr
 
 // // Start of the Conversion pod is blocked until the PVCs are bound
 const startConversionPod = async (
-  getSetting,
+  vmSettings,
   networks,
   storages,
   { k8sCreate, k8sPatch },
   { serviceAccount, role, roleBinding, mappedStorages, conversionPodSecret }
 ) => {
-  const namespace = getSetting(NAMESPACE_KEY);
+  const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
   const volumes = [];
   const volumeMounts = [];
 
@@ -224,7 +230,7 @@ const startConversionPod = async (
   };
 };
 
-export const importVmwareVm = async (getSetting, networks, storages, { k8sCreate, k8sPatch }) =>
+export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }) =>
   [
     createProviderSecret,
     createConversionPodSecret,
@@ -234,7 +240,7 @@ export const importVmwareVm = async (getSetting, networks, storages, { k8sCreate
   ].reduce(async (lastResultPromise, stepFunction) => {
     const lastResult = await lastResultPromise;
     const nextResult = await stepFunction(
-      getSetting,
+      vmSettings,
       networks,
       storages,
       {

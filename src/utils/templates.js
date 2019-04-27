@@ -10,6 +10,7 @@ import {
   getName,
   getNamespace,
   getDataVolumeSourceType,
+  getLabels,
 } from '../selectors';
 import { selectVm } from '../k8s/selectors';
 import { baseTemplates } from '../k8s/objects/template';
@@ -32,10 +33,7 @@ export const getTemplatesWithLabels = (templates, labels) => {
     if (label !== undefined) {
       pull(
         filteredTemplates,
-        remove(
-          filteredTemplates,
-          template => Object.keys(template.metadata.labels).find(l => l === label) === undefined
-        )
+        remove(filteredTemplates, template => Object.keys(getLabels(template, [])).find(l => l === label) === undefined)
       );
     }
   });
@@ -44,8 +42,8 @@ export const getTemplatesWithLabels = (templates, labels) => {
 
 export const getTemplatesLabelValues = (templates, label) => {
   const labelValues = [];
-  templates.forEach(t => {
-    const labels = Object.keys(t.metadata.labels || []).filter(l => l.startsWith(label));
+  (templates || []).forEach(t => {
+    const labels = Object.keys(getLabels(t, [])).filter(l => l.startsWith(label));
     labels.forEach(l => {
       const labelParts = l.split('/');
       if (labelParts.length > 1) {
@@ -60,7 +58,7 @@ export const getTemplatesLabelValues = (templates, label) => {
 };
 
 export const getTemplate = (templates, type) => {
-  const filteredTemplates = templates.filter(template => {
+  const filteredTemplates = (templates || []).filter(template => {
     const labels = get(template, 'metadata.labels', {});
     return labels[TEMPLATE_TYPE_LABEL] === type;
   });

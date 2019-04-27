@@ -1,59 +1,61 @@
-import { get } from 'lodash';
+import { PROVIDER_VMWARE } from './VMwareImportProvider/constants';
 
-import { Alert } from 'patternfly-react';
-
-import React from 'react';
-
-import { NAMESPACE_KEY, PROVIDER_KEY, PROVIDER_VMWARE, PROVIDER_VMWARE_NAMESPACE_ALERT_KEY } from '../constants';
-import { isImageSourceType, settingsValue } from '../../../../k8s/selectors';
-import { PROVISION_SOURCE_IMPORT } from '../../../../constants';
-
-import { getVMWareSection } from './vmware';
-import { startV2VVMWareController } from './v2vvmwareController';
 import { HELP_PROVIDER_VMWARE } from '../strings';
+import { getVmWareInitialState } from '../initialState/providers/vmWareInitialState';
+import { getVmwareProviderStateUpdate } from '../stateUpdate/providers/vmWareStateUpdate';
+import { validateVmwareProvider, isVmwareProviderValid } from '../validations/providers/vmWareValidation';
+import { cleanupVmWareProvider } from './VMwareImportProvider/utils';
 
-import { CUSTOM } from '../../../Form';
+const providers = [PROVIDER_VMWARE];
 
-const providerList = [PROVIDER_VMWARE];
-
-const getProviderHelp = basicSettings => {
-  const provider = settingsValue(basicSettings, PROVIDER_KEY);
-  switch (provider) {
-    case PROVIDER_VMWARE:
-      return HELP_PROVIDER_VMWARE;
-    default:
-      return null;
-  }
+const helpResolver = {
+  [PROVIDER_VMWARE]: HELP_PROVIDER_VMWARE,
 };
 
-export const importProviders = (basicSettings, operatingSystems, WithResources, k8sCreate, k8sGet, k8sPatch) => ({
-  [PROVIDER_VMWARE_NAMESPACE_ALERT_KEY]: {
-    id: 'vcenter-namespace-alert',
-    type: CUSTOM,
-    title: ' ',
-    CustomComponent: () => <Alert type="warning">Please select a namespace.</Alert>,
-    isVisible: basicVmSettings =>
-      isImageSourceType(basicVmSettings, PROVISION_SOURCE_IMPORT) && !settingsValue(basicSettings, NAMESPACE_KEY),
-  },
-  [PROVIDER_KEY]: {
-    id: 'provider-dropdown',
-    title: 'Provider',
-    type: 'dropdown',
-    defaultValue: '--- Select Provider ---',
-    choices: providerList,
-    required: true,
-    onChange: (...opts) => onProviderChanged(k8sCreate, k8sGet, ...opts),
-    isVisible: basicVmSettings =>
-      settingsValue(basicSettings, NAMESPACE_KEY) && isImageSourceType(basicVmSettings, PROVISION_SOURCE_IMPORT),
-    help: getProviderHelp(basicSettings),
-  },
-  ...getVMWareSection(basicSettings, operatingSystems, WithResources, k8sCreate, k8sGet, k8sPatch),
-});
+const initialStateFunctionResolver = {
+  [PROVIDER_VMWARE]: getVmWareInitialState,
+};
 
-const onProviderChanged = (k8sCreate, k8sGet, valueValidationPair, key, formValid, prevBasicSettings) => {
-  startV2VVMWareController({
-    k8sCreate,
-    k8sGet,
-    namespace: get(prevBasicSettings[NAMESPACE_KEY], 'value'),
-  });
+const stateUpdateFunctionResolver = {
+  [PROVIDER_VMWARE]: getVmwareProviderStateUpdate,
+};
+
+const validateProviderFunctionResolver = {
+  [PROVIDER_VMWARE]: validateVmwareProvider,
+};
+
+const isProviderValidFunctionResolver = {
+  [PROVIDER_VMWARE]: isVmwareProviderValid,
+};
+
+const providerCleanupFunctionResolver = {
+  [PROVIDER_VMWARE]: cleanupVmWareProvider,
+};
+
+export const getProviders = () => providers;
+
+export const getProviderInitialState = (provider, ...args) => {
+  const resolver = initialStateFunctionResolver[provider];
+  return resolver && resolver(...args);
+};
+
+export const getProviderHelp = provider => helpResolver[provider];
+
+export const getProviderStateUpdater = provider => stateUpdateFunctionResolver[provider];
+
+export const validateProvider = (provider, ...args) => {
+  const resolver = validateProviderFunctionResolver[provider];
+  return resolver && resolver(...args);
+};
+
+export const isProviderValid = (provider, ...args) => {
+  const resolver = isProviderValidFunctionResolver[provider];
+  return resolver ? resolver(...args) : true;
+};
+
+export const cleanupProvider = (provider, ...args) => {
+  const cleanup = providerCleanupFunctionResolver[provider];
+  if (cleanup) {
+    cleanup(...args);
+  }
 };
