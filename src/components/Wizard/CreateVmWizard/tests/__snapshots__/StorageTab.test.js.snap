@@ -96,6 +96,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
       Object {
         "bootableDisk": Object {
           "validation": Object {
+            "isEmptyError": false,
             "message": "A bootable disk could not be found",
             "type": "error",
           },

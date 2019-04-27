@@ -42,7 +42,7 @@ import {
 import {
   AUTHKEYS_KEY,
   CLOUD_INIT_CUSTOM_SCRIPT_KEY,
-  CLOUD_INIT_KEY,
+  USE_CLOUD_INIT_KEY,
   CPU_KEY,
   DATA_VOLUME_SOURCE_BLANK,
   DATA_VOLUME_SOURCE_URL,
@@ -72,7 +72,6 @@ import {
   getOsLabel,
   getTemplateAnnotations,
   getWorkloadLabel,
-  isVmwareImport,
   selectVm,
   settingsValue,
 } from './selectors';
@@ -103,6 +102,7 @@ import {
 
 import { importVmwareVm } from './requests/v2v';
 import { buildAddOwnerReferencesPatch, buildOwnerReference } from './util/utils';
+import { isVmwareProvider } from '../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 
 export * from './requests/hosts';
 
@@ -115,7 +115,7 @@ const FALLBACK_DISK = {
 export const createVmTemplate = async (
   { k8sCreate, getActualState },
   templates,
-  basicSettings,
+  vmSettings,
   networks,
   storage,
   persistentVolumeClaims
@@ -127,25 +127,18 @@ export const createVmTemplate = async (
       case DESCRIPTION_KEY:
         return undefined;
       default:
-        return settingsValue(basicSettings, param);
+        return settingsValue(vmSettings, param);
     }
   };
-  const template = getModifiedVmTemplate(
-    templates,
-    basicSettings,
-    getSetting,
-    networks,
-    storage,
-    persistentVolumeClaims
-  );
+  const template = getModifiedVmTemplate(templates, vmSettings, getSetting, networks, storage, persistentVolumeClaims);
   const vmTemplate = createTemplateObject(
-    settingsValue.bind(undefined, basicSettings),
+    settingsValue.bind(undefined, vmSettings),
     selectVm(template.objects),
     template
   );
 
   let bootDataVolume;
-  if (settingsValue(basicSettings, PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_URL) {
+  if (settingsValue(vmSettings, PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_URL) {
     const bootStorage = storage.find(s => s.isBootable);
     const vm = selectVm(template.objects);
 
@@ -156,11 +149,11 @@ export const createVmTemplate = async (
     const newDataVolumeTemplates = dataVolumeTemplates.filter(t => getName(t) !== bootVolume.dataVolume.name);
     vm.spec.dataVolumeTemplates = newDataVolumeTemplates;
 
-    const newDataVolumeName = generateDiskName(settingsValue(basicSettings, NAME_KEY), bootStorage.name);
+    const newDataVolumeName = generateDiskName(settingsValue(vmSettings, NAME_KEY), bootStorage.name);
     bootVolume.dataVolume.name = newDataVolumeName;
 
     bootDataVolume.metadata.name = newDataVolumeName;
-    bootDataVolume.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
+    bootDataVolume.metadata.namespace = settingsValue(vmSettings, NAMESPACE_KEY);
     bootDataVolume.apiVersion = `${DataVolumeModel.apiGroup}/${DataVolumeModel.apiVersion}`;
     bootDataVolume.kind = DataVolumeModel.kind;
   }
@@ -189,17 +182,17 @@ export const createVmTemplate = async (
 export const createVm = async (
   { k8sCreate, k8sPatch, getActualState },
   templates,
-  basicSettings,
+  vmSettings,
   networks,
   storages,
   persistentVolumeClaims
 ) => {
-  const getSetting = settingsValue.bind(undefined, basicSettings);
+  const getSetting = settingsValue.bind(undefined, vmSettings);
 
   let conversionPod;
 
-  if (isVmwareImport(basicSettings)) {
-    const importResult = await importVmwareVm(getSetting, networks, storages, {
+  if (isVmwareProvider(vmSettings)) {
+    const importResult = await importVmwareVm(vmSettings, networks, storages, {
       k8sCreate,
       k8sPatch,
     });
@@ -208,19 +201,12 @@ export const createVm = async (
     storages = importResult.mappedStorages;
   }
 
-  const template = getModifiedVmTemplate(
-    templates,
-    basicSettings,
-    getSetting,
-    networks,
-    storages,
-    persistentVolumeClaims
-  );
+  const template = getModifiedVmTemplate(templates, vmSettings, getSetting, networks, storages, persistentVolumeClaims);
 
   // ProcessedTemplates endpoint will reject the request if user cannot post to the namespace
   // common-templates are stored in openshift namespace, default user can read but cannot post
   const postTemplate = cloneDeep(template);
-  postTemplate.metadata.namespace = settingsValue(basicSettings, NAMESPACE_KEY);
+  postTemplate.metadata.namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
   const processedTemplate = await k8sCreate(ProcessedTemplatesModel, postTemplate, null, { disableHistory: true }); // temporary
 
@@ -245,8 +231,8 @@ export const createVm = async (
   return getActualState && getActualState();
 };
 
-const getModifiedVmTemplate = (templates, basicSettings, getSetting, networks, storage, persistentVolumeClaims) => {
-  const template = resolveTemplate(templates, basicSettings, getSetting);
+const getModifiedVmTemplate = (templates, vmSettings, getSetting, networks, storage, persistentVolumeClaims) => {
+  const template = resolveTemplate(templates, vmSettings, getSetting);
 
   const vm = selectVm(template.objects);
   modifyVmObject(vm, template, getSetting, networks, storage, persistentVolumeClaims);
@@ -279,7 +265,7 @@ const createTemplateObject = (getSetting, vm, template) => {
   return vmTemplate;
 };
 
-const resolveTemplate = (templates, basicSettings, getSetting) => {
+const resolveTemplate = (templates, vmSettings, getSetting) => {
   let chosenTemplate;
 
   if (getSetting(USER_TEMPLATE_KEY)) {
@@ -290,9 +276,9 @@ const resolveTemplate = (templates, basicSettings, getSetting) => {
     chosenTemplate = cloneDeep(chosenTemplate);
   } else {
     const baseTemplates = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
-      getOsLabel(basicSettings),
-      getWorkloadLabel(basicSettings),
-      getFlavorLabel(basicSettings),
+      getOsLabel(settingsValue(vmSettings, OPERATING_SYSTEM_KEY)),
+      getWorkloadLabel(settingsValue(vmSettings, WORKLOAD_PROFILE_KEY)),
+      getFlavorLabel(settingsValue(vmSettings, FLAVOR_KEY)),
     ]);
     if (baseTemplates.length === 0) {
       return null;
@@ -380,7 +366,7 @@ const addNetworks = (vm, template, getSetting, networks) => {
 };
 
 const addCloudInit = (vm, defaultDisk, getSetting) => {
-  if (getSetting(CLOUD_INIT_KEY)) {
+  if (getSetting(USE_CLOUD_INIT_KEY)) {
     const existingCloudInitVolume = getCloudInitVolume(vm);
     const cloudInit = new CloudInit({
       volume: existingCloudInitVolume,

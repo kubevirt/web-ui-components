@@ -3,13 +3,13 @@ import { shallow, mount } from 'enzyme';
 import { findIndex } from 'lodash';
 import { WizardPattern } from 'patternfly-react';
 
-import { CreateVmWizard, onVmwareVmChanged } from '../CreateVmWizard';
+import { CreateVmWizard } from '../CreateVmWizard';
 import { Loading } from '../../../Loading';
-import { validBasicSettings } from '../fixtures/BasicSettingsTab.fixture';
+import { validVmSettings } from '../fixtures/VmSettingsTab.fixture';
 import { createVm, createVmTemplate } from '../../../../k8s/request';
 import { CREATE_VM, NEXT, CREATE_VM_TEMPLATE } from '../strings';
 import CreateVmWizardFixutre from '../fixtures/CreateVmWizard.fixture';
-import { BasicSettingsTab } from '../BasicSettingsTab';
+import { VmSettingsTab } from '../VmSettingsTab';
 import { NetworksTab } from '../NetworksTab';
 import { StorageTab } from '../StorageTab';
 import { ResultTab } from '../ResultTab';
@@ -19,16 +19,15 @@ import { getTemplateInterfaces } from '../../../../utils/templates';
 
 import {
   NETWORKS_TAB_KEY,
-  BASIC_SETTINGS_TAB_KEY,
+  VM_SETTINGS_TAB_KEY,
   STORAGE_TAB_KEY,
   RESULT_TAB_KEY,
   USER_TEMPLATE_KEY,
   PROVISION_SOURCE_TYPE_KEY,
   STORAGE_TYPE_CONTAINER,
   STORAGE_TYPE_DATAVOLUME,
-  INTERMEDIARY_NETWORKS_TAB_KEY,
-  INTERMEDIARY_STORAGE_TAB_KEY,
-  STORAGE_TYPE_EXTERNAL_IMPORT,
+  IMAGE_URL_KEY,
+  CONTAINER_IMAGE_KEY,
 } from '../constants';
 
 import {
@@ -45,6 +44,7 @@ import {
   PROVISION_SOURCE_CLONED_DISK,
 } from '../../../../constants';
 import { getButton } from '../../../../tests/enzyme';
+import { VM_SETTINGS_METADATA_ID } from '../utils/vmSettingsTabUtils';
 
 jest.mock('../../../../k8s/request');
 
@@ -104,7 +104,7 @@ const testWalkThrough = (template = false, createText = CREATE_VM, templatesDrop
   expect(component.find('.modal-title').text()).toEqual(createText);
 
   expect(component.find(Loading)).toHaveLength(1);
-  expect(component.find(BasicSettingsTab)).toHaveLength(0);
+  expect(component.find(VmSettingsTab)).toHaveLength(0);
 
   const namespaces = [...CreateVmWizardFixutre[0].props.namespaces];
   const templates = [...CreateVmWizardFixutre[0].props.templates];
@@ -112,11 +112,11 @@ const testWalkThrough = (template = false, createText = CREATE_VM, templatesDrop
   component.setProps({ namespaces, templates, dataVolumes });
 
   expect(component.find(Loading)).toHaveLength(0);
-  expect(component.find(BasicSettingsTab)).toHaveLength(1);
+  expect(component.find(VmSettingsTab)).toHaveLength(1);
 
   expect(component.find('#template-dropdown').exists()).toEqual(templatesDropdown);
 
-  component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, validBasicSettings, true);
+  component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, validVmSettings, true);
   component.update();
   expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
 
@@ -142,15 +142,15 @@ const testWalkThrough = (template = false, createText = CREATE_VM, templatesDrop
   component.update();
 
   expect(component.state().activeStepIndex).toEqual(
-    getStepIndex(component.instance().wizardStepsNewVM, BASIC_SETTINGS_TAB_KEY)
+    getStepIndex(component.instance().wizardStepsNewVM, VM_SETTINGS_TAB_KEY)
   );
-  expect(component.find(BasicSettingsTab)).toHaveLength(1);
+  expect(component.find(VmSettingsTab)).toHaveLength(1);
   expect(component.find(NetworksTab)).toHaveLength(0);
 
   getNextButton(component).simulate('click');
   component.update();
 
-  expect(component.find(BasicSettingsTab)).toHaveLength(0);
+  expect(component.find(VmSettingsTab)).toHaveLength(0);
   expect(component.find(NetworksTab)).toHaveLength(1);
   expect(getNextButton(component).text()).toEqual(NEXT);
 
@@ -252,22 +252,29 @@ describe('<CreateVmWizard />', () => {
   it('changes next step disability', () => {
     const component = shallow(testCreateVmWizard());
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, validBasicSettings, true);
-    expect(component.state().stepData[BASIC_SETTINGS_TAB_KEY].value).toEqual(validBasicSettings);
-    expect(component.state().stepData[BASIC_SETTINGS_TAB_KEY].valid).toBeTruthy();
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, validVmSettings, true);
+    expect(component.state().stepData[VM_SETTINGS_TAB_KEY].value).toMatchSnapshot();
+    expect(component.state().stepData[VM_SETTINGS_TAB_KEY].valid).toBeTruthy();
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
 
     // new required field will become visible
-    component.instance().onStepDataChanged(
-      BASIC_SETTINGS_TAB_KEY,
-      {
-        ...validBasicSettings,
-        [PROVISION_SOURCE_TYPE_KEY]: {
-          value: 'URL',
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, {
+      ...validVmSettings,
+      [PROVISION_SOURCE_TYPE_KEY]: {
+        value: PROVISION_SOURCE_URL,
+        validation: undefined,
+      },
+      [IMAGE_URL_KEY]: {
+        isRequired: {
+          [VM_SETTINGS_METADATA_ID]: true,
         },
       },
-      false
-    );
+      [CONTAINER_IMAGE_KEY]: {
+        isRequired: {
+          [VM_SETTINGS_METADATA_ID]: false,
+        },
+      },
+    });
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
   });
 
@@ -294,7 +301,7 @@ describe('<CreateVmWizard />', () => {
         value: PROVISION_SOURCE_CONTAINER,
       },
     };
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, userTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, userTemplateSource, true);
     checkRootStorageExists(component, STORAGE_TYPE_CONTAINER);
 
     let withTemplateSource = {
@@ -307,7 +314,7 @@ describe('<CreateVmWizard />', () => {
       },
     };
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, withTemplateSource, true);
     checkStorages(component, containerTemplate);
 
     withTemplateSource = {
@@ -320,7 +327,7 @@ describe('<CreateVmWizard />', () => {
       },
     };
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, withTemplateSource, true);
     checkStorages(component, pxeDataVolumeTemplate);
 
     withTemplateSource = {
@@ -333,7 +340,7 @@ describe('<CreateVmWizard />', () => {
       },
     };
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, withTemplateSource, true);
     expect(component.state('stepData')[STORAGE_TAB_KEY].value).toHaveLength(0);
 
     withTemplateSource = {
@@ -346,7 +353,7 @@ describe('<CreateVmWizard />', () => {
       },
     };
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, withTemplateSource, true);
     checkRootStorageExists(component, STORAGE_TYPE_DATAVOLUME);
 
     withTemplateSource = {
@@ -359,7 +366,7 @@ describe('<CreateVmWizard />', () => {
       },
     };
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, withTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, withTemplateSource, true);
     checkStorages(component, pvcTemplate);
   });
 
@@ -375,7 +382,7 @@ describe('<CreateVmWizard />', () => {
         value: PROVISION_SOURCE_PXE,
       },
     };
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, noTemplateSource, true);
     checkRootNetworkExists(component);
 
     const podNetworkTemplateSource = {
@@ -383,7 +390,7 @@ describe('<CreateVmWizard />', () => {
         value: getName(containerTemplate),
       },
     };
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, podNetworkTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, podNetworkTemplateSource, true);
     checkNetworks(component, containerTemplate);
 
     const multusNetworkTemplateSource = {
@@ -391,7 +398,7 @@ describe('<CreateVmWizard />', () => {
         value: getName(containerMultusTemplate),
       },
     };
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, multusNetworkTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, multusNetworkTemplateSource, true);
     checkNetworks(component, containerMultusTemplate);
 
     const noPodNetworkTemplateSource = {
@@ -399,107 +406,14 @@ describe('<CreateVmWizard />', () => {
         value: getName(urlNoNetworkTemplate),
       },
     };
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noPodNetworkTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, noPodNetworkTemplateSource, true);
     checkNetworks(component, urlNoNetworkTemplate);
 
-    component.instance().onStepDataChanged(BASIC_SETTINGS_TAB_KEY, noTemplateSource, true);
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, noTemplateSource, true);
     checkRootNetworkExists(component);
   });
 
-  it('prefills networks when importing - no networks', () => {
-    const props = undefined;
-    const stepData = {
-      [BASIC_SETTINGS_TAB_KEY]: {
-        value: {
-          [INTERMEDIARY_NETWORKS_TAB_KEY]: {
-            value: [],
-          },
-        },
-      },
-      [NETWORKS_TAB_KEY]: {
-        value: [],
-      },
-    };
-    const result = onVmwareVmChanged(props, stepData);
-    expect(result[NETWORKS_TAB_KEY].value).toHaveLength(0);
-  });
-
-  it('prefills networks when importing', () => {
-    const props = undefined;
-    const stepData = {
-      [BASIC_SETTINGS_TAB_KEY]: {
-        value: {
-          [INTERMEDIARY_NETWORKS_TAB_KEY]: {
-            value: [
-              {
-                name: 'nic0',
-                id: 'id0',
-                mac: 'some:mac:address:0',
-              },
-              {
-                name: 'nic1',
-                id: 'id1',
-                mac: 'some:mac:address:1',
-              },
-            ],
-          },
-        },
-      },
-      [NETWORKS_TAB_KEY]: {
-        value: [],
-      },
-    };
-    const result = onVmwareVmChanged(props, stepData);
-    expect(result[NETWORKS_TAB_KEY].value).toHaveLength(2);
-    expect(result[NETWORKS_TAB_KEY].value[0].importSourceId).toBe('id0');
-    expect(result[NETWORKS_TAB_KEY].value[0].name).toBe('nic0');
-    expect(result[NETWORKS_TAB_KEY].value[0].mac).toBe('some:mac:address:0');
-    expect(result[NETWORKS_TAB_KEY].value[0].network).toBe(undefined);
-  });
-
-  it('prefills disks when importing', () => {
-    const props = undefined;
-    const stepData = {
-      [BASIC_SETTINGS_TAB_KEY]: {
-        value: {
-          [INTERMEDIARY_STORAGE_TAB_KEY]: {
-            value: [
-              {
-                name: 'disk0',
-                isBootable: true,
-                storageType: STORAGE_TYPE_EXTERNAL_IMPORT,
-                id: '0',
-                data: {
-                  fileName: 'filename0',
-                  mountPath: '/test/mount/path/1',
-                },
-                size: 1,
-              },
-              {
-                name: 'disk1',
-                id: '1',
-                storageType: STORAGE_TYPE_EXTERNAL_IMPORT,
-                data: {
-                  fileName: 'filename1',
-                  mountPath: '/test/mount/path/2',
-                },
-                size: 2,
-              },
-            ],
-          },
-        },
-      },
-      [STORAGE_TAB_KEY]: {
-        value: [],
-      },
-    };
-    const result = onVmwareVmChanged(props, stepData);
-    expect(result[STORAGE_TAB_KEY].value).toHaveLength(2);
-    expect(result[STORAGE_TAB_KEY].value[0].id).toBe('0');
-    expect(result[STORAGE_TAB_KEY].value[0].name).toBe('disk0');
-    expect(result[STORAGE_TAB_KEY].value[0].size).toBe(1);
-    expect(result[STORAGE_TAB_KEY].value[0].storageClass).toBe(undefined);
-  });
+  // TODO: add 2v2 tests
 });
 
 describe('<CreateVmWizard /> for Create VM Template', () => {

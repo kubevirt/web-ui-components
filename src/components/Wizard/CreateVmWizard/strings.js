@@ -1,9 +1,9 @@
 import {
-  PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_CLONED_DISK,
+  PROVISION_SOURCE_CONTAINER,
+  PROVISION_SOURCE_IMPORT,
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_URL,
-  PROVISION_SOURCE_IMPORT,
 } from '../../../constants';
 
 export const CREATE_VM = 'Create Virtual Machine';
@@ -17,7 +17,7 @@ export const ERROR_EMPTY_ENTITY = 'Empty entity';
 export const ERROR_EMPTY_NAME = 'Name is empty';
 export const ERROR_IS_REQUIRED = 'is required';
 
-// BasicSettingsTab
+// VmSettingsTab
 export const NO_TEMPLATE = '--- No Template ---';
 export const HELP_CPU = 'The number of virtual CPU cores that will be dedicated to the virtual machine.';
 export const HELP_MEMORY = 'The amount of memory that will be dedicated to the virtual machine.';
@@ -71,13 +71,6 @@ export const ATTACH_DISK_BUTTON = 'Attach Disk';
 export const CREATE_DISK_BUTTON = 'Create Disk';
 export const BOOTABLE_DISK = 'Bootable Disk';
 export const SELECT_BOOTABLE_DISK = '--- Select Bootable Disk ---';
-
-export const ERROR = 'Error';
-export const CREATED = 'created';
-export const CREATED_WITH_FAILED_CLEANUP = 'created & failed to clean up';
-export const CREATED_WITH_CLEANUP = 'created & cleaned up';
-export const FAILED_TO_CREATE = 'failed to create';
-export const FAILED_TO_PATCH = 'failed to patch';
 
 export const getNoBootableError = sourceType =>
   sourceType === PROVISION_SOURCE_CLONED_DISK ? ERROR_NO_BOOTABLE_ATTACHED_DISK : ERROR_NO_BOOTABLE_DISK;

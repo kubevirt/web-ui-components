@@ -1,7 +1,7 @@
 import { KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE } from '../../../../config';
 import { DeploymentModel } from '../../../../models';
 
-export const buildVmWareDeployment = ({ k8sCreate, name, namespace }) => ({
+export const buildVmWareDeployment = ({ name, namespace }) => ({
   apiVersion: `${DeploymentModel.apiGroup}/${DeploymentModel.apiVersion}`,
   kind: DeploymentModel.kind,
   metadata: {

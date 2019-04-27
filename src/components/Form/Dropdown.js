@@ -1,10 +1,11 @@
 import React from 'react';
+import { isObject } from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ButtonGroup, DropdownButton, MenuItem, noop, Tooltip, OverlayTrigger } from 'patternfly-react';
 
 export const Dropdown = ({ id, value, disabled, onChange, choices, className, withTooltips }) => {
-  const title = typeof value === 'object' ? value.name || value.id : value;
+  const title = isObject(value) ? value.name || value.id : value;
   return (
     <ButtonGroup justified key={id}>
       <DropdownButton
@@ -16,9 +17,8 @@ export const Dropdown = ({ id, value, disabled, onChange, choices, className, wi
         onSelect={onChange}
       >
         {choices.map(choice => {
-          const isObject = typeof choice === 'object';
-          const key = isObject ? choice.id || choice.name : choice;
-          const val = isObject ? choice.name : choice;
+          const key = isObject(choice) ? choice.id || choice.name : choice;
+          const val = isObject(choice) ? choice.name : choice;
 
           const content = (
             <MenuItem key={key} eventKey={choice}>

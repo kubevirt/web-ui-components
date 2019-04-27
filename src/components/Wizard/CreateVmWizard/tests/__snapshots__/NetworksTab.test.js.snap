@@ -101,6 +101,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
       Object {
         "pxeNetwork": Object {
           "validation": Object {
+            "isEmptyError": false,
             "message": "A PXE-capable NIC could not be found",
             "type": "error",
           },

@@ -1,9 +1,10 @@
 import { get } from 'lodash';
 
-import { K8sCreateError, K8sKillError, K8sMultipleErrors, K8sPatchError } from './errors';
+import { K8sCreateError, K8sGetError, K8sKillError, K8sMultipleErrors, K8sPatchError } from './errors';
 import { findModel } from '../../models';
 import { getFullResourceId } from '../../utils';
 
+export const HISTORY_TYPE_GET = 'get';
 export const HISTORY_TYPE_CREATE = 'create';
 export const HISTORY_TYPE_PATCH = 'patch';
 export const HISTORY_TYPE_DELETE = 'delete';
@@ -17,8 +18,9 @@ export class HistoryItem {
 }
 
 export class EnhancedK8sMethods {
-  constructor({ k8sCreate, k8sPatch, k8sKill }) {
+  constructor({ k8sGet, k8sCreate, k8sPatch, k8sKill }) {
     this._history = [];
+    this._k8sGet = k8sGet;
     this._k8sCreate = k8sCreate;
     this._k8sPatch = k8sPatch;
     this._k8sKill = k8sKill;
@@ -27,6 +29,16 @@ export class EnhancedK8sMethods {
   _appendHistory = (historyItem, enhancedOpts) => {
     if (!enhancedOpts || !enhancedOpts.disableHistory) {
       this._history.push(historyItem);
+    }
+  };
+
+  k8sGet = async (kind, name, namespace, opts, enhancedOpts) => {
+    try {
+      const result = await this._k8sGet(kind, name, namespace, opts);
+      this._appendHistory(new HistoryItem(HISTORY_TYPE_GET, result), enhancedOpts);
+      return result;
+    } catch (error) {
+      throw new K8sGetError(error.message, { name, namespace });
     }
   };
 
@@ -69,16 +81,21 @@ export class EnhancedK8sMethods {
 
     this._history.forEach(({ type, object }) => {
       const id = getFullResourceId(object);
+      const currentIdx = currentIndexes[id];
       switch (type) {
+        case HISTORY_TYPE_GET:
         case HISTORY_TYPE_CREATE:
-          currentIndexes[id] = currentUnfilteredState.push(object) - 1;
-          break;
         case HISTORY_TYPE_PATCH:
-          currentUnfilteredState[currentIndexes[id]] = object;
+          if (currentIdx != null && currentIdx >= 0) {
+            currentUnfilteredState[currentIdx] = object;
+          } else {
+            currentIndexes[id] = currentUnfilteredState.push(object) - 1;
+          }
           break;
         case HISTORY_TYPE_DELETE:
         case HISTORY_TYPE_NOT_FOUND:
-          currentUnfilteredState[currentIndexes[id]] = null;
+          currentUnfilteredState[currentIdx] = null;
+          currentIndexes[id] = null;
           break;
         default:
           break;

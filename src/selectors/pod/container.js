@@ -4,6 +4,7 @@ const failedWaitingContainerReasons = ['ImagePullBackOff', 'ErrImagePull', 'Cras
 const failedTerminationContaineReasons = ['Error'];
 
 const getContainerWaitingReason = container => get(container, 'state.waiting.reason');
+export const getContainerImage = container => get(container, 'image');
 const getContainerTerminatedReason = container => get(container, 'state.terminated.reason');
 
 const stateReasonResolver = {

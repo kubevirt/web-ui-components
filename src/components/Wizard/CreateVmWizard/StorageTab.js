@@ -190,7 +190,7 @@ const resolveTemplateStorage = (storage, persistentVolumeClaims, storageClasses,
     }
     if (!templateStorage.storageClass) {
       templateStorage.storageClass = getName(
-        storageClasses.find(clazz => getName(clazz) === pvc.spec.storageClassName)
+        storageClasses.find(clazz => getName(clazz) === getPvcStorageClassName(pvc))
       );
     }
     templateStorage.storageType = STORAGE_TYPE_PVC;

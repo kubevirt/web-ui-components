@@ -1,3 +1,5 @@
+import { isArray, mergeWith } from 'lodash';
+
 import { getModelIndexId, NamespaceModel, ProjectModel } from '../models';
 
 import {
@@ -148,3 +150,14 @@ export const formatToShortTime = timestamp => {
   // returns in HH:MM format
   return dt.toString().substring(16, 21);
 };
+
+export const hasObjectTruthyValue = obj => !!(obj && !!Object.keys(obj).find(key => obj[key]));
+
+// merge but keep only keys eligible for update (dest)
+export const objectMerge = (dest, ...sources) =>
+  mergeWith(dest, ...sources, (objValue, srcValue) => {
+    if (isArray(objValue) || isArray(srcValue)) {
+      return srcValue;
+    }
+    return undefined;
+  });

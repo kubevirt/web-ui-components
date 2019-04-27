@@ -1,5 +1,301 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<CreateVmWizard /> changes next step disability 1`] = `
+Object {
+  "authKeys": Object {
+    "isHidden": Object {
+      "cloudInit": true,
+      "useCloudInitCustomScript": false,
+    },
+    "value": null,
+  },
+  "cloudInit": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+    },
+    "value": undefined,
+  },
+  "cloudInitCustomScript": Object {
+    "isHidden": Object {
+      "cloudInit": true,
+      "useCloudInitCustomScript": true,
+    },
+    "value": null,
+  },
+  "containerImage": Object {
+    "isDisabled": Object {
+      "userTemplate": false,
+    },
+    "isHidden": Object {
+      "provisionSourceType": false,
+    },
+    "isRequired": Object {
+      "provisionSourceType": true,
+    },
+    "validation": null,
+    "value": "pathtoimage",
+  },
+  "cpu": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+    },
+    "isHidden": Object {
+      "flavor": true,
+    },
+    "isRequired": Object {
+      "flavor": false,
+    },
+    "value": undefined,
+  },
+  "description": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+    },
+    "value": undefined,
+  },
+  "flavor": Object {
+    "flavors": Array [
+      "small",
+      "Custom",
+    ],
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+      "VM_SETTINGS_METADATA_ID": false,
+    },
+    "validation": undefined,
+    "value": "small",
+  },
+  "hostname": Object {
+    "isHidden": Object {
+      "cloudInit": true,
+      "useCloudInitCustomScript": false,
+    },
+    "value": null,
+  },
+  "imageURL": Object {
+    "isDisabled": Object {
+      "userTemplate": false,
+    },
+    "isHidden": Object {
+      "provisionSourceType": true,
+    },
+    "isRequired": Object {
+      "provisionSourceType": false,
+    },
+    "validation": null,
+    "value": null,
+  },
+  "memory": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+    },
+    "isHidden": Object {
+      "flavor": true,
+    },
+    "isRequired": Object {
+      "flavor": false,
+    },
+    "value": undefined,
+  },
+  "name": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+    },
+    "validation": null,
+    "value": "name",
+  },
+  "namespace": Object {
+    "validation": undefined,
+    "value": "namespace",
+  },
+  "operatingSystem": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+      "userTemplate": false,
+    },
+    "operatingSystems": Array [
+      Object {
+        "id": "fedora29",
+        "name": "Fedora 29",
+      },
+      Object {
+        "id": "fedora28",
+        "name": "Fedora 28",
+      },
+      Object {
+        "id": "fedora27",
+        "name": "Fedora 27",
+      },
+      Object {
+        "id": "fedora26",
+        "name": "Fedora 26",
+      },
+      Object {
+        "id": "fedora25",
+        "name": "Fedora 25",
+      },
+      Object {
+        "id": "fedora24",
+        "name": "Fedora 24",
+      },
+      Object {
+        "id": "fedora23",
+        "name": "Fedora 23",
+      },
+      Object {
+        "id": "rhel7.0",
+        "name": "Red Hat Enterprise Linux 7.0",
+      },
+      Object {
+        "id": "ubuntu18.04",
+        "name": "Ubuntu 18.04 LTS",
+      },
+    ],
+    "validation": undefined,
+    "value": Object {
+      "id": "fedora29",
+      "name": "Fedora 29",
+    },
+  },
+  "provider": Object {
+    "isDisabled": Object {
+      "provider": false,
+    },
+    "isHidden": Object {
+      "provisionSourceType": true,
+    },
+    "isRequired": Object {
+      "provisionSourceType": false,
+    },
+    "validation": null,
+    "value": null,
+  },
+  "providersData": Object {
+    "VMware": Object {
+      "checkConnectionButton": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+          "vCenterInstance": true,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+          "vCenterInstance": true,
+        },
+      },
+      "rememberVMwareCredentials": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+          "vCenterInstance": true,
+        },
+      },
+      "vCenterInstance": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+        },
+        "isRequired": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+      },
+      "vmwareHostname": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+          "vCenterInstance": true,
+        },
+        "isRequired": Object {
+          "vCenterInstance": false,
+        },
+      },
+      "vmwarePassword": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+          "vCenterInstance": true,
+        },
+        "isRequired": Object {
+          "vCenterInstance": false,
+        },
+      },
+      "vmwareStatus": Object {
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+        },
+      },
+      "vmwareUserName": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+          "vCenterInstance": true,
+        },
+        "isRequired": Object {
+          "vCenterInstance": false,
+        },
+      },
+      "vmwareVm": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+          "vmwareVm": true,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+        },
+        "isRequired": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+      },
+    },
+  },
+  "provisionSourceType": Object {
+    "isDisabled": Object {
+      "userTemplate": false,
+    },
+    "validation": undefined,
+    "value": "Container",
+  },
+  "startVM": Object {
+    "isHidden": Object {
+      "provisionSourceType": false,
+    },
+    "value": undefined,
+  },
+  "useCloudInitCustomScript": Object {
+    "isHidden": Object {
+      "cloudInit": true,
+    },
+    "value": false,
+  },
+  "userTemplate": Object {
+    "isHidden": Object {
+      "provisionSourceType": false,
+    },
+    "value": undefined,
+  },
+  "workloadProfile": Object {
+    "isDisabled": Object {
+      "VMWARE_PROVIDER_METADATA_ID": false,
+      "userTemplate": false,
+    },
+    "validation": undefined,
+    "value": "generic",
+    "workloadProfiles": Array [
+      "generic",
+    ],
+  },
+}
+`;
+
 exports[`<CreateVmWizard /> renders correctly 1`] = `
 <WizardPattern
   activeStepIndex={0}
@@ -26,7 +322,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
   steps={
     Array [
       Object {
-        "key": "basicSettings",
+        "key": "vmSettings",
         "onCloseWizard": [Function],
         "render": [Function],
         "title": "Basic Settings",

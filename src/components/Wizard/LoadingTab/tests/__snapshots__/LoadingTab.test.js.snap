@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingTab /> renders correctly 1`] = `
+<LoadingTab
+  text="Loading Page"
+>
+  data
+</LoadingTab>
+`;
