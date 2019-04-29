@@ -1,4 +1,11 @@
+import { get } from 'lodash';
+
+const getRegistryUrl = () => get(window.SERVER_FLAGS, 'Registry', 'quay.io/nyoxi'); // TODO: upstream should be moved under quay.io/kubevirt
+const getV2vImageTag = () => get(window.SERVER_FLAGS, 'ImageTagV2V', 'latest');
+
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note: common-templates are in the "openshift" namespace
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single configMap per cluster, contains mapping of vmware guestId to common-templates OS ID
-export const KUBEVIRT_V2V_CONVERSION_CONTAINER_IMAGE = 'quay.io/nyoxi/kubevirt-v2v-conversion:1.12.1-1-gf665c0a';
-export const KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE = 'quay.io/nyoxi/kubevirt-vmware:1.12.1-1';
+
+export const getKubevirtV2vConversionContainerImage = () =>
+  `${getRegistryUrl()}/kubevirt-v2v-conversion:${getV2vImageTag()}`;
+export const getKubevirtV2vVmwareContainerImage = () => `${getRegistryUrl()}/kubevirt-vmware:${getV2vImageTag()}`;
