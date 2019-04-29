@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Status /> renders correctly 1`] = `
+<Fragment>
+  <Icon
+    className="kubevirt-status__icon"
+    name="off"
+    type="pf"
+  />
+  off status
+</Fragment>
+`;

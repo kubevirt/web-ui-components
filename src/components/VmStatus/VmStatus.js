@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../constants';
 
@@ -21,62 +20,39 @@ import {
   getVmStatus,
 } from '../../utils/status/vm';
 import { getId, getVmImporterPods } from '../../selectors';
+import { Status, LinkStatus } from '../Status';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 
-const StateValue = ({ iconClass, children, linkTo, message }) => (
-  <Fragment>
-    <span className={`kubevirt-vm-status__icon ${iconClass}`} aria-hidden="true" />
-    {linkTo ? (
-      <Link className="kubevirt-vm-status__link" to={linkTo} title={message}>
-        {children}
-      </Link>
-    ) : (
-      children
-    )}
-  </Fragment>
-);
-StateValue.propTypes = {
-  children: PropTypes.any,
-  iconClass: PropTypes.string.isRequired,
-  linkTo: PropTypes.string,
-  message: PropTypes.string,
-};
-StateValue.defaultProps = {
-  children: null,
-  linkTo: undefined,
-  message: undefined,
-};
-
 const StateRunning = ({ ...props }) => (
-  <StateValue iconClass="pficon pficon-on-running" {...props}>
+  <LinkStatus icon="on-running" {...props}>
     Running
-  </StateValue>
+  </LinkStatus>
 );
-const StateOff = () => <StateValue iconClass="pficon pficon-off">Off</StateValue>;
-const StateUnknown = () => <StateValue iconClass="pficon pficon-unknown">Unknown</StateValue>;
-const StateMigrating = () => <StateValue iconClass="pficon pficon-migration">Migrating</StateValue>;
+const StateOff = () => <Status icon="off">Off</Status>;
+const StateUnknown = () => <Status icon="unknown">Unknown</Status>;
+const StateMigrating = () => <Status icon="migration">Migrating</Status>;
 const StateVmiWaiting = ({ ...props }) => (
-  <StateValue iconClass="pficon pficon-pending" {...props}>
+  <LinkStatus icon="pending" {...props}>
     Pending
-  </StateValue>
+  </LinkStatus>
 );
 const StateStarting = ({ ...props }) => (
-  <StateValue iconClass="pficon pficon-pending" {...props}>
+  <LinkStatus icon="pending" {...props}>
     Starting
-  </StateValue>
+  </LinkStatus>
 );
 const StateImporting = ({ additionalText, ...props }) => (
-  <StateValue iconClass="pficon pficon-import" {...props}>
+  <LinkStatus icon="import" {...props}>
     Importing
     {additionalText}
-  </StateValue>
+  </LinkStatus>
 );
 
 const StateV2VConversionInProgress = ({ progress, ...props }) => (
-  <StateValue iconClass="pficon pficon-import" {...props}>
+  <LinkStatus icon="import" {...props}>
     V2V Conversion In Progress
-  </StateValue>
+  </LinkStatus>
 );
 
 StateV2VConversionInProgress.defaultProps = {
@@ -87,9 +63,9 @@ StateV2VConversionInProgress.propTypes = {
 };
 
 const StateV2VConversionError = ({ ...props }) => (
-  <StateValue iconClass="pficon pficon-error-circle-o" {...props}>
+  <LinkStatus icon="error-circle-o" {...props}>
     V2V Conversion Error
-  </StateValue>
+  </LinkStatus>
 );
 StateImporting.defaultProps = {
   additionalText: undefined,
@@ -98,9 +74,9 @@ StateImporting.propTypes = {
   additionalText: PropTypes.string,
 };
 const StateError = ({ children, ...props }) => (
-  <StateValue iconClass="pficon pficon-error-circle-o" {...props}>
+  <LinkStatus icon="error-circle-o" {...props}>
     {children}
-  </StateValue>
+  </LinkStatus>
 );
 StateError.propTypes = {
   children: PropTypes.any.isRequired,

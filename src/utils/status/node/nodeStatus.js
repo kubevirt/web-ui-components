@@ -7,9 +7,11 @@ import {
   NODE_STATUS_MEMORY_PRESSURE,
   NODE_STATUS_DISK_PRESSURE,
   NODE_STATUS_PID_PRESSURE,
+  NODE_STATUS_UNDER_MAINTENANCE,
+  NODE_STATUS_STOPPING_MAINTENANCE,
 } from './constants';
 
-import { getStatusConditions } from '../../../selectors';
+import { getStatusConditions, findNodeMaintenance, getDeletionTimestamp } from '../../../selectors';
 
 import { NOT_HANDLED } from '..';
 
@@ -68,13 +70,37 @@ const hasFailedUnknownStatus = statusConditions => {
   return NOT_HANDLED;
 };
 
-export const getNodeStatus = node => {
+const isUnderMaintanance = maintenance => {
+  if (maintenance && !getDeletionTimestamp(maintenance)) {
+    return {
+      status: NODE_STATUS_UNDER_MAINTENANCE,
+      maintenance,
+    };
+  }
+  return NOT_HANDLED;
+};
+
+const isStoppingMaintanance = maintenance => {
+  if (maintenance && getDeletionTimestamp(maintenance)) {
+    return {
+      status: NODE_STATUS_STOPPING_MAINTENANCE,
+      maintenance,
+    };
+  }
+  return NOT_HANDLED;
+};
+
+export const getNodeStatus = (node, maintenances) => {
   const allStatusConditions = getStatusConditions(node);
   const trueStatusConditions = allStatusConditions.filter(
     condition => condition.status === 'True' && condition.type !== 'Ready'
   );
 
+  const maintenance = findNodeMaintenance(node, maintenances);
+
   return (
+    isUnderMaintanance(maintenance) ||
+    isStoppingMaintanance(maintenance) ||
     hasErrorStatus(trueStatusConditions) ||
     isNotReady(allStatusConditions) ||
     hasWarnStatus(trueStatusConditions) ||

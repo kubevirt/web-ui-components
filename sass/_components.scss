@@ -8,14 +8,12 @@
 @import './components/Form/dropdown';
 @import './components/Form/form-group';
 @import './components/Form/list-form-factory';
-@import './components/HostStatus/host-status';
 @import './components/Table/editable-table-actions';
 @import './components/Table/editable-table';
 @import './components/TemplateSource/template-source';
 @import './components/VmConsoles/desktop-viewer-selector';
 @import './components/VmDetails/boot-order';
 @import './components/VmDetails/vm-details';
-@import './components/VmStatus/vm-status';
 @import './components/Wizard/create-vm-wizard';
 @import './components/Wizard/wizard';
 @import './components/ConfigurationSummary/configuration-summary';
@@ -35,6 +33,8 @@
 @import './components/CreateBaremetalHostDialog/create-baremetal-host-dialog';
 @import './components/StorageOverview/data-resiliency';
 @import './components/StorageOverview/top-consumer';
+@import './components/Status/status';
+@import './components/HostStatus/host-status';
 
 /*
   TODO: these styles should be backported to the corresponding PF-React package

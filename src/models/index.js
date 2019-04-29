@@ -242,6 +242,19 @@ export const ConfigMapModel = {
   labelPlural: 'Config Maps',
 };
 
+export const NodeMaintenance = {
+  label: 'NodeMaintenance',
+  labelPlural: 'NodeMaintenances',
+  apiVersion: 'v1alpha1',
+  path: 'nodemaintenances',
+  apiGroup: 'kubevirt.io',
+  plural: 'nodemaintenances',
+  abbr: 'nm',
+  namespaced: false,
+  kind: 'NodeMaintenance',
+  id: 'nodemaintenance',
+};
+
 export const ALL_MODELS = [
   VirtualMachineModel,
   BaremetalHostModel,
@@ -262,6 +275,7 @@ export const ALL_MODELS = [
   RoleModel,
   RoleBindingModel,
   ConfigMapModel,
+  NodeMaintenance,
 ];
 
 export const getModelIndexId = obj => {
