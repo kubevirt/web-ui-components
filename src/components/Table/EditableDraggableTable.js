@@ -43,6 +43,21 @@ class EditableDraggableTable extends React.Component {
     }
   }
 
+  onRowDelete = rowData => {
+    const { id } = rowData;
+    const editing = false;
+    const rows = cloneDeep(this.props.rows.filter(row => row.id !== id));
+
+    this.flagUpdate(rows, editing);
+    this.setState({ editing });
+
+    this.props.onChange(rows, {
+      type: ON_DELETE,
+      editing,
+      id,
+    });
+  };
+
   // needed for refiring row renders
   // eslint-disable-next-line no-return-assign
   flagUpdate = (rows, editingInProgress) => rows.forEach(row => (row.editingInProgress = editingInProgress));
@@ -81,6 +96,7 @@ class EditableDraggableTable extends React.Component {
       const rows = cloneDeep(this.props.rows);
       const index = findIndex(rows, { id });
 
+      delete rows[index].newRow;
       delete rows[index].backup;
 
       this.flagUpdate(rows, editing);
@@ -94,22 +110,26 @@ class EditableDraggableTable extends React.Component {
     },
 
     onCancel: ({ rowData }) => {
-      const editing = false;
       const { id } = rowData;
-      const rows = cloneDeep(this.props.rows);
-      const index = findIndex(rows, { id });
+      const index = findIndex(this.props.rows, { id });
 
-      rows[index] = cloneDeep(rows[index].backup);
-      delete rows[index].backup;
+      if (this.props.rows[index].newRow) {
+        this.onRowDelete(rowData);
+      } else {
+        const editing = false;
+        const rows = cloneDeep(this.props.rows);
+        rows[index] = cloneDeep(rows[index].backup);
+        delete rows[index].backup;
 
-      this.flagUpdate(rows, editing);
-      this.setState({ editing });
+        this.flagUpdate(rows, editing);
+        this.setState({ editing });
 
-      this.props.onChange(rows, {
-        type: ON_CANCEL,
-        id,
-        editing,
-      });
+        this.props.onChange(rows, {
+          type: ON_CANCEL,
+          id,
+          editing,
+        });
+      }
     },
 
     onChange: (value, { rowData, property }) => {
@@ -131,14 +151,7 @@ class EditableDraggableTable extends React.Component {
   };
 
   crudController = {
-    onDelete: ({ rowData }) => {
-      const { id } = rowData;
-      this.props.onChange(this.props.rows.filter(row => row.id !== id), {
-        type: ON_DELETE,
-        editing: false,
-        id,
-      });
-    },
+    onDelete: ({ rowData }) => this.onRowDelete(rowData),
   };
 
   getActionButton = (action, additionalData, id) => {
