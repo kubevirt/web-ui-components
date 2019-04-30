@@ -1,6 +1,6 @@
 {
   "name": "kubevirt-web-ui-components",
-  "version": "0.1.34",
+  "version": "0.1.34-1",
   "private": false,
   "repository": {
     "type": "git",
