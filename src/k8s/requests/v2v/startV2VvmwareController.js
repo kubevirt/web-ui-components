@@ -6,7 +6,7 @@ import { getDeploymentContainer } from '../../../selectors/deployment';
 import { getContainerImage } from '../../../selectors/pod';
 import { buildAddOwnerReferencesPatch, buildOwnerReference } from '../../util';
 import { getName } from '../../../selectors';
-import { KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE } from '../../../config';
+import { getKubevirtV2vVmwareContainerImage } from '../../../config';
 
 const { info } = console;
 
@@ -26,7 +26,7 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
   try {
     activeDeployment = await k8sGet(DeploymentModel, name, namespace);
 
-    if (getContainerImage(getDeploymentContainer(activeDeployment, name)) !== KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE) {
+    if (getContainerImage(getDeploymentContainer(activeDeployment, name)) !== getKubevirtV2vVmwareContainerImage()) {
       throw new Error(OLD_VERSION);
     }
   } catch (e) {

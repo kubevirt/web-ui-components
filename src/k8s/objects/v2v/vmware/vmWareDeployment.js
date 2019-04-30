@@ -1,4 +1,4 @@
-import { KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE } from '../../../../config';
+import { getKubevirtV2vVmwareContainerImage } from '../../../../config';
 import { DeploymentModel } from '../../../../models';
 
 export const buildVmWareDeployment = ({ name, namespace }) => ({
@@ -26,7 +26,7 @@ export const buildVmWareDeployment = ({ name, namespace }) => ({
         containers: [
           {
             name,
-            image: KUBEVIRT_V2V_VMWARE_CONTAINER_IMAGE,
+            image: getKubevirtV2vVmwareContainerImage(),
             imagePullPolicy: 'Always',
             command: ['kubevirt-vmware'],
             env: [
