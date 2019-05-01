@@ -5,7 +5,7 @@ export const BY_MEMORY = 'By Memory';
 export const MEMORY_DESC = 'Memory consumption';
 
 export const BY_STORAGE = 'By Storage';
-export const STORAGE_DESC = 'Storage consumption';
+export const STORAGE_DESC = 'Filesystem IO Time';
 
 export const BY_NETWORK = 'By Network';
 export const NETWORK_DESC = 'Network consumption';

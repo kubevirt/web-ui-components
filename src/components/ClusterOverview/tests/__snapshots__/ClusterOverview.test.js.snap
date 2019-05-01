@@ -512,7 +512,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                       class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
                     >
                       <span>
-                        55
+                        55.0
                       </span>
                     </div>
                   </div>
@@ -556,7 +556,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                       class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
                     >
                       <span>
-                        45
+                        45.0
                       </span>
                     </div>
                   </div>
@@ -600,7 +600,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                       class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
                     >
                       <span>
-                        35
+                        35.0
                       </span>
                     </div>
                   </div>
@@ -644,7 +644,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                       class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
                     >
                       <span>
-                        25
+                        25.0
                       </span>
                     </div>
                   </div>
@@ -688,7 +688,7 @@ exports[`<ClusterOverview /> renders correctly with Provider 1`] = `
                       class="kubevirt-consumers__bar-label col-lg-3 col-md-3 col-sm-3 col-xs-3"
                     >
                       <span>
-                        15
+                        15.0
                       </span>
                     </div>
                   </div>

@@ -57,13 +57,13 @@ export class TopConsumers extends React.Component {
       case PODS_AND_VMS:
         switch (this.state.sortBy.name) {
           case BY_CPU:
-            return getMetric(this.props.workloadCpuResults, 'pod_name', formatCpu);
+            return getMetric(this.props.workloadCpuResults, 'pod_name', cpu => formatCpu(cpu, 1));
           case BY_MEMORY:
             return getMetric(this.props.workloadMemoryResults, 'pod_name', formatBytesWithUnits);
           case BY_STORAGE:
-            return getMetric(this.props.workloadStorageResults, 'pod_name', formatBytesWithUnits);
+            return getMetric(this.props.workloadStorageResults, 'pod_name');
           case BY_NETWORK:
-            return getMetric(this.props.workloadNetworkResults, 'pod_name');
+            return getMetric(this.props.workloadNetworkResults, 'pod_name', formatBytesWithUnits);
           default:
             // eslint-disable-next-line no-console
             console.log(`Unknown metric ${this.state.sortBy.name}`);
@@ -76,9 +76,9 @@ export class TopConsumers extends React.Component {
           case BY_MEMORY:
             return getMetric(this.props.infraMemoryResults, 'node', formatBytesWithUnits);
           case BY_STORAGE:
-            return getMetric(this.props.infraStorageResults, 'node', formatBytesWithUnits);
+            return getMetric(this.props.infraStorageResults, 'node');
           case BY_NETWORK:
-            return getMetric(this.props.infraNetworkResults, 'node');
+            return getMetric(this.props.infraNetworkResults, 'node', formatBytesWithUnits);
           default:
             // eslint-disable-next-line no-console
             console.log(`Unknown metric ${this.state.sortBy.name}`);
