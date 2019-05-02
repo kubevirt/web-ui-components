@@ -6,7 +6,7 @@ export const getOpenshiftVersion = openshiftClusterVersionResponse => {
   // if cluster has more nodes, we take the version for the fist one
   const firstCluster = Array.isArray(result) ? result[0] : result;
   if (firstCluster) {
-    return get(firstCluster, 'metric.gitVersion');
+    return get(firstCluster, 'metric.gitVersion', '').replace(/-?dirty/, ''); // FIXME: demo only
   }
   return null;
 };
