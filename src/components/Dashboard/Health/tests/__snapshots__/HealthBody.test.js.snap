@@ -6,11 +6,9 @@ exports[`<HealthBody /> renders correctly 1`] = `
 >
   <HealthItem
     LoadingComponent={[Function]}
-    classname="ok"
     details={null}
-    icon="check-circle"
-    message="OCS is Healthy"
-    state={null}
+    message="Healthy state"
+    state="OK_STATE"
   />
 </div>
 `;

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ConsumersResults /> renders correctly 1`] = `
+exports[`<ConsumersResults /> renders Consumer results correctly 1`] = `
 <div
   className="kubevirt-consumers__results"
 >
@@ -16,5 +16,23 @@ exports[`<ConsumersResults /> renders correctly 1`] = `
     label="label"
     now={30}
   />
+</div>
+`;
+
+exports[`<ConsumersResults /> renders Loading Consumers correctly 1`] = `
+<div
+  className="kubevirt-consumers__results"
+>
+  <InlineLoading
+    size="md"
+  />
+</div>
+`;
+
+exports[`<ConsumersResults /> renders Not available Consumers correctly 1`] = `
+<div
+  className="kubevirt-consumers__results"
+>
+  Not available
 </div>
 `;

@@ -8,8 +8,8 @@ import { default as CapacityItemFixtures } from '../fixtures/CapacityItem.fixtur
 const testCapacityItem = ({ props }) => <CapacityItem {...props} />;
 
 describe('<CapacityItem />', () => {
-  it('renders correctly', () => {
-    CapacityItemFixtures.forEach(fixture => {
+  CapacityItemFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
       const component = shallow(testCapacityItem(fixture));
       expect(component).toMatchSnapshot();
     });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DashboardCardBody /> renders correctly 1`] = `
+exports[`<DashboardCardBody /> renders Card body correctly 1`] = `
 <CardBody
   className=""
 >
@@ -8,7 +8,7 @@ exports[`<DashboardCardBody /> renders correctly 1`] = `
 </CardBody>
 `;
 
-exports[`<DashboardCardBody /> renders loading correctly 1`] = `
+exports[`<DashboardCardBody /> renders Loading card body correctly 1`] = `
 <CardBody
   className=""
 >

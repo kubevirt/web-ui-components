@@ -385,3 +385,67 @@ exports[`<UtilizationItem /> renders correctly 2`] = `
   </div>
 </div>
 `;
+
+exports[`<UtilizationItem /> renders correctly 3`] = `
+<div
+  class="kubevirt-utilization__item-narrow"
+>
+  <div
+    class="row"
+  >
+    <div
+      class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
+    >
+      title
+    </div>
+    <div
+      class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
+    />
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
+    >
+      <div>
+        <div
+          class="spinner spinner-md blank-slate-pf-icon"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<UtilizationItem /> renders correctly 4`] = `
+<div
+  class="kubevirt-utilization__item-narrow"
+>
+  <div
+    class="row"
+  >
+    <div
+      class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
+    >
+      title
+    </div>
+    <div
+      class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
+    />
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
+    >
+      <div>
+        <div
+          class="spinner spinner-md blank-slate-pf-icon"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

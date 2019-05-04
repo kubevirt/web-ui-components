@@ -10,4 +10,11 @@ export default [
       ...statusFixtures[0].props,
     },
   },
+  {
+    component: InventoryRow,
+    name: 'Loading inventory row',
+    props: {
+      title: 'PVCs',
+    },
+  },
 ];

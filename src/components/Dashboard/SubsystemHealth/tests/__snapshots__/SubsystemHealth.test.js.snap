@@ -1,6 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<SubsystemHealth /> renders correctly 1`] = `
+exports[`<SubsystemHealth /> renders Loading subsystem health orrectly 1`] = `
+<div>
+  <div
+    class="kubevirt-health__body kubevirt-health__subsystem-body"
+  >
+    <div
+      class="kubevirt-health__item"
+    >
+      <div>
+        <div
+          class="spinner spinner-md blank-slate-pf-icon"
+        />
+      </div>
+      <div>
+        <span
+          class="kubevirt-health__text"
+        >
+          OpenShift
+        </span>
+      </div>
+    </div>
+    <div
+      class="kubevirt-health__separator"
+    />
+    <div
+      class="kubevirt-health__item"
+    >
+      <div>
+        <div
+          class="spinner spinner-md blank-slate-pf-icon"
+        />
+      </div>
+      <div>
+        <span
+          class="kubevirt-health__text"
+        >
+          CNV
+        </span>
+      </div>
+    </div>
+    <div
+      class="kubevirt-health__separator"
+    />
+    <div
+      class="kubevirt-health__item"
+    >
+      <div>
+        <div
+          class="spinner spinner-md blank-slate-pf-icon"
+        />
+      </div>
+      <div>
+        <span
+          class="kubevirt-health__text"
+        >
+          Ceph
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SubsystemHealth /> renders Subsystem health orrectly 1`] = `
 <div>
   <div
     class="kubevirt-health__body kubevirt-health__subsystem-body"

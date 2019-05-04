@@ -1,6 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<AlertItem /> renders correctly 1`] = `
+exports[`<AlertItem /> renders Critical alert item correctly 1`] = `
+<div
+  className="kubevirt-alert__item"
+>
+  <Icon
+    className="kubevirt-alert__icon kubevirt-alert__icon--critical"
+    name="exclamation-circle"
+    type="fa"
+  />
+  <div
+    className="kubevirt-alert__item-message"
+  >
+    Critical alert
+  </div>
+</div>
+`;
+
+exports[`<AlertItem /> renders Unknown alert item correctly 1`] = `
+<div
+  className="kubevirt-alert__item"
+>
+  <Icon
+    className="kubevirt-alert__icon kubevirt-alert__icon--warning"
+    name="exclamation-triangle"
+    type="fa"
+  />
+  <div
+    className="kubevirt-alert__item-message"
+  >
+    unknown type alert
+  </div>
+</div>
+`;
+
+exports[`<AlertItem /> renders Warning alert item correctly 1`] = `
 <div
   className="kubevirt-alert__item"
 >

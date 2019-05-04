@@ -4,11 +4,14 @@ import { render } from 'enzyme';
 import { DetailItem } from '../DetailItem';
 import { default as DetailItemFixtures } from '../fixtures/DetailItem.fixture';
 
-const testDetailItem = () => <DetailItem {...DetailItemFixtures[0].props} />;
+// eslint-disable-next-line react/prop-types
+const testDetailItem = ({ props }) => <DetailItem {...props} />;
 
 describe('<DetailItem />', () => {
-  it('renders correctly', () => {
-    const component = render(testDetailItem());
-    expect(component).toMatchSnapshot();
+  DetailItemFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
+      const component = render(testDetailItem(fixture));
+      expect(component).toMatchSnapshot();
+    });
   });
 });
