@@ -1,88 +1,103 @@
 import { TopConsumers } from '../TopConsumers';
 
-const getResults = key => [
+const getResults = (metric, key) => [
   {
     metric: {
-      [key]: 'key1',
+      [key]: `${metric}-key1`,
     },
-    value: [0, 15],
+    value: ['0', '15'],
   },
   {
     metric: {
-      [key]: 'key2',
+      [key]: `${metric}-key2`,
     },
-    value: [0, 25],
+    value: ['0', '25'],
   },
   {
     metric: {
-      [key]: 'key3',
+      [key]: `${metric}-key3`,
     },
-    value: [0, 35],
+    value: ['0', '35'],
   },
   {
     metric: {
-      [key]: 'key4',
+      [key]: `${metric}-key4`,
     },
-    value: [0, 55],
+    value: ['0', '55'],
   },
   {
     metric: {
-      [key]: 'key5',
+      [key]: `${metric}-key5`,
     },
-    value: [0, 45],
+    value: ['0', '45'],
   },
 ];
 
 export const consumersData = {
   workloadCpuResults: {
     data: {
-      result: getResults('pod_name'),
+      result: getResults('workload-cpu', 'pod_name'),
     },
   },
   workloadMemoryResults: {
     data: {
-      result: getResults('pod_name'),
+      result: getResults('workload-mem', 'pod_name'),
     },
   },
   workloadStorageResults: {
     data: {
-      result: getResults('pod_name'),
+      result: getResults('workload-storage', 'pod_name'),
     },
   },
   workloadNetworkResults: {
     data: {
-      result: getResults('pod_name'),
+      result: getResults('workload-net', 'pod_name'),
     },
   },
   infraCpuResults: {
     data: {
-      result: getResults('node'),
+      result: getResults('infra-cpu', 'node'),
     },
   },
   infraMemoryResults: {
     data: {
-      result: getResults('node'),
+      result: getResults('infra-mem', 'node'),
     },
   },
   infraStorageResults: {
     data: {
-      result: getResults('node'),
+      result: getResults('infra-storage', 'node'),
     },
   },
   infraNetworkResults: {
     data: {
-      result: getResults('node'),
+      result: getResults('infra-net', 'node'),
     },
   },
+};
+
+const notAvailableConsumers = () => {
+  const notAvailableData = {};
+  Object.keys(consumersData).forEach(key => {
+    notAvailableData[key] = {};
+  });
+  return notAvailableData;
 };
 
 export default [
   {
     component: TopConsumers,
+    name: 'Top Consumers',
     props: { ...consumersData },
   },
   {
     component: TopConsumers,
     name: 'Loading top consumers',
+    props: {},
+  },
+  {
+    component: TopConsumers,
+    name: 'Not available top consumers',
+    props: { ...notAvailableConsumers() },
   },
 ];

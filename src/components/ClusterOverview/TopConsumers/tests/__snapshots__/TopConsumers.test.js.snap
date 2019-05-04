@@ -1,6 +1,361 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TopConsumers /> renders correctly 1`] = `
+exports[`<TopConsumers /> renders Loading top consumers correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Top Consumers
+    </DashboardCardTitle>
+    <DashboardCardTitleHelp>
+      Consumption bar is relative to biggest consumer which is always 100%
+    </DashboardCardTitleHelp>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <ConsumersFilter>
+      <Col
+        bsClass="col"
+        className="kubevirt-consumers__dropdown-type-filter"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <Dropdown
+          choices={
+            Array [
+              Object {
+                "description": "Workloads",
+                "name": "Pods & VMs",
+              },
+              Object {
+                "description": "Infrastructure",
+                "name": "Nodes",
+              },
+            ]
+          }
+          disabled={false}
+          id="type-dropdown"
+          onChange={[Function]}
+          value={
+            Object {
+              "description": "Workloads",
+              "name": "Pods & VMs",
+            }
+          }
+          withTooltips={false}
+        />
+      </Col>
+      <Col
+        bsClass="col"
+        className="kubevirt-consumers__dropdown-sort-filter"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <Dropdown
+          choices={
+            Array [
+              Object {
+                "description": "CPU Time",
+                "name": "By CPU",
+              },
+              Object {
+                "description": "Memory consumption",
+                "name": "By Memory",
+              },
+              Object {
+                "description": "Filesystem IO Time",
+                "name": "By Storage",
+              },
+              Object {
+                "description": "Network consumption",
+                "name": "By Network",
+              },
+            ]
+          }
+          disabled={false}
+          id="sort-by-dropdown"
+          onChange={[Function]}
+          value={
+            Object {
+              "description": "CPU Time",
+              "name": "By CPU",
+            }
+          }
+          withTooltips={false}
+        />
+      </Col>
+    </ConsumersFilter>
+    <ConsumersResults
+      LoadingComponent={[Function]}
+      description="CPU Time"
+      isLoading={true}
+      type="Workloads"
+    />
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<TopConsumers /> renders Not available top consumers correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Top Consumers
+    </DashboardCardTitle>
+    <DashboardCardTitleHelp>
+      Consumption bar is relative to biggest consumer which is always 100%
+    </DashboardCardTitleHelp>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <ConsumersFilter>
+      <Col
+        bsClass="col"
+        className="kubevirt-consumers__dropdown-type-filter"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <Dropdown
+          choices={
+            Array [
+              Object {
+                "description": "Workloads",
+                "name": "Pods & VMs",
+              },
+              Object {
+                "description": "Infrastructure",
+                "name": "Nodes",
+              },
+            ]
+          }
+          disabled={false}
+          id="type-dropdown"
+          onChange={[Function]}
+          value={
+            Object {
+              "description": "Workloads",
+              "name": "Pods & VMs",
+            }
+          }
+          withTooltips={false}
+        />
+      </Col>
+      <Col
+        bsClass="col"
+        className="kubevirt-consumers__dropdown-sort-filter"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <Dropdown
+          choices={
+            Array [
+              Object {
+                "description": "CPU Time",
+                "name": "By CPU",
+              },
+              Object {
+                "description": "Memory consumption",
+                "name": "By Memory",
+              },
+              Object {
+                "description": "Filesystem IO Time",
+                "name": "By Storage",
+              },
+              Object {
+                "description": "Network consumption",
+                "name": "By Network",
+              },
+            ]
+          }
+          disabled={false}
+          id="sort-by-dropdown"
+          onChange={[Function]}
+          value={
+            Object {
+              "description": "CPU Time",
+              "name": "By CPU",
+            }
+          }
+          withTooltips={false}
+        />
+      </Col>
+    </ConsumersFilter>
+    <ConsumersResults
+      LoadingComponent={[Function]}
+      description="CPU Time"
+      isLoading={false}
+      type="Workloads"
+    />
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<TopConsumers /> renders Top Consumers correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Top Consumers
+    </DashboardCardTitle>
+    <DashboardCardTitleHelp>
+      Consumption bar is relative to biggest consumer which is always 100%
+    </DashboardCardTitleHelp>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <ConsumersFilter>
+      <Col
+        bsClass="col"
+        className="kubevirt-consumers__dropdown-type-filter"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <Dropdown
+          choices={
+            Array [
+              Object {
+                "description": "Workloads",
+                "name": "Pods & VMs",
+              },
+              Object {
+                "description": "Infrastructure",
+                "name": "Nodes",
+              },
+            ]
+          }
+          disabled={false}
+          id="type-dropdown"
+          onChange={[Function]}
+          value={
+            Object {
+              "description": "Workloads",
+              "name": "Pods & VMs",
+            }
+          }
+          withTooltips={false}
+        />
+      </Col>
+      <Col
+        bsClass="col"
+        className="kubevirt-consumers__dropdown-sort-filter"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <Dropdown
+          choices={
+            Array [
+              Object {
+                "description": "CPU Time",
+                "name": "By CPU",
+              },
+              Object {
+                "description": "Memory consumption",
+                "name": "By Memory",
+              },
+              Object {
+                "description": "Filesystem IO Time",
+                "name": "By Storage",
+              },
+              Object {
+                "description": "Network consumption",
+                "name": "By Network",
+              },
+            ]
+          }
+          disabled={false}
+          id="sort-by-dropdown"
+          onChange={[Function]}
+          value={
+            Object {
+              "description": "CPU Time",
+              "name": "By CPU",
+            }
+          }
+          withTooltips={false}
+        />
+      </Col>
+    </ConsumersFilter>
+    <ConsumersResults
+      LoadingComponent={[Function]}
+      description="CPU Time"
+      isLoading={false}
+      type="Workloads"
+    >
+      <ConsumerItem
+        description="workload-cpu-key4"
+        key="0"
+        label="55.0"
+        now={100}
+      />
+      <ConsumerItem
+        description="workload-cpu-key5"
+        key="1"
+        label="45.0"
+        now={82}
+      />
+      <ConsumerItem
+        description="workload-cpu-key3"
+        key="2"
+        label="35.0"
+        now={64}
+      />
+      <ConsumerItem
+        description="workload-cpu-key2"
+        key="3"
+        label="25.0"
+        now={45}
+      />
+      <ConsumerItem
+        description="workload-cpu-key1"
+        key="4"
+        label="15.0"
+        now={27}
+      />
+    </ConsumersResults>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<TopConsumers /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card"
 >
@@ -189,7 +544,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
           <div
             class="kubevirt-consumers__bar-description"
           >
-            key4
+            workload-cpu-key4
           </div>
         </div>
         <div
@@ -233,7 +588,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
           <div
             class="kubevirt-consumers__bar-description"
           >
-            key5
+            workload-cpu-key5
           </div>
         </div>
         <div
@@ -277,7 +632,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
           <div
             class="kubevirt-consumers__bar-description"
           >
-            key3
+            workload-cpu-key3
           </div>
         </div>
         <div
@@ -321,7 +676,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
           <div
             class="kubevirt-consumers__bar-description"
           >
-            key2
+            workload-cpu-key2
           </div>
         </div>
         <div
@@ -365,7 +720,7 @@ exports[`<TopConsumers /> renders correctly 1`] = `
           <div
             class="kubevirt-consumers__bar-description"
           >
-            key1
+            workload-cpu-key1
           </div>
         </div>
         <div

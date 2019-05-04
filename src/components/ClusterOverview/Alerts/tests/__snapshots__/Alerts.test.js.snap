@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Alerts /> renders correctly 1`] = `
+exports[`<Alerts /> renders Alerts correctly 1`] = `
 <DashboardCard
   className={null}
 >
@@ -64,3 +64,70 @@ exports[`<Alerts /> renders correctly 1`] = `
   </DashboardCardBody>
 </DashboardCard>
 `;
+
+exports[`<Alerts /> renders correctly with Provider 1`] = `
+<div
+  class="card-pf kubevirt-dashboard__card"
+>
+  <div
+    class="card-pf-heading kubevirt-dashboard__card-heading"
+  >
+    <h2
+      class="card-pf-title kubevirt-dashboard__card-title"
+    >
+      Alerts
+    </h2>
+  </div>
+  <div
+    class="card-pf-body"
+  >
+    <div
+      class="kubevirt-alert__alerts-body"
+    >
+      <div
+        class="kubevirt-alert__item"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-triangle kubevirt-alert__icon kubevirt-alert__icon--warning"
+        />
+        <div
+          class="kubevirt-alert__item-message"
+        >
+          20% of the metrics targets are down.
+        </div>
+      </div>
+      <div
+        class="kubevirt-alert__item"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-triangle kubevirt-alert__icon kubevirt-alert__icon--warning"
+        />
+        <div
+          class="kubevirt-alert__item-message"
+        >
+          unknown type alert
+        </div>
+      </div>
+      <div
+        class="kubevirt-alert__item"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-exclamation-circle kubevirt-alert__icon kubevirt-alert__icon--critical"
+        />
+        <div
+          class="kubevirt-alert__item-message"
+        >
+          Critical alert
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Alerts /> renders empty alerts correctly 1`] = `""`;
+
+exports[`<Alerts /> renders watchog alert correctly 1`] = `""`;

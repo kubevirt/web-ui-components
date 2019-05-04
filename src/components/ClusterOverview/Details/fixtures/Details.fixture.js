@@ -28,5 +28,6 @@ export default [
   {
     component: Details,
     name: 'Loading cluster details',
+    props: {},
   },
 ];

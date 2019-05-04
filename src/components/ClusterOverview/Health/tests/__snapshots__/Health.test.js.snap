@@ -1,6 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Health /> renders correctly 1`] = `
+exports[`<Health /> renders Health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Health
+    </DashboardCardTitle>
+    <DashboardCardTitleSeeAll
+      title="Subsystem health"
+    >
+      <SubsystemHealth
+        LoadingComponent={[Function]}
+        cephHealth={
+          Object {
+            "message": "OCS is healthy",
+            "state": "OK_STATE",
+          }
+        }
+        k8sHealth={
+          Object {
+            "message": "OpenShift is healthy",
+            "state": "OK_STATE",
+          }
+        }
+        kubevirtHealth={
+          Object {
+            "message": "CNV is healthy",
+            "state": "OK_STATE",
+          }
+        }
+      />
+    </DashboardCardTitleSeeAll>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message="Cluster is healthy"
+        state="OK_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Health /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card"
 >
@@ -49,56 +105,167 @@ exports[`<Health /> renders correctly 1`] = `
 </div>
 `;
 
-exports[`<Health /> renders multiple erros correctly 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
+exports[`<Health /> renders error health correctly 1`] = `
+<DashboardCard
+  className={null}
 >
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
+  <DashboardCardHeader
+    className={null}
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <DashboardCardTitle
+      className={null}
     >
       Cluster Health
-    </h2>
-    <button
-      class="btn btn-link"
-      type="button"
+    </DashboardCardTitle>
+    <DashboardCardTitleSeeAll
+      title="Subsystem health"
     >
-      See all
-    </button>
-  </div>
-  <div
-    class="card-pf-body"
+      <SubsystemHealth
+        LoadingComponent={[Function]}
+        cephHealth={
+          Object {
+            "message": "OCS is healthy",
+            "state": "OK_STATE",
+          }
+        }
+        k8sHealth={
+          Object {
+            "message": "Openshift is in error state",
+            "state": "ERROR_STATE",
+          }
+        }
+        kubevirtHealth={
+          Object {
+            "message": "CNV is in error state",
+            "state": "ERROR_STATE",
+          }
+        }
+      />
+    </DashboardCardTitleSeeAll>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
   >
-    <div
-      class="kubevirt-health__body"
+    <HealthBody
+      className={null}
     >
-      <div
-        class="kubevirt-health__item"
-      >
-        <div
-          class="kubevirt-health__icon kubevirt-health__icon--error"
-        >
-          <span
-            aria-hidden="true"
-            class="fa fa-exclamation-circle"
-          />
-        </div>
-        <div>
-          <span
-            class="kubevirt-health__text"
-          >
-            Multiple errors
-          </span>
-          <div
-            class="kubevirt-health__text kubevirt-health__subtitle"
-          >
-            Cluster health is degraded
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <HealthItem
+        LoadingComponent={[Function]}
+        details="Cluster health is degraded"
+        message="Multiple errors"
+        state="ERROR_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Health /> renders loading health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Health
+    </DashboardCardTitle>
+    <DashboardCardTitleSeeAll
+      title="Subsystem health"
+    >
+      <SubsystemHealth
+        LoadingComponent={[Function]}
+        cephHealth={
+          Object {
+            "state": "LOADING_STATE",
+          }
+        }
+        k8sHealth={
+          Object {
+            "state": "LOADING_STATE",
+          }
+        }
+        kubevirtHealth={
+          Object {
+            "state": "LOADING_STATE",
+          }
+        }
+      />
+    </DashboardCardTitleSeeAll>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message={null}
+        state="LOADING_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Health /> renders warning health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Health
+    </DashboardCardTitle>
+    <DashboardCardTitleSeeAll
+      title="Subsystem health"
+    >
+      <SubsystemHealth
+        LoadingComponent={[Function]}
+        cephHealth={
+          Object {
+            "message": "OCS health is degraded",
+            "state": "WARNING_STATE",
+          }
+        }
+        k8sHealth={
+          Object {
+            "message": "OpenShift is healthy",
+            "state": "OK_STATE",
+          }
+        }
+        kubevirtHealth={
+          Object {
+            "message": "CNV is healthy",
+            "state": "OK_STATE",
+          }
+        }
+      />
+    </DashboardCardTitleSeeAll>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message="OCS health is degraded"
+        state="WARNING_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
 `;

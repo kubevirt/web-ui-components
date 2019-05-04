@@ -1,6 +1,164 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Utilization /> renders correctly 1`] = `
+exports[`<Utilization /> renders Loading utilization correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Utilization
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <UtilizationBody>
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={-1}
+        id="cpu"
+        isLoading={true}
+        maxY={100}
+        title="CPU"
+        unit="%"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={-1}
+        id="memory"
+        isLoading={true}
+        maxY={0}
+        title="Memory"
+        unit="B"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={-1}
+        id="diskIORW"
+        isLoading={true}
+        maxY={0}
+        title="Disk IO R/W"
+        unit="Bps"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={-1}
+        id="diskUsage"
+        isLoading={true}
+        maxY={0}
+        title="Disk Usage"
+        unit="B"
+      />
+    </UtilizationBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Utilization /> renders Utilization correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Utilization
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <UtilizationBody>
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={
+          Array [
+            0,
+            10,
+            15,
+            100,
+            50,
+          ]
+        }
+        decimalPoints={-1}
+        id="cpu"
+        isLoading={false}
+        maxY={100}
+        title="CPU"
+        unit="%"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={
+          Array [
+            2,
+            5,
+            15,
+            10,
+            30,
+          ]
+        }
+        decimalPoints={-1}
+        id="memory"
+        isLoading={false}
+        maxY={60}
+        title="Memory"
+        unit="Ki"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={
+          Array [
+            0,
+            0.2,
+            0.5,
+            0.3,
+            1,
+          ]
+        }
+        decimalPoints={-1}
+        id="diskIORW"
+        isLoading={false}
+        maxY={1}
+        title="Disk IO R/W"
+        unit="KBps"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={
+          Array [
+            1,
+            3,
+            4,
+            8,
+            5,
+          ]
+        }
+        decimalPoints={-1}
+        id="diskUsage"
+        isLoading={false}
+        maxY={10}
+        title="Disk Usage"
+        unit="Ki"
+      />
+    </UtilizationBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Utilization /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card"
 >
@@ -468,9 +626,7 @@ exports[`<Utilization /> renders correctly 1`] = `
           </div>
           <div
             class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            1 KBps
-          </div>
+          />
         </div>
         <div
           class="row"
@@ -478,197 +634,10 @@ exports[`<Utilization /> renders correctly 1`] = `
           <div
             class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
           >
-            <div
-              class="VictoryContainer"
-              style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
-            >
-              <svg
-                aria-labelledby="victory-container-5-title victory-container-5-desc"
-                height="60"
-                role="img"
-                style="pointer-events:all;width:100%;height:100%"
-                viewBox="0 0 300 60"
-                width="300"
-              >
-                <g
-                  clip-path="url(#victory-clip-6)"
-                  style="height:100%;width:100%;user-select:none"
-                >
-                  <defs>
-                    <clipPath
-                      id="victory-clip-6"
-                    >
-                      <rect
-                        height="45"
-                        role="presentation"
-                        shape-rendering="auto"
-                        vector-effect="non-scaling-stroke"
-                        width="260"
-                        x="40"
-                        y="10"
-                      />
-                    </clipPath>
-                  </defs>
-                  <g>
-                    <path
-                      d="M40,55L105,47.92233009708738L170,37.30582524271845L235,44.38349514563107L300,19.611650485436897L300,55L235,55L170,55L105,55L40,55Z"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
-                    />
-                    <path
-                      d="M40,55L105,47.92233009708738L170,37.30582524271845L235,44.38349514563107L300,19.611650485436897"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
-                    />
-                  </g>
-                </g>
-                <g
-                  role="presentation"
-                >
-                  <line
-                    role="presentation"
-                    shape-rendering="auto"
-                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
-                    vector-effect="non-scaling-stroke"
-                    x1="40"
-                    x2="40"
-                    y1="10"
-                    y2="55"
-                  />
-                  <g
-                    role="presentation"
-                  >
-                    <line
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
-                      vector-effect="non-scaling-stroke"
-                      x1="40"
-                      x2="300"
-                      y1="55"
-                      y2="55"
-                    />
-                    <line
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
-                      vector-effect="non-scaling-stroke"
-                      x1="40"
-                      x2="39"
-                      y1="55"
-                      y2="55"
-                    />
-                    <text
-                      direction="inherit"
-                      dx="0"
-                      dy="3.55"
-                      x="29"
-                      y="55"
-                    >
-                      <tspan
-                        dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
-                        text-anchor="end"
-                        x="29"
-                      >
-                        0
-                      </tspan>
-                    </text>
-                  </g>
-                  <g
-                    role="presentation"
-                  >
-                    <line
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
-                      vector-effect="non-scaling-stroke"
-                      x1="40"
-                      x2="300"
-                      y1="37.30582524271845"
-                      y2="37.30582524271845"
-                    />
-                    <line
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
-                      vector-effect="non-scaling-stroke"
-                      x1="40"
-                      x2="39"
-                      y1="37.30582524271845"
-                      y2="37.30582524271845"
-                    />
-                    <text
-                      direction="inherit"
-                      dx="0"
-                      dy="3.55"
-                      x="29"
-                      y="37.30582524271845"
-                    >
-                      <tspan
-                        dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
-                        text-anchor="end"
-                        x="29"
-                      >
-                        0.5
-                      </tspan>
-                    </text>
-                  </g>
-                  <g
-                    role="presentation"
-                  >
-                    <line
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
-                      vector-effect="non-scaling-stroke"
-                      x1="40"
-                      x2="300"
-                      y1="19.611650485436897"
-                      y2="19.611650485436897"
-                    />
-                    <line
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
-                      vector-effect="non-scaling-stroke"
-                      x1="40"
-                      x2="39"
-                      y1="19.611650485436897"
-                      y2="19.611650485436897"
-                    />
-                    <text
-                      direction="inherit"
-                      dx="0"
-                      dy="3.55"
-                      x="29"
-                      y="19.611650485436897"
-                    >
-                      <tspan
-                        dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
-                        text-anchor="end"
-                        x="29"
-                      >
-                        1
-                      </tspan>
-                    </text>
-                  </g>
-                </g>
-              </svg>
+            <div>
               <div
-                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
-              >
-                <svg
-                  height="60"
-                  style="overflow:visible;width:100%;height:100%"
-                  viewBox="0 0 300 60"
-                  width="300"
-                />
-              </div>
+                class="spinner spinner-md blank-slate-pf-icon"
+              />
             </div>
           </div>
         </div>
@@ -701,7 +670,7 @@ exports[`<Utilization /> renders correctly 1`] = `
               style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
             >
               <svg
-                aria-labelledby="victory-container-7-title victory-container-7-desc"
+                aria-labelledby="victory-container-5-title victory-container-5-desc"
                 height="60"
                 role="img"
                 style="pointer-events:all;width:100%;height:100%"
@@ -709,12 +678,12 @@ exports[`<Utilization /> renders correctly 1`] = `
                 width="300"
               >
                 <g
-                  clip-path="url(#victory-clip-8)"
+                  clip-path="url(#victory-clip-6)"
                   style="height:100%;width:100%;user-select:none"
                 >
                   <defs>
                     <clipPath
-                      id="victory-clip-8"
+                      id="victory-clip-6"
                     >
                       <rect
                         height="45"
@@ -887,146 +856,6 @@ exports[`<Utilization /> renders correctly 1`] = `
                   width="300"
                 />
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`<Utilization /> renders correctly in Loading state 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
->
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
-  >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
-    >
-      Cluster Utilization
-    </h2>
-  </div>
-  <div
-    class="card-pf-body"
-  >
-    <div
-      class="kubevirt-utilization__items"
-    >
-      <div
-        class="kubevirt-utilization__item-narrow"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            CPU
-          </div>
-          <div
-            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          />
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
-          >
-            <div>
-              <div
-                class="spinner spinner-md blank-slate-pf-icon"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="kubevirt-utilization__item-narrow"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            Memory
-          </div>
-          <div
-            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          />
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
-          >
-            <div>
-              <div
-                class="spinner spinner-md blank-slate-pf-icon"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="kubevirt-utilization__item-narrow"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            Disk IO R/W
-          </div>
-          <div
-            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          />
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
-          >
-            <div>
-              <div
-                class="spinner spinner-md blank-slate-pf-icon"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="kubevirt-utilization__item-narrow"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-narrow-title col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          >
-            Disk Usage
-          </div>
-          <div
-            class="kubevirt-utilization__item-actual item-actual--narrow col-lg-6 col-md-6 col-sm-6 col-xs-6"
-          />
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="kubevirt-utilization__item-chart kubevirt-utilization__item-chart--narrow"
-          >
-            <div>
-              <div
-                class="spinner spinner-md blank-slate-pf-icon"
-              />
             </div>
           </div>
         </div>
