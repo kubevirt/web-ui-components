@@ -5,6 +5,7 @@ import {
   validateContainer,
   getValidationObject,
   validateVmwareURL,
+  validateBmcURL,
 } from '../validations';
 import {
   DNS1123_START_ERROR,
@@ -16,6 +17,8 @@ import {
   URL_INVALID_ERROR,
   END_WHITESPACE_ERROR,
   START_WHITESPACE_ERROR,
+  BMC_PROTOCOL_ERROR,
+  BMC_PORT_ERROR,
 } from '../strings';
 
 const validatesEmpty = validateFunction => {
@@ -123,5 +126,30 @@ describe('validation.js - validateVmwareURL', () => {
   it('handles whitespaces at start or end', () => {
     expect(validateVmwareURL(' http://hello.com')).toEqual(getValidationObject(START_WHITESPACE_ERROR));
     expect(validateVmwareURL('http://hello.com ')).toEqual(getValidationObject(END_WHITESPACE_ERROR));
+  });
+});
+
+describe('validation.js - validateBmcURL', () => {
+  it('handles empty input', () => {
+    validatesEmpty(validateBmcURL);
+  });
+
+  it('starts with the correct protocol', () => {
+    expect(validateBmcURL('ipmi://1.2.3.4:1234')).toBeNull();
+    expect(validateBmcURL('idrac://1.2.3.4:1234')).toBeNull();
+    expect(validateBmcURL('http://1.2.3.4:1234')).toEqual(getValidationObject(BMC_PROTOCOL_ERROR));
+  });
+
+  it('uses a numerical port', () => {
+    expect(validateBmcURL('1.2.3.4:9000')).toBeNull();
+    expect(validateBmcURL('ipmi://1.2.3.4:9000')).toBeNull();
+    expect(validateBmcURL('1.2.3.4:abc')).toEqual(getValidationObject(BMC_PORT_ERROR));
+    expect(validateBmcURL('ipmi://1.2.3.4:abc')).toEqual(getValidationObject(BMC_PORT_ERROR));
+  });
+
+  it('uses a valid hostname', () => {
+    expect(validateBmcURL('1.2.3.4')).toBeNull();
+    expect(validateBmcURL('example.com')).toBeNull();
+    expect(validateBmcURL('@@@@')).toEqual(getValidationObject(URL_INVALID_ERROR));
   });
 });

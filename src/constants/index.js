@@ -70,3 +70,5 @@ export const VCENTER_TYPE_LABEL = 'kubevirt.io/vcenter';
 export const VCENTER_TEMPORARY_LABEL = 'kubevirt.io/temporary';
 
 export const VIRT_LAUNCHER_POD_PREFIX = 'virt-launcher-';
+
+export const METALKUBE_CONTROLLER_PROTOCOLS = ['ipmi', 'idrac'];
