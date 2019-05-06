@@ -56,39 +56,42 @@ const getClusterHealth = subsystemStates => {
   return healthState;
 };
 
-export const Health = ({ k8sHealth, kubevirtHealth, cephHealth, LoadingComponent }) => {
-  const k8sHealthState = getK8sHealthState(k8sHealth);
-  const kubevirtHealthState = getKubevirtHealthState(kubevirtHealth);
-  const cephHealthState = getOCSHealthState(cephHealth);
+export class Health extends React.PureComponent {
+  render() {
+    const { k8sHealth, kubevirtHealth, cephHealth, LoadingComponent } = this.props;
+    const k8sHealthState = getK8sHealthState(k8sHealth);
+    const kubevirtHealthState = getKubevirtHealthState(kubevirtHealth);
+    const cephHealthState = getOCSHealthState(cephHealth);
 
-  const healthState = getClusterHealth([k8sHealthState, kubevirtHealthState, cephHealthState]);
+    const healthState = getClusterHealth([k8sHealthState, kubevirtHealthState, cephHealthState]);
 
-  return (
-    <DashboardCard>
-      <DashboardCardHeader>
-        <DashboardCardTitle>Cluster Health</DashboardCardTitle>
-        <DashboardCardTitleSeeAll title="Subsystem health">
-          <SubsystemHealth
-            k8sHealth={k8sHealthState}
-            kubevirtHealth={kubevirtHealthState}
-            cephHealth={cephHealthState}
-            LoadingComponent={LoadingComponent}
-          />
-        </DashboardCardTitleSeeAll>
-      </DashboardCardHeader>
-      <DashboardCardBody>
-        <HealthBody>
-          <HealthItem
-            state={healthState.state}
-            message={healthState.message}
-            details={healthState.details}
-            LoadingComponent={LoadingComponent}
-          />
-        </HealthBody>
-      </DashboardCardBody>
-    </DashboardCard>
-  );
-};
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Health</DashboardCardTitle>
+          <DashboardCardTitleSeeAll title="Subsystem health">
+            <SubsystemHealth
+              k8sHealth={k8sHealthState}
+              kubevirtHealth={kubevirtHealthState}
+              cephHealth={cephHealthState}
+              LoadingComponent={LoadingComponent}
+            />
+          </DashboardCardTitleSeeAll>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <HealthBody>
+            <HealthItem
+              state={healthState.state}
+              message={healthState.message}
+              details={healthState.details}
+              LoadingComponent={LoadingComponent}
+            />
+          </HealthBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Health.defaultProps = {
   k8sHealth: null,
@@ -105,5 +108,22 @@ Health.propTypes = {
 };
 
 export const HealthConnected = () => (
-  <ClusterOverviewContext.Consumer>{props => <Health {...props} />}</ClusterOverviewContext.Consumer>
+  <ClusterOverviewContext.Consumer>
+    {props => (
+      <Health
+        k8sHealth={props.k8sHealth}
+        kubevirtHealth={props.kubevirtHealth}
+        cephHealth={props.cephHealth}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
+  </ClusterOverviewContext.Consumer>
 );
+
+HealthConnected.propTypes = {
+  ...Health.propTypes,
+};
+
+HealthConnected.defaultProps = {
+  ...Health.defaultProps,
+};

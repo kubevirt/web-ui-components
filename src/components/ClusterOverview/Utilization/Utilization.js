@@ -56,68 +56,71 @@ const getThroughputData = iorw => {
   };
 };
 
-export const Utilization = ({
-  cpuUtilization,
-  memoryUtilization,
-  memoryTotal,
-  storageTotal,
-  storageUsed,
-  storageIORW,
-  LoadingComponent,
-}) => {
-  const cpuStats = getUtilizationVectorStats(cpuUtilization);
-  const memoryData = getMemoryData(memoryUtilization, memoryTotal);
-  const storageUsageData = getMemoryData(storageUsed, storageTotal);
-  const diskIORWData = getThroughputData(storageIORW);
+export class Utilization extends React.PureComponent {
+  render() {
+    const {
+      cpuUtilization,
+      memoryUtilization,
+      memoryTotal,
+      storageTotal,
+      storageUsed,
+      storageIORW,
+      LoadingComponent,
+    } = this.props;
+    const cpuStats = getUtilizationVectorStats(cpuUtilization);
+    const memoryData = getMemoryData(memoryUtilization, memoryTotal);
+    const storageUsageData = getMemoryData(storageUsed, storageTotal);
+    const diskIORWData = getThroughputData(storageIORW);
 
-  return (
-    <DashboardCard>
-      <DashboardCardHeader>
-        <DashboardCardTitle>Cluster Utilization</DashboardCardTitle>
-      </DashboardCardHeader>
-      <DashboardCardBody>
-        <UtilizationBody>
-          <UtilizationItem
-            unit="%"
-            id="cpu"
-            title="CPU"
-            data={cpuStats}
-            maxY={100}
-            LoadingComponent={LoadingComponent}
-            isLoading={!cpuUtilization}
-          />
-          <UtilizationItem
-            unit={memoryData.unit}
-            id="memory"
-            title="Memory"
-            data={memoryData.values}
-            maxY={memoryData.maxValue}
-            LoadingComponent={LoadingComponent}
-            isLoading={!(memoryUtilization && memoryTotal)}
-          />
-          <UtilizationItem
-            unit={diskIORWData.unit}
-            id="diskIORW"
-            title="Disk IO R/W"
-            data={diskIORWData.values}
-            maxY={diskIORWData.maxValue}
-            LoadingComponent={LoadingComponent}
-            isLoading={!storageIORW}
-          />
-          <UtilizationItem
-            unit={storageUsageData.unit}
-            id="diskUsage"
-            title="Disk Usage"
-            data={storageUsageData.values}
-            maxY={storageUsageData.maxValue}
-            LoadingComponent={LoadingComponent}
-            isLoading={!(storageUsed && storageTotal)}
-          />
-        </UtilizationBody>
-      </DashboardCardBody>
-    </DashboardCard>
-  );
-};
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Utilization</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <UtilizationBody>
+            <UtilizationItem
+              unit="%"
+              id="cpu"
+              title="CPU"
+              data={cpuStats}
+              maxY={100}
+              LoadingComponent={LoadingComponent}
+              isLoading={!cpuUtilization}
+            />
+            <UtilizationItem
+              unit={memoryData.unit}
+              id="memory"
+              title="Memory"
+              data={memoryData.values}
+              maxY={memoryData.maxValue}
+              LoadingComponent={LoadingComponent}
+              isLoading={!(memoryUtilization && memoryTotal)}
+            />
+            <UtilizationItem
+              unit={diskIORWData.unit}
+              id="diskIORW"
+              title="Disk IO R/W"
+              data={diskIORWData.values}
+              maxY={diskIORWData.maxValue}
+              LoadingComponent={LoadingComponent}
+              isLoading={!storageIORW}
+            />
+            <UtilizationItem
+              unit={storageUsageData.unit}
+              id="diskUsage"
+              title="Disk Usage"
+              data={storageUsageData.values}
+              maxY={storageUsageData.maxValue}
+              LoadingComponent={LoadingComponent}
+              isLoading={!(storageUsed && storageTotal)}
+            />
+          </UtilizationBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Utilization.defaultProps = {
   cpuUtilization: null,
@@ -140,5 +143,25 @@ Utilization.propTypes = {
 };
 
 export const UtilizationConnected = () => (
-  <ClusterOverviewContext.Consumer>{props => <Utilization {...props} />}</ClusterOverviewContext.Consumer>
+  <ClusterOverviewContext.Consumer>
+    {props => (
+      <Utilization
+        cpuUtilization={props.cpuUtilization}
+        memoryUtilization={props.memoryUtilization}
+        memoryTotal={props.memoryTotal}
+        storageTotal={props.storageTotal}
+        storageUsed={props.storageUsed}
+        storageIORW={props.storageIORW}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
+  </ClusterOverviewContext.Consumer>
 );
+
+UtilizationConnected.propTypes = {
+  ...Utilization.propTypes,
+};
+
+UtilizationConnected.defaultProps = {
+  ...Utilization.defaultProps,
+};

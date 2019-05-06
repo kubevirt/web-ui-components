@@ -5,9 +5,12 @@ import { CardBody } from 'patternfly-react';
 
 import { Loading } from '../../Loading';
 
-const DashboardCardBody = ({ LoadingComponent, isLoading, children, ...props }) => (
-  <CardBody {...props}>{isLoading ? <LoadingComponent /> : children}</CardBody>
-);
+class DashboardCardBody extends React.PureComponent {
+  render() {
+    const { LoadingComponent, isLoading, children, ...props } = this.props;
+    return <CardBody {...props}>{isLoading ? <LoadingComponent /> : children}</CardBody>;
+  }
+}
 
 DashboardCardBody.defaultProps = {
   LoadingComponent: Loading,

@@ -19,12 +19,17 @@ InventoryRowTitle.propTypes = {
   count: PropTypes.number,
 };
 
-export const InventoryRow = ({ title, count, LoadingComponent, ...rest }) => (
-  <div id={prefixedId('inventory', title.toLowerCase())} className="kubevirt-inventory__row">
-    <InventoryRowTitle count={count} title={title} />
-    {count != null ? <InventoryItemStatus {...rest} key="status" /> : <LoadingComponent />}
-  </div>
-);
+export class InventoryRow extends React.PureComponent {
+  render() {
+    const { title, count, LoadingComponent, ...rest } = this.props;
+    return (
+      <div id={prefixedId('inventory', title.toLowerCase())} className="kubevirt-inventory__row">
+        <InventoryRowTitle count={count} title={title} />
+        {count != null ? <InventoryItemStatus {...rest} key="status" /> : <LoadingComponent />}
+      </div>
+    );
+  }
+}
 
 InventoryRow.defaultProps = {
   ...InventoryRowTitle.defaultProps,

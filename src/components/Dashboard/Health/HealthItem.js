@@ -33,15 +33,20 @@ const getIcon = state => {
   );
 };
 
-export const HealthItem = ({ state, LoadingComponent, message, details }) => (
-  <div className="kubevirt-health__item">
-    {state === LOADING_STATE ? <LoadingComponent /> : getIcon(state)}
-    <div>
-      {message && <span className="kubevirt-health__text">{message}</span>}
-      {details && <div className="kubevirt-health__text kubevirt-health__subtitle">{details}</div>}
-    </div>
-  </div>
-);
+export class HealthItem extends React.PureComponent {
+  render() {
+    const { state, LoadingComponent, message, details } = this.props;
+    return (
+      <div className="kubevirt-health__item">
+        {state === LOADING_STATE ? <LoadingComponent /> : getIcon(state)}
+        <div>
+          {message && <span className="kubevirt-health__text">{message}</span>}
+          {details && <div className="kubevirt-health__text kubevirt-health__subtitle">{details}</div>}
+        </div>
+      </div>
+    );
+  }
+}
 
 HealthItem.defaultProps = {
   details: null,

@@ -4,26 +4,29 @@ import { OverlayTrigger, Tooltip } from 'patternfly-react';
 
 import { DASHES } from '../../../constants';
 
-export const DetailItem = ({ title, value, isLoading, LoadingComponent }) => {
-  const description = value ? (
-    <OverlayTrigger
-      overlay={<Tooltip id={`tooltip-for-${title}`}>{value}</Tooltip>}
-      placement="top"
-      trigger={['hover', 'focus']}
-      rootClose={false}
-    >
-      <span>{value}</span>
-    </OverlayTrigger>
-  ) : (
-    DASHES
-  );
-  return (
-    <React.Fragment>
-      <dt className="kubevirt-detail__item-title">{title}</dt>
-      <dd className="kubevirt-detail__item-value">{isLoading ? <LoadingComponent /> : description}</dd>
-    </React.Fragment>
-  );
-};
+export class DetailItem extends React.PureComponent {
+  render() {
+    const { title, value, isLoading, LoadingComponent } = this.props;
+    const description = value ? (
+      <OverlayTrigger
+        overlay={<Tooltip id={`tooltip-for-${title}`}>{value}</Tooltip>}
+        placement="top"
+        trigger={['hover', 'focus']}
+        rootClose={false}
+      >
+        <span>{value}</span>
+      </OverlayTrigger>
+    ) : (
+      DASHES
+    );
+    return (
+      <React.Fragment>
+        <dt className="kubevirt-detail__item-title">{title}</dt>
+        <dd className="kubevirt-detail__item-value">{isLoading ? <LoadingComponent /> : description}</dd>
+      </React.Fragment>
+    );
+  }
+}
 
 DetailItem.defaultProps = {
   value: null,
