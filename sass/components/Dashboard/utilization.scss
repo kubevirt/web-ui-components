@@ -50,5 +50,20 @@
 }
 
 .kubevirt-utilization__item-narrow-title {
-  font-size: 0.875rem;
+  font-size: 1rem;
+}
+
+.kubevirt-utilization__time-duration {
+  font-size: 0.8em;
+  padding-bottom: 1rem;
+}
+
+.kubevirt-utilization__time-duration--left {
+  float: left;
+  padding-left: 1rem;
+}
+
+.kubevirt-utilization__time-duration--right {
+  float: right;
+  padding-right: 1rem;
 }
