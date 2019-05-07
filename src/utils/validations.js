@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import { trimStart, trimEnd } from 'lodash';
+import { trimStart, trimEnd, startsWith } from 'lodash';
 
 import {
   DNS1123_START_ERROR,
@@ -11,11 +11,13 @@ import {
   URL_INVALID_ERROR,
   START_WHITESPACE_ERROR,
   END_WHITESPACE_ERROR,
+  BMC_PROTOCOL_ERROR,
+  BMC_PORT_ERROR,
 } from './strings';
 
 import { parseUrl } from './utils';
 
-import { VALIDATION_ERROR_TYPE } from '../constants';
+import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS } from '../constants';
 
 export const isPositiveNumber = value => value && value.match(/^[1-9]\d*$/);
 
@@ -109,4 +111,33 @@ export const validateVmwareURL = value => {
   }
 */
   return null;
+};
+
+// <protocol>://<host>:<port>
+//
+// "protocol" is optional, defaults to "ipmi"
+// "host" is a hostname or an IP address
+// "port" is optional
+
+export const validateBmcURL = value => {
+  if (!value) {
+    return getValidationObject(EMPTY_ERROR);
+  }
+
+  const hasProtocol = value.includes('://');
+  const hasPort = value.match(':(?!/)');
+
+  if (hasProtocol && !METALKUBE_CONTROLLER_PROTOCOLS.find(allowedProtocol => startsWith(value, allowedProtocol))) {
+    return getValidationObject(BMC_PROTOCOL_ERROR);
+  }
+
+  if (hasPort && !value.match(/:\d+/)) {
+    return getValidationObject(BMC_PORT_ERROR);
+  }
+
+  if (!hasProtocol) {
+    value = `ipmi://${value}`;
+  }
+
+  return validateURL(value);
 };

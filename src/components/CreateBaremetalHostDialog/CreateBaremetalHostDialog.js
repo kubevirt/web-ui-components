@@ -4,8 +4,10 @@ import { Modal, Col, Button, Alert } from 'patternfly-react';
 
 import { FormFactory } from '../Form/FormFactory';
 import { createBaremetalHost } from '../../k8s/requests';
+import { settingsValue } from '../../k8s/selectors';
 import { TinyInlineLoading } from '../Loading/Loading';
 import { CREATE_HOST_FORM_TEXT } from './strings';
+import { validateBmcURL } from '../../utils/validations';
 
 const formFields = {
   name: {
@@ -17,6 +19,7 @@ const formFields = {
     id: 'controller',
     title: 'Management Controller Address',
     required: true,
+    validate: form => validateBmcURL(settingsValue(form, 'controller')),
   },
   username: {
     id: 'username',

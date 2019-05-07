@@ -62,6 +62,7 @@ exports[`<CreateBaremetalHostDialog /> renders correctly 1`] = `
               "id": "controller",
               "required": true,
               "title": "Management Controller Address",
+              "validate": [Function],
             },
             "name": Object {
               "id": "name",
