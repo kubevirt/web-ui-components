@@ -251,6 +251,7 @@ describe('<StorageTab />', () => {
     component.instance().rowsChanged([containerStorage], false);
 
     expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange.mock.calls[1][2]).toBeFalsy();
   });
 
   it('calls onChange when row is updated', () => {
@@ -260,12 +261,13 @@ describe('<StorageTab />', () => {
     const component = shallow(testStorageTab(onChange, newRows));
     expect(onChange).toHaveBeenCalledTimes(1);
 
-    component.instance().onRowUpdate(newRows, 1, false);
+    component.instance().onRowUpdate(newRows, 1, true);
 
     expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange.mock.calls[1][2]).toBeTruthy();
   });
 
-  it('does not call onChange when row is activated', () => {
+  it('calls onChange when row is activated', () => {
     const onChange = jest.fn();
 
     const testRows = [dataVolumeStorage, pvcStorage];
@@ -274,7 +276,8 @@ describe('<StorageTab />', () => {
 
     component.instance().onRowActivate(testRows);
 
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange.mock.calls[1][2]).toBeTruthy();
   });
 
   it('dropdown updates bootable storage', () => {

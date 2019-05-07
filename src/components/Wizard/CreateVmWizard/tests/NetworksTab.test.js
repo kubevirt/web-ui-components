@@ -107,8 +107,13 @@ describe('<NetworksTab />', () => {
     expect(getTableRows(component)).toHaveLength(0);
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange.mock.calls[0][1]).toBeFalsy();
+    expect(onChange.mock.calls[0][2]).toBeFalsy();
 
     getNetworkButton(component).simulate('click');
+    expect(onChange).toHaveBeenCalledTimes(3);
+    expect(onChange.mock.calls[1][1]).toBeFalsy();
+    expect(onChange.mock.calls[1][2]).toBeTruthy();
+
     const rows = getTableRows(component);
     expect(rows).toHaveLength(1);
     const columns = rows.find('td');
@@ -158,8 +163,9 @@ describe('<NetworksTab />', () => {
 
     // add PXE-bootable network
     component.instance().rowsChanged([pxeRow], false);
-    expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange.mock.calls[1][1]).toBeTruthy();
+    expect(onChange).toHaveBeenCalledTimes(4);
+    expect(onChange.mock.calls[3][1]).toBeTruthy();
+    expect(onChange.mock.calls[3][2]).toBeFalsy();
     component.update();
 
     expect(
@@ -172,8 +178,9 @@ describe('<NetworksTab />', () => {
 
     // add Pod network - not PXE bootable
     component.instance().rowsChanged([podRow], false);
-    expect(onChange).toHaveBeenCalledTimes(3);
-    expect(onChange.mock.calls[2][1]).toBeFalsy();
+    expect(onChange).toHaveBeenCalledTimes(5);
+    expect(onChange.mock.calls[4][1]).toBeFalsy();
+    expect(onChange.mock.calls[4][2]).toBeFalsy();
     component.update();
 
     expect(
@@ -186,8 +193,9 @@ describe('<NetworksTab />', () => {
 
     // add Pod network and PXE-bootable network
     component.instance().rowsChanged([podRow, pxeRow], false);
-    expect(onChange).toHaveBeenCalledTimes(4);
-    expect(onChange.mock.calls[3][1]).toBeTruthy();
+    expect(onChange).toHaveBeenCalledTimes(6);
+    expect(onChange.mock.calls[5][1]).toBeTruthy();
+    expect(onChange.mock.calls[5][2]).toBeFalsy();
     component.update();
 
     expect(
