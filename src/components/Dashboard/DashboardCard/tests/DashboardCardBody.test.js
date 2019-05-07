@@ -2,18 +2,16 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import DashboardCardBody from '../DashboardCardBody';
+import { default as DashboardCardBodyFixtures } from '../fixtures/DashboardCardBody.fixture';
 
-const testDashboardCardBody = (isLoading = false) => (
-  <DashboardCardBody isLoading={isLoading}>content</DashboardCardBody>
-);
+// eslint-disable-next-line react/prop-types
+const testDashboardCardBody = ({ props }) => <DashboardCardBody {...props}>content</DashboardCardBody>;
 
 describe('<DashboardCardBody />', () => {
-  it('renders correctly', () => {
-    const component = shallow(testDashboardCardBody());
-    expect(component).toMatchSnapshot();
-  });
-  it('renders loading correctly', () => {
-    const component = shallow(testDashboardCardBody(true));
-    expect(component).toMatchSnapshot();
+  DashboardCardBodyFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
+      const component = shallow(testDashboardCardBody(fixture));
+      expect(component).toMatchSnapshot();
+    });
   });
 });

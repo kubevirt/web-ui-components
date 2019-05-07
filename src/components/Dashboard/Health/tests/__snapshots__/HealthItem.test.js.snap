@@ -1,6 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<HealthItem /> renders correctly 1`] = `
+exports[`<HealthItem /> renders Error state correctly 1`] = `
+<div
+  className="kubevirt-health__item"
+>
+  <div
+    className="kubevirt-health__icon kubevirt-health__icon--error"
+  >
+    <Icon
+      name="exclamation-circle"
+      type="fa"
+    />
+  </div>
+  <div>
+    <span
+      className="kubevirt-health__text"
+    >
+      Error state
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<HealthItem /> renders Healthy state correctly 1`] = `
+<div
+  className="kubevirt-health__item"
+>
+  <div
+    className="kubevirt-health__icon kubevirt-health__icon--ok"
+  >
+    <Icon
+      name="check-circle"
+      type="fa"
+    />
+  </div>
+  <div>
+    <span
+      className="kubevirt-health__text"
+    >
+      Healthy state
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<HealthItem /> renders Loading health correctly 1`] = `
+<div
+  className="kubevirt-health__item"
+>
+  <InlineLoading
+    size="md"
+  />
+  <div />
+</div>
+`;
+
+exports[`<HealthItem /> renders State with detail correctly 1`] = `
+<div
+  className="kubevirt-health__item"
+>
+  <div
+    className="kubevirt-health__icon kubevirt-health__icon--ok"
+  >
+    <Icon
+      name="check-circle"
+      type="fa"
+    />
+  </div>
+  <div>
+    <span
+      className="kubevirt-health__text"
+    >
+      State with detail
+    </span>
+    <div
+      className="kubevirt-health__text kubevirt-health__subtitle"
+    >
+      Details message
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<HealthItem /> renders Warning state correctly 1`] = `
 <div
   className="kubevirt-health__item"
 >
@@ -16,7 +98,7 @@ exports[`<HealthItem /> renders correctly 1`] = `
     <span
       className="kubevirt-health__text"
     >
-      OCS is Healthy
+      Warning state
     </span>
   </div>
 </div>

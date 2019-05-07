@@ -1,6 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<InventoryRow /> renders correctly 1`] = `
+exports[`<InventoryRow /> renders Loading inventory row correctly 1`] = `
+<div
+  class="kubevirt-inventory__row"
+  id="inventory-pvcs"
+>
+  <div
+    class="kubevirt-inventory__row-title"
+  >
+    PVCs
+  </div>
+  <div>
+    <div
+      class="spinner spinner-md blank-slate-pf-icon"
+    />
+  </div>
+</div>
+`;
+
+exports[`<InventoryRow /> renders undefined correctly 1`] = `
 <div
   class="kubevirt-inventory__row"
   id="inventory-pvcs"

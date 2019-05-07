@@ -4,11 +4,14 @@ import { shallow } from 'enzyme';
 import { ConsumersResults } from '../ConsumersResults';
 import { default as ConsumersResultsFixtures } from '../fixtures/ConsumersResults.fixture';
 
-const testConsumersResults = () => <ConsumersResults {...ConsumersResultsFixtures.props} />;
+// eslint-disable-next-line react/prop-types
+const testConsumersResults = ({ props }) => <ConsumersResults {...props} />;
 
 describe('<ConsumersResults />', () => {
-  it('renders correctly', () => {
-    const component = shallow(testConsumersResults());
-    expect(component).toMatchSnapshot();
+  ConsumersResultsFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
+      const component = shallow(testConsumersResults(fixture));
+      expect(component).toMatchSnapshot();
+    });
   });
 });

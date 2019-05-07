@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DetailItem /> renders correctly 1`] = `
+exports[`<DetailItem /> renders Detail item correctly 1`] = `
 Array [
   <dt
     class="kubevirt-detail__item-title"
@@ -13,6 +13,40 @@ Array [
     <span>
       value1
     </span>
+  </dd>,
+]
+`;
+
+exports[`<DetailItem /> renders Loading detail item correctly 1`] = `
+Array [
+  <dt
+    class="kubevirt-detail__item-title"
+  >
+    title1
+  </dt>,
+  <dd
+    class="kubevirt-detail__item-value"
+  >
+    <div>
+      <div
+        class="spinner spinner-md blank-slate-pf-icon"
+      />
+    </div>
+  </dd>,
+]
+`;
+
+exports[`<DetailItem /> renders Not available detail item correctly 1`] = `
+Array [
+  <dt
+    class="kubevirt-detail__item-title"
+  >
+    title1
+  </dt>,
+  <dd
+    class="kubevirt-detail__item-value"
+  >
+    ---
   </dd>,
 ]
 `;

@@ -8,6 +8,7 @@ exports[`<DashboardCardTitleSeeAll /> renders correctly 1`] = `
       bsClass="popover"
       id="popover"
       placement="right"
+      title="fooTitle"
     >
       content
     </Popover>

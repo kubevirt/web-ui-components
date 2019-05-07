@@ -4,6 +4,7 @@ import { InlineLoading } from '../../../Loading';
 export default [
   {
     component: CapacityItem,
+    name: 'Capacity Item',
     props: {
       id: 'item-id',
       title: 'title',

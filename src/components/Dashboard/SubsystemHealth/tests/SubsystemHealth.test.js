@@ -4,11 +4,14 @@ import { render } from 'enzyme';
 import { SubsystemHealth } from '../SubsystemHealth';
 import { default as HealthFixtures } from '../fixtures/SubsystemHealth.fixture';
 
-const testHealthOverview = () => <SubsystemHealth {...HealthFixtures[0].props} />;
+// eslint-disable-next-line react/prop-types
+const testHealthOverview = ({ props }) => <SubsystemHealth {...props} />;
 
 describe('<SubsystemHealth />', () => {
-  it('renders correctly', () => {
-    const component = render(testHealthOverview());
-    expect(component).toMatchSnapshot();
+  HealthFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} orrectly`, () => {
+      const component = render(testHealthOverview(fixture));
+      expect(component).toMatchSnapshot();
+    });
   });
 });

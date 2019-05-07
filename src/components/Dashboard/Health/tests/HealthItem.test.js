@@ -8,8 +8,8 @@ import { default as HealthItemFixtures } from '../fixtures/HealthItem.fixture';
 const testHealthItem = ({ props }) => <HealthItem {...props} />;
 
 describe('<HealthItem />', () => {
-  it('renders correctly', () => {
-    HealthItemFixtures.forEach(fixture => {
+  HealthItemFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
       const component = shallow(testHealthItem(fixture));
       expect(component).toMatchSnapshot();
     });

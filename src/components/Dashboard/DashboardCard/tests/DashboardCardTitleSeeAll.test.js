@@ -3,7 +3,9 @@ import { shallow } from 'enzyme';
 
 import { DashboardCardTitleSeeAll } from '../DashboardCardTitleSeeAll';
 
-const testDashboardCardTitleSeeAll = () => <DashboardCardTitleSeeAll>content</DashboardCardTitleSeeAll>;
+const testDashboardCardTitleSeeAll = () => (
+  <DashboardCardTitleSeeAll title="fooTitle">content</DashboardCardTitleSeeAll>
+);
 
 describe('<DashboardCardTitleSeeAll />', () => {
   it('renders correctly', () => {
