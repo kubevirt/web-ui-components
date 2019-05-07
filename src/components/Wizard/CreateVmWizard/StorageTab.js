@@ -258,7 +258,7 @@ const resolveInitialStorages = (
   return storages;
 };
 
-const publishResults = (rows, otherStorages, sourceType, publish) => {
+const publishResults = (rows, otherStorages, sourceType, publish, editing) => {
   let valid = !needsBootableDisk(rows, sourceType);
 
   const storages = rows.map(
@@ -295,7 +295,7 @@ const publishResults = (rows, otherStorages, sourceType, publish) => {
     }
   );
   storages.push(...otherStorages);
-  publish(storages, valid);
+  publish(storages, valid, editing);
 };
 
 export class StorageTab extends React.Component {
@@ -320,14 +320,16 @@ export class StorageTab extends React.Component {
       editing: false,
     };
 
-    publishResults(this.state.rows, this.state.otherStorages, sourceType, onChange);
+    publishResults(this.state.rows, this.state.otherStorages, sourceType, onChange, false);
   }
 
   onRowActivate = rows => {
+    const { sourceType, onChange } = this.props;
     this.setState({
       rows,
       editing: true,
     });
+    publishResults(rows, this.state.otherStorages, sourceType, onChange, true);
   };
 
   onRowUpdate = (rows, updatedRowId, editing) => {
@@ -348,7 +350,7 @@ export class StorageTab extends React.Component {
   rowsChanged = (rows, editing) => {
     const { sourceType, onChange } = this.props;
     resolveBootability(rows, sourceType);
-    publishResults(rows, this.state.otherStorages, sourceType, onChange);
+    publishResults(rows, this.state.otherStorages, sourceType, onChange, editing);
     this.setState({
       rows,
       editing,
@@ -356,9 +358,9 @@ export class StorageTab extends React.Component {
   };
 
   create = storageType => {
-    this.setState(state => ({
-      nextId: state.nextId + 1,
-      rows: [
+    this.setState(state => {
+      const { sourceType, onChange } = this.props;
+      const rows = [
         ...state.rows,
         {
           id: state.nextId,
@@ -366,9 +368,15 @@ export class StorageTab extends React.Component {
           editable: true,
           edit: true, // trigger immediate edit
           storageType,
+          newRow: true,
         },
-      ],
-    }));
+      ];
+      publishResults(rows, state.otherStorages, sourceType, onChange, true);
+      return {
+        nextId: state.nextId + 1,
+        rows,
+      };
+    });
   };
 
   getColumns = () => [
@@ -513,7 +521,7 @@ export class StorageTab extends React.Component {
       });
 
       const { sourceType, onChange } = this.props;
-      publishResults(state.rows, state.otherStorages, sourceType, onChange);
+      publishResults(state.rows, state.otherStorages, sourceType, onChange, state.editing);
       return state.rows;
     });
   };

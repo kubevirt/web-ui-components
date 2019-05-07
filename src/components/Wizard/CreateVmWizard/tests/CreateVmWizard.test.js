@@ -278,6 +278,26 @@ describe('<CreateVmWizard />', () => {
     expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
   });
 
+  it('disables back/next step when requested', () => {
+    const component = mount(testCreateVmWizard());
+
+    component.instance().onStepDataChanged(VM_SETTINGS_TAB_KEY, validVmSettings, true);
+    component.instance().onStepChanged(1);
+    component.update();
+    expect(component.state().activeStepIndex).toEqual(1);
+    component.instance().onStepDataChanged(NETWORKS_TAB_KEY, null, true, true);
+    expect(component.state().stepData[NETWORKS_TAB_KEY].lockStep).toBeTruthy();
+    component.update();
+    expect(component.find(WizardPattern).props().nextStepDisabled).toBeTruthy();
+    expect(component.find(WizardPattern).props().previousStepDisabled).toBeTruthy();
+
+    component.instance().onStepDataChanged(NETWORKS_TAB_KEY, null, true, false);
+    component.update();
+    expect(component.state().stepData[NETWORKS_TAB_KEY].lockStep).toBeFalsy();
+    expect(component.find(WizardPattern).props().nextStepDisabled).toBeFalsy();
+    expect(component.find(WizardPattern).props().previousStepDisabled).toBeFalsy();
+  });
+
   it('creates vm', () => {
     createVm.mockReturnValueOnce(new Promise((resolve, reject) => resolve([{ result: 'VM created' }])));
     testWalkThrough();

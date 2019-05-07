@@ -17,7 +17,7 @@ const onChange = (rows, { editing, type, id, key, newValue }, onRowUpdate, onRow
       break;
     case ON_DELETE:
     case ON_MOVE:
-      onRowDeleteOrMove(rows);
+      onRowDeleteOrMove(rows, editing);
       break;
     default:
       // eslint-disable-next-line
