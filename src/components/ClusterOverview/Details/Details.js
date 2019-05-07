@@ -13,38 +13,43 @@ import { getClusterName, getInfrastructurePlatform, getOpenshiftVersion } from '
 import { DetailItem } from '../../Dashboard/Details/DetailItem';
 import { DetailsBody } from '../../Dashboard/Details/DetailsBody';
 
-export const Details = ({ infrastructure, openshiftClusterVersionResponse, LoadingComponent, className }) => (
-  <DashboardCard className={className}>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Details</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody>
-      <DetailsBody>
-        <DetailItem
-          key="name"
-          title="Name"
-          value={getClusterName(infrastructure)}
-          isLoading={!infrastructure}
-          LoadingComponent={LoadingComponent}
-        />
-        <DetailItem
-          key="provider"
-          title="Provider"
-          value={getInfrastructurePlatform(infrastructure)}
-          isLoading={!infrastructure}
-          LoadingComponent={LoadingComponent}
-        />
-        <DetailItem
-          key="openshift"
-          title="OpenShift version"
-          value={getOpenshiftVersion(openshiftClusterVersionResponse)}
-          isLoading={!openshiftClusterVersionResponse}
-          LoadingComponent={LoadingComponent}
-        />
-      </DetailsBody>
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Details extends React.PureComponent {
+  render() {
+    const { infrastructure, openshiftClusterVersionResponse, LoadingComponent, className } = this.props;
+    return (
+      <DashboardCard className={className}>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Details</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <DetailsBody>
+            <DetailItem
+              key="name"
+              title="Name"
+              value={getClusterName(infrastructure)}
+              isLoading={!infrastructure}
+              LoadingComponent={LoadingComponent}
+            />
+            <DetailItem
+              key="provider"
+              title="Provider"
+              value={getInfrastructurePlatform(infrastructure)}
+              isLoading={!infrastructure}
+              LoadingComponent={LoadingComponent}
+            />
+            <DetailItem
+              key="openshift"
+              title="OpenShift version"
+              value={getOpenshiftVersion(openshiftClusterVersionResponse)}
+              isLoading={!openshiftClusterVersionResponse}
+              LoadingComponent={LoadingComponent}
+            />
+          </DetailsBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Details.defaultProps = {
   infrastructure: null,
@@ -62,14 +67,21 @@ Details.propTypes = {
 
 export const DetailsConnected = ({ className }) => (
   <ClusterOverviewContext.Consumer>
-    {props => <Details className={className} {...props} />}
+    {props => (
+      <Details
+        className={className}
+        infrastructure={props.infrastructure}
+        openshiftClusterVersionResponse={props.openshiftClusterVersionResponse}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
   </ClusterOverviewContext.Consumer>
 );
 
-DetailsConnected.defaultProps = {
-  className: null,
+DetailsConnected.propTypes = {
+  ...Details.propTypes,
 };
 
-DetailsConnected.propTypes = {
-  className: PropTypes.string,
+DetailsConnected.defaultProps = {
+  ...Details.defaultProps,
 };

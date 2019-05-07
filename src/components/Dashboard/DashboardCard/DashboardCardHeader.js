@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { CardHeading } from 'patternfly-react';
 
-const DashboardCardHeader = ({ className, children, ...props }) => (
-  <CardHeading {...props} className={classNames('kubevirt-dashboard__card-heading', className)}>
-    {children}
-  </CardHeading>
-);
+class DashboardCardHeader extends React.PureComponent {
+  render() {
+    const { className, children, ...props } = this.props;
+    return (
+      <CardHeading {...props} className={classNames('kubevirt-dashboard__card-heading', className)}>
+        {children}
+      </CardHeading>
+    );
+  }
+}
 
 DashboardCardHeader.defaultProps = {
   className: null,

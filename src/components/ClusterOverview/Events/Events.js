@@ -12,19 +12,24 @@ import {
 import EventsBody from '../../Dashboard/Events/EventsBody';
 import { ClusterOverviewContextGenericConsumer } from '../ClusterOverviewContext';
 
-export const Events = ({ Component }) => (
-  <DashboardCard>
-    <DashboardCardHeader className="kubevirt-events__card-header">
-      <DashboardCardTitle>Cluster Events</DashboardCardTitle>
-      <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
-    </DashboardCardHeader>
-    <DashboardCardBody id="events-body" className="kubevirt-events__card-body">
-      <EventsBody>
-        <Component />
-      </EventsBody>
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Events extends React.PureComponent {
+  render() {
+    const { Component } = this.props;
+    return (
+      <DashboardCard>
+        <DashboardCardHeader className="kubevirt-events__card-header">
+          <DashboardCardTitle>Cluster Events</DashboardCardTitle>
+          <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
+        </DashboardCardHeader>
+        <DashboardCardBody id="events-body" className="kubevirt-events__card-body">
+          <EventsBody>
+            <Component />
+          </EventsBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 Events.defaultProps = {
   Component: React.Fragment,
 };
@@ -33,6 +38,12 @@ Events.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const EventsConnected = () => <ClusterOverviewContextGenericConsumer Component={Events} dataPath="eventsData" />;
+export const EventsConnected = () => <ClusterOverviewContextGenericConsumer Component={Events} dataPath="eventsData" />;
 
-export default EventsConnected;
+EventsConnected.propTypes = {
+  ...Events.propTypes,
+};
+
+EventsConnected.defaultProps = {
+  ...Events.defaultProps,
+};

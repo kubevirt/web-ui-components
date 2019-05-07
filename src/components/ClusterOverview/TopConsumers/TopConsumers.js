@@ -43,7 +43,7 @@ const sortBy = [
   { name: BY_NETWORK, description: NETWORK_DESC },
 ];
 
-export class TopConsumers extends React.Component {
+export class TopConsumers extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -166,5 +166,27 @@ TopConsumers.propTypes = {
 };
 
 export const TopConsumersConnected = () => (
-  <ClusterOverviewContext.Consumer>{props => <TopConsumers {...props} />}</ClusterOverviewContext.Consumer>
+  <ClusterOverviewContext.Consumer>
+    {props => (
+      <TopConsumers
+        workloadCpuResults={props.workloadCpuResults}
+        workloadMemoryResults={props.workloadMemoryResults}
+        workloadStorageResults={props.workloadStorageResults}
+        workloadNetworkResults={props.workloadNetworkResults}
+        infraCpuResults={props.infraCpuResults}
+        infraMemoryResults={props.infraMemoryResults}
+        infraStorageResults={props.infraStorageResults}
+        infraNetworkResults={props.infraNetworkResults}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
+  </ClusterOverviewContext.Consumer>
 );
+
+TopConsumersConnected.propTypes = {
+  ...TopConsumers.propTypes,
+};
+
+TopConsumersConnected.defaultProps = {
+  ...TopConsumers.defaultProps,
+};

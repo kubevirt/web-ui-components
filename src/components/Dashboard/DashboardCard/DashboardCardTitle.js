@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { CardTitle } from 'patternfly-react';
 
-const DashboardCardTitle = ({ className, children, ...props }) => (
-  <CardTitle {...props} className={classNames('kubevirt-dashboard__card-title', className)}>
-    {children}
-  </CardTitle>
-);
+class DashboardCardTitle extends React.PureComponent {
+  render() {
+    const { className, children, ...props } = this.props;
+    return (
+      <CardTitle {...props} className={classNames('kubevirt-dashboard__card-title', className)}>
+        {children}
+      </CardTitle>
+    );
+  }
+}
 
 DashboardCardTitle.defaultProps = {
   children: null,

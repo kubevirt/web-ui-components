@@ -13,35 +13,38 @@ import { InlineLoading } from '../../Loading';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
 import { HealthItem, LOADING_STATE, OK_STATE, ERROR_STATE } from '../../Dashboard/Health/HealthItem';
 
-export const Compliance = ({ complianceData, LoadingComponent }) => {
-  let complianceState;
-  if (!complianceData) {
-    complianceState = { state: LOADING_STATE };
-  } else {
-    const compliaceIsOk = get(complianceData, 'result') === 'ok';
-    complianceState = {
-      state: compliaceIsOk ? OK_STATE : ERROR_STATE,
-      message: compliaceIsOk ? 'All nodes compliant' : 'Error occured',
-    };
-  }
+export class Compliance extends React.PureComponent {
+  render() {
+    const { complianceData, LoadingComponent } = this.props;
+    let complianceState;
+    if (!complianceData) {
+      complianceState = { state: LOADING_STATE };
+    } else {
+      const compliaceIsOk = get(complianceData, 'result') === 'ok';
+      complianceState = {
+        state: compliaceIsOk ? OK_STATE : ERROR_STATE,
+        message: compliaceIsOk ? 'All nodes compliant' : 'Error occured',
+      };
+    }
 
-  return (
-    <DashboardCard>
-      <DashboardCardHeader>
-        <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
-      </DashboardCardHeader>
-      <DashboardCardBody>
-        <HealthBody>
-          <HealthItem
-            state={complianceState.state}
-            message={complianceState.message}
-            LoadingComponent={LoadingComponent}
-          />
-        </HealthBody>
-      </DashboardCardBody>
-    </DashboardCard>
-  );
-};
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Cluster Compliance</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <HealthBody>
+            <HealthItem
+              state={complianceState.state}
+              message={complianceState.message}
+              LoadingComponent={LoadingComponent}
+            />
+          </HealthBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Compliance.defaultProps = {
   LoadingComponent: InlineLoading,
@@ -54,5 +57,15 @@ Compliance.propTypes = {
 };
 
 export const ComplianceConnected = () => (
-  <ClusterOverviewContext.Consumer>{props => <Compliance {...props} />}</ClusterOverviewContext.Consumer>
+  <ClusterOverviewContext.Consumer>
+    {props => <Compliance complianceData={props.complianceData} LoadingComponent={props.LoadingComponent} />}
+  </ClusterOverviewContext.Consumer>
 );
+
+ComplianceConnected.propTypes = {
+  ...Compliance.propTypes,
+};
+
+ComplianceConnected.defaultProps = {
+  ...Compliance.defaultProps,
+};

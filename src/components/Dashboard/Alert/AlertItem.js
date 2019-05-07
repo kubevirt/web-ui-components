@@ -18,12 +18,17 @@ const getSeverityIcon = severity => {
   }
 };
 
-export const AlertItem = ({ alert }) => (
-  <div className="kubevirt-alert__item">
-    {getSeverityIcon(getAlertSeverity(alert))}
-    <div className="kubevirt-alert__item-message">{getAlertDescription(alert) || getAlertMessage(alert)}</div>
-  </div>
-);
+export class AlertItem extends React.PureComponent {
+  render() {
+    const { alert } = this.props;
+    return (
+      <div className="kubevirt-alert__item">
+        {getSeverityIcon(getAlertSeverity(alert))}
+        <div className="kubevirt-alert__item-message">{getAlertDescription(alert) || getAlertMessage(alert)}</div>
+      </div>
+    );
+  }
+}
 
 AlertItem.propTypes = {
   alert: PropTypes.object.isRequired,
