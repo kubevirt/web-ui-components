@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Row, Col } from 'patternfly-react';
+import { ChartAxis } from '@patternfly/react-charts';
+
 import {
   DashboardCard,
   DashboardCardBody,
@@ -11,8 +14,8 @@ import { StorageOverviewContext } from '../StorageOverviewContext';
 import { InlineLoading } from '../../Loading';
 import { UtilizationBody } from '../../Dashboard/Utilization/UtilizationBody';
 import { UtilizationItem } from '../../Dashboard/Utilization/UtilizationItem';
-import { getUtilizationVectorStats } from '../../../selectors';
-import { formatBytes } from '../../../utils';
+import { getUtilizationVectorStats, getUtilizationVectorTime } from '../../../selectors';
+import { formatBytes, formatToShortTime } from '../../../utils';
 
 const getUtilizationData = data => {
   let stats = null;
@@ -28,9 +31,12 @@ const getUtilizationData = data => {
     stats = null;
   }
 
+  const timeRaw = getUtilizationVectorTime(data);
+
   return {
     unit: `${maxValueConverted.unit}/s`,
     values: stats,
+    timestamps: timeRaw,
     maxValue: Number(maxValueConverted.value.toFixed(1)),
   };
 };
@@ -55,13 +61,28 @@ export const Utilization = ({
   if (latencyStats) {
     latencyStatsMax = Math.max(0, ...latencyStats);
   }
+  const { timestamps } = throughputData;
 
   return (
     <DashboardCard>
       <DashboardCardHeader>
-        <DashboardCardTitle>Performance</DashboardCardTitle>
+        <DashboardCardTitle>Utilization</DashboardCardTitle>
       </DashboardCardHeader>
       <DashboardCardBody>
+        <Row>
+          <Col className="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--left">Time </Col>
+          <Col className="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--right">
+            6 hour average
+          </Col>
+        </Row>
+        <ChartAxis
+          scale={{ x: 'time' }}
+          tickValues={timestamps}
+          tickFormat={x => formatToShortTime(x)}
+          orientation="top"
+          height={30}
+          padding={{ top: 25, bottom: 0, left: 43, right: 20 }}
+        />
         <UtilizationBody>
           <UtilizationItem
             unit={throughputData.unit}
