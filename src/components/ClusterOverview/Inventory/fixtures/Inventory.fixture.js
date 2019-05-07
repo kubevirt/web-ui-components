@@ -4,6 +4,7 @@ import { nodes, pvcs, pods, vms, vmis, migrations } from '../../fixtures/Cluster
 export default [
   {
     component: Inventory,
+    name: 'Inventory',
     props: {
       nodes,
       pvcs,

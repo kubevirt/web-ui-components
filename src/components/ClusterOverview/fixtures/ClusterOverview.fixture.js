@@ -56,10 +56,7 @@ export default [
     component: ClusterOverview,
     name: 'Loading overview',
     props: {
-      complianceData: { loaded: false },
-      eventsData: { loaded: false },
-      utilizationStats: { loaded: false },
-      inventoryData: { loaded: false },
+      eventsData,
     },
   },
   {

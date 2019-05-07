@@ -6,9 +6,26 @@ import {
   watchDogAlert,
 } from '../../../Dashboard/Alert/fixtures/AlertItem.fixture';
 
-export default {
-  component: Alerts,
-  props: {
-    alertsResponse: [criticalAlert, unknownTypeAlert, warningAlert, watchDogAlert],
+export default [
+  {
+    component: Alerts,
+    name: 'Alerts',
+    props: {
+      alertsResponse: [criticalAlert, unknownTypeAlert, warningAlert, watchDogAlert],
+    },
   },
-};
+  {
+    component: Alerts,
+    name: 'watchog alert',
+    props: {
+      alertsResponse: [watchDogAlert],
+    },
+  },
+  {
+    component: Alerts,
+    name: 'empty alerts',
+    props: {
+      alertsResponse: [],
+    },
+  },
+];

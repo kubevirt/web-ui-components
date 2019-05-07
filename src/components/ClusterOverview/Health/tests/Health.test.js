@@ -1,19 +1,27 @@
 import React from 'react';
-import { render } from 'enzyme';
+import { render, shallow } from 'enzyme';
 
-import { Health } from '../Health';
+import { Health, HealthConnected } from '../Health';
 import { default as HealthFixtures } from '../fixtures/Health.fixture';
+import { default as ClusterOverviewFixtures } from '../../fixtures/ClusterOverview.fixture';
+import { ClusterOverviewContext } from '../../ClusterOverviewContext';
 
-const testHealthOverview = () => <Health {...HealthFixtures[0].props} />;
-const testHealthErrorsOverview = () => <Health {...HealthFixtures[1].props} />;
+// eslint-disable-next-line react/prop-types
+const testHealthOverview = ({ props }) => <Health {...props} />;
 
 describe('<Health />', () => {
-  it('renders correctly', () => {
-    const component = render(testHealthOverview());
-    expect(component).toMatchSnapshot();
+  HealthFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
+      const component = shallow(testHealthOverview(fixture));
+      expect(component).toMatchSnapshot();
+    });
   });
-  it('renders multiple erros correctly', () => {
-    const component = render(testHealthErrorsOverview());
+  it('renders correctly with Provider', () => {
+    const component = render(
+      <ClusterOverviewContext.Provider value={ClusterOverviewFixtures[0].props}>
+        <HealthConnected />
+      </ClusterOverviewContext.Provider>
+    );
     expect(component).toMatchSnapshot();
   });
 });

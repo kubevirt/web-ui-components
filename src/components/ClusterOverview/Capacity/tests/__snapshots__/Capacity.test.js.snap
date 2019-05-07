@@ -1,6 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Capacity /> renders correctly 1`] = `
+exports[`<Capacity /> renders Capacity correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Capacity
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <CapacityBody>
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="cpu"
+        isLoading={false}
+        title="CPU"
+        total={100}
+        used={50}
+      />
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="memory"
+        isLoading={false}
+        title="Memory"
+        total={1048576}
+        used={30720}
+      />
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="storage"
+        isLoading={false}
+        title="Storage"
+        total={10240}
+        used={5120}
+      />
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="network"
+        isLoading={false}
+        title="Network"
+        total={10}
+        used={5}
+      />
+    </CapacityBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Capacity /> renders Loading Capacity correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Cluster Capacity
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <CapacityBody>
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="cpu"
+        isLoading={true}
+        title="CPU"
+        total={100}
+        used={null}
+      />
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="memory"
+        isLoading={true}
+        title="Memory"
+        total={null}
+        used={null}
+      />
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="storage"
+        isLoading={true}
+        title="Storage"
+        total={null}
+        used={null}
+      />
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="network"
+        isLoading={true}
+        title="Network"
+        total={null}
+        used={null}
+      />
+    </CapacityBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Capacity /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card"
 >
@@ -298,330 +416,6 @@ exports[`<Capacity /> renders correctly 1`] = `
                 x="100"
               >
                 Used
-              </tspan>
-            </text>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`<Capacity /> renders correctly in Loading state 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card"
->
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
-  >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
-    >
-      Cluster Capacity
-    </h2>
-  </div>
-  <div
-    class="card-pf-body"
-  >
-    <div
-      class="kubevirt-capacity__items"
-    >
-      <div
-        class="kubevirt-capacity__item"
-      >
-        <div
-          class="kubevirt-capacity__item-title"
-        >
-          CPU
-        </div>
-        <h6
-          class="kubevirt-capacity__item-description"
-        >
-          <div>
-            <div
-              class="spinner spinner-md blank-slate-pf-icon"
-            />
-          </div>
-        </h6>
-        <div
-          class="kubevirt-capacity__graph"
-          id="donut-chart-cpu"
-        >
-          <svg
-            viewBox="0 0 200 200"
-          >
-            <g>
-              <path
-                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-              <path
-                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-            </g>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="8.875"
-              x="100"
-              y="88"
-            >
-              <tspan
-                dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Loading
-              </tspan>
-            </text>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="5.324999999999999"
-              x="100"
-              y="112"
-            >
-              <tspan
-                dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Capacity
-              </tspan>
-            </text>
-          </svg>
-        </div>
-      </div>
-      <div
-        class="kubevirt-capacity__item"
-      >
-        <div
-          class="kubevirt-capacity__item-title"
-        >
-          Memory
-        </div>
-        <h6
-          class="kubevirt-capacity__item-description"
-        >
-          <div>
-            <div
-              class="spinner spinner-md blank-slate-pf-icon"
-            />
-          </div>
-        </h6>
-        <div
-          class="kubevirt-capacity__graph"
-          id="donut-chart-memory"
-        >
-          <svg
-            viewBox="0 0 200 200"
-          >
-            <g>
-              <path
-                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-              <path
-                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-            </g>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="8.875"
-              x="100"
-              y="88"
-            >
-              <tspan
-                dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Loading
-              </tspan>
-            </text>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="5.324999999999999"
-              x="100"
-              y="112"
-            >
-              <tspan
-                dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Capacity
-              </tspan>
-            </text>
-          </svg>
-        </div>
-      </div>
-      <div
-        class="kubevirt-capacity__item"
-      >
-        <div
-          class="kubevirt-capacity__item-title"
-        >
-          Storage
-        </div>
-        <h6
-          class="kubevirt-capacity__item-description"
-        >
-          <div>
-            <div
-              class="spinner spinner-md blank-slate-pf-icon"
-            />
-          </div>
-        </h6>
-        <div
-          class="kubevirt-capacity__graph"
-          id="donut-chart-storage"
-        >
-          <svg
-            viewBox="0 0 200 200"
-          >
-            <g>
-              <path
-                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-              <path
-                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-            </g>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="8.875"
-              x="100"
-              y="88"
-            >
-              <tspan
-                dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Loading
-              </tspan>
-            </text>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="5.324999999999999"
-              x="100"
-              y="112"
-            >
-              <tspan
-                dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Capacity
-              </tspan>
-            </text>
-          </svg>
-        </div>
-      </div>
-      <div
-        class="kubevirt-capacity__item"
-      >
-        <div
-          class="kubevirt-capacity__item-title"
-        >
-          Network
-        </div>
-        <h6
-          class="kubevirt-capacity__item-description"
-        >
-          <div>
-            <div
-              class="spinner spinner-md blank-slate-pf-icon"
-            />
-          </div>
-        </h6>
-        <div
-          class="kubevirt-capacity__graph"
-          id="donut-chart-network"
-        >
-          <svg
-            viewBox="0 0 200 200"
-          >
-            <g>
-              <path
-                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-              <path
-                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-            </g>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="8.875"
-              x="100"
-              y="88"
-            >
-              <tspan
-                dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Loading
-              </tspan>
-            </text>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="5.324999999999999"
-              x="100"
-              y="112"
-            >
-              <tspan
-                dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Capacity
               </tspan>
             </text>
           </svg>

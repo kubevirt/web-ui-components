@@ -1,6 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Details /> renders correctly 1`] = `
+exports[`<Details /> renders Loading cluster details correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Details
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <DetailsBody>
+      <DetailItem
+        LoadingComponent={[Function]}
+        isLoading={true}
+        key="name"
+        title="Name"
+        value={null}
+      />
+      <DetailItem
+        LoadingComponent={[Function]}
+        isLoading={true}
+        key="provider"
+        title="Provider"
+        value={null}
+      />
+      <DetailItem
+        LoadingComponent={[Function]}
+        isLoading={true}
+        key="openshift"
+        title="OpenShift version"
+        value={null}
+      />
+    </DetailsBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Details /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card"
 >
@@ -58,4 +102,48 @@ exports[`<Details /> renders correctly 1`] = `
     </dl>
   </div>
 </div>
+`;
+
+exports[`<Details /> renders undefined correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Details
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <DetailsBody>
+      <DetailItem
+        LoadingComponent={[Function]}
+        isLoading={false}
+        key="name"
+        title="Name"
+        value="clusterName.clusterDoman"
+      />
+      <DetailItem
+        LoadingComponent={[Function]}
+        isLoading={false}
+        key="provider"
+        title="Provider"
+        value="AWS"
+      />
+      <DetailItem
+        LoadingComponent={[Function]}
+        isLoading={false}
+        key="openshift"
+        title="OpenShift version"
+        value="v4.0.0"
+      />
+    </DetailsBody>
+  </DashboardCardBody>
+</DashboardCard>
 `;

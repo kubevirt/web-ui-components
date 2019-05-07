@@ -25,11 +25,13 @@ export const healthDataErrors = {
     response: 'error',
   },
   cephHealth: {
-    result: [
-      {
-        value: [null, 0],
-      },
-    ],
+    data: {
+      result: [
+        {
+          value: [null, 0],
+        },
+      ],
+    },
   },
   kubevirtHealth: {
     apiserver: {
@@ -38,13 +40,38 @@ export const healthDataErrors = {
   },
 };
 
+const healthDataWarning = {
+  ...healthData,
+  cephHealth: {
+    data: {
+      result: [
+        {
+          value: [null, 1],
+        },
+      ],
+    },
+  },
+};
+
 export default [
   {
     component: Health,
+    name: 'Health',
     props: { ...healthData },
   },
   {
     component: Health,
+    name: 'loading health',
+    props: {},
+  },
+  {
+    component: Health,
+    name: 'error health',
     props: { ...healthDataErrors },
+  },
+  {
+    component: Health,
+    name: 'warning health',
+    props: { ...healthDataWarning },
   },
 ];
