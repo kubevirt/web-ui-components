@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 
 import {
   DashboardCard,
@@ -14,14 +13,10 @@ import { mapNodesToProps, mapPvcsToProps, mapPvsToProps, mapDiskStatsToProps } f
 import { InventoryRow } from '../../Dashboard/Inventory/InventoryRow';
 import { InlineLoading } from '../../Loading';
 
-const InventoryBody = ({ nodes, pvs, pvcs, diskStats, LoadingComponent }) => (
+const InventoryBody = ({ nodes, pvs, pvcs, cephOsdUp, cephOsdDown, LoadingComponent }) => (
   <React.Fragment>
     <InventoryRow title="Nodes" {...mapNodesToProps(nodes)} LoadingComponent={LoadingComponent} />
-    <InventoryRow
-      title="Disks"
-      {...mapDiskStatsToProps(get(diskStats, 'cephOsdUp'), get(diskStats, 'cephOsdDown'))}
-      LoadingComponent={LoadingComponent}
-    />
+    <InventoryRow title="Disks" {...mapDiskStatsToProps(cephOsdUp, cephOsdDown)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="PVs" {...mapPvsToProps(pvs)} LoadingComponent={LoadingComponent} />
     <InventoryRow title="PVCs" {...mapPvcsToProps(pvcs)} LoadingComponent={LoadingComponent} />
   </React.Fragment>
@@ -29,7 +24,8 @@ const InventoryBody = ({ nodes, pvs, pvcs, diskStats, LoadingComponent }) => (
 
 InventoryBody.defaultProps = {
   nodes: undefined,
-  diskStats: undefined,
+  cephOsdDown: undefined,
+  cephOsdUp: undefined,
   pvs: undefined,
   pvcs: undefined,
   LoadingComponent: InlineLoading,
@@ -37,7 +33,8 @@ InventoryBody.defaultProps = {
 
 InventoryBody.propTypes = {
   nodes: PropTypes.array,
-  diskStats: PropTypes.object,
+  cephOsdDown: PropTypes.object,
+  cephOsdUp: PropTypes.object,
   pvs: PropTypes.array,
   pvcs: PropTypes.array,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),

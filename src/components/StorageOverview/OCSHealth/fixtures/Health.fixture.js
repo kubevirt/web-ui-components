@@ -1,34 +1,41 @@
 import { OCSHealth } from '../Health';
 
-export const ocsHealthData = {
+export const ocsHealthResponse = {
   data: {
-    healthy: 0,
-    message: 'Health Ok',
+    result: [
+      {
+        value: [null, 0],
+      },
+    ],
   },
-  loaded: true,
 };
 
 export const ocsHealthDataWarning = {
   data: {
-    healthy: 1,
-    message: 'Warning message',
+    result: [
+      {
+        value: [null, 1],
+      },
+    ],
   },
-  loaded: true,
 };
 
 export const ocsHealthDataError = {
   data: {
-    healthy: 2,
-    message: 'Error message',
+    result: [
+      {
+        value: [null, 2],
+      },
+    ],
   },
-  loaded: true,
 };
 
 export default [
   {
     component: OCSHealth,
-    name: 'Health',
-    props: { ...ocsHealthData },
+    props: {
+      ocsHealthResponse,
+    },
   },
   {
     component: OCSHealth,
@@ -38,11 +45,15 @@ export default [
   {
     component: OCSHealth,
     name: 'Error Health',
-    props: { ...ocsHealthDataError },
+    props: {
+      ocsHealthResponse: ocsHealthDataError,
+    },
   },
   {
     component: OCSHealth,
     name: 'Warning Health',
-    props: { ...ocsHealthDataWarning },
+    props: {
+      ocsHealthResponse: ocsHealthDataWarning,
+    },
   },
 ];

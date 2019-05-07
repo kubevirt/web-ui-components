@@ -2,12 +2,9 @@ import React from 'react';
 
 import { Events } from '../Events';
 
-export const eventsData = {
-  Component: () => <div>Requires component from tectonic</div>,
-  loaded: true,
-};
+export const EventStreamComponent = () => <div>Requires component from tectonic</div>;
 
 export default {
   component: Events,
-  props: { ...eventsData },
+  props: EventStreamComponent,
 };

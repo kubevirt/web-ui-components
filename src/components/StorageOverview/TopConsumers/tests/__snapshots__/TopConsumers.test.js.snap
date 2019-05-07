@@ -20,7 +20,13 @@ exports[`<TopConsumers /> no-data-renders-correctly 1`] = `
     isLoading={false}
   >
     <TopConsumersBody
-      topConsumerStats={Array []}
+      topConsumers={
+        Object {
+          "data": Object {
+            "result": Array [],
+          },
+        }
+      }
     />
   </DashboardCardBody>
 </DashboardCard>
@@ -44,7 +50,7 @@ exports[`<TopConsumers /> render-correctly-on-loading 1`] = `
     isLoading={true}
   >
     <TopConsumersBody
-      topConsumerStats={Array []}
+      topConsumers={null}
     />
   </DashboardCardBody>
 </DashboardCard>

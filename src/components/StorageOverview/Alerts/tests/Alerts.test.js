@@ -3,7 +3,6 @@ import { shallow, render } from 'enzyme';
 
 import { Alerts, AlertsConnected } from '../Alerts';
 import { default as AlertsFixtures } from '../fixtures/Alerts.fixture';
-import { default as StorageOverviewFixtures } from '../../fixtures/StorageOverview.fixture';
 import { StorageOverviewContext } from '../../StorageOverviewContext';
 
 // eslint-disable-next-line react/prop-types
@@ -18,7 +17,7 @@ describe('<Alerts />', () => {
   });
   it('renders correctly with Provider', () => {
     const component = render(
-      <StorageOverviewContext.Provider value={StorageOverviewFixtures[2].props}>
+      <StorageOverviewContext.Provider value={AlertsFixtures[0].props}>
         <AlertsConnected />
       </StorageOverviewContext.Provider>
     );
