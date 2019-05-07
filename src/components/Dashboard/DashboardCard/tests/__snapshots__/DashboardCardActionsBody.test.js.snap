@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardCardActionsBody /> renders correctly 1`] = `
+<div
+  class="kubevirt-dashboard__actions-body"
+>
+  <div
+    class="btn-group btn-group-justified"
+  >
+    <div
+      class="dropdown btn-group btn-group-default"
+    >
+      <button
+        aria-expanded="false"
+        aria-haspopup="true"
+        class="kubevirt-dropdown dropdown-toggle btn btn-default"
+        id="1"
+        role="button"
+        type="button"
+      >
+        This is dropdown button 
+        <span
+          class="caret"
+        />
+      </button>
+      <ul
+        aria-labelledby="1"
+        class="dropdown-menu"
+        role="menu"
+      >
+        <li
+          class=""
+          role="presentation"
+        >
+          <a
+            href="#"
+            role="menuitem"
+            tabindex="-1"
+          >
+            choice1
+          </a>
+        </li>
+        <li
+          class=""
+          role="presentation"
+        >
+          <a
+            href="#"
+            role="menuitem"
+            tabindex="-1"
+          >
+            choice2
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

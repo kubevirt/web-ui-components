@@ -412,6 +412,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                     },
                   ]
                 }
+                className=""
                 disabled={false}
                 id="dropdown"
                 onChange={[Function]}

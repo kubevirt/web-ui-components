@@ -46,7 +46,14 @@ export const getFormElement = props => {
       );
     case DROPDOWN:
       return (
-        <Dropdown id={id} value={value || defaultValue} onChange={onChange} choices={choices} disabled={disabled} />
+        <Dropdown
+          id={id}
+          value={value || defaultValue}
+          onChange={onChange}
+          choices={choices}
+          disabled={disabled}
+          className={className}
+        />
       );
     case CHECKBOX:
       return (
