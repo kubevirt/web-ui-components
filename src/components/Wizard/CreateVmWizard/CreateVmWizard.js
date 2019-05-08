@@ -56,7 +56,7 @@ const getUpdatedValidatedState = (prevProps, prevState, props, state, extra) => 
 
   const validatedStepData = ALL_TAB_KEYS.reduce((resultStepData, tabKey) => {
     const { value, valid } = newState.stepData[tabKey];
-    resultStepData[tabKey] = validateTabData(tabKey, value, valid);
+    resultStepData[tabKey] = validateTabData(tabKey, value, valid, props);
     return resultStepData;
   }, {});
 
@@ -84,6 +84,7 @@ export class CreateVmWizard extends React.Component {
     this.state = getUpdatedValidatedState(null, null, props, initialState, {
       // eslint-disable-next-line no-console
       safeSetState: () => console.warn('setState not supported when initializing'),
+      virtualMachines: this.props.virtualMachines,
     });
   }
 
@@ -104,6 +105,7 @@ export class CreateVmWizard extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const newState = getUpdatedValidatedState(prevProps, prevState, this.props, this.state, {
       safeSetState: this.safeSetState,
+      virtualMachines: this.props.virtualMachines,
     });
 
     if (this.state !== newState) {
@@ -117,7 +119,7 @@ export class CreateVmWizard extends React.Component {
   lastStepReached = () => this.state.activeStepIndex === this.getLastStepIndex();
 
   onStepDataChanged = (tabKey, value, valid, lockStep = false) => {
-    const validatedTabData = validateTabData(tabKey, value, valid);
+    const validatedTabData = validateTabData(tabKey, value, valid, this.props);
     this.safeSetState(state => ({
       stepData: {
         ...state.stepData,
@@ -185,9 +187,9 @@ export class CreateVmWizard extends React.Component {
       key: VM_SETTINGS_TAB_KEY,
       onCloseWizard: onCloseVmSettings,
       render: () => {
-        const { namespaces, templates, dataVolumes, WithResources } = this.props;
+        const { namespaces, templates, dataVolumes, virtualMachines, WithResources } = this.props;
 
-        const loadingData = { namespaces, templates, dataVolumes };
+        const loadingData = { namespaces, templates, dataVolumes, virtualMachines };
         const vmSettings = getVmSettings(this.state);
 
         return (
@@ -305,6 +307,7 @@ export class CreateVmWizard extends React.Component {
 CreateVmWizard.defaultProps = {
   templates: null,
   namespaces: null,
+  virtualMachines: null,
   selectedNamespace: null,
   networkConfigs: null,
   persistentVolumeClaims: null,
@@ -322,6 +325,7 @@ CreateVmWizard.propTypes = {
   onHide: PropTypes.func.isRequired,
   templates: PropTypes.array,
   namespaces: PropTypes.array,
+  virtualMachines: PropTypes.array,
   selectedNamespace: PropTypes.object,
   networkConfigs: PropTypes.array,
   persistentVolumeClaims: PropTypes.array,

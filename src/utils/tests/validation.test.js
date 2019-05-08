@@ -5,6 +5,7 @@ import {
   validateContainer,
   getValidationObject,
   validateVmwareURL,
+  validateVmName,
 } from '../validations';
 import {
   DNS1123_START_ERROR,
@@ -16,7 +17,11 @@ import {
   URL_INVALID_ERROR,
   END_WHITESPACE_ERROR,
   START_WHITESPACE_ERROR,
+  VIRTUAL_MACHINE_EXISTS,
 } from '../strings';
+import { vm1, vm2 } from '../../tests/mocks/vm/vm_validation.mock';
+import { validVmSettings } from '../../components/Wizard/CreateVmWizard/fixtures/VmSettingsTab.fixture';
+import { NAMESPACE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
 
 const validatesEmpty = validateFunction => {
   expect(validateFunction('')).toEqual(getValidationObject(EMPTY_ERROR));
@@ -123,5 +128,19 @@ describe('validation.js - validateVmwareURL', () => {
   it('handles whitespaces at start or end', () => {
     expect(validateVmwareURL(' http://hello.com')).toEqual(getValidationObject(START_WHITESPACE_ERROR));
     expect(validateVmwareURL('http://hello.com ')).toEqual(getValidationObject(END_WHITESPACE_ERROR));
+  });
+});
+
+describe('validation.js - validateVmName', () => {
+  const props = { virtualMachines: [vm1, vm2] };
+  const vmSettings = validVmSettings;
+  vmSettings[NAMESPACE_KEY].value = 'test-namespace';
+
+  it('handles unique name', () => {
+    expect(validateVmName('vm3', vmSettings, props)).toBeNull();
+  });
+
+  it('handles duplicate name', () => {
+    expect(validateVmName('vm1', vmSettings, props)).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
   });
 });

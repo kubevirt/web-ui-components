@@ -64,6 +64,7 @@ export default [
       storageClasses,
       units,
       dataVolumes: [urlTemplateDataVolume],
+      virtualMachines: [],
     },
   },
   {
@@ -80,6 +81,7 @@ export default [
       storageClasses,
       units,
       dataVolumes: [urlTemplateDataVolume],
+      virtualMachines: [],
     },
   },
   {
@@ -95,6 +97,7 @@ export default [
       storageClasses: null,
       units,
       dataVolumes: null,
+      virtualMachines: null,
     },
   },
   {
@@ -111,6 +114,7 @@ export default [
       units,
       createTemplate: true,
       dataVolumes: [urlTemplateDataVolume],
+      virtualMachines: [],
     },
   },
 ];
