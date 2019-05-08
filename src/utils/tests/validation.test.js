@@ -6,6 +6,7 @@ import {
   getValidationObject,
   validateVmwareURL,
   validateBmcURL,
+  validateVmName,
 } from '../validations';
 import {
   DNS1123_START_ERROR,
@@ -19,7 +20,11 @@ import {
   START_WHITESPACE_ERROR,
   BMC_PROTOCOL_ERROR,
   BMC_PORT_ERROR,
+  VIRTUAL_MACHINE_EXISTS,
 } from '../strings';
+import { vm1, vm2 } from '../../tests/mocks/vm/vm_validation.mock';
+import { validVmSettings } from '../../components/Wizard/CreateVmWizard/fixtures/VmSettingsTab.fixture';
+import { NAMESPACE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
 
 const validatesEmpty = validateFunction => {
   expect(validateFunction('')).toEqual(getValidationObject(EMPTY_ERROR));
@@ -151,5 +156,19 @@ describe('validation.js - validateBmcURL', () => {
     expect(validateBmcURL('1.2.3.4')).toBeNull();
     expect(validateBmcURL('example.com')).toBeNull();
     expect(validateBmcURL('@@@@')).toEqual(getValidationObject(URL_INVALID_ERROR));
+  });
+});
+
+describe('validation.js - validateVmName', () => {
+  const props = { virtualMachines: [vm1, vm2] };
+  const vmSettings = validVmSettings;
+  vmSettings[NAMESPACE_KEY].value = 'test-namespace';
+
+  it('handles unique name', () => {
+    expect(validateVmName('vm3', vmSettings, props)).toBeNull();
+  });
+
+  it('handles duplicate name', () => {
+    expect(validateVmName('vm1', vmSettings, props)).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
   });
 });

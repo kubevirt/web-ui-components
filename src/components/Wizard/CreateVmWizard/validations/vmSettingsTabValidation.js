@@ -1,12 +1,7 @@
 import { get } from 'lodash';
 
 import { isFieldRequired } from '../utils/vmSettingsTabUtils';
-import {
-  getValidationObject,
-  validateContainer,
-  validateDNS1123SubdomainValue,
-  validateURL,
-} from '../../../../utils/validations';
+import { getValidationObject, validateContainer, validateVmName, validateURL } from '../../../../utils/validations';
 import { objectMerge } from '../../../../utils/utils';
 import { settingsValue } from '../../../../k8s/selectors';
 import { PROVISION_SOURCE_IMPORT, VALIDATION_ERROR_TYPE } from '../../../../constants';
@@ -41,19 +36,19 @@ const validateProviderDropdown = (key, vmSettings) => {
 const asVmSettingsValidator = validator => asGenericFieldValidator(asUpdateValidator(validator), getFieldTitle);
 
 const validateResolver = {
-  [NAME_KEY]: asVmSettingsValidator(validateDNS1123SubdomainValue),
+  [NAME_KEY]: asVmSettingsValidator(validateVmName),
   [CONTAINER_IMAGE_KEY]: asVmSettingsValidator(validateContainer),
   [IMAGE_URL_KEY]: asVmSettingsValidator(validateURL),
   [PROVIDER_KEY]: validateProviderDropdown,
 };
 
-export const validateVmSettings = vmSettings => {
+export const validateVmSettings = (vmSettings, additionalResources) => {
   const update = {};
 
   Object.keys(vmSettings).forEach(key => {
     const validator = validateResolver[key];
     if (validator) {
-      update[key] = validator(key, vmSettings);
+      update[key] = validator(key, vmSettings, additionalResources);
     }
   });
 

@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 
-export const asGenericFieldValidator = (customValidator, getFieldTitle) => (key, vmSettings) => {
+export const asGenericFieldValidator = (customValidator, getFieldTitle) => (key, vmSettings, additionalResources) => {
   const field = vmSettings[key] || {};
-  const { validation, ...rest } = customValidator && customValidator(field.value, vmSettings);
+  const { validation, ...rest } = customValidator && customValidator(field.value, vmSettings, additionalResources);
   let val = validation;
 
   // next step is disabled by isValid so empty errors do not need to be shown
