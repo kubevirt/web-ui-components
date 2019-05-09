@@ -131,7 +131,7 @@ export class NetworksTab extends React.Component {
     super(props);
     const rows = resolveInitialNetworks(props.networks, props.networkConfigs, props.namespace, props.sourceType);
 
-    this.publishResults(rows);
+    this.publishResults(rows, false);
     this.state = {
       // eslint-disable-next-line
       nextId: Math.max(...rows.map(network => network.id || 0), 0) + 1,
@@ -140,7 +140,7 @@ export class NetworksTab extends React.Component {
     };
   }
 
-  publishResults = rows => {
+  publishResults = (rows, editing) => {
     let valid = this.props.sourceType === PROVISION_SOURCE_PXE ? rows.some(row => row.isBootable) : true;
     const nics = rows.map(
       ({ templateNetwork, rootNetwork, id, isBootable, name, mac, network, errors, networkType, binding }) => {
@@ -172,11 +172,12 @@ export class NetworksTab extends React.Component {
       }
     );
 
-    this.props.onChange(nics, valid);
+    this.props.onChange(nics, valid, editing);
   };
 
   onRowActivate = rows => {
     this.setState({ rows, editing: true });
+    this.publishResults(rows, true);
   };
 
   onRowUpdate = (rows, updatedRowId, editing, property, newValue) => {
@@ -199,14 +200,13 @@ export class NetworksTab extends React.Component {
 
   rowsChanged = (rows, editing) => {
     resolveBootableNetwork(this.props.sourceType, rows);
-    this.publishResults(rows);
+    this.publishResults(rows, editing);
     this.setState({ rows, editing });
   };
 
   createNic = () => {
-    this.setState(state => ({
-      nextId: state.nextId + 1,
-      rows: [
+    this.setState(state => {
+      const rows = [
         ...state.rows,
         {
           id: state.nextId,
@@ -217,9 +217,15 @@ export class NetworksTab extends React.Component {
           mac: '',
           network: '',
           binding: '',
+          newRow: true,
         },
-      ],
-    }));
+      ];
+      this.publishResults(rows, true);
+      return {
+        nextId: state.nextId + 1,
+        rows,
+      };
+    });
   };
 
   getColumns = () => {
@@ -354,7 +360,7 @@ export class NetworksTab extends React.Component {
       state.rows.forEach(row => {
         row.isBootable = row.id === newValue.value.id;
       });
-      this.publishResults(state.rows);
+      this.publishResults(state.rows, state.editing);
       return state.rows;
     });
   };

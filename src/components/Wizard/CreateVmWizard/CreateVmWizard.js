@@ -116,12 +116,15 @@ export class CreateVmWizard extends React.Component {
 
   lastStepReached = () => this.state.activeStepIndex === this.getLastStepIndex();
 
-  onStepDataChanged = (tabKey, value, valid) => {
+  onStepDataChanged = (tabKey, value, valid, lockStep = false) => {
     const validatedTabData = validateTabData(tabKey, value, valid);
     this.safeSetState(state => ({
       stepData: {
         ...state.stepData,
-        [tabKey]: validatedTabData,
+        [tabKey]: {
+          ...validatedTabData,
+          lockStep,
+        },
       },
     }));
   };
@@ -220,7 +223,7 @@ export class CreateVmWizard extends React.Component {
           <LoadingTab {...loadingData}>
             <NetworksTab
               key={NETWORKS_TAB_KEY}
-              onChange={(value, valid) => this.onStepDataChanged(NETWORKS_TAB_KEY, value, valid)}
+              onChange={(value, valid, lockStep) => this.onStepDataChanged(NETWORKS_TAB_KEY, value, valid, lockStep)}
               networkConfigs={this.props.networkConfigs}
               networks={this.state.stepData[NETWORKS_TAB_KEY].value || []}
               sourceType={sourceType}
@@ -246,7 +249,7 @@ export class CreateVmWizard extends React.Component {
             <StorageTab
               key={STORAGE_TAB_KEY}
               initialStorages={this.state.stepData[STORAGE_TAB_KEY].value}
-              onChange={(value, valid) => this.onStepDataChanged(STORAGE_TAB_KEY, value, valid)}
+              onChange={(value, valid, lockStep) => this.onStepDataChanged(STORAGE_TAB_KEY, value, valid, lockStep)}
               units={this.props.units}
               sourceType={sourceType}
               namespace={getVmSettingValue(this.state, NAMESPACE_KEY)}
@@ -278,6 +281,7 @@ export class CreateVmWizard extends React.Component {
     const lastStepReached = this.lastStepReached();
 
     const createVmText = this.props.createTemplate ? CREATE_VM_TEMPLATE : CREATE_VM;
+    const currentStepData = this.state.stepData[this.wizardStepsNewVM[this.state.activeStepIndex].key];
 
     return (
       <Wizard.Pattern
@@ -286,10 +290,10 @@ export class CreateVmWizard extends React.Component {
         steps={this.wizardStepsNewVM}
         activeStepIndex={this.state.activeStepIndex}
         onStepChanged={this.onStepChanged}
-        previousStepDisabled={lastStepReached}
+        previousStepDisabled={currentStepData.lockStep ? true : lastStepReached}
         cancelButtonDisabled={lastStepReached}
         stepButtonsDisabled={lastStepReached}
-        nextStepDisabled={!this.state.stepData[this.wizardStepsNewVM[this.state.activeStepIndex].key].valid}
+        nextStepDisabled={currentStepData.lockStep ? true : !currentStepData.valid}
         nextText={beforeLastStepReached ? createVmText : NEXT}
         title={createVmText}
         dialogClassName="modal-lg wizard-pf kubevirt-wizard kubevirt-create-vm-wizard"
