@@ -16,5 +16,6 @@ export default [
   {
     component: StorageDetails,
     name: 'Loading storage details',
+    props: {},
   },
 ];

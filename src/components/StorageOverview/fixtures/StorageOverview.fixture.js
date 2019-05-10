@@ -43,7 +43,6 @@ export default [
       eventsData,
       ...utilizationStats,
       ...dataResiliencyData[0],
-      alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
       ...TopConsumerStats[1],
     },
   },
@@ -52,6 +51,25 @@ export default [
     name: 'Loading overview',
     props: {
       ocsHealthData: { loaded: false },
+      eventsData: { loaded: false },
+    },
+  },
+  {
+    component: StorageOverview,
+    name: ' Storage Overview with alerts',
+    props: {
+      cephCluster,
+      ocsHealthData,
+      ...capacityStats,
+      nodes,
+      pvcs,
+      pvs,
+      diskStats,
+      eventsData,
+      ...utilizationStats,
+      ...dataResiliencyData[0],
+      ...TopConsumerStats[1],
+      alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
     },
   },
 ];

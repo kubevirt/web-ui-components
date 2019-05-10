@@ -4,6 +4,7 @@ import { nodes, pvcs, pvs, diskStats } from '../../fixtures/StorageOverview.fixt
 export default [
   {
     component: Inventory,
+    name: 'Inventory',
     props: {
       nodes,
       pvcs,

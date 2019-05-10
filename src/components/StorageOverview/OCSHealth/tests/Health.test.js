@@ -1,14 +1,27 @@
 import React from 'react';
-import { render } from 'enzyme';
+import { render, shallow } from 'enzyme';
 
-import { OCSHealth } from '../Health';
+import { OCSHealth, OCSHealthConnected } from '../Health';
 import { default as HealthFixtures } from '../fixtures/Health.fixture';
+import { default as StorageOverviewFixtures } from '../../fixtures/StorageOverview.fixture';
+import { StorageOverviewContext } from '../../StorageOverviewContext';
 
-const testHealthOverview = () => <OCSHealth {...HealthFixtures[0].props} />;
+// eslint-disable-next-line react/prop-types
+const testOCSHealthOverview = ({ props }) => <OCSHealth {...props} />;
 
-describe('<Health />', () => {
-  it('renders correctly', () => {
-    const component = render(testHealthOverview());
+describe('<OCSHealth />', () => {
+  HealthFixtures.forEach(fixture => {
+    it(`renders ${fixture.name} correctly`, () => {
+      const component = shallow(testOCSHealthOverview(fixture));
+      expect(component).toMatchSnapshot();
+    });
+  });
+  it('renders correctly with Provider', () => {
+    const component = render(
+      <StorageOverviewContext.Provider value={StorageOverviewFixtures[0].props}>
+        <OCSHealthConnected />
+      </StorageOverviewContext.Provider>
+    );
     expect(component).toMatchSnapshot();
   });
 });

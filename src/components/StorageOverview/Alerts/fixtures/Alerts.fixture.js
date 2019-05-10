@@ -24,9 +24,33 @@ export const cephDataRecoveryAlert = {
   },
 };
 
-export default {
-  component: Alerts,
-  props: {
-    alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
+export default [
+  {
+    component: Alerts,
+    name: 'Alerts',
+    props: {
+      alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
+    },
   },
-};
+  {
+    component: Alerts,
+    name: 'Disk Inaccessible',
+    props: {
+      alertsResponse: [cephDiskInaccessibleAlert],
+    },
+  },
+  {
+    component: Alerts,
+    name: 'Data Recovery',
+    props: {
+      alertsResponse: [cephDataRecoveryAlert],
+    },
+  },
+  {
+    component: Alerts,
+    name: 'Empty Alerts',
+    props: {
+      alertsResponse: [],
+    },
+  },
+];
