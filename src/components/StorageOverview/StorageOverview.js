@@ -8,7 +8,7 @@ import { MEDIA_QUERY_EXCLUSIVE_DEVIATION, MEDIA_QUERY_LG } from '../../utils';
 
 import { StorageDetailsConnected } from './Details/Details';
 import { InventoryConnected } from './Inventory/Inventory';
-import OCSHealthConnected from './OCSHealth/Health';
+import { OCSHealthConnected } from './OCSHealth/Health';
 import { CapacityConnected } from './Capacity/Capacity';
 import EventsConnected from './Events/Events';
 import { UtilizationConnected } from './Utilization/Utilization';

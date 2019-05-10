@@ -1,6 +1,130 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Health /> renders correctly 1`] = `
+exports[`<OCSHealth /> renders Error Health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Health
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={true}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message={null}
+        state="LOADING_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<OCSHealth /> renders Health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Health
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={true}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message={null}
+        state="LOADING_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<OCSHealth /> renders Loading Health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Health
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={true}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message={null}
+        state="LOADING_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<OCSHealth /> renders Warning Health correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Health
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={true}
+  >
+    <HealthBody
+      className={null}
+    >
+      <HealthItem
+        LoadingComponent={[Function]}
+        details={null}
+        message={null}
+        state="LOADING_STATE"
+      />
+    </HealthBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<OCSHealth /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card"
 >

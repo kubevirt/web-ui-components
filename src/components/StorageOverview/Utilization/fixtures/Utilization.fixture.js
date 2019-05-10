@@ -54,7 +54,15 @@ export const utilizationStats = {
   },
 };
 
-export default {
-  component: Utilization,
-  props: utilizationStats,
-};
+export default [
+  {
+    component: Utilization,
+    name: 'Utilization',
+    props: utilizationStats,
+  },
+  {
+    component: Utilization,
+    name: 'Loading utilization',
+    props: {},
+  },
+];

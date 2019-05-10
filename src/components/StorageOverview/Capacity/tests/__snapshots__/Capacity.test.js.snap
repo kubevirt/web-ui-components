@@ -1,105 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Capacity /> renders correctly 1`] = `
-<div
-  class="card-pf kubevirt-dashboard__card kubevirt-capacity__card"
+exports[`<Capacity /> renders Capacity correctly 1`] = `
+<DashboardCard
+  className="kubevirt-capacity__card"
 >
-  <div
-    class="card-pf-heading kubevirt-dashboard__card-heading"
+  <DashboardCardHeader
+    className={null}
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <DashboardCardTitle
+      className={null}
     >
       Capacity
-    </h2>
-  </div>
-  <div
-    class="card-pf-body"
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
   >
-    <div
-      class="kubevirt-capacity__items"
-    >
-      <div
-        class="kubevirt-capacity__item"
-      >
-        <div
-          class="kubevirt-capacity__item-title"
-        >
-          Total capacity
-        </div>
-        <h6
-          class="kubevirt-capacity__item-description"
-        >
-          <div>
-            <div
-              class="spinner spinner-md blank-slate-pf-icon"
-            />
-          </div>
-        </h6>
-        <div
-          class="kubevirt-capacity__graph"
-          id="donut-chart-capacity"
-        >
-          <svg
-            viewBox="0 0 200 200"
-          >
-            <g>
-              <path
-                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-              <path
-                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
-                transform="translate(100, 100)"
-              />
-            </g>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="8.875"
-              x="100"
-              y="88"
-            >
-              <tspan
-                dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Loading
-              </tspan>
-            </text>
-            <text
-              direction="inherit"
-              dx="0"
-              dy="5.324999999999999"
-              x="100"
-              y="112"
-            >
-              <tspan
-                dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
-                text-anchor="middle"
-                x="100"
-              >
-                Capacity
-              </tspan>
-            </text>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <CapacityBody>
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="capacity"
+        isLoading={false}
+        title="Total capacity"
+        total={11}
+        used={5}
+      />
+    </CapacityBody>
+  </DashboardCardBody>
+</DashboardCard>
 `;
 
-exports[`<Capacity /> renders correctly in Loading state 1`] = `
+exports[`<Capacity /> renders Loading Capacity correctly 1`] = `
+<DashboardCard
+  className="kubevirt-capacity__card"
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <DashboardCardTitle
+      className={null}
+    >
+      Capacity
+    </DashboardCardTitle>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <CapacityBody>
+      <CapacityItem
+        LoadingComponent={[Function]}
+        formatValue={[Function]}
+        id="capacity"
+        isLoading={true}
+        title="Total capacity"
+        total={null}
+        used={null}
+      />
+    </CapacityBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Capacity /> renders correctly with Provider 1`] = `
 <div
   class="card-pf kubevirt-dashboard__card kubevirt-capacity__card"
 >
@@ -129,11 +94,7 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
         <h6
           class="kubevirt-capacity__item-description"
         >
-          <div>
-            <div
-              class="spinner spinner-md blank-slate-pf-icon"
-            />
-          </div>
+          6 B available out of 11 B
         </h6>
         <div
           class="kubevirt-capacity__graph"
@@ -144,14 +105,14 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
           >
             <g>
               <path
-                d="M0.7679351238569029,-87.99664922964708L0.6981228398699117,-79.9969538451337Z"
+                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,25.653005755549977,84.17792641604876L23.41115576348232,76.49782863466105A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path
-                d="M2.5733811020175223,-87.96236530303047A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,2.433751168616842,-79.96297177599926Z"
+                d="M23.66049113813229,84.75954907325996A88,88,0,1,1,-1.0378342131579104,-87.99387990164998L-1.0378342131578906,-79.99326784265035A80,80,0,1,0,21.41864114606461,77.07945129187226Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
@@ -171,7 +132,7 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
                 text-anchor="middle"
                 x="100"
               >
-                Loading
+                45%
               </tspan>
             </text>
             <text
@@ -187,7 +148,7 @@ exports[`<Capacity /> renders correctly in Loading state 1`] = `
                 text-anchor="middle"
                 x="100"
               >
-                Capacity
+                Used
               </tspan>
             </text>
           </svg>

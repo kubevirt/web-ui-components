@@ -15,7 +15,15 @@ export const capacityStats = {
   capacityUsed: getPromResponse(5),
 };
 
-export default {
-  component: Capacity,
-  props: { capacityStats },
-};
+export default [
+  {
+    component: Capacity,
+    name: 'Capacity',
+    props: capacityStats,
+  },
+  {
+    component: Capacity,
+    name: 'Loading Capacity',
+    props: {},
+  },
+];

@@ -39,8 +39,6 @@ OCSHealth.propTypes = {
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const OCSHealthConnected = () => (
+export const OCSHealthConnected = () => (
   <StorageOverviewContextGenericConsumer Component={OCSHealth} dataPath="ocsHealthData" />
 );
-
-export default OCSHealthConnected;
