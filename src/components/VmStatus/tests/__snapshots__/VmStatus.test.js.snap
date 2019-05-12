@@ -223,7 +223,7 @@ Array [
   <a
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
   >
-    V2V Conversion In Progress
+    Importing (VMWare)
   </a>,
 ]
 `;
@@ -237,7 +237,7 @@ Array [
   <a
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
   >
-    V2V Conversion Error
+    Importing (VMWare) Error
   </a>,
 ]
 `;
@@ -468,7 +468,7 @@ exports[`<VmStatuses vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PRO
   <a
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
   >
-    V2V Conversion In Progress
+    Importing (VMWare)
   </a>
 </div>
 `;
@@ -482,7 +482,7 @@ exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED
   <a
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
   >
-    V2V Conversion Error
+    Importing (VMWare) Error
   </a>
 </div>
 `;
