@@ -51,7 +51,7 @@ const StateImporting = ({ additionalText, ...props }) => (
 
 const StateV2VConversionInProgress = ({ progress, ...props }) => (
   <LinkStatus icon="import" {...props}>
-    V2V Conversion In Progress
+    Importing (VMWare)
   </LinkStatus>
 );
 
@@ -64,7 +64,7 @@ StateV2VConversionInProgress.propTypes = {
 
 const StateV2VConversionError = ({ ...props }) => (
   <LinkStatus icon="error-circle-o" {...props}>
-    V2V Conversion Error
+    Importing (VMWare) Error
   </LinkStatus>
 );
 StateImporting.defaultProps = {
