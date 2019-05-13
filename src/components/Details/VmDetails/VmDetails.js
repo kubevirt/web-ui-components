@@ -16,10 +16,10 @@ import {
   getWorkloadProfile,
   getVmiIpAddresses,
   getOperatingSystemName,
-  getHostName,
   getFlavor,
   getId,
   getDescription,
+  getHostname,
 } from '../../../selectors';
 import {
   getUpdateDescriptionPatch,
@@ -179,8 +179,7 @@ export class VmDetails extends React.Component {
     const vmIsOff = isVmOff(vmStatus);
     const nodeName = getNodeName(launcherPod);
     const ipAddresses = vmIsOff ? [] : getVmiIpAddresses(vmi);
-    const hostName = getHostName(launcherPod);
-    const fqdn = vmIsOff || !hostName ? DASHES : hostName;
+    const hostname = (!vmIsOff && getHostname(vmi)) || DASHES;
     const template = getVmTemplate(vm);
     const id = getId(vm);
     const sortedBootableDevices = getBootableDevicesInOrder(vm);
@@ -288,8 +287,8 @@ export class VmDetails extends React.Component {
             </dl>
             <div className="kubevirt-vm-details__other-details">
               <dl className="kubevirt-vm-details__details-list">
-                <dt>FQDN</dt>
-                <dd id={prefixedId(id, 'fqdn')}>{fqdn}</dd>
+                <dt>Hostname</dt>
+                <dd id={prefixedId(id, 'hostname')}>{hostname}</dd>
 
                 <dt>Namespace</dt>
                 <dd id={prefixedId(id, 'namespace')}>{NamespaceResourceLink ? <NamespaceResourceLink /> : DASHES}</dd>
