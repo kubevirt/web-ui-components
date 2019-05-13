@@ -7,14 +7,14 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
-import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
 import { HealthItem, LOADING_STATE } from '../../Dashboard/Health/HealthItem';
 import { HealthBody } from '../../Dashboard/Health/HealthBody';
 import { InlineLoading } from '../../Loading';
 import { getOCSHealthState } from '../../Dashboard/Health/utils';
+import { StorageOverviewContext } from '../StorageOverviewContext';
 
-export const OCSHealth = ({ response, LoadingComponent }) => {
-  const state = getOCSHealthState(response);
+export const OCSHealth = ({ ocsHealthResponse, LoadingComponent }) => {
+  const state = getOCSHealthState(ocsHealthResponse);
   return (
     <DashboardCard>
       <DashboardCardHeader>
@@ -30,15 +30,15 @@ export const OCSHealth = ({ response, LoadingComponent }) => {
 };
 
 OCSHealth.defaultProps = {
-  response: null,
+  ocsHealthResponse: null,
   LoadingComponent: InlineLoading,
 };
 
 OCSHealth.propTypes = {
-  response: PropTypes.object,
+  ocsHealthResponse: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export const OCSHealthConnected = () => (
-  <StorageOverviewContextGenericConsumer Component={OCSHealth} dataPath="ocsHealthData" />
+  <StorageOverviewContext.Consumer>{props => <OCSHealth {...props} />}</StorageOverviewContext.Consumer>
 );

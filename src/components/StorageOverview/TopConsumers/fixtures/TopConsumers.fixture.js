@@ -1,14 +1,8 @@
 import { TopConsumers } from '../TopConsumers';
-import { InlineLoading } from '../../../Loading';
 
-export const TopConsumerStats = [
-  {
-    topConsumerStats: [],
-    topConsumerLoaded: true,
-    LoadingComponent: InlineLoading,
-  },
-  {
-    topConsumerStats: [
+export const topConsumers = {
+  data: {
+    result: [
       {
         metric: {
           namespace: 'openshift-namespace',
@@ -16,15 +10,19 @@ export const TopConsumerStats = [
         values: [[1554797100, '46161920']],
       },
     ],
-    topConsumerLoaded: true,
-    LoadingComponent: InlineLoading,
   },
-];
+};
+
+export const emptyTopConsumers = {
+  data: {
+    result: [],
+  },
+};
 
 export default [
   {
     component: TopConsumers,
-    props: { ...TopConsumerStats },
+    props: topConsumers,
   },
   {
     component: TopConsumers,

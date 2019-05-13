@@ -10,9 +10,9 @@ import {
   DashboardCardTitleHelp,
 } from '../../Dashboard/DashboardCard';
 import EventsBody from '../../Dashboard/Events/EventsBody';
-import { StorageOverviewContextGenericConsumer } from '../StorageOverviewContext';
+import { StorageOverviewContext } from '../StorageOverviewContext';
 
-export const Events = ({ Component }) => (
+export const Events = ({ EventStreamComponent }) => (
   <DashboardCard>
     <DashboardCardHeader className="kubevirt-events__card-header">
       <DashboardCardTitle>Events</DashboardCardTitle>
@@ -20,19 +20,18 @@ export const Events = ({ Component }) => (
     </DashboardCardHeader>
     <DashboardCardBody id="events-body" className="kubevirt-events__card-body">
       <EventsBody>
-        <Component />
+        <EventStreamComponent />
       </EventsBody>
     </DashboardCardBody>
   </DashboardCard>
 );
-Events.defaultProps = {
-  Component: React.Fragment,
-};
 
 Events.propTypes = {
-  Component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  EventStreamComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-const EventsConnected = () => <StorageOverviewContextGenericConsumer Component={Events} dataPath="eventsData" />;
+const EventsConnected = () => (
+  <StorageOverviewContext.Consumer>{props => <Events {...props} />}</StorageOverviewContext.Consumer>
+);
 
 export default EventsConnected;

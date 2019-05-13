@@ -22,38 +22,38 @@ exports[`<Inventory /> renders Inventory correctly 1`] = `
   >
     <InventoryBody
       LoadingComponent={[Function]}
-      diskStats={
+      cephOsdDown={
         Object {
-          "cephOsdDown": Object {
-            "data": Object {
-              "result": Array [
-                Object {
-                  "metric": Object {},
-                  "value": Array [
-                    123,
-                    "2",
-                  ],
-                },
-              ],
-              "resultType": "vector",
-            },
-            "status": "success",
+          "data": Object {
+            "result": Array [
+              Object {
+                "metric": Object {},
+                "value": Array [
+                  123,
+                  "2",
+                ],
+              },
+            ],
+            "resultType": "vector",
           },
-          "cephOsdUp": Object {
-            "data": Object {
-              "result": Array [
-                Object {
-                  "metric": Object {},
-                  "value": Array [
-                    123,
-                    "5",
-                  ],
-                },
-              ],
-              "resultType": "vector",
-            },
-            "status": "success",
+          "status": "success",
+        }
+      }
+      cephOsdUp={
+        Object {
+          "data": Object {
+            "result": Array [
+              Object {
+                "metric": Object {},
+                "value": Array [
+                  123,
+                  "5",
+                ],
+              },
+            ],
+            "resultType": "vector",
           },
+          "status": "success",
         }
       }
       nodes={

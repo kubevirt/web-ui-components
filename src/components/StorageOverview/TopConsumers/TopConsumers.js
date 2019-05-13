@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import { Row, Col } from 'patternfly-react';
 import {
@@ -25,8 +26,9 @@ import {
 import { StorageOverviewContext } from '../StorageOverviewContext/StorageOverviewContext';
 import { getTopConsumerVectorStats } from '../../../selectors/prometheus/storage';
 
-const TopConsumersBody = ({ topConsumerStats }) => {
+const TopConsumersBody = ({ topConsumers }) => {
   let results = 'No data available';
+  const topConsumerStats = get(topConsumers, 'data.result', []);
 
   if (topConsumerStats.length) {
     const stats = getTopConsumerVectorStats(topConsumerStats);
@@ -90,30 +92,32 @@ const TopConsumersBody = ({ topConsumerStats }) => {
   return <div>{results}</div>;
 };
 
-export const TopConsumers = ({ topConsumerStats, topConsumerLoaded, LoadingComponent }) => (
+export const TopConsumers = ({ topConsumers, LoadingComponent }) => (
   <DashboardCard>
     <DashboardCardHeader>
       <DashboardCardTitle>Top Projects by Requested Capacity</DashboardCardTitle>
     </DashboardCardHeader>
-    <DashboardCardBody isLoading={!topConsumerLoaded} LoadingComponent={LoadingComponent}>
-      <TopConsumersBody topConsumerStats={topConsumerStats} />
+    <DashboardCardBody isLoading={!topConsumers} LoadingComponent={LoadingComponent}>
+      <TopConsumersBody topConsumers={topConsumers} />
     </DashboardCardBody>
   </DashboardCard>
 );
 
+TopConsumersBody.defaultProps = {
+  topConsumers: null,
+};
+
 TopConsumersBody.propTypes = {
-  topConsumerStats: PropTypes.array.isRequired,
+  topConsumers: PropTypes.object,
 };
 
 TopConsumers.defaultProps = {
-  topConsumerStats: [],
-  topConsumerLoaded: false,
+  topConsumers: null,
   LoadingComponent: InlineLoading,
 };
 
 TopConsumers.propTypes = {
-  topConsumerStats: PropTypes.array,
-  topConsumerLoaded: PropTypes.bool,
+  topConsumers: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
