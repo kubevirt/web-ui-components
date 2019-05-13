@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import { trimStart, trimEnd, startsWith } from 'lodash';
+import { get, startsWith, trimStart, trimEnd } from 'lodash';
 
 import {
   DNS1123_START_ERROR,
@@ -13,11 +13,14 @@ import {
   END_WHITESPACE_ERROR,
   BMC_PROTOCOL_ERROR,
   BMC_PORT_ERROR,
+  VIRTUAL_MACHINE_EXISTS,
 } from './strings';
 
 import { parseUrl } from './utils';
 
 import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS } from '../constants';
+import { getName, getNamespace } from '../selectors';
+import { NAMESPACE_KEY, VIRTUAL_MACHINES_KEY } from '../components/Wizard/CreateVmWizard/constants';
 
 export const isPositiveNumber = value => value && value.match(/^[1-9]\d*$/);
 
@@ -54,6 +57,19 @@ export const validateDNS1123SubdomainValue = value => {
     }
   }
   return null;
+};
+
+const vmAlreadyExists = (name, namespace, vms) => {
+  const exists = vms && vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);
+  return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
+};
+
+export const validateVmName = (value, vmSettings, props) => {
+  const namespace = get(vmSettings, `${NAMESPACE_KEY}.value`);
+  const dnsValidation = validateDNS1123SubdomainValue(value);
+  return dnsValidation && dnsValidation.type === VALIDATION_ERROR_TYPE
+    ? dnsValidation
+    : vmAlreadyExists(value, namespace, props[VIRTUAL_MACHINES_KEY]);
 };
 
 export const validateURL = value => {
