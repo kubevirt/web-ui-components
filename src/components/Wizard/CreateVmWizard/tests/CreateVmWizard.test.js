@@ -109,7 +109,8 @@ const testWalkThrough = (template = false, createText = CREATE_VM, templatesDrop
   const namespaces = [...CreateVmWizardFixutre[0].props.namespaces];
   const templates = [...CreateVmWizardFixutre[0].props.templates];
   const dataVolumes = [...CreateVmWizardFixutre[0].props.dataVolumes];
-  component.setProps({ namespaces, templates, dataVolumes });
+  const virtualMachines = [];
+  component.setProps({ namespaces, templates, dataVolumes, virtualMachines });
 
   expect(component.find(Loading)).toHaveLength(0);
   expect(component.find(VmSettingsTab)).toHaveLength(1);
