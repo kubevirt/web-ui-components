@@ -185,17 +185,24 @@ export const createVm = async (
   vmSettings,
   networks,
   storages,
-  persistentVolumeClaims
+  persistentVolumeClaims,
+  units
 ) => {
   const getSetting = settingsValue.bind(undefined, vmSettings);
 
   let conversionPod;
 
   if (isVmwareProvider(vmSettings)) {
-    const importResult = await importVmwareVm(vmSettings, networks, storages, {
-      k8sCreate,
-      k8sPatch,
-    });
+    const importResult = await importVmwareVm(
+      vmSettings,
+      networks,
+      storages,
+      {
+        k8sCreate,
+        k8sPatch,
+      },
+      units
+    );
     // eslint-disable-next-line prefer-destructuring
     conversionPod = importResult.conversionPod;
     storages = importResult.mappedStorages;
