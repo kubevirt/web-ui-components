@@ -75,7 +75,7 @@ const createProviderSecret = async (vmSettings, networks, storages, { k8sCreate 
   return null;
 };
 
-const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, lastResults, units) => {
+const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, lastResults, { units }) => {
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
@@ -231,7 +231,7 @@ const startConversionPod = async (
   };
 };
 
-export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }, units) =>
+export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }, context) =>
   [
     createProviderSecret,
     createConversionPodSecret,
@@ -249,7 +249,7 @@ export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate
         k8sPatch,
       },
       lastResult,
-      units
+      context
     );
     return {
       ...lastResult,

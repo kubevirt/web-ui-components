@@ -201,7 +201,9 @@ export const createVm = async (
         k8sCreate,
         k8sPatch,
       },
-      units
+      {
+        units,
+      }
     );
     // eslint-disable-next-line prefer-destructuring
     conversionPod = importResult.conversionPod;
