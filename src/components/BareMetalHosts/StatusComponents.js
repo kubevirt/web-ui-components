@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Popover } from '@patternfly/react-core';
 
 import { Status, PopoverStatus } from '../Status';
 
@@ -57,8 +58,46 @@ ValidationError.propTypes = {
   errorMessage: PropTypes.string.isRequired,
 };
 
-export const AddDiscoveredHostLink = host => (
-  <a>
-    <Status icon="add-circle-o">Add host</Status>
-  </a>
-);
+export class AddDiscoveredHostLink extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
+    this.togglePopover = () => {
+      this.setState(previousState => ({ visible: !previousState.visible }));
+    };
+    this.addHostClick = () => {
+      this.togglePopover();
+      this.props.onAddHost();
+    };
+  }
+
+  render() {
+    return (
+      <Popover
+        position="right"
+        size="regular"
+        isVisible={this.state.visible}
+        shouldClose={this.togglePopover}
+        headerContent={<div>Discovered Host</div>}
+        bodyContent={
+          <React.Fragment>
+            <p>This host has been discovered on the network but has not been added to the cluster.</p>
+            <p>
+              <a onClick={this.addHostClick}>Add Host</a>
+            </p>
+          </React.Fragment>
+        }
+      >
+        <a onClick={this.togglePopover}>
+          <Status icon="add-circle-o">Discovered</Status>
+        </a>
+      </Popover>
+    );
+  }
+}
+
+AddDiscoveredHostLink.propTypes = {
+  onAddHost: PropTypes.func.isRequired,
+};

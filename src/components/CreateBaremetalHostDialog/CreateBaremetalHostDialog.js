@@ -37,7 +37,14 @@ const formFields = {
 export class CreateBaremetalHostDialog extends React.Component {
   state = {
     form: {
-      value: {},
+      value: {
+        name: {
+          value: this.props.name,
+        },
+        controllerAddress: {
+          value: this.props.controllerAddress,
+        },
+      },
       valid: false,
     },
     isSubmitting: false,
@@ -117,10 +124,14 @@ export class CreateBaremetalHostDialog extends React.Component {
 
 CreateBaremetalHostDialog.defaultProps = {
   selectedNamespace: null,
+  name: undefined,
+  controllerAddress: undefined,
 };
 
 CreateBaremetalHostDialog.propTypes = {
   k8sCreate: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedNamespace: PropTypes.object,
+  name: PropTypes.string,
+  controllerAddress: PropTypes.string,
 };

@@ -1,14 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AddDiscoveredHostLink /> renders a link to add discovered host 1`] = `
-<a>
-  <Status
-    icon="add-circle-o"
-    iconType={null}
+<Popover
+  appendTo={[Function]}
+  aria-label=""
+  bodyContent={
+    <React.Fragment>
+      <p>
+        This host has been discovered on the network but has not been added to the cluster.
+      </p>
+      <p>
+        <a
+          onClick={[Function]}
+        >
+          Add Host
+        </a>
+      </p>
+    </React.Fragment>
+  }
+  className={null}
+  closeBtnAriaLabel="Close"
+  enableFlip={true}
+  footerContent={null}
+  headerContent={
+    <div>
+      Discovered Host
+    </div>
+  }
+  hideOnOutsideClick={true}
+  isVisible={false}
+  maxWidth="calc(1.5rem + 18.75rem)"
+  onHidden={[Function]}
+  onHide={[Function]}
+  onMount={[Function]}
+  onShow={[Function]}
+  onShown={[Function]}
+  position="right"
+  shouldClose={[Function]}
+  size="regular"
+  zIndex={9999}
+>
+  <a
+    onClick={[Function]}
   >
-    Add host
-  </Status>
-</a>
+    <Status
+      icon="add-circle-o"
+      iconType={null}
+    >
+      Discovered
+    </Status>
+  </a>
+</Popover>
 `;
 
 exports[`<GenericError /> renders an error message 1`] = `

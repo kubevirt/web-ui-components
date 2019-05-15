@@ -62,8 +62,9 @@ export default [
     component: AddDiscoveredHostLink,
     name: 'Show AddDiscoveredHostLink',
     props: {
-      status: 'discovered',
-      text: 'Add host',
+      onAddHost: {
+        onClick: () => true,
+      },
     },
   },
 ];

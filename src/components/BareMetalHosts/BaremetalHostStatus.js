@@ -18,7 +18,7 @@ import {
   HOST_STATUS_ALL_SUCCESS,
 } from '../../utils/status/host/constants';
 
-export const BaremetalHostStatus = ({ host, machine, nodes }) => {
+export const BaremetalHostStatus = ({ onAddHost, host, machine, nodes }) => {
   const hostStatus = getHostStatus(host, machine, nodes);
   const { status } = hostStatus;
 
@@ -27,7 +27,7 @@ export const BaremetalHostStatus = ({ host, machine, nodes }) => {
     case status === HOST_STATUS_VALIDATION_ERROR:
       return <ValidationError {...hostStatus} />;
     case status === HOST_STATUS_DISCOVERED:
-      return <AddDiscoveredHostLink host={host} />;
+      return <AddDiscoveredHostLink host={host} onAddHost={onAddHost} />;
     case HOST_STATUS_ALL_PROGRESS.includes(status):
       return <GenericProgress {...hostStatus} />;
     case HOST_STATUS_ALL_SUCCESS.includes(status):
@@ -40,12 +40,14 @@ export const BaremetalHostStatus = ({ host, machine, nodes }) => {
 };
 
 BaremetalHostStatus.propTypes = {
+  onAddHost: PropTypes.func,
   host: PropTypes.object.isRequired,
   machine: PropTypes.object,
   nodes: PropTypes.array,
 };
 
 BaremetalHostStatus.defaultProps = {
+  onAddHost: undefined,
   machine: undefined,
   nodes: undefined,
 };

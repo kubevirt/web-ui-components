@@ -11,6 +11,11 @@ exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "disco
       },
     }
   }
+  onAddHost={
+    Object {
+      "onClick": [Function],
+    }
+  }
 />
 `;
 
@@ -46,5 +51,12 @@ exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "unkno
 <GenericStatus
   status="unknown state"
   text="unknown state"
+/>
+`;
+
+exports[`<BaremetalHostStatus /> renders the correct subcomponent for the "validation error" state (6) 1`] = `
+<ValidationError
+  status="validation error"
+  text="Validation Error(s)"
 />
 `;

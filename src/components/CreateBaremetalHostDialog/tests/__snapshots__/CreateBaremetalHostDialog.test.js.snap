@@ -82,7 +82,16 @@ exports[`<CreateBaremetalHostDialog /> renders correctly 1`] = `
             },
           }
         }
-        fieldsValues={Object {}}
+        fieldsValues={
+          Object {
+            "controllerAddress": Object {
+              "value": undefined,
+            },
+            "name": Object {
+              "value": undefined,
+            },
+          }
+        }
         horizontal={false}
         labelSize={3}
         onFormChange={[Function]}

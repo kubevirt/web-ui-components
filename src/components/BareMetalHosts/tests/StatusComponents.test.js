@@ -19,6 +19,7 @@ const testGenericErrorWithDetails = () => <GenericError {...StatusComponentsFixt
 const testValidationError = () => <ValidationError {...StatusComponentsFixture[4].props} />;
 const testGenericStatus = () => <GenericStatus {...StatusComponentsFixture[5].props} />;
 const testAddDiscoveredHostLink = () => <AddDiscoveredHostLink {...StatusComponentsFixture[6].props} />;
+const testAddDiscoveredHostLinkWithCB = cb => <AddDiscoveredHostLink onAddHost={cb} />;
 
 describe('<GenericProgress />', () => {
   it('renders a progress message', () => {
@@ -60,5 +61,11 @@ describe('<AddDiscoveredHostLink />', () => {
   it('renders a link to add discovered host', () => {
     const component = shallow(testAddDiscoveredHostLink());
     expect(component).toMatchSnapshot();
+  });
+
+  it('accepts a callback', () => {
+    const addHostLink = shallow(testAddDiscoveredHostLinkWithCB(() => true));
+    addHostLink.find('a').simulate('click');
+    expect(addHostLink.state('visible')).toBe(true);
   });
 });
