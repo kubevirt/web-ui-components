@@ -27,7 +27,7 @@ export const buildVmWareDeployment = ({ name, namespace }) => ({
           {
             name,
             image: getKubevirtV2vVmwareContainerImage(),
-            imagePullPolicy: 'Always',
+            imagePullPolicy: 'Always', // or "IfNotPresent". Slow but safer option for upgrades. TODO: fix
             command: ['kubevirt-vmware'],
             env: [
               {
