@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
@@ -47,12 +48,12 @@ export class VmTemplateDetails extends React.Component {
   }
 
   setEditing = editing =>
-    this.setState({
+    this.safeSetState({
       editing,
     });
 
   onFormChange = (formKey, newValue, key, valid) =>
-    this.setState(state => ({
+    this.safeSetState(state => ({
       form: {
         ...state.form,
         [formKey]: {
@@ -101,34 +102,45 @@ export class VmTemplateDetails extends React.Component {
     }
 
     if (vmTemplatePatch.length > 0) {
-      this.setState({
+      this.safeSetState({
         updating: true,
         k8sError: null,
       });
       const updatePromise = this.props.k8sPatch(TemplateModel, vmTemplate, vmTemplatePatch);
       updatePromise
-        .then(() => this.setState({ updating: false }))
+        .then(() => this.safeSetState({ updating: false }))
         .catch(error =>
-          this.setState({ updating: false, k8sError: error.message || 'An error occurred. Please try again.' })
+          this.safeSetState({ updating: false, k8sError: error.message || 'An error occurred. Please try again.' })
         );
     }
   };
 
+  componentWillUnmount() {
+    this._unmounted = true;
+  }
+
+  safeSetState = state => {
+    if (!this._unmounted) {
+      this.setState(state);
+    }
+  };
+
   componentDidMount() {
+    this._unmounted = false;
     const { k8sGet, vmTemplate } = this.props;
-    this.setState({
+    this.safeSetState({
       updating: true,
     });
     retrieveVmTemplate(k8sGet, vmTemplate)
       .then(result => {
         this.onFormChange('flavor', result, 'template', true);
-        return this.setState({
+        return this.safeSetState({
           updating: false,
           baseTemplate: result,
         });
       })
       .catch(error =>
-        this.setState({
+        this.safeSetState({
           updating: false,
           baseTemplate: null,
           templateError: error.message || 'An error occurred. Please try again.',
@@ -137,7 +149,7 @@ export class VmTemplateDetails extends React.Component {
   }
 
   onErrorDismiss = () =>
-    this.setState({
+    this.safeSetState({
       k8sError: null,
     });
 

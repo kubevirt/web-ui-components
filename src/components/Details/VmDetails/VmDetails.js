@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { cloneDeep, get } from 'lodash';
@@ -55,18 +56,18 @@ export class VmDetails extends React.Component {
     };
   }
 
-  setEditing = editing => this.setState({ editing });
+  setEditing = editing => this.safeSetState({ editing });
 
   onCancel = () => {
-    this.setState(prevState => ({ form: prevState.preEditForm, editing: false }));
+    this.safeSetState(prevState => ({ form: prevState.preEditForm, editing: false }));
   };
 
   onEdit = () => {
-    this.setState(prevState => ({ preEditForm: cloneDeep(prevState.form), editing: true }));
+    this.safeSetState(prevState => ({ preEditForm: cloneDeep(prevState.form), editing: true }));
   };
 
   onFormChange = (formKey, newValue, key, valid) =>
-    this.setState(state => ({
+    this.safeSetState(state => ({
       form: {
         ...state.form,
         [formKey]: {
@@ -109,21 +110,21 @@ export class VmDetails extends React.Component {
     }
 
     if (vmPatch.length > 0) {
-      this.setState({
+      this.safeSetState({
         updating: true,
         k8sError: null,
       });
       const updatePromise = this.props.k8sPatch(VirtualMachineModel, this.props.vm, vmPatch);
       updatePromise
-        .then(() => this.setState({ updating: false }))
+        .then(() => this.safeSetState({ updating: false }))
         .catch(error =>
-          this.setState({ updating: false, k8sError: error.message || 'An error occurred. Please try again.' })
+          this.safeSetState({ updating: false, k8sError: error.message || 'An error occurred. Please try again.' })
         );
     }
   };
 
   onErrorDismiss = () =>
-    this.setState({
+    this.safeSetState({
       k8sError: null,
     });
 
@@ -136,21 +137,32 @@ export class VmDetails extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this._unmounted = true;
+  }
+
+  safeSetState = state => {
+    if (!this._unmounted) {
+      this.setState(state);
+    }
+  };
+
   componentDidMount() {
+    this._unmounted = false;
     const { k8sGet, vm } = this.props;
-    this.setState({
+    this.safeSetState({
       updating: true,
     });
     retrieveVmTemplate(k8sGet, vm)
       .then(result => {
         this.onFormChange('flavor', result, 'template', true);
-        return this.setState({
+        return this.safeSetState({
           updating: false,
           template: result,
         });
       })
       .catch(error =>
-        this.setState({
+        this.safeSetState({
           updating: false,
           template: null,
           templateError: error.message || 'An error occurred. Please try again.',
