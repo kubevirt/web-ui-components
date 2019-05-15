@@ -48,6 +48,8 @@ import {
 
 import { canBeBootable, needsBootableDisk } from './utils/storageTabUtils';
 
+import { getValidK8SSize } from '../../../utils';
+
 const initalStorageErrorsArray = () => Array(4).fill(null);
 
 const genericValidator = (storage, validationResolvers) =>
@@ -428,6 +430,7 @@ export class StorageTab extends React.Component {
               type: POSITIVE_NUMBER,
             }
           : null,
+      readValueFormatter: value => (value < 1 ? getValidK8SSize(value, this.props.units, 'Gi', false) : value),
     },
     {
       header: {

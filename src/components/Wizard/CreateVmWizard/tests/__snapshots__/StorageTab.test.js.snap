@@ -45,6 +45,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "size",
+          "readValueFormatter": [Function],
           "renderConfig": [Function],
         },
         Object {

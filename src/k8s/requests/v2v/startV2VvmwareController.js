@@ -38,6 +38,8 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
         : 'V2V VMWare controller deployment not found, so creating one ...'
     );
 
+    // TODO: do not fail if i.e. ServiceAccount already exists
+    // TODO: notify user if deployment fails
     [cleanupOldDeployment, resolveRolesAndServiceAccount, startVmWare].reduce(
       async (lastResultPromise, stepFunction) => {
         const lastResult = await lastResultPromise;
