@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../constants';
 
-import { getSubPagePath } from '../../utils';
+import { getSubPagePath, VM_STATUS_V2V_CONVERSION_PENDING } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
 import {
   VM_STATUS_V2V_CONVERSION_ERROR,
@@ -54,13 +54,18 @@ const StateV2VConversionInProgress = ({ progress, ...props }) => (
     Importing (VMWare)
   </LinkStatus>
 );
-
 StateV2VConversionInProgress.defaultProps = {
   progress: null,
 };
 StateV2VConversionInProgress.propTypes = {
   progress: PropTypes.number,
 };
+
+const StateV2VConversionPending = ({ ...props }) => (
+  <LinkStatus icon="pending" {...props}>
+    Importing (VMWare) Pending
+  </LinkStatus>
+);
 
 const StateV2VConversionError = ({ ...props }) => (
   <LinkStatus icon="error-circle-o" {...props}>
@@ -125,6 +130,10 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
     case VM_STATUS_V2V_CONVERSION_IN_PROGRESS:
       return (
         <StateV2VConversionInProgress {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
+      );
+    case VM_STATUS_V2V_CONVERSION_PENDING:
+      return (
+        <StateV2VConversionPending {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
       );
     case VM_STATUS_V2V_CONVERSION_ERROR:
       return (
