@@ -63,13 +63,13 @@ StateV2VConversionInProgress.propTypes = {
 
 const StateV2VConversionPending = ({ ...props }) => (
   <LinkStatus icon="pending" {...props}>
-    Importing (VMWare) Pending
+    Importing Pending (VMware)
   </LinkStatus>
 );
 
 const StateV2VConversionError = ({ ...props }) => (
   <LinkStatus icon="error-circle-o" {...props}>
-    Importing (VMWare) Error
+    Importing Error (VMware)
   </LinkStatus>
 );
 StateImporting.defaultProps = {
