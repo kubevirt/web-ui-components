@@ -430,15 +430,20 @@ export class StorageTab extends React.Component {
               type: POSITIVE_NUMBER,
             }
           : null,
-      // readValueFormatter:
-      renderValueConfig: storage =>
-        [STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(
-          storage.storageType
-        )
-          ? {
-              formatter: value => getValidK8SSize(value, this.props.units, 'Gi').string, // always render unit
-            }
-          : null,
+      renderValueConfig: storage => {
+        if ([STORAGE_TYPE_EXTERNAL_IMPORT].includes(storage.storageType)) {
+          return {
+            formatter: value => getValidK8SSize(value, this.props.units, 'Gi').string,
+          };
+        }
+        if ([STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType)) {
+          // do not convert, keep Gi
+          return {
+            formatter: value => `${value} Gi`,
+          };
+        }
+        return null;
+      },
     },
     {
       header: {
