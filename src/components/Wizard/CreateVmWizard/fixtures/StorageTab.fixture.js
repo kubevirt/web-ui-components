@@ -11,13 +11,13 @@ export const rows = [
     name: 'D',
     size: '15',
     storageClass: 'iscsi',
-    renderConfig: 0,
+    renderEditConfig: 0,
     storageType: STORAGE_TYPE_DATAVOLUME,
   },
   {
     id: 2,
     isBootable: false,
-    renderConfig: 1,
+    renderEditConfig: 1,
     name: 'disk Two',
     size: '15',
     storageClass: 'glusterfs',
@@ -26,7 +26,7 @@ export const rows = [
   {
     id: 3,
     isBootable: false,
-    renderConfig: 1,
+    renderEditConfig: 1,
     storageType: STORAGE_TYPE_PVC,
   },
 ];
