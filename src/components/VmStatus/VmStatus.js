@@ -51,7 +51,7 @@ const StateImporting = ({ additionalText, ...props }) => (
 
 const StateV2VConversionInProgress = ({ progress, ...props }) => (
   <LinkStatus icon="import" {...props}>
-    Importing (VMWare)
+    Importing (VMware)
   </LinkStatus>
 );
 StateV2VConversionInProgress.defaultProps = {
