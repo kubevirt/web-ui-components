@@ -1,7 +1,6 @@
 import { PersistentVolumeClaimModel } from '../../../models/index';
-import { getValidK8SSize } from '../../../utils';
 
-export const buildPvc = ({ generateName, namespace, storageType, size, storageClass, units }) => ({
+export const buildPvc = ({ generateName, namespace, size, unit, storageClass }) => ({
   apiVersion: PersistentVolumeClaimModel.apiVersion,
   kind: PersistentVolumeClaimModel.kind,
   metadata: {
@@ -13,7 +12,7 @@ export const buildPvc = ({ generateName, namespace, storageType, size, storageCl
     volumeMode: 'Filesystem',
     resources: {
       requests: {
-        storage: getValidK8SSize(size, units, 'Gi', true),
+        storage: `${size}${unit}`,
       },
     },
     storageClassName: storageClass,

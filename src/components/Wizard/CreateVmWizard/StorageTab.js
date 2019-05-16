@@ -430,7 +430,15 @@ export class StorageTab extends React.Component {
               type: POSITIVE_NUMBER,
             }
           : null,
-      readValueFormatter: value => (value < 1 ? getValidK8SSize(value, this.props.units, 'Gi', false) : value),
+      // readValueFormatter:
+      renderValueConfig: storage =>
+        [STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(
+          storage.storageType
+        )
+          ? {
+              formatter: value => getValidK8SSize(value, this.props.units, 'Gi').string, // always render unit
+            }
+          : null,
     },
     {
       header: {
