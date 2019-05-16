@@ -48,7 +48,19 @@ export const storageClasses = [
   },
 ];
 
-export const units = { dehumanize: val => ({ value: val ? val.match(/^[0-9]+/)[0] * 1073741824 : 0 }) };
+export const units = {
+  dehumanize: val => ({ value: val ? val.match(/^[0-9]+/)[0] * 1073741824 : 0 }),
+  humanize: () => {
+    // mock implementation
+    const unit = 'Gi';
+    const value = 1234;
+    return {
+      string: `${value} ${unit}`,
+      value,
+      unit,
+    };
+  },
+};
 
 export default [
   {

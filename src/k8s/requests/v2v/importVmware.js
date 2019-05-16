@@ -34,6 +34,7 @@ import {
   getVmwareValue,
   getVmwareField,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
+import { getValidK8SSize } from '../../../utils';
 
 const asImportProviderSecret = vmSettings => {
   if (getVmwareValue(vmSettings, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY)) {
@@ -75,22 +76,25 @@ const createProviderSecret = async (vmSettings, networks, storages, { k8sCreate 
   return null;
 };
 
-const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }) => {
+const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, lastResults, { units }) => {
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
-  const extImportPvcsPromises = storages.filter(isImportStorage).map(storage =>
-    k8sCreate(
+  const extImportPvcsPromises = storages.filter(isImportStorage).map(storage => {
+    const validSize = getValidK8SSize(storage.size, units, 'Gi');
+    return k8sCreate(
       PersistentVolumeClaimModel,
       buildPvc({
         ...storage,
         generateName: storage.name,
         name: undefined,
         namespace,
+        size: validSize.value,
+        unit: validSize.unit.trim(),
       })
-    )
-  );
+    );
+  });
 
   const resultImportPvcs = await Promise.all(extImportPvcsPromises);
 
@@ -230,7 +234,7 @@ const startConversionPod = async (
   };
 };
 
-export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }) =>
+export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }, context) =>
   [
     createProviderSecret,
     createConversionPodSecret,
@@ -247,7 +251,8 @@ export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate
         k8sCreate,
         k8sPatch,
       },
-      lastResult
+      lastResult,
+      context
     );
     return {
       ...lastResult,

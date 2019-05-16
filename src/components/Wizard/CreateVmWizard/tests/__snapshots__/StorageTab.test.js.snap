@@ -33,11 +33,11 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "name",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
         },
         Object {
           "header": Object {
-            "label": "Size (Gi)",
+            "label": "Size",
             "props": Object {
               "style": Object {
                 "width": "23%",
@@ -45,7 +45,8 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "size",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
+          "renderValueConfig": [Function],
         },
         Object {
           "header": Object {
@@ -57,7 +58,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "storageClass",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
         },
         Object {
           "header": Object {
@@ -67,7 +68,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
               },
             },
           },
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
           "type": "actions",
         },
       ]
