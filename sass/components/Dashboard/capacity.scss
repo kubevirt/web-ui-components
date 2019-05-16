@@ -18,6 +18,10 @@
 
 .kubevirt-capacity__item-description {
   font-size: 0.6875em;
+  max-width: 80%;
+  align-self: center;
+  margin-bottom: 0;
+  line-height:1.5;
 }
 
 .kubevirt-capacity__item .donut-title-big-pf {
