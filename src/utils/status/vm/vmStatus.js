@@ -12,6 +12,7 @@ import {
   VM_STATUS_VMI_WAITING,
   VM_STATUS_UNKNOWN,
   VM_SIMPLE_STATUS_OTHER,
+  VM_STATUS_V2V_CONVERSION_PENDING,
 } from './constants';
 
 import { VIRT_LAUNCHER_POD_PREFIX } from '../../../constants';
@@ -35,6 +36,7 @@ import {
   POD_STATUS_ALL_READY,
   POD_STATUS_NOT_SCHEDULABLE,
   POD_PHASE_SUCEEDED,
+  POD_PHASE_PENDING,
 } from '../pod';
 
 import { NOT_HANDLED } from '..';
@@ -136,9 +138,17 @@ const isBeingImported = (vm, pods) => {
 
 const isV2VConversion = (vm, pods) => {
   const conversionPod = findConversionPod(pods, vm);
-  if (conversionPod && getStatusPhase(conversionPod) !== POD_PHASE_SUCEEDED) {
+  const podPhase = getStatusPhase(conversionPod);
+  if (conversionPod && podPhase !== POD_PHASE_SUCEEDED) {
     const conversionPodStatus = getPodStatus(conversionPod);
-
+    if (conversionPodStatus.status === POD_STATUS_NOT_SCHEDULABLE && podPhase === POD_PHASE_PENDING) {
+      return {
+        ...conversionPodStatus,
+        status: VM_STATUS_V2V_CONVERSION_PENDING,
+        pod: conversionPod,
+        progress: null,
+      };
+    }
     if (POD_STATUS_ALL_ERROR.includes(conversionPodStatus.status)) {
       return {
         ...conversionPodStatus,
