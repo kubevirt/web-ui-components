@@ -144,7 +144,8 @@ export class CreateVmWizard extends React.Component {
       vmSettings,
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value,
-      this.props.persistentVolumeClaims
+      this.props.persistentVolumeClaims,
+      this.props.units
     )
       .then(() => getResults(enhancedK8sMethods))
       .catch(error => cleanupAndGetResults(enhancedK8sMethods, error))

@@ -161,3 +161,9 @@ export const objectMerge = (dest, ...sources) =>
     }
     return undefined;
   });
+
+// https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/resources.md#resource-quantities
+export const getValidK8SSize = (size, units, sizeUnit = 'Gi') => {
+  const baseSize = units.dehumanize(`${size}${sizeUnit}`, 'binaryBytesWithoutB');
+  return units.humanize(baseSize.value, 'binaryBytesWithoutB');
+};

@@ -1,6 +1,6 @@
 import { PersistentVolumeClaimModel } from '../../../models/index';
 
-export const buildPvc = ({ generateName, namespace, storageType, size, storageClass }) => ({
+export const buildPvc = ({ generateName, namespace, size, unit, storageClass }) => ({
   apiVersion: PersistentVolumeClaimModel.apiVersion,
   kind: PersistentVolumeClaimModel.kind,
   metadata: {
@@ -12,7 +12,7 @@ export const buildPvc = ({ generateName, namespace, storageType, size, storageCl
     volumeMode: 'Filesystem',
     resources: {
       requests: {
-        storage: `${size}Gi`,
+        storage: `${size}${unit}`,
       },
     },
     storageClassName: storageClass,
