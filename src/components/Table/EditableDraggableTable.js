@@ -168,15 +168,15 @@ class EditableDraggableTable extends React.Component {
   };
 
   getActionButtons = (additionalData, isEditing) => {
-    const renderConfig = this.getRenderConfig(additionalData);
+    const renderEditConfig = this.getRenderEditConfig(additionalData);
     let result;
-    if (renderConfig) {
-      const id = prefixedId(renderConfig.id, additionalData.rowKey);
+    if (renderEditConfig) {
+      const id = prefixedId(renderEditConfig.id, additionalData.rowKey);
 
       result =
-        isEditing && !renderConfig.visibleOnEdit ? null : (
+        isEditing && !renderEditConfig.visibleOnEdit ? null : (
           <DropdownKebab className="kubevirt-editable-table__row-actions" id={id} key={id} pullRight>
-            {renderConfig.actions.map((action, idx) =>
+            {renderEditConfig.actions.map((action, idx) =>
               this.getActionButton(action, additionalData, prefixedId(idx, id))
             )}
           </DropdownKebab>
@@ -186,11 +186,11 @@ class EditableDraggableTable extends React.Component {
     return <td className="editable">{result}</td>;
   };
 
-  isDropdown = additionalData => get(this.getRenderConfig(additionalData), 'type') === DROPDOWN;
+  isDropdown = additionalData => get(this.getRenderEditConfig(additionalData), 'type') === DROPDOWN;
 
-  getRenderConfig = additionalData => {
-    const { renderConfig } = additionalData.column;
-    return renderConfig ? renderConfig(additionalData.rowData) : null;
+  getRenderEditConfig = additionalData => {
+    const { renderEditConfig } = additionalData.column;
+    return renderEditConfig ? renderEditConfig(additionalData.rowData) : null;
   };
 
   getRenderValueConfig = additionalData => {
@@ -199,12 +199,12 @@ class EditableDraggableTable extends React.Component {
   };
 
   resolveRenderedValue = (value, additionalData, editable) => {
-    const renderConfig = this.getRenderConfig(additionalData);
+    const renderEditConfig = this.getRenderEditConfig(additionalData);
     const renderValueConfig = this.getRenderValueConfig(additionalData);
 
     let result;
     if (this.isDropdown(additionalData)) {
-      result = get(renderConfig.choices.find(clazz => clazz.id === value), 'name');
+      result = get(renderEditConfig.choices.find(clazz => clazz.id === value), 'name');
     }
 
     if (!result) {
@@ -227,7 +227,7 @@ class EditableDraggableTable extends React.Component {
 
   inlineEditFormatter = inlineEditFormatterFactory({
     isEditing: additionalData =>
-      this.inlineEditController.isEditing(additionalData) && this.getRenderConfig(additionalData),
+      this.inlineEditController.isEditing(additionalData) && this.getRenderEditConfig(additionalData),
 
     renderValue: (value, additionalData) => {
       const data = this.resolveRenderedValue(value, additionalData, false);
@@ -263,17 +263,17 @@ class EditableDraggableTable extends React.Component {
     },
 
     renderEdit: (value, additionalData) => {
-      const renderConfig = this.getRenderConfig(additionalData);
+      const renderEditConfig = this.getRenderEditConfig(additionalData);
       const isDropdown = this.isDropdown(additionalData);
 
       const onChange = v => this.inlineEditController.onChange(v, additionalData);
       return (
         <td className="editable editing kubevirt-editable-table__cell">
           {getFormElement({
-            ...renderConfig,
-            id: prefixedId(renderConfig.id, additionalData.rowKey),
+            ...renderEditConfig,
+            id: prefixedId(renderEditConfig.id, additionalData.rowKey),
             value: this.resolveRenderedValue(value, additionalData, true),
-            defaultValue: this.resolveRenderedValue(value, additionalData, true) || renderConfig.initialValue,
+            defaultValue: this.resolveRenderedValue(value, additionalData, true) || renderEditConfig.initialValue,
             onChange: isDropdown ? onChange : null, // onChange for dropdowns
             onBlur: isDropdown ? null : onChange, // onBlur for text
           })}

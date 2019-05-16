@@ -26,7 +26,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             },
           },
           "property": "name",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
         },
         Object {
           "header": Object {
@@ -38,7 +38,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             },
           },
           "property": "mac",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
         },
         Object {
           "header": Object {
@@ -50,7 +50,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             },
           },
           "property": "network",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
         },
         Object {
           "header": Object {
@@ -62,7 +62,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
             },
           },
           "property": "binding",
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
         },
         Object {
           "header": Object {
@@ -72,7 +72,7 @@ exports[`<NetworksTab /> renders correctly 1`] = `
               },
             },
           },
-          "renderConfig": [Function],
+          "renderEditConfig": [Function],
           "type": "actions",
         },
       ]

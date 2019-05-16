@@ -392,7 +392,7 @@ export class StorageTab extends React.Component {
         },
       },
       property: 'name',
-      renderConfig: storage => {
+      renderEditConfig: storage => {
         if (storage.storageType === STORAGE_TYPE_PVC) {
           return {
             id: 'name-attach-edit',
@@ -423,7 +423,7 @@ export class StorageTab extends React.Component {
         },
       },
       property: 'size',
-      renderConfig: storage =>
+      renderEditConfig: storage =>
         storage.storageType === STORAGE_TYPE_DATAVOLUME
           ? {
               id: 'size-edit',
@@ -451,7 +451,7 @@ export class StorageTab extends React.Component {
       },
       property: 'storageClass',
 
-      renderConfig: storage =>
+      renderEditConfig: storage =>
         [STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(
           storage.storageType
         )
@@ -472,7 +472,7 @@ export class StorageTab extends React.Component {
         },
       },
       type: ACTIONS_TYPE,
-      renderConfig: storage =>
+      renderEditConfig: storage =>
         storage.rootStorage ||
         [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(
           storage.storageType

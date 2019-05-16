@@ -240,7 +240,7 @@ export class NetworksTab extends React.Component {
           },
         },
         property: 'name',
-        renderConfig: () => ({
+        renderEditConfig: () => ({
           id: 'name-edit',
           type: TEXT,
         }),
@@ -255,7 +255,7 @@ export class NetworksTab extends React.Component {
           },
         },
         property: 'mac',
-        renderConfig: row =>
+        renderEditConfig: row =>
           row.networkType === NETWORK_TYPE_POD
             ? null
             : {
@@ -273,7 +273,7 @@ export class NetworksTab extends React.Component {
           },
         },
         property: 'network',
-        renderConfig: () => ({
+        renderEditConfig: () => ({
           id: 'network-edit',
           type: DROPDOWN,
           choices: this.props.networkConfigs
@@ -294,7 +294,7 @@ export class NetworksTab extends React.Component {
           },
         },
         property: 'binding',
-        renderConfig: nic => ({
+        renderEditConfig: nic => ({
           id: 'binding-edit',
           type: DROPDOWN,
           choices: getNetworkBindings(nic.networkType),
@@ -313,7 +313,7 @@ export class NetworksTab extends React.Component {
           },
         },
         type: ACTIONS_TYPE,
-        renderConfig: () => ({
+        renderEditConfig: () => ({
           id: 'actions',
           actions: [
             {
