@@ -1,57 +1,300 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TopConsumers /> data-renders-correctly 1`] = `Object {}`;
-
-exports[`<TopConsumers /> no-data-renders-correctly 1`] = `
+exports[`<TopConsumers /> renders Loading top consumers correctly 1`] = `
 <DashboardCard
   className={null}
 >
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Top Projects by Requested Capacity
-    </DashboardCardTitle>
-  </DashboardCardHeader>
-  <DashboardCardBody
-    LoadingComponent={[Function]}
-    isLoading={false}
-  >
-    <TopConsumersBody
-      topConsumers={
-        Object {
-          "data": Object {
-            "result": Array [],
-          },
-        }
-      }
-    />
-  </DashboardCardBody>
-</DashboardCard>
-`;
-
-exports[`<TopConsumers /> render-correctly-on-loading 1`] = `
-<DashboardCard
-  className={null}
->
-  <DashboardCardHeader
-    className={null}
-  >
-    <DashboardCardTitle
-      className={null}
-    >
-      Top Projects by Requested Capacity
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Top Consumers
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "Projects",
+                "Storage Classes",
+                "Pods",
+              ]
+            }
+            disabled={true}
+            groupClassName="kubevirt-dropdown__group"
+            id="metric-type"
+            onChange={[Function]}
+            value="Projects"
+            withTooltips={false}
+          />
+          <Dropdown
+            choices={
+              Array [
+                Object {
+                  "name": "By Used Capacity",
+                  "refObj": "byUsedCapacity",
+                },
+                Object {
+                  "name": "By Requested Capacity",
+                  "refObj": "byRequestedCapacity",
+                },
+              ]
+            }
+            disabled={true}
+            groupClassName="kubevirt-dropdown__group"
+            id="sort-by"
+            onChange={[Function]}
+            value="By Used Capacity"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
     isLoading={true}
   >
     <TopConsumersBody
-      topConsumers={null}
+      metricType="Projects"
+      sortByOption={
+        Object {
+          "name": "By Used Capacity",
+          "refObj": "byUsedCapacity",
+        }
+      }
+      topConsumerStats={Array []}
     />
   </DashboardCardBody>
 </DashboardCard>
+`;
+
+exports[`<TopConsumers /> renders Not available top consumers correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Top Consumers
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "Projects",
+                "Storage Classes",
+                "Pods",
+              ]
+            }
+            disabled={true}
+            groupClassName="kubevirt-dropdown__group"
+            id="metric-type"
+            onChange={[Function]}
+            value="Projects"
+            withTooltips={false}
+          />
+          <Dropdown
+            choices={
+              Array [
+                Object {
+                  "name": "By Used Capacity",
+                  "refObj": "byUsedCapacity",
+                },
+                Object {
+                  "name": "By Requested Capacity",
+                  "refObj": "byRequestedCapacity",
+                },
+              ]
+            }
+            disabled={true}
+            groupClassName="kubevirt-dropdown__group"
+            id="sort-by"
+            onChange={[Function]}
+            value="By Used Capacity"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={true}
+  >
+    <TopConsumersBody
+      metricType="Projects"
+      sortByOption={
+        Object {
+          "name": "By Used Capacity",
+          "refObj": "byUsedCapacity",
+        }
+      }
+      topConsumerStats={Array []}
+    />
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<TopConsumers /> renders Top Consumers correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Top Consumers
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "Projects",
+                "Storage Classes",
+                "Pods",
+              ]
+            }
+            disabled={false}
+            groupClassName="kubevirt-dropdown__group"
+            id="metric-type"
+            onChange={[Function]}
+            value="Projects"
+            withTooltips={false}
+          />
+          <Dropdown
+            choices={
+              Array [
+                Object {
+                  "name": "By Used Capacity",
+                  "refObj": "byUsedCapacity",
+                },
+                Object {
+                  "name": "By Requested Capacity",
+                  "refObj": "byRequestedCapacity",
+                },
+              ]
+            }
+            disabled={false}
+            groupClassName="kubevirt-dropdown__group"
+            id="sort-by"
+            onChange={[Function]}
+            value="By Used Capacity"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <TopConsumersBody
+      metricType="Projects"
+      sortByOption={
+        Object {
+          "name": "By Used Capacity",
+          "refObj": "byUsedCapacity",
+        }
+      }
+      topConsumerStats={
+        Array [
+          Object {
+            "metric": Object {
+              "namespace": "openshift-namespace1",
+            },
+            "values": Array [
+              Array [
+                1554797100,
+                "46161920",
+              ],
+            ],
+          },
+        ]
+      }
+    />
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<TopConsumers /> renders correctly with Provider 1`] = `
+<TopConsumersConnected
+  LoadingComponent={[Function]}
+  podsRequestedCapacity={null}
+  podsUsedCapacity={null}
+  projectsRequestedCapacity={null}
+  projectsUsedCapacity={null}
+  slClassesRequestedCapacity={null}
+  slClassesUsedCapacity={null}
+/>
 `;

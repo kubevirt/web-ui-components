@@ -33,3 +33,9 @@
 .kubevirt-dashboard__icon-sm {
   font-size: 1.125rem;
 }
+
+.kubevirt-dashboard__actions-body {
+  display: flex;
+  flex-direction: row;
+  margin: 0.6em 0;
+}

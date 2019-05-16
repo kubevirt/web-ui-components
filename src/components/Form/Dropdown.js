@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ButtonGroup, DropdownButton, MenuItem, noop, Tooltip, OverlayTrigger } from 'patternfly-react';
 
-export const Dropdown = ({ id, value, disabled, onChange, choices, className, withTooltips }) => {
+export const Dropdown = ({ id, value, disabled, onChange, choices, className, withTooltips, groupClassName }) => {
   const title = isObject(value) ? value.name || value.id : value;
   return (
-    <ButtonGroup justified key={id}>
+    <ButtonGroup justified key={id} className={groupClassName}>
       <DropdownButton
         id={id}
         bsStyle="default"
@@ -47,6 +47,7 @@ Dropdown.defaultProps = {
   choices: [],
   className: undefined,
   withTooltips: false,
+  groupClassName: undefined,
 };
 
 Dropdown.propTypes = {
@@ -57,4 +58,5 @@ Dropdown.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   withTooltips: PropTypes.bool,
+  groupClassName: PropTypes.string,
 };

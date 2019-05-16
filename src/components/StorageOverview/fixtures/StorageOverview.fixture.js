@@ -43,7 +43,7 @@ export default [
       ...utilizationStats,
       ...dataResiliencyData[0],
       alertsResponse: [cephDiskInaccessibleAlert, cephDataRecoveryAlert],
-      topConsumers,
+      ...topConsumers,
     },
   },
   {

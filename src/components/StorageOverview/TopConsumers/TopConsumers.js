@@ -16,6 +16,8 @@ import {
 
 import { InlineLoading } from '../../Loading';
 import { formatToShortTime } from '../../../utils';
+import { Dropdown } from '../../Form/Dropdown';
+import { DashboardCardActionsBody } from '../../Dashboard/DashboardCard/DashboardCardActionsBody';
 
 import {
   DashboardCard,
@@ -23,15 +25,22 @@ import {
   DashboardCardHeader,
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
+
+import { PROJECTS, STORAGE_CLASSES, PODS, BY_USED_CAPACITY, BY_REQUESTED_CAPACITY } from './strings';
 import { StorageOverviewContext } from '../StorageOverviewContext/StorageOverviewContext';
 import { getTopConsumerVectorStats } from '../../../selectors/prometheus/storage';
 
-const TopConsumersBody = ({ topConsumers }) => {
+const metricTypes = [PROJECTS, STORAGE_CLASSES, PODS];
+const sortBy = [
+  { name: BY_USED_CAPACITY, refObj: 'byUsedCapacity' },
+  { name: BY_REQUESTED_CAPACITY, refObj: 'byRequestedCapacity' },
+];
+
+export const TopConsumersBody = ({ topConsumerStats, metricType, sortByOption }) => {
   let results = 'No data available';
-  const topConsumerStats = get(topConsumers, 'data.result', []);
 
   if (topConsumerStats.length) {
-    const stats = getTopConsumerVectorStats(topConsumerStats);
+    const stats = getTopConsumerVectorStats(topConsumerStats, metricType);
     const { chartData, legends, maxCapacity, unit } = stats;
     const yTickValues = [
       0,
@@ -67,7 +76,7 @@ const TopConsumersBody = ({ topConsumers }) => {
               <ChartGroup>{chartLineList}</ChartGroup>
               <ChartAxis tickFormat={x => formatToShortTime(x)} style={{ tickLabels: { fontSize: 8, padding: 5 } }} />
               <ChartAxis
-                label={`Requested capacity(${unit})`}
+                label={`${sortByOption.name}(${unit})`}
                 dependentAxis
                 tickValues={yTickValues}
                 style={{ tickLabels: { fontSize: 8, padding: 5 }, axisLabel: { fontSize: 8, padding: 25 } }}
@@ -92,37 +101,160 @@ const TopConsumersBody = ({ topConsumers }) => {
   return <div>{results}</div>;
 };
 
-export const TopConsumers = ({ topConsumers, LoadingComponent }) => (
-  <DashboardCard>
-    <DashboardCardHeader>
-      <DashboardCardTitle>Top Projects by Requested Capacity</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody isLoading={!topConsumers} LoadingComponent={LoadingComponent}>
-      <TopConsumersBody topConsumers={topConsumers} />
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class TopConsumers extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: metricTypes[0],
+      sortBy: sortBy[0],
+    };
+  }
 
-TopConsumersBody.defaultProps = {
-  topConsumers: null,
-};
+  changeMetricType = newVal => {
+    this.setState({ type: newVal }, this.getCurrentMetric);
+  };
+
+  changeSortBy = newVal => {
+    this.setState({ sortBy: newVal }, this.getCurrentMetric);
+  };
+
+  getCapacity = data => get(data, 'data.result', []);
+
+  metrics = {
+    projects: {
+      byUsedCapacity: () => this.getCapacity(this.props.projectsUsedCapacity),
+      byRequestedCapacity: () => this.getCapacity(this.props.projectsRequestedCapacity),
+    },
+    storageClasses: {
+      byUsedCapacity: () => this.getCapacity(this.props.slClassesUsedCapacity),
+      byRequestedCapacity: () => this.getCapacity(this.props.slClassesRequestedCapacity),
+    },
+    pods: {
+      byUsedCapacity: () => this.getCapacity(this.props.podsUsedCapacity),
+      byRequestedCapacity: () => this.getCapacity(this.props.podsRequestedCapacity),
+    },
+  };
+
+  getCurrentMetric = () => {
+    switch (this.state.type) {
+      case PROJECTS:
+        return this.metrics.projects[this.state.sortBy.refObj]();
+
+      case STORAGE_CLASSES:
+        return this.metrics.storageClasses[this.state.sortBy.refObj]();
+
+      case PODS:
+        return this.metrics.pods[this.state.sortBy.refObj]();
+
+      default:
+        return [];
+    }
+  };
+
+  render() {
+    const {
+      LoadingComponent,
+      projectsUsedCapacity,
+      projectsRequestedCapacity,
+      slClassesUsedCapacity,
+      slClassesRequestedCapacity,
+      podsUsedCapacity,
+      podsRequestedCapacity,
+    } = this.props;
+    const metric = this.getCurrentMetric();
+    const isLoading =
+      !projectsUsedCapacity &&
+      !projectsRequestedCapacity &&
+      !slClassesRequestedCapacity &&
+      !slClassesUsedCapacity &&
+      !podsUsedCapacity &&
+      !podsRequestedCapacity;
+
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <Row>
+            <Col lg={6} md={6} sm={6} xs={6}>
+              <DashboardCardTitle>Top Consumers</DashboardCardTitle>
+            </Col>
+            <Col lg={6} md={6} sm={6} xs={6}>
+              <DashboardCardActionsBody>
+                <Dropdown
+                  id="metric-type"
+                  value={this.state.type}
+                  onChange={this.changeMetricType}
+                  choices={metricTypes}
+                  disabled={isLoading}
+                  groupClassName="kubevirt-dropdown__group"
+                />
+                <Dropdown
+                  id="sort-by"
+                  value={this.state.sortBy.name}
+                  onChange={this.changeSortBy}
+                  choices={sortBy}
+                  disabled={isLoading}
+                  groupClassName="kubevirt-dropdown__group"
+                />
+              </DashboardCardActionsBody>
+            </Col>
+          </Row>
+        </DashboardCardHeader>
+        <DashboardCardBody isLoading={isLoading} LoadingComponent={LoadingComponent}>
+          <TopConsumersBody topConsumerStats={metric} metricType={this.state.type} sortByOption={this.state.sortBy} />
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 TopConsumersBody.propTypes = {
-  topConsumers: PropTypes.object,
+  topConsumerStats: PropTypes.array.isRequired,
+  metricType: PropTypes.string.isRequired,
+  sortByOption: PropTypes.object.isRequired,
 };
 
 TopConsumers.defaultProps = {
-  topConsumers: null,
+  projectsRequestedCapacity: null,
+  projectsUsedCapacity: null,
+  slClassesRequestedCapacity: null,
+  slClassesUsedCapacity: null,
+  podsRequestedCapacity: null,
+  podsUsedCapacity: null,
   LoadingComponent: InlineLoading,
 };
 
 TopConsumers.propTypes = {
-  topConsumers: PropTypes.object,
+  projectsRequestedCapacity: PropTypes.object,
+  projectsUsedCapacity: PropTypes.object,
+  slClassesRequestedCapacity: PropTypes.object,
+  slClassesUsedCapacity: PropTypes.object,
+  podsUsedCapacity: PropTypes.object,
+  podsRequestedCapacity: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 const TopConsumersConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <TopConsumers {...props} />}</StorageOverviewContext.Consumer>
+  <StorageOverviewContext.Consumer>
+    {props => (
+      <TopConsumers
+        LoadingComponent={props.LoadingComponent}
+        projectsUsedCapacity={props.projectsUsedCapacity}
+        projectsRequestedCapacity={props.projectsRequestedCapacity}
+        slClassesUsedCapacity={props.slClassesUsedCapacity}
+        slClassesRequestedCapacity={props.slClassesRequestedCapacity}
+        podsUsedCapacity={props.podsUsedCapacity}
+        podsRequestedCapacity={props.podsRequestedCapacity}
+      />
+    )}
+  </StorageOverviewContext.Consumer>
 );
+
+TopConsumersConnected.propTypes = {
+  ...TopConsumers.propTypes,
+};
+
+TopConsumersConnected.defaultProps = {
+  ...TopConsumers.defaultProps,
+};
 
 export default TopConsumersConnected;
