@@ -237,7 +237,7 @@ Array [
   <a
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
   >
-    Importing (VMWare) Error
+    Importing Error (VMware)
   </a>,
 ]
 `;
@@ -482,7 +482,7 @@ exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED
   <a
     href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
   >
-    Importing (VMWare) Error
+    Importing Error (VMware)
   </a>
 </div>
 `;
