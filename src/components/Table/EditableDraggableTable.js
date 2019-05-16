@@ -193,9 +193,14 @@ class EditableDraggableTable extends React.Component {
     return renderConfig ? renderConfig(additionalData.rowData) : null;
   };
 
+  getRenderValueConfig = additionalData => {
+    const { renderValueConfig } = additionalData.column;
+    return renderValueConfig ? renderValueConfig(additionalData.rowData) : null;
+  };
+
   resolveRenderedValue = (value, additionalData, editable) => {
     const renderConfig = this.getRenderConfig(additionalData);
-    const { readValueFormatter } = additionalData.column;
+    const renderValueConfig = this.getRenderValueConfig(additionalData);
 
     let result;
     if (this.isDropdown(additionalData)) {
@@ -206,8 +211,8 @@ class EditableDraggableTable extends React.Component {
       result = value;
     }
 
-    if (!editable && readValueFormatter) {
-      result = readValueFormatter(result);
+    if (!editable && renderValueConfig && renderValueConfig.formatter) {
+      result = renderValueConfig.formatter(result);
     }
 
     if (!editable && additionalData.column.hasAddendum) {

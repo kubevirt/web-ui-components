@@ -37,7 +37,7 @@ exports[`<StorageTab /> renders correctly 1`] = `
         },
         Object {
           "header": Object {
-            "label": "Size (Gi)",
+            "label": "Size",
             "props": Object {
               "style": Object {
                 "width": "23%",
@@ -45,8 +45,8 @@ exports[`<StorageTab /> renders correctly 1`] = `
             },
           },
           "property": "size",
-          "readValueFormatter": [Function],
           "renderConfig": [Function],
+          "renderValueConfig": [Function],
         },
         Object {
           "header": Object {
