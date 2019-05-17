@@ -1,4 +1,4 @@
-import { getKubevirtV2vConversionContainerImage } from '../../../../config';
+import { getKubevirtV2vConversionContainerImage, getV2vImagePullPolicy } from '../../../../config';
 import { PodModel } from '../../../../models';
 import { CONVERSION_BASE_NAME, CONVERSION_GENERATE_NAME } from '../../../requests/v2v';
 
@@ -14,7 +14,7 @@ export const buildConversionPod = ({ volumes, volumeMounts, namespace, serviceAc
     containers: [
       {
         name: CONVERSION_BASE_NAME,
-        imagePullPolicy: 'Always', // or "IfNotPresent". Slow but safer option for upgrades. TODO: fix
+        imagePullPolicy: getV2vImagePullPolicy(),
         image: getKubevirtV2vConversionContainerImage(),
         securityContext: {
           privileged: true,
