@@ -1,3 +1,5 @@
+import { noop } from 'patternfly-react';
+
 import { Utilization } from '../Utilization';
 
 const time0 = 1000;
@@ -52,6 +54,31 @@ export const utilizationStats = {
       ],
     },
   },
+  utilizationCallback: noop,
+};
+
+export const emptyUtilization = {
+  iopsUtilization: {
+    data: {
+      result: [],
+    },
+  },
+  latencyUtilization: {
+    data: {
+      result: [],
+    },
+  },
+  throughputUtilization: {
+    data: {
+      result: [],
+    },
+  },
+  recoveryRateUtilization: {
+    data: {
+      result: [],
+    },
+  },
+  utilizationCallback: noop,
 };
 
 export default [
@@ -64,5 +91,10 @@ export default [
     component: Utilization,
     name: 'Loading utilization',
     props: {},
+  },
+  {
+    component: Utilization,
+    name: 'Not available utilization',
+    props: emptyUtilization,
   },
 ];
