@@ -39,6 +39,10 @@
   width: 400px;
   flex: 1;
   flex-basis: auto;
+  margin-right: 8px;
+  & > * {
+    word-break: break-all;
+  } 
 }
 
 .kubevirt-vm-details__item--hidden {
