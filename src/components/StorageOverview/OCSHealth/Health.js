@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,21 +13,24 @@ import { InlineLoading } from '../../Loading';
 import { getOCSHealthState } from '../../Dashboard/Health/utils';
 import { StorageOverviewContext } from '../StorageOverviewContext';
 
-export const OCSHealth = ({ ocsHealthResponse, LoadingComponent }) => {
-  const state = getOCSHealthState(ocsHealthResponse);
-  return (
-    <DashboardCard>
-      <DashboardCardHeader>
-        <DashboardCardTitle>Health</DashboardCardTitle>
-      </DashboardCardHeader>
-      <DashboardCardBody isLoading={state.state === LOADING_STATE} LoadingComponent={LoadingComponent}>
-        <HealthBody>
-          <HealthItem message={state.message} state={state.state} />
-        </HealthBody>
-      </DashboardCardBody>
-    </DashboardCard>
-  );
-};
+export class OCSHealth extends PureComponent {
+  render() {
+    const { ocsHealthResponse, LoadingComponent } = this.props;
+    const state = getOCSHealthState(ocsHealthResponse);
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Health</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody isLoading={state.state === LOADING_STATE} LoadingComponent={LoadingComponent}>
+          <HealthBody>
+            <HealthItem message={state.message} state={state.state} />
+          </HealthBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 OCSHealth.defaultProps = {
   ocsHealthResponse: null,
@@ -40,5 +43,15 @@ OCSHealth.propTypes = {
 };
 
 export const OCSHealthConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <OCSHealth {...props} />}</StorageOverviewContext.Consumer>
+  <StorageOverviewContext.Consumer>
+    {props => <OCSHealth ocsHealthResponse={props.ocsHealthResponse} />}
+  </StorageOverviewContext.Consumer>
 );
+
+OCSHealthConnected.defaultProps = {
+  ...OCSHealth.defaultProps,
+};
+
+OCSHealthConnected.propTypes = {
+  ...OCSHealth.propTypes,
+};

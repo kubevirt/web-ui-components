@@ -10,7 +10,7 @@ import { StorageDetailsConnected } from './Details/Details';
 import { InventoryConnected } from './Inventory/Inventory';
 import { OCSHealthConnected } from './OCSHealth/Health';
 import { CapacityConnected } from './Capacity/Capacity';
-import EventsConnected from './Events/Events';
+import { EventsConnected } from './Events/Events';
 import { UtilizationConnected } from './Utilization/Utilization';
 import { DataResiliencyConnected } from './DataResiliency/DataResiliency';
 import { AlertsConnected } from './Alerts/Alerts';

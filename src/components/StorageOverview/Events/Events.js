@@ -12,26 +12,35 @@ import {
 import EventsBody from '../../Dashboard/Events/EventsBody';
 import { StorageOverviewContext } from '../StorageOverviewContext';
 
-export const Events = ({ EventStreamComponent }) => (
-  <DashboardCard>
-    <DashboardCardHeader className="kubevirt-events__card-header">
-      <DashboardCardTitle>Events</DashboardCardTitle>
-      <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
-    </DashboardCardHeader>
-    <DashboardCardBody id="events-body" className="kubevirt-events__card-body">
-      <EventsBody>
-        <EventStreamComponent />
-      </EventsBody>
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Events extends React.PureComponent {
+  render() {
+    const { EventStreamComponent } = this.props;
+    return (
+      <DashboardCard>
+        <DashboardCardHeader className="kubevirt-events__card-header">
+          <DashboardCardTitle>Events</DashboardCardTitle>
+          <DashboardCardTitleHelp>help for events</DashboardCardTitleHelp>
+        </DashboardCardHeader>
+        <DashboardCardBody id="events-body" className="kubevirt-events__card-body">
+          <EventsBody>
+            <EventStreamComponent />
+          </EventsBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Events.propTypes = {
   EventStreamComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-const EventsConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <Events {...props} />}</StorageOverviewContext.Consumer>
+export const EventsConnected = () => (
+  <StorageOverviewContext.Consumer>
+    {props => <Events EventStreamComponent={props.EventStreamComponent} />}
+  </StorageOverviewContext.Consumer>
 );
 
-export default EventsConnected;
+EventsConnected.propTypes = {
+  ...Events.propTypes,
+};

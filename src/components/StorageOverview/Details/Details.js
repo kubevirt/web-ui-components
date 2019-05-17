@@ -13,54 +13,61 @@ import { DetailItem } from '../../Dashboard/Details/DetailItem';
 import { DetailsBody } from '../../Dashboard/Details/DetailsBody';
 import { getName } from '../../../selectors';
 
-export const StorageDetails = ({ LoadingComponent, cephCluster, className }) => (
-  <DashboardCard className={className}>
-    <DashboardCardHeader>
-      <DashboardCardTitle>OCS Details</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody>
-      <DetailsBody>
-        <DetailItem
-          key="name"
-          title="Name"
-          value={cephCluster && cephCluster[0] && getName(cephCluster[0])}
-          isLoading={!cephCluster}
-          LoadingComponent={LoadingComponent}
-        />
-        <DetailItem
-          key="provider"
-          title="Provider"
-          value="Bare Metal"
-          isLoading={false}
-          LoadingComponent={LoadingComponent}
-        />
-      </DetailsBody>
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class StorageDetails extends React.PureComponent {
+  render() {
+    const { LoadingComponent, cephCluster, className } = this.props;
+    return (
+      <DashboardCard className={className}>
+        <DashboardCardHeader>
+          <DashboardCardTitle>OCS Details</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <DetailsBody>
+            <DetailItem
+              key="name"
+              title="Name"
+              value={cephCluster && cephCluster[0] && getName(cephCluster[0])}
+              isLoading={!cephCluster}
+              LoadingComponent={LoadingComponent}
+            />
+            <DetailItem
+              key="provider"
+              title="Provider"
+              value="Bare Metal"
+              isLoading={false}
+              LoadingComponent={LoadingComponent}
+            />
+          </DetailsBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 StorageDetails.defaultProps = {
+  className: null,
   cephCluster: null,
   LoadingComponent: InlineLoading,
-  className: null,
 };
 
 StorageDetails.propTypes = {
+  className: PropTypes.string,
   cephCluster: PropTypes.array,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
 };
 
 export const StorageDetailsConnected = ({ className }) => (
   <StorageOverviewContext.Consumer>
-    {props => <StorageDetails {...props} className={className} />}
+    {props => (
+      <StorageDetails className={className} cephCluster={props.cephCluster} LoadingComponent={props.LoadingComponent} />
+    )}
   </StorageOverviewContext.Consumer>
 );
 
 StorageDetailsConnected.defaultProps = {
-  className: null,
+  ...StorageDetails.defaultProps,
 };
 
 StorageDetailsConnected.propTypes = {
-  className: PropTypes.string,
+  ...StorageDetails.propTypes,
 };

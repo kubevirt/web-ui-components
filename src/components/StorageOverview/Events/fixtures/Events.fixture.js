@@ -6,5 +6,5 @@ export const EventStreamComponent = () => <div>Requires component from tectonic<
 
 export default {
   component: Events,
-  props: EventStreamComponent,
+  props: { EventStreamComponent },
 };

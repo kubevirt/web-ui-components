@@ -23,7 +23,7 @@ exports[`<Events /> renders correctly 1`] = `
     isLoading={false}
   >
     <EventsBody>
-      <Component />
+      <EventStreamComponent />
     </EventsBody>
   </DashboardCardBody>
 </DashboardCard>

@@ -69,7 +69,6 @@ export class Utilization extends React.PureComponent {
     if (iopsStats) {
       iopsStatsMax = Math.ceil(Math.max(0, ...iopsStats));
     }
-
     const latencyStats = getUtilizationVectorStats(latencyUtilization);
     let latencyStatsMax = 0;
     if (latencyStats) {
@@ -221,5 +220,23 @@ Utilization.propTypes = {
 };
 
 export const UtilizationConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <Utilization {...props} />}</StorageOverviewContext.Consumer>
+  <StorageOverviewContext.Consumer>
+    {props => (
+      <Utilization
+        iopsUtilization={props.iopsUtilization}
+        latencyUtilization={props.latencyUtilization}
+        throughputUtilization={props.throughputUtilization}
+        recoveryRateUtilization={props.recoveryRateUtilization}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
+  </StorageOverviewContext.Consumer>
 );
+
+UtilizationConnected.defaultProps = {
+  ...Utilization.defaultProps,
+};
+
+UtilizationConnected.propTypes = {
+  ...Utilization.propTypes,
+};
