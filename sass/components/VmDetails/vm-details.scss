@@ -40,10 +40,12 @@
   flex: 1;
   flex-basis: auto;
   margin-right: 8px;
-  
+/* stylelint-disable plugin/selector-bem-pattern */
   & > * {
     word-break: break-all;
-  } 
+  }
+/* stylelint-enable */
+   
 }
 
 .kubevirt-vm-details__item--hidden {
