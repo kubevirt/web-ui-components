@@ -1,4 +1,4 @@
-import { getKubevirtV2vVmwareContainerImage } from '../../../../config';
+import { getKubevirtV2vVmwareContainerImage, getV2vImagePullPolicy } from '../../../../config';
 import { DeploymentModel } from '../../../../models';
 
 export const buildVmWareDeployment = ({ name, namespace }) => ({
@@ -27,7 +27,7 @@ export const buildVmWareDeployment = ({ name, namespace }) => ({
           {
             name,
             image: getKubevirtV2vVmwareContainerImage(),
-            imagePullPolicy: 'Always', // or "IfNotPresent". Slow but safer option for upgrades. TODO: fix
+            imagePullPolicy: getV2vImagePullPolicy(),
             command: ['kubevirt-vmware'],
             env: [
               {
