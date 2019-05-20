@@ -4,32 +4,26 @@ import { Modal, Button, Icon, Alert } from 'patternfly-react';
 
 import { ConfigurationSummary } from '../../ConfigurationSummary';
 import { FormFactory, CUSTOM, CHECKBOX, DROPDOWN, TEXT_AREA } from '../../Form';
-import { NAME_KEY, DESCRIPTION_KEY, NAMESPACE_KEY, START_VM_KEY } from '../../Wizard/CreateVmWizard/constants';
+import {
+  NAME_KEY,
+  DESCRIPTION_KEY,
+  NAMESPACE_KEY,
+  START_VM_KEY,
+  VIRTUAL_MACHINES_KEY,
+} from '../../Wizard/CreateVmWizard/constants';
 import { getDescription, getNamespace, getName, isVmRunning } from '../../../selectors';
-import { validateDNS1123SubdomainValue, getValidationObject } from '../../../utils/validations';
+import { validateVmName, vmAlreadyExists } from '../../../utils/validations';
 import { settingsValue } from '../../../k8s/selectors';
 import { clone } from '../../../k8s/clone';
 import { Loading } from '../../Loading';
-import { VALIDATION_ERROR_TYPE } from '../../../constants';
-import { VIRTUAL_MACHINE_EXISTS } from '../../../utils/strings';
-
-const vmAlreadyExists = (name, namespace, vms) => {
-  const exists = vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);
-  return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
-};
 
 const getFormFields = (namespaces, vm, persistentVolumeClaims, dataVolumes, virtualMachines) => ({
   [NAME_KEY]: {
     id: 'vm-name',
     title: 'Name',
     required: true,
-    validate: settings => {
-      const name = settingsValue(settings, NAME_KEY);
-      const dnsValidation = validateDNS1123SubdomainValue(name);
-      return dnsValidation && dnsValidation.type === VALIDATION_ERROR_TYPE
-        ? dnsValidation
-        : vmAlreadyExists(name, settingsValue(settings, NAMESPACE_KEY), virtualMachines);
-    },
+    validate: settings =>
+      validateVmName(settingsValue(settings, NAME_KEY), settings, { [VIRTUAL_MACHINES_KEY]: virtualMachines }),
   },
   [DESCRIPTION_KEY]: {
     id: 'vm-description',
