@@ -13,6 +13,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  word-break: break-all;
+  hyphens: auto;
 }
 
 .kubevirt-vm-details--with-border {
@@ -39,6 +41,7 @@
   width: 400px;
   flex: 1;
   flex-basis: auto;
+  margin-right: 8px;
 }
 
 .kubevirt-vm-details__item--hidden {
