@@ -18,7 +18,7 @@ import {
   PXE_INFO,
   ERROR_NETWORK_NOT_SELECTED,
   ERROR_EMPTY_ENTITY,
-  ERROR_EMPTY_NAME,
+  NETWORK_ERROR_EMPTY_NAME,
   ERROR_NETWORK_NOT_FOUND,
   PXE_NIC,
   HEADER_MAC,
@@ -37,7 +37,7 @@ const validateNetwork = network => {
   }
 
   if (!network.name) {
-    errors[1] = ERROR_EMPTY_NAME;
+    errors[1] = NETWORK_ERROR_EMPTY_NAME;
   }
 
   if (network.id !== 1 && !network.network) {

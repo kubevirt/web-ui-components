@@ -14,7 +14,6 @@ export const STEP_STORAGE = 'Storage';
 export const STEP_RESULT = 'Result';
 export const NEXT = 'Next';
 export const ERROR_EMPTY_ENTITY = 'Empty entity';
-export const ERROR_EMPTY_NAME = 'Name is empty';
 export const ERROR_IS_REQUIRED = 'is required';
 
 // VmSettingsTab
@@ -55,6 +54,7 @@ export const HEADER_NETWORK = 'Network Configuration';
 export const ERROR_NETWORK_NOT_FOUND = 'Network config not found';
 export const ERROR_NETWORK_NOT_SELECTED = 'Network config must be selected';
 export const HEADER_BINDING_METHOD = 'Binding method';
+export const NETWORK_ERROR_EMPTY_NAME = 'Network name cannot be empty';
 
 // StorageTab
 export const ERROR_NO_BOOTABLE_DISK = 'A bootable disk could not be found';
