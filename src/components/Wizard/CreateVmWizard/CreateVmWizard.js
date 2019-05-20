@@ -289,6 +289,7 @@ export class CreateVmWizard extends React.Component {
     return (
       <Wizard.Pattern
         show
+        backdrop="static"
         onHide={this.onHideWrapper}
         steps={this.wizardStepsNewVM}
         activeStepIndex={this.state.activeStepIndex}

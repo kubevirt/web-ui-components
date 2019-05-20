@@ -300,6 +300,7 @@ exports[`<CreateVmWizard /> renders correctly 1`] = `
 <WizardPattern
   activeStepIndex={0}
   backText="Back"
+  backdrop="static"
   bodyHeader={null}
   cancelButtonDisabled={false}
   cancelText="Cancel"
