@@ -57,17 +57,16 @@ export const validateDNS1123SubdomainValue = value => {
   return null;
 };
 
-const vmAlreadyExists = (name, namespace, vms) => {
+export const vmAlreadyExists = (name, namespace, vms) => {
   const exists = vms && vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);
   return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
 };
 
 export const validateVmName = (value, vmSettings, props) => {
-  const namespace = get(vmSettings, `${NAMESPACE_KEY}.value`);
   const dnsValidation = validateDNS1123SubdomainValue(value);
   return dnsValidation && dnsValidation.type === VALIDATION_ERROR_TYPE
     ? dnsValidation
-    : vmAlreadyExists(value, namespace, props[VIRTUAL_MACHINES_KEY]);
+    : vmAlreadyExists(value, get(vmSettings, `${NAMESPACE_KEY}.value`), props[VIRTUAL_MACHINES_KEY]);
 };
 
 export const validateURL = value => {
