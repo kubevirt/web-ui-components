@@ -11,6 +11,8 @@ import {
   getNamespace,
   getDataVolumeSourceType,
   getLabels,
+  getLabelValue,
+  len,
 } from '../selectors';
 import { selectVm } from '../k8s/selectors';
 import { baseTemplates } from '../k8s/objects/template';
@@ -58,11 +60,8 @@ export const getTemplatesLabelValues = (templates, label) => {
 };
 
 export const getTemplate = (templates, type) => {
-  const filteredTemplates = (templates || []).filter(template => {
-    const labels = get(template, 'metadata.labels', {});
-    return labels[TEMPLATE_TYPE_LABEL] === type;
-  });
-  return type === TEMPLATE_TYPE_BASE && filteredTemplates.length === 0 ? baseTemplates : filteredTemplates;
+  const filteredTemplates = (templates || []).filter(template => getLabelValue(template, TEMPLATE_TYPE_LABEL) === type);
+  return type === TEMPLATE_TYPE_BASE && len(filteredTemplates) === 0 ? baseTemplates : filteredTemplates;
 };
 
 export const getUserTemplate = (templates, userTemplateName) => {
@@ -134,7 +133,7 @@ export const getTemplateProvisionSource = (template, dataVolumes) => {
       }
       if (dataVolume) {
         const source = getDataVolumeSourceType(dataVolume);
-        switch (source.type) {
+        switch (get(source, 'type')) {
           case DATA_VOLUME_SOURCE_URL:
             return {
               type: PROVISION_SOURCE_URL,

@@ -1,7 +1,6 @@
-import { get, isObject } from 'lodash';
-
 import { getTemplatesLabelValues, getTemplatesWithLabels, getTemplate } from '../utils/templates';
 import { SecretModel, TemplateModel, VirtualMachineModel } from '../models';
+import { get, getName } from '../selectors';
 
 import {
   CUSTOM_FLAVOR,
@@ -19,7 +18,7 @@ const getLabel = (labelPrefix, value) => {
   if (value == null) {
     return undefined;
   }
-  return `${labelPrefix}/${isObject(value) ? value.id : value}`;
+  return `${labelPrefix}/${get(value, 'id') || value}`;
 };
 
 export const getWorkloadLabel = workload => getLabel(TEMPLATE_WORKLOAD_LABEL, workload);
@@ -28,7 +27,7 @@ export const getOsLabel = os => getLabel(TEMPLATE_OS_LABEL, os);
 export const getOperatingSystems = ({ workload, flavor, userTemplate }, templates) => {
   let templatesWithLabels;
   if (userTemplate) {
-    templatesWithLabels = [getTemplate(templates, TEMPLATE_TYPE_VM).find(t => t.metadata.name === userTemplate)];
+    templatesWithLabels = [getTemplate(templates, TEMPLATE_TYPE_VM).find(t => getName(t) === userTemplate)];
   } else {
     templatesWithLabels = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getWorkloadLabel(workload),
@@ -41,7 +40,7 @@ export const getOperatingSystems = ({ workload, flavor, userTemplate }, template
 export const getWorkloadProfiles = ({ flavor, os, userTemplate }, templates) => {
   let templatesWithLabels;
   if (userTemplate) {
-    templatesWithLabels = [getTemplate(templates, TEMPLATE_TYPE_VM).find(t => t.metadata.name === userTemplate)];
+    templatesWithLabels = [getTemplate(templates, TEMPLATE_TYPE_VM).find(t => getName(t) === userTemplate)];
   } else {
     templatesWithLabels = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getOsLabel(os),
@@ -61,7 +60,7 @@ export const getFlavorLabel = flavor => {
 export const getFlavors = ({ workload, os, userTemplate }, templates) => {
   let templatesWithLabels;
   if (userTemplate) {
-    templatesWithLabels = [getTemplate(templates, TEMPLATE_TYPE_VM).find(t => t.metadata.name === userTemplate)];
+    templatesWithLabels = [getTemplate(templates, TEMPLATE_TYPE_VM).find(t => getName(t) === userTemplate)];
   } else {
     templatesWithLabels = getTemplatesWithLabels(getTemplate(templates, TEMPLATE_TYPE_BASE), [
       getWorkloadLabel(workload),

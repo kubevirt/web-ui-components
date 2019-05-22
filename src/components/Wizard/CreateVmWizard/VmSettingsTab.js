@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'patternfly-react';
-import { get } from 'lodash';
+
+import { Map as ImmutableMap } from 'immutable';
+
+import { connect } from 'react-redux';
 
 import { Checkbox, Dropdown, Integer, Text, TextArea } from '../../Form';
-import { getName } from '../../../selectors';
-import { getTemplate } from '../../../utils/templates';
+import { getName, get } from '../../../selectors';
 
 import { NO_TEMPLATE } from './strings';
-
-import { TEMPLATE_TYPE_VM } from '../../../constants';
 
 import {
   AUTHKEYS_KEY,
@@ -33,45 +33,107 @@ import {
   WORKLOAD_PROFILE_KEY,
 } from './constants';
 import { FormRow } from '../../Form/FormRow';
-import { isFieldDisabled, isFieldHidden, isFieldRequired } from './utils/vmSettingsTabUtils';
-import { getDefaultValue, getFieldHelp, getFieldId, getFieldTitle } from './initialState/vmSettingsTabInitialState';
+import { getVmSettings, isFieldDisabled, isFieldHidden, isFieldRequired } from './utils/vmSettingsTabUtils';
+import {
+  getDefaultValue,
+  getFieldHelp,
+  getFieldId,
+  getFieldTitle,
+} from './redux/initialState/vmSettingsTabInitialState';
 import { ImportProvider } from './providers/ImportProvider/ImportProvider';
-import { objectMerge } from '../../../utils';
+import { types, vmWizardActions } from './redux/actions';
+
+const Namespaces = ({ namespaces, ...props }) => {
+  let namespaceNames;
+  if (namespaces) {
+    namespaceNames = namespaces
+      .toIndexedSeq()
+      .toArray()
+      .map(getName);
+  }
+
+  return <Dropdown {...props} choices={namespaceNames} />;
+};
+
+Namespaces.defaultProps = {
+  namespaces: null,
+};
+
+Namespaces.propTypes = {
+  namespaces: PropTypes.object,
+};
+
+const UserTemplates = ({ value, disabled, userTemplates, ...props }) => {
+  const templateNames = userTemplates
+    ? userTemplates
+        .toIndexedSeq()
+        .toArray()
+        .map(getName)
+    : [];
+  templateNames.push(NO_TEMPLATE);
+
+  return <Dropdown {...props} value={value} disabled={disabled} choices={templateNames} />;
+};
+
+UserTemplates.defaultProps = {
+  value: null,
+  disabled: false,
+  userTemplates: null,
+};
+
+UserTemplates.propTypes = {
+  value: PropTypes.string,
+  disabled: PropTypes.bool,
+  userTemplates: PropTypes.object,
+};
+
+const OperatingSystems = ({ operatingSystems, ...props }) => {
+  let osNames;
+  if (operatingSystems) {
+    osNames = operatingSystems.toIndexedSeq().toArray();
+  }
+
+  return <Dropdown {...props} choices={osNames} />;
+};
+
+OperatingSystems.defaultProps = {
+  operatingSystems: null,
+};
+
+OperatingSystems.propTypes = {
+  operatingSystems: PropTypes.object,
+};
 
 export class VmSettingsTab extends React.Component {
-  onChange = (key, value) => {
-    this.props.onChange(
-      objectMerge({}, this.props.vmSettings, {
-        [key]: { value },
-      })
-    );
-  };
-
   onUserTemplateChange = userTemplate => {
-    this.onChange(USER_TEMPLATE_KEY, userTemplate === NO_TEMPLATE ? null : userTemplate);
+    this.props.onFieldChange(USER_TEMPLATE_KEY, userTemplate === NO_TEMPLATE ? null : userTemplate);
   };
 
   // helpers
   getField = key => get(this.props.vmSettings, key);
 
-  getFieldAttribute = (key, attribute) => get(this.getField(key), attribute);
+  getFieldAttribute = (key, attribute) => get(this.props.vmSettings, [key, attribute]);
 
-  getValue = key => this.getFieldAttribute(key, 'value');
+  getValue = key => get(this.props.vmSettings, [key, 'value']);
 
-  getRowMetadata = key => ({
-    key,
-    title: getFieldTitle(key),
-    help: getFieldHelp(key, this.getValue(key)),
-    validation: this.getFieldAttribute(key, 'validation'),
-    isHidden: isFieldHidden(this.getField(key)),
-    isRequired: isFieldRequired(this.getField(key)),
-  });
+  getRowMetadata = key => {
+    const field = this.getField(key);
+    return {
+      key,
+      title: getFieldTitle(key),
+      help: getFieldHelp(key, this.getValue(key)),
+      validation: this.getFieldAttribute(key, 'validation'),
+      isHidden: isFieldHidden(field),
+      isRequired: isFieldRequired(field),
+      field, // for component prop changed compare
+    };
+  };
 
   getFieldData = key => ({
     id: getFieldId(key),
     disabled: isFieldDisabled(this.getField(key)),
     value: this.getValue(key) || getDefaultValue(key),
-    onChange: value => this.onChange(key, value),
+    onChange: value => this.props.onFieldChange(key, value),
   });
 
   getCheckboxFieldData = key => ({
@@ -79,14 +141,11 @@ export class VmSettingsTab extends React.Component {
     title: getFieldTitle(key),
     disabled: isFieldDisabled(this.getField(key)),
     checked: this.getValue(key),
-    onChange: value => this.onChange(key, value),
+    onChange: value => this.props.onFieldChange(key, value),
   });
 
   render() {
-    const { namespaces, templates, children } = this.props;
-    const namespaceNames = namespaces.map(getName);
-    const userTemplateNames = getTemplate(templates, TEMPLATE_TYPE_VM).map(getName);
-    userTemplateNames.push(NO_TEMPLATE);
+    const { namespaces, userTemplates, children } = this.props;
 
     return (
       <Form horizontal>
@@ -96,14 +155,16 @@ export class VmSettingsTab extends React.Component {
         <FormRow {...this.getRowMetadata(DESCRIPTION_KEY)}>
           <TextArea {...this.getFieldData(DESCRIPTION_KEY)} />
         </FormRow>
-        <FormRow {...this.getRowMetadata(NAMESPACE_KEY)}>
-          <Dropdown {...this.getFieldData(NAMESPACE_KEY)} choices={namespaceNames} />
+        {/* namespaces for prop changed compare */}
+        <FormRow {...this.getRowMetadata(NAMESPACE_KEY)} namespaces={namespaces}>
+          <Namespaces {...this.getFieldData(NAMESPACE_KEY)} namespaces={namespaces} />
         </FormRow>
-        <FormRow {...this.getRowMetadata(USER_TEMPLATE_KEY)}>
-          <Dropdown
+        {/* userTemplates for prop changed compare */}
+        <FormRow {...this.getRowMetadata(USER_TEMPLATE_KEY)} userTemplates={userTemplates}>
+          <UserTemplates
             {...this.getFieldData(USER_TEMPLATE_KEY)}
-            choices={userTemplateNames}
             onChange={this.onUserTemplateChange}
+            userTemplates={userTemplates}
           />
         </FormRow>
         <FormRow {...this.getRowMetadata(PROVISION_SOURCE_TYPE_KEY)}>
@@ -123,9 +184,9 @@ export class VmSettingsTab extends React.Component {
           <TextArea {...this.getFieldData(IMAGE_URL_KEY)} />
         </FormRow>
         <FormRow {...this.getRowMetadata(OPERATING_SYSTEM_KEY)}>
-          <Dropdown
+          <OperatingSystems
             {...this.getFieldData(OPERATING_SYSTEM_KEY)}
-            choices={this.getFieldAttribute(OPERATING_SYSTEM_KEY, 'operatingSystems')}
+            operatingSystems={this.getFieldAttribute(OPERATING_SYSTEM_KEY, 'operatingSystems')}
           />
         </FormRow>
         <FormRow {...this.getRowMetadata(FLAVOR_KEY)}>
@@ -172,16 +233,41 @@ export class VmSettingsTab extends React.Component {
 VmSettingsTab.defaultProps = {
   children: null,
   templates: null,
+  userTemplates: null,
   namespaces: null,
   dataVolumes: null,
+  vmSettings: new ImmutableMap(),
 };
 
 VmSettingsTab.propTypes = {
-  vmSettings: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  templates: PropTypes.array,
-  namespaces: PropTypes.array,
+  vmSettings: PropTypes.object,
+  onFieldChange: PropTypes.func.isRequired,
+  templates: PropTypes.object,
+  userTemplates: PropTypes.object,
+  namespaces: PropTypes.object,
   // eslint-disable-next-line react/no-unused-prop-types
-  dataVolumes: PropTypes.array,
+  dataVolumes: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  wizardReduxId: PropTypes.string.isRequired,
+  dispatchUpdateContext: PropTypes.object.isRequired,
 };
+
+const stateToProps = (state, props) => ({
+  vmSettings: getVmSettings(state, props.wizardReduxId) || {},
+});
+
+const dispatchToProps = (dispatch, props) => ({
+  onFieldChange: (key, value) =>
+    dispatch(
+      vmWizardActions[types.setVmSettingsFieldValue](props.wizardReduxId, key, value, {
+        templates: props.templates,
+        selectedNamespace: props.selectedNamespace,
+        ...props.dispatchUpdateContext,
+      })
+    ),
+});
+
+export const ConnectedVmSettingsTab = connect(
+  stateToProps,
+  dispatchToProps
+)(VmSettingsTab);

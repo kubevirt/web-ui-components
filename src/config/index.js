@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-const getRegistryUrl = () => get(window.SERVER_FLAGS, 'registry', 'quay.io/nyoxi'); // TODO: upstream should be moved under quay.io/kubevirt
+const getRegistryUrl = () => get(window.SERVER_FLAGS, 'registry', 'quay.io/kubevirt');
 const getV2vImageTag = () => get(window.SERVER_FLAGS, 'v2vImageTag', 'latest');
 export const getV2vImagePullPolicy = () => get(window.SERVER_FLAGS, 'v2vImagePullPolicy', 'IfNotPresent');
 

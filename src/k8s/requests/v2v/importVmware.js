@@ -11,6 +11,7 @@ import {
 } from '../../../models';
 import {
   NAMESPACE_KEY,
+  PROVIDERS_DATA_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
   STORAGE_TYPE_EXTERNAL_V2V_VDDK,
@@ -27,14 +28,14 @@ import {
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  PROVIDER_VMWARE,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/constants';
 import { settingsValue } from '../../selectors';
-import {
-  getVmwareAttribute,
-  getVmwareValue,
-  getVmwareField,
-} from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize } from '../../../utils';
+
+const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
+const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
+const getVmwareAttribute = (vmSettings, key, attribute) => get(getVmwareField(vmSettings, key), attribute);
 
 const asImportProviderSecret = vmSettings => {
   if (getVmwareValue(vmSettings, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY)) {
@@ -66,7 +67,7 @@ const asVolume = ({ name, data }) => ({
   },
 });
 
-const createProviderSecret = async (vmSettings, networks, storages, { k8sCreate }) => {
+const createProviderSecret = async ({ enhancedK8sMethods: { k8sCreate }, vmSettings }) => {
   const importProviderSecret = asImportProviderSecret(vmSettings);
 
   if (importProviderSecret) {
@@ -76,7 +77,10 @@ const createProviderSecret = async (vmSettings, networks, storages, { k8sCreate 
   return null;
 };
 
-const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, lastResults, { units }) => {
+const resolveStorages = async ({ enhancedK8sMethods: { k8sCreate }, vmSettings, networks, storages, units }) => {
+  if (!storages) {
+    return { mappedStorages: [] };
+  }
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
@@ -115,7 +119,7 @@ const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, la
   };
 };
 
-const resolveRolesAndServiceAccount = async (vmSettings, networks, storages, { k8sCreate }) => {
+const resolveRolesAndServiceAccount = async ({ enhancedK8sMethods: { k8sCreate }, vmSettings }) => {
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
   const serviceAccount = await k8sCreate(
@@ -141,7 +145,7 @@ const resolveRolesAndServiceAccount = async (vmSettings, networks, storages, { k
   };
 };
 
-const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCreate }) => {
+const createConversionPodSecret = async ({ enhancedK8sMethods: { k8sCreate }, vmSettings, networks, storages }) => {
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
   const { vm, thumbprint } = getVmwareField(vmSettings, PROVIDER_VMWARE_VM_KEY);
 
@@ -155,7 +159,7 @@ const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCr
 
   const hostname = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY) || extractFromSecret('url');
 
-  const sourceDisks = storages
+  const sourceDisks = (storages || [])
     .filter(storage => storage.storageType === STORAGE_TYPE_EXTERNAL_IMPORT)
     .map(({ data }) => data.fileName);
 
@@ -184,10 +188,7 @@ const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCr
 
 // // Start of the Conversion pod is blocked until the PVCs are bound
 const startConversionPod = async (
-  vmSettings,
-  networks,
-  storages,
-  { k8sCreate, k8sPatch },
+  { enhancedK8sMethods: { k8sCreate, k8sPatch }, vmSettings },
   { serviceAccount, role, roleBinding, mappedStorages, conversionPodSecret }
 ) => {
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
@@ -234,7 +235,7 @@ const startConversionPod = async (
   };
 };
 
-export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }, context) =>
+export const importVmwareVm = async ({ enhancedK8sMethods, vmSettings, networks, storages, units }) =>
   [
     createProviderSecret,
     createConversionPodSecret,
@@ -243,17 +244,7 @@ export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate
     startConversionPod,
   ].reduce(async (lastResultPromise, stepFunction) => {
     const lastResult = await lastResultPromise;
-    const nextResult = await stepFunction(
-      vmSettings,
-      networks,
-      storages,
-      {
-        k8sCreate,
-        k8sPatch,
-      },
-      lastResult,
-      context
-    );
+    const nextResult = await stepFunction({ enhancedK8sMethods, vmSettings, networks, storages, units }, lastResult);
     return {
       ...lastResult,
       ...nextResult,

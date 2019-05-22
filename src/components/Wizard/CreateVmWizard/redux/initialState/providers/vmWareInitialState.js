@@ -1,5 +1,5 @@
-import { asDisabled, asHidden, VMWARE_PROVIDER_METADATA_ID } from '../../utils/vmSettingsTabUtils';
-import { PROVIDER_SELECT_VM } from '../../strings';
+import { asDisabled, asHidden, VMWARE_PROVIDER_METADATA_ID } from '../../../utils/vmSettingsTabUtils';
+import { PROVIDER_SELECT_VM } from '../../../strings';
 import {
   PROVIDER_VMWARE_CHECK_CONNECTION_KEY,
   PROVIDER_VMWARE_HOSTNAME_KEY,
@@ -10,8 +10,8 @@ import {
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
-} from '../../providers/VMwareImportProvider/constants';
-import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
+} from '../../../providers/VMwareImportProvider/constants';
+import { getSimpleV2vVMwareStatus } from '../../../../../../utils/status/v2vVMware/v2vVMwareStatus';
 
 export const getFieldId = key => idResolver[key];
 export const getFieldTitle = key => titleResolver[key];
@@ -21,7 +21,7 @@ export const getFieldHelp = (key, value) => {
   return resolveFunction ? resolveFunction(value) : null;
 };
 
-export const getVmWareInitialState = props => ({
+export const getVmWareInitialState = () => ({
   [PROVIDER_VMWARE_VCENTER_KEY]: {},
   [PROVIDER_VMWARE_HOSTNAME_KEY]: {},
   [PROVIDER_VMWARE_USER_NAME_KEY]: {},

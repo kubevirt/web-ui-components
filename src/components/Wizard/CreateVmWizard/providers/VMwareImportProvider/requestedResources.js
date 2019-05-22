@@ -1,22 +1,17 @@
 import { getResource } from '../../../../../utils';
 import { ConfigMapModel, SecretModel, V2VVMwareModel } from '../../../../../models';
 import { VCENTER_TEMPORARY_LABEL, VCENTER_TYPE_LABEL } from '../../../../../constants';
-import { getVmwareField } from './selectors';
-import { NAMESPACE_KEY } from '../../constants';
 import {
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
 } from '../../../../../config';
-import { PROVIDER_VMWARE_V2V_NAME_KEY } from './constants';
-import { getVmSettingValue } from '../../utils/vmSettingsTabUtils';
 
-export const getVmWareProviderRequestedResources = state => {
-  const v2vVmwareName = getVmwareField(state, PROVIDER_VMWARE_V2V_NAME_KEY);
-  const namespace = getVmSettingValue(state, NAMESPACE_KEY);
+export const getVmWareProviderRequestedResources = ({ namespace, v2vVmwareName }) => {
   const resources = {
     vCenterSecrets: {
       resource: getResource(SecretModel, {
         namespace,
+        immutable: true,
         matchExpressions: [
           {
             key: VCENTER_TYPE_LABEL,
@@ -34,6 +29,7 @@ export const getVmWareProviderRequestedResources = state => {
         name: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
         namespace: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
         isList: false,
+        immutable: true,
       }),
     },
   };
@@ -44,6 +40,7 @@ export const getVmWareProviderRequestedResources = state => {
         name: v2vVmwareName,
         namespace,
         isList: false,
+        immutable: true,
       }),
     };
   }

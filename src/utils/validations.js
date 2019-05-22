@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import { get, startsWith, trimStart, trimEnd } from 'lodash';
+import { startsWith, trimStart, trimEnd } from 'lodash';
 
 import {
   DNS1123_START_ERROR,
@@ -20,7 +20,6 @@ import { parseUrl } from './utils';
 
 import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS } from '../constants';
 import { getName, getNamespace } from '../selectors';
-import { NAMESPACE_KEY, VIRTUAL_MACHINES_KEY } from '../components/Wizard/CreateVmWizard/constants';
 
 export const isPositiveNumber = value => value && value.toString().match(/^[1-9]\d*$/);
 
@@ -60,15 +59,15 @@ export const validateDNS1123SubdomainValue = value => {
 };
 
 export const vmAlreadyExists = (name, namespace, vms) => {
-  const exists = vms && vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);
+  const exists = vms && vms.some(vm => getNamespace(vm) === namespace && getName(vm) === name);
   return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
 };
 
-export const validateVmName = (value, vmSettings, props) => {
+export const validateVmName = (value, namespace, vms) => {
   const dnsValidation = validateDNS1123SubdomainValue(value);
   return dnsValidation && dnsValidation.type === VALIDATION_ERROR_TYPE
     ? dnsValidation
-    : vmAlreadyExists(value, get(vmSettings, `${NAMESPACE_KEY}.value`), props[VIRTUAL_MACHINES_KEY]);
+    : vmAlreadyExists(value, namespace, vms);
 };
 
 export const validateMemory = value => {

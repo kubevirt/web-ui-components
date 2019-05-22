@@ -13,6 +13,21 @@ exports[`<FormRow /> renders FormControlLabel correctly 1`] = `
 `;
 
 exports[`<FormRow /> renders FormRow correctly 1`] = `
+<HelpFormRow
+  className={null}
+  controlSize={5}
+  help=""
+  id={null}
+  isHidden={false}
+  isRequired={false}
+  labelSize={3}
+  textPosition="text-right"
+  title="test"
+  validation={Object {}}
+/>
+`;
+
+exports[`<FormRow /> renders HelpFormRow correctly 1`] = `
 <ValidationFormRow
   className={null}
   controlSize={5}
@@ -34,6 +49,7 @@ exports[`<FormRow /> renders ValidationFormRow correctly 1`] = `
   bsClass="form-group"
   className="kubevirt-form-group"
   id={null}
+  validationState={null}
 >
   <Col
     bsClass="col"

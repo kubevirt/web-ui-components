@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get, findIndex } from 'lodash';
 
+import { connect } from 'react-redux';
+
 import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
@@ -19,6 +21,8 @@ import {
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
   STORAGE_TYPE_EXTERNAL_V2V_VDDK,
+  NAMESPACE_KEY,
+  PROVISION_SOURCE_TYPE_KEY,
 } from './constants';
 
 import {
@@ -46,7 +50,11 @@ import {
   getNoBootableError,
 } from './strings';
 
-import { canBeBootable, needsBootableDisk } from './utils/storageTabUtils';
+import { canBeBootable, needsBootableDisk, getStorages } from './utils/storageTabUtils';
+import { getVmSettingValue } from './utils/vmSettingsTabUtils';
+import { isVmwareProvider } from './providers/VMwareImportProvider/selectors';
+import { types, vmWizardActions } from './redux/actions';
+import { immutableListToShallowJS } from '../../../utils/immutable';
 
 import { getValidK8SSize } from '../../../utils';
 
@@ -601,3 +609,23 @@ StorageTab.propTypes = {
   namespace: PropTypes.string.isRequired,
   isCreateRemoveDisabled: PropTypes.bool,
 };
+
+// TODO refactor to use immutables and partial state changes + validation
+const stateToProps = (state, { persistentVolumeClaims, storageClasses, wizardReduxId }) => ({
+  namespace: getVmSettingValue(state, wizardReduxId, NAMESPACE_KEY),
+  sourceType: getVmSettingValue(state, wizardReduxId, PROVISION_SOURCE_TYPE_KEY),
+  isCreateRemoveDisabled: isVmwareProvider(state, wizardReduxId),
+  initialStorages: immutableListToShallowJS(getStorages(state, wizardReduxId)),
+  persistentVolumeClaims: immutableListToShallowJS(persistentVolumeClaims),
+  storageClasses: immutableListToShallowJS(storageClasses),
+});
+
+const dispatchToProps = (dispatch, props) => ({
+  onChange: (storages, valid, locked) =>
+    dispatch(vmWizardActions[types.setStorages](props.wizardReduxId, storages, valid, locked)),
+});
+
+export const ConnectedStorageTab = connect(
+  stateToProps,
+  dispatchToProps
+)(StorageTab);

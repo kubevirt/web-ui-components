@@ -28,24 +28,29 @@ const phaseMapper = {
 const hasV2vVMWareStatus = v2vvmware => {
   const status = phaseMapper[getStatusPhase(v2vvmware)];
 
-  return status ? { status } : NOT_HANDLED;
+  if (status) {
+    return { status };
+  }
+
+  if (v2vvmware) {
+    // object created without status and is connecting
+    return { status: V2V_WMWARE_STATUS_CONNECTING };
+  }
+
+  return NOT_HANDLED;
 };
 
 const hasSetStatus = flags => {
-  if (flags.isConnecting) {
-    return V2V_WMWARE_STATUS_CONNECTING;
-  }
-
   if (flags.hasConnectionFailed) {
-    return V2V_WMWARE_STATUS_CONNECTION_FAILED;
+    return { status: V2V_WMWARE_STATUS_CONNECTION_FAILED };
   }
 
   return NOT_HANDLED;
 };
 
 // TODO: tests?
-export const getV2vVMwareStatus = (v2vvmware, flags = { isConnecting: false, hasConnectionFailed: false }) =>
+export const getV2vVMwareStatus = (v2vvmware, flags = { hasConnectionFailed: false }) =>
   hasV2vVMWareStatus(v2vvmware) || hasSetStatus(flags) || { status: V2V_WMWARE_STATUS_UNKNOWN };
 
-export const getSimpleV2vVMwareStatus = (v2vvmware, flags = { isConnecting: false, hasConnectionFailed: false }) =>
+export const getSimpleV2vVMwareStatus = (v2vvmware, flags = { hasConnectionFailed: false }) =>
   getV2vVMwareStatus(v2vvmware, flags).status;

@@ -1,10 +1,12 @@
+import { OrderedMap, OrderedSet } from 'immutable';
+
 import {
   PROVISION_SOURCE_CLONED_DISK,
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_IMPORT,
   PROVISION_SOURCE_PXE,
   PROVISION_SOURCE_URL,
-} from '../../../../constants';
+} from '../../../../../constants';
 
 import {
   AUTHKEYS_KEY,
@@ -27,13 +29,14 @@ import {
   USE_CLOUD_INIT_KEY,
   USER_TEMPLATE_KEY,
   WORKLOAD_PROFILE_KEY,
-} from '../constants';
+} from '../../constants';
 
-import { getProvisionSourceHelp, HELP_CPU, HELP_FLAVOR, HELP_MEMORY, HELP_OS, HELP_WORKLOAD } from '../strings';
+import { getProvisionSourceHelp, HELP_CPU, HELP_FLAVOR, HELP_MEMORY, HELP_OS, HELP_WORKLOAD } from '../../strings';
 
-import { getProviders, getProviderHelp, getProviderInitialState } from '../providers';
+import { getProviders, getProviderInitialState } from '../../providers/definition';
+import { getProviderHelp } from '../../providers/help';
 
-import { asHidden, asRequired } from '../utils/vmSettingsTabUtils';
+import { asHidden, asRequired } from '../../utils/vmSettingsTabUtils';
 
 export const getFieldId = key => idResolver[key];
 export const getFieldTitle = key => titleResolver[key];
@@ -64,7 +67,6 @@ export const getInitialVmSettings = (props = { createTemplate: false }) => {
     provisionSources.push(PROVISION_SOURCE_IMPORT);
   }
 
-  // initial fields should never change
   return {
     [NAME_KEY]: {
       isRequired: asRequired(true),
@@ -78,7 +80,7 @@ export const getInitialVmSettings = (props = { createTemplate: false }) => {
     },
     [PROVISION_SOURCE_TYPE_KEY]: {
       isRequired: asRequired(true),
-      sources: provisionSources,
+      sources: OrderedSet(provisionSources),
     },
     [PROVIDER_KEY]: {
       providers: importProviders,
@@ -87,17 +89,17 @@ export const getInitialVmSettings = (props = { createTemplate: false }) => {
     [IMAGE_URL_KEY]: {},
     [OPERATING_SYSTEM_KEY]: {
       isRequired: asRequired(true),
-      operatingSystems: [],
+      operatingSystems: OrderedMap(),
     },
     [FLAVOR_KEY]: {
       isRequired: asRequired(true),
-      flavors: [],
+      flavors: OrderedSet(),
     },
     [MEMORY_KEY]: {},
     [CPU_KEY]: {},
     [WORKLOAD_PROFILE_KEY]: {
       isRequired: asRequired(true),
-      workloadProfiles: [],
+      workloadProfiles: OrderedSet(),
     },
     [START_VM_KEY]: {
       isHidden: asHidden(createTemplate, 'CREATE_TEMPLATE'),

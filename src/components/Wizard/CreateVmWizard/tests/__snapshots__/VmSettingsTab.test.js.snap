@@ -1,450 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<VmSettingsTab /> for Create VM Template renders correctly 1`] = `
-<Form
-  bsClass="form"
-  componentClass="form"
-  horizontal={true}
-  inline={false}
->
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="name"
-    labelSize={3}
-    textPosition="text-right"
-    title="Name"
-    validation={Object {}}
-  >
-    <Text
-      disabled={false}
-      id="vm-name"
-      onBlur={[Function]}
-      onChange={[Function]}
-      type="text"
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="description"
-    labelSize={3}
-    textPosition="text-right"
-    title="Description"
-    validation={Object {}}
-  >
-    <TextArea
-      disabled={false}
-      id="vm-description"
-      onBlur={[Function]}
-      onChange={[Function]}
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="namespace"
-    labelSize={3}
-    textPosition="text-right"
-    title="Namespace"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={
-        Array [
-          "default",
-          "myproject",
-        ]
-      }
-      disabled={false}
-      id="namespace-dropdown"
-      onChange={[Function]}
-      value="--- Select Namespace ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="userTemplate"
-    labelSize={3}
-    textPosition="text-right"
-    title="Template"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={
-        Array [
-          "container-template",
-          "container-template-cloud-init",
-          "container-template-multus",
-          "pvc-template",
-          "pxe-template",
-          "pxe-template-dv",
-          "pxe-template-pvc",
-          "url-template",
-          "url-template-custom-flavor",
-          "url-template-nonetwork",
-          "--- No Template ---",
-        ]
-      }
-      disabled={false}
-      id="template-dropdown"
-      onChange={[Function]}
-      value="--- Select Template ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help=""
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="provisionSourceType"
-    labelSize={3}
-    textPosition="text-right"
-    title="Provision Source"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={Array []}
-      disabled={false}
-      id="image-source-type-dropdown"
-      onChange={[Function]}
-      value="--- Select Provision Source ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help=""
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="provider"
-    labelSize={3}
-    textPosition="text-right"
-    title="Provider"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={Array []}
-      disabled={false}
-      id="provider-dropdown"
-      onChange={[Function]}
-      value="--- Select Provider ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="containerImage"
-    labelSize={3}
-    textPosition="text-right"
-    title="Container Image"
-    validation={Object {}}
-  >
-    <TextArea
-      disabled={false}
-      id="provision-source-container"
-      onBlur={[Function]}
-      onChange={[Function]}
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="imageURL"
-    labelSize={3}
-    textPosition="text-right"
-    title="URL"
-    validation={Object {}}
-  >
-    <TextArea
-      disabled={false}
-      id="provision-source-url"
-      onBlur={[Function]}
-      onChange={[Function]}
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help="The primary operating system that will run on the virtual machine."
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="operatingSystem"
-    labelSize={3}
-    textPosition="text-right"
-    title="Operating System"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={Array []}
-      disabled={false}
-      id="operating-system-dropdown"
-      onChange={[Function]}
-      value="--- Select Operating System ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help="The combination of processing power and memory that will be provided to the virtual machine."
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="flavor"
-    labelSize={3}
-    textPosition="text-right"
-    title="Flavor"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={Array []}
-      disabled={false}
-      id="flavor-dropdown"
-      onChange={[Function]}
-      value="--- Select Flavor ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help="The amount of memory that will be dedicated to the virtual machine."
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="memory"
-    labelSize={3}
-    textPosition="text-right"
-    title="Memory (GB)"
-    validation={Object {}}
-  >
-    <Integer
-      disabled={false}
-      id="resources-memory"
-      nonNegative={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      positive={true}
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help="The number of virtual CPU cores that will be dedicated to the virtual machine."
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="cpu"
-    labelSize={3}
-    textPosition="text-right"
-    title="CPUs"
-    validation={Object {}}
-  >
-    <Integer
-      disabled={false}
-      id="resources-cpu"
-      nonNegative={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      positive={true}
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help="The category of workload that this virtual machine will be used for."
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="workloadProfile"
-    labelSize={3}
-    textPosition="text-right"
-    title="Workload Profile"
-    validation={Object {}}
-  >
-    <Dropdown
-      choices={Array []}
-      disabled={false}
-      id="workload-profile-dropdown"
-      onChange={[Function]}
-      value="--- Select Workload Profile ---"
-      withTooltips={false}
-    />
-  </FormRow>
-  <FormRow
-    className="kubevirt-form-group--no-bottom"
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="startVM"
-    labelSize={3}
-    textPosition="text-right"
-    title=""
-    validation={Object {}}
-  >
-    <Checkbox
-      checked={false}
-      disabled={false}
-      id="start-vm"
-      onBlur={[Function]}
-      onChange={[Function]}
-      title="Start virtual machine on creation"
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="cloudInit"
-    labelSize={3}
-    textPosition="text-right"
-    title=""
-    validation={Object {}}
-  >
-    <Checkbox
-      checked={false}
-      disabled={false}
-      id="use-cloud-init"
-      onBlur={[Function]}
-      onChange={[Function]}
-      title="Use cloud-init"
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="useCloudInitCustomScript"
-    labelSize={3}
-    textPosition="text-right"
-    title=""
-    validation={Object {}}
-  >
-    <Checkbox
-      checked={false}
-      disabled={false}
-      id="use-cloud-init-custom-script"
-      onBlur={[Function]}
-      onChange={[Function]}
-      title="Use custom script"
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="hostname"
-    labelSize={3}
-    textPosition="text-right"
-    title="Hostname"
-    validation={Object {}}
-  >
-    <Text
-      disabled={false}
-      id="cloud-init-hostname"
-      onBlur={[Function]}
-      onChange={[Function]}
-      type="text"
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="authKeys"
-    labelSize={3}
-    textPosition="text-right"
-    title="Authenticated SSH Keys"
-    validation={Object {}}
-  >
-    <TextArea
-      disabled={false}
-      id="cloud-init-ssh"
-      onBlur={[Function]}
-      onChange={[Function]}
-      value=""
-    />
-  </FormRow>
-  <FormRow
-    className={null}
-    controlSize={5}
-    help={null}
-    id={null}
-    isHidden={false}
-    isRequired={false}
-    key="cloudInitCustomScript"
-    labelSize={3}
-    textPosition="text-right"
-    title="Custom Script"
-    validation={Object {}}
-  >
-    <TextArea
-      className="kubevirt-create-vm-wizard__custom-cloud-script-textarea"
-      disabled={false}
-      id="cloud-init-custom-script"
-      onBlur={[Function]}
-      onChange={[Function]}
-      value=""
-    />
-  </FormRow>
-</Form>
-`;
-
 exports[`<VmSettingsTab /> renders correctly 1`] = `
 <Form
   bsClass="form"
@@ -504,22 +59,43 @@ exports[`<VmSettingsTab /> renders correctly 1`] = `
     isRequired={false}
     key="namespace"
     labelSize={3}
+    namespaces={
+      Immutable.List [
+        Immutable.Map {
+          "metadata": Immutable.Map {
+            "name": "default",
+          },
+        },
+        Immutable.Map {
+          "metadata": Immutable.Map {
+            "name": "myproject",
+          },
+        },
+      ]
+    }
     textPosition="text-right"
     title="Namespace"
     validation={Object {}}
   >
-    <Dropdown
-      choices={
-        Array [
-          "default",
-          "myproject",
-        ]
-      }
+    <Namespaces
       disabled={false}
       id="namespace-dropdown"
+      namespaces={
+        Immutable.List [
+          Immutable.Map {
+            "metadata": Immutable.Map {
+              "name": "default",
+            },
+          },
+          Immutable.Map {
+            "metadata": Immutable.Map {
+              "name": "myproject",
+            },
+          },
+        ]
+      }
       onChange={[Function]}
       value="--- Select Namespace ---"
-      withTooltips={false}
     />
   </FormRow>
   <FormRow
@@ -533,29 +109,1955 @@ exports[`<VmSettingsTab /> renders correctly 1`] = `
     labelSize={3}
     textPosition="text-right"
     title="Template"
+    userTemplates={
+      Immutable.List [
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "container-template",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "name": "rootdisk",
+                        "containerDisk": Immutable.Map {
+                          "image": "fooContainer",
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "container-template-cloud-init",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                          Immutable.Map {
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "cloudinitdisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "name": "rootdisk",
+                        "containerDisk": Immutable.Map {
+                          "image": "fooContainer",
+                        },
+                      },
+                      Immutable.Map {
+                        "cloudInitNoCloud": Immutable.Map {
+                          "userData": "#cloud-config
+users:
+  - name: root
+    ssh-authorized-keys: fooSSH
+hostname: fooHostname
+",
+                        },
+                        "name": "cloudinitdisk",
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "container-template-multus",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "autoattachPodInterface": false,
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth1",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "multus": Immutable.Map {
+                          "networkName": "pxe-net-conf",
+                        },
+                        "name": "eth1",
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "name": "rootdisk",
+                        "containerDisk": Immutable.Map {
+                          "image": "fooContainer",
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "pvc-template",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "annotations": Immutable.Map {
+                  "kubevirt.ui/firstBoot": "true",
+                  "kubevirt.ui/pxeInterface": "eth1",
+                },
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "dataVolumeTemplates": Immutable.List [
+                  Immutable.Map {
+                    "metadata": Immutable.Map {
+                      "name": "fooDvDisk-\${NAME}",
+                    },
+                    "spec": Immutable.Map {
+                      "pvc": Immutable.Map {
+                        "accessModes": Immutable.List [
+                          "ReadWriteOnce",
+                        ],
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "storage": "15Gi",
+                          },
+                        },
+                      },
+                      "source": Immutable.Map {
+                        "pvc": Immutable.Map {
+                          "name": "mypvc",
+                          "namespace": "myproject",
+                        },
+                      },
+                    },
+                  },
+                ],
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "fooDvDisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "dataVolume": Immutable.Map {
+                          "name": "fooDvDisk-\${NAME}",
+                        },
+                        "name": "fooDvDisk",
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "pxe-template",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "annotations": Immutable.Map {
+                  "kubevirt.ui/firstBoot": "true",
+                  "kubevirt.ui/pxeInterface": "eth1",
+                },
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "bridge": Immutable.Map {},
+                            "name": "eth1",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                      Immutable.Map {
+                        "multus": Immutable.Map {
+                          "networkName": "pxe-net-conf",
+                        },
+                        "name": "eth1",
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "pxe-template-dv",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "annotations": Immutable.Map {
+                  "kubevirt.ui/firstBoot": "true",
+                  "kubevirt.ui/pxeInterface": "eth1",
+                },
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "dataVolumeTemplates": Immutable.List [
+                  Immutable.Map {
+                    "metadata": Immutable.Map {
+                      "name": "fooDvDisk-\${NAME}",
+                    },
+                    "spec": Immutable.Map {
+                      "pvc": Immutable.Map {
+                        "accessModes": Immutable.List [
+                          "ReadWriteOnce",
+                        ],
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "storage": "15Gi",
+                          },
+                        },
+                      },
+                      "source": Immutable.Map {
+                        "blank": Immutable.Map {},
+                      },
+                    },
+                  },
+                ],
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 2,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "fooDvDisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "bridge": Immutable.Map {},
+                            "name": "eth1",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                      Immutable.Map {
+                        "multus": Immutable.Map {
+                          "networkName": "pxe-net-conf",
+                        },
+                        "name": "eth1",
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "dataVolume": Immutable.Map {
+                          "name": "fooDvDisk-\${NAME}",
+                        },
+                        "name": "fooDvDisk",
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "pxe-template-pvc",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "annotations": Immutable.Map {
+                  "kubevirt.ui/firstBoot": "true",
+                  "kubevirt.ui/pxeInterface": "eth1",
+                },
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 2,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "bridge": Immutable.Map {},
+                            "name": "eth1",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                      Immutable.Map {
+                        "multus": Immutable.Map {
+                          "networkName": "pxe-net-conf",
+                        },
+                        "name": "eth1",
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "name": "rootdisk",
+                        "persistentVolumeClaim": Immutable.Map {
+                          "claimName": "rootdisk",
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "annotations": Immutable.Map {
+              "description": "foo description",
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "name": "url-template",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "dataVolume": Immutable.Map {
+                          "name": "url-template-rootdisk",
+                        },
+                        "name": "rootdisk",
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/Custom": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "url-template-custom-flavor",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "dataVolumeTemplates": Immutable.List [
+                  Immutable.Map {
+                    "metadata": Immutable.Map {
+                      "name": "rootdisk-\${NAME}",
+                    },
+                    "spec": Immutable.Map {
+                      "pvc": Immutable.Map {
+                        "accessModes": Immutable.List [
+                          "ReadWriteOnce",
+                        ],
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "storage": "10Gi",
+                          },
+                        },
+                      },
+                      "source": Immutable.Map {
+                        "http": Immutable.Map {
+                          "url": "http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here",
+                        },
+                      },
+                    },
+                  },
+                ],
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 1,
+                      },
+                      "devices": Immutable.Map {
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                        ],
+                        "interfaces": Immutable.List [
+                          Immutable.Map {
+                            "bridge": Immutable.Map {},
+                            "name": "eth0",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "1G",
+                        },
+                      },
+                    },
+                    "networks": Immutable.List [
+                      Immutable.Map {
+                        "name": "eth0",
+                        "pod": Immutable.Map {},
+                      },
+                    ],
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "dataVolume": Immutable.Map {
+                          "name": "rootdisk-\${NAME}",
+                        },
+                        "name": "rootdisk",
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+        Immutable.Map {
+          "apiVersion": "template.openshift.io/v1",
+          "kind": "Template",
+          "metadata": Immutable.Map {
+            "labels": Immutable.Map {
+              "flavor.template.kubevirt.io/small": "true",
+              "os.template.kubevirt.io/fedora29": "true",
+              "template.kubevirt.io/type": "vm",
+              "vm.kubevirt.io/template": "fedora-generic",
+              "vm.kubevirt.io/template-namespace": "default",
+              "workload.template.kubevirt.io/generic": "true",
+            },
+            "annotations": Immutable.Map {
+              "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+            },
+            "name": "url-template-nonetwork",
+            "namespace": "myproject",
+          },
+          "objects": Immutable.List [
+            Immutable.Map {
+              "apiVersion": "kubevirt.io/v1alpha3",
+              "kind": "VirtualMachine",
+              "metadata": Immutable.Map {
+                "name": "\${NAME}",
+              },
+              "spec": Immutable.Map {
+                "dataVolumeTemplates": Immutable.List [
+                  Immutable.Map {
+                    "metadata": Immutable.Map {
+                      "name": "rootdisk-\${NAME}",
+                    },
+                    "spec": Immutable.Map {
+                      "pvc": Immutable.Map {
+                        "accessModes": Immutable.List [
+                          "ReadWriteOnce",
+                        ],
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "storage": "10Gi",
+                          },
+                        },
+                      },
+                      "source": Immutable.Map {
+                        "http": Immutable.Map {
+                          "url": "http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here",
+                        },
+                      },
+                    },
+                  },
+                ],
+                "template": Immutable.Map {
+                  "spec": Immutable.Map {
+                    "domain": Immutable.Map {
+                      "cpu": Immutable.Map {
+                        "cores": 2,
+                      },
+                      "devices": Immutable.Map {
+                        "autoattachPodInterface": false,
+                        "disks": Immutable.List [
+                          Immutable.Map {
+                            "bootOrder": 1,
+                            "disk": Immutable.Map {
+                              "bus": "virtio",
+                            },
+                            "name": "rootdisk",
+                          },
+                        ],
+                        "rng": Immutable.Map {},
+                      },
+                      "resources": Immutable.Map {
+                        "requests": Immutable.Map {
+                          "memory": "2G",
+                        },
+                      },
+                    },
+                    "terminationGracePeriodSeconds": 0,
+                    "volumes": Immutable.List [
+                      Immutable.Map {
+                        "dataVolume": Immutable.Map {
+                          "name": "rootdisk-\${NAME}",
+                        },
+                        "name": "rootdisk",
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          "parameters": Immutable.List [
+            Immutable.Map {
+              "description": "Name for the new VM",
+              "name": "NAME",
+            },
+          ],
+        },
+      ]
+    }
     validation={Object {}}
   >
-    <Dropdown
-      choices={
-        Array [
-          "container-template",
-          "container-template-cloud-init",
-          "container-template-multus",
-          "pvc-template",
-          "pxe-template",
-          "pxe-template-dv",
-          "pxe-template-pvc",
-          "url-template",
-          "url-template-custom-flavor",
-          "url-template-nonetwork",
-          "--- No Template ---",
-        ]
-      }
+    <UserTemplates
       disabled={false}
       id="template-dropdown"
       onChange={[Function]}
+      userTemplates={
+        Immutable.List [
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "container-template",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "name": "rootdisk",
+                          "containerDisk": Immutable.Map {
+                            "image": "fooContainer",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "container-template-cloud-init",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                            Immutable.Map {
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "cloudinitdisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "name": "rootdisk",
+                          "containerDisk": Immutable.Map {
+                            "image": "fooContainer",
+                          },
+                        },
+                        Immutable.Map {
+                          "cloudInitNoCloud": Immutable.Map {
+                            "userData": "#cloud-config
+users:
+  - name: root
+    ssh-authorized-keys: fooSSH
+hostname: fooHostname
+",
+                          },
+                          "name": "cloudinitdisk",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "container-template-multus",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "autoattachPodInterface": false,
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth1",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "multus": Immutable.Map {
+                            "networkName": "pxe-net-conf",
+                          },
+                          "name": "eth1",
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "name": "rootdisk",
+                          "containerDisk": Immutable.Map {
+                            "image": "fooContainer",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "pvc-template",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "annotations": Immutable.Map {
+                    "kubevirt.ui/firstBoot": "true",
+                    "kubevirt.ui/pxeInterface": "eth1",
+                  },
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "dataVolumeTemplates": Immutable.List [
+                    Immutable.Map {
+                      "metadata": Immutable.Map {
+                        "name": "fooDvDisk-\${NAME}",
+                      },
+                      "spec": Immutable.Map {
+                        "pvc": Immutable.Map {
+                          "accessModes": Immutable.List [
+                            "ReadWriteOnce",
+                          ],
+                          "resources": Immutable.Map {
+                            "requests": Immutable.Map {
+                              "storage": "15Gi",
+                            },
+                          },
+                        },
+                        "source": Immutable.Map {
+                          "pvc": Immutable.Map {
+                            "name": "mypvc",
+                            "namespace": "myproject",
+                          },
+                        },
+                      },
+                    },
+                  ],
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "fooDvDisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "dataVolume": Immutable.Map {
+                            "name": "fooDvDisk-\${NAME}",
+                          },
+                          "name": "fooDvDisk",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "pxe-template",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "annotations": Immutable.Map {
+                    "kubevirt.ui/firstBoot": "true",
+                    "kubevirt.ui/pxeInterface": "eth1",
+                  },
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "bridge": Immutable.Map {},
+                              "name": "eth1",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                        Immutable.Map {
+                          "multus": Immutable.Map {
+                            "networkName": "pxe-net-conf",
+                          },
+                          "name": "eth1",
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "pxe-template-dv",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "annotations": Immutable.Map {
+                    "kubevirt.ui/firstBoot": "true",
+                    "kubevirt.ui/pxeInterface": "eth1",
+                  },
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "dataVolumeTemplates": Immutable.List [
+                    Immutable.Map {
+                      "metadata": Immutable.Map {
+                        "name": "fooDvDisk-\${NAME}",
+                      },
+                      "spec": Immutable.Map {
+                        "pvc": Immutable.Map {
+                          "accessModes": Immutable.List [
+                            "ReadWriteOnce",
+                          ],
+                          "resources": Immutable.Map {
+                            "requests": Immutable.Map {
+                              "storage": "15Gi",
+                            },
+                          },
+                        },
+                        "source": Immutable.Map {
+                          "blank": Immutable.Map {},
+                        },
+                      },
+                    },
+                  ],
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 2,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "fooDvDisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "bridge": Immutable.Map {},
+                              "name": "eth1",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                        Immutable.Map {
+                          "multus": Immutable.Map {
+                            "networkName": "pxe-net-conf",
+                          },
+                          "name": "eth1",
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "dataVolume": Immutable.Map {
+                            "name": "fooDvDisk-\${NAME}",
+                          },
+                          "name": "fooDvDisk",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "pxe-template-pvc",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "annotations": Immutable.Map {
+                    "kubevirt.ui/firstBoot": "true",
+                    "kubevirt.ui/pxeInterface": "eth1",
+                  },
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 2,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "bridge": Immutable.Map {},
+                              "name": "eth1",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                        Immutable.Map {
+                          "multus": Immutable.Map {
+                            "networkName": "pxe-net-conf",
+                          },
+                          "name": "eth1",
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "name": "rootdisk",
+                          "persistentVolumeClaim": Immutable.Map {
+                            "claimName": "rootdisk",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "annotations": Immutable.Map {
+                "description": "foo description",
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "name": "url-template",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "dataVolume": Immutable.Map {
+                            "name": "url-template-rootdisk",
+                          },
+                          "name": "rootdisk",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/Custom": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "url-template-custom-flavor",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "dataVolumeTemplates": Immutable.List [
+                    Immutable.Map {
+                      "metadata": Immutable.Map {
+                        "name": "rootdisk-\${NAME}",
+                      },
+                      "spec": Immutable.Map {
+                        "pvc": Immutable.Map {
+                          "accessModes": Immutable.List [
+                            "ReadWriteOnce",
+                          ],
+                          "resources": Immutable.Map {
+                            "requests": Immutable.Map {
+                              "storage": "10Gi",
+                            },
+                          },
+                        },
+                        "source": Immutable.Map {
+                          "http": Immutable.Map {
+                            "url": "http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here",
+                          },
+                        },
+                      },
+                    },
+                  ],
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 1,
+                        },
+                        "devices": Immutable.Map {
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                          ],
+                          "interfaces": Immutable.List [
+                            Immutable.Map {
+                              "bridge": Immutable.Map {},
+                              "name": "eth0",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "1G",
+                          },
+                        },
+                      },
+                      "networks": Immutable.List [
+                        Immutable.Map {
+                          "name": "eth0",
+                          "pod": Immutable.Map {},
+                        },
+                      ],
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "dataVolume": Immutable.Map {
+                            "name": "rootdisk-\${NAME}",
+                          },
+                          "name": "rootdisk",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+          Immutable.Map {
+            "apiVersion": "template.openshift.io/v1",
+            "kind": "Template",
+            "metadata": Immutable.Map {
+              "labels": Immutable.Map {
+                "flavor.template.kubevirt.io/small": "true",
+                "os.template.kubevirt.io/fedora29": "true",
+                "template.kubevirt.io/type": "vm",
+                "vm.kubevirt.io/template": "fedora-generic",
+                "vm.kubevirt.io/template-namespace": "default",
+                "workload.template.kubevirt.io/generic": "true",
+              },
+              "annotations": Immutable.Map {
+                "name.os.template.kubevirt.io/fedora29": "Fedora 29",
+              },
+              "name": "url-template-nonetwork",
+              "namespace": "myproject",
+            },
+            "objects": Immutable.List [
+              Immutable.Map {
+                "apiVersion": "kubevirt.io/v1alpha3",
+                "kind": "VirtualMachine",
+                "metadata": Immutable.Map {
+                  "name": "\${NAME}",
+                },
+                "spec": Immutable.Map {
+                  "dataVolumeTemplates": Immutable.List [
+                    Immutable.Map {
+                      "metadata": Immutable.Map {
+                        "name": "rootdisk-\${NAME}",
+                      },
+                      "spec": Immutable.Map {
+                        "pvc": Immutable.Map {
+                          "accessModes": Immutable.List [
+                            "ReadWriteOnce",
+                          ],
+                          "resources": Immutable.Map {
+                            "requests": Immutable.Map {
+                              "storage": "10Gi",
+                            },
+                          },
+                        },
+                        "source": Immutable.Map {
+                          "http": Immutable.Map {
+                            "url": "http://rock.mountain.all-images.cz/mirrors/there-was-a-toad/on/a/blue/happy/road/0.12.13/isos/x86_64/dromaeosauridae.iso?a=1&b=caaaaaaaaaaddddddddaaaaaaa#here",
+                          },
+                        },
+                      },
+                    },
+                  ],
+                  "template": Immutable.Map {
+                    "spec": Immutable.Map {
+                      "domain": Immutable.Map {
+                        "cpu": Immutable.Map {
+                          "cores": 2,
+                        },
+                        "devices": Immutable.Map {
+                          "autoattachPodInterface": false,
+                          "disks": Immutable.List [
+                            Immutable.Map {
+                              "bootOrder": 1,
+                              "disk": Immutable.Map {
+                                "bus": "virtio",
+                              },
+                              "name": "rootdisk",
+                            },
+                          ],
+                          "rng": Immutable.Map {},
+                        },
+                        "resources": Immutable.Map {
+                          "requests": Immutable.Map {
+                            "memory": "2G",
+                          },
+                        },
+                      },
+                      "terminationGracePeriodSeconds": 0,
+                      "volumes": Immutable.List [
+                        Immutable.Map {
+                          "dataVolume": Immutable.Map {
+                            "name": "rootdisk-\${NAME}",
+                          },
+                          "name": "rootdisk",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            "parameters": Immutable.List [
+              Immutable.Map {
+                "description": "Name for the new VM",
+                "name": "NAME",
+              },
+            ],
+          },
+        ]
+      }
       value="--- Select Template ---"
-      withTooltips={false}
     />
   </FormRow>
   <FormRow
@@ -657,13 +2159,12 @@ exports[`<VmSettingsTab /> renders correctly 1`] = `
     title="Operating System"
     validation={Object {}}
   >
-    <Dropdown
-      choices={Array []}
+    <OperatingSystems
       disabled={false}
       id="operating-system-dropdown"
       onChange={[Function]}
+      operatingSystems={null}
       value="--- Select Operating System ---"
-      withTooltips={false}
     />
   </FormRow>
   <FormRow

@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from '..';
 
 import {
   DATA_VOLUME_SOURCE_URL,
@@ -15,20 +15,20 @@ export const getDataVolumeStorageClassName = dataVolume => get(dataVolume, 'spec
 
 export const getDataVolumeSourceType = dataVolume => {
   const source = get(dataVolume, 'spec.source');
-  if (source.http) {
+  if (get(source, 'http')) {
     return {
       type: DATA_VOLUME_SOURCE_URL,
       url: get(dataVolume, 'spec.source.http.url'),
     };
   }
-  if (source.pvc) {
+  if (get(source, 'pvc')) {
     return {
       type: DATA_VOLUME_SOURCE_PVC,
       name: get(dataVolume, 'spec.source.pvc.name'),
       namespace: get(dataVolume, 'spec.source.pvc.namespace'),
     };
   }
-  if (source.blank) {
+  if (get(source, 'blank')) {
     return {
       type: DATA_VOLUME_SOURCE_BLANK,
     };

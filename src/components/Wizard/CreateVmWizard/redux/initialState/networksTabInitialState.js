@@ -1,5 +1,5 @@
-import { POD_NETWORK } from '../../../../constants';
-import { NETWORK_BINDING_MASQUERADE, NETWORK_TYPE_POD } from '../constants';
+import { POD_NETWORK } from '../../../../../constants';
+import { NETWORK_BINDING_MASQUERADE, NETWORK_TYPE_POD } from '../../constants';
 
 export const podNetwork = {
   rootNetwork: {},

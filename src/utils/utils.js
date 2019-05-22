@@ -1,5 +1,3 @@
-import { isArray, mergeWith } from 'lodash';
-
 import { getModelIndexId, NamespaceModel, ProjectModel } from '../models';
 
 import {
@@ -56,7 +54,17 @@ export const getBootDeviceIndex = (devices, bootOrder) => devices.findIndex(devi
 
 export const getResource = (
   model,
-  { name, namespaced = true, namespace, isList = true, matchLabels, matchExpressions, prop, fieldSelector } = {
+  {
+    name,
+    namespaced = true,
+    namespace,
+    isList = true,
+    matchLabels,
+    matchExpressions,
+    prop,
+    fieldSelector,
+    immutable,
+  } = {
     namespaced: true,
     isList: true,
   }
@@ -68,6 +76,7 @@ export const getResource = (
     namespaced,
     namespace,
     isList,
+    immutable,
     prop: prop || model.kind,
   };
 
@@ -150,17 +159,6 @@ export const formatToShortTime = timestamp => {
   // returns in HH:MM format
   return dt.toString().substring(16, 21);
 };
-
-export const hasObjectTruthyValue = obj => !!(obj && !!Object.keys(obj).find(key => obj[key]));
-
-// merge but keep only keys eligible for update (dest)
-export const objectMerge = (dest, ...sources) =>
-  mergeWith(dest, ...sources, (objValue, srcValue) => {
-    if (isArray(objValue) || isArray(srcValue)) {
-      return srcValue;
-    }
-    return undefined;
-  });
 
 // https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/resources.md#resource-quantities
 export const getValidK8SSize = (size, units, sizeUnit = 'Gi') => {

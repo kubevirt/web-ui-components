@@ -35,11 +35,15 @@
   "peerDependencies": {
     "@patternfly/react-charts": "2.x",
     "@patternfly/react-core": "3.16.x",
+    "immutable": "3.x",
     "patternfly-react": "2.x",
     "prop-types": "15.x",
     "react": "16.6.x",
     "react-dom": "16.3.x",
-    "react-router-dom": "4.2.x"
+    "react-redux": "5.x",
+    "react-router-dom": "4.2.x",
+    "redux": "3.x",
+    "redux-thunk": "2.x"
   },
   "dependencies": {
     "@patternfly/react-console": "1.x",
@@ -88,6 +92,7 @@
     "file-loader": "2.x",
     "glob": "7.x",
     "html-webpack-plugin": "3.x",
+    "immutable": "3.x",
     "jest": "24.x",
     "node-sass": "4.x",
     "patternfly-react": "2.x",
@@ -97,7 +102,11 @@
     "react-cosmos": "4.7.x",
     "react-cosmos-test": "4.7.x",
     "react-dom": "16.3.x",
+    "react-redux": "5.x",
     "react-router-dom": "4.2.x",
+    "redux": "3.x",
+    "redux-thunk": "2.x",
+    "remote-redux-devtools": "0.5.x",
     "require-all": "3.x",
     "sass-loader": "7.x",
     "shx": "0.x",

@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Col, ControlLabel, FormGroup, HelpBlock, FieldLevelHelp } from 'patternfly-react';
-import { get } from 'lodash';
+
+import { get } from '../../selectors';
 
 import { VALIDATION_INFO_TYPE } from '../../constants';
 import { prefixedId } from '../../utils';
@@ -41,10 +42,12 @@ export const ValidationFormRow = ({
     return null;
   }
 
+  const validationType = get(validation, 'type', VALIDATION_INFO_TYPE);
+
   return (
     <FormGroup
       id={prefixedId(id, 'id-form-row')}
-      validationState={validation && validation.type !== VALIDATION_INFO_TYPE ? validation.type : null}
+      validationState={validationType !== VALIDATION_INFO_TYPE ? validationType : null}
       className={classNames('kubevirt-form-group', className)}
     >
       <Col sm={labelSize} className={textPosition}>
@@ -79,8 +82,8 @@ ValidationFormRow.propTypes = {
   textPosition: PropTypes.string,
 };
 
-export const FormRow = ({ children, validation, ...props }) => {
-  const validationMessage = get(validation, 'message', null);
+export const HelpFormRow = ({ children, validation, ...props }) => {
+  const validationMessage = get(validation, 'message');
 
   return (
     <ValidationFormRow validation={validation} {...props}>
@@ -90,6 +93,21 @@ export const FormRow = ({ children, validation, ...props }) => {
   );
 };
 
-FormRow.defaultProps = ValidationFormRow.defaultProps;
+HelpFormRow.defaultProps = ValidationFormRow.defaultProps;
 
-FormRow.propTypes = ValidationFormRow.propTypes;
+HelpFormRow.propTypes = ValidationFormRow.propTypes;
+
+// renders only when props change (shallow compare)
+export class FormRow extends React.Component {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return !!Object.keys(this.props).find(key => key !== 'children' && this.props[key] !== nextProps[key]);
+  }
+
+  render() {
+    return <HelpFormRow {...this.props} />;
+  }
+}
+
+FormRow.defaultProps = HelpFormRow.defaultProps;
+
+FormRow.propTypes = HelpFormRow.propTypes;

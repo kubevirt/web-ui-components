@@ -20,11 +20,13 @@ export const HOST_NAME_KEY = 'hostname';
 export const AUTHKEYS_KEY = 'authKeys';
 export const CLOUD_INIT_CUSTOM_SCRIPT_KEY = 'cloudInitCustomScript';
 
-// Top-level stepData keys
+// Top-level tab keys
 export const VM_SETTINGS_TAB_KEY = 'vmSettings';
 export const NETWORKS_TAB_KEY = 'network';
 export const STORAGE_TAB_KEY = 'storage';
 export const RESULT_TAB_KEY = 'result';
+
+export const ALL_TAB_KEYS = [VM_SETTINGS_TAB_KEY, NETWORKS_TAB_KEY, STORAGE_TAB_KEY, RESULT_TAB_KEY];
 
 // NetworksTab
 export const NETWORK_TYPE_MULTUS = 'multus';
@@ -44,5 +46,5 @@ export const DATA_VOLUME_SOURCE_BLANK = 'datavolume-blank';
 export const DATA_VOLUME_SOURCE_URL = 'datavolume-url';
 export const DATA_VOLUME_SOURCE_PVC = 'datavolume-pvc';
 
-// Additional resource keys
+// CreateVmWizard props
 export const VIRTUAL_MACHINES_KEY = 'virtualMachines';

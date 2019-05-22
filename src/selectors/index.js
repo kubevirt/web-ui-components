@@ -1,4 +1,5 @@
 export * from './common';
+export { get, len } from './internal';
 
 export * from './dv';
 export * from './host';

@@ -10,7 +10,9 @@ import {
   STORAGE_TYPE_DATAVOLUME,
   STORAGE_TYPE_PVC,
   STORAGE_TYPE_EXTERNAL_IMPORT,
+  STORAGE_TAB_KEY,
 } from '../constants';
+import { get } from '../../../../selectors';
 
 const possibleBootabilityResolver = {
   [PROVISION_SOURCE_URL]: disk => disk.rootStorage || disk.storageType === STORAGE_TYPE_DATAVOLUME,
@@ -34,3 +36,6 @@ export const needsBootableDisk = (disks, sourceType) => {
   }
   return !disks.some(disk => canBeBootable(disk, sourceType) && disk.isBootable);
 };
+
+export const getStorages = (state, id) =>
+  get(get(state, ['kubevirt', 'createVmWizards']), [id, STORAGE_TAB_KEY, 'value']) || state;

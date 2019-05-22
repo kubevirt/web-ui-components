@@ -23,8 +23,6 @@ import {
   VIRTUAL_MACHINE_EXISTS,
 } from '../strings';
 import { vm1, vm2 } from '../../tests/mocks/vm/vm_validation.mock';
-import { validVmSettings } from '../../components/Wizard/CreateVmWizard/fixtures/VmSettingsTab.fixture';
-import { NAMESPACE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
 
 const validatesEmpty = validateFunction => {
   expect(validateFunction('')).toEqual(getValidationObject(EMPTY_ERROR));
@@ -160,15 +158,11 @@ describe('validation.js - validateBmcURL', () => {
 });
 
 describe('validation.js - validateVmName', () => {
-  const props = { virtualMachines: [vm1, vm2] };
-  const vmSettings = validVmSettings;
-  vmSettings[NAMESPACE_KEY].value = 'test-namespace';
-
   it('handles unique name', () => {
-    expect(validateVmName('vm3', vmSettings, props)).toBeNull();
+    expect(validateVmName('vm3', 'test-namespace', [vm1, vm2])).toBeNull();
   });
 
   it('handles duplicate name', () => {
-    expect(validateVmName('vm1', vmSettings, props)).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
+    expect(validateVmName('vm1', 'test-namespace', [vm1, vm2])).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
   });
 });

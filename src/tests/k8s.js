@@ -1,4 +1,5 @@
 import React from 'react';
+import { fromJS } from 'immutable';
 
 import * as _ from 'lodash';
 
@@ -21,13 +22,10 @@ export const k8sGet = (model, name, ns, opts) => {
       spec: {
         vms: [
           {
-            name: 'test-vm1-name',
+            name: 'vm-1',
           },
           {
-            name: 'test-vm2-name',
-          },
-          {
-            name: 'test-vm3-name',
+            name: 'vm-2',
           },
         ],
       },
@@ -90,7 +88,7 @@ export const WithResources = ({
   let childrenProps = {};
 
   if (resourceMap.vCenterSecrets) {
-    const vCenterSecrets = [
+    const vCenterSecrets = fromJS([
       {
         metadata: {
           name: 'secret-1',
@@ -101,12 +99,12 @@ export const WithResources = ({
           name: 'secret-2',
         },
       },
-    ];
+    ]);
     childrenProps = { ...childrenProps, ...resourceToProps({ vCenterSecrets }) };
   }
 
   if (resourceMap.v2vvmware) {
-    const v2vvmware = {
+    const v2vvmware = fromJS({
       spec: {
         vms: [
           {
@@ -123,7 +121,7 @@ export const WithResources = ({
       status: {
         phase: tesOnlyPhase,
       },
-    };
+    });
     childrenProps = { ...childrenProps, ...resourceToProps({ v2vvmware }) };
   }
 

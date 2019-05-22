@@ -1,4 +1,4 @@
-import { VM_SETTINGS_TAB_KEY, NETWORKS_TAB_KEY, STORAGE_TAB_KEY, RESULT_TAB_KEY } from '../constants';
+import { VM_SETTINGS_TAB_KEY, NETWORKS_TAB_KEY, STORAGE_TAB_KEY, RESULT_TAB_KEY } from '../../constants';
 import { getVmSettingsInitialState } from './vmSettingsTabInitialState';
 import { getNetworksInitialState } from './networksTabInitialState';
 import { getStorageInitialState } from './storageTabInitialState';
@@ -21,5 +21,3 @@ export const getTabInitialState = (tabKey, props) => {
 
   return result || { value: {}, valid: false };
 };
-
-export const getInitialActiveStepIndex = () => 0;

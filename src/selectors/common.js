@@ -1,6 +1,4 @@
-import { get } from 'lodash';
-
-import { findKeySuffixValue, getValueByPrefix } from './internal';
+import { get, findKeySuffixValue, getValueByPrefix } from './internal';
 
 export const getKind = value => get(value, 'kind');
 export const getApiGroup = value => get(value, 'apiGroup');

@@ -1,11 +1,12 @@
 import React from 'react';
-import { isObject } from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ButtonGroup, DropdownButton, MenuItem, noop, Tooltip, OverlayTrigger } from 'patternfly-react';
 
+import { get } from '../../selectors';
+
 export const Dropdown = ({ id, value, disabled, onChange, choices, className, withTooltips, groupClassName }) => {
-  const title = isObject(value) ? value.name || value.id : value;
+  const title = get(value, 'name') || get(value, 'id') || value;
   return (
     <ButtonGroup justified key={id} className={groupClassName}>
       <DropdownButton
@@ -17,8 +18,8 @@ export const Dropdown = ({ id, value, disabled, onChange, choices, className, wi
         onSelect={onChange}
       >
         {choices.map(choice => {
-          const key = isObject(choice) ? choice.id || choice.name : choice;
-          const val = isObject(choice) ? choice.name : choice;
+          const key = get(choice, 'id') || get(choice, 'name') || choice;
+          const val = get(choice, 'name') || choice;
 
           const content = (
             <MenuItem key={key} eventKey={choice}>
@@ -53,7 +54,7 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  choices: PropTypes.array,
+  choices: PropTypes.oneOfType([PropTypes.array, PropTypes.object]), // iterable
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   className: PropTypes.string,

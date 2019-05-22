@@ -1,3 +1,25 @@
+import { get as lodashGet } from 'lodash';
+import { fromJS, Iterable } from 'immutable';
+
+export const get = (object, path, defaultValue) => {
+  if (typeof path === 'string') {
+    path = path.split('.');
+  }
+
+  if (Iterable.isIterable(object)) {
+    return object.getIn(path, Iterable.isIterable(defaultValue) ? defaultValue : fromJS(defaultValue));
+  }
+  return lodashGet(object, path, defaultValue);
+};
+
+export const len = object => {
+  if (!object) {
+    return undefined;
+  }
+
+  return Iterable.isIterable(object) ? object.size : object.length;
+};
+
 export const getValueByPrefix = (obj, keyPrefix) => {
   let objectKey;
   if (obj) {

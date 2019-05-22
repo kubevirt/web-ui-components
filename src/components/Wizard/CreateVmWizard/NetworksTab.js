@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
 import { FormFactory, DROPDOWN, TEXT } from '../../Form';
 import { TableFactory } from '../../Table/TableFactory';
 import { ACTIONS_TYPE, DELETE_ACTION } from '../../Table/constants';
 import { POD_NETWORK, PROVISION_SOURCE_PXE } from '../../../constants';
 import { getValidationObject } from '../../../utils/validations';
 import { getNetworkBindings, getDefaultNetworkBinding } from '../../../utils/utils';
-import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from './constants';
+import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS, PROVISION_SOURCE_TYPE_KEY, NAMESPACE_KEY } from './constants';
 
 import {
   SELECT_NETWORK,
@@ -28,6 +30,11 @@ import {
   SELECT_BINDING,
 } from './strings';
 import { getInterfaceBinding } from '../../../selectors';
+import { getVmSettingValue } from './utils/vmSettingsTabUtils';
+import { types, vmWizardActions } from './redux/actions';
+import { isVmwareProvider } from './providers/VMwareImportProvider/selectors';
+import { getNetworks } from './utils/networksTabUtils';
+import { immutableListToShallowJS } from '../../../utils/immutable';
 
 const validateNetwork = network => {
   const errors = Array(4).fill(null);
@@ -420,3 +427,22 @@ NetworksTab.propTypes = {
   namespace: PropTypes.string.isRequired,
   isCreateRemoveDisabled: PropTypes.bool,
 };
+
+// TODO refactor to use immutables and partial state changes + validation
+const stateToProps = (state, { networkConfigs, wizardReduxId }) => ({
+  namespace: getVmSettingValue(state, wizardReduxId, NAMESPACE_KEY),
+  sourceType: getVmSettingValue(state, wizardReduxId, PROVISION_SOURCE_TYPE_KEY),
+  isCreateRemoveDisabled: isVmwareProvider(state, wizardReduxId),
+  networks: immutableListToShallowJS(getNetworks(state, wizardReduxId)),
+  networkConfigs: immutableListToShallowJS(networkConfigs),
+});
+
+const dispatchToProps = (dispatch, props) => ({
+  onChange: (networks, valid, locked) =>
+    dispatch(vmWizardActions[types.setNetworks](props.wizardReduxId, networks, valid, locked)),
+});
+
+export const ConnectedNetworksTab = connect(
+  stateToProps,
+  dispatchToProps
+)(NetworksTab);

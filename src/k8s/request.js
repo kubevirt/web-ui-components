@@ -112,14 +112,14 @@ const FALLBACK_DISK = {
   },
 };
 
-export const createVmTemplate = async (
-  { k8sCreate, getActualState },
+export const createVmTemplate = async ({
+  enhancedK8sMethods: { k8sCreate, getActualState },
   templates,
   vmSettings,
   networks,
-  storage,
-  persistentVolumeClaims
-) => {
+  storages,
+  persistentVolumeClaims,
+}) => {
   const getSetting = param => {
     switch (param) {
       case NAME_KEY:
@@ -130,7 +130,7 @@ export const createVmTemplate = async (
         return settingsValue(vmSettings, param);
     }
   };
-  const template = getModifiedVmTemplate(templates, vmSettings, getSetting, networks, storage, persistentVolumeClaims);
+  const template = getModifiedVmTemplate(templates, vmSettings, getSetting, networks, storages, persistentVolumeClaims);
   const vmTemplate = createTemplateObject(
     settingsValue.bind(undefined, vmSettings),
     selectVm(template.objects),
@@ -139,15 +139,14 @@ export const createVmTemplate = async (
 
   let bootDataVolume;
   if (settingsValue(vmSettings, PROVISION_SOURCE_TYPE_KEY) === PROVISION_SOURCE_URL) {
-    const bootStorage = storage.find(s => s.isBootable);
+    const bootStorage = storages.find(s => s.isBootable);
     const vm = selectVm(template.objects);
 
     const bootVolume = getVolumes(vm).find(v => v.name === bootStorage.name);
     const dataVolumeTemplates = getDataVolumeTemplates(vm);
     bootDataVolume = dataVolumeTemplates.find(t => getName(t) === bootVolume.dataVolume.name);
 
-    const newDataVolumeTemplates = dataVolumeTemplates.filter(t => getName(t) !== bootVolume.dataVolume.name);
-    vm.spec.dataVolumeTemplates = newDataVolumeTemplates;
+    vm.spec.dataVolumeTemplates = dataVolumeTemplates.filter(t => getName(t) !== bootVolume.dataVolume.name);
 
     const newDataVolumeName = generateDiskName(settingsValue(vmSettings, NAME_KEY), bootStorage.name);
     bootVolume.dataVolume.name = newDataVolumeName;
@@ -179,32 +178,28 @@ export const createVmTemplate = async (
   return getActualState && getActualState();
 };
 
-export const createVm = async (
-  { k8sCreate, k8sPatch, getActualState },
-  templates,
+export const createVm = async ({
+  enhancedK8sMethods,
   vmSettings,
   networks,
   storages,
+  templates,
   persistentVolumeClaims,
-  units
-) => {
+  units,
+}) => {
+  const { k8sCreate, k8sPatch, getActualState } = enhancedK8sMethods;
   const getSetting = settingsValue.bind(undefined, vmSettings);
 
   let conversionPod;
 
   if (isVmwareProvider(vmSettings)) {
-    const importResult = await importVmwareVm(
+    const importResult = await importVmwareVm({
+      enhancedK8sMethods,
       vmSettings,
       networks,
       storages,
-      {
-        k8sCreate,
-        k8sPatch,
-      },
-      {
-        units,
-      }
-    );
+      units,
+    });
     // eslint-disable-next-line prefer-destructuring
     conversionPod = importResult.conversionPod;
     storages = importResult.mappedStorages;
@@ -352,7 +347,7 @@ const setParameterValue = (template, paramName, paramValue) => {
   parameter.value = paramValue;
 };
 
-const addNetworks = (vm, template, getSetting, networks) => {
+const addNetworks = (vm, template, getSetting, networks = []) => {
   const defaultInterface = getDefaultInterface(vm, template) || {
     bridge: {},
   };
