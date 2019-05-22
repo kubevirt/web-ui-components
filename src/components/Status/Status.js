@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Icon, OverlayTrigger, Button } from 'patternfly-react';
+import { Popover } from '@patternfly/react-core';
+import { Icon, Button } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
 export const Status = ({ icon, children }) => (
@@ -19,14 +20,16 @@ Status.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-export const OverlayStatus = ({ icon, text, overlay }) => (
-  <Status icon={icon}>
-    <OverlayTrigger overlay={overlay} placement="right" trigger={['click']} rootClose>
-      <Button className="kubevirt-status__button" bsStyle="link">
-        {text}
-      </Button>
-    </OverlayTrigger>
-  </Status>
+export const OverlayStatus = ({ icon, header, children }) => (
+  <Popover position="right" headerContent={header} bodyContent={children}>
+    <span>
+      <Status icon={icon}>
+        <Button className="kubevirt-status__button" bsStyle="link">
+          {header}
+        </Button>
+      </Status>
+    </span>
+  </Popover>
 );
 
 OverlayStatus.defaultProps = {
@@ -35,8 +38,8 @@ OverlayStatus.defaultProps = {
 
 OverlayStatus.propTypes = {
   icon: PropTypes.string,
-  text: PropTypes.string.isRequired,
-  overlay: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+  header: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
 export const LinkStatus = ({ icon, children, linkMessage, linkTo }) =>

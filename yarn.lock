@@ -685,6 +685,18 @@
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.8.2.tgz#576ff7fb1230185b619a75d258cbc98f0867a8dc"
 
+"@fortawesome/fontawesome-common-types@^0.2.18":
+  version "0.2.18"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.18.tgz#c0d8f073a5116b2de0a2c8a7aba66093a6956ce7"
+  integrity sha512-834DrzO2Ne3upCW+mJJPC/E6BsFcj+2Z1HmPIhbpbj8UaKmXWum4NClqLpUiMetugRlHuG4jbIHNdv2/lc3c1Q==
+
+"@fortawesome/free-brands-svg-icons@^5.8.1":
+  version "5.8.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.8.2.tgz#e68a509c986d5d197cc5bd9ae8d966eff513468d"
+  integrity sha512-nhEWctDOP6f+Ka10LXAFoF+6mtWidC2iQgTBGRGgydmhBtcIEwyxWVx5wQHa86A1zAMi5TnipDAYQs2qn7DD6A==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.18"
+
 "@jest/console@^24.3.0":
   version "24.3.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.3.0.tgz#7bd920d250988ba0bf1352c4493a48e1cb97671e"
@@ -850,38 +862,25 @@
     file-saver "^1.3.8"
     xterm "^3.3.0"
 
-"@patternfly/react-core@1.43.x":
-  version "1.43.8"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.43.8.tgz#7afea38f760360ae337112ac46e628c0d3870313"
+"@patternfly/react-core@3.16.16":
+  version "3.16.16"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.16.16.tgz#0d235dabecb5175dcf8dfcc584cf371bf9af48c5"
+  integrity sha512-bF/yEHFFSGY/tH45yuHrzeX98bZpcMCSyHIZoXgQ8z0fMbz4e2MW7RSJaGMo0Mpo6wpjw6RnRS9ZcdhtHFY9Rg==
   dependencies:
-    "@patternfly/react-icons" "^2.9.5"
-    "@patternfly/react-styles" "^2.3.0"
+    "@patternfly/react-icons" "^3.9.2"
+    "@patternfly/react-styles" "^3.2.1"
+    "@patternfly/react-tokens" "^2.5.2"
     "@tippy.js/react" "^1.1.1"
+    emotion "^9.2.9"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
-  optionalDependencies:
-    "@patternfly/react-tokens" "^1.0.0"
 
-"@patternfly/react-icons@^2.9.5":
-  version "2.10.6"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.10.6.tgz#496c83e1a54257d3929df58a40e42410af35968d"
-
-"@patternfly/react-styles@^2.3.0":
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-2.3.5.tgz#c5a020de2ca2a66489a195be74adbbf3babf5df9"
+"@patternfly/react-icons@^3.9.2":
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.9.2.tgz#8a4959a6cdf59929e89f2627a2e3a97e4cb5d798"
+  integrity sha512-EwPB+Nodd7zwiFh7R3Qq6Dif+xUR3WOwaJ+SRbP5NsxEAJf3CyYyrd7rbN8yFrFLTMKzknT2ez9XrP/5Lgr5LQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
-    camel-case "^3.0.0"
-    css "^2.2.3"
-    cssom "^0.3.4"
-    cssstyle "^0.3.1"
-    emotion "^9.2.9"
-    emotion-server "^9.2.9"
-    fbjs-scripts "^0.8.3"
-    fs-extra "^6.0.1"
-    jsdom "^11.11.0"
-    relative "^3.0.2"
-    resolve-from "^4.0.0"
+    "@fortawesome/free-brands-svg-icons" "^5.8.1"
 
 "@patternfly/react-styles@^2.4.1":
   version "2.4.1"
@@ -901,9 +900,28 @@
     relative "^3.0.2"
     resolve-from "^4.0.0"
 
-"@patternfly/react-tokens@^1.0.0":
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.10.3.tgz#02e8d06ff6e0a3346b49731e1c481aef9f2e9f43"
+"@patternfly/react-styles@^3.2.1":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.2.2.tgz#9c9cc5e2ada4c020a8bf06a137f90711a90a62c8"
+  integrity sha512-PYAeET+h+tEF6BKkaKRderHqg0GyzA4RULrynW8cUKhP4dgbsylScZQm7JPCkEYXFQlzeRFqgFxCfbv/8mg3ig==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
+    camel-case "^3.0.0"
+    css "^2.2.3"
+    cssom "^0.3.4"
+    cssstyle "^0.3.1"
+    emotion "^9.2.9"
+    emotion-server "^9.2.9"
+    fbjs-scripts "^0.8.3"
+    fs-extra "^6.0.1"
+    jsdom "^11.11.0"
+    relative "^3.0.2"
+    resolve-from "^4.0.0"
+
+"@patternfly/react-tokens@^2.5.2":
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.5.2.tgz#268348551b91dc2ad38403ef342892aff0b38b82"
+  integrity sha512-N2J50hVXXlcObHLYc5tXeCWolkZcqa9oDIFFDmdHuJpH4+Sh3sZf1iRtixnN5VdE8+MAKv9p+kkgpuPKkUroMw==
 
 "@skidding/linked-list@^1.0.2":
   version "1.0.2"

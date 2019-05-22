@@ -26,6 +26,9 @@ module.exports = {
       transformIgnorePatterns: ['node_modules/(?!(@novnc))'],
       setupFiles: [`${paths.src}/jest/setupTest.js`],
       snapshotSerializers: ['enzyme-to-json/serializer'],
+      moduleNameMapper: {
+        '\\.(css|scss)$': `${paths.config}/jest.style.mock.js`,
+      },
     },
 
     {

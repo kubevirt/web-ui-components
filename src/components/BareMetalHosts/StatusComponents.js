@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover } from '@patternfly/react-core';
 
 import { Status, OverlayStatus } from '../Status';
 
@@ -23,26 +22,14 @@ export const GenericSuccess = ({ status, text, errorMessage }) => <Status icon="
 GenericSuccess.propTypes = GenericStatus.propTypes;
 GenericSuccess.defaultProps = GenericStatus.defaultProps;
 
-const ErrorOverlay = ({ errorMessage }) => (
-  <Popover position="right" size="regular" title="Errors">
-    <div>{errorMessage}</div>
-  </Popover>
-);
-
-ErrorOverlay.propTypes = {
-  errorMessage: PropTypes.string,
-};
-
-ErrorOverlay.defaultProps = {
-  errorMessage: null,
-};
-
 // Generic error status component
 // If the errorMessage property isn't empty its contents are
 // shown in a Popover.
 export const GenericError = ({ status, text, errorMessage }) =>
   errorMessage ? (
-    <OverlayStatus icon="error-circle-o" text={text} overlay={<ErrorOverlay errorMessage={errorMessage} />} />
+    <OverlayStatus icon="error-circle-o" header={<div>{text}</div>}>
+      {<div>{errorMessage}</div>}
+    </OverlayStatus>
   ) : (
     <Status icon="error-circle-o">{text}</Status>
   );
@@ -59,7 +46,9 @@ GenericProgress.defaultProps = GenericStatus.defaultProps;
 // Validation Error component
 // (TODO) Add details for validation errors in Popover component
 export const ValidationError = ({ status, text, errorMessage }) => (
-  <OverlayStatus icon="error-circle-o" text={text} overlay={<ErrorOverlay errorMessage={errorMessage} />} />
+  <OverlayStatus icon="error-circle-o" header={<div>{text}</div>}>
+    {<div>{errorMessage}</div>}
+  </OverlayStatus>
 );
 
 ValidationError.propTypes = {
