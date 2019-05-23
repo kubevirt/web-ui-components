@@ -1,5 +1,4 @@
 import React from 'react';
-import { Popover } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,7 +6,7 @@ import {
   NODE_STATUS_UNDER_MAINTENANCE,
   NODE_STATUS_STOPPING_MAINTENANCE,
 } from '../../utils/status/node';
-import { getCreationTimestamp, getDeletionTimestamp, getName, getMaintenanceReason } from '../../selectors';
+import { getCreationTimestamp, getDeletionTimestamp, getMaintenanceReason } from '../../selectors';
 import { OverlayStatus } from '../Status';
 
 const UnderMaintenanceStatus = ({ node, maintenance, TimestampComponent }) => {
