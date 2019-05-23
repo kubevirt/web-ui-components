@@ -7,11 +7,50 @@ exports[`<Alerts /> renders Alerts correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Alerts
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={9}
+        md={9}
+        sm={9}
+        xs={9}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Alerts
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={3}
+        md={3}
+        sm={3}
+        xs={3}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "All",
+                "Critical",
+                "Warning",
+              ]
+            }
+            disabled={false}
+            id="alert-type"
+            onChange={[Function]}
+            value="All"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -62,11 +101,50 @@ exports[`<Alerts /> renders Data Recovery correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Alerts
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={9}
+        md={9}
+        sm={9}
+        xs={9}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Alerts
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={3}
+        md={3}
+        sm={3}
+        xs={3}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "All",
+                "Critical",
+                "Warning",
+              ]
+            }
+            disabled={false}
+            id="alert-type"
+            onChange={[Function]}
+            value="All"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -101,11 +179,50 @@ exports[`<Alerts /> renders Disk Inaccessible correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Alerts
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={9}
+        md={9}
+        sm={9}
+        xs={9}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Alerts
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={3}
+        md={3}
+        sm={3}
+        xs={3}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "All",
+                "Critical",
+                "Warning",
+              ]
+            }
+            disabled={false}
+            id="alert-type"
+            onChange={[Function]}
+            value="All"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -142,11 +259,90 @@ exports[`<Alerts /> renders correctly with Provider 1`] = `
   <div
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <div
+      class="row"
     >
-      Alerts
-    </h2>
+      <div
+        class="col-lg-9 col-md-9 col-sm-9 col-xs-9"
+      >
+        <h2
+          class="card-pf-title kubevirt-dashboard__card-title"
+        >
+          Alerts
+        </h2>
+      </div>
+      <div
+        class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+      >
+        <div
+          class="kubevirt-dashboard__actions-body"
+        >
+          <div
+            class="btn-group btn-group-justified"
+          >
+            <div
+              class="dropdown btn-group btn-group-default"
+            >
+              <button
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="kubevirt-dropdown dropdown-toggle btn btn-default"
+                id="alert-type"
+                role="button"
+                type="button"
+              >
+                All 
+                <span
+                  class="caret"
+                />
+              </button>
+              <ul
+                aria-labelledby="alert-type"
+                class="dropdown-menu"
+                role="menu"
+              >
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    All
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    Critical
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    Warning
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="card-pf-body"
