@@ -19,7 +19,7 @@ exports[`<GenericError /> renders an error message 1`] = `
 `;
 
 exports[`<GenericError /> with details renders an error message with details 1`] = `
-<OverlayStatus
+<PopoverStatus
   header={
     <div>
       Registration Error
@@ -30,7 +30,7 @@ exports[`<GenericError /> with details renders an error message with details 1`]
   <div>
     some error details
   </div>
-</OverlayStatus>
+</PopoverStatus>
 `;
 
 exports[`<GenericProgress /> renders a progress message 1`] = `
@@ -52,7 +52,7 @@ exports[`<GenericSuccess /> renders a success message 1`] = `
 `;
 
 exports[`<ValidationError /> renders a validation error 1`] = `
-<OverlayStatus
+<PopoverStatus
   header={
     <div>
       Validation Error(s)
@@ -63,5 +63,5 @@ exports[`<ValidationError /> renders a validation error 1`] = `
   <div>
     some validation errors
   </div>
-</OverlayStatus>
+</PopoverStatus>
 `;

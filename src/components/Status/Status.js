@@ -20,7 +20,7 @@ Status.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-export const OverlayStatus = ({ icon, header, children }) => (
+export const PopoverStatus = ({ icon, header, children }) => (
   <Popover position="right" headerContent={header} bodyContent={children}>
     <span>
       <Status icon={icon}>
@@ -32,11 +32,11 @@ export const OverlayStatus = ({ icon, header, children }) => (
   </Popover>
 );
 
-OverlayStatus.defaultProps = {
+PopoverStatus.defaultProps = {
   icon: null,
 };
 
-OverlayStatus.propTypes = {
+PopoverStatus.propTypes = {
   icon: PropTypes.string,
   header: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,

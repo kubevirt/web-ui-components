@@ -7,14 +7,14 @@ import {
   NODE_STATUS_STOPPING_MAINTENANCE,
 } from '../../utils/status/node';
 import { getCreationTimestamp, getDeletionTimestamp, getMaintenanceReason } from '../../selectors';
-import { OverlayStatus } from '../Status';
+import { PopoverStatus } from '../Status';
 
 const UnderMaintenanceStatus = ({ node, maintenance, TimestampComponent }) => {
   const maintenanceReason = getMaintenanceReason(maintenance);
   const created = getCreationTimestamp(maintenance);
 
   return (
-    <OverlayStatus icon="off" header="Under maintenance">
+    <PopoverStatus icon="off" header="Under maintenance">
       <div className="kubevirt-host-status__description">This host is under maintenance.</div>
       {maintenanceReason && (
         <React.Fragment>
@@ -25,7 +25,7 @@ const UnderMaintenanceStatus = ({ node, maintenance, TimestampComponent }) => {
       <div>
         Started: <TimestampComponent simple timestamp={created} />
       </div>
-    </OverlayStatus>
+    </PopoverStatus>
   );
 };
 
@@ -44,7 +44,7 @@ const StoppingMaintenanceStatus = ({ node, maintenance, TimestampComponent }) =>
   const deleted = getDeletionTimestamp(maintenance);
 
   return (
-    <OverlayStatus icon="off" header="Stopping maintenance">
+    <PopoverStatus icon="off" header="Stopping maintenance">
       <div className="kubevirt-host-status__description">
         This host is leaving maintenance. It will rejoin the cluster and resume accepting workloads.
       </div>
@@ -54,7 +54,7 @@ const StoppingMaintenanceStatus = ({ node, maintenance, TimestampComponent }) =>
       <div>
         Ended: <TimestampComponent simple timestamp={deleted} />
       </div>
-    </OverlayStatus>
+    </PopoverStatus>
   );
 };
 

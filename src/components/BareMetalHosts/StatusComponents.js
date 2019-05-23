@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Status, OverlayStatus } from '../Status';
+import { Status, PopoverStatus } from '../Status';
 
 // Generic status component as a fallback
 export const GenericStatus = ({ status, text, errorMessage }) => text;
@@ -27,9 +27,9 @@ GenericSuccess.defaultProps = GenericStatus.defaultProps;
 // shown in a Popover.
 export const GenericError = ({ status, text, errorMessage }) =>
   errorMessage ? (
-    <OverlayStatus icon="error-circle-o" header={<div>{text}</div>}>
+    <PopoverStatus icon="error-circle-o" header={<div>{text}</div>}>
       <div>{errorMessage}</div>
-    </OverlayStatus>
+    </PopoverStatus>
   ) : (
     <Status icon="error-circle-o">{text}</Status>
   );
@@ -46,9 +46,9 @@ GenericProgress.defaultProps = GenericStatus.defaultProps;
 // Validation Error component
 // (TODO) Add details for validation errors in Popover component
 export const ValidationError = ({ status, text, errorMessage }) => (
-  <OverlayStatus icon="error-circle-o" header={<div>{text}</div>}>
+  <PopoverStatus icon="error-circle-o" header={<div>{text}</div>}>
     <div>{errorMessage}</div>
-  </OverlayStatus>
+  </PopoverStatus>
 );
 
 ValidationError.propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Status, OverlayStatus } from '../Status';
+import { Status, PopoverStatus } from '../Status';
 
 export default [
   {
@@ -12,7 +12,7 @@ export default [
     },
   },
   {
-    component: OverlayStatus,
+    component: PopoverStatus,
     name: 'Status with overlay',
     props: {
       icon: 'off',
