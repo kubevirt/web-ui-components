@@ -28,7 +28,7 @@ GenericSuccess.defaultProps = GenericStatus.defaultProps;
 export const GenericError = ({ status, text, errorMessage }) =>
   errorMessage ? (
     <OverlayStatus icon="error-circle-o" header={<div>{text}</div>}>
-      {<div>{errorMessage}</div>}
+      <div>{errorMessage}</div>
     </OverlayStatus>
   ) : (
     <Status icon="error-circle-o">{text}</Status>
@@ -47,7 +47,7 @@ GenericProgress.defaultProps = GenericStatus.defaultProps;
 // (TODO) Add details for validation errors in Popover component
 export const ValidationError = ({ status, text, errorMessage }) => (
   <OverlayStatus icon="error-circle-o" header={<div>{text}</div>}>
-    {<div>{errorMessage}</div>}
+    <div>{errorMessage}</div>
   </OverlayStatus>
 );
 
