@@ -1,7 +1,13 @@
 import { get } from 'lodash';
 
 import { isFieldRequired } from '../utils/vmSettingsTabUtils';
-import { getValidationObject, validateContainer, validateVmName, validateURL } from '../../../../utils/validations';
+import {
+  getValidationObject,
+  validateContainer,
+  validateVmName,
+  validateURL,
+  validateMemory,
+} from '../../../../utils/validations';
 import { objectMerge } from '../../../../utils/utils';
 import { settingsValue } from '../../../../k8s/selectors';
 import { PROVISION_SOURCE_IMPORT, VALIDATION_ERROR_TYPE } from '../../../../constants';
@@ -13,6 +19,7 @@ import {
   PROVIDER_KEY,
   PROVIDERS_DATA_KEY,
   PROVISION_SOURCE_TYPE_KEY,
+  MEMORY_KEY,
 } from '../constants';
 import { NAMESPACE_MUST_BE_SELECTED } from '../../../../utils/strings';
 import { isProviderValid, validateProvider } from '../providers';
@@ -40,6 +47,7 @@ const validateResolver = {
   [CONTAINER_IMAGE_KEY]: asVmSettingsValidator(validateContainer),
   [IMAGE_URL_KEY]: asVmSettingsValidator(validateURL),
   [PROVIDER_KEY]: validateProviderDropdown,
+  [MEMORY_KEY]: asVmSettingsValidator(validateMemory),
 };
 
 export const validateVmSettings = (vmSettings, additionalResources) => {

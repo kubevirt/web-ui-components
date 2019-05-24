@@ -22,7 +22,7 @@ import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS } from '../consta
 import { getName, getNamespace } from '../selectors';
 import { NAMESPACE_KEY, VIRTUAL_MACHINES_KEY } from '../components/Wizard/CreateVmWizard/constants';
 
-export const isPositiveNumber = value => value && value.match(/^[1-9]\d*$/);
+export const isPositiveNumber = value => value && value.toString().match(/^[1-9]\d*$/);
 
 const alphanumberincRegex = '[a-zA-Z0-9]';
 
@@ -69,6 +69,13 @@ export const validateVmName = (value, vmSettings, props) => {
   return dnsValidation && dnsValidation.type === VALIDATION_ERROR_TYPE
     ? dnsValidation
     : vmAlreadyExists(value, get(vmSettings, `${NAMESPACE_KEY}.value`), props[VIRTUAL_MACHINES_KEY]);
+};
+
+export const validateMemory = value => {
+  if (!value) {
+    return getValidationObject(EMPTY_ERROR);
+  }
+  return isPositiveNumber(value) ? null : getValidationObject('must be positive integer');
 };
 
 export const validateURL = value => {
