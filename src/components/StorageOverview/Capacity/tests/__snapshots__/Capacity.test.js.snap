@@ -108,7 +108,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
                 d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,25.653005755549977,84.17792641604876L23.41115576348232,76.49782863466105A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill:#007bba;padding:8px;stroke:transparent;stroke-width:1"
+                style="fill:#06c;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path

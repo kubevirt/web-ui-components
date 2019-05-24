@@ -19,15 +19,18 @@ exports[`<GenericError /> renders an error message 1`] = `
 `;
 
 exports[`<GenericError /> with details renders an error message with details 1`] = `
-<OverlayStatus
-  icon="error-circle-o"
-  overlay={
-    <ErrorOverlay
-      errorMessage="some error details"
-    />
+<PopoverStatus
+  header={
+    <div>
+      Registration Error
+    </div>
   }
-  text="Registration Error"
-/>
+  icon="error-circle-o"
+>
+  <div>
+    some error details
+  </div>
+</PopoverStatus>
 `;
 
 exports[`<GenericProgress /> renders a progress message 1`] = `
@@ -49,13 +52,16 @@ exports[`<GenericSuccess /> renders a success message 1`] = `
 `;
 
 exports[`<ValidationError /> renders a validation error 1`] = `
-<OverlayStatus
-  icon="error-circle-o"
-  overlay={
-    <ErrorOverlay
-      errorMessage="some validation errors"
-    />
+<PopoverStatus
+  header={
+    <div>
+      Validation Error(s)
+    </div>
   }
-  text="Validation Error(s)"
-/>
+  icon="error-circle-o"
+>
+  <div>
+    some validation errors
+  </div>
+</PopoverStatus>
 `;

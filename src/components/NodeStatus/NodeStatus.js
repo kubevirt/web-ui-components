@@ -1,5 +1,4 @@
 import React from 'react';
-import { Popover } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,14 +6,15 @@ import {
   NODE_STATUS_UNDER_MAINTENANCE,
   NODE_STATUS_STOPPING_MAINTENANCE,
 } from '../../utils/status/node';
-import { getCreationTimestamp, getDeletionTimestamp, getName, getMaintenanceReason } from '../../selectors';
-import { OverlayStatus } from '../Status';
+import { getCreationTimestamp, getDeletionTimestamp, getMaintenanceReason } from '../../selectors';
+import { PopoverStatus } from '../Status';
 
 const UnderMaintenanceStatus = ({ node, maintenance, TimestampComponent }) => {
   const maintenanceReason = getMaintenanceReason(maintenance);
   const created = getCreationTimestamp(maintenance);
-  const overlay = (
-    <Popover id={`${getName(node)}-status-popover`} title="Under maintenance">
+
+  return (
+    <PopoverStatus icon="off" header="Under maintenance">
       <div className="kubevirt-host-status__description">This host is under maintenance.</div>
       {maintenanceReason && (
         <React.Fragment>
@@ -25,10 +25,8 @@ const UnderMaintenanceStatus = ({ node, maintenance, TimestampComponent }) => {
       <div>
         Started: <TimestampComponent simple timestamp={created} />
       </div>
-    </Popover>
+    </PopoverStatus>
   );
-
-  return <OverlayStatus icon="off" overlay={overlay} text="Under maintenance" />;
 };
 
 UnderMaintenanceStatus.defaultProps = {
@@ -44,8 +42,9 @@ UnderMaintenanceStatus.propTypes = {
 const StoppingMaintenanceStatus = ({ node, maintenance, TimestampComponent }) => {
   const created = getCreationTimestamp(maintenance);
   const deleted = getDeletionTimestamp(maintenance);
-  const overlay = (
-    <Popover id={`${getName(node)}-status-popover`} title="Stopping maintenance">
+
+  return (
+    <PopoverStatus icon="off" header="Stopping maintenance">
       <div className="kubevirt-host-status__description">
         This host is leaving maintenance. It will rejoin the cluster and resume accepting workloads.
       </div>
@@ -55,10 +54,8 @@ const StoppingMaintenanceStatus = ({ node, maintenance, TimestampComponent }) =>
       <div>
         Ended: <TimestampComponent simple timestamp={deleted} />
       </div>
-    </Popover>
+    </PopoverStatus>
   );
-
-  return <OverlayStatus icon="off" overlay={overlay} text="Stopping maintenance" />;
 };
 
 StoppingMaintenanceStatus.defaultProps = {

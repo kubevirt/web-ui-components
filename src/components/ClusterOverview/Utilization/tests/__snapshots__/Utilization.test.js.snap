@@ -242,7 +242,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845"
                       role="presentation"
                       shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
                     />
                   </g>
                 </g>
@@ -291,7 +291,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -331,7 +331,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -371,7 +371,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -460,7 +460,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       d="M40,53.820388349514566L105,52.050970873786405L170,46.15291262135922L235,49.101941747572816L300,37.30582524271844"
                       role="presentation"
                       shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
                     />
                   </g>
                 </g>
@@ -509,7 +509,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -549,7 +549,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -589,7 +589,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -707,7 +707,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       d="M40,51.46116504854369L105,44.383495145631066L170,40.84466019417476L235,26.689320388349515L300,37.30582524271845"
                       role="presentation"
                       shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#39a5dc;stroke-width:2"
+                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
                     />
                   </g>
                 </g>
@@ -756,7 +756,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -796,7 +796,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >
@@ -836,7 +836,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#282d33;stroke:transparent"
+                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
                         text-anchor="end"
                         x="29"
                       >

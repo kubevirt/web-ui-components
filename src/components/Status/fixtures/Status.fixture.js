@@ -1,7 +1,6 @@
 import React from 'react';
-import { Popover } from 'patternfly-react';
 
-import { Status, OverlayStatus } from '../Status';
+import { Status, PopoverStatus } from '../Status';
 
 export default [
   {
@@ -13,16 +12,12 @@ export default [
     },
   },
   {
-    component: OverlayStatus,
+    component: PopoverStatus,
     name: 'Status with overlay',
     props: {
       icon: 'off',
-      text: 'status text',
-      overlay: (
-        <Popover id="status-popover" title="popover">
-          <div>some content</div>
-        </Popover>
-      ),
+      header: 'status text',
+      children: <div>some content</div>,
     },
   },
 ];
