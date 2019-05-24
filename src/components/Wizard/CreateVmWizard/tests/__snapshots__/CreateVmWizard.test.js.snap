@@ -95,6 +95,7 @@ Object {
     "isRequired": Object {
       "flavor": false,
     },
+    "validation": null,
     "value": undefined,
   },
   "name": Object {
