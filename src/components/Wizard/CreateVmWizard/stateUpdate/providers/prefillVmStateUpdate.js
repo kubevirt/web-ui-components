@@ -47,20 +47,20 @@ export const prefilUpdateCreator = (prevProps, prevState, props, state) => {
       [VM_SETTINGS_TAB_KEY]: {
         value: {
           [NAME_KEY]: {
-            value: get(parsedVm, ['Config', 'Name']),
+            value: get(parsedVm, ['Config', 'Name'], null),
           },
           [DESCRIPTION_KEY]: {
-            value: get(parsedVm, ['Config', 'Annotation']),
+            value: get(parsedVm, ['Config', 'Annotation'], null),
           },
           [MEMORY_KEY]: {
-            value: memory ? memory / 1024 : undefined,
+            value: memory ? memory / 1024 : null,
           },
           [CPU_KEY]: {
-            value: get(parsedVm, ['Config', 'Hardware', 'NumCPU']),
+            value: get(parsedVm, ['Config', 'Hardware', 'NumCPU'], null),
           },
           [OPERATING_SYSTEM_KEY]: {
-            value: undefined || os,
-            guestFullName: get(parsedVm, ['Config', 'GuestFullName']),
+            value: os || null,
+            guestFullName: get(parsedVm, ['Config', 'GuestFullName'], null),
           },
           [FLAVOR_KEY]: {
             value: CUSTOM_FLAVOR,
