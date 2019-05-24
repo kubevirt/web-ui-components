@@ -22,7 +22,7 @@ Status.propTypes = {
 
 export const PopoverStatus = ({ icon, header, children }) => (
   <Popover position="right" headerContent={header} bodyContent={children}>
-    <span>
+    <span className="kubevirt-status__span">
       <Status icon={icon}>
         <Button className="kubevirt-status__button" bsStyle="link">
           {header}
