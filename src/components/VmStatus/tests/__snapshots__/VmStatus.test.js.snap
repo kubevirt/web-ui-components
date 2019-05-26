@@ -21,149 +21,190 @@ Array [
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-on-running kubevirt-status__icon"
-  />,
-  "Running",
-]
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
+  >
+    Running
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Starting
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />,
-  "Starting",
-]
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
+  >
+    Starting
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Starting
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
-    Pod Error
-  </a>,
-]
+    Pod error
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 6 (VM_STATUS_VMI_WAITING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Pending
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 7 (VM_STATUS_VMI_WAITING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Pending
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 8 (VM_STATUS_ERROR) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     VM Error
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 9 (VM_STATUS_ERROR) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     VM Error
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
-    Importer Error
-  </a>,
-]
+    Importing error
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
-    Pod Error
-  </a>,
-]
+    Pod error
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
@@ -172,74 +213,93 @@ Array [
     aria-hidden="true"
     class="pficon pficon-migration kubevirt-status__icon"
   />,
-  "Migrating",
+  "Migration",
 ]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-on-running kubevirt-status__icon"
-  />,
-  "Running",
-]
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
+  >
+    Running
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-import kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Importing
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 15 (VM_STATUS_IMPORT_ERROR) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
-    Importer Error
-  </a>,
-]
+    Importing error
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PROGRESS) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-import kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Importing (VMware)
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 1`] = `
-Array [
+<span
+  class="kubevirt-status__popover"
+>
   <span
     aria-hidden="true"
     class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />,
-  <a
-    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
+  />
+  <button
+    class="kubevirt-status__button btn btn-link"
+    type="button"
   >
     Importing Error (VMware)
-  </a>,
-]
+  </button>
+</span>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
@@ -255,146 +315,209 @@ exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 exports[`<VmStatuses vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-on-running kubevirt-status__icon"
-  />
-  Running
+    class="kubevirt-status__popover"
+  >
+    <span
+      aria-hidden="true"
+      class="pficon pficon-on-running kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Running
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-pending kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    class="kubevirt-status__popover"
   >
-    Starting
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-pending kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Starting
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-pending kubevirt-status__icon"
-  />
-  Starting
+    class="kubevirt-status__popover"
+  >
+    <span
+      aria-hidden="true"
+      class="pficon pficon-pending kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Starting
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-pending kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    class="kubevirt-status__popover"
   >
-    Starting
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-pending kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Starting
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    class="kubevirt-status__popover"
   >
-    Pod Error
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Pod error
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 6 (VM_STATUS_VMI_WAITING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-pending kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    class="kubevirt-status__popover"
   >
-    Pending
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-pending kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Pending
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 7 (VM_STATUS_VMI_WAITING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-pending kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    class="kubevirt-status__popover"
   >
-    Pending
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-pending kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Pending
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 8 (VM_STATUS_ERROR) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    class="kubevirt-status__popover"
   >
-    VM Error
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      VM Error
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 9 (VM_STATUS_ERROR) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/virtualmachines/my-vm/events"
+    class="kubevirt-status__popover"
   >
-    VM Error
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      VM Error
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 10 (VM_STATUS_IMPORT_ERROR) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    class="kubevirt-status__popover"
   >
-    Importer Error (testdisk)
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Importing error
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+    class="kubevirt-status__popover"
   >
-    Pod Error
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Pod error
+    </button>
+  </span>
 </div>
 `;
 
@@ -404,31 +527,45 @@ exports[`<VmStatuses vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = 
     aria-hidden="true"
     class="pficon pficon-migration kubevirt-status__icon"
   />
-  Migrating
+  Migration
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-on-running kubevirt-status__icon"
-  />
-  Running
+    class="kubevirt-status__popover"
+  >
+    <span
+      aria-hidden="true"
+      class="pficon pficon-on-running kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Running
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-import kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+    class="kubevirt-status__popover"
   >
-    Importing (testdisk)
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-import kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Importing
+    </button>
+  </span>
 </div>
 `;
 
@@ -436,25 +573,35 @@ exports[`<VmStatuses vm pod /> renders correctly 15 (VM_STATUS_IMPORT_ERROR) 1`]
 Array [
   <div>
     <span
-      aria-hidden="true"
-      class="pficon pficon-import kubevirt-status__icon"
-    />
-    <a
-      href="/k8s/ns/my-namespace/pods/importer-datavolume-my-vm-x9c99/events"
+      class="kubevirt-status__popover"
     >
-      Importing (testdisk)
-    </a>
+      <span
+        aria-hidden="true"
+        class="pficon pficon-import kubevirt-status__icon"
+      />
+      <button
+        class="kubevirt-status__button btn btn-link"
+        type="button"
+      >
+        Importing
+      </button>
+    </span>
   </div>,
   <div>
     <span
-      aria-hidden="true"
-      class="pficon pficon-error-circle-o kubevirt-status__icon"
-    />
-    <a
-      href="/k8s/ns/my-namespace/pods/virt-launcher-my-vm-x9c99/events"
+      class="kubevirt-status__popover"
     >
-      Importer Error (testdisk)
-    </a>
+      <span
+        aria-hidden="true"
+        class="pficon pficon-error-circle-o kubevirt-status__icon"
+      />
+      <button
+        class="kubevirt-status__button btn btn-link"
+        type="button"
+      >
+        Importing error
+      </button>
+    </span>
   </div>,
 ]
 `;
@@ -462,27 +609,37 @@ Array [
 exports[`<VmStatuses vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PROGRESS) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-import kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac9/events"
+    class="kubevirt-status__popover"
   >
-    Importing (VMware)
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-import kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Importing (VMware)
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
-  />
-  <a
-    href="/k8s/ns/my-namespace/pods/kubevirt-v2v-conversion-15ac5/events"
+    class="kubevirt-status__popover"
   >
-    Importing Error (VMware)
-  </a>
+    <span
+      aria-hidden="true"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Importing Error (VMware)
+    </button>
+  </span>
 </div>
 `;

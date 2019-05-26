@@ -10,3 +10,25 @@
 .kubevirt-status__popover {
   cursor: pointer;
 }
+
+.kubevirt-status__field {
+  margin-bottom: 0;
+}
+
+.kubevirt-status__field-description {
+  margin-bottom: 1em;
+}
+
+.kubevirt-status__field-progress {
+  margin-bottom: 1em;
+  line-height: 0;
+}
+
+.kubevirt-status__field-link {
+  margin-top: 1.5em;
+}
+
+.kubevirt-status__field-header {
+  font-weight: bold;
+  margin-bottom: 1em;
+}

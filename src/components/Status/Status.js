@@ -1,8 +1,82 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Popover } from '@patternfly/react-core';
+import { Popover, Progress, ProgressVariant, ProgressSize } from '@patternfly/react-core';
 import { Icon, Button } from 'patternfly-react';
 import PropTypes from 'prop-types';
+
+import { STATUS_DANGER, STATUS_SUCCESS, STATUS_INFO } from '../../utils/status/common';
+
+const StatusField = ({ content }) => <div className="kubevirt-status__field">{content}</div>;
+StatusField.propTypes = {
+  content: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+};
+
+export const StatusDescriptionField = ({ title, content }) => (
+  <StatusField
+    content={
+      <React.Fragment>
+        {title ? <div className="kubevirt-status__field-header">{title}</div> : ''}
+        <div className="kubevirt-status__field-description">{content}</div>
+      </React.Fragment>
+    }
+  />
+);
+StatusDescriptionField.defaultProps = {
+  title: null,
+};
+StatusDescriptionField.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.string.isRequired,
+};
+
+export const StatusLinkField = ({ title, linkTo }) => (
+  <StatusField
+    content={
+      <div className="kubevirt-status__field-link">
+        <Link to={linkTo} title={title}>
+          {title || linkTo}
+        </Link>
+      </div>
+    }
+  />
+);
+StatusLinkField.defaultProps = {
+  title: null,
+};
+StatusLinkField.propTypes = {
+  title: PropTypes.string,
+  linkTo: PropTypes.string.isRequired,
+};
+
+export const StatusProgressField = ({ title, progress, barType }) => {
+  const variants = {
+    STATUS_INFO: ProgressVariant.info,
+    STATUS_SUCCESS: ProgressVariant.success,
+    STATUS_DANGER: ProgressVariant.danger,
+  };
+  return (
+    <StatusField
+      content={
+        <Progress
+          className="kubevirt-status__field-progress"
+          value={progress}
+          title={title}
+          variant={variants[barType] || ProgressVariant.info}
+          size={ProgressSize.sm}
+        />
+      }
+    />
+  );
+};
+StatusProgressField.defaultProps = {
+  title: null,
+  barType: STATUS_INFO,
+};
+StatusProgressField.propTypes = {
+  title: PropTypes.string,
+  barType: PropTypes.oneOf([STATUS_INFO, STATUS_SUCCESS, STATUS_DANGER]),
+  progress: PropTypes.number.isRequired,
+};
 
 export const Status = ({ icon, children }) => (
   <React.Fragment>
@@ -10,11 +84,9 @@ export const Status = ({ icon, children }) => (
     {children}
   </React.Fragment>
 );
-
 Status.defaultProps = {
   icon: null,
 };
-
 Status.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
@@ -31,36 +103,29 @@ export const PopoverStatus = ({ icon, header, children }) => (
     </span>
   </Popover>
 );
-
 PopoverStatus.defaultProps = {
   icon: null,
 };
-
 PopoverStatus.propTypes = {
   icon: PropTypes.string,
   header: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-export const LinkStatus = ({ icon, children, linkMessage, linkTo }) =>
-  linkTo ? (
-    <Status icon={icon}>
-      <Link to={linkTo} title={linkMessage}>
-        {children}
-      </Link>
-    </Status>
-  ) : (
-    <Status icon={icon}>{children}</Status>
-  );
-
-LinkStatus.defaultProps = {
+export const PopoverLinkStatus = ({ icon, header, children, linkMessage, linkTo }) => (
+  <PopoverStatus icon={icon} header={header}>
+    {children}
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
+);
+PopoverLinkStatus.defaultProps = {
   icon: null,
   linkMessage: null,
   linkTo: null,
 };
-
-LinkStatus.propTypes = {
+PopoverLinkStatus.propTypes = {
   icon: PropTypes.string,
+  header: PropTypes.string.isRequired,
   linkMessage: PropTypes.string,
   linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,

@@ -1,0 +1,17 @@
+export const RUNNING = 'Running';
+export const ERROR = 'Error';
+export const VM_ERROR = 'VM Error';
+export const POD_ERROR = 'Pod error';
+export const IMPORTING_ERROR = 'Importing error';
+export const PENDING = 'Pending';
+export const STARTING = 'Starting';
+export const IMPORTING = 'Importing';
+export const IMPORTING_VMWARE = 'Importing (VMware)';
+export const IMPORTING_PENDING_VMWARE = 'Importing Pending (VMware)';
+export const IMPORTING_ERROR_VMWARE = 'Importing Error (VMware)';
+export const VIEW_POD_EVENTS = 'View pod events';
+export const VIEW_POD_DETAILS = 'View pod details';
+export const VIEW_VM_EVENTS = 'View VM events';
+export const UNKNOWN = 'Unknown';
+export const OFF = 'Off';
+export const MIGRATING = 'Migration';
