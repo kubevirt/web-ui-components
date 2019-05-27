@@ -25,6 +25,13 @@ import {
   POD_ERROR,
   IMPORTING_ERROR,
   OFF,
+  IMPORTING_VMWARE_MESSAGE,
+  IMPORTING_ERROR_VMWARE_MESSAGE,
+  IMPORTING_MESSAGE,
+  IMPORTING_ERROR_MESSAGE,
+  VMI_WAITING_MESSAGE,
+  STARTING_MESSAGE,
+  RUNNING_MESSAGE,
 } from './strings';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
@@ -95,71 +102,57 @@ VmStatuses.propTypes = {
 
 export const VmStatus = ({ vm, pods, migrations, verbose }) => {
   const statusDetail = getVmStatus(vm, pods, migrations);
+  const additionalText =
+    verbose && statusDetail.pod && statusDetail.pod.metadata.labels ? getAdditionalImportText(statusDetail.pod) : null;
+
   const statusProps = {
     VM_STATUS_CONVERSION_IN_PROGRESS: {
       icon: 'import',
       header: IMPORTING_VMWARE,
+      message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
+      children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
     },
     VM_STATUS_V2V_CONVERSION_IN_PROGRESS: {
       icon: 'import',
       header: IMPORTING_VMWARE,
+      message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-    },
-    VM_STATUS_V2V_CONVERSION_PENDING: {
-      icon: 'pending',
-      header: IMPORTING_PENDING_VMWARE,
-      linkMessage: VIEW_POD_EVENTS,
-      linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-    },
-    VM_STATUS_CONVERSION_FAILED: {
-      icon: 'error-circle-o',
-      header: IMPORTING_ERROR_VMWARE,
-      linkMessage: VIEW_POD_EVENTS,
-      linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-    },
-    VM_STATUS_V2V_CONVERSION_ERROR: {
-      icon: 'error-circle-o',
-      header: IMPORTING_ERROR_VMWARE,
-      linkMessage: VIEW_POD_EVENTS,
-      linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
+      children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
     },
     VM_STATUS_IMPORTING: {
       icon: 'import',
       header: IMPORTING,
+      message: IMPORTING_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-      children: verbose ? (
-        <StatusDescriptionField>{getAdditionalImportText(statusDetail.pod)}</StatusDescriptionField>
-      ) : (
-        ''
-      ),
+      children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
     },
-    VM_STATUS_IMPORT_ERROR: {
-      icon: 'error-circle-o',
-      header: IMPORTING_ERROR,
+
+    VM_STATUS_V2V_CONVERSION_PENDING: {
+      icon: 'pending',
+      header: IMPORTING_PENDING_VMWARE,
+      message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-      children: verbose ? (
-        <StatusDescriptionField>{getAdditionalImportText(statusDetail.pod)}</StatusDescriptionField>
-      ) : (
-        ''
-      ),
+      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_VMI_WAITING: {
       icon: 'pending',
       header: PENDING,
-      message: statusDetail.message || PENDING,
+      message: VMI_WAITING_MESSAGE,
       linkMessage: VIEW_VM_EVENTS,
       linkTo: getSubPagePath(vm, VirtualMachineModel, 'events'),
+      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
-    VM_STATUS_STARTING: {
-      icon: 'pending',
-      header: STARTING,
-      linkMessage: VIEW_POD_EVENTS,
-      linkTo: getSubPagePath(statusDetail.launcherPod, PodModel, 'events'),
+
+    VM_STATUS_ERROR: {
+      icon: 'error-circle-o',
+      header: VM_ERROR,
+      linkMessage: VIEW_VM_EVENTS,
+      linkTo: getSubPagePath(vm, VirtualMachineModel, 'events'),
     },
     VM_STATUS_POD_ERROR: {
       icon: 'error-circle-o',
@@ -167,17 +160,61 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.launcherPod, PodModel, 'events'),
     },
-    VM_STATUS_ERROR: {
+    VM_STATUS_IMPORT_ERROR: {
       icon: 'error-circle-o',
-      header: VM_ERROR,
-      linkMessage: VIEW_VM_EVENTS,
-      linkTo: getSubPagePath(vm, VirtualMachineModel, 'events'),
+      header: IMPORTING_ERROR,
+      message: IMPORTING_ERROR_MESSAGE,
+      linkMessage: VIEW_POD_EVENTS,
+      linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
+      children: (
+        <React.Fragment>
+          {statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : ''}
+          {additionalText ? <StatusDescriptionField content={additionalText} /> : ''}
+        </React.Fragment>
+      ),
+    },
+    VM_STATUS_V2V_CONVERSION_ERROR: {
+      icon: 'error-circle-o',
+      header: IMPORTING_ERROR_VMWARE,
+      message: IMPORTING_ERROR_VMWARE_MESSAGE,
+      linkMessage: VIEW_POD_EVENTS,
+      linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
+      children: (
+        <React.Fragment>
+          {statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : ''}
+          {additionalText ? <StatusDescriptionField content={additionalText} /> : ''}
+        </React.Fragment>
+      ),
+    },
+    VM_STATUS_CONVERSION_FAILED: {
+      icon: 'error-circle-o',
+      header: IMPORTING_ERROR_VMWARE,
+      message: IMPORTING_ERROR_VMWARE_MESSAGE,
+      linkMessage: VIEW_POD_EVENTS,
+      linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
+      children: (
+        <React.Fragment>
+          {statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : ''}
+          {additionalText ? <StatusDescriptionField content={additionalText} /> : ''}
+        </React.Fragment>
+      ),
+    },
+
+    VM_STATUS_STARTING: {
+      icon: 'pending',
+      header: STARTING,
+      message: STARTING_MESSAGE,
+      linkMessage: VIEW_POD_EVENTS,
+      linkTo: getSubPagePath(statusDetail.launcherPod, PodModel, 'events'),
+      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_RUNNING: {
       icon: 'on-running',
       header: RUNNING,
+      message: RUNNING_MESSAGE,
       linkMessage: VIEW_POD_DETAILS,
       linkTo: getSubPagePath(statusDetail.launcherPod, PodModel),
+      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_MIGRATING: {
       icon: 'migrating',

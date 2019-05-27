@@ -654,10 +654,19 @@ Array [
         <dd>
           <div>
             <span
-              aria-hidden="true"
-              class="pficon pficon-on-running kubevirt-status__icon"
-            />
-            Running
+              class="kubevirt-status__popover"
+            >
+              <span
+                aria-hidden="true"
+                class="pficon pficon-on-running kubevirt-status__icon"
+              />
+              <button
+                class="kubevirt-status__button btn btn-link"
+                type="button"
+              >
+                Running
+              </button>
+            </span>
           </div>
         </dd>
         <dt>
@@ -1036,10 +1045,19 @@ exports[`<VmDetails /> renders correctly as overview 1`] = `
       <dd>
         <div>
           <span
-            aria-hidden="true"
-            class="pficon pficon-on-running kubevirt-status__icon"
-          />
-          Running
+            class="kubevirt-status__popover"
+          >
+            <span
+              aria-hidden="true"
+              class="pficon pficon-on-running kubevirt-status__icon"
+            />
+            <button
+              class="kubevirt-status__button btn btn-link"
+              type="button"
+            >
+              Running
+            </button>
+          </span>
         </div>
       </dd>
       <dt>
@@ -2020,10 +2038,19 @@ Array [
         <dd>
           <div>
             <span
-              aria-hidden="true"
-              class="pficon pficon-on-running kubevirt-status__icon"
-            />
-            Running
+              class="kubevirt-status__popover"
+            >
+              <span
+                aria-hidden="true"
+                class="pficon pficon-on-running kubevirt-status__icon"
+              />
+              <button
+                class="kubevirt-status__button btn btn-link"
+                type="button"
+              >
+                Running
+              </button>
+            </span>
           </div>
         </dd>
         <dt>
