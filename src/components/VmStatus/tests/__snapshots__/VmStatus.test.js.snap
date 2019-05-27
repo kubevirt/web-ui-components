@@ -21,20 +21,13 @@ Array [
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
-<span
-  class="kubevirt-status__popover"
->
+Array [
   <span
     aria-hidden="true"
     class="pficon pficon-on-running kubevirt-status__icon"
-  />
-  <button
-    class="kubevirt-status__button btn btn-link"
-    type="button"
-  >
-    Running
-  </button>
-</span>
+  />,
+  "Running",
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
@@ -55,37 +48,23 @@ exports[`<VmStatus vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
-<span
-  class="kubevirt-status__popover"
->
+Array [
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />
-  <button
-    class="kubevirt-status__button btn btn-link"
-    type="button"
-  >
-    Starting
-  </button>
-</span>
+  />,
+  "Starting",
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
-<span
-  class="kubevirt-status__popover"
->
+Array [
   <span
     aria-hidden="true"
     class="pficon pficon-pending kubevirt-status__icon"
-  />
-  <button
-    class="kubevirt-status__button btn btn-link"
-    type="button"
-  >
-    Starting
-  </button>
-</span>
+  />,
+  "Starting",
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 5 (VM_STATUS_POD_ERROR) 1`] = `
@@ -208,30 +187,30 @@ exports[`<VmStatus vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = `
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
-Array [
-  <span
-    aria-hidden="true"
-    class="pficon pficon-migration kubevirt-status__icon"
-  />,
-  "Migration",
-]
-`;
-
-exports[`<VmStatus vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 <span
   class="kubevirt-status__popover"
 >
   <span
     aria-hidden="true"
-    class="pficon pficon-on-running kubevirt-status__icon"
+    class="pficon pficon-migrating kubevirt-status__icon"
   />
   <button
     class="kubevirt-status__button btn btn-link"
     type="button"
   >
-    Running
+    Migration
   </button>
 </span>
+`;
+
+exports[`<VmStatus vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
+Array [
+  <span
+    aria-hidden="true"
+    class="pficon pficon-on-running kubevirt-status__icon"
+  />,
+  "Running",
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
@@ -291,13 +270,13 @@ exports[`<VmStatus vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 
 >
   <span
     aria-hidden="true"
-    class="pficon pficon-error-circle-o kubevirt-status__icon"
+    class="pficon pficon-unknown kubevirt-status__icon"
   />
   <button
     class="kubevirt-status__button btn btn-link"
     type="button"
   >
-    Importing Error (VMware)
+    Unknown
   </button>
 </span>
 `;
@@ -315,19 +294,10 @@ exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 exports[`<VmStatuses vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
-    class="kubevirt-status__popover"
-  >
-    <span
-      aria-hidden="true"
-      class="pficon pficon-on-running kubevirt-status__icon"
-    />
-    <button
-      class="kubevirt-status__button btn btn-link"
-      type="button"
-    >
-      Running
-    </button>
-  </span>
+    aria-hidden="true"
+    class="pficon pficon-on-running kubevirt-status__icon"
+  />
+  Running
 </div>
 `;
 
@@ -353,38 +323,20 @@ exports[`<VmStatuses vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
 exports[`<VmStatuses vm pod /> renders correctly 3 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
-    class="kubevirt-status__popover"
-  >
-    <span
-      aria-hidden="true"
-      class="pficon pficon-pending kubevirt-status__icon"
-    />
-    <button
-      class="kubevirt-status__button btn btn-link"
-      type="button"
-    >
-      Starting
-    </button>
-  </span>
+    aria-hidden="true"
+    class="pficon pficon-pending kubevirt-status__icon"
+  />
+  Starting
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 4 (VM_STATUS_STARTING) 1`] = `
 <div>
   <span
-    class="kubevirt-status__popover"
-  >
-    <span
-      aria-hidden="true"
-      class="pficon pficon-pending kubevirt-status__icon"
-    />
-    <button
-      class="kubevirt-status__button btn btn-link"
-      type="button"
-    >
-      Starting
-    </button>
-  </span>
+    aria-hidden="true"
+    class="pficon pficon-pending kubevirt-status__icon"
+  />
+  Starting
 </div>
 `;
 
@@ -524,29 +476,29 @@ exports[`<VmStatuses vm pod /> renders correctly 11 (VM_STATUS_POD_ERROR) 1`] = 
 exports[`<VmStatuses vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
 <div>
   <span
-    aria-hidden="true"
-    class="pficon pficon-migration kubevirt-status__icon"
-  />
-  Migration
+    class="kubevirt-status__popover"
+  >
+    <span
+      aria-hidden="true"
+      class="pficon pficon-migrating kubevirt-status__icon"
+    />
+    <button
+      class="kubevirt-status__button btn btn-link"
+      type="button"
+    >
+      Migration
+    </button>
+  </span>
 </div>
 `;
 
 exports[`<VmStatuses vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
-    class="kubevirt-status__popover"
-  >
-    <span
-      aria-hidden="true"
-      class="pficon pficon-on-running kubevirt-status__icon"
-    />
-    <button
-      class="kubevirt-status__button btn btn-link"
-      type="button"
-    >
-      Running
-    </button>
-  </span>
+    aria-hidden="true"
+    class="pficon pficon-on-running kubevirt-status__icon"
+  />
+  Running
 </div>
 `;
 
@@ -632,13 +584,13 @@ exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED
   >
     <span
       aria-hidden="true"
-      class="pficon pficon-error-circle-o kubevirt-status__icon"
+      class="pficon pficon-unknown kubevirt-status__icon"
     />
     <button
       class="kubevirt-status__button btn btn-link"
       type="button"
     >
-      Importing Error (VMware)
+      Unknown
     </button>
   </span>
 </div>
