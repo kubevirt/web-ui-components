@@ -114,7 +114,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
     },
-    VM_STATUS_CONVERSION_FAILED:  {
+    VM_STATUS_CONVERSION_FAILED: {
       icon: 'error-circle-o',
       header: IMPORTING_ERROR_VMWARE,
       linkMessage: VIEW_POD_EVENTS,
