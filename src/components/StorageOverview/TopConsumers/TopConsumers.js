@@ -26,11 +26,11 @@ import {
   DashboardCardTitle,
 } from '../../Dashboard/DashboardCard';
 
-import { PROJECTS, STORAGE_CLASSES, PODS, BY_USED_CAPACITY, BY_REQUESTED_CAPACITY } from './strings';
+import { PROJECTS, STORAGE_CLASSES, PODS, VMS, BY_USED_CAPACITY, BY_REQUESTED_CAPACITY } from './strings';
 import { StorageOverviewContext } from '../StorageOverviewContext/StorageOverviewContext';
 import { getTopConsumerVectorStats } from '../../../selectors/prometheus/storage';
 
-const metricTypes = [PROJECTS, STORAGE_CLASSES, PODS];
+const metricTypes = [PROJECTS, STORAGE_CLASSES, PODS, VMS];
 const sortBy = [
   { name: BY_USED_CAPACITY, refObj: 'byUsedCapacity' },
   { name: BY_REQUESTED_CAPACITY, refObj: 'byRequestedCapacity' },
@@ -133,6 +133,10 @@ export class TopConsumers extends React.PureComponent {
       byUsedCapacity: () => this.getCapacity(this.props.podsUsedCapacity),
       byRequestedCapacity: () => this.getCapacity(this.props.podsRequestedCapacity),
     },
+    vms: {
+      byUsedCapacity: () => this.getCapacity(this.props.vmsUsedCapacity),
+      byRequestedCapacity: () => this.getCapacity(this.props.vmsRequestedCapacity),
+    },
   };
 
   getCurrentMetric = () => {
@@ -145,6 +149,9 @@ export class TopConsumers extends React.PureComponent {
 
       case PODS:
         return this.metrics.pods[this.state.sortBy.refObj]();
+
+      case VMS:
+        return this.metrics.vms[this.state.sortBy.refObj]();
 
       default:
         return [];
@@ -160,6 +167,8 @@ export class TopConsumers extends React.PureComponent {
       slClassesRequestedCapacity,
       podsUsedCapacity,
       podsRequestedCapacity,
+      vmsUsedCapacity,
+      vmsRequestedCapacity,
     } = this.props;
     const metric = this.getCurrentMetric();
     const isLoading =
@@ -168,7 +177,9 @@ export class TopConsumers extends React.PureComponent {
       !slClassesRequestedCapacity &&
       !slClassesUsedCapacity &&
       !podsUsedCapacity &&
-      !podsRequestedCapacity;
+      !podsRequestedCapacity &&
+      !vmsUsedCapacity &&
+      !vmsRequestedCapacity;
 
     return (
       <DashboardCard>
@@ -220,6 +231,8 @@ TopConsumers.defaultProps = {
   slClassesUsedCapacity: null,
   podsRequestedCapacity: null,
   podsUsedCapacity: null,
+  vmsRequestedCapacity: null,
+  vmsUsedCapacity: null,
   LoadingComponent: InlineLoading,
 };
 
@@ -230,6 +243,8 @@ TopConsumers.propTypes = {
   slClassesUsedCapacity: PropTypes.object,
   podsUsedCapacity: PropTypes.object,
   podsRequestedCapacity: PropTypes.object,
+  vmsUsedCapacity: PropTypes.object,
+  vmsRequestedCapacity: PropTypes.object,
   LoadingComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
@@ -244,6 +259,8 @@ const TopConsumersConnected = () => (
         slClassesRequestedCapacity={props.slClassesRequestedCapacity}
         podsUsedCapacity={props.podsUsedCapacity}
         podsRequestedCapacity={props.podsRequestedCapacity}
+        vmsUsedCapacity={props.vmsUsedCapacity}
+        vmsRequestedCapacity={props.vmsRequestedCapacity}
       />
     )}
   </StorageOverviewContext.Consumer>

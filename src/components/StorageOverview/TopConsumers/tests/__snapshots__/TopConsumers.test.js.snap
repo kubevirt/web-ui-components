@@ -40,6 +40,7 @@ exports[`<TopConsumers /> renders Loading top consumers correctly 1`] = `
                 "Projects",
                 "Storage Classes",
                 "Pods",
+                "VMs",
               ]
             }
             disabled={true}
@@ -131,6 +132,7 @@ exports[`<TopConsumers /> renders Not available top consumers correctly 1`] = `
                 "Projects",
                 "Storage Classes",
                 "Pods",
+                "VMs",
               ]
             }
             disabled={true}
@@ -222,6 +224,7 @@ exports[`<TopConsumers /> renders Top Consumers correctly 1`] = `
                 "Projects",
                 "Storage Classes",
                 "Pods",
+                "VMs",
               ]
             }
             disabled={false}
@@ -296,5 +299,7 @@ exports[`<TopConsumers /> renders correctly with Provider 1`] = `
   projectsUsedCapacity={null}
   slClassesRequestedCapacity={null}
   slClassesUsedCapacity={null}
+  vmsRequestedCapacity={null}
+  vmsUsedCapacity={null}
 />
 `;
