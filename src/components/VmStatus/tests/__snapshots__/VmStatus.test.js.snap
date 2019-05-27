@@ -270,13 +270,13 @@ exports[`<VmStatus vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED) 
 >
   <span
     aria-hidden="true"
-    class="pficon pficon-unknown kubevirt-status__icon"
+    class="pficon pficon-error-circle-o kubevirt-status__icon"
   />
   <button
     class="kubevirt-status__button btn btn-link"
     type="button"
   >
-    Unknown
+    Importing Error (VMware)
   </button>
 </span>
 `;
@@ -584,13 +584,13 @@ exports[`<VmStatuses vm pod /> renders correctly 17 (VM_STATUS_CONVERSION_FAILED
   >
     <span
       aria-hidden="true"
-      class="pficon pficon-unknown kubevirt-status__icon"
+      class="pficon pficon-error-circle-o kubevirt-status__icon"
     />
     <button
       class="kubevirt-status__button btn btn-link"
       type="button"
     >
-      Unknown
+      Importing Error (VMware)
     </button>
   </span>
 </div>
