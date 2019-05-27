@@ -655,7 +655,7 @@ Array [
           <div>
             <span
               aria-hidden="true"
-              class="pficon pficon-refresh kubevirt-status__icon"
+              class="pficon pficon-ok kubevirt-status__icon"
             />
             Running
           </div>
@@ -1037,7 +1037,7 @@ exports[`<VmDetails /> renders correctly as overview 1`] = `
         <div>
           <span
             aria-hidden="true"
-            class="pficon pficon-refresh kubevirt-status__icon"
+            class="pficon pficon-ok kubevirt-status__icon"
           />
           Running
         </div>
@@ -2021,7 +2021,7 @@ Array [
           <div>
             <span
               aria-hidden="true"
-              class="pficon pficon-refresh kubevirt-status__icon"
+              class="pficon pficon-ok kubevirt-status__icon"
             />
             Running
           </div>

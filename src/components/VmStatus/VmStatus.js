@@ -107,7 +107,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
 
   const statusProps = {
     VM_STATUS_CONVERSION_IN_PROGRESS: {
-      icon: 'migration',
+      icon: 'in-progress',
       header: IMPORTING_VMWARE,
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
@@ -115,7 +115,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
     },
     VM_STATUS_V2V_CONVERSION_IN_PROGRESS: {
-      icon: 'migration',
+      icon: 'in-progress',
       header: IMPORTING_VMWARE,
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
@@ -123,7 +123,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
     },
     VM_STATUS_IMPORTING: {
-      icon: 'import',
+      icon: 'in-progress',
       header: IMPORTING,
       message: IMPORTING_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
@@ -132,7 +132,8 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
     },
 
     VM_STATUS_V2V_CONVERSION_PENDING: {
-      icon: 'pending',
+      icon: 'hourglass-half',
+      iconType: 'fa',
       header: IMPORTING_PENDING_VMWARE,
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
@@ -140,7 +141,8 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_VMI_WAITING: {
-      icon: 'pending',
+      icon: 'hourglass-half',
+      iconType: 'fa',
       header: PENDING,
       message: VMI_WAITING_MESSAGE,
       linkMessage: VIEW_VM_EVENTS,
@@ -201,7 +203,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
     },
 
     VM_STATUS_STARTING: {
-      icon: 'pending',
+      icon: 'in-progress',
       header: STARTING,
       message: STARTING_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
@@ -209,12 +211,12 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_RUNNING: {
-      icon: 'refresh',
+      icon: 'ok',
       iconType: 'fa',
       header: RUNNING,
     },
     VM_STATUS_MIGRATING: {
-      icon: 'migrating',
+      icon: 'in-progress',
       header: MIGRATING,
     },
     VM_STATUS_OFF: {
