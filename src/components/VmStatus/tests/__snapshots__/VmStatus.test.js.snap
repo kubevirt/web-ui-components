@@ -267,7 +267,7 @@ exports[`<VmStatus vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PROGR
 >
   <span
     aria-hidden="true"
-    class="pficon pficon-import kubevirt-status__icon"
+    class="pficon pficon-migration kubevirt-status__icon"
   />
   <button
     class="kubevirt-status__button btn btn-link"
@@ -597,7 +597,7 @@ exports[`<VmStatuses vm pod /> renders correctly 16 (VM_STATUS_CONVERSION_IN_PRO
   >
     <span
       aria-hidden="true"
-      class="pficon pficon-import kubevirt-status__icon"
+      class="pficon pficon-migration kubevirt-status__icon"
     />
     <button
       class="kubevirt-status__button btn btn-link"

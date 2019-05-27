@@ -107,7 +107,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
 
   const statusProps = {
     VM_STATUS_CONVERSION_IN_PROGRESS: {
-      icon: 'import',
+      icon: 'migration',
       header: IMPORTING_VMWARE,
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
@@ -115,7 +115,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
     },
     VM_STATUS_V2V_CONVERSION_IN_PROGRESS: {
-      icon: 'import',
+      icon: 'migration',
       header: IMPORTING_VMWARE,
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
