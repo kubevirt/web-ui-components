@@ -80,13 +80,13 @@ StatusProgressField.propTypes = {
 
 export const Status = ({ icon, children, iconType }) => (
   <React.Fragment>
-    {icon && <Icon type={iconType} name={icon} className="kubevirt-status__icon" />}
+    {icon && <Icon type={iconType || 'pf'} name={icon} className="kubevirt-status__icon" />}
     {children}
   </React.Fragment>
 );
 Status.defaultProps = {
-  iconType: 'pf',
   icon: null,
+  iconType: null,
 };
 Status.propTypes = {
   icon: PropTypes.string,
@@ -97,7 +97,7 @@ Status.propTypes = {
 export const PopoverStatus = ({ icon, iconType, header, children }) => (
   <Popover position="right" headerContent={header} bodyContent={children}>
     <span className="kubevirt-status__popover">
-      <Status icon={icon}>
+      <Status icon={icon} iconType={iconType}>
         <Button className="kubevirt-status__button" bsStyle="link">
           {header}
         </Button>
@@ -107,7 +107,7 @@ export const PopoverStatus = ({ icon, iconType, header, children }) => (
 );
 PopoverStatus.defaultProps = {
   icon: null,
-  iconType: 'pf',
+  iconType: null,
 };
 PopoverStatus.propTypes = {
   icon: PropTypes.string,
