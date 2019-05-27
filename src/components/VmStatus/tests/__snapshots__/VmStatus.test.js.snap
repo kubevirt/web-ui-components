@@ -21,20 +21,13 @@ Array [
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
-<span
-  class="kubevirt-status__popover"
->
+Array [
   <span
     aria-hidden="true"
-    class="pficon pficon-on-running kubevirt-status__icon"
-  />
-  <button
-    class="kubevirt-status__button btn btn-link"
-    type="button"
-  >
-    Running
-  </button>
-</span>
+    class="pficon pficon-refresh kubevirt-status__icon"
+  />,
+  "Running",
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 2 (VM_STATUS_STARTING) 1`] = `
@@ -225,20 +218,13 @@ exports[`<VmStatus vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
-<span
-  class="kubevirt-status__popover"
->
+Array [
   <span
     aria-hidden="true"
-    class="pficon pficon-on-running kubevirt-status__icon"
-  />
-  <button
-    class="kubevirt-status__button btn btn-link"
-    type="button"
-  >
-    Running
-  </button>
-</span>
+    class="pficon pficon-refresh kubevirt-status__icon"
+  />,
+  "Running",
+]
 `;
 
 exports[`<VmStatus vm pod /> renders correctly 14 (VM_STATUS_IMPORTING) 1`] = `
@@ -322,19 +308,10 @@ exports[`<VmStatuses vm pod /> renders correctly 0 (VM_STATUS_OFF) 1`] = `
 exports[`<VmStatuses vm pod /> renders correctly 1 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
-    class="kubevirt-status__popover"
-  >
-    <span
-      aria-hidden="true"
-      class="pficon pficon-on-running kubevirt-status__icon"
-    />
-    <button
-      class="kubevirt-status__button btn btn-link"
-      type="button"
-    >
-      Running
-    </button>
-  </span>
+    aria-hidden="true"
+    class="pficon pficon-refresh kubevirt-status__icon"
+  />
+  Running
 </div>
 `;
 
@@ -550,19 +527,10 @@ exports[`<VmStatuses vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = 
 exports[`<VmStatuses vm pod /> renders correctly 13 (VM_STATUS_RUNNING) 1`] = `
 <div>
   <span
-    class="kubevirt-status__popover"
-  >
-    <span
-      aria-hidden="true"
-      class="pficon pficon-on-running kubevirt-status__icon"
-    />
-    <button
-      class="kubevirt-status__button btn btn-link"
-      type="button"
-    >
-      Running
-    </button>
-  </span>
+    aria-hidden="true"
+    class="pficon pficon-refresh kubevirt-status__icon"
+  />
+  Running
 </div>
 `;
 

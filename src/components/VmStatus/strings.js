@@ -10,7 +10,6 @@ export const IMPORTING_VMWARE = 'Importing (VMware)';
 export const IMPORTING_PENDING_VMWARE = 'Import Pending (VMware)';
 export const IMPORTING_ERROR_VMWARE = 'Import Error (VMware)';
 export const VIEW_POD_EVENTS = 'View pod events';
-export const VIEW_POD_DETAILS = 'View pod details';
 export const VIEW_VM_EVENTS = 'View VM events';
 export const UNKNOWN = 'Unknown';
 export const OFF = 'Off';
@@ -23,4 +22,3 @@ export const IMPORTING_ERROR_MESSAGE = 'The virtual machine could not be importe
 export const VMI_WAITING_MESSAGE = 'The virtual machine is waiting for resources to become available.';
 export const STARTING_MESSAGE =
   'This virtual machine will start shortly. Preparing storage, networking, and compute resources.';
-export const RUNNING_MESSAGE = 'The virtual machine is ready.';

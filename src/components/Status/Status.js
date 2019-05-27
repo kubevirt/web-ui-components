@@ -78,21 +78,23 @@ StatusProgressField.propTypes = {
   progress: PropTypes.number.isRequired,
 };
 
-export const Status = ({ icon, children }) => (
+export const Status = ({ icon, children, iconType }) => (
   <React.Fragment>
-    {icon && <Icon type="pf" name={icon} className="kubevirt-status__icon" />}
+    {icon && <Icon type={iconType} name={icon} className="kubevirt-status__icon" />}
     {children}
   </React.Fragment>
 );
 Status.defaultProps = {
+  iconType: 'pf',
   icon: null,
 };
 Status.propTypes = {
   icon: PropTypes.string,
+  iconType: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-export const PopoverStatus = ({ icon, header, children }) => (
+export const PopoverStatus = ({ icon, iconType, header, children }) => (
   <Popover position="right" headerContent={header} bodyContent={children}>
     <span className="kubevirt-status__popover">
       <Status icon={icon}>
@@ -105,9 +107,11 @@ export const PopoverStatus = ({ icon, header, children }) => (
 );
 PopoverStatus.defaultProps = {
   icon: null,
+  iconType: 'pf',
 };
 PopoverStatus.propTypes = {
   icon: PropTypes.string,
+  iconType: PropTypes.string,
   header: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };

@@ -16,7 +16,6 @@ import {
   IMPORTING_PENDING_VMWARE,
   IMPORTING_VMWARE,
   VIEW_POD_EVENTS,
-  VIEW_POD_DETAILS,
   VIEW_VM_EVENTS,
   UNKNOWN,
   MIGRATING,
@@ -31,7 +30,6 @@ import {
   IMPORTING_ERROR_MESSAGE,
   VMI_WAITING_MESSAGE,
   STARTING_MESSAGE,
-  RUNNING_MESSAGE,
 } from './strings';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
@@ -54,9 +52,11 @@ VmPopoverStatusWrapper.defaultProps = {
   linkMessage: null,
   linkTo: null,
   children: null,
+  iconType: null,
 };
 VmPopoverStatusWrapper.propTypes = {
   icon: PropTypes.string.isRequired,
+  iconType: PropTypes.string,
   header: PropTypes.string.isRequired,
   message: PropTypes.string,
   children: PropTypes.any,
@@ -209,12 +209,9 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_RUNNING: {
-      icon: 'on-running',
+      icon: 'refresh',
+      iconType: 'fa',
       header: RUNNING,
-      message: RUNNING_MESSAGE,
-      linkMessage: VIEW_POD_DETAILS,
-      linkTo: getSubPagePath(statusDetail.launcherPod, PodModel),
-      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
     },
     VM_STATUS_MIGRATING: {
       icon: 'migrating',
