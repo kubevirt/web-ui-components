@@ -14,11 +14,11 @@ export const VIEW_POD_DETAILS = 'View pod details';
 export const VIEW_VM_EVENTS = 'View VM events';
 export const UNKNOWN = 'Unknown';
 export const OFF = 'Off';
-export const MIGRATING = 'Migration';
+export const MIGRATING = 'Migrating';
 export const IMPORTING_VMWARE_MESSAGE =
-  'The virtual machine is being imported from VMWare. Disks will be converted to the libvirt format.';
-export const IMPORTING_ERROR_VMWARE_MESSAGE = 'The virtual machine could not be imported from VMWare.';
-export const IMPORTING_MESSAGE = 'The virtual machine is being imported. Disks will be copied from source image.';
+  'The virtual machine is being imported from VMware. Disks will be converted to the libvirt format.';
+export const IMPORTING_ERROR_VMWARE_MESSAGE = 'The virtual machine could not be imported from VMware.';
+export const IMPORTING_MESSAGE = 'The virtual machine is being imported. Disks are being copied from the source image.';
 export const IMPORTING_ERROR_MESSAGE = 'The virtual machine could not be imported.';
 export const VMI_WAITING_MESSAGE = 'The virtual machine is waiting for resources to become available.';
 export const STARTING_MESSAGE = 'The virtual machine wait for state to become ready.';
