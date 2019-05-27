@@ -111,22 +111,3 @@ PopoverStatus.propTypes = {
   header: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
-
-export const PopoverLinkStatus = ({ icon, header, children, linkMessage, linkTo }) => (
-  <PopoverStatus icon={icon} header={header}>
-    {children}
-    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
-  </PopoverStatus>
-);
-PopoverLinkStatus.defaultProps = {
-  icon: null,
-  linkMessage: null,
-  linkTo: null,
-};
-PopoverLinkStatus.propTypes = {
-  icon: PropTypes.string,
-  header: PropTypes.string.isRequired,
-  linkMessage: PropTypes.string,
-  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-};

@@ -20,7 +20,7 @@ import {
   getVmStatus,
 } from '../../utils/status/vm';
 import { getId, getVmImporterPods } from '../../selectors';
-import { Status, PopoverLinkStatus, StatusDescriptionField, StatusProgressField } from '../Status';
+import { Status, PopoverStatus, StatusLinkField, StatusDescriptionField, StatusProgressField } from '../Status';
 import {
   RUNNING,
   PENDING,
@@ -42,123 +42,163 @@ import {
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 
-const StateRunning = ({ children, ...props }) => (
-  <PopoverLinkStatus icon="on-running" {...props} header={RUNNING}>
+const StateRunning = ({ children, linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="on-running" {...props} header={RUNNING}>
     <StatusDescriptionField content={props.message} />
     {children || ''}
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateRunning.defaultProps = {
   children: null,
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateRunning.propTypes = {
   message: PropTypes.string,
   children: PropTypes.any,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 const StateOff = () => <Status icon="off">Off</Status>;
 const StateUnknown = () => <Status icon="unknown">{UNKNOWN}</Status>;
 const StateMigrating = () => <Status icon="migration">{MIGRATING}</Status>;
-const StateVmiWaiting = ({ children, ...props }) => (
-  <PopoverLinkStatus icon="pending" {...props} header={PENDING}>
+const StateVmiWaiting = ({ children, linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="pending" {...props} header={PENDING}>
     <StatusDescriptionField content={props.message} />
     {children || ''}
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateVmiWaiting.defaultProps = {
   children: null,
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateVmiWaiting.propTypes = {
   message: PropTypes.string,
   children: PropTypes.any,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const StateStarting = ({ children, ...props }) => (
-  <PopoverLinkStatus icon="pending" {...props} header={STARTING}>
+const StateStarting = ({ children, linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="pending" {...props} header={STARTING}>
     <StatusDescriptionField content={props.message} />
     {children || ''}
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateStarting.defaultProps = {
   children: null,
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateStarting.propTypes = {
   message: PropTypes.string,
   children: PropTypes.any,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const StateImporting = ({ children, ...props }) => (
-  <PopoverLinkStatus icon="import" {...props} header={IMPORTING}>
+const StateImporting = ({ children, linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="import" {...props} header={IMPORTING}>
     <StatusDescriptionField content={props.message} />
     {children || ''}
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateImporting.defaultProps = {
   children: null,
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateImporting.propTypes = {
   message: PropTypes.string,
   children: PropTypes.any,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const StateV2VConversionInProgress = ({ progress, ...props }) => (
-  <PopoverLinkStatus icon="import" {...props} header={IMPORTING_VMWARE}>
+const StateV2VConversionInProgress = ({ progress, linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="import" {...props} header={IMPORTING_VMWARE}>
     <StatusDescriptionField content={props.message} />
     <StatusProgressField title={IMPORTING} progress={progress} />
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateV2VConversionInProgress.defaultProps = {
   progress: null,
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateV2VConversionInProgress.propTypes = {
   progress: PropTypes.number,
   message: PropTypes.string,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const StateV2VConversionPending = ({ ...props }) => (
-  <PopoverLinkStatus icon="pending" {...props} header={IMPORTING_PENDING_VMWARE}>
+const StateV2VConversionPending = ({ linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="pending" {...props} header={IMPORTING_PENDING_VMWARE}>
     <StatusDescriptionField content={props.message} />
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateV2VConversionPending.defaultProps = {
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateV2VConversionPending.propTypes = {
   message: PropTypes.string,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const StateV2VConversionError = ({ ...props }) => (
-  <PopoverLinkStatus icon="error-circle-o" {...props} header={IMPORTING_ERROR_VMWARE}>
+const StateV2VConversionError = ({ linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="error-circle-o" {...props} header={IMPORTING_ERROR_VMWARE}>
     <StatusDescriptionField content={props.message} />
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateV2VConversionError.defaultProps = {
   message: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateV2VConversionError.propTypes = {
   message: PropTypes.string,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-const StateError = ({ children, header, ...props }) => (
-  <PopoverLinkStatus icon="error-circle-o" {...props} header={header}>
+const StateError = ({ children, header, linkTo, linkMessage, ...props }) => (
+  <PopoverStatus icon="error-circle-o" {...props} header={header}>
     <StatusDescriptionField content={props.message} />
     {children || ''}
-  </PopoverLinkStatus>
+    {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
+  </PopoverStatus>
 );
 StateError.defaultProps = {
   header: ERROR,
   message: null,
   children: null,
+  linkMessage: null,
+  linkTo: null,
 };
 StateError.propTypes = {
   header: PropTypes.string,
   message: PropTypes.string,
   children: PropTypes.any,
+  linkMessage: PropTypes.string,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export const VmStatuses = props => {
