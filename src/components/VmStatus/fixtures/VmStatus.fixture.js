@@ -26,7 +26,7 @@ export default [
     props: {
       vm: vmFixtures[1].vm,
       migrations: vmFixtures[1].migrations,
-      pods: vmFixtures[1].podsFixture,
+      pods: vmFixtures[2].podsFixture,
     },
   },
   {
