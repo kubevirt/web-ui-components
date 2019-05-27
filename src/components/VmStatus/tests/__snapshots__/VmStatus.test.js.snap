@@ -219,7 +219,7 @@ exports[`<VmStatus vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = `
     class="kubevirt-status__button btn btn-link"
     type="button"
   >
-    Migration
+    Migrating
   </button>
 </span>
 `;
@@ -541,7 +541,7 @@ exports[`<VmStatuses vm pod /> renders correctly 12 (VM_STATUS_MIGRATING) 1`] = 
       class="kubevirt-status__button btn btn-link"
       type="button"
     >
-      Migration
+      Migrating
     </button>
   </span>
 </div>
