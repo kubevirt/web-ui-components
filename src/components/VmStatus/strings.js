@@ -21,5 +21,5 @@ export const IMPORTING_ERROR_VMWARE_MESSAGE = 'The virtual machine could not be 
 export const IMPORTING_MESSAGE = 'The virtual machine is being imported. Disks are being copied from the source image.';
 export const IMPORTING_ERROR_MESSAGE = 'The virtual machine could not be imported.';
 export const VMI_WAITING_MESSAGE = 'The virtual machine is waiting for resources to become available.';
-export const STARTING_MESSAGE = 'The virtual machine wait for state to become ready.';
+export const STARTING_MESSAGE = 'The virtual machine is preparing to start.';
 export const RUNNING_MESSAGE = 'The virtual machine is ready.';
