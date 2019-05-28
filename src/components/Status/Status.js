@@ -4,8 +4,6 @@ import { Popover, Progress, ProgressVariant, ProgressSize } from '@patternfly/re
 import { Icon, Button } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
-import { STATUS_DANGER, STATUS_SUCCESS, STATUS_INFO } from '../../utils/status/common';
-
 const StatusField = ({ children }) => <div className="kubevirt-status__field">{children}</div>;
 StatusField.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
@@ -42,31 +40,24 @@ StatusLinkField.propTypes = {
   linkTo: PropTypes.string.isRequired,
 };
 
-export const StatusProgressField = ({ title, progress, barType }) => {
-  const variants = {
-    STATUS_INFO: ProgressVariant.info,
-    STATUS_SUCCESS: ProgressVariant.success,
-    STATUS_DANGER: ProgressVariant.danger,
-  };
-  return (
-    <StatusField>
-      <Progress
-        className="kubevirt-status__field-progress"
-        value={progress}
-        title={title}
-        variant={variants[barType] || ProgressVariant.info}
-        size={ProgressSize.sm}
-      />
-    </StatusField>
-  );
-};
+export const StatusProgressField = ({ title, progress, barType }) => (
+  <StatusField>
+    <Progress
+      className="kubevirt-status__field-progress"
+      value={progress}
+      title={title}
+      variant={barType || ProgressVariant.info}
+      size={ProgressSize.sm}
+    />
+  </StatusField>
+);
 StatusProgressField.defaultProps = {
   title: null,
-  barType: STATUS_INFO,
+  barType: null,
 };
 StatusProgressField.propTypes = {
   title: PropTypes.string,
-  barType: PropTypes.oneOf([STATUS_INFO, STATUS_SUCCESS, STATUS_DANGER]),
+  barType: PropTypes.oneOf([ProgressVariant.info, ProgressVariant.success, ProgressVariant.danger]),
   progress: PropTypes.number.isRequired,
 };
 
