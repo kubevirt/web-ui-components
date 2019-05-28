@@ -6,39 +6,33 @@ import PropTypes from 'prop-types';
 
 import { STATUS_DANGER, STATUS_SUCCESS, STATUS_INFO } from '../../utils/status/common';
 
-const StatusField = ({ content }) => <div className="kubevirt-status__field">{content}</div>;
+const StatusField = ({ children }) => <div className="kubevirt-status__field">{children}</div>;
 StatusField.propTypes = {
-  content: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
-export const StatusDescriptionField = ({ title, content }) => (
-  <StatusField
-    content={
-      <React.Fragment>
-        {title ? <div className="kubevirt-status__field-header">{title}</div> : ''}
-        <div className="kubevirt-status__field-description">{content}</div>
-      </React.Fragment>
-    }
-  />
+export const StatusDescriptionField = ({ title, children }) => (
+  <StatusField>
+    {title ? <div className="kubevirt-status__field-header">{title}</div> : ''}
+    <div className="kubevirt-status__field-description">{children}</div>
+  </StatusField>
 );
 StatusDescriptionField.defaultProps = {
   title: null,
 };
 StatusDescriptionField.propTypes = {
   title: PropTypes.string,
-  content: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
 };
 
 export const StatusLinkField = ({ title, linkTo }) => (
-  <StatusField
-    content={
-      <div className="kubevirt-status__field-link">
-        <Link to={linkTo} title={title}>
-          {title || linkTo}
-        </Link>
-      </div>
-    }
-  />
+  <StatusField>
+    <div className="kubevirt-status__field-link">
+      <Link to={linkTo} title={title}>
+        {title || linkTo}
+      </Link>
+    </div>
+  </StatusField>
 );
 StatusLinkField.defaultProps = {
   title: null,
@@ -55,17 +49,15 @@ export const StatusProgressField = ({ title, progress, barType }) => {
     STATUS_DANGER: ProgressVariant.danger,
   };
   return (
-    <StatusField
-      content={
-        <Progress
-          className="kubevirt-status__field-progress"
-          value={progress}
-          title={title}
-          variant={variants[barType] || ProgressVariant.info}
-          size={ProgressSize.sm}
-        />
-      }
-    />
+    <StatusField>
+      <Progress
+        className="kubevirt-status__field-progress"
+        value={progress}
+        title={title}
+        variant={variants[barType] || ProgressVariant.info}
+        size={ProgressSize.sm}
+      />
+    </StatusField>
   );
 };
 StatusProgressField.defaultProps = {

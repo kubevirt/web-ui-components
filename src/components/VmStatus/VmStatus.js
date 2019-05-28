@@ -37,7 +37,7 @@ const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_
 const VmPopoverStatusWrapper = ({ icon, header, message, children, progress, linkTo, linkMessage, ...props }) =>
   message ? (
     <PopoverStatus icon={icon} {...props} header={header}>
-      <StatusDescriptionField content={message} />
+      <StatusDescriptionField>{message}</StatusDescriptionField>
       {children || ''}
       {progress !== null ? <StatusProgressField title={IMPORTING} progress={progress} /> : ''}
       {linkTo ? <StatusLinkField title={linkMessage} linkTo={linkTo} /> : ''}
@@ -112,7 +112,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-      children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
+      children: additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : '',
     },
     VM_STATUS_V2V_CONVERSION_IN_PROGRESS: {
       icon: 'in-progress',
@@ -120,7 +120,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-      children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
+      children: additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : '',
     },
     VM_STATUS_IMPORTING: {
       icon: 'in-progress',
@@ -128,7 +128,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       message: IMPORTING_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-      children: additionalText ? <StatusDescriptionField content={additionalText} /> : '',
+      children: additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : '',
     },
 
     VM_STATUS_V2V_CONVERSION_PENDING: {
@@ -138,7 +138,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       message: IMPORTING_VMWARE_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
-      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
+      children: statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : '',
     },
     VM_STATUS_VMI_WAITING: {
       icon: 'hourglass-half',
@@ -147,7 +147,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       message: VMI_WAITING_MESSAGE,
       linkMessage: VIEW_VM_EVENTS,
       linkTo: getSubPagePath(vm, VirtualMachineModel, 'events'),
-      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
+      children: statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : '',
     },
 
     VM_STATUS_ERROR: {
@@ -170,8 +170,8 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
       children: (
         <React.Fragment>
-          {statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : ''}
-          {additionalText ? <StatusDescriptionField content={additionalText} /> : ''}
+          {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
+          {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
         </React.Fragment>
       ),
     },
@@ -183,8 +183,8 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
       children: (
         <React.Fragment>
-          {statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : ''}
-          {additionalText ? <StatusDescriptionField content={additionalText} /> : ''}
+          {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
+          {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
         </React.Fragment>
       ),
     },
@@ -196,8 +196,8 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       linkTo: getSubPagePath(statusDetail.pod, PodModel, 'events'),
       children: (
         <React.Fragment>
-          {statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : ''}
-          {additionalText ? <StatusDescriptionField content={additionalText} /> : ''}
+          {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
+          {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
         </React.Fragment>
       ),
     },
@@ -208,7 +208,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
       message: STARTING_MESSAGE,
       linkMessage: VIEW_POD_EVENTS,
       linkTo: getSubPagePath(statusDetail.launcherPod, PodModel, 'events'),
-      children: statusDetail.message ? <StatusDescriptionField content={statusDetail.message} /> : '',
+      children: statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : '',
     },
     VM_STATUS_RUNNING: {
       icon: 'ok',
