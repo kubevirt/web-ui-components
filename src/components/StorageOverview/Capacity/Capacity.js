@@ -15,26 +15,31 @@ import { formatBytes } from '../../../utils';
 import { getCapacityStats } from '../../../selectors';
 import { CapacityBody } from '../../Dashboard/Capacity/CapacityBody';
 
-export const Capacity = ({ capacityTotal, capacityUsed, LoadingComponent }) => (
-  <DashboardCard className="kubevirt-capacity__card">
-    <DashboardCardHeader>
-      <DashboardCardTitle>Capacity</DashboardCardTitle>
-    </DashboardCardHeader>
-    <DashboardCardBody>
-      <CapacityBody>
-        <CapacityItem
-          id="capacity"
-          title="Total capacity"
-          used={getCapacityStats(capacityUsed)}
-          total={getCapacityStats(capacityTotal)}
-          formatValue={formatBytes}
-          LoadingComponent={LoadingComponent}
-          isLoading={!(capacityUsed && capacityTotal)}
-        />
-      </CapacityBody>
-    </DashboardCardBody>
-  </DashboardCard>
-);
+export class Capacity extends React.PureComponent {
+  render() {
+    const { capacityTotal, capacityUsed, LoadingComponent } = this.props;
+    return (
+      <DashboardCard className="kubevirt-capacity__card">
+        <DashboardCardHeader>
+          <DashboardCardTitle>Capacity</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody>
+          <CapacityBody>
+            <CapacityItem
+              id="capacity"
+              title="Total capacity"
+              used={getCapacityStats(capacityUsed)}
+              total={getCapacityStats(capacityTotal)}
+              formatValue={formatBytes}
+              LoadingComponent={LoadingComponent}
+              isLoading={!(capacityUsed && capacityTotal)}
+            />
+          </CapacityBody>
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 Capacity.defaultProps = {
   capacityTotal: null,
@@ -49,5 +54,21 @@ Capacity.propTypes = {
 };
 
 export const CapacityConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <Capacity {...props} />}</StorageOverviewContext.Consumer>
+  <StorageOverviewContext.Consumer>
+    {props => (
+      <Capacity
+        capacityTotal={props.capacityTotal}
+        capacityUsed={props.capacityUsed}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
+  </StorageOverviewContext.Consumer>
 );
+
+CapacityConnected.propTypes = {
+  ...Capacity.propTypes,
+};
+
+CapacityConnected.defaultProps = {
+  ...Capacity.defaultProps,
+};

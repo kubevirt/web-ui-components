@@ -42,31 +42,34 @@ const DataResiliencyBuildBody = ({ progressPercentage }) => (
   </Fragment>
 );
 
-export const DataResiliency = ({ totalPgRaw, cleanAndActivePgRaw, LoadingComponent }) => {
-  const totalPg = getCapacityStats(totalPgRaw);
-  const cleanAndActivePg = getCapacityStats(cleanAndActivePgRaw);
-  const progressPercentage =
-    totalPg && cleanAndActivePg ? Number(((cleanAndActivePg / totalPg) * 100).toFixed(1)) : null;
+export class DataResiliency extends React.PureComponent {
+  render() {
+    const { totalPgRaw, cleanAndActivePgRaw, LoadingComponent } = this.props;
+    const totalPg = getCapacityStats(totalPgRaw);
+    const cleanAndActivePg = getCapacityStats(cleanAndActivePgRaw);
+    const progressPercentage =
+      totalPg && cleanAndActivePg ? Number(((cleanAndActivePg / totalPg) * 100).toFixed(1)) : null;
 
-  return (
-    <DashboardCard>
-      <DashboardCardHeader>
-        <DashboardCardTitle>Data Resiliency</DashboardCardTitle>
-      </DashboardCardHeader>
-      <DashboardCardBody
-        className="kubevirt-data-resiliency__dashboard-body"
-        isLoading={!(totalPgRaw && cleanAndActivePgRaw)}
-        LoadingComponent={LoadingComponent}
-      >
-        {progressPercentage >= 100 || !progressPercentage ? (
-          <DataResiliencyStatusBody isResilient={progressPercentage} />
-        ) : (
-          <DataResiliencyBuildBody progressPercentage={progressPercentage} />
-        )}
-      </DashboardCardBody>
-    </DashboardCard>
-  );
-};
+    return (
+      <DashboardCard>
+        <DashboardCardHeader>
+          <DashboardCardTitle>Data Resiliency</DashboardCardTitle>
+        </DashboardCardHeader>
+        <DashboardCardBody
+          className="kubevirt-data-resiliency__dashboard-body"
+          isLoading={!(totalPgRaw && cleanAndActivePgRaw)}
+          LoadingComponent={LoadingComponent}
+        >
+          {progressPercentage >= 100 || !progressPercentage ? (
+            <DataResiliencyStatusBody isResilient={progressPercentage} />
+          ) : (
+            <DataResiliencyBuildBody progressPercentage={progressPercentage} />
+          )}
+        </DashboardCardBody>
+      </DashboardCard>
+    );
+  }
+}
 
 DataResiliency.defaultProps = {
   totalPgRaw: null,
@@ -97,5 +100,21 @@ DataResiliencyStatusBody.propTypes = {
 };
 
 export const DataResiliencyConnected = () => (
-  <StorageOverviewContext.Consumer>{props => <DataResiliency {...props} />}</StorageOverviewContext.Consumer>
+  <StorageOverviewContext.Consumer>
+    {props => (
+      <DataResiliency
+        totalPgRaw={props.totalPgRaw}
+        cleanAndActivePgRaw={props.cleanAndActivePgRaw}
+        LoadingComponent={props.LoadingComponent}
+      />
+    )}
+  </StorageOverviewContext.Consumer>
 );
+
+DataResiliencyConnected.defaultProps = {
+  ...DataResiliency.defaultProps,
+};
+
+DataResiliencyConnected.propTypes = {
+  ...DataResiliency.propTypes,
+};

@@ -49,6 +49,8 @@ export default [
   {
     component: StorageOverview,
     name: 'Loading overview',
-    props: {},
+    props: {
+      EventStreamComponent,
+    },
   },
 ];
