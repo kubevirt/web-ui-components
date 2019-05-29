@@ -20,8 +20,8 @@ import {
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_MIGRATING,
-  VM_STATUS_CONVERSION_FAILED,
-  VM_STATUS_CONVERSION_IN_PROGRESS,
+  // VM_STATUS_CONVERSION_FAILED,
+  // VM_STATUS_CONVERSION_IN_PROGRESS,
   getVmStatus,
 } from '../../utils/status/vm';
 import {
@@ -202,20 +202,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
         </VmStatusError>
       );
     case VM_STATUS_V2V_CONVERSION_ERROR:
-      return (
-        <VmStatusError
-          header={IMPORTING_ERROR_VMWARE}
-          message={IMPORTING_ERROR_VMWARE_MESSAGE}
-          linkMessage={VIEW_VM_EVENTS}
-          linkTo={linkToVMEvents}
-        >
-          <React.Fragment>
-            {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
-            {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
-          </React.Fragment>
-        </VmStatusError>
-      );
-    case VM_STATUS_CONVERSION_FAILED:
+      // case VM_STATUS_CONVERSION_FAILED:
       return (
         <VmStatusError
           header={IMPORTING_ERROR_VMWARE}
@@ -243,7 +230,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
         </VmStatusInProgress>
       );
     case VM_STATUS_V2V_CONVERSION_IN_PROGRESS:
-    case VM_STATUS_CONVERSION_IN_PROGRESS:
+      // case VM_STATUS_CONVERSION_IN_PROGRESS:
       return (
         <VmStatusInProgress
           header={IMPORTING_VMWARE}
