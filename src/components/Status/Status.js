@@ -11,7 +11,7 @@ StatusField.propTypes = {
 
 export const StatusDescriptionField = ({ title, children }) => (
   <StatusField>
-    {title ? <div className="kubevirt-status__field-header">{title}</div> : ''}
+    {title && <div className="kubevirt-status__field-header">{title}</div>}
     <div className="kubevirt-status__field-description">{children}</div>
   </StatusField>
 );
