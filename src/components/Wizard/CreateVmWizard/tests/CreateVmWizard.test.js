@@ -22,10 +22,6 @@ const testCreateVmWizard = createTemplate => {
 };
 
 describe('<CreateVmWizard />', () => {
-  beforeEach(() => {
-    console.warn = jest.fn(); // redux Id warning when not properly connected to the store
-  });
-
   it('it renders', () => {
     const component = mount(testCreateVmWizard());
     expect(component.html()).toMatchSnapshot(); // expect(component).toMatchSnapshot() freezes
@@ -39,10 +35,9 @@ describe('<CreateVmWizard />', () => {
     expect(component.find(WizardPattern)).toHaveLength(0);
   });
 
-  it('is visible when mounted and calls uninitialized reduxId warn', () => {
+  it('is visible when mounted', () => {
     const component = mount(testCreateVmWizard());
     expect(component.find(WizardPattern).props().show).toBeTruthy();
-    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
   it("onStepChanged doesn't update activeStepIndex due to invalid form", () => {
@@ -66,14 +61,9 @@ describe('<CreateVmWizard />', () => {
 });
 
 describe('<CreateVmWizard /> template', () => {
-  beforeEach(() => {
-    console.warn = jest.fn();
-  });
-
-  it('is visible when mounted and calls uninitialized reduxId warn', () => {
+  it('is visible when mounted ', () => {
     const component = mount(testCreateVmWizard(true));
     expect(component.find(WizardPattern).props().show).toBeTruthy();
-    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
   it('checks initial values', () => {

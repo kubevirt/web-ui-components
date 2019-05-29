@@ -1,4 +1,6 @@
-import { get, findKeySuffixValue, getValueByPrefix } from './internal';
+import { Iterable } from 'immutable';
+
+import { findKeySuffixValue, get, len, getValueByPrefix } from './internal';
 
 export const getKind = value => get(value, 'kind');
 export const getApiGroup = value => get(value, 'apiGroup');
@@ -17,18 +19,23 @@ export const getStorageSize = resources => get(resources, 'requests.storage');
 export const getStatusPhase = entity => get(entity, 'status.phase');
 export const getStatusConditions = entity => get(entity, 'status.conditions', []);
 export const getStatusConditionOfType = (entity, type) =>
-  getStatusConditions(entity).find(condition => condition.type === type);
+  getStatusConditions(entity).find(condition => get(condition, 'type') === type);
 
 export const getFalseStatusConditions = entity =>
-  getStatusConditions(entity).filter(condition => condition.status !== 'True');
+  getStatusConditions(entity).filter(condition => !isConditionStatusTrue(condition));
 
 export const findFalseStatusConditionMessage = entity => {
   const notReadyConditions = getFalseStatusConditions(entity);
-  if (notReadyConditions.length > 0) {
-    return notReadyConditions[0].message || `Step: ${notReadyConditions[0].type}`;
+  if (len(notReadyConditions) > 0) {
+    const firstCond = Iterable.isIterable(notReadyConditions) ? notReadyConditions.first() : notReadyConditions[0];
+    return get(firstCond, 'message') || `Step: ${get(firstCond, 'type')}`;
   }
   return undefined;
 };
+
+export const getConditionReason = condition => get(condition, 'reason');
+export const isConditionStatusTrue = condition => get(condition, 'status') === 'True';
+export const isConditionReason = (condition, reason) => getConditionReason(condition) === reason;
 
 export const getLabelKeyValue = (entity, label) => {
   const labels = get(entity, 'metadata.labels', {});

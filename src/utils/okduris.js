@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from '../selectors/internal';
 
 export const getSubPagePath = (apiObj, model, subPage) => {
   if (!apiObj || !model) {

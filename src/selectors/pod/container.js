@@ -1,27 +1,37 @@
-import { get, includes } from 'lodash';
+import { get, getConditionReason } from '..';
 
-const failedWaitingContainerReasons = ['ImagePullBackOff', 'ErrImagePull', 'CrashLoopBackOff'];
-const failedTerminationContaineReasons = ['Error'];
+import { Iterable } from 'immutable';
+
+const failedWaitingContainerReasons = new Set(['ImagePullBackOff', 'ErrImagePull', 'CrashLoopBackOff']);
+const failedTerminationContaineReasons = new Set(['Error']);
 
 const getContainerWaitingReason = container => get(container, 'state.waiting.reason');
 export const getContainerImage = container => get(container, 'image');
 const getContainerTerminatedReason = container => get(container, 'state.terminated.reason');
 
 const stateReasonResolver = {
-  terminated: ({ reason, exitCode }) => `Terminated with ${reason}${exitCode ? ` (exit code ${exitCode}).` : '.'}`,
-  waiting: ({ reason }) => `Waiting (${reason}).`,
+  terminated: o => {
+    const exitCode = get(o, 'exitCode');
+    return `Terminated with ${getConditionReason(o)}${exitCode ? ` (exit code ${exitCode}).` : '.'}`;
+  },
+  waiting: o => `Waiting (${getConditionReason(o)}).`,
 };
 export const isContainerFailing = container =>
-  !container.ready &&
-  (includes(failedWaitingContainerReasons, getContainerWaitingReason(container)) ||
-    includes(failedTerminationContaineReasons, getContainerTerminatedReason(container)));
+  (!get(container, 'ready') && failedWaitingContainerReasons.has(getContainerWaitingReason(container))) ||
+  failedTerminationContaineReasons.has(getContainerTerminatedReason(container));
 
 export const getContainerStatusReason = containerStatus => {
-  if (containerStatus) {
-    const stateName = Object.getOwnPropertyNames(containerStatus.state).find(pn => !!containerStatus.state[pn].reason);
+  const state = get(containerStatus, 'state');
+  if (state) {
+    const stateKeys = Iterable.isIterable(state) ? state.keySeq() : Object.keys(state);
+    const stateName = stateKeys.find(pn => !!get(state, [pn, 'reason']));
     if (stateName) {
-      const state = containerStatus.state[stateName];
-      return state.message || (stateReasonResolver[stateName] && stateReasonResolver[stateName](state)) || stateName;
+      const foundState = get(state, stateName);
+      return (
+        get(foundState, 'message') ||
+        (stateReasonResolver[stateName] && stateReasonResolver[stateName](foundState)) ||
+        stateName
+      );
     }
   }
   return undefined;

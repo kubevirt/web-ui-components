@@ -2,10 +2,166 @@
 
 exports[`<VMWareImportProvider /> renders correctly 1`] = `
 <VMWareImportProvider
+  deployment={null}
+  deploymentPods={null}
   v2vvmware={null}
   vCenterSecrets={null}
   vmwareToKubevirtOsConfigMap={null}
 >
+  <FormRow
+    className={null}
+    controlSize={5}
+    help=""
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="PROVIDER_VMWARE_V2V_LAST_ERROR"
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <HelpFormRow
+      className={null}
+      controlSize={5}
+      help=""
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <ValidationFormRow
+        className={null}
+        controlSize={5}
+        help=""
+        id={null}
+        isHidden={false}
+        isRequired={false}
+        labelSize={3}
+        textPosition="text-right"
+        title=""
+        validation={Object {}}
+      >
+        <FormGroup
+          bsClass="form-group"
+          className="kubevirt-form-group"
+          id={null}
+          validationState={null}
+        >
+          <div
+            className="kubevirt-form-group form-group"
+            id={null}
+          >
+            <Col
+              bsClass="col"
+              className="text-right"
+              componentClass="div"
+              sm={3}
+            >
+              <div
+                className="text-right col-sm-3"
+              >
+                <FormControlLabel
+                  help=""
+                  isRequired={false}
+                  title=""
+                >
+                  <ControlLabel
+                    bsClass="control-label"
+                    className={null}
+                    srOnly={false}
+                  >
+                    <label
+                      className="control-label"
+                    />
+                  </ControlLabel>
+                </FormControlLabel>
+              </div>
+            </Col>
+            <Col
+              bsClass="col"
+              componentClass="div"
+              sm={5}
+            >
+              <div
+                className="col-sm-5"
+              >
+                <VMWareControllerErrors
+                  errors={null}
+                  id="v2v-vmware-error"
+                />
+              </div>
+            </Col>
+          </div>
+        </FormGroup>
+      </ValidationFormRow>
+    </HelpFormRow>
+  </FormRow>
+  <VMWareControllerStatusRow
+    controlSize={5}
+    deployment={null}
+    deploymentPods={null}
+    hasErrors={false}
+    id="v2v-vmware-status"
+    labelSize={3}
+  >
+    <FormGroup
+      bsClass="form-group"
+    >
+      <div
+        className="form-group"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={3}
+        >
+          <div
+            className="col-sm-3"
+          />
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={5}
+        >
+          <div
+            className="col-sm-5"
+          >
+            <NoDeployment
+              id="v2v-vmware-status"
+              status="V2V_WMWARE_DEPLOYMENT_STATUS_UNKNOWN"
+            >
+              <VMwareStatusField
+                id={null}
+              >
+                <div
+                  className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+                  id={null}
+                >
+                  Starting VMware controller... 
+                  <Spinner
+                    className=""
+                    inline={false}
+                    inverse={false}
+                    loading={true}
+                    size="sm"
+                  >
+                    <div
+                      className="spinner spinner-sm"
+                    />
+                  </Spinner>
+                </div>
+              </VMwareStatusField>
+            </NoDeployment>
+          </div>
+        </Col>
+      </div>
+    </FormGroup>
+  </VMWareControllerStatusRow>
   <FormRow
     className={null}
     controlSize={5}
@@ -1249,19 +1405,22 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
               <div
                 className="col-sm-5"
               >
-                <VMWareProviderStatus
+                <VMWareObjectStatus
                   status={null}
                 >
                   <ConnectionUnknown>
-                    <StatusField>
+                    <VMwareStatusField
+                      id={null}
+                    >
                       <div
                         className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+                        id={null}
                       >
                         Status unknown
                       </div>
-                    </StatusField>
+                    </VMwareStatusField>
                   </ConnectionUnknown>
-                </VMWareProviderStatus>
+                </VMWareObjectStatus>
               </div>
             </Col>
           </div>

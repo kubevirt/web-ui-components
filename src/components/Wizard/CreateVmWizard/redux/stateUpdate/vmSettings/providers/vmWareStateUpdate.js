@@ -1,6 +1,8 @@
 import {
+  CPU_KEY,
   DESCRIPTION_KEY,
   FLAVOR_KEY,
+  MEMORY_KEY,
   NAME_KEY,
   NAMESPACE_KEY,
   OPERATING_SYSTEM_KEY,
@@ -9,11 +11,9 @@ import {
   PROVISION_SOURCE_TYPE_KEY,
   USE_CLOUD_INIT_KEY,
   WORKLOAD_PROFILE_KEY,
-  MEMORY_KEY,
-  CPU_KEY,
 } from '../../../../constants';
 import { startV2VVMWareController } from '../../../../../../../k8s/requests/v2v';
-import { getName, get } from '../../../../../../../selectors';
+import { get, getName } from '../../../../../../../selectors';
 import { EnhancedK8sMethods } from '../../../../../../../k8s/util';
 import { cleanupAndGetResults, errorsFirstSort } from '../../../../../../../k8s/util/k8sMethodsUtils';
 import {
@@ -30,6 +30,7 @@ import {
   asHidden,
   asRequired,
   getVmSettingValue,
+  hasProp,
   hasVmSettingsChanged,
   VMWARE_PROVIDER_METADATA_ID,
 } from '../../../../utils/vmSettingsTabUtils';
@@ -37,11 +38,12 @@ import {
   PROVIDER_VMWARE,
   PROVIDER_VMWARE_CHECK_CONNECTION_KEY,
   PROVIDER_VMWARE_HOSTNAME_KEY,
-  PROVIDER_VMWARE_V2V_NAME_KEY,
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_STATUS_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
+  PROVIDER_VMWARE_V2V_LAST_ERROR,
+  PROVIDER_VMWARE_V2V_NAME_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
 } from '../../../../providers/VMwareImportProvider/constants';
@@ -60,12 +62,17 @@ import {
 import { internalTypes, vmWizardInternalActions } from '../../../actions';
 import { getLoadedVm, getThumbprint } from '../../../../../../../selectors/v2v';
 import { deleteV2VvmwareObject } from '../../../../../../../k8s/requests/v2v/deleteV2VvmwareObject';
+import {
+  getSimpleV2vVMwareDeploymentStatus,
+  V2V_WMWARE_DEPLOYMENT_STATUS_ROLLOUT_COMPLETE,
+} from '../../../../../../../utils/status/v2vVMwareDeployment';
 
 const { info, warn, error } = console;
 
 export const getVmwareProviderStateUpdate = options =>
   [
     startControllerAndCleanup,
+    deploymentChanged,
     v2vVmWareUpdater,
     providerUpdater,
     secretUpdater,
@@ -86,18 +93,44 @@ export const startControllerAndCleanup = options => {
   const namespace = getVmSettingValue(state, id, NAMESPACE_KEY);
 
   if (isVmwareProvider(state, id) && namespace) {
-    startV2VVMWareControllerWithCleanup(options, { namespace }); // fire side effect
+    startV2VVMWareControllerWithCleanup(options); // fire side effect
+
+    const name = getVmwareField(prevState, id, PROVIDER_VMWARE_V2V_NAME_KEY);
+    if (name) {
+      // delete stale object
+      deleteV2VvmwareObject(
+        {
+          name,
+          namespace,
+        },
+        props
+      );
+    }
+  }
+};
+
+export const deploymentChanged = options => {
+  const { id, props, changedProps, dispatch } = options;
+
+  if (!changedProps.deployment && !changedProps.deploymentPods) {
+    return;
   }
 
-  if (isVmwareProvider(prevState, id)) {
-    deleteV2VvmwareObject(
-      {
-        name: getVmwareField(prevState, id, PROVIDER_VMWARE_V2V_NAME_KEY),
-        namespace: getVmSettingValue(prevState, id, NAMESPACE_KEY),
+  const { deployment, deploymentPods } = props;
+
+  const hasDeployment = hasProp(deployment);
+  const status = getSimpleV2vVMwareDeploymentStatus(deployment, deploymentPods);
+
+  dispatch(
+    vmWizardInternalActions[internalTypes.updateVmSettingsProviderInternal](id, PROVIDER_VMWARE, {
+      [PROVIDER_VMWARE_V2V_LAST_ERROR]: {
+        isHidden: asHidden(hasDeployment, PROVIDER_VMWARE),
       },
-      props
-    );
-  }
+      [PROVIDER_VMWARE_VCENTER_KEY]: {
+        isDisabled: asDisabled(status !== V2V_WMWARE_DEPLOYMENT_STATUS_ROLLOUT_COMPLETE, PROVIDER_VMWARE),
+      },
+    })
+  );
 };
 
 export const v2vVmWareUpdater = options => {
@@ -116,7 +149,7 @@ export const v2vVmWareUpdater = options => {
   dispatch(
     vmWizardInternalActions[internalTypes.updateVmSettingsProviderInternal](id, PROVIDER_VMWARE, {
       [PROVIDER_VMWARE_VM_KEY]: {
-        isDisabled: asDisabled(!v2vvmware, PROVIDER_VMWARE_VM_KEY),
+        isDisabled: asDisabled(!hasProp(v2vvmware), PROVIDER_VMWARE_VM_KEY),
         // data for request
         vm: selectedVmName && !vm ? undefined : vm, // moving across tabs resets listening for v2vvmware
         thumbprint: getThumbprint(v2vvmware),
@@ -194,9 +227,9 @@ export const providerUpdater = options => {
           [PROVIDER_VMWARE_USER_PASSWORD_KEY]: hiddenMetadata,
           [PROVIDER_VMWARE_CHECK_CONNECTION_KEY]: hiddenMetadata,
           [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: hiddenMetadata,
+          [PROVIDER_VMWARE_V2V_LAST_ERROR]: hiddenMetadata,
           [PROVIDER_VMWARE_VM_KEY]: {
-            isHidden: asHidden(!namespace || !isVmWareProvider, VMWARE_PROVIDER_METADATA_ID),
-            isRequired: asRequired(isVmWareProvider, VMWARE_PROVIDER_METADATA_ID),
+            ...requiredMetadata,
             isDisabled: asDisabled(
               !isOkStatus && status !== V2V_WMWARE_STATUS_LOADING_VM_DETAIL_FAILED,
               VMWARE_PROVIDER_METADATA_ID
@@ -267,7 +300,7 @@ export const secretUpdater = ({ id, prevState, dispatch, getState }) => {
 export const secretValueUpdater = options => {
   const { id, prevState, dispatch, getState } = options;
   const state = getState();
-  if (!hasVmWareSettingsChanged(prevState, state, id, PROVIDER_VMWARE_VCENTER_KEY)) {
+  if (!hasVmWareSettingsValueChanged(prevState, state, id, PROVIDER_VMWARE_VCENTER_KEY)) {
     return;
   }
 
@@ -426,15 +459,36 @@ const createConnectionObjects = ({ id, props, dispatch }, params) => {
     });
 };
 
-const startV2VVMWareControllerWithCleanup = ({ props }, { namespace }) => {
+const startV2VVMWareControllerWithCleanup = ({ getState, props, id, dispatch }) => {
+  const state = getState();
+  const namespace = getVmSettingValue(state, id, NAMESPACE_KEY);
   const enhancedK8sMethods = new EnhancedK8sMethods(props);
 
   return startV2VVMWareController({ namespace }, enhancedK8sMethods)
+    .then(() =>
+      dispatch(
+        vmWizardInternalActions[internalTypes.updateVmSettingsProviderInternal](id, PROVIDER_VMWARE, {
+          [PROVIDER_VMWARE_V2V_LAST_ERROR]: {
+            isHidden: asHidden(true, PROVIDER_VMWARE_V2V_LAST_ERROR),
+            errors: null,
+          },
+        })
+      )
+    )
     .catch(e =>
       // eslint-disable-next-line promise/no-nesting
-      cleanupAndGetResults(enhancedK8sMethods, e).then(({ results }) =>
-        errorsFirstSort(results).forEach(o => warn(o.title, o.content))
-      )
+      cleanupAndGetResults(enhancedK8sMethods, e).then(({ results }) => {
+        const errors = errorsFirstSort(results);
+        errors.forEach(o => warn(o.title, o.content, o.obj));
+        return dispatch(
+          vmWizardInternalActions[internalTypes.updateVmSettingsProviderInternal](id, PROVIDER_VMWARE, {
+            [PROVIDER_VMWARE_V2V_LAST_ERROR]: {
+              isHidden: asHidden(false, PROVIDER_VMWARE_V2V_LAST_ERROR),
+              errors,
+            },
+          })
+        );
+      })
     )
     .catch(le => error(le));
 };

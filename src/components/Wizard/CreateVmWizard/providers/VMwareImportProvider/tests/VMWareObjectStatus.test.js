@@ -1,12 +1,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import VMWareProviderStatus from '../VMWareProviderStatus';
+import VMWareObjectStatus from '../VMWareObjectStatus';
 
-const testVMWareProviderStatus = () => <VMWareProviderStatus />;
+const testVMWareProviderStatus = () => <VMWareObjectStatus />;
 
 // TODO
-describe('<VMWareProviderStatus />', () => {
+describe('<VMWareObjectStatus />', () => {
   it('renders correctly', () => {
     const component = mount(testVMWareProviderStatus());
     expect(component).toMatchSnapshot();

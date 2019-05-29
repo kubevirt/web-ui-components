@@ -198,9 +198,14 @@ export class CreateVmWizardComponent extends React.Component {
       render: () => {
         const stepData = get(this.props.data.stepData, RESULT_TAB_KEY).toJS();
         return (
-          <ResultTab key={RESULT_TAB_KEY} isSuccessful={stepData.valid} isCreateTemplate={this.props.createTemplate}>
+          <ResultTab
+            key={RESULT_TAB_KEY}
+            wizardReduxId={this.props.reduxId}
+            isSuccessful={stepData.valid}
+            isCreateTemplate={this.props.createTemplate}
+          >
             {stepData.value.map((result, index) => (
-              <ResultTabRow key={index} wizardReduxId={this.props.reduxId} {...result} />
+              <ResultTabRow key={index} {...result} />
             ))}
           </ResultTab>
         );
@@ -219,7 +224,6 @@ export class CreateVmWizardComponent extends React.Component {
     const createVmText = createTemplate ? CREATE_VM_TEMPLATE : CREATE_VM;
 
     if (!data.stepData) {
-      console.warn(`invalid redux ID (${this.props.reduxId}). Wizard is closed!`);
       return null;
     }
 

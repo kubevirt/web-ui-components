@@ -26,3 +26,5 @@ export const getVmSettingAttribute = (state, id, key, attribute = 'value', defau
 
 export const getVmSettingValue = (state, id, key, defaultValue) =>
   getVmSettingAttribute(state, id, key, 'value', defaultValue);
+
+export const hasProp = p => p && !p.isEmpty(p);

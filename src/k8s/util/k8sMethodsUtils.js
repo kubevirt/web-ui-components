@@ -49,25 +49,29 @@ export const cleanupAndGetResults = async (enhancedK8sMethods, { message, failed
     })
     .reverse();
 
-  const results = [
+  const errorResults = [
     k8sObjectToResult({
       content: message,
       message: ERROR,
       isExpanded: true,
       isError: true,
     }),
-    k8sObjectToResult({
-      obj: failedObject,
-      content: failedPatches || failedObject,
-      message: failedPatches ? FAILED_TO_PATCH : FAILED_TO_CREATE,
-      isError: true,
-    }),
-    ...cleanupArray,
   ];
+
+  if (failedPatches || failedObject) {
+    errorResults.push(
+      k8sObjectToResult({
+        obj: failedObject,
+        content: failedPatches || failedObject,
+        message: failedPatches ? FAILED_TO_PATCH : FAILED_TO_CREATE,
+        isError: true,
+      })
+    );
+  }
 
   return {
     valid: false,
-    results,
+    results: [...errorResults, ...cleanupArray],
   };
 };
 

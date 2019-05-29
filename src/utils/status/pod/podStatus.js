@@ -19,7 +19,7 @@ import {
   getStatusPhase,
 } from '../../../selectors';
 
-import { NOT_HANDLED } from '..';
+import { NOT_HANDLED } from '../common';
 
 const errorStatusMapper = {
   Failed: POD_STATUS_FAILED,
@@ -94,3 +94,5 @@ export const getPodStatus = pod =>
   isContainerFailing(pod) ||
   isNotReady(pod) ||
   hasOkStatus(pod) || { status: POD_STATUS_UNKNOWN };
+
+export const getSimplePodStatus = pod => getPodStatus(pod).status;

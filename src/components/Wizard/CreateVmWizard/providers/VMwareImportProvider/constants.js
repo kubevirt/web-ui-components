@@ -12,3 +12,5 @@ export const PROVIDER_VMWARE_STATUS_KEY = 'vmwareStatus';
 export const PROVIDER_VMWARE_VM_KEY = 'vmwareVm';
 
 export const PROVIDER_VMWARE_V2V_NAME_KEY = 'v2vVmwareName';
+
+export const PROVIDER_VMWARE_V2V_LAST_ERROR = 'PROVIDER_VMWARE_V2V_LAST_ERROR';

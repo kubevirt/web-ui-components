@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, isConditionReason, isConditionStatusTrue } from '..';
 
 import { getStatusConditionOfType, getStatusPhase } from '../common';
 import { isContainerFailing } from './container';
@@ -9,7 +9,7 @@ export const getContainerStatuses = pod => get(pod, 'status.containerStatuses', 
 
 export const isPodSchedulable = pod => {
   const podScheduledCond = getStatusConditionOfType(pod, 'PodScheduled');
-  return !(podScheduledCond && podScheduledCond.status !== 'True' && podScheduledCond.reason === 'Unschedulable');
+  return !(!isConditionStatusTrue(podScheduledCond) && isConditionReason(podScheduledCond, 'Unschedulable'));
 };
 
 export const findFailingContainerStatus = pod => getContainerStatuses(pod).find(isContainerFailing);

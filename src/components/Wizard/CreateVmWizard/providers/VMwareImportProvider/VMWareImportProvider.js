@@ -31,14 +31,22 @@ import {
   PROVIDER_VMWARE_STATUS_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
+  PROVIDER_VMWARE_V2V_LAST_ERROR,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
 } from './constants';
-import VMWareProviderStatus from './VMWareProviderStatus';
+import VMWareObjectStatus from './VMWareObjectStatus';
 import { types, vmWizardActions } from '../../redux/actions';
 import { getCheckConnectionAction } from '../../redux/stateUpdate/vmSettings/providers/vmWareStateUpdate';
+import VMWareControllerStatusRow from './VMWareControllerStatusRow';
+import VMWareControllerErrors from './VMWareControllerErrors';
 
-const DETECT_VMWARE_PROVIDER_PROP_CHANGES = ['v2vvmware', 'vmwareToKubevirtOsConfigMap'];
+const DETECT_VMWARE_PROVIDER_PROP_CHANGES = [
+  'v2vvmware',
+  'vmwareToKubevirtOsConfigMap',
+  'deployment',
+  'deploymentPods',
+];
 
 const VMWareVms = ({ v2vvmware, ...props }) => {
   const vms = getVms(v2vvmware);
@@ -151,10 +159,21 @@ export class VMWareImportProvider extends React.Component {
   });
 
   render() {
-    const { vCenterSecrets, v2vvmware } = this.props;
+    const { vCenterSecrets, v2vvmware, deployment, deploymentPods } = this.props;
+
+    const errors = this.getFieldAttribute(PROVIDER_VMWARE_V2V_LAST_ERROR, 'errors');
 
     return (
       <React.Fragment>
+        <FormRow {...this.getHiddenMetadata(PROVIDER_VMWARE_V2V_LAST_ERROR)}>
+          <VMWareControllerErrors id={getFieldId(PROVIDER_VMWARE_V2V_LAST_ERROR)} errors={errors} />
+        </FormRow>
+        <VMWareControllerStatusRow
+          id="v2v-vmware-status"
+          hasErrors={!!errors}
+          deployment={deployment}
+          deploymentPods={deploymentPods}
+        />
         {/* vCenterSecrets for prop changed compare */}
         <FormRow {...this.getRowMetadata(PROVIDER_VMWARE_VCENTER_KEY)} vCenterSecrets={vCenterSecrets}>
           <VMWareSecrets
@@ -190,7 +209,7 @@ export class VMWareImportProvider extends React.Component {
           </Button>
         </FormRow>
         <FormRow {...this.getHiddenMetadata(PROVIDER_VMWARE_STATUS_KEY)}>
-          <VMWareProviderStatus status={this.getValue(PROVIDER_VMWARE_STATUS_KEY)} />
+          <VMWareObjectStatus status={this.getValue(PROVIDER_VMWARE_STATUS_KEY)} />
         </FormRow>
         {/* v2vvmware for prop changed compare */}
         <FormRow {...this.getRowMetadata(PROVIDER_VMWARE_VM_KEY)} v2vvmware={v2vvmware}>
@@ -202,12 +221,16 @@ export class VMWareImportProvider extends React.Component {
 }
 
 VMWareImportProvider.defaultProps = {
+  deployment: null,
+  deploymentPods: null,
   vCenterSecrets: null, // TODO: add loading when null
   v2vvmware: null,
   vmwareToKubevirtOsConfigMap: null,
 };
 
 VMWareImportProvider.propTypes = {
+  deployment: PropTypes.object,
+  deploymentPods: PropTypes.object,
   vCenterSecrets: PropTypes.object,
   v2vvmware: PropTypes.object,
   vmwareToKubevirtOsConfigMap: PropTypes.object,
@@ -224,31 +247,29 @@ const stateToProps = (state, props) => ({
   vmWareData: getVmSettings(state, props.wizardReduxId).getIn([PROVIDERS_DATA_KEY, PROVIDER_VMWARE]),
 });
 
-const dispatchToProps = (dispatch, props) => ({
-  onFieldChange: (key, value) =>
-    dispatch(
-      vmWizardActions[types.updateVmSettingsProviderField](props.wizardReduxId, PROVIDER_VMWARE, key, value, {
-        ...props,
-        ...props.dispatchUpdateContext,
-      })
-    ),
-  onCheckConnection: () =>
-    dispatch(
-      getCheckConnectionAction(props.wizardReduxId, {
-        ...props,
-        ...props.dispatchUpdateContext,
-      })
-    ),
-  onPropsDataChanged: changedProps => {
-    dispatch(
-      vmWizardActions[types.propsDataChanged](
-        props.wizardReduxId,
-        { ...props, ...props.dispatchUpdateContext },
-        changedProps
-      )
-    );
-  },
-});
+const dispatchToProps = (dispatch, props) => {
+  const dispatchProps = {
+    ...props,
+    ...props.dispatchUpdateContext,
+  };
+
+  return {
+    onFieldChange: (key, value) =>
+      dispatch(
+        vmWizardActions[types.updateVmSettingsProviderField](
+          props.wizardReduxId,
+          PROVIDER_VMWARE,
+          key,
+          value,
+          dispatchProps
+        )
+      ),
+    onCheckConnection: () => dispatch(getCheckConnectionAction(props.wizardReduxId, dispatchProps)),
+    onPropsDataChanged: changedProps => {
+      dispatch(vmWizardActions[types.propsDataChanged](props.wizardReduxId, dispatchProps, changedProps));
+    },
+  };
+};
 
 export const ConnectedVMWareImportProvider = connect(
   stateToProps,
