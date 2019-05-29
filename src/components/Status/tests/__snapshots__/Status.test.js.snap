@@ -10,3 +10,38 @@ exports[`<Status /> renders correctly 1`] = `
   off status
 </Fragment>
 `;
+
+exports[`<StatusField> renders correctly 1`] = `
+<Fragment>
+  <Icon
+    className="kubevirt-status__icon"
+    name="off"
+    type="pf"
+  />
+  <div>
+    some content
+  </div>
+</Fragment>
+`;
+
+exports[`<StatusField> renders correctly 2`] = `
+<Fragment>
+  <div>
+    some important content
+  </div>
+</Fragment>
+`;
+
+exports[`<StatusField> renders correctly 3`] = `
+<Fragment>
+  <div>
+    some less important content
+  </div>
+</Fragment>
+`;
+
+exports[`<StatusField> renders correctly 4`] = `<Fragment />`;
+
+exports[`<StatusField> renders correctly 5`] = `<Fragment />`;
+
+exports[`<StatusField> renders correctly 6`] = `<Fragment />`;
