@@ -7,11 +7,51 @@ exports[`<Utilization /> renders Loading utilization correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Utilization
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Utilization
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "1 Hour",
+                "6 Hours",
+                "24 Hours",
+              ]
+            }
+            disabled={true}
+            groupClassName="kubevirt-dropdown__group"
+            id="metric-duration"
+            onChange={[Function]}
+            value="6 Hours"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -33,7 +73,8 @@ exports[`<Utilization /> renders Loading utilization correctly 1`] = `
         className="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--right"
         componentClass="div"
       >
-        6 hour average
+        6 Hours
+         average
       </Col>
     </Row>
     <ChartAxis
@@ -101,18 +142,58 @@ exports[`<Utilization /> renders Loading utilization correctly 1`] = `
 </DashboardCard>
 `;
 
-exports[`<Utilization /> renders Utilization correctly 1`] = `
+exports[`<Utilization /> renders Not available utilization correctly 1`] = `
 <DashboardCard
   className={null}
 >
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Utilization
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Utilization
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "1 Hour",
+                "6 Hours",
+                "24 Hours",
+              ]
+            }
+            disabled={false}
+            groupClassName="kubevirt-dropdown__group"
+            id="metric-duration"
+            onChange={[Function]}
+            value="6 Hours"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -134,7 +215,150 @@ exports[`<Utilization /> renders Utilization correctly 1`] = `
         className="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--right"
         componentClass="div"
       >
-        6 hour average
+        6 Hours
+         average
+      </Col>
+    </Row>
+    <ChartAxis
+      height={30}
+      orientation="top"
+      padding={
+        Object {
+          "bottom": 0,
+          "left": 43,
+          "right": 20,
+          "top": 25,
+        }
+      }
+      scale={
+        Object {
+          "x": "time",
+        }
+      }
+      tickFormat={[Function]}
+      tickValues={null}
+    />
+    <UtilizationBody>
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={1}
+        id="throughput"
+        isLoading={false}
+        maxY={0}
+        title="Throughput"
+        unit="B/s"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={0}
+        id="iops"
+        isLoading={false}
+        maxY={0}
+        title="IOPS"
+        unit="IOPS"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={1}
+        id="latency"
+        isLoading={false}
+        maxY={0}
+        title="Latency"
+        unit="ms"
+      />
+      <UtilizationItem
+        LoadingComponent={[Function]}
+        data={null}
+        decimalPoints={1}
+        id="recoveryRate"
+        isLoading={false}
+        maxY={0}
+        title="Recovery rate"
+        unit="B/s"
+      />
+    </UtilizationBody>
+  </DashboardCardBody>
+</DashboardCard>
+`;
+
+exports[`<Utilization /> renders Utilization correctly 1`] = `
+<DashboardCard
+  className={null}
+>
+  <DashboardCardHeader
+    className={null}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Utilization
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "1 Hour",
+                "6 Hours",
+                "24 Hours",
+              ]
+            }
+            disabled={false}
+            groupClassName="kubevirt-dropdown__group"
+            id="metric-duration"
+            onChange={[Function]}
+            value="6 Hours"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
+  </DashboardCardHeader>
+  <DashboardCardBody
+    LoadingComponent={[Function]}
+    isLoading={false}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        className="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--left"
+        componentClass="div"
+      >
+        Time 
+      </Col>
+      <Col
+        bsClass="col"
+        className="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--right"
+        componentClass="div"
+      >
+        6 Hours
+         average
       </Col>
     </Row>
     <ChartAxis
@@ -249,11 +473,90 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
   <div
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <div
+      class="row"
     >
-      Utilization
-    </h2>
+      <div
+        class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      >
+        <h2
+          class="card-pf-title kubevirt-dashboard__card-title"
+        >
+          Utilization
+        </h2>
+      </div>
+      <div
+        class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      >
+        <div
+          class="kubevirt-dashboard__actions-body"
+        >
+          <div
+            class="kubevirt-dropdown__group btn-group btn-group-justified"
+          >
+            <div
+              class="dropdown btn-group btn-group-default"
+            >
+              <button
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="kubevirt-dropdown dropdown-toggle btn btn-default"
+                id="metric-duration"
+                role="button"
+                type="button"
+              >
+                6 Hours 
+                <span
+                  class="caret"
+                />
+              </button>
+              <ul
+                aria-labelledby="metric-duration"
+                class="dropdown-menu"
+                role="menu"
+              >
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    1 Hour
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    6 Hours
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    24 Hours
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="card-pf-body"
@@ -269,7 +572,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
       <div
         class="kubevirt-utilization__time-duration kubevirt-utilization__time-duration--right"
       >
-        6 hour average
+        6 Hours average
       </div>
     </div>
     <div
@@ -277,7 +580,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
       style="height:100%;width:100%;pointer-events:none;touch-action:none;position:relative"
     >
       <svg
-        aria-labelledby="victory-container-1-title victory-container-1-desc"
+        aria-labelledby="victory-container-10-title victory-container-10-desc"
         height="30"
         role="img"
         style="pointer-events:all;width:100%;height:100%"
@@ -537,7 +840,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
               style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
             >
               <svg
-                aria-labelledby="victory-container-2-title victory-container-2-desc"
+                aria-labelledby="victory-container-11-title victory-container-11-desc"
                 height="60"
                 role="img"
                 style="pointer-events:all;width:100%;height:100%"
@@ -545,12 +848,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 width="300"
               >
                 <g
-                  clip-path="url(#victory-clip-3)"
+                  clip-path="url(#victory-clip-12)"
                   style="height:100%;width:100%;user-select:none"
                 >
                   <defs>
                     <clipPath
-                      id="victory-clip-3"
+                      id="victory-clip-12"
                     >
                       <rect
                         height="45"
@@ -755,7 +1058,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
               style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
             >
               <svg
-                aria-labelledby="victory-container-4-title victory-container-4-desc"
+                aria-labelledby="victory-container-13-title victory-container-13-desc"
                 height="60"
                 role="img"
                 style="pointer-events:all;width:100%;height:100%"
@@ -763,12 +1066,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 width="300"
               >
                 <g
-                  clip-path="url(#victory-clip-5)"
+                  clip-path="url(#victory-clip-14)"
                   style="height:100%;width:100%;user-select:none"
                 >
                   <defs>
                     <clipPath
-                      id="victory-clip-5"
+                      id="victory-clip-14"
                     >
                       <rect
                         height="45"
@@ -973,7 +1276,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
               style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
             >
               <svg
-                aria-labelledby="victory-container-6-title victory-container-6-desc"
+                aria-labelledby="victory-container-15-title victory-container-15-desc"
                 height="60"
                 role="img"
                 style="pointer-events:all;width:100%;height:100%"
@@ -981,12 +1284,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 width="300"
               >
                 <g
-                  clip-path="url(#victory-clip-7)"
+                  clip-path="url(#victory-clip-16)"
                   style="height:100%;width:100%;user-select:none"
                 >
                   <defs>
                     <clipPath
-                      id="victory-clip-7"
+                      id="victory-clip-16"
                     >
                       <rect
                         height="45"
@@ -1191,7 +1494,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
               style="height:100%;width:100%;user-select:none;pointer-events:none;touch-action:none;position:relative"
             >
               <svg
-                aria-labelledby="victory-container-8-title victory-container-8-desc"
+                aria-labelledby="victory-container-17-title victory-container-17-desc"
                 height="60"
                 role="img"
                 style="pointer-events:all;width:100%;height:100%"
@@ -1199,12 +1502,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 width="300"
               >
                 <g
-                  clip-path="url(#victory-clip-9)"
+                  clip-path="url(#victory-clip-18)"
                   style="height:100%;width:100%;user-select:none"
                 >
                   <defs>
                     <clipPath
-                      id="victory-clip-9"
+                      id="victory-clip-18"
                     >
                       <rect
                         height="45"
