@@ -16,7 +16,7 @@ describe('<Status />', () => {
 describe('<StatusField>', () => {
   for (let i = 1; i < StatusFixtures.length; i++) {
     it('renders correctly', () => {
-      const component = shallow(<Status {...StatusFixtures[i].props} />);
+      const component = shallow(StatusFixtures[i].component({ ...StatusFixtures[i].props }));
       expect(component).toMatchSnapshot();
     });
   }

@@ -20,8 +20,6 @@ import {
   VM_STATUS_ERROR,
   VM_STATUS_IMPORT_ERROR,
   VM_STATUS_MIGRATING,
-  // VM_STATUS_CONVERSION_FAILED,
-  // VM_STATUS_CONVERSION_IN_PROGRESS,
   getVmStatus,
 } from '../../utils/status/vm';
 import {
@@ -53,8 +51,8 @@ const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_
 const VmStatusInProgress = ({ header, message, children, progress, linkTo, linkMessage }) => (
   <PopoverStatus icon="in-progress" header={header}>
     <StatusDescriptionField>{message}</StatusDescriptionField>
-    {children || ''}
-    {progress !== null ? <StatusProgressField title={IMPORTING} progress={progress} /> : ''}
+    {children}
+    {progress && <StatusProgressField title={IMPORTING} progress={progress} />}
     <StatusLinkField title={linkMessage} linkTo={linkTo} />
   </PopoverStatus>
 );
@@ -74,7 +72,7 @@ VmStatusInProgress.propTypes = {
 const VmStatusPending = ({ header, message, children, linkTo, linkMessage }) => (
   <PopoverStatus icon="hourglass-half" iconType="fa" header={header}>
     <StatusDescriptionField>{message}</StatusDescriptionField>
-    {children || ''}
+    {children}
     <StatusLinkField title={linkMessage} linkTo={linkTo} />
   </PopoverStatus>
 );
@@ -92,7 +90,7 @@ VmStatusPending.propTypes = {
 const VmStatusError = ({ header, message, children, linkTo, linkMessage }) => (
   <PopoverStatus icon="error-circle-o" header={header}>
     <StatusDescriptionField>{message}</StatusDescriptionField>
-    {children || ''}
+    {children}
     <StatusLinkField title={linkMessage} linkTo={linkTo} />
   </PopoverStatus>
 );
@@ -158,7 +156,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkMessage={VIEW_VM_EVENTS}
           linkTo={linkToVMEvents}
         >
-          {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
         </VmStatusPending>
       );
     case VM_STATUS_VMI_WAITING:
@@ -169,7 +167,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkMessage={VIEW_VM_EVENTS}
           linkTo={linkToVMEvents}
         >
-          {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
         </VmStatusPending>
       );
 
@@ -184,7 +182,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkMessage={VIEW_VM_EVENTS}
           linkTo={linkToVMEvents}
         >
-          {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
         </VmStatusError>
       );
     case VM_STATUS_IMPORT_ERROR:
@@ -195,14 +193,11 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkMessage={VIEW_VM_EVENTS}
           linkTo={linkToVMEvents}
         >
-          <React.Fragment>
-            {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
-            {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
-          </React.Fragment>
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
         </VmStatusError>
       );
     case VM_STATUS_V2V_CONVERSION_ERROR:
-      // case VM_STATUS_CONVERSION_FAILED:
       return (
         <VmStatusError
           header={IMPORTING_ERROR_VMWARE}
@@ -210,10 +205,8 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkMessage={VIEW_VM_EVENTS}
           linkTo={linkToVMEvents}
         >
-          <React.Fragment>
-            {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
-            {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
-          </React.Fragment>
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
         </VmStatusError>
       );
 
@@ -226,11 +219,10 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkTo={linkToVMEvents}
           progress={statusDetail.progress}
         >
-          {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
         </VmStatusInProgress>
       );
     case VM_STATUS_V2V_CONVERSION_IN_PROGRESS:
-      // case VM_STATUS_CONVERSION_IN_PROGRESS:
       return (
         <VmStatusInProgress
           header={IMPORTING_VMWARE}
@@ -239,7 +231,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkTo={linkToVMEvents}
           progress={statusDetail.progress}
         >
-          {additionalText ? <StatusDescriptionField>{additionalText}</StatusDescriptionField> : ''}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
         </VmStatusInProgress>
       );
     case VM_STATUS_STARTING:
@@ -251,7 +243,7 @@ export const VmStatus = ({ vm, pods, migrations, verbose }) => {
           linkTo={linkToVMEvents}
           progress={statusDetail.progress}
         >
-          {statusDetail.message ? <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField> : ''}
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
         </VmStatusInProgress>
       );
 
