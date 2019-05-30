@@ -10,3 +10,155 @@ exports[`<Status /> renders correctly 1`] = `
   off status
 </Fragment>
 `;
+
+exports[`<StatusField> renders correctly 1`] = `
+<Tippy
+  animateFill={false}
+  appendTo={[Function]}
+  content={
+    <GenerateId
+      prefix="pf-random-id-"
+    >
+      [Function]
+    </GenerateId>
+  }
+  distance={25}
+  flip={true}
+  hideOnClick={true}
+  interactive={true}
+  interactiveBorder={0}
+  isVisible={null}
+  lazy={true}
+  maxWidth="calc(1.5rem + 18.75rem)"
+  onCreate={[Function]}
+  onHidden={[Function]}
+  onHide={[Function]}
+  onMount={[Function]}
+  onShow={[Function]}
+  onShown={[Function]}
+  performance={true}
+  placement="right"
+  popperOptions={
+    Object {
+      "modifiers": Object {
+        "hide": Object {
+          "enabled": true,
+        },
+        "preventOverflow": Object {
+          "enabled": true,
+        },
+      },
+    }
+  }
+  theme="pf-tippy"
+  trigger="click"
+  zIndex={9999}
+>
+  <span
+    className="kubevirt-status__popover"
+  >
+    <Status
+      icon="off"
+      iconType={null}
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="link"
+        className="kubevirt-status__button"
+        disabled={false}
+      >
+        status text
+      </Button>
+    </Status>
+  </span>
+</Tippy>
+`;
+
+exports[`<StatusField> renders correctly 2`] = `
+<div
+  className="kubevirt-status__field"
+>
+  <div
+    className="kubevirt-status__field-header"
+  >
+    important
+  </div>
+  <div
+    className="kubevirt-status__field-description"
+  >
+    <div>
+      some important content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<StatusField> renders correctly 3`] = `
+<div
+  className="kubevirt-status__field"
+>
+  <div
+    className="kubevirt-status__field-description"
+  >
+    <div>
+      some less important content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<StatusField> renders correctly 4`] = `
+<div
+  className="kubevirt-status__field"
+>
+  <div
+    className="kubevirt-status__field-link"
+  >
+    <Link
+      replace={false}
+      title="example"
+      to="http://example.com"
+    >
+      example
+    </Link>
+  </div>
+</div>
+`;
+
+exports[`<StatusField> renders correctly 5`] = `
+<div
+  className="kubevirt-status__field"
+>
+  <div
+    className="kubevirt-status__field-link"
+  >
+    <Link
+      replace={false}
+      to="http://example.com"
+    >
+      http://example.com
+    </Link>
+  </div>
+</div>
+`;
+
+exports[`<StatusField> renders correctly 6`] = `
+<div
+  className="kubevirt-status__field"
+>
+  <Progress
+    className="kubevirt-status__field-progress"
+    id=""
+    max={100}
+    measureLocation="top"
+    min={0}
+    size="sm"
+    title="Completeness"
+    value={42}
+    valueText={null}
+    variant="info"
+  />
+</div>
+`;

@@ -4,6 +4,7 @@ exports[`<AddDiscoveredHostLink /> renders a link to add discovered host 1`] = `
 <a>
   <Status
     icon="add-circle-o"
+    iconType={null}
   >
     Add host
   </Status>
@@ -13,6 +14,7 @@ exports[`<AddDiscoveredHostLink /> renders a link to add discovered host 1`] = `
 exports[`<GenericError /> renders an error message 1`] = `
 <Status
   icon="error-circle-o"
+  iconType={null}
 >
   Registration Error
 </Status>
@@ -26,6 +28,7 @@ exports[`<GenericError /> with details renders an error message with details 1`]
     </div>
   }
   icon="error-circle-o"
+  iconType={null}
 >
   <div>
     some error details
@@ -36,6 +39,7 @@ exports[`<GenericError /> with details renders an error message with details 1`]
 exports[`<GenericProgress /> renders a progress message 1`] = `
 <Status
   icon="in-progress"
+  iconType={null}
 >
   Provisioning
 </Status>
@@ -46,6 +50,7 @@ exports[`<GenericStatus /> renders a generic status string 1`] = `"Provisioned"`
 exports[`<GenericSuccess /> renders a success message 1`] = `
 <Status
   icon="ok"
+  iconType={null}
 >
   Provisioned
 </Status>
@@ -59,6 +64,7 @@ exports[`<ValidationError /> renders a validation error 1`] = `
     </div>
   }
   icon="error-circle-o"
+  iconType={null}
 >
   <div>
     some validation errors

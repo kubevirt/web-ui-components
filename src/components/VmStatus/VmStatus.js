@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 
 import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../constants';
 
-import { getSubPagePath, VM_STATUS_V2V_CONVERSION_PENDING } from '../../utils';
+import { getSubPagePath } from '../../utils';
 import { PodModel, VirtualMachineModel } from '../../models';
+import { getId, getVmImporterPods } from '../../selectors';
+import { Status, PopoverStatus, StatusLinkField, StatusDescriptionField, StatusProgressField } from '../Status';
 import {
   VM_STATUS_V2V_CONVERSION_ERROR,
   VM_STATUS_V2V_CONVERSION_IN_PROGRESS,
+  VM_STATUS_V2V_CONVERSION_PENDING,
   VM_STATUS_VMI_WAITING,
   VM_STATUS_STARTING,
   VM_STATUS_RUNNING,
@@ -19,72 +22,87 @@ import {
   VM_STATUS_MIGRATING,
   getVmStatus,
 } from '../../utils/status/vm';
-import { getId, getVmImporterPods } from '../../selectors';
-import { Status, LinkStatus } from '../Status';
+import {
+  RUNNING,
+  PENDING,
+  IMPORTING,
+  IMPORTING_ERROR_VMWARE,
+  IMPORTING_PENDING_VMWARE,
+  IMPORTING_VMWARE,
+  VIEW_POD_OVERVIEW,
+  VIEW_VM_EVENTS,
+  UNKNOWN,
+  MIGRATING,
+  STARTING,
+  VM_ERROR,
+  POD_ERROR,
+  IMPORTING_ERROR,
+  OFF,
+  IMPORTING_VMWARE_MESSAGE,
+  IMPORTING_ERROR_VMWARE_MESSAGE,
+  IMPORTING_MESSAGE,
+  IMPORTING_ERROR_MESSAGE,
+  VMI_WAITING_MESSAGE,
+  STARTING_MESSAGE,
+} from './strings';
 
 const getAdditionalImportText = pod => ` (${pod.metadata.labels[`${CDI_KUBEVIRT_IO}/${STORAGE_IMPORT_PVC_NAME}`]})`;
 
-const StateRunning = ({ ...props }) => (
-  <LinkStatus icon="on-running" {...props}>
-    Running
-  </LinkStatus>
+const VmStatusInProgress = ({ header, message, children, progress, linkTo, linkMessage }) => (
+  <PopoverStatus icon="in-progress" header={header}>
+    <StatusDescriptionField>{message}</StatusDescriptionField>
+    {children}
+    {progress && <StatusProgressField title={IMPORTING} progress={progress} />}
+    <StatusLinkField title={linkMessage} linkTo={linkTo} />
+  </PopoverStatus>
 );
-const StateOff = () => <Status icon="off">Off</Status>;
-const StateUnknown = () => <Status icon="unknown">Unknown</Status>;
-const StateMigrating = () => <Status icon="migration">Migrating</Status>;
-const StateVmiWaiting = ({ ...props }) => (
-  <LinkStatus icon="pending" {...props}>
-    Pending
-  </LinkStatus>
-);
-const StateStarting = ({ ...props }) => (
-  <LinkStatus icon="pending" {...props}>
-    Starting
-  </LinkStatus>
-);
-const StateImporting = ({ additionalText, ...props }) => (
-  <LinkStatus icon="import" {...props}>
-    Importing
-    {additionalText}
-  </LinkStatus>
-);
-
-const StateV2VConversionInProgress = ({ progress, ...props }) => (
-  <LinkStatus icon="import" {...props}>
-    Importing (VMware)
-  </LinkStatus>
-);
-StateV2VConversionInProgress.defaultProps = {
+VmStatusInProgress.defaultProps = {
   progress: null,
+  children: null,
 };
-StateV2VConversionInProgress.propTypes = {
+VmStatusInProgress.propTypes = {
+  header: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+  linkMessage: PropTypes.string.isRequired,
+  children: PropTypes.any,
   progress: PropTypes.number,
 };
 
-const StateV2VConversionPending = ({ ...props }) => (
-  <LinkStatus icon="pending" {...props}>
-    Importing Pending (VMware)
-  </LinkStatus>
-);
-
-const StateV2VConversionError = ({ ...props }) => (
-  <LinkStatus icon="error-circle-o" {...props}>
-    Importing Error (VMware)
-  </LinkStatus>
-);
-StateImporting.defaultProps = {
-  additionalText: undefined,
-};
-StateImporting.propTypes = {
-  additionalText: PropTypes.string,
-};
-const StateError = ({ children, ...props }) => (
-  <LinkStatus icon="error-circle-o" {...props}>
+const VmStatusPending = ({ header, message, children, linkTo, linkMessage }) => (
+  <PopoverStatus icon="hourglass-half" iconType="fa" header={header}>
+    <StatusDescriptionField>{message}</StatusDescriptionField>
     {children}
-  </LinkStatus>
+    <StatusLinkField title={linkMessage} linkTo={linkTo} />
+  </PopoverStatus>
 );
-StateError.propTypes = {
-  children: PropTypes.any.isRequired,
+VmStatusPending.defaultProps = {
+  children: null,
+};
+VmStatusPending.propTypes = {
+  header: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+  linkMessage: PropTypes.string.isRequired,
+  children: PropTypes.any,
+};
+
+const VmStatusError = ({ header, message, children, linkTo, linkMessage }) => (
+  <PopoverStatus icon="error-circle-o" header={header}>
+    <StatusDescriptionField>{message}</StatusDescriptionField>
+    {children}
+    <StatusLinkField title={linkMessage} linkTo={linkTo} />
+  </PopoverStatus>
+);
+VmStatusError.defaultProps = {
+  children: null,
+};
+VmStatusError.propTypes = {
+  header: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  linkMessage: PropTypes.string.isRequired,
+  linkTo: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+  children: PropTypes.any,
 };
 
 export const VmStatuses = props => {
@@ -112,12 +130,10 @@ export const VmStatuses = props => {
     </div>
   );
 };
-
 VmStatuses.defaultProps = {
   pods: undefined,
   migrations: undefined,
 };
-
 VmStatuses.propTypes = {
   vm: PropTypes.object.isRequired,
   pods: PropTypes.array,
@@ -126,74 +142,134 @@ VmStatuses.propTypes = {
 
 export const VmStatus = ({ vm, pods, migrations, verbose }) => {
   const statusDetail = getVmStatus(vm, pods, migrations);
+  const linkToPodOverview = getSubPagePath(statusDetail.launcherPod, PodModel);
+  const linkToVMEvents = getSubPagePath(vm, VirtualMachineModel, 'events');
+  const additionalText =
+    verbose && statusDetail.pod && statusDetail.pod.metadata.labels ? getAdditionalImportText(statusDetail.pod) : null;
+
   switch (statusDetail.status) {
-    case VM_STATUS_V2V_CONVERSION_IN_PROGRESS:
-      return (
-        <StateV2VConversionInProgress {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
-      );
     case VM_STATUS_V2V_CONVERSION_PENDING:
       return (
-        <StateV2VConversionPending {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
+        <VmStatusPending
+          header={IMPORTING_PENDING_VMWARE}
+          message={IMPORTING_VMWARE_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+        >
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+        </VmStatusPending>
       );
-    case VM_STATUS_V2V_CONVERSION_ERROR:
+    case VM_STATUS_VMI_WAITING:
       return (
-        <StateV2VConversionError {...statusDetail} linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} />
+        <VmStatusPending
+          header={PENDING}
+          message={VMI_WAITING_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+        >
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+        </VmStatusPending>
       );
-    case VM_STATUS_IMPORTING:
+
+    case VM_STATUS_POD_ERROR:
+      return <VmStatusError header={POD_ERROR} linkMessage={VIEW_POD_OVERVIEW} linkTo={linkToPodOverview} />;
+
+    case VM_STATUS_ERROR:
       return (
-        <StateImporting
-          linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')}
-          additionalText={verbose ? getAdditionalImportText(statusDetail.pod) : ''}
-        />
+        <VmStatusError
+          header={VM_ERROR}
+          message={statusDetail.message}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+        >
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
+        </VmStatusError>
       );
     case VM_STATUS_IMPORT_ERROR:
       return (
-        <StateError linkTo={getSubPagePath(statusDetail.pod, PodModel, 'events')} message={statusDetail.message}>
-          Importer Error
-          {verbose ? getAdditionalImportText(statusDetail.pod) : ''}
-        </StateError>
+        <VmStatusError
+          header={IMPORTING_ERROR}
+          message={IMPORTING_ERROR_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+        >
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
+        </VmStatusError>
       );
-    case VM_STATUS_MIGRATING:
-      return <StateMigrating />; // TODO: add linkTo once migration monitoring page is available
-    case VM_STATUS_OFF:
-      return <StateOff />;
-    case VM_STATUS_RUNNING:
-      return <StateRunning linkTo={getSubPagePath(statusDetail.launcherPod, PodModel)} />;
-    case VM_STATUS_VMI_WAITING:
-      return <StateVmiWaiting linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} />;
+    case VM_STATUS_V2V_CONVERSION_ERROR:
+      return (
+        <VmStatusError
+          header={IMPORTING_ERROR_VMWARE}
+          message={IMPORTING_ERROR_VMWARE_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+        >
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
+        </VmStatusError>
+      );
+
+    case VM_STATUS_IMPORTING:
+      return (
+        <VmStatusInProgress
+          header={IMPORTING}
+          message={IMPORTING_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+          progress={statusDetail.progress}
+        >
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
+        </VmStatusInProgress>
+      );
+    case VM_STATUS_V2V_CONVERSION_IN_PROGRESS:
+      return (
+        <VmStatusInProgress
+          header={IMPORTING_VMWARE}
+          message={IMPORTING_VMWARE_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+          progress={statusDetail.progress}
+        >
+          {additionalText && <StatusDescriptionField>{additionalText}</StatusDescriptionField>}
+        </VmStatusInProgress>
+      );
     case VM_STATUS_STARTING:
       return (
-        <StateStarting
-          linkTo={getSubPagePath(statusDetail.launcherPod, PodModel, 'events')}
+        <VmStatusInProgress
+          header={STARTING}
+          message={STARTING_MESSAGE}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+          progress={statusDetail.progress}
+        >
+          {statusDetail.message && <StatusDescriptionField>{statusDetail.message}</StatusDescriptionField>}
+        </VmStatusInProgress>
+      );
+
+    case VM_STATUS_MIGRATING:
+      return (
+        <VmStatusInProgress
+          header={MIGRATING}
           message={statusDetail.message}
+          linkMessage={VIEW_VM_EVENTS}
+          linkTo={linkToVMEvents}
+          progress={statusDetail.progress}
         />
       );
-    case VM_STATUS_POD_ERROR:
-      return (
-        <StateError
-          linkTo={getSubPagePath(statusDetail.launcherPod, PodModel, 'events')}
-          message={statusDetail.message}
-        >
-          Pod Error
-        </StateError>
-      );
-    case VM_STATUS_ERROR:
-      return (
-        <StateError linkTo={getSubPagePath(vm, VirtualMachineModel, 'events')} message={statusDetail.message}>
-          VM Error
-        </StateError>
-      );
+    case VM_STATUS_RUNNING:
+      return <Status icon="ok">{RUNNING}</Status>;
+    case VM_STATUS_OFF:
+      return <Status icon="off">{OFF}</Status>;
     default:
-      return <StateUnknown />; // Let's hope this state is tentative and will fit former conditions soon
+      return <Status icon="unknown">{UNKNOWN}</Status>;
   }
 };
-
 VmStatus.defaultProps = {
   pods: undefined,
   migrations: undefined,
   verbose: false,
 };
-
 VmStatus.propTypes = {
   vm: PropTypes.object.isRequired,
   pods: PropTypes.array,
