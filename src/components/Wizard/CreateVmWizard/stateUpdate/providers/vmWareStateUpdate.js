@@ -98,17 +98,18 @@ export const providerUpdateCreator = (prevProps, prevState, props, state) => {
   if (
     !(
       hasVmSettingsChanged(prevState, state, PROVISION_SOURCE_TYPE_KEY, PROVIDER_KEY, NAMESPACE_KEY) ||
-      hasVmWareSettingsChanged(prevState, state, PROVIDER_VMWARE_STATUS_KEY)
+      hasVmWareSettingsChanged(prevState, state, PROVIDER_VMWARE_STATUS_KEY, PROVIDER_VMWARE_VM_KEY)
     )
   ) {
     return null;
   }
 
   const namespace = getVmSettingValue(state, NAMESPACE_KEY);
-  const selectedVm = getVmwareValue(state, PROVIDER_VMWARE_VM_KEY);
+
+  const loadedVm = getVmwareAttribute(state, PROVIDER_VMWARE_VM_KEY, 'vm');
   const status = getVmwareValue(state, PROVIDER_VMWARE_STATUS_KEY);
 
-  const hasVM = !!selectedVm;
+  const hasLoadedVm = !!loadedVm;
   const isVmWareProvider = isVmwareProvider(state);
   const isOkStatus = V2V_WMWARE_STATUS_ALL_OK.includes(status);
 
@@ -122,8 +123,8 @@ export const providerUpdateCreator = (prevProps, prevState, props, state) => {
     isRequired: asRequired(isVmWareProvider, VMWARE_PROVIDER_METADATA_ID),
   };
 
-  const isEditingDisabled = isVmWareProvider && (!hasVM || !isOkStatus);
-  const needsValuesReset = isVmWareProvider && !hasVM;
+  const isEditingDisabled = isVmWareProvider && (!hasLoadedVm || !isOkStatus);
+  const needsValuesReset = isVmWareProvider && !hasLoadedVm;
 
   if (namespace && isVmWareProvider) {
     startV2VVMWareControllerWithCleanup(props, { namespace }); // fire side effect
