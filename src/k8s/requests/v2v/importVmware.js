@@ -16,7 +16,7 @@ import {
   STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../../../components/Wizard/CreateVmWizard/constants';
 import { getName } from '../../../selectors';
-import { buildConversionPod, buildConversionPodSecret, buildV2VRole, buildVMwareSecret } from '../../objects/v2v';
+import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { CONVERSION_GENERATE_NAME } from './constants';
 import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
@@ -24,7 +24,6 @@ import {
   PROVIDER_VMWARE_HOSTNAME_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
-  PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/constants';
@@ -35,24 +34,6 @@ import {
   getVmwareField,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize } from '../../../utils';
-
-const asImportProviderSecret = vmSettings => {
-  if (getVmwareValue(vmSettings, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY)) {
-    const url = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY);
-    const username = getVmwareValue(vmSettings, PROVIDER_VMWARE_USER_NAME_KEY);
-    const password = getVmwareValue(vmSettings, PROVIDER_VMWARE_USER_PASSWORD_KEY);
-    const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
-
-    return buildVMwareSecret({
-      url,
-      username,
-      password,
-      namespace,
-    });
-  }
-
-  return null;
-};
 
 const asVolumenMount = ({ name, storageType, data }) => ({
   name,
@@ -65,16 +46,6 @@ const asVolume = ({ name, data }) => ({
     claimName: getName(data.pvc) || name,
   },
 });
-
-const createProviderSecret = async (vmSettings, networks, storages, { k8sCreate }) => {
-  const importProviderSecret = asImportProviderSecret(vmSettings);
-
-  if (importProviderSecret) {
-    await k8sCreate(SecretModel, importProviderSecret);
-  }
-
-  return null;
-};
 
 const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, lastResults, { units }) => {
   const isImportStorage = storage =>
@@ -235,27 +206,24 @@ const startConversionPod = async (
 };
 
 export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }, context) =>
-  [
-    createProviderSecret,
-    createConversionPodSecret,
-    resolveRolesAndServiceAccount,
-    resolveStorages,
-    startConversionPod,
-  ].reduce(async (lastResultPromise, stepFunction) => {
-    const lastResult = await lastResultPromise;
-    const nextResult = await stepFunction(
-      vmSettings,
-      networks,
-      storages,
-      {
-        k8sCreate,
-        k8sPatch,
-      },
-      lastResult,
-      context
-    );
-    return {
-      ...lastResult,
-      ...nextResult,
-    };
-  }, Promise.resolve({}));
+  [createConversionPodSecret, resolveRolesAndServiceAccount, resolveStorages, startConversionPod].reduce(
+    async (lastResultPromise, stepFunction) => {
+      const lastResult = await lastResultPromise;
+      const nextResult = await stepFunction(
+        vmSettings,
+        networks,
+        storages,
+        {
+          k8sCreate,
+          k8sPatch,
+        },
+        lastResult,
+        context
+      );
+      return {
+        ...lastResult,
+        ...nextResult,
+      };
+    },
+    Promise.resolve({})
+  );

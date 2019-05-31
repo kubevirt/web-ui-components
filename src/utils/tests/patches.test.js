@@ -8,6 +8,7 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   POD_NETWORK,
   DISK_PATH_KEY,
+  VCENTER_TEMPORARY_LABEL,
 } from '../../constants';
 import {
   getPxeBootPatch,
@@ -18,6 +19,8 @@ import {
   getStartStopPatch,
   getUpdateCpuMemoryPatch,
   getDeviceBootOrderPatch,
+  removeLabelFromVmwareSecretPatch,
+  addLabelToVmwareSecretPatch,
 } from '../patches';
 import { cloudInitTestVm } from '../../tests/mocks/vm/cloudInitTestVm.mock';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
@@ -454,6 +457,27 @@ describe('patches.js tests', () => {
     patch = getStartStopPatch(vm, false);
     expect(patch).toHaveLength(1);
     comparePatch(patch[0], '/spec', { running: false });
+  });
+
+  it('removeLabelFromVmwareSecretPatch patch', () => {
+    const patch = removeLabelFromVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
+    expect(patch).toEqual([
+      {
+        op: 'remove',
+        path: '/metadata/labels/kubevirt.io~1temporary',
+      },
+    ]);
+  });
+
+  it('addLabelToVmwareSecretPatch patch', () => {
+    const patch = addLabelToVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
+    expect(patch).toEqual([
+      {
+        op: 'add',
+        path: '/metadata/labels/kubevirt.io~1temporary',
+        value: 'true',
+      },
+    ]);
   });
 });
 

@@ -10,6 +10,9 @@ import {
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY,
+  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY,
+  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE,
 } from '../../providers/VMwareImportProvider/constants';
 import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
 
@@ -29,7 +32,7 @@ export const getVmWareInitialState = props => ({
   [PROVIDER_VMWARE_CHECK_CONNECTION_KEY]: {
     isDisabled: asDisabled(true, PROVIDER_VMWARE_VCENTER_KEY),
   },
-  [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: {},
+  [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: { value: true },
   [PROVIDER_VMWARE_VM_KEY]: {
     isDisabled: asDisabled(true, PROVIDER_VMWARE_VM_KEY),
   },
@@ -40,6 +43,8 @@ export const getVmWareInitialState = props => ({
 
   // simple values
   [PROVIDER_VMWARE_V2V_NAME_KEY]: null,
+  [PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY]: null,
+  [PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY]: PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE,
 });
 
 const titleResolver = {
@@ -47,7 +52,7 @@ const titleResolver = {
   [PROVIDER_VMWARE_HOSTNAME_KEY]: 'vCenter Hostname',
   [PROVIDER_VMWARE_USER_NAME_KEY]: 'vCenter User Name',
   [PROVIDER_VMWARE_USER_PASSWORD_KEY]: 'vCenter Password',
-  [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: 'Remember vCenter credentials',
+  [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: 'Save as New vCenter Instance',
   [PROVIDER_VMWARE_VM_KEY]: 'VM to Import',
 };
 
@@ -75,7 +80,7 @@ const helpResolver = {
   [PROVIDER_VMWARE_USER_NAME_KEY]: () => 'User name to be used for connection to a vCenter instance.',
   [PROVIDER_VMWARE_USER_PASSWORD_KEY]: () => 'User password to be used for connection to a vCenter instance.',
   [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: () =>
-    'If checked, new secret keeping connection details will be created for later use.',
+    'If checked, a new secret containing the connection details will be created for future use.',
   [PROVIDER_VMWARE_VM_KEY]: () =>
     'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.',
 };
