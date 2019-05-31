@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VMWareControllerStatusRow deployment deploymentPods /> renders correctly 0 (V2V_WMWARE_DEPLOYMENT_STATUS_UNKNOWN) 1`] = `
+<div
+  class="form-group"
+>
+  <div
+    class="col-sm-3"
+  />
+  <div
+    class="col-sm-5"
+  >
+    <div
+      class="kubevirt-create-vm-wizard__import-vmware-connection-status"
+    >
+      Starting VMware controller... 
+      <div
+        class="spinner spinner-sm"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VMWareControllerStatusRow deployment deploymentPods /> renders correctly 1 (V2V_WMWARE_DEPLOYMENT_STATUS_PROGRESSING) 1`] = `
+<div
+  class="form-group"
+>
+  <div
+    class="col-sm-3"
+  />
+  <div
+    class="col-sm-5"
+  >
+    <div
+      class="kubevirt-create-vm-wizard__import-vmware-connection-status"
+    >
+      Deploying VMware controller (
+      <a
+        href="/k8s/ns/kube-public/deployments/v2v-vmware/events"
+      >
+        v2v-vmware
+      </a>
+      )... 
+      <div
+        class="spinner spinner-sm"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VMWareControllerStatusRow deployment deploymentPods /> renders correctly 2 (V2V_WMWARE_DEPLOYMENT_STATUS_FAILED) 1`] = `
+<div
+  class="form-group"
+>
+  <div
+    class="col-sm-3"
+  />
+  <div
+    class="col-sm-5"
+  >
+    <div
+      class="kubevirt-create-vm-wizard__import-vmware-connection-status"
+    >
+      <div
+        class="alert alert-warning"
+      >
+        <span
+          aria-hidden="true"
+          class="pficon pficon-warning-triangle-o"
+        />
+        Deployment of VMware controller 
+        <a
+          href="/k8s/ns/kube-public/deployments/v2v-vmware/events"
+        >
+          v2v-vmware
+        </a>
+         failed: ProgressDeadlineExceeded.
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VMWareControllerStatusRow deployment deploymentPods /> renders correctly 3 (V2V_WMWARE_DEPLOYMENT_STATUS_POD_FAILED) 1`] = `
+<div
+  class="form-group"
+>
+  <div
+    class="col-sm-3"
+  />
+  <div
+    class="col-sm-5"
+  >
+    <div
+      class="kubevirt-create-vm-wizard__import-vmware-connection-status"
+    >
+      <div
+        class="alert alert-warning"
+      >
+        <span
+          aria-hidden="true"
+          class="pficon pficon-warning-triangle-o"
+        />
+        Deployment of VMware controller 
+        <a
+          href="/k8s/ns/kube-public/deployments/v2v-vmware/events"
+        >
+          v2v-vmware
+        </a>
+         failed: Back-off pulling image "quay.io/kubevirt/kubevirt-vmware:latests". Please inspect a failing pod 
+        <a
+          href="/k8s/ns/kube-public/pods/v2v-vmware-676769c6c8-rr4q9/events"
+        >
+          v2v-vmware-676769c6c8-rr4q9
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VMWareControllerStatusRow deployment deploymentPods /> renders correctly 4 (V2V_WMWARE_DEPLOYMENT_STATUS_ROLLOUT_COMPLETE) 1`] = `null`;

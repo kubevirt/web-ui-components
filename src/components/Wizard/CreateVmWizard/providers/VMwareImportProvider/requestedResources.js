@@ -1,5 +1,5 @@
 import { getResource } from '../../../../../utils';
-import { ConfigMapModel, SecretModel, V2VVMwareModel } from '../../../../../models';
+import { ConfigMapModel, SecretModel, V2VVMwareModel, PodModel, DeploymentModel } from '../../../../../models';
 import { VCENTER_TEMPORARY_LABEL, VCENTER_TYPE_LABEL } from '../../../../../constants';
 import { getVmwareField } from './selectors';
 import { NAMESPACE_KEY } from '../../constants';
@@ -9,6 +9,7 @@ import {
 } from '../../../../../config';
 import { PROVIDER_VMWARE_V2V_NAME_KEY } from './constants';
 import { getVmSettingValue } from '../../utils/vmSettingsTabUtils';
+import { V2VVMWARE_DEPLOYMENT_NAME } from '../../../../../k8s/requests/v2v';
 
 export const getVmWareProviderRequestedResources = state => {
   const v2vVmwareName = getVmwareField(state, PROVIDER_VMWARE_V2V_NAME_KEY);
@@ -33,6 +34,19 @@ export const getVmWareProviderRequestedResources = state => {
       resource: getResource(ConfigMapModel, {
         name: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
         namespace: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
+        isList: false,
+      }),
+    },
+    deploymentPods: {
+      resource: getResource(PodModel, {
+        namespace,
+        matchLabels: { name: V2VVMWARE_DEPLOYMENT_NAME },
+      }),
+    },
+    deployment: {
+      resource: getResource(DeploymentModel, {
+        namespace,
+        name: V2VVMWARE_DEPLOYMENT_NAME,
         isList: false,
       }),
     },

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StatusField /> renders correctly 1`] = `
+<VMwareStatusField
+  id={null}
+>
+  <div
+    className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+    id={null}
+  >
+    status
+  </div>
+</VMwareStatusField>
+`;

@@ -173,6 +173,14 @@ Object {
   },
   "providersData": Object {
     "VMware": Object {
+      "PROVIDER_VMWARE_V2V_LAST_ERROR": Object {
+        "isDisabled": Object {
+          "VMWARE_PROVIDER_METADATA_ID": false,
+        },
+        "isHidden": Object {
+          "VMWARE_PROVIDER_METADATA_ID": true,
+        },
+      },
       "checkConnectionButton": Object {
         "isDisabled": Object {
           "VMWARE_PROVIDER_METADATA_ID": false,

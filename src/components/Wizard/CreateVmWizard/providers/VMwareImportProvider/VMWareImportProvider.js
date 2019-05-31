@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import PropTypes from 'prop-types';
 
@@ -32,13 +32,16 @@ import {
   PROVIDER_VMWARE_STATUS_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
+  PROVIDER_VMWARE_V2V_LAST_ERROR,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
 } from './constants';
-import VMWareProviderStatus from './VMWareProviderStatus';
+import VMWareObjectStatus from './VMWareObjectStatus';
 import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
 import { V2V_WMWARE_STATUS_UNKNOWN } from '../../../../../utils/status/v2vVMware';
 import { getVmwareField } from './selectors';
+import VMWareControllerErrors from './VMWareControllerErrors';
+import VMWareControllerStatusRow from './VMWareControllerStatusRow';
 
 export class VMWareImportProvider extends React.Component {
   state = {
@@ -136,7 +139,7 @@ export class VMWareImportProvider extends React.Component {
   }
 
   render() {
-    const { vCenterSecrets, v2vvmware } = this.props;
+    const { vCenterSecrets, v2vvmware, deployment, deploymentPods } = this.props;
 
     const secrets = [CONNECT_TO_NEW_INSTANCE, ...vCenterSecrets.map(getName)];
 
@@ -148,11 +151,25 @@ export class VMWareImportProvider extends React.Component {
       );
     }
 
+    const hasDeployment = !(!deployment || isEmpty(deployment));
+
+    const errors = this.getFieldAttribute(PROVIDER_VMWARE_V2V_LAST_ERROR, 'errors');
+
     return (
       <React.Fragment>
+        <FormRow isHidden={hasDeployment || isFieldHidden(this.getField(PROVIDER_VMWARE_V2V_LAST_ERROR))}>
+          <VMWareControllerErrors id={getFieldId(PROVIDER_VMWARE_V2V_LAST_ERROR)} errors={errors} />
+        </FormRow>
+        <VMWareControllerStatusRow
+          id="v2v-vmware-status"
+          hasErrors={!!errors}
+          deployment={deployment}
+          deploymentPods={deploymentPods}
+        />
         <FormRow {...this.getRowMetadata(PROVIDER_VMWARE_VCENTER_KEY)}>
           <Dropdown
             {...this.getFieldData(PROVIDER_VMWARE_VCENTER_KEY)}
+            disabled={!hasDeployment || isFieldDisabled(this.getField(PROVIDER_VMWARE_VCENTER_KEY))}
             onChange={this.onSecretChange}
             choices={secrets}
           />
@@ -184,7 +201,7 @@ export class VMWareImportProvider extends React.Component {
           </Button>
         </FormRow>
         <FormRow isHidden={isFieldHidden(this.getField(PROVIDER_VMWARE_STATUS_KEY))}>
-          <VMWareProviderStatus status={this.getValue(PROVIDER_VMWARE_STATUS_KEY)} />
+          <VMWareObjectStatus status={this.getValue(PROVIDER_VMWARE_STATUS_KEY)} />
         </FormRow>
         <FormRow {...this.getRowMetadata(PROVIDER_VMWARE_VM_KEY)}>
           <Dropdown {...this.getFieldData(PROVIDER_VMWARE_VM_KEY)} choices={vmNames} />
@@ -195,12 +212,16 @@ export class VMWareImportProvider extends React.Component {
 }
 
 VMWareImportProvider.defaultProps = {
+  deployment: null,
+  deploymentPods: null,
   vCenterSecrets: [], // TODO: add loading when undefined
   v2vvmware: null,
   vmwareToKubevirtOsConfigMap: null,
 };
 
 VMWareImportProvider.propTypes = {
+  deployment: PropTypes.object,
+  deploymentPods: PropTypes.array,
   vmSettings: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   vCenterSecrets: PropTypes.array,

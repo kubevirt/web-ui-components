@@ -94,3 +94,5 @@ export const getPodStatus = pod =>
   isContainerFailing(pod) ||
   isNotReady(pod) ||
   hasOkStatus(pod) || { status: POD_STATUS_UNKNOWN };
+
+export const getSimplePodStatus = pod => getPodStatus(pod).status;
