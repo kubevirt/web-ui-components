@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 
 import { VMWareImportProvider } from '../VMWareImportProvider';
 
-const testVMWareImportProvider = () => <VMWareImportProvider />;
+const testVMWareImportProvider = () => <VMWareImportProvider vmSettings={{}} onChange={() => undefined} />;
 
 // TODO
 describe('<VMWareImportProvider />', () => {

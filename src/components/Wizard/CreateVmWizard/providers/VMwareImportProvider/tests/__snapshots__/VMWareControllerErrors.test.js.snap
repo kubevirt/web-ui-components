@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VMWareControllerErrors /> renders correctly 0 1`] = `
+<div
+  id="1"
+>
+  <div
+    class="expand-collapse-pf"
+  >
+    <div
+      class="expand-collapse-pf-link-container"
+    >
+      <button
+        class="btn btn-link"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-angle-down"
+        />
+        failed
+      </button>
+      <span
+        class="expand-collapse-pf-separator bordered"
+      />
+    </div>
+    <pre
+      class="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-tab-row"
+    >
+      error content
+    </pre>
+  </div>
+  <div
+    class="expand-collapse-pf"
+  >
+    <div
+      class="expand-collapse-pf-link-container"
+    >
+      <button
+        class="btn btn-link"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-angle-down"
+        />
+        failed
+      </button>
+      <span
+        class="expand-collapse-pf-separator bordered"
+      />
+    </div>
+    <pre
+      class="blank-slate-pf-secondary-action kubevirt-create-vm-wizard__result-tab-row kubevirt-create-vm-wizard__result-tab-row--error"
+    >
+      {
+ "kind": "Deployment",
+ "apiVersion": "apps/v1",
+ "metadata": {
+  "name": "v2v-vmware",
+  "namespace": "kube-public",
+  "selfLink": "/apis/apps/v1/namespaces/kube-public/deployments/v2v-vmware",
+  "uid": "5ec394d6-814e-11e9-aaab-8c16455167e9",
+  "resourceVersion": "217420",
+  "generation": 1,
+  "annotations": {
+   "deployment.kubernetes.io/revision": "1"
+  }
+ },
+ "spec": {
+  "replicas": 1,
+  "selector": {
+   "matchLabels": {
+    "name": "v2v-vmware"
+   }
+  },
+  "template": {
+   "metadata": {
+    "creationTimestamp": null,
+    "labels": {
+     "name": "v2v-vmware"
+    }
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "v2v-vmware",
+      "image": "quay.io/kubevirt/kubevirt-vmware:latest",
+      "command": [
+       "kubevirt-vmware"
+      ],
+      "env": [
+       {
+        "name": "WATCH_NAMESPACE",
+        "valueFrom": {
+         "fieldRef": {
+          "apiVersion": "v1",
+          "fieldPath": "metadata.namespace"
+         }
+        }
+       },
+       {
+        "name": "POD_NAME",
+        "valueFrom": {
+         "fieldRef": {
+          "apiVersion": "v1",
+          "fieldPath": "metadata.name"
+         }
+        }
+       },
+       {
+        "name": "OPERATOR_NAME",
+        "value": "v2v-vmware"
+       }
+      ],
+      "resources": {},
+      "terminationMessagePath": "/dev/termination-log",
+      "terminationMessagePolicy": "File",
+      "imagePullPolicy": "IfNotPresent"
+     }
+    ],
+    "restartPolicy": "Always",
+    "terminationGracePeriodSeconds": 30,
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccountName": "v2v-vmware",
+    "serviceAccount": "v2v-vmware",
+    "securityContext": {},
+    "schedulerName": "default-scheduler"
+   }
+  },
+  "strategy": {
+   "type": "RollingUpdate",
+   "rollingUpdate": {
+    "maxUnavailable": "25%",
+    "maxSurge": "25%"
+   }
+  },
+  "revisionHistoryLimit": 10,
+  "progressDeadlineSeconds": 600
+ },
+ "status": {
+  "observedGeneration": 1,
+  "replicas": 1,
+  "updatedReplicas": 1,
+  "readyReplicas": 0,
+  "availableReplicas": 0,
+  "conditions": [
+   {
+    "type": "Available",
+    "status": "False",
+    "reason": "MinimumReplicasUnavailable",
+    "message": "Deployment does not have minimum availability."
+   },
+   {
+    "type": "Progressing",
+    "status": "False",
+    "reason": "ProgressDeadlineExceeded",
+    "message": "ReplicaSet \\"v2v-vmware-676769c6c8\\" has timed out progressing."
+   }
+  ],
+  "unavailableReplicas": 1
+ }
+}
+    </pre>
+  </div>
+  <div
+    class="expand-collapse-pf"
+  >
+    <div
+      class="expand-collapse-pf-link-container"
+    >
+      <button
+        class="btn btn-link"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-angle-right"
+        />
+        failed
+      </button>
+      <span
+        class="expand-collapse-pf-separator bordered"
+      />
+    </div>
+  </div>
+</div>
+`;

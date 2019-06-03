@@ -10,6 +10,7 @@ import {
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  PROVIDER_VMWARE_V2V_LAST_ERROR,
 } from '../../providers/VMwareImportProvider/constants';
 import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
 
@@ -38,6 +39,10 @@ export const getVmWareInitialState = props => ({
     value: getSimpleV2vVMwareStatus(), // UNKNOWN
   },
 
+  [PROVIDER_VMWARE_V2V_LAST_ERROR]: {
+    isHidden: asHidden(true, PROVIDER_VMWARE_V2V_LAST_ERROR),
+  },
+
   // simple values
   [PROVIDER_VMWARE_V2V_NAME_KEY]: null,
 });
@@ -60,6 +65,7 @@ const idResolver = {
   [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: 'vcenter-remember-credentials',
   [PROVIDER_VMWARE_STATUS_KEY]: 'vcenter-status',
   [PROVIDER_VMWARE_VM_KEY]: 'vcenter-vm-dropdown',
+  [PROVIDER_VMWARE_V2V_LAST_ERROR]: 'v2v-vmware-error',
 };
 
 const defaultValueResolver = {

@@ -48,6 +48,7 @@ import {
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  PROVIDER_VMWARE_V2V_LAST_ERROR,
 } from '../../providers/VMwareImportProvider/constants';
 import { vmSettingsCreator } from '../vmSettingsTabStateUpdate';
 import {
@@ -80,7 +81,7 @@ export const vmWareSettingsCreator = updateCreator => (...args) => {
 
 export const getVmwareProviderStateUpdate = (prevProps, prevState, props, state, extra) =>
   [
-    ...[providerUpdateCreator].map(creator => vmSettingsCreator(creator)),
+    ...[startControllerAndCleanup, providerUpdateCreator].map(creator => vmSettingsCreator(creator)),
     ...[
       secretUpdateCreator,
       secretValueUpdateCreator,
@@ -94,7 +95,20 @@ export const getVmwareProviderStateUpdate = (prevProps, prevState, props, state,
     return update && update !== intermediaryState ? objectMerge({}, intermediaryState, update) : intermediaryState;
   }, state);
 
-export const providerUpdateCreator = (prevProps, prevState, props, state) => {
+export const startControllerAndCleanup = (prevProps, prevState, props, state, extra) => {
+  if (!hasVmSettingsChanged(prevState, state, PROVISION_SOURCE_TYPE_KEY, PROVIDER_KEY, NAMESPACE_KEY)) {
+    return null;
+  }
+
+  const namespace = getVmSettingValue(state, NAMESPACE_KEY);
+
+  if (isVmwareProvider(state) && namespace) {
+    startV2VVMWareControllerWithCleanup(props, { namespace }, extra); // fire side effect
+  }
+  return null;
+};
+
+export const providerUpdateCreator = (prevProps, prevState, props, state, extra) => {
   if (
     !(
       hasVmSettingsChanged(prevState, state, PROVISION_SOURCE_TYPE_KEY, PROVIDER_KEY, NAMESPACE_KEY) ||
@@ -126,10 +140,6 @@ export const providerUpdateCreator = (prevProps, prevState, props, state) => {
   const isEditingDisabled = isVmWareProvider && (!hasLoadedVm || !isOkStatus);
   const needsValuesReset = isVmWareProvider && !hasLoadedVm;
 
-  if (namespace && isVmWareProvider) {
-    startV2VVMWareControllerWithCleanup(props, { namespace }); // fire side effect
-  }
-
   const vmFieldUpdate = {
     isDisabled: asDisabled(isEditingDisabled, VMWARE_PROVIDER_METADATA_ID),
     value: needsValuesReset ? null : undefined,
@@ -143,7 +153,10 @@ export const providerUpdateCreator = (prevProps, prevState, props, state) => {
     [MEMORY_KEY]: vmFieldUpdate,
     [CPU_KEY]: vmFieldUpdate,
     [WORKLOAD_PROFILE_KEY]: vmFieldUpdate,
-    [USE_CLOUD_INIT_KEY]: vmFieldUpdate,
+    [USE_CLOUD_INIT_KEY]: {
+      isDisabled: asDisabled(isEditingDisabled, VMWARE_PROVIDER_METADATA_ID),
+      value: needsValuesReset ? false : undefined,
+    },
     [PROVIDERS_DATA_KEY]: {
       [PROVIDER_VMWARE]: {
         [PROVIDER_VMWARE_VCENTER_KEY]: requiredMetadata,
@@ -152,6 +165,7 @@ export const providerUpdateCreator = (prevProps, prevState, props, state) => {
         [PROVIDER_VMWARE_USER_PASSWORD_KEY]: hiddenMetadata,
         [PROVIDER_VMWARE_CHECK_CONNECTION_KEY]: hiddenMetadata,
         [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: hiddenMetadata,
+        [PROVIDER_VMWARE_V2V_LAST_ERROR]: hiddenMetadata,
         [PROVIDER_VMWARE_VM_KEY]: {
           isHidden: asHidden(!isVmWareProvider, VMWARE_PROVIDER_METADATA_ID),
           isRequired: asRequired(isVmWareProvider, VMWARE_PROVIDER_METADATA_ID),
@@ -373,15 +387,30 @@ const createConnectionObjects = (props, params, { safeSetState }, afterData) => 
     });
 };
 
-const startV2VVMWareControllerWithCleanup = (props, { namespace }) => {
+const startV2VVMWareControllerWithCleanup = (props, { namespace }, { safeSetState }) => {
   const enhancedK8sMethods = new EnhancedK8sMethods(props);
 
   startV2VVMWareController({ namespace }, enhancedK8sMethods)
+    .then(() =>
+      setVmWareData(safeSetState, {
+        [PROVIDER_VMWARE_V2V_LAST_ERROR]: {
+          isHidden: asHidden(true, PROVIDER_VMWARE_V2V_LAST_ERROR),
+          errors: null,
+        },
+      })
+    )
     .catch(e =>
       // eslint-disable-next-line promise/no-nesting
-      cleanupAndGetResults(enhancedK8sMethods, e).then(({ results }) =>
-        errorsFirstSort(results).forEach(o => warn(o.title, o.content))
-      )
+      cleanupAndGetResults(enhancedK8sMethods, e).then(({ results }) => {
+        const errors = errorsFirstSort(results);
+        errors.forEach(o => warn(o.title, o.content, o.obj));
+        return setVmWareData(safeSetState, {
+          [PROVIDER_VMWARE_V2V_LAST_ERROR]: {
+            isHidden: asHidden(false, PROVIDER_VMWARE_V2V_LAST_ERROR),
+            errors,
+          },
+        });
+      })
     )
     .catch(le => error(le));
 };

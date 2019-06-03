@@ -2,10 +2,153 @@
 
 exports[`<VMWareImportProvider /> renders correctly 1`] = `
 <VMWareImportProvider
+  deployment={null}
+  deploymentPods={null}
+  onChange={[Function]}
   v2vvmware={null}
   vCenterSecrets={Array []}
+  vmSettings={Object {}}
   vmwareToKubevirtOsConfigMap={null}
 >
+  <FormRow
+    className={null}
+    controlSize={5}
+    help=""
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help=""
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help=""
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <VMWareControllerErrors
+                errors={null}
+                id="v2v-vmware-error"
+              />
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <VMWareControllerStatusRow
+    controlSize={5}
+    deployment={null}
+    deploymentPods={null}
+    hasErrors={false}
+    id="v2v-vmware-status"
+    labelSize={3}
+  >
+    <FormGroup
+      bsClass="form-group"
+    >
+      <div
+        className="form-group"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={3}
+        >
+          <div
+            className="col-sm-3"
+          />
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={5}
+        >
+          <div
+            className="col-sm-5"
+          >
+            <NoDeployment
+              id="v2v-vmware-status"
+              status="V2V_WMWARE_DEPLOYMENT_STATUS_UNKNOWN"
+            >
+              <VMwareStatusField
+                id={null}
+              >
+                <div
+                  className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+                  id={null}
+                >
+                  Starting VMware controller... 
+                  <Spinner
+                    className=""
+                    inline={false}
+                    inverse={false}
+                    loading={true}
+                    size="sm"
+                  >
+                    <div
+                      className="spinner spinner-sm"
+                    />
+                  </Spinner>
+                </div>
+              </VMwareStatusField>
+            </NoDeployment>
+          </div>
+        </Col>
+      </div>
+    </FormGroup>
+  </VMWareControllerStatusRow>
   <FormRow
     className={null}
     controlSize={5}
@@ -141,7 +284,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                     "Connect to New Instance",
                   ]
                 }
-                disabled={false}
+                disabled={true}
                 id="vcenter-instance-dropdown"
                 onChange={[Function]}
                 value="--- Select vCenter Instance Secret ---"
@@ -160,7 +303,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                     <DropdownButton
                       bsStyle="default"
                       className="kubevirt-dropdown"
-                      disabled={false}
+                      disabled={true}
                       id="vcenter-instance-dropdown"
                       onSelect={[Function]}
                       title="--- Select vCenter Instance Secret ---"
@@ -168,14 +311,14 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                       <DropdownButton
                         bsStyle="default"
                         className="kubevirt-dropdown"
-                        disabled={false}
+                        disabled={true}
                         id="vcenter-instance-dropdown"
                         onSelect={[Function]}
                         title="--- Select vCenter Instance Secret ---"
                       >
                         <Uncontrolled(Dropdown)
                           bsStyle="default"
-                          disabled={false}
+                          disabled={true}
                           id="vcenter-instance-dropdown"
                           onSelect={[Function]}
                         >
@@ -183,7 +326,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                             bsClass="dropdown"
                             bsStyle="default"
                             componentClass={[Function]}
-                            disabled={false}
+                            disabled={true}
                             id="vcenter-instance-dropdown"
                             onSelect={[Function]}
                             onToggle={[Function]}
@@ -192,19 +335,19 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                               block={false}
                               bsClass="btn-group"
                               bsStyle="default"
-                              className="dropdown"
+                              className="dropdown disabled"
                               justified={false}
                               vertical={false}
                             >
                               <div
-                                className="dropdown btn-group btn-group-default"
+                                className="dropdown disabled btn-group btn-group-default"
                               >
                                 <DropdownToggle
                                   bsClass="dropdown-toggle"
                                   bsRole="toggle"
                                   bsStyle="default"
                                   className="kubevirt-dropdown"
-                                  disabled={false}
+                                  disabled={true}
                                   id="vcenter-instance-dropdown"
                                   key=".0"
                                   onClick={[Function]}
@@ -220,7 +363,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                                     bsClass="btn"
                                     bsStyle="default"
                                     className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
+                                    disabled={true}
                                     id="vcenter-instance-dropdown"
                                     onClick={[Function]}
                                     onKeyDown={[Function]}
@@ -230,7 +373,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                                       aria-expanded={false}
                                       aria-haspopup={true}
                                       className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
+                                      disabled={true}
                                       id="vcenter-instance-dropdown"
                                       onClick={[Function]}
                                       onKeyDown={[Function]}
@@ -1140,19 +1283,22 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
             <div
               className="col-sm-5"
             >
-              <VMWareProviderStatus
+              <VMWareObjectStatus
                 status={null}
               >
                 <ConnectionUnknown>
-                  <StatusField>
+                  <VMwareStatusField
+                    id={null}
+                  >
                     <div
                       className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+                      id={null}
                     >
                       Status unknown
                     </div>
-                  </StatusField>
+                  </VMwareStatusField>
                 </ConnectionUnknown>
-              </VMWareProviderStatus>
+              </VMWareObjectStatus>
             </div>
           </Col>
         </div>

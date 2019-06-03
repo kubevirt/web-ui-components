@@ -1,23 +1,9 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { shape } from 'prop-types';
 import { render } from 'enzyme';
 
 import { VmStatus, VmStatuses } from '../VmStatus';
 import vmFixtures from '../../../utils/status/vm/fixtures/vmStatus.fixture';
-
-const router = {
-  history: new BrowserRouter().history,
-  route: {
-    location: {},
-    match: {},
-  },
-};
-
-const createContext = () => ({
-  context: { router },
-  childContextTypes: { router: shape({}) },
-});
+import { createContext } from '../../../tests/router';
 
 describe('<VmStatus vm />', () => {
   it('renders correctly', () => {

@@ -14,58 +14,52 @@ import {
   V2V_WMWARE_STATUS_UNKNOWN,
   V2V_WMWARE_STATUS_CONNECTION_TO_VCENTER_FAILED,
 } from '../../../../../utils/status/v2vVMware';
-
-const StatusField = ({ children }) => (
-  <div className="kubevirt-create-vm-wizard__import-vmware-connection-status">{children}</div>
-);
-StatusField.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+import VMwareStatusField from './VMwareStatusField';
 
 const CheckingCredentials = () => (
-  <StatusField>
+  <VMwareStatusField>
     Checking vCenter Credentials...
     <Spinner loading size="sm" />
-  </StatusField>
+  </VMwareStatusField>
 );
 
 const LoadingData = () => (
-  <StatusField>
+  <VMwareStatusField>
     Connection successful. Loading data...
     <Spinner loading size="sm" />
-  </StatusField>
+  </VMwareStatusField>
 );
 
 const ConnectionFailed = () => (
-  <StatusField>
+  <VMwareStatusField>
     <Alert type="warning">Could not connect to vCenter using the provided credentials.</Alert>
-  </StatusField>
+  </VMwareStatusField>
 );
 
 const ConnectionFailedInfra = () => (
-  <StatusField>
+  <VMwareStatusField>
     <Alert type="warning">Can not verify vCenter credentials, connection to the V2V VMWare failed.</Alert>
-  </StatusField>
+  </VMwareStatusField>
 );
 
-const ConnectionSuccessful = () => <StatusField>Connection successful</StatusField>;
+const ConnectionSuccessful = () => <VMwareStatusField>Connection successful</VMwareStatusField>;
 
-const ConnectionUnknown = () => <StatusField>Status unknown</StatusField>;
+const ConnectionUnknown = () => <VMwareStatusField>Status unknown</VMwareStatusField>;
 
 const ReadVmsListFailed = () => (
-  <StatusField>
+  <VMwareStatusField>
     <Alert type="warning">
       Connection succeeded but could not read list of virtual machines from the vCenter instance.
     </Alert>
-  </StatusField>
+  </VMwareStatusField>
 );
 
 const ReadVmDetailFailed = () => (
-  <StatusField>
+  <VMwareStatusField>
     <Alert type="warning">
       Connection succeeded but could not read details of the virtual machine from the vCenter instance.
     </Alert>
-  </StatusField>
+  </VMwareStatusField>
 );
 
 const vmwareStatusComponentResolver = {
@@ -80,18 +74,18 @@ const vmwareStatusComponentResolver = {
   [V2V_WMWARE_STATUS_UNKNOWN]: ConnectionUnknown,
 };
 // see onVmwareCheckConnection() for details
-const VMWareProviderStatus = ({ status }) => {
+const VMWareObjectStatus = ({ status }) => {
   const StatusComponent = vmwareStatusComponentResolver[status] || ConnectionUnknown;
 
   return <StatusComponent />;
 };
 
-VMWareProviderStatus.defaultProps = {
+VMWareObjectStatus.defaultProps = {
   status: null,
 };
 
-VMWareProviderStatus.propTypes = {
+VMWareObjectStatus.propTypes = {
   status: PropTypes.string,
 };
 
-export default VMWareProviderStatus;
+export default VMWareObjectStatus;

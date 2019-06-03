@@ -32,6 +32,10 @@ export const findFalseStatusConditionMessage = entity => {
   return undefined;
 };
 
+export const getConditionReason = condition => get(condition, 'reason');
+export const isConditionStatusTrue = condition => get(condition, 'status') === 'True';
+export const isConditionReason = (condition, reason) => getConditionReason(condition) === reason;
+
 export const getLabelKeyValue = (entity, label) => {
   const labels = get(entity, 'metadata.labels', {});
   return findKeySuffixValue(labels, label);
