@@ -61,7 +61,7 @@ export const k8sCreate = (model, resource) => {
   }
 
   if (resource.metadata.generateName) {
-    resource.metadata.name = `${resource.metadata.generateName}-${Math.random()
+    resource.metadata.name = `${resource.metadata.generateName}${Math.random()
       .toString(36)
       .substr(2, 5)}`;
   }
