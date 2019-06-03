@@ -9,7 +9,7 @@ class Migration {
       apiVersion: getModelApi(VirtualMachineInstanceMigrationModel),
       kind: VirtualMachineInstanceMigrationModel.kind,
       metadata: {
-        name: null,
+        generateName: null,
         namespace: null,
       },
       spec: {
@@ -19,7 +19,7 @@ class Migration {
   }
 
   setName(name) {
-    this.data.metadata.name = name;
+    this.data.metadata.generateName = name;
   }
 
   setVmi(vmi) {
@@ -32,7 +32,7 @@ class Migration {
   }
 }
 
-export const getMigrationName = vmi => prefixedId(getName(vmi), 'migration');
+export const getMigrationName = vmi => prefixedId(getName(vmi), 'migration-');
 
 export const migrate = (k8sCreate, vmi) => {
   const migration = new Migration();

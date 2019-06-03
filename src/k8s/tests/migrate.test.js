@@ -9,7 +9,8 @@ describe('migrate.js', () => {
     migrate(k8sCreate, blueVmi).then(migration => {
       expect(migration.apiVersion).toBe(getModelApi(VirtualMachineInstanceMigrationModel));
       expect(migration.kind).toBe(VirtualMachineInstanceMigrationModel.kind);
-      expect(migration.metadata.name).toBe(`${blueVmi.metadata.name}-migration`);
+      expect(migration.metadata.generateName).toBe(`${blueVmi.metadata.name}-migration-`);
+      expect(migration.metadata.name.startsWith(`${blueVmi.metadata.name}-migration-`)).toBeTruthy();
       expect(migration.metadata.namespace).toBe(blueVmi.metadata.namespace);
       expect(migration.spec.vmiName).toBe(blueVmi.metadata.name);
       return migration;
