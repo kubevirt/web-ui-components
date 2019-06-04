@@ -7,11 +7,47 @@ exports[`<Capacity /> renders Capacity correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Capacity
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Capacity
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "Total Capacity",
+                "Requested vs Used",
+                "VMs vs Pods",
+              ]
+            }
+            disabled={false}
+            groupClassName="kubevirt-dropdown__group"
+            id="capacity-type"
+            onChange={[Function]}
+            value="Total Capacity"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -23,7 +59,7 @@ exports[`<Capacity /> renders Capacity correctly 1`] = `
         formatValue={[Function]}
         id="capacity"
         isLoading={false}
-        title="Total capacity"
+        title="Total Capacity"
         total={11}
         used={5}
       />
@@ -39,11 +75,47 @@ exports[`<Capacity /> renders Loading Capacity correctly 1`] = `
   <DashboardCardHeader
     className={null}
   >
-    <DashboardCardTitle
-      className={null}
+    <Row
+      bsClass="row"
+      componentClass="div"
     >
-      Capacity
-    </DashboardCardTitle>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        lg={6}
+        md={6}
+        sm={6}
+        xs={6}
+      >
+        <DashboardCardTitle
+          className={null}
+        >
+          Capacity
+        </DashboardCardTitle>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+      >
+        <DashboardCardActionsBody>
+          <Dropdown
+            choices={
+              Array [
+                "Total Capacity",
+                "Requested vs Used",
+                "VMs vs Pods",
+              ]
+            }
+            disabled={true}
+            groupClassName="kubevirt-dropdown__group"
+            id="capacity-type"
+            onChange={[Function]}
+            value="Total Capacity"
+            withTooltips={false}
+          />
+        </DashboardCardActionsBody>
+      </Col>
+    </Row>
   </DashboardCardHeader>
   <DashboardCardBody
     LoadingComponent={[Function]}
@@ -55,7 +127,7 @@ exports[`<Capacity /> renders Loading Capacity correctly 1`] = `
         formatValue={[Function]}
         id="capacity"
         isLoading={true}
-        title="Total capacity"
+        title="Total Capacity"
         total={null}
         used={null}
       />
@@ -71,11 +143,90 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
   <div
     class="card-pf-heading kubevirt-dashboard__card-heading"
   >
-    <h2
-      class="card-pf-title kubevirt-dashboard__card-title"
+    <div
+      class="row"
     >
-      Capacity
-    </h2>
+      <div
+        class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+      >
+        <h2
+          class="card-pf-title kubevirt-dashboard__card-title"
+        >
+          Capacity
+        </h2>
+      </div>
+      <div
+        class=""
+      >
+        <div
+          class="kubevirt-dashboard__actions-body"
+        >
+          <div
+            class="kubevirt-dropdown__group btn-group btn-group-justified"
+          >
+            <div
+              class="dropdown btn-group btn-group-default"
+            >
+              <button
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="kubevirt-dropdown dropdown-toggle btn btn-default"
+                id="capacity-type"
+                role="button"
+                type="button"
+              >
+                Total Capacity 
+                <span
+                  class="caret"
+                />
+              </button>
+              <ul
+                aria-labelledby="capacity-type"
+                class="dropdown-menu"
+                role="menu"
+              >
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    Total Capacity
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    Requested vs Used
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    VMs vs Pods
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="card-pf-body"
@@ -89,7 +240,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
         <div
           class="kubevirt-capacity__item-title"
         >
-          Total capacity
+          Total Capacity
         </div>
         <h6
           class="kubevirt-capacity__item-description"

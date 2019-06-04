@@ -13,6 +13,9 @@ const getPromResponse = value => ({
 export const capacityStats = {
   capacityTotal: getPromResponse(11),
   capacityUsed: getPromResponse(5),
+  capacityRequested: getPromResponse(7),
+  vmsCapacity: getPromResponse(3),
+  podsCapacity: getPromResponse(10),
 };
 
 export default [
