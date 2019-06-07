@@ -14,7 +14,6 @@ import {
   vmSettingsContainer,
   vmSettingsContainerWindows,
   vmSettingsCustomFlavor,
-  vmSettingsImportVmwareNewConnection,
   vmSettingsPxe,
   vmSettingsUrl,
   vmSettingsUserTemplate,
@@ -23,9 +22,9 @@ import {
   rootContainerDisk,
   rootDataVolumeDisk,
 } from '../../components/Wizard/CreateVmWizard/stateUpdate/storageTabStateUpdate';
-import { k8sCreate, k8sPatch } from '../../tests/k8s';
+import { k8sCreate } from '../../tests/k8s';
 
-import { settingsValue, selectVm, selectTemplate, selectSecret } from '../selectors';
+import { settingsValue, selectVm, selectTemplate } from '../selectors';
 
 import {
   TEMPLATE_PARAM_VM_NAME,
@@ -110,15 +109,6 @@ const testContainerImage = results => {
     settingsValue(vmSettingsContainer, CONTAINER_IMAGE_KEY)
   );
   return vm;
-};
-
-const testImportSecret = results => {
-  const secret = selectSecret(results);
-  expect(secret.kind).toBe('Secret');
-  expect(secret.metadata.generateName).toBe('my.domain.com-username-'); // composed from input values
-  expect(secret.data.username).toBe('dXNlcm5hbWU='); // base64
-  expect(secret.data.password).toBe('cGFzc3dvcmQ='); // base64
-  expect(secret.data.url).toBe('bXkuZG9tYWluLmNvbQ=='); // base64
 };
 
 const everyDiskHasVolume = results => {
@@ -616,17 +606,6 @@ describe('request.js - metadata', () => {
       getName(urlTemplate),
       getNamespace(urlTemplate)
     );
-  });
-  it('Import Secret is created', async () => {
-    const results = await createVm(
-      new EnhancedK8sMethods({ k8sCreate, k8sPatch }),
-      templates,
-      vmSettingsImportVmwareNewConnection,
-      [],
-      [],
-      persistentVolumeClaims
-    );
-    testImportSecret(results);
   });
 });
 

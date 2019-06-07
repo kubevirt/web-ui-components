@@ -432,3 +432,26 @@ export const getDeviceBootOrderPatch = (vm, removedDevicePathKey, removedDeviceN
 
   return patches;
 };
+
+export const removeLabelFromVmwareSecretPatch = labelKey => {
+  const patches = [];
+  const escapedLabel = labelKey.replace('~', '~0').replace('/', '~1');
+  patches.push({
+    op: 'remove',
+    path: `/metadata/labels/${escapedLabel}`,
+  });
+
+  return patches;
+};
+
+export const addLabelToVmwareSecretPatch = labelKey => {
+  const patches = [];
+  const escapedLabel = labelKey.replace('~', '~0').replace('/', '~1');
+  patches.push({
+    op: 'add',
+    path: `/metadata/labels/${escapedLabel}`,
+    value: 'true',
+  });
+
+  return patches;
+};

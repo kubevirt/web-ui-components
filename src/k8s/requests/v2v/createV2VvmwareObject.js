@@ -5,7 +5,7 @@ import { buildV2VVMwareObject } from '../../objects/v2v/vmware/vmWareObject';
 import { buildVMwareSecret } from '../../objects/v2v/vmware/vmWareSecret';
 
 export const createV2VvmwareObjectWithSecret = async ({ url, username, password, namespace }, { k8sCreate }) => {
-  const secretName = `temp-${getDefaultSecretName({ url, username })}-`;
+  const secretName = `${getDefaultSecretName({ url, username })}-`;
   const secret = await k8sCreate(
     SecretModel,
     buildVMwareSecret({

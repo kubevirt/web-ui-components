@@ -10,3 +10,6 @@ export const getLoadedVm = (v2vvmware, vmName) =>
   getSimpleV2vVMwareStatus(v2vvmware) === V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL
     ? getVms(v2vvmware, []).find(v => v.name === vmName && v.detail && v.detail.raw)
     : null;
+
+export const getVmwareSecretLabels = secret => get(secret, 'metadata.labels', {});
+export const getVmwareConnectionName = value => get(value, 'spec.connection');

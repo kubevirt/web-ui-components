@@ -26,6 +26,7 @@ import { FormRow } from '../../../../Form/FormRow';
 import { CONNECT_TO_NEW_INSTANCE } from '../../strings';
 import {
   PROVIDER_VMWARE,
+  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY,
   PROVIDER_VMWARE_CHECK_CONNECTION_KEY,
   PROVIDER_VMWARE_HOSTNAME_KEY,
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
@@ -197,7 +198,7 @@ export class VMWareImportProvider extends React.Component {
             disabled={isFieldDisabled(this.getField(PROVIDER_VMWARE_CHECK_CONNECTION_KEY))}
             onClick={() => this.onChange(PROVIDER_VMWARE_CHECK_CONNECTION_KEY, true)}
           >
-            Check
+            {this.getField(PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY)}
           </Button>
         </FormRow>
         <FormRow isHidden={isFieldHidden(this.getField(PROVIDER_VMWARE_STATUS_KEY))}>
