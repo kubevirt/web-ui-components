@@ -813,7 +813,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
   <FormRow
     className="kubevirt-create-vm-wizard__import-vmware-password"
     controlSize={5}
-    help="If checked, new secret keeping connection details will be created for later use."
+    help="If checked, a new secret containing the connection details will be created for future use."
     id={null}
     isHidden={false}
     isRequired={false}
@@ -826,7 +826,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
     <ValidationFormRow
       className="kubevirt-create-vm-wizard__import-vmware-password"
       controlSize={5}
-      help="If checked, new secret keeping connection details will be created for later use."
+      help="If checked, a new secret containing the connection details will be created for future use."
       id={null}
       isHidden={false}
       isRequired={false}
@@ -854,7 +854,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
               className="text-right col-sm-3"
             >
               <FormControlLabel
-                help="If checked, new secret keeping connection details will be created for later use."
+                help="If checked, a new secret containing the connection details will be created for future use."
                 isRequired={false}
                 title=""
               >
@@ -870,7 +870,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 <FieldLevelHelp
                   buttonClass=""
                   className="kubevirt-form-group__field-help"
-                  content="If checked, new secret keeping connection details will be created for later use."
+                  content="If checked, a new secret containing the connection details will be created for future use."
                   placement="right"
                   rootClose={true}
                 >
@@ -882,7 +882,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                         id="popover"
                         placement="right"
                       >
-                        If checked, new secret keeping connection details will be created for later use.
+                        If checked, a new secret containing the connection details will be created for future use.
                       </Popover>
                     }
                     placement="right"
@@ -943,7 +943,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 id="vcenter-remember-credentials"
                 onBlur={[Function]}
                 onChange={[Function]}
-                title="Remember vCenter credentials"
+                title="Save as New vCenter Instance"
               >
                 <Checkbox
                   bsClass="checkbox"
@@ -969,7 +969,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                         onChange={[Function]}
                         type="checkbox"
                       />
-                      Remember vCenter credentials
+                      Save as New vCenter Instance
                     </label>
                   </div>
                 </Checkbox>
@@ -1063,9 +1063,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                   id="vcenter-connect"
                   onClick={[Function]}
                   type="button"
-                >
-                  Check
-                </button>
+                />
               </Button>
             </div>
           </Col>
@@ -1152,6 +1150,2893 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                     </div>
                   </StatusField>
                 </ConnectionUnknown>
+              </VMWareProviderStatus>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwareVm"
+    labelSize={3}
+    textPosition="text-right"
+    title="VM to Import"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="VM to Import"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+                isRequired={false}
+                title="VM to Import"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    VM to Import
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Dropdown
+                choices={Array []}
+                disabled={false}
+                id="vcenter-vm-dropdown"
+                onChange={[Function]}
+                value="--- Select VM ---"
+                withTooltips={false}
+              >
+                <ButtonGroup
+                  block={false}
+                  bsClass="btn-group"
+                  justified={true}
+                  key="vcenter-vm-dropdown"
+                  vertical={false}
+                >
+                  <div
+                    className="btn-group btn-group-justified"
+                  >
+                    <DropdownButton
+                      bsStyle="default"
+                      className="kubevirt-dropdown"
+                      disabled={false}
+                      id="vcenter-vm-dropdown"
+                      onSelect={[Function]}
+                      title="--- Select VM ---"
+                    >
+                      <DropdownButton
+                        bsStyle="default"
+                        className="kubevirt-dropdown"
+                        disabled={false}
+                        id="vcenter-vm-dropdown"
+                        onSelect={[Function]}
+                        title="--- Select VM ---"
+                      >
+                        <Uncontrolled(Dropdown)
+                          bsStyle="default"
+                          disabled={false}
+                          id="vcenter-vm-dropdown"
+                          onSelect={[Function]}
+                        >
+                          <Dropdown
+                            bsClass="dropdown"
+                            bsStyle="default"
+                            componentClass={[Function]}
+                            disabled={false}
+                            id="vcenter-vm-dropdown"
+                            onSelect={[Function]}
+                            onToggle={[Function]}
+                          >
+                            <ButtonGroup
+                              block={false}
+                              bsClass="btn-group"
+                              bsStyle="default"
+                              className="dropdown"
+                              justified={false}
+                              vertical={false}
+                            >
+                              <div
+                                className="dropdown btn-group btn-group-default"
+                              >
+                                <DropdownToggle
+                                  bsClass="dropdown-toggle"
+                                  bsRole="toggle"
+                                  bsStyle="default"
+                                  className="kubevirt-dropdown"
+                                  disabled={false}
+                                  id="vcenter-vm-dropdown"
+                                  key=".0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  open={false}
+                                  useAnchor={false}
+                                >
+                                  <Button
+                                    active={false}
+                                    aria-expanded={false}
+                                    aria-haspopup={true}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="default"
+                                    className="kubevirt-dropdown dropdown-toggle"
+                                    disabled={false}
+                                    id="vcenter-vm-dropdown"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    role="button"
+                                  >
+                                    <button
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
+                                      disabled={false}
+                                      id="vcenter-vm-dropdown"
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
+                                      role="button"
+                                      type="button"
+                                    >
+                                      --- Select VM ---
+                                       
+                                      <span
+                                        className="caret"
+                                      />
+                                    </button>
+                                  </Button>
+                                </DropdownToggle>
+                                <DropdownMenu
+                                  bsClass="dropdown-menu"
+                                  bsRole="menu"
+                                  key=".1"
+                                  labelledBy="vcenter-vm-dropdown"
+                                  onClose={[Function]}
+                                  onSelect={[Function]}
+                                  pullRight={false}
+                                >
+                                  <RootCloseWrapper
+                                    disabled={true}
+                                    event="click"
+                                    onRootClose={[Function]}
+                                  >
+                                    <ul
+                                      aria-labelledby="vcenter-vm-dropdown"
+                                      className="dropdown-menu"
+                                      role="menu"
+                                    />
+                                  </RootCloseWrapper>
+                                </DropdownMenu>
+                              </div>
+                            </ButtonGroup>
+                          </Dropdown>
+                        </Uncontrolled(Dropdown)>
+                      </DropdownButton>
+                    </DropdownButton>
+                  </div>
+                </ButtonGroup>
+              </Dropdown>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+</VMWareImportProvider>
+`;
+
+exports[`<VMWareImportProvider /> renders correctly when connection is successful 1`] = `
+<VMWareImportProvider
+  v2vvmware={null}
+  vCenterSecrets={Array []}
+  vmSettings={
+    Object {
+      "providersData": Object {
+        "VMware": Object {
+          "vmwareStatus": Object {
+            "value": "V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL",
+          },
+        },
+      },
+    }
+  }
+  vmwareToKubevirtOsConfigMap={null}
+>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="Select secret containing connection details for a vCenter instance."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vCenterInstance"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter Instance"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="Select secret containing connection details for a vCenter instance."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter Instance"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="Select secret containing connection details for a vCenter instance."
+                isRequired={false}
+                title="vCenter Instance"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter Instance
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="Select secret containing connection details for a vCenter instance."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        Select secret containing connection details for a vCenter instance.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Dropdown
+                choices={
+                  Array [
+                    "Connect to New Instance",
+                  ]
+                }
+                disabled={false}
+                id="vcenter-instance-dropdown"
+                onChange={[Function]}
+                value="--- Select vCenter Instance Secret ---"
+                withTooltips={false}
+              >
+                <ButtonGroup
+                  block={false}
+                  bsClass="btn-group"
+                  justified={true}
+                  key="vcenter-instance-dropdown"
+                  vertical={false}
+                >
+                  <div
+                    className="btn-group btn-group-justified"
+                  >
+                    <DropdownButton
+                      bsStyle="default"
+                      className="kubevirt-dropdown"
+                      disabled={false}
+                      id="vcenter-instance-dropdown"
+                      onSelect={[Function]}
+                      title="--- Select vCenter Instance Secret ---"
+                    >
+                      <DropdownButton
+                        bsStyle="default"
+                        className="kubevirt-dropdown"
+                        disabled={false}
+                        id="vcenter-instance-dropdown"
+                        onSelect={[Function]}
+                        title="--- Select vCenter Instance Secret ---"
+                      >
+                        <Uncontrolled(Dropdown)
+                          bsStyle="default"
+                          disabled={false}
+                          id="vcenter-instance-dropdown"
+                          onSelect={[Function]}
+                        >
+                          <Dropdown
+                            bsClass="dropdown"
+                            bsStyle="default"
+                            componentClass={[Function]}
+                            disabled={false}
+                            id="vcenter-instance-dropdown"
+                            onSelect={[Function]}
+                            onToggle={[Function]}
+                          >
+                            <ButtonGroup
+                              block={false}
+                              bsClass="btn-group"
+                              bsStyle="default"
+                              className="dropdown"
+                              justified={false}
+                              vertical={false}
+                            >
+                              <div
+                                className="dropdown btn-group btn-group-default"
+                              >
+                                <DropdownToggle
+                                  bsClass="dropdown-toggle"
+                                  bsRole="toggle"
+                                  bsStyle="default"
+                                  className="kubevirt-dropdown"
+                                  disabled={false}
+                                  id="vcenter-instance-dropdown"
+                                  key=".0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  open={false}
+                                  useAnchor={false}
+                                >
+                                  <Button
+                                    active={false}
+                                    aria-expanded={false}
+                                    aria-haspopup={true}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="default"
+                                    className="kubevirt-dropdown dropdown-toggle"
+                                    disabled={false}
+                                    id="vcenter-instance-dropdown"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    role="button"
+                                  >
+                                    <button
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
+                                      disabled={false}
+                                      id="vcenter-instance-dropdown"
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
+                                      role="button"
+                                      type="button"
+                                    >
+                                      --- Select vCenter Instance Secret ---
+                                       
+                                      <span
+                                        className="caret"
+                                      />
+                                    </button>
+                                  </Button>
+                                </DropdownToggle>
+                                <DropdownMenu
+                                  bsClass="dropdown-menu"
+                                  bsRole="menu"
+                                  key=".1"
+                                  labelledBy="vcenter-instance-dropdown"
+                                  onClose={[Function]}
+                                  onSelect={[Function]}
+                                  pullRight={false}
+                                >
+                                  <RootCloseWrapper
+                                    disabled={true}
+                                    event="click"
+                                    onRootClose={[Function]}
+                                  >
+                                    <ul
+                                      aria-labelledby="vcenter-instance-dropdown"
+                                      className="dropdown-menu"
+                                      role="menu"
+                                    >
+                                      <MenuItem
+                                        bsClass="dropdown"
+                                        disabled={false}
+                                        divider={false}
+                                        eventKey="Connect to New Instance"
+                                        header={false}
+                                        key=".$Connect to New Instance"
+                                        onKeyDown={[Function]}
+                                        onSelect={[Function]}
+                                      >
+                                        <li
+                                          className=""
+                                          role="presentation"
+                                        >
+                                          <SafeAnchor
+                                            componentClass="a"
+                                            onClick={[Function]}
+                                            onKeyDown={[Function]}
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                          >
+                                            <a
+                                              href="#"
+                                              onClick={[Function]}
+                                              onKeyDown={[Function]}
+                                              role="menuitem"
+                                              tabIndex="-1"
+                                            >
+                                              Connect to New Instance
+                                            </a>
+                                          </SafeAnchor>
+                                        </li>
+                                      </MenuItem>
+                                    </ul>
+                                  </RootCloseWrapper>
+                                </DropdownMenu>
+                              </div>
+                            </ButtonGroup>
+                          </Dropdown>
+                        </Uncontrolled(Dropdown)>
+                      </DropdownButton>
+                    </DropdownButton>
+                  </div>
+                </ButtonGroup>
+              </Dropdown>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwareHostname"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter Hostname"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter Hostname"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+                isRequired={false}
+                title="vCenter Hostname"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter Hostname
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        Address to be used for connection to a vCenter instance. The "https://" protocol will be added automatically. Example: "my.domain.com:1234".
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="vcenter-hostname-dropdown"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="text"
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="vcenter-hostname-dropdown"
+                  key="vcenter-hostname-dropdown"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="vcenter-hostname-dropdown"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="text"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="User name to be used for connection to a vCenter instance."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwareUserName"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter User Name"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="User name to be used for connection to a vCenter instance."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter User Name"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="User name to be used for connection to a vCenter instance."
+                isRequired={false}
+                title="vCenter User Name"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter User Name
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="User name to be used for connection to a vCenter instance."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        User name to be used for connection to a vCenter instance.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="vcenter-username"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="text"
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="vcenter-username"
+                  key="vcenter-username"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="vcenter-username"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="text"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="User password to be used for connection to a vCenter instance."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwarePassword"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter Password"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="User password to be used for connection to a vCenter instance."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter Password"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="User password to be used for connection to a vCenter instance."
+                isRequired={false}
+                title="vCenter Password"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter Password
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="User password to be used for connection to a vCenter instance."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        User password to be used for connection to a vCenter instance.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="vcenter-password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="password"
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="vcenter-password"
+                  key="vcenter-password"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="password"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="vcenter-password"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="password"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className="kubevirt-create-vm-wizard__import-vmware-password"
+    controlSize={5}
+    help="If checked, a new secret containing the connection details will be created for future use."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="rememberVMwareCredentials"
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className="kubevirt-create-vm-wizard__import-vmware-password"
+      controlSize={5}
+      help="If checked, a new secret containing the connection details will be created for future use."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group kubevirt-create-vm-wizard__import-vmware-password"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group kubevirt-create-vm-wizard__import-vmware-password form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="If checked, a new secret containing the connection details will be created for future use."
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="If checked, a new secret containing the connection details will be created for future use."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        If checked, a new secret containing the connection details will be created for future use.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Checkbox
+                checked={false}
+                disabled={false}
+                id="vcenter-remember-credentials"
+                onBlur={[Function]}
+                onChange={[Function]}
+                title="Save as New vCenter Instance"
+              >
+                <Checkbox
+                  bsClass="checkbox"
+                  checked={false}
+                  disabled={false}
+                  id="vcenter-remember-credentials"
+                  inline={false}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  title=""
+                >
+                  <div
+                    className="checkbox"
+                  >
+                    <label
+                      title=""
+                    >
+                      <input
+                        checked={false}
+                        disabled={false}
+                        id="vcenter-remember-credentials"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        type="checkbox"
+                      />
+                      Save as New vCenter Instance
+                    </label>
+                  </div>
+                </Checkbox>
+              </Checkbox>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help=""
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help=""
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help=""
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Button
+                active={false}
+                block={false}
+                bsClass="btn"
+                bsStyle="default"
+                className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button"
+                disabled={false}
+                id="vcenter-connect"
+                onClick={[Function]}
+              >
+                <button
+                  className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button btn btn-default"
+                  disabled={false}
+                  id="vcenter-connect"
+                  onClick={[Function]}
+                  type="button"
+                />
+              </Button>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help=""
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help=""
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help=""
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <VMWareProviderStatus
+                status="V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL"
+              >
+                <ConnectionSuccessful>
+                  <StatusField>
+                    <div
+                      className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+                    >
+                      Connection successful
+                    </div>
+                  </StatusField>
+                </ConnectionSuccessful>
+              </VMWareProviderStatus>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwareVm"
+    labelSize={3}
+    textPosition="text-right"
+    title="VM to Import"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="VM to Import"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+                isRequired={false}
+                title="VM to Import"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    VM to Import
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Dropdown
+                choices={Array []}
+                disabled={false}
+                id="vcenter-vm-dropdown"
+                onChange={[Function]}
+                value="--- Select VM ---"
+                withTooltips={false}
+              >
+                <ButtonGroup
+                  block={false}
+                  bsClass="btn-group"
+                  justified={true}
+                  key="vcenter-vm-dropdown"
+                  vertical={false}
+                >
+                  <div
+                    className="btn-group btn-group-justified"
+                  >
+                    <DropdownButton
+                      bsStyle="default"
+                      className="kubevirt-dropdown"
+                      disabled={false}
+                      id="vcenter-vm-dropdown"
+                      onSelect={[Function]}
+                      title="--- Select VM ---"
+                    >
+                      <DropdownButton
+                        bsStyle="default"
+                        className="kubevirt-dropdown"
+                        disabled={false}
+                        id="vcenter-vm-dropdown"
+                        onSelect={[Function]}
+                        title="--- Select VM ---"
+                      >
+                        <Uncontrolled(Dropdown)
+                          bsStyle="default"
+                          disabled={false}
+                          id="vcenter-vm-dropdown"
+                          onSelect={[Function]}
+                        >
+                          <Dropdown
+                            bsClass="dropdown"
+                            bsStyle="default"
+                            componentClass={[Function]}
+                            disabled={false}
+                            id="vcenter-vm-dropdown"
+                            onSelect={[Function]}
+                            onToggle={[Function]}
+                          >
+                            <ButtonGroup
+                              block={false}
+                              bsClass="btn-group"
+                              bsStyle="default"
+                              className="dropdown"
+                              justified={false}
+                              vertical={false}
+                            >
+                              <div
+                                className="dropdown btn-group btn-group-default"
+                              >
+                                <DropdownToggle
+                                  bsClass="dropdown-toggle"
+                                  bsRole="toggle"
+                                  bsStyle="default"
+                                  className="kubevirt-dropdown"
+                                  disabled={false}
+                                  id="vcenter-vm-dropdown"
+                                  key=".0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  open={false}
+                                  useAnchor={false}
+                                >
+                                  <Button
+                                    active={false}
+                                    aria-expanded={false}
+                                    aria-haspopup={true}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="default"
+                                    className="kubevirt-dropdown dropdown-toggle"
+                                    disabled={false}
+                                    id="vcenter-vm-dropdown"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    role="button"
+                                  >
+                                    <button
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
+                                      disabled={false}
+                                      id="vcenter-vm-dropdown"
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
+                                      role="button"
+                                      type="button"
+                                    >
+                                      --- Select VM ---
+                                       
+                                      <span
+                                        className="caret"
+                                      />
+                                    </button>
+                                  </Button>
+                                </DropdownToggle>
+                                <DropdownMenu
+                                  bsClass="dropdown-menu"
+                                  bsRole="menu"
+                                  key=".1"
+                                  labelledBy="vcenter-vm-dropdown"
+                                  onClose={[Function]}
+                                  onSelect={[Function]}
+                                  pullRight={false}
+                                >
+                                  <RootCloseWrapper
+                                    disabled={true}
+                                    event="click"
+                                    onRootClose={[Function]}
+                                  >
+                                    <ul
+                                      aria-labelledby="vcenter-vm-dropdown"
+                                      className="dropdown-menu"
+                                      role="menu"
+                                    />
+                                  </RootCloseWrapper>
+                                </DropdownMenu>
+                              </div>
+                            </ButtonGroup>
+                          </Dropdown>
+                        </Uncontrolled(Dropdown)>
+                      </DropdownButton>
+                    </DropdownButton>
+                  </div>
+                </ButtonGroup>
+              </Dropdown>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+</VMWareImportProvider>
+`;
+
+exports[`<VMWareImportProvider /> renders correctly when password is not saved 1`] = `
+<VMWareImportProvider
+  v2vvmware={null}
+  vCenterSecrets={Array []}
+  vmSettings={
+    Object {
+      "providersData": Object {
+        "VMware": Object {
+          "rememberVMwareCredentials": Object {
+            "value": false,
+          },
+          "vmwareStatus": Object {
+            "value": "V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL",
+          },
+        },
+      },
+    }
+  }
+  vmwareToKubevirtOsConfigMap={null}
+>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="Select secret containing connection details for a vCenter instance."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vCenterInstance"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter Instance"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="Select secret containing connection details for a vCenter instance."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter Instance"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="Select secret containing connection details for a vCenter instance."
+                isRequired={false}
+                title="vCenter Instance"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter Instance
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="Select secret containing connection details for a vCenter instance."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        Select secret containing connection details for a vCenter instance.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Dropdown
+                choices={
+                  Array [
+                    "Connect to New Instance",
+                  ]
+                }
+                disabled={false}
+                id="vcenter-instance-dropdown"
+                onChange={[Function]}
+                value="--- Select vCenter Instance Secret ---"
+                withTooltips={false}
+              >
+                <ButtonGroup
+                  block={false}
+                  bsClass="btn-group"
+                  justified={true}
+                  key="vcenter-instance-dropdown"
+                  vertical={false}
+                >
+                  <div
+                    className="btn-group btn-group-justified"
+                  >
+                    <DropdownButton
+                      bsStyle="default"
+                      className="kubevirt-dropdown"
+                      disabled={false}
+                      id="vcenter-instance-dropdown"
+                      onSelect={[Function]}
+                      title="--- Select vCenter Instance Secret ---"
+                    >
+                      <DropdownButton
+                        bsStyle="default"
+                        className="kubevirt-dropdown"
+                        disabled={false}
+                        id="vcenter-instance-dropdown"
+                        onSelect={[Function]}
+                        title="--- Select vCenter Instance Secret ---"
+                      >
+                        <Uncontrolled(Dropdown)
+                          bsStyle="default"
+                          disabled={false}
+                          id="vcenter-instance-dropdown"
+                          onSelect={[Function]}
+                        >
+                          <Dropdown
+                            bsClass="dropdown"
+                            bsStyle="default"
+                            componentClass={[Function]}
+                            disabled={false}
+                            id="vcenter-instance-dropdown"
+                            onSelect={[Function]}
+                            onToggle={[Function]}
+                          >
+                            <ButtonGroup
+                              block={false}
+                              bsClass="btn-group"
+                              bsStyle="default"
+                              className="dropdown"
+                              justified={false}
+                              vertical={false}
+                            >
+                              <div
+                                className="dropdown btn-group btn-group-default"
+                              >
+                                <DropdownToggle
+                                  bsClass="dropdown-toggle"
+                                  bsRole="toggle"
+                                  bsStyle="default"
+                                  className="kubevirt-dropdown"
+                                  disabled={false}
+                                  id="vcenter-instance-dropdown"
+                                  key=".0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  open={false}
+                                  useAnchor={false}
+                                >
+                                  <Button
+                                    active={false}
+                                    aria-expanded={false}
+                                    aria-haspopup={true}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="default"
+                                    className="kubevirt-dropdown dropdown-toggle"
+                                    disabled={false}
+                                    id="vcenter-instance-dropdown"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    role="button"
+                                  >
+                                    <button
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
+                                      disabled={false}
+                                      id="vcenter-instance-dropdown"
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
+                                      role="button"
+                                      type="button"
+                                    >
+                                      --- Select vCenter Instance Secret ---
+                                       
+                                      <span
+                                        className="caret"
+                                      />
+                                    </button>
+                                  </Button>
+                                </DropdownToggle>
+                                <DropdownMenu
+                                  bsClass="dropdown-menu"
+                                  bsRole="menu"
+                                  key=".1"
+                                  labelledBy="vcenter-instance-dropdown"
+                                  onClose={[Function]}
+                                  onSelect={[Function]}
+                                  pullRight={false}
+                                >
+                                  <RootCloseWrapper
+                                    disabled={true}
+                                    event="click"
+                                    onRootClose={[Function]}
+                                  >
+                                    <ul
+                                      aria-labelledby="vcenter-instance-dropdown"
+                                      className="dropdown-menu"
+                                      role="menu"
+                                    >
+                                      <MenuItem
+                                        bsClass="dropdown"
+                                        disabled={false}
+                                        divider={false}
+                                        eventKey="Connect to New Instance"
+                                        header={false}
+                                        key=".$Connect to New Instance"
+                                        onKeyDown={[Function]}
+                                        onSelect={[Function]}
+                                      >
+                                        <li
+                                          className=""
+                                          role="presentation"
+                                        >
+                                          <SafeAnchor
+                                            componentClass="a"
+                                            onClick={[Function]}
+                                            onKeyDown={[Function]}
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                          >
+                                            <a
+                                              href="#"
+                                              onClick={[Function]}
+                                              onKeyDown={[Function]}
+                                              role="menuitem"
+                                              tabIndex="-1"
+                                            >
+                                              Connect to New Instance
+                                            </a>
+                                          </SafeAnchor>
+                                        </li>
+                                      </MenuItem>
+                                    </ul>
+                                  </RootCloseWrapper>
+                                </DropdownMenu>
+                              </div>
+                            </ButtonGroup>
+                          </Dropdown>
+                        </Uncontrolled(Dropdown)>
+                      </DropdownButton>
+                    </DropdownButton>
+                  </div>
+                </ButtonGroup>
+              </Dropdown>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwareHostname"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter Hostname"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter Hostname"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+                isRequired={false}
+                title="vCenter Hostname"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter Hostname
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="Address to be used for connection to a vCenter instance. The \\"https://\\" protocol will be added automatically. Example: \\"my.domain.com:1234\\"."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        Address to be used for connection to a vCenter instance. The "https://" protocol will be added automatically. Example: "my.domain.com:1234".
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="vcenter-hostname-dropdown"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="text"
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="vcenter-hostname-dropdown"
+                  key="vcenter-hostname-dropdown"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="vcenter-hostname-dropdown"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="text"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="User name to be used for connection to a vCenter instance."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwareUserName"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter User Name"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="User name to be used for connection to a vCenter instance."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter User Name"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="User name to be used for connection to a vCenter instance."
+                isRequired={false}
+                title="vCenter User Name"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter User Name
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="User name to be used for connection to a vCenter instance."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        User name to be used for connection to a vCenter instance.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="vcenter-username"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="text"
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="vcenter-username"
+                  key="vcenter-username"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="vcenter-username"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="text"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help="User password to be used for connection to a vCenter instance."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="vmwarePassword"
+    labelSize={3}
+    textPosition="text-right"
+    title="vCenter Password"
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help="User password to be used for connection to a vCenter instance."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title="vCenter Password"
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="User password to be used for connection to a vCenter instance."
+                isRequired={false}
+                title="vCenter Password"
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  >
+                    vCenter Password
+                  </label>
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="User password to be used for connection to a vCenter instance."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        User password to be used for connection to a vCenter instance.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Text
+                disabled={false}
+                id="vcenter-password"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="password"
+                value=""
+              >
+                <FormControl
+                  bsClass="form-control"
+                  componentClass="input"
+                  disabled={false}
+                  id="vcenter-password"
+                  key="vcenter-password"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="password"
+                  value=""
+                >
+                  <input
+                    className="form-control"
+                    disabled={false}
+                    id="vcenter-password"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="password"
+                    value=""
+                  />
+                </FormControl>
+              </Text>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className="kubevirt-create-vm-wizard__import-vmware-password"
+    controlSize={5}
+    help="If checked, a new secret containing the connection details will be created for future use."
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    key="rememberVMwareCredentials"
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className="kubevirt-create-vm-wizard__import-vmware-password"
+      controlSize={5}
+      help="If checked, a new secret containing the connection details will be created for future use."
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group kubevirt-create-vm-wizard__import-vmware-password"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group kubevirt-create-vm-wizard__import-vmware-password form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help="If checked, a new secret containing the connection details will be created for future use."
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+                <FieldLevelHelp
+                  buttonClass=""
+                  className="kubevirt-form-group__field-help"
+                  content="If checked, a new secret containing the connection details will be created for future use."
+                  placement="right"
+                  rootClose={true}
+                >
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        id="popover"
+                        placement="right"
+                      >
+                        If checked, a new secret containing the connection details will be created for future use.
+                      </Popover>
+                    }
+                    placement="right"
+                    rootClose={true}
+                    trigger={
+                      Array [
+                        "click",
+                      ]
+                    }
+                  >
+                    <Button
+                      active={false}
+                      block={false}
+                      bsClass="btn"
+                      bsStyle="link"
+                      className="popover-pf-info"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <button
+                        className="popover-pf-info btn btn-link"
+                        disabled={false}
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          name="info"
+                          type="pf"
+                        >
+                          <PatternflyIcon
+                            className=""
+                            name="info"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="pficon pficon-info"
+                            />
+                          </PatternflyIcon>
+                        </Icon>
+                      </button>
+                    </Button>
+                  </OverlayTrigger>
+                </FieldLevelHelp>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Checkbox
+                checked={false}
+                disabled={false}
+                id="vcenter-remember-credentials"
+                onBlur={[Function]}
+                onChange={[Function]}
+                title="Save as New vCenter Instance"
+              >
+                <Checkbox
+                  bsClass="checkbox"
+                  checked={false}
+                  disabled={false}
+                  id="vcenter-remember-credentials"
+                  inline={false}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  title=""
+                >
+                  <div
+                    className="checkbox"
+                  >
+                    <label
+                      title=""
+                    >
+                      <input
+                        checked={false}
+                        disabled={false}
+                        id="vcenter-remember-credentials"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        type="checkbox"
+                      />
+                      Save as New vCenter Instance
+                    </label>
+                  </div>
+                </Checkbox>
+              </Checkbox>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help=""
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help=""
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help=""
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <Button
+                active={false}
+                block={false}
+                bsClass="btn"
+                bsStyle="default"
+                className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button"
+                disabled={false}
+                id="vcenter-connect"
+                onClick={[Function]}
+              >
+                <button
+                  className="kubevirt-create-vm-wizard__import-vmware-passwordcheck-button btn btn-default"
+                  disabled={false}
+                  id="vcenter-connect"
+                  onClick={[Function]}
+                  type="button"
+                />
+              </Button>
+            </div>
+          </Col>
+        </div>
+      </FormGroup>
+    </ValidationFormRow>
+  </FormRow>
+  <FormRow
+    className={null}
+    controlSize={5}
+    help=""
+    id={null}
+    isHidden={false}
+    isRequired={false}
+    labelSize={3}
+    textPosition="text-right"
+    title=""
+    validation={Object {}}
+  >
+    <ValidationFormRow
+      className={null}
+      controlSize={5}
+      help=""
+      id={null}
+      isHidden={false}
+      isRequired={false}
+      labelSize={3}
+      textPosition="text-right"
+      title=""
+      validation={Object {}}
+    >
+      <FormGroup
+        bsClass="form-group"
+        className="kubevirt-form-group"
+        id={null}
+      >
+        <div
+          className="kubevirt-form-group form-group"
+          id={null}
+        >
+          <Col
+            bsClass="col"
+            className="text-right"
+            componentClass="div"
+            sm={3}
+          >
+            <div
+              className="text-right col-sm-3"
+            >
+              <FormControlLabel
+                help=""
+                isRequired={false}
+                title=""
+              >
+                <ControlLabel
+                  bsClass="control-label"
+                  className={null}
+                  srOnly={false}
+                >
+                  <label
+                    className="control-label"
+                  />
+                </ControlLabel>
+              </FormControlLabel>
+            </div>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            sm={5}
+          >
+            <div
+              className="col-sm-5"
+            >
+              <VMWareProviderStatus
+                status="V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL"
+              >
+                <ConnectionSuccessful>
+                  <StatusField>
+                    <div
+                      className="kubevirt-create-vm-wizard__import-vmware-connection-status"
+                    >
+                      Connection successful
+                    </div>
+                  </StatusField>
+                </ConnectionSuccessful>
               </VMWareProviderStatus>
             </div>
           </Col>
