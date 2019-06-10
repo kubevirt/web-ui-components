@@ -956,7 +956,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
   <FormRow
     className="kubevirt-create-vm-wizard__import-vmware-password"
     controlSize={5}
-    help="If checked, new secret keeping connection details will be created for later use."
+    help="If checked, a new secret containing the connection details will be created for future use."
     id={null}
     isHidden={false}
     isRequired={false}
@@ -969,7 +969,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
     <ValidationFormRow
       className="kubevirt-create-vm-wizard__import-vmware-password"
       controlSize={5}
-      help="If checked, new secret keeping connection details will be created for later use."
+      help="If checked, a new secret containing the connection details will be created for future use."
       id={null}
       isHidden={false}
       isRequired={false}
@@ -997,7 +997,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
               className="text-right col-sm-3"
             >
               <FormControlLabel
-                help="If checked, new secret keeping connection details will be created for later use."
+                help="If checked, a new secret containing the connection details will be created for future use."
                 isRequired={false}
                 title=""
               >
@@ -1013,7 +1013,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 <FieldLevelHelp
                   buttonClass=""
                   className="kubevirt-form-group__field-help"
-                  content="If checked, new secret keeping connection details will be created for later use."
+                  content="If checked, a new secret containing the connection details will be created for future use."
                   placement="right"
                   rootClose={true}
                 >
@@ -1025,7 +1025,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                         id="popover"
                         placement="right"
                       >
-                        If checked, new secret keeping connection details will be created for later use.
+                        If checked, a new secret containing the connection details will be created for future use.
                       </Popover>
                     }
                     placement="right"
@@ -1086,7 +1086,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 id="vcenter-remember-credentials"
                 onBlur={[Function]}
                 onChange={[Function]}
-                title="Remember vCenter credentials"
+                title="Save as New vCenter Instance"
               >
                 <Checkbox
                   bsClass="checkbox"
@@ -1112,7 +1112,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                         onChange={[Function]}
                         type="checkbox"
                       />
-                      Remember vCenter credentials
+                      Save as New vCenter Instance
                     </label>
                   </div>
                 </Checkbox>
@@ -1206,9 +1206,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                   id="vcenter-connect"
                   onClick={[Function]}
                   type="button"
-                >
-                  Check
-                </button>
+                />
               </Button>
             </div>
           </Col>
