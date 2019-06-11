@@ -36,6 +36,7 @@ export const PROVISION_SOURCE_IMPORT = 'Import';
 export const PROVISION_SOURCE_CLONED_DISK = 'Cloned Disk'; // PVC or upload image to PVC
 
 export const PVC_ACCESSMODE_RWO = 'ReadWriteOnce';
+export const PVC_ACCESSMODE_RWM = 'ReadWriteMany';
 
 export const TEMPLATE_API_VERSION = 'template.openshift.io/v1';
 export const TEMPLATE_FLAVOR_LABEL = 'flavor.template.kubevirt.io';

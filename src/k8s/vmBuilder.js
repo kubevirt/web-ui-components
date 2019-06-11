@@ -3,10 +3,10 @@ import { get, last } from 'lodash';
 import {
   PROVISION_SOURCE_PXE,
   BOOT_ORDER_FIRST,
-  PVC_ACCESSMODE_RWO,
   BOOT_ORDER_SECOND,
   DEVICE_TYPE_DISK,
   DEVICE_TYPE_INTERFACE,
+  PVC_ACCESSMODE_RWM,
 } from '../constants';
 
 import {
@@ -320,7 +320,7 @@ export const getDataVolumeTemplateSpec = (storage, dvSource) => {
     },
     spec: {
       pvc: {
-        accessModes: [PVC_ACCESSMODE_RWO],
+        accessModes: [PVC_ACCESSMODE_RWM],
         resources: {
           requests: {
             storage: `${storage.size}Gi`,

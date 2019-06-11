@@ -6,10 +6,10 @@ import {
   ANNOTATION_FIRST_BOOT,
   BOOT_ORDER_FIRST,
   BOOT_ORDER_SECOND,
-  PVC_ACCESSMODE_RWO,
   TEMPLATE_FLAVOR_LABEL,
   deviceTypeToPathKey,
   DEVICE_TYPE_INTERFACE,
+  PVC_ACCESSMODE_RWM,
 } from '../constants';
 import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
 import { assignBootOrderIndex, getBootableDevicesInOrder, getDevices, addBindingToInterface } from '../k8s/vmBuilder';
@@ -69,7 +69,7 @@ export const getAddDiskPatch = (vm, storage) => {
     },
     spec: {
       pvc: {
-        accessModes: [PVC_ACCESSMODE_RWO],
+        accessModes: [PVC_ACCESSMODE_RWM],
         resources: {
           requests: {
             storage: `${storage.size}Gi`,
