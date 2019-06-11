@@ -44,7 +44,7 @@ export const pvcTemplate = {
             },
             spec: {
               pvc: {
-                accessModes: ['ReadWriteOnce'],
+                accessModes: ['ReadWriteMany'],
                 resources: {
                   requests: {
                     storage: '15Gi',

@@ -36,7 +36,7 @@ export const urlNoNetworkTemplate = {
             },
             spec: {
               pvc: {
-                accessModes: ['ReadWriteOnce'],
+                accessModes: ['ReadWriteMany'],
                 resources: {
                   requests: {
                     storage: '10Gi',

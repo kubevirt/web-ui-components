@@ -98,7 +98,7 @@ export const urlTemplateDataVolume = {
   },
   spec: {
     pvc: {
-      accessModes: ['ReadWriteOnce'],
+      accessModes: ['ReadWriteMany'],
       resources: {
         requests: {
           storage: '5Gi',
