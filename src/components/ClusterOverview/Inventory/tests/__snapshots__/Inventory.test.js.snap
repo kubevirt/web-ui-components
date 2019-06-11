@@ -419,7 +419,7 @@ hostname: cloudinit-test
                   "spec": Object {
                     "pvc": Object {
                       "accessModes": Array [
-                        "ReadWriteOnce",
+                        "ReadWriteMany",
                       ],
                       "resources": Object {
                         "requests": Object {

@@ -15,7 +15,7 @@ export const dataVolumes = {
         },
       },
       pvc: {
-        accessModes: ['ReadWriteOnce'],
+        accessModes: ['ReadWriteMany'],
         resources: {
           requests: {
             storage: '1G',
@@ -38,7 +38,7 @@ export const dataVolumes = {
         },
       },
       pvc: {
-        accessModes: ['ReadWriteOnce'],
+        accessModes: ['ReadWriteMany'],
         resources: {
           requests: {
             storage: '1G',
@@ -62,7 +62,7 @@ export const dataVolumes = {
         blank: {},
       },
       pvc: {
-        accessModes: ['ReadWriteOnce'],
+        accessModes: ['ReadWriteMany'],
         resources: {
           requests: {
             storage: '1G',
@@ -86,7 +86,7 @@ export const dataVolumes = {
         },
       },
       pvc: {
-        accessModes: ['ReadWriteOnce'],
+        accessModes: ['ReadWriteMany'],
         resources: {
           requests: {
             storage: '1G',
@@ -110,7 +110,7 @@ export const dataVolumes = {
         },
       },
       pvc: {
-        accessModes: ['ReadWriteOnce'],
+        accessModes: ['ReadWriteMany'],
         resources: {
           requests: {
             storage: '1G',

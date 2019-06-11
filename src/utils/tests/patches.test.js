@@ -4,7 +4,7 @@ import {
   ANNOTATION_FIRST_BOOT,
   BOOT_ORDER_SECOND,
   BOOT_ORDER_FIRST,
-  PVC_ACCESSMODE_RWO,
+  PVC_ACCESSMODE_RWM,
   TEMPLATE_FLAVOR_LABEL,
   POD_NETWORK,
   DISK_PATH_KEY,
@@ -86,7 +86,7 @@ const dataVolumeTemplate = {
   },
   spec: {
     pvc: {
-      accessModes: [PVC_ACCESSMODE_RWO],
+      accessModes: [PVC_ACCESSMODE_RWM],
       resources: {
         requests: {
           storage: `${storageNoClass.size}Gi`,

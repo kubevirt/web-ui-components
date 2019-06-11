@@ -75,7 +75,7 @@ exports[`<DesktopViewerSelector /> renders correctly 1`] = `
               "spec": Object {
                 "pvc": Object {
                   "accessModes": Array [
-                    "ReadWriteOnce",
+                    "ReadWriteMany",
                   ],
                   "resources": Object {
                     "requests": Object {

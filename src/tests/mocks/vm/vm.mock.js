@@ -47,7 +47,7 @@ export const fullVm = {
             },
           },
           pvc: {
-            accessModes: ['ReadWriteOnce'],
+            accessModes: ['ReadWriteMany'],
             resources: {
               requests: {
                 storage: '1G',
