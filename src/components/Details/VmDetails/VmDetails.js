@@ -6,7 +6,7 @@ import { Button, Alert, FieldLevelHelp, Icon, Tooltip, OverlayTrigger } from 'pa
 import classNames from 'classnames';
 
 import { VmStatuses } from '../../VmStatus';
-import { getVmStatus, VM_STATUS_OFF } from '../../../utils/status/vm';
+import { getVmStatus, isVmOff } from '../../../utils/status/vm';
 import {
   getCpu,
   getMemory,
@@ -39,8 +39,6 @@ import { DESCRIPTION_KEY, FLAVOR_KEY } from '../common/constants';
 import { BootOrder } from '../BootOrder';
 import { getBootableDevicesInOrder } from '../../../k8s/vmBuilder';
 import { Services } from '../Services/Services';
-
-export const isVmOff = vmStatus => vmStatus.status === VM_STATUS_OFF;
 
 export class VmDetails extends React.Component {
   constructor(props) {
