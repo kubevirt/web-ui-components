@@ -29,5 +29,4 @@ export * from './constants';
 export * from './selectors';
 export * from './utils';
 export * from './models';
-export * from './k8s/request';
-export * from './k8s/selectors';
+export * from './k8s';

@@ -44,6 +44,8 @@ import { NOT_HANDLED } from '..';
 import { parseNumber } from '../../utils';
 import { CONVERSION_PROGRESS_ANNOTATION } from '../../../k8s/requests/v2v/constants';
 
+export const isVmOff = vmStatus => vmStatus.status === VM_STATUS_OFF;
+
 const isBeingMigrated = (vm, migrations) => {
   const migration = findVMIMigration(migrations, vm);
   if (isMigrating(migration)) {
