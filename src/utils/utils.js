@@ -56,7 +56,17 @@ export const getBootDeviceIndex = (devices, bootOrder) => devices.findIndex(devi
 
 export const getResource = (
   model,
-  { name, namespaced = true, namespace, isList = true, matchLabels, matchExpressions, prop, fieldSelector } = {
+  {
+    name,
+    namespaced = true,
+    namespace,
+    isList = true,
+    matchLabels,
+    matchExpressions,
+    prop,
+    fieldSelector,
+    optional,
+  } = {
     namespaced: true,
     isList: true,
   }
@@ -69,6 +79,7 @@ export const getResource = (
     namespace,
     isList,
     prop: prop || model.kind,
+    optional,
   };
 
   if (name) {
