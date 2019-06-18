@@ -206,6 +206,7 @@ export class CreateVmWizard extends React.Component {
                   <VMWareImportProvider
                     vmSettings={vmSettings}
                     onChange={(value, valid) => this.onStepDataChanged(VM_SETTINGS_TAB_KEY, value, valid)}
+                    k8sPatch={this.props.k8sPatch}
                   />
                 </WithResources>
               </ImportProvider>

@@ -1,4 +1,4 @@
-import { get, has } from 'lodash';
+import { get } from 'lodash';
 
 import {
   VM_SETTINGS_TAB_KEY,
@@ -49,9 +49,6 @@ import {
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
   PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY,
-  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY,
-  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE,
-  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_DONT_SAVE,
 } from '../../providers/VMwareImportProvider/constants';
 import { vmSettingsCreator } from '../vmSettingsTabStateUpdate';
 import {
@@ -61,15 +58,8 @@ import {
 import { requestVmDetail } from '../../../../../k8s/requests/v2v/requestVmDetail';
 import { prefilUpdateCreator } from './prefillVmStateUpdate';
 import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
-import {
-  V2V_WMWARE_STATUS_ALL_OK,
-  V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL,
-  V2V_WMWARE_STATUS_UNKNOWN,
-} from '../../../../../utils/status/v2vVMware';
-import { addLabelToVmwareSecretPatch, removeLabelFromVmwareSecretPatch } from '../../../../../utils';
-import { VCENTER_TEMPORARY_LABEL } from '../../../../../constants';
-import { SecretModel } from '../../../../../models';
-import { getVmwareConnectionName, getVmwareSecretLabels } from '../../../../../selectors/v2v';
+import { V2V_WMWARE_STATUS_ALL_OK, V2V_WMWARE_STATUS_UNKNOWN } from '../../../../../utils/status/v2vVMware';
+import { getVmwareConnectionName } from '../../../../../selectors/v2v';
 
 const { info, warn, error } = console;
 
@@ -96,8 +86,6 @@ export const getVmwareProviderStateUpdate = (prevProps, prevState, props, state,
     ...[
       secretUpdateCreator,
       secretValueUpdateCreator,
-      saveSecretUpdateCreator,
-      successfulConnectionUpdateCreator,
       checkConnectionUpdateCreator,
       vmwareNameChangedUpdateCreator,
       vmChangedUpdateCreator,
@@ -247,49 +235,6 @@ export const secretValueUpdateCreator = (prevProps, prevState, props, state, ext
 
   return {
     [PROVIDER_VMWARE_V2V_NAME_KEY]: isNewInstanceSecret || !connectionSecretName ? null : undefined,
-  };
-};
-
-export const successfulConnectionUpdateCreator = (prevProps, prevState, props, state, extra) => {
-  const connectionStatus = getVmwareValue(state, PROVIDER_VMWARE_STATUS_KEY);
-
-  if (connectionStatus !== V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL) {
-    return null;
-  }
-
-  const vCenterName = getVmwareField(state, PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY);
-  const secret = props.vCenterSecrets.find(s => getName(s) === vCenterName);
-  const hasTempLabel = has(getVmwareSecretLabels(secret), VCENTER_TEMPORARY_LABEL);
-  const saveCredentialsRequested = getVmwareValue(state, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY);
-
-  if (saveCredentialsRequested && hasTempLabel) {
-    const patch = removeLabelFromVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
-    props.k8sPatch(SecretModel, secret, patch).catch(err => {
-      if (!get(err, 'message').includes('Unable to remove nonexistent key')) {
-        console.error(err); // eslint-disable-line no-console
-      }
-    });
-  }
-
-  if (!saveCredentialsRequested && !hasTempLabel) {
-    const patch = addLabelToVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
-    props.k8sPatch(SecretModel, secret, patch).catch(err => console.log(err)); // eslint-disable-line no-console
-  }
-
-  return null;
-};
-
-export const saveSecretUpdateCreator = (prevProps, prevState, props, state, extra) => {
-  if (!hasVmWareSettingsValuesChanged(prevState, state, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY)) {
-    return null;
-  }
-
-  const saveCredentialsRequested = getVmwareValue(state, PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY);
-
-  return {
-    [PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY]: saveCredentialsRequested
-      ? PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE
-      : PROVIDER_VMWARE_CHECK_CONNECTION_BTN_DONT_SAVE,
   };
 };
 

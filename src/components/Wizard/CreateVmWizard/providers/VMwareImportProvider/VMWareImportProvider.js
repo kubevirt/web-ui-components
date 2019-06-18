@@ -16,6 +16,8 @@ import {
   getFieldHelp,
   getFieldId,
   getFieldTitle,
+  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_DONT_SAVE,
+  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE,
 } from '../../initialState/providers/vmWareInitialState';
 import { isFieldDisabled, isFieldHidden, isFieldRequired } from '../../utils/vmSettingsTabUtils';
 import { getName } from '../../../../../selectors';
@@ -26,7 +28,6 @@ import { FormRow } from '../../../../Form/FormRow';
 import { CONNECT_TO_NEW_INSTANCE } from '../../strings';
 import {
   PROVIDER_VMWARE,
-  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY,
   PROVIDER_VMWARE_CHECK_CONNECTION_KEY,
   PROVIDER_VMWARE_HOSTNAME_KEY,
   PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
@@ -38,8 +39,12 @@ import {
 } from './constants';
 import VMWareProviderStatus from './VMWareProviderStatus';
 import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
-import { V2V_WMWARE_STATUS_UNKNOWN } from '../../../../../utils/status/v2vVMware';
+import {
+  V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL,
+  V2V_WMWARE_STATUS_UNKNOWN,
+} from '../../../../../utils/status/v2vVMware';
 import { getVmwareField } from './selectors';
+import { correctVCenterSecretLabels } from '../../../../../k8s/requests/v2v/correctVCenterSecretLabels';
 
 export class VMWareImportProvider extends React.Component {
   state = {
@@ -113,12 +118,14 @@ export class VMWareImportProvider extends React.Component {
 
     const hasStatusChanged = newStatus !== status;
 
+    let update;
+
     if (selectedVmName && prevLoadedVmName !== selectedVmName) {
       const vm = getLoadedVm(this.props.v2vvmware, selectedVmName);
       if (vm) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ prevLoadedVmName: selectedVmName });
-        this.onDataChange({
+        update = {
           [PROVIDER_VMWARE_VM_KEY]: {
             vm,
             vmwareToKubevirtOsConfigMap,
@@ -127,12 +134,29 @@ export class VMWareImportProvider extends React.Component {
           [PROVIDER_VMWARE_STATUS_KEY]: {
             value: hasStatusChanged ? newStatus : undefined,
           },
-        });
-        return;
+        };
       }
     }
-    if (hasStatusChanged && newStatus !== V2V_WMWARE_STATUS_UNKNOWN) {
-      this.onChange(PROVIDER_VMWARE_STATUS_KEY, newStatus);
+    if (!update && hasStatusChanged && newStatus !== V2V_WMWARE_STATUS_UNKNOWN) {
+      update = {
+        [PROVIDER_VMWARE_STATUS_KEY]: {
+          value: newStatus,
+        },
+      };
+    }
+
+    if (update) {
+      this.onDataChange(update);
+    }
+
+    if (newStatus === V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL) {
+      correctVCenterSecretLabels(
+        {
+          secret: this.props.activeVcenterSecret,
+          saveCredentialsRequested: this.getValue(PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY),
+        },
+        { k8sPatch: this.props.k8sPatch }
+      );
     }
   }
 
@@ -181,7 +205,9 @@ export class VMWareImportProvider extends React.Component {
             disabled={isFieldDisabled(this.getField(PROVIDER_VMWARE_CHECK_CONNECTION_KEY))}
             onClick={() => this.onChange(PROVIDER_VMWARE_CHECK_CONNECTION_KEY, true)}
           >
-            {this.getField(PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY)}
+            {this.getValue(PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY)
+              ? PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE
+              : PROVIDER_VMWARE_CHECK_CONNECTION_BTN_DONT_SAVE}
           </Button>
         </FormRow>
         <FormRow isHidden={isFieldHidden(this.getField(PROVIDER_VMWARE_STATUS_KEY))}>
@@ -199,12 +225,15 @@ VMWareImportProvider.defaultProps = {
   vCenterSecrets: [], // TODO: add loading when undefined
   v2vvmware: null,
   vmwareToKubevirtOsConfigMap: null,
+  activeVcenterSecret: null,
 };
 
 VMWareImportProvider.propTypes = {
   vmSettings: PropTypes.object.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   vCenterSecrets: PropTypes.array,
   v2vvmware: PropTypes.object,
   vmwareToKubevirtOsConfigMap: PropTypes.object,
+  activeVcenterSecret: PropTypes.object,
 };

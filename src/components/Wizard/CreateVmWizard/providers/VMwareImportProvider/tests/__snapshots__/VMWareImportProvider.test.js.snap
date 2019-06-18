@@ -2,6 +2,7 @@
 
 exports[`<VMWareImportProvider /> renders correctly 1`] = `
 <VMWareImportProvider
+  activeVcenterSecret={null}
   v2vvmware={null}
   vCenterSecrets={Array []}
   vmwareToKubevirtOsConfigMap={null}
@@ -1063,7 +1064,9 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                   id="vcenter-connect"
                   onClick={[Function]}
                   type="button"
-                />
+                >
+                  Check
+                </button>
               </Button>
             </div>
           </Col>
@@ -1433,6 +1436,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
 
 exports[`<VMWareImportProvider /> renders correctly when connection is successful 1`] = `
 <VMWareImportProvider
+  activeVcenterSecret={null}
   v2vvmware={null}
   vCenterSecrets={Array []}
   vmSettings={
@@ -2505,7 +2509,9 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                   id="vcenter-connect"
                   onClick={[Function]}
                   type="button"
-                />
+                >
+                  Check
+                </button>
               </Button>
             </div>
           </Col>
@@ -2875,6 +2881,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
 
 exports[`<VMWareImportProvider /> renders correctly when password is not saved 1`] = `
 <VMWareImportProvider
+  activeVcenterSecret={null}
   v2vvmware={null}
   vCenterSecrets={Array []}
   vmSettings={
@@ -3950,7 +3957,9 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                   id="vcenter-connect"
                   onClick={[Function]}
                   type="button"
-                />
+                >
+                  Check
+                </button>
               </Button>
             </div>
           </Col>

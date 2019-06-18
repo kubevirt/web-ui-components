@@ -183,7 +183,6 @@ Object {
           "vCenterInstance": true,
         },
       },
-      "checkConnectionButtonText": "Check",
       "rememberVMwareCredentials": Object {
         "isDisabled": Object {
           "VMWARE_PROVIDER_METADATA_ID": false,
