@@ -1,4 +1,5 @@
 import { PersistentVolumeClaimModel } from '../../../models/index';
+import { PVC_ACCESSMODE_RWM } from '../../../constants';
 
 export const buildPvc = ({ generateName, namespace, size, unit, storageClass }) => ({
   apiVersion: PersistentVolumeClaimModel.apiVersion,
@@ -8,7 +9,7 @@ export const buildPvc = ({ generateName, namespace, size, unit, storageClass }) 
     generateName: `${generateName}-`,
   },
   spec: {
-    accessModes: ['ReadWriteOnce'],
+    accessModes: [PVC_ACCESSMODE_RWM],
     volumeMode: 'Filesystem',
     resources: {
       requests: {

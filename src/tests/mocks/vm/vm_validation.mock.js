@@ -29,7 +29,7 @@ export const vm1 = {
             },
           },
           pvc: {
-            accessModes: ['ReadWriteOnce'],
+            accessModes: ['ReadWriteMany'],
             resources: {
               requests: {
                 storage: '1G',
@@ -114,7 +114,7 @@ export const vm2 = {
             },
           },
           pvc: {
-            accessModes: ['ReadWriteOnce'],
+            accessModes: ['ReadWriteMany'],
             resources: {
               requests: {
                 storage: '1G',
