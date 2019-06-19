@@ -7,7 +7,7 @@ import { default as StorageOverviewFixtures } from '../../fixtures/StorageOvervi
 import { StorageOverviewContext } from '../../StorageOverviewContext';
 import { selectDropdownItem } from '../../../../tests/enzyme';
 
-import { PROJECTS, STORAGE_CLASSES, PODS, BY_USED_CAPACITY, BY_REQUESTED_CAPACITY } from '../strings';
+import { PROJECTS, STORAGE_CLASSES, PODS, VMS, BY_USED_CAPACITY, BY_REQUESTED_CAPACITY } from '../strings';
 
 // eslint-disable-next-line react/prop-types
 const testTopConsumersOverview = ({ props }) => <TopConsumers {...props} />;
@@ -43,6 +43,8 @@ describe('<TopConsumers />', () => {
     testConsumerResults(component, STORAGE_CLASSES, BY_REQUESTED_CAPACITY);
     testConsumerResults(component, PODS, BY_USED_CAPACITY);
     testConsumerResults(component, PODS, BY_REQUESTED_CAPACITY);
+    testConsumerResults(component, VMS, BY_USED_CAPACITY);
+    testConsumerResults(component, VMS, BY_REQUESTED_CAPACITY);
   });
   it('renders correctly with Provider', () => {
     const component = shallow(

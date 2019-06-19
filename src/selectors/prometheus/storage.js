@@ -1,7 +1,7 @@
 import { flatMap, max } from 'lodash';
 
 import { parseNumber, formatBytes } from '../../utils';
-import { PROJECTS, STORAGE_CLASSES, PODS } from '../../components/StorageOverview/TopConsumers/strings';
+import { PROJECTS, STORAGE_CLASSES, PODS, VMS } from '../../components/StorageOverview/TopConsumers/strings';
 
 export const getTopConsumerVectorStats = (result, metricType) => {
   let maxVal = 0;
@@ -46,6 +46,7 @@ export const getLegends = (data, metricType) => {
       return data.map(r => ({ name: r.metric.namespace }));
     case STORAGE_CLASSES:
       return data.map(r => ({ name: r.metric.storageclass }));
+    case VMS:
     case PODS:
       return data.map(r => ({ name: r.metric.pod }));
     default:
