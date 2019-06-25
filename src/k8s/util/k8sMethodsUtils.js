@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { getGeneratedName, getKind, getName } from '../../selectors';
 import { getFullResourceId } from '../../utils';
 import {
@@ -89,3 +91,5 @@ export const errorsFirstSort = results =>
       }
       return a.isError ? -1 : 1;
     });
+
+export const flatten = (props, resourceName, defaultValue) => _.get(props[resourceName], 'data', defaultValue);
