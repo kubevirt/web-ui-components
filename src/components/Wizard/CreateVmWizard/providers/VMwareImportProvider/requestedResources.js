@@ -7,11 +7,13 @@ import {
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
   VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
 } from '../../../../../config';
-import { PROVIDER_VMWARE_V2V_NAME_KEY } from './constants';
+import { PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY, PROVIDER_VMWARE_V2V_NAME_KEY } from './constants';
 import { getVmSettingValue } from '../../utils/vmSettingsTabUtils';
 
 export const getVmWareProviderRequestedResources = state => {
   const v2vVmwareName = getVmwareField(state, PROVIDER_VMWARE_V2V_NAME_KEY);
+  const activeVcenterSecretName = getVmwareField(state, PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY);
+
   const namespace = getVmSettingValue(state, NAMESPACE_KEY);
   const resources = {
     vCenterSecrets: {
@@ -42,6 +44,16 @@ export const getVmWareProviderRequestedResources = state => {
     resources.v2vvmware = {
       resource: getResource(V2VVMwareModel, {
         name: v2vVmwareName,
+        namespace,
+        isList: false,
+      }),
+    };
+  }
+
+  if (activeVcenterSecretName) {
+    resources.activeVcenterSecret = {
+      resource: getResource(SecretModel, {
+        name: activeVcenterSecretName,
         namespace,
         isList: false,
       }),

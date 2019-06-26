@@ -7,9 +7,6 @@ export const PROVIDER_VMWARE_USER_PASSWORD_KEY = 'vmwarePassword';
 export const PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY = 'rememberVMwareCredentials';
 
 export const PROVIDER_VMWARE_CHECK_CONNECTION_KEY = 'checkConnectionButton';
-export const PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY = 'checkConnectionButtonText';
-export const PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE = 'Check and Save';
-export const PROVIDER_VMWARE_CHECK_CONNECTION_BTN_DONT_SAVE = 'Check';
 export const PROVIDER_VMWARE_STATUS_KEY = 'vmwareStatus';
 
 export const PROVIDER_VMWARE_VM_KEY = 'vmwareVm';

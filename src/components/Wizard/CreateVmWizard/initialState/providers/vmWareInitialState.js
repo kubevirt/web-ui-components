@@ -3,16 +3,14 @@ import { PROVIDER_SELECT_VM } from '../../strings';
 import {
   PROVIDER_VMWARE_CHECK_CONNECTION_KEY,
   PROVIDER_VMWARE_HOSTNAME_KEY,
-  PROVIDER_VMWARE_V2V_NAME_KEY,
+  PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY,
+  PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
   PROVIDER_VMWARE_STATUS_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
-  PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY,
+  PROVIDER_VMWARE_V2V_NAME_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
-  PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY,
-  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY,
-  PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE,
 } from '../../providers/VMwareImportProvider/constants';
 import { getSimpleV2vVMwareStatus } from '../../../../../utils/status/v2vVMware/v2vVMwareStatus';
 
@@ -44,7 +42,6 @@ export const getVmWareInitialState = props => ({
   // simple values
   [PROVIDER_VMWARE_V2V_NAME_KEY]: null,
   [PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY]: null,
-  [PROVIDER_VMWARE_CHECK_CONNECTION_BTN_TEXT_KEY]: PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE,
 });
 
 const titleResolver = {
@@ -84,3 +81,6 @@ const helpResolver = {
   [PROVIDER_VMWARE_VM_KEY]: () =>
     'Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded.',
 };
+
+export const PROVIDER_VMWARE_CHECK_CONNECTION_BTN_SAVE = 'Check and Save';
+export const PROVIDER_VMWARE_CHECK_CONNECTION_BTN_DONT_SAVE = 'Check';
