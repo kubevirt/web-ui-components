@@ -188,11 +188,12 @@ export class CreateVmWizard extends React.Component {
       key: VM_SETTINGS_TAB_KEY,
       onCloseWizard: onCloseVmSettings,
       render: () => {
-        const { namespaces, templates, dataVolumes, virtualMachines, WithResources } = this.props;
+        const { namespaces, templates, dataVolumes, virtualMachines, Firehose } = this.props;
 
         const loadingData = { namespaces, templates, dataVolumes, virtualMachines };
         const vmSettings = getVmSettings(this.state);
 
+        const vmwareImportResources = getVmWareProviderRequestedResources(this.state);
         return (
           <LoadingTab {...loadingData}>
             <VmSettingsTab
@@ -202,13 +203,13 @@ export class CreateVmWizard extends React.Component {
               {...loadingData}
             >
               <ImportProvider isVisible={isVmwareProvider(this.state)}>
-                <WithResources resourceMap={getVmWareProviderRequestedResources(this.state)}>
+                <Firehose resources={vmwareImportResources}>
                   <VMWareImportProvider
                     vmSettings={vmSettings}
                     onChange={(value, valid) => this.onStepDataChanged(VM_SETTINGS_TAB_KEY, value, valid)}
                     k8sPatch={this.props.k8sPatch}
                   />
-                </WithResources>
+                </Firehose>
               </ImportProvider>
             </VmSettingsTab>
           </LoadingTab>
@@ -320,7 +321,7 @@ CreateVmWizard.defaultProps = {
 };
 
 CreateVmWizard.propTypes = {
-  WithResources: PropTypes.func.isRequired,
+  Firehose: PropTypes.func.isRequired,
   k8sCreate: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
   k8sPatch: PropTypes.func.isRequired,

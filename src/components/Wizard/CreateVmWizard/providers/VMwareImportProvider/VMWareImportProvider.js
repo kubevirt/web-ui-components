@@ -45,6 +45,7 @@ import {
 } from '../../../../../utils/status/v2vVMware';
 import { getVmwareField } from './selectors';
 import { correctVCenterSecretLabels } from '../../../../../k8s/requests/v2v/correctVCenterSecretLabels';
+import { flatten } from '../../../../../k8s/util/k8sMethodsUtils';
 
 export class VMWareImportProvider extends React.Component {
   state = {
@@ -65,8 +66,11 @@ export class VMWareImportProvider extends React.Component {
     this.onDataChange({ [key]: { [attribute]: value } });
   };
 
+  getFlattenVCenterSecrets = () => flatten(this.props, 'vCenterSecrets', []);
+
   onSecretChange = value => {
-    const secret = value === CONNECT_TO_NEW_INSTANCE ? null : this.props.vCenterSecrets.find(s => getName(s) === value);
+    const secret =
+      value === CONNECT_TO_NEW_INSTANCE ? null : this.getFlattenVCenterSecrets().find(s => getName(s) === value);
     this.onDataChange({
       [PROVIDER_VMWARE_VCENTER_KEY]: {
         value,
@@ -107,7 +111,8 @@ export class VMWareImportProvider extends React.Component {
   });
 
   componentDidUpdate() {
-    const { vmwareToKubevirtOsConfigMap, v2vvmware } = this.props;
+    const v2vvmware = flatten(this.props, 'v2vvmware', {});
+    const vmwareToKubevirtOsConfigMap = flatten(this.props, 'vmwareToKubevirtOsConfigMap', undefined);
 
     const { prevLoadedVmName } = this.state;
 
@@ -121,7 +126,7 @@ export class VMWareImportProvider extends React.Component {
     let update;
 
     if (selectedVmName && prevLoadedVmName !== selectedVmName) {
-      const vm = getLoadedVm(this.props.v2vvmware, selectedVmName);
+      const vm = getLoadedVm(v2vvmware, selectedVmName);
       if (vm) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ prevLoadedVmName: selectedVmName });
@@ -161,9 +166,19 @@ export class VMWareImportProvider extends React.Component {
   }
 
   render() {
-    const { vCenterSecrets, v2vvmware } = this.props;
+    const { loadError } = this.props;
 
-    const secrets = [CONNECT_TO_NEW_INSTANCE, ...vCenterSecrets.map(getName)];
+    if (loadError) {
+      // TODO: notify the user better
+      // Reuse https://github.com/kubevirt/web-ui-components/pull/503 when merged
+      // eslint-disable-next-line no-console
+      console.warn('VMWareImportProvider failed to load data: ', loadError.message);
+    }
+
+    const vCenterSecrets = this.getFlattenVCenterSecrets();
+    const secretNames = vCenterSecrets.map(getName);
+    const secrets = [CONNECT_TO_NEW_INSTANCE, ...secretNames];
+    const v2vvmware = flatten(this.props, 'v2vvmware', {});
 
     const vms = getVms(v2vvmware);
     let vmNames = [];
@@ -226,6 +241,7 @@ VMWareImportProvider.defaultProps = {
   v2vvmware: null,
   vmwareToKubevirtOsConfigMap: null,
   activeVcenterSecret: null,
+  loadError: undefined,
 };
 
 VMWareImportProvider.propTypes = {
@@ -236,4 +252,5 @@ VMWareImportProvider.propTypes = {
   v2vvmware: PropTypes.object,
   vmwareToKubevirtOsConfigMap: PropTypes.object,
   activeVcenterSecret: PropTypes.object,
+  loadError: PropTypes.object,
 };

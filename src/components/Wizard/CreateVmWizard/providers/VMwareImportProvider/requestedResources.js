@@ -15,39 +15,39 @@ export const getVmWareProviderRequestedResources = state => {
   const activeVcenterSecretName = getVmwareField(state, PROVIDER_VMWARE_NEW_VCENTER_NAME_KEY);
 
   const namespace = getVmSettingValue(state, NAMESPACE_KEY);
-  const resources = {
-    vCenterSecrets: {
-      resource: getResource(SecretModel, {
-        namespace,
-        matchExpressions: [
-          {
-            key: VCENTER_TYPE_LABEL,
-            operator: 'Exists',
-          },
-          {
-            key: VCENTER_TEMPORARY_LABEL,
-            operator: 'DoesNotExist',
-          },
-        ],
-      }),
-    },
-    vmwareToKubevirtOsConfigMap: {
-      resource: getResource(ConfigMapModel, {
-        name: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
-        namespace: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
-        isList: false,
-      }),
-    },
-  };
+
+  const resources = [
+    getResource(SecretModel, {
+      namespace,
+      prop: 'vCenterSecrets',
+      matchExpressions: [
+        {
+          key: VCENTER_TYPE_LABEL,
+          operator: 'Exists',
+        },
+        {
+          key: VCENTER_TEMPORARY_LABEL,
+          operator: 'DoesNotExist',
+        },
+      ],
+    }),
+    getResource(ConfigMapModel, {
+      name: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME,
+      namespace: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
+      isList: false,
+      prop: 'vmwareToKubevirtOsConfigMap',
+    }),
+  ];
 
   if (v2vVmwareName) {
-    resources.v2vvmware = {
-      resource: getResource(V2VVMwareModel, {
+    resources.push(
+      getResource(V2VVMwareModel, {
         name: v2vVmwareName,
         namespace,
         isList: false,
-      }),
-    };
+        prop: 'v2vvmware',
+      })
+    );
   }
 
   if (activeVcenterSecretName) {
