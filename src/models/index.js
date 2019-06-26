@@ -37,6 +37,7 @@ export const BaremetalHostModel = {
 export const ProcessedTemplatesModel = {
   apiVersion: 'v1',
   path: 'processedtemplates',
+  plural: 'processedtemplates',
   apiGroup: 'template.openshift.io',
   namespaced: true,
 };
