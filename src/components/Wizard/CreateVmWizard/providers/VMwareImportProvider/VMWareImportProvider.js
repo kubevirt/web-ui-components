@@ -66,8 +66,6 @@ export class VMWareImportProvider extends React.Component {
     this.onDataChange({ [key]: { [attribute]: value } });
   };
 
-  getFlattenVCenterSecrets = () => flatten(this.props, 'vCenterSecrets', []);
-
   onSecretChange = value => {
     const secret =
       value === CONNECT_TO_NEW_INSTANCE ? null : this.getFlattenVCenterSecrets().find(s => getName(s) === value);
@@ -85,6 +83,8 @@ export class VMWareImportProvider extends React.Component {
   getFieldAttribute = (key, attribute) => get(this.getField(key), attribute);
 
   getValue = key => this.getFieldAttribute(key, 'value');
+
+  getFlattenVCenterSecrets = () => flatten(this.props, 'vCenterSecrets', []);
 
   getRowMetadata = key => ({
     key,
@@ -112,7 +112,7 @@ export class VMWareImportProvider extends React.Component {
 
   componentDidUpdate() {
     const v2vvmware = flatten(this.props, 'v2vvmware', {});
-    const vmwareToKubevirtOsConfigMap = flatten(this.props, 'vmwareToKubevirtOsConfigMap', undefined);
+    const vmwareToKubevirtOsConfigMap = flatten(this.props, 'vmwareToKubevirtOsConfigMap');
 
     const { prevLoadedVmName } = this.state;
 
@@ -157,7 +157,7 @@ export class VMWareImportProvider extends React.Component {
     if (newStatus === V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL) {
       correctVCenterSecretLabels(
         {
-          secret: this.props.activeVcenterSecret,
+          secret: flatten(this.props, 'activeVcenterSecret'),
           saveCredentialsRequested: this.getValue(PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY),
         },
         { k8sPatch: this.props.k8sPatch }
@@ -237,7 +237,7 @@ export class VMWareImportProvider extends React.Component {
 }
 
 VMWareImportProvider.defaultProps = {
-  vCenterSecrets: [], // TODO: add loading when undefined
+  vCenterSecrets: null, // TODO: add loading when undefined
   v2vvmware: null,
   vmwareToKubevirtOsConfigMap: null,
   activeVcenterSecret: null,
@@ -248,7 +248,7 @@ VMWareImportProvider.propTypes = {
   vmSettings: PropTypes.object.isRequired,
   k8sPatch: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  vCenterSecrets: PropTypes.array,
+  vCenterSecrets: PropTypes.object,
   v2vvmware: PropTypes.object,
   vmwareToKubevirtOsConfigMap: PropTypes.object,
   activeVcenterSecret: PropTypes.object,
