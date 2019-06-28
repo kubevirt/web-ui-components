@@ -51,13 +51,14 @@ export const getVmWareProviderRequestedResources = state => {
   }
 
   if (activeVcenterSecretName) {
-    resources.activeVcenterSecret = {
-      resource: getResource(SecretModel, {
+    resources.push(
+      getResource(SecretModel, {
         name: activeVcenterSecretName,
         namespace,
         isList: false,
-      }),
-    };
+        prop: 'activeVcenterSecret',
+      })
+    );
   }
 
   return resources;
