@@ -321,7 +321,7 @@ CreateVmWizard.defaultProps = {
 };
 
 CreateVmWizard.propTypes = {
-  Firehose: PropTypes.func.isRequired,
+  Firehose: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired, // Firehose can be wrapped by react.memo within caller-context
   k8sCreate: PropTypes.func.isRequired,
   k8sGet: PropTypes.func.isRequired,
   k8sPatch: PropTypes.func.isRequired,
