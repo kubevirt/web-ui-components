@@ -2,7 +2,14 @@ import { getKubevirtV2vConversionContainerImage, getV2vImagePullPolicy } from '.
 import { PodModel } from '../../../../models';
 import { CONVERSION_BASE_NAME, CONVERSION_GENERATE_NAME } from '../../../requests/v2v';
 
-export const buildConversionPod = ({ volumes, volumeMounts, namespace, serviceAccountName, secretName }) => ({
+export const buildConversionPod = ({
+  volumes,
+  volumeMounts,
+  namespace,
+  serviceAccountName,
+  secretName,
+  kubevirtVmwareConfigMap,
+}) => ({
   apiVersion: PodModel.apiVersion,
   kind: PodModel.kind,
   metadata: {
@@ -14,8 +21,8 @@ export const buildConversionPod = ({ volumes, volumeMounts, namespace, serviceAc
     containers: [
       {
         name: CONVERSION_BASE_NAME,
-        imagePullPolicy: getV2vImagePullPolicy(),
-        image: getKubevirtV2vConversionContainerImage(),
+        imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
+        image: getKubevirtV2vConversionContainerImage(kubevirtVmwareConfigMap),
         securityContext: {
           privileged: true,
         },

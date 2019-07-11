@@ -1,12 +1,24 @@
 import { get } from 'lodash';
 
-const getRegistryUrl = () => get(window.SERVER_FLAGS, 'registry', 'quay.io/nyoxi'); // TODO: upstream should be moved under quay.io/kubevirt
-const getV2vImageTag = () => get(window.SERVER_FLAGS, 'v2vImageTag', 'latest');
-export const getV2vImagePullPolicy = () => get(window.SERVER_FLAGS, 'v2vImagePullPolicy', 'IfNotPresent');
+import { VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME } from '../k8s/requests';
 
-export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note: common-templates are in the "openshift" namespace
-export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single configMap per cluster, contains mapping of vmware guestId to common-templates OS ID
+// full image name of kubevirt-v2v-conversion
+// Presence and proper content of the ConfigMap is hard requirement, so ensure proper info makes it into the logs otherwise.
+export const getKubevirtV2vConversionContainerImage = kubevirtVmwareConfigMap =>
+  get(
+    kubevirtVmwareConfigMap,
+    ['data', 'v2v-conversion-image'],
+    `v2v-conversion-image is missing in the ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} ConfigMap`
+  );
 
-export const getKubevirtV2vConversionContainerImage = () =>
-  `${getRegistryUrl()}/kubevirt-v2v-conversion:${getV2vImageTag()}`;
-export const getKubevirtV2vVmwareContainerImage = () => `${getRegistryUrl()}/kubevirt-vmware:${getV2vImageTag()}`;
+// the kubevirt-vmware provider is responsible for reading VMs list/details from the VMware API
+export const getKubevirtV2vVmwareContainerImage = kubevirtVmwareConfigMap =>
+  get(
+    kubevirtVmwareConfigMap,
+    ['data', 'kubevirt-vmware-image'],
+    `kubevirt-vmware-image is missing in the ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} ConfigMap`
+  );
+
+// optional param in the ConfigMap
+export const getV2vImagePullPolicy = kubevirtVmwareConfigMap =>
+  get(kubevirtVmwareConfigMap, ['data', 'kubevirt-vmware-image-pull-policy'], 'IfNotPresent');

@@ -8,6 +8,7 @@ import {
   RoleModel,
   SecretModel,
   ServiceAccountModel,
+  ConfigMapModel,
 } from '../../../models';
 import {
   NAMESPACE_KEY,
@@ -18,7 +19,11 @@ import {
 import { getName } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
-import { CONVERSION_GENERATE_NAME } from './constants';
+import {
+  CONVERSION_GENERATE_NAME,
+  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
+  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE,
+} from './constants';
 import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
 import {
   PROVIDER_VMWARE_HOSTNAME_KEY,
@@ -158,7 +163,7 @@ const startConversionPod = async (
   vmSettings,
   networks,
   storages,
-  { k8sCreate, k8sPatch },
+  { k8sGet, k8sCreate, k8sPatch },
   { serviceAccount, role, roleBinding, mappedStorages, conversionPodSecret }
 ) => {
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
@@ -176,6 +181,12 @@ const startConversionPod = async (
       volumes.push(asVolume(storage));
     });
 
+  const kubevirtVmwareConfigMap = await k8sGet(
+    ConfigMapModel,
+    VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
+    VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE
+  );
+
   const conversionPod = await k8sCreate(
     PodModel,
     buildConversionPod({
@@ -184,6 +195,7 @@ const startConversionPod = async (
       namespace,
       serviceAccountName: getName(serviceAccount),
       secretName: getName(conversionPodSecret),
+      kubevirtVmwareConfigMap,
     })
   );
 
@@ -205,7 +217,7 @@ const startConversionPod = async (
   };
 };
 
-export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate, k8sPatch }, context) =>
+export const importVmwareVm = async (vmSettings, networks, storages, { k8sGet, k8sCreate, k8sPatch }, context) =>
   [createConversionPodSecret, resolveRolesAndServiceAccount, resolveStorages, startConversionPod].reduce(
     async (lastResultPromise, stepFunction) => {
       const lastResult = await lastResultPromise;
@@ -214,6 +226,7 @@ export const importVmwareVm = async (vmSettings, networks, storages, { k8sCreate
         networks,
         storages,
         {
+          k8sGet,
           k8sCreate,
           k8sPatch,
         },

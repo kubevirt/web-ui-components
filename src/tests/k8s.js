@@ -6,7 +6,7 @@ import { ConfigMapModel, ProcessedTemplatesModel, V2VVMwareModel, TemplateModel 
 import { TEMPLATE_PARAM_VM_NAME } from '../constants';
 import { fedora28 } from '../k8s/objects/template/fedora28';
 import { osV2VConfigMap } from './mocks/configMap';
-import { VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME, VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE } from '../config';
+import { VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME, VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE } from '../k8s/requests';
 
 const processTemplate = template =>
   new Promise((resolve, reject) => {

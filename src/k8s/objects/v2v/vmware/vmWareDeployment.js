@@ -1,7 +1,7 @@
 import { getKubevirtV2vVmwareContainerImage, getV2vImagePullPolicy } from '../../../../config';
 import { DeploymentModel } from '../../../../models';
 
-export const buildVmWareDeployment = ({ name, namespace }) => ({
+export const buildVmWareDeployment = ({ name, namespace, kubevirtVmwareConfigMap }) => ({
   apiVersion: `${DeploymentModel.apiGroup}/${DeploymentModel.apiVersion}`,
   kind: DeploymentModel.kind,
   metadata: {
@@ -26,8 +26,8 @@ export const buildVmWareDeployment = ({ name, namespace }) => ({
         containers: [
           {
             name,
-            image: getKubevirtV2vVmwareContainerImage(),
-            imagePullPolicy: getV2vImagePullPolicy(),
+            image: getKubevirtV2vVmwareContainerImage(kubevirtVmwareConfigMap),
+            imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
             command: ['kubevirt-vmware'],
             env: [
               {
