@@ -17,14 +17,14 @@ import { getDeploymentContainer } from '../../../selectors/deployment';
 import { getContainerImage } from '../../../selectors/pod';
 import { buildAddOwnerReferencesPatch, buildOwnerReference } from '../../util';
 import { getName } from '../../../selectors';
-import { getKubevirtV2vVmwareContainerImage } from '../../../config';
+import { getKubevirtV2vVmwareContainerImage, getV2vImagePullPolicy } from '../../../selectors/v2v';
 
 const { info } = console;
 
 const OLD_VERSION = 'OLD_VERSION';
 
 // prevent parallel execution of startV2VVMWareController()
-let semaphor = false;
+const semaphors = {};
 
 // The controller is namespace-scoped, especially due to security reasons
 // Let's make sure its started within the desired namespace (which is not by default).
@@ -35,12 +35,11 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
     throw new Error('V2V VMWare: namespace must be selected');
   }
 
-  if (semaphor) {
-    // eslint-disable-next-line no-console
-    console.info(`startV2VVMWareController for "${namespace}" namespace already in progress. Skipping...`);
+  if (semaphors[namespace]) {
+    info(`startV2VVMWareController for "${namespace}" namespace already in progress. Skipping...`);
     return;
   }
-  semaphor = true;
+  semaphors[namespace] = true;
 
   const name = V2VVMWARE_DEPLOYMENT_NAME;
   let activeDeployment;
@@ -87,10 +86,10 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
       },
       Promise.resolve({ activeDeployment, kubevirtVmwareConfigMap, namespace, name })
     );
+
+    info(`startV2VVMWareController for "${namespace}" namespace finished.`);
   } finally {
-    // eslint-disable-next-line no-console
-    console.log(`startV2VVMWareController for "${namespace}" namespace finished.`);
-    semaphor = false;
+    delete semaphors[namespace];
   }
 };
 
@@ -128,7 +127,12 @@ const startVmWare = async (
 ) => {
   const deployment = await k8sCreate(
     DeploymentModel,
-    buildVmWareDeployment({ name, namespace, kubevirtVmwareConfigMap })
+    buildVmWareDeployment({
+      name,
+      namespace,
+      image: getKubevirtV2vVmwareContainerImage(kubevirtVmwareConfigMap),
+      imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
+    })
   );
 
   if (deployment) {

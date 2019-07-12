@@ -39,6 +39,7 @@ import {
   getVmwareField,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize } from '../../../utils';
+import { getV2vImagePullPolicy, getKubevirtV2vConversionContainerImage } from '../../../selectors/v2v';
 
 const asVolumenMount = ({ name, storageType, data }) => ({
   name,
@@ -195,7 +196,8 @@ const startConversionPod = async (
       namespace,
       serviceAccountName: getName(serviceAccount),
       secretName: getName(conversionPodSecret),
-      kubevirtVmwareConfigMap,
+      imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
+      image: getKubevirtV2vConversionContainerImage(kubevirtVmwareConfigMap),
     })
   );
 
