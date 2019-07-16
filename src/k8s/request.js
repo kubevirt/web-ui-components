@@ -180,7 +180,7 @@ export const createVmTemplate = async (
 };
 
 export const createVm = async (
-  { k8sCreate, k8sPatch, getActualState },
+  { k8sGet, k8sCreate, k8sPatch, getActualState },
   templates,
   vmSettings,
   networks,
@@ -198,6 +198,7 @@ export const createVm = async (
       networks,
       storages,
       {
+        k8sGet,
         k8sCreate,
         k8sPatch,
       },

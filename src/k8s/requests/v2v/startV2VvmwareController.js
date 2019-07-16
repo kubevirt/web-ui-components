@@ -1,32 +1,63 @@
-import { DeploymentModel, RoleModel, ServiceAccountModel, RoleBindingModel, findModel } from '../../../models';
+import {
+  DeploymentModel,
+  RoleModel,
+  ServiceAccountModel,
+  RoleBindingModel,
+  findModel,
+  ConfigMapModel,
+} from '../../../models';
 import { buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { buildVmWareRole, buildVmWareDeployment } from '../../objects/v2v/vmware';
-import { V2VVMWARE_DEPLOYMENT_NAME } from './constants';
+import {
+  V2VVMWARE_DEPLOYMENT_NAME,
+  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
+  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE,
+} from './constants';
 import { getDeploymentContainer } from '../../../selectors/deployment';
 import { getContainerImage } from '../../../selectors/pod';
 import { buildAddOwnerReferencesPatch, buildOwnerReference } from '../../util';
 import { getName } from '../../../selectors';
-import { getKubevirtV2vVmwareContainerImage } from '../../../config';
+import { getKubevirtV2vVmwareContainerImage, getV2vImagePullPolicy } from '../../../selectors/v2v';
 
 const { info } = console;
 
 const OLD_VERSION = 'OLD_VERSION';
 
+// prevent parallel execution of startV2VVMWareController()
+const semaphors = {};
+
 // The controller is namespace-scoped, especially due to security reasons
 // Let's make sure its started within the desired namespace (which is not by default).
 // The V2VVmware CRD is expected to be already created within the cluster (by Web UI installation)
+// TODO: The controller should be deployed by a provider and not via following UI code.
 export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreate, k8sKill, k8sPatch }) => {
   if (!namespace) {
     throw new Error('V2V VMWare: namespace must be selected');
   }
 
+  if (semaphors[namespace]) {
+    info(`startV2VVMWareController for "${namespace}" namespace already in progress. Skipping...`);
+    return;
+  }
+  semaphors[namespace] = true;
+
   const name = V2VVMWARE_DEPLOYMENT_NAME;
   let activeDeployment;
+  let kubevirtVmwareConfigMap;
 
   try {
+    kubevirtVmwareConfigMap = await k8sGet(
+      ConfigMapModel,
+      VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
+      VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE
+    );
+
     activeDeployment = await k8sGet(DeploymentModel, name, namespace);
 
-    if (getContainerImage(getDeploymentContainer(activeDeployment, name)) !== getKubevirtV2vVmwareContainerImage()) {
+    if (
+      getContainerImage(getDeploymentContainer(activeDeployment, name)) !==
+      getKubevirtV2vVmwareContainerImage(kubevirtVmwareConfigMap)
+    ) {
       throw new Error(OLD_VERSION);
     }
   } catch (e) {
@@ -53,8 +84,12 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
           ...nextResult,
         };
       },
-      Promise.resolve({ activeDeployment, namespace, name })
+      Promise.resolve({ activeDeployment, kubevirtVmwareConfigMap, namespace, name })
     );
+
+    info(`startV2VVMWareController for "${namespace}" namespace finished.`);
+  } finally {
+    delete semaphors[namespace];
   }
 };
 
@@ -86,8 +121,19 @@ const resolveRolesAndServiceAccount = async ({ name, namespace }, { k8sCreate })
   };
 };
 
-const startVmWare = async ({ name, namespace, serviceAccount, role, roleBinding }, { k8sCreate, k8sPatch }) => {
-  const deployment = await k8sCreate(DeploymentModel, buildVmWareDeployment({ name, namespace }));
+const startVmWare = async (
+  { name, namespace, serviceAccount, role, roleBinding, kubevirtVmwareConfigMap },
+  { k8sCreate, k8sPatch }
+) => {
+  const deployment = await k8sCreate(
+    DeploymentModel,
+    buildVmWareDeployment({
+      name,
+      namespace,
+      image: getKubevirtV2vVmwareContainerImage(kubevirtVmwareConfigMap),
+      imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
+    })
+  );
 
   if (deployment) {
     const newOwnerReferences = [buildOwnerReference(deployment)];
