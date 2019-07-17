@@ -60,7 +60,6 @@ describe('validation.js - validateDNS1123SubdomainValue tests', () => {
     expect(validateDNS1123SubdomainValue('abc')).toBeNull();
     expect(validateDNS1123SubdomainValue('1abc')).toBeNull();
     expect(validateDNS1123SubdomainValue('aab-c')).toBeNull();
-    expect(validateDNS1123SubdomainValue('aa.bc')).toBeNull();
     expect(validateDNS1123SubdomainValue('a'.repeat(253))).toBeNull();
   });
   it('returns warning for uppercase value', () => {
@@ -86,6 +85,7 @@ describe('validation.js - validateDNS1123SubdomainValue tests', () => {
     expect(validateDNS1123SubdomainValue('ab_c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} _`));
     expect(validateDNS1123SubdomainValue('ab/c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} /`));
     expect(validateDNS1123SubdomainValue('ab*c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} *`));
+    expect(validateDNS1123SubdomainValue('ab.c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} .`));
   });
 });
 
