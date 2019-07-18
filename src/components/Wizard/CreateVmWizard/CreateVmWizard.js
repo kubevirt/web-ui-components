@@ -188,7 +188,7 @@ export class CreateVmWizard extends React.Component {
       key: VM_SETTINGS_TAB_KEY,
       onCloseWizard: onCloseVmSettings,
       render: () => {
-        const { namespaces, templates, dataVolumes, virtualMachines, Firehose } = this.props;
+        const { namespaces, templates, dataVolumes, virtualMachines, Firehose, isV2vVmwareCrd } = this.props;
 
         const loadingData = { namespaces, templates, dataVolumes, virtualMachines };
         const vmSettings = getVmSettings(this.state);
@@ -201,6 +201,7 @@ export class CreateVmWizard extends React.Component {
               vmSettings={vmSettings}
               onChange={(value, valid) => this.onStepDataChanged(VM_SETTINGS_TAB_KEY, value, valid)}
               {...loadingData}
+              isV2vVmwareCrd={isV2vVmwareCrd}
             >
               <ImportProvider isVisible={isVmwareProvider(this.state)}>
                 <Firehose resources={vmwareImportResources}>
@@ -318,6 +319,7 @@ CreateVmWizard.defaultProps = {
   storageClasses: null,
   createTemplate: false,
   dataVolumes: null,
+  isV2vVmwareCrd: false,
 };
 
 CreateVmWizard.propTypes = {
@@ -337,4 +339,5 @@ CreateVmWizard.propTypes = {
   units: PropTypes.object.isRequired,
   createTemplate: PropTypes.bool,
   dataVolumes: PropTypes.array,
+  isV2vVmwareCrd: PropTypes.bool,
 };

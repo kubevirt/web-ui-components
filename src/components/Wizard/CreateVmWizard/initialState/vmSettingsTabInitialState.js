@@ -48,8 +48,8 @@ export const getVmSettingsInitialState = props => ({
   valid: false,
 });
 
-export const getInitialVmSettings = (props = { createTemplate: false }) => {
-  const { createTemplate } = props;
+export const getInitialVmSettings = (props = { createTemplate: false, isV2vVmwareCrd: false }) => {
+  const { createTemplate, isV2vVmwareCrd } = props;
 
   const provisionSources = [
     PROVISION_SOURCE_PXE,
@@ -60,7 +60,10 @@ export const getInitialVmSettings = (props = { createTemplate: false }) => {
 
   const importProviders = createTemplate ? [] : getProviders();
 
-  if (!createTemplate) {
+  if (!createTemplate && isV2vVmwareCrd) {
+    // Conditionally-enabled providers should go one level down, means to the list of providers.
+    // But as long as there is listed just a single "VMware" provider, the top-level "Import" option
+    // is disabled if VMware provider can not be used.
     provisionSources.push(PROVISION_SOURCE_IMPORT);
   }
 
