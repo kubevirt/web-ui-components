@@ -1,1 +1,1 @@
-export { CloneDialog } from './CloneDialog';
+export { CloneDialog, CloneVMModalFirehose } from './CloneDialog';

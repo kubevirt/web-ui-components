@@ -11,11 +11,13 @@ import {
   START_VM_KEY,
   VIRTUAL_MACHINES_KEY,
 } from '../../Wizard/CreateVmWizard/constants';
-import { getDescription, getNamespace, getName, isVmRunning } from '../../../selectors';
+import { getDescription, getNamespace, getName, isVmRunning, getVolumes } from '../../../selectors';
 import { validateVmName, vmAlreadyExists } from '../../../utils/validations';
 import { settingsValue } from '../../../k8s/selectors';
 import { clone } from '../../../k8s/clone';
+import { getResource } from '../../../utils/utils';
 import { Loading } from '../../Loading';
+import { DataVolumeModel, NamespaceModel, PersistentVolumeClaimModel, VirtualMachineModel } from '../../../models';
 
 const getFormFields = (namespaces, vm, persistentVolumeClaims, dataVolumes, virtualMachines) => ({
   [NAME_KEY]: {
@@ -54,11 +56,18 @@ const getFormFields = (namespaces, vm, persistentVolumeClaims, dataVolumes, virt
   },
 });
 
+const getLoadedData = (result, defaultValue) =>
+  result && result.loaded && !result.loadError ? result.data : defaultValue;
+
 export class CloneDialog extends React.Component {
   constructor(props) {
     super(props);
     const initVmName = `${getName(props.vm)}-clone`;
-    const initVmNameValidation = vmAlreadyExists(initVmName, getNamespace(props.vm), props.virtualMachines);
+    const initVmNameValidation = vmAlreadyExists(
+      initVmName,
+      getNamespace(props.vm),
+      getLoadedData(props.virtualMachines, [])
+    );
     if (initVmNameValidation && initVmNameValidation.message) {
       initVmNameValidation.message = `Name ${initVmNameValidation.message}`;
     }
@@ -114,10 +123,10 @@ export class CloneDialog extends React.Component {
       settingsValue(this.state, NAMESPACE_KEY),
       settingsValue(this.state, DESCRIPTION_KEY),
       settingsValue(this.state, START_VM_KEY),
-      this.props.persistentVolumeClaims,
-      this.props.dataVolumes
+      getLoadedData(this.props.persistentVolumeClaims, []),
+      getLoadedData(this.props.dataVolumes, [])
     )
-      .then(() => this.props.onClose())
+      .then(() => this.props.close())
       .catch(error =>
         this.setState({
           cloning: false,
@@ -129,22 +138,42 @@ export class CloneDialog extends React.Component {
   onErrorDismissed = () => this.setState({ error: null });
 
   render() {
+    const {
+      LoadingComponent,
+      vm,
+      virtualMachines,
+      namespaces,
+      persistentVolumeClaims,
+      dataVolumes,
+      requestsDatavolumes,
+      requestsPVCs,
+    } = this.props;
+
     const formFields = getFormFields(
-      this.props.namespaces,
-      this.props.vm,
-      this.props.persistentVolumeClaims,
-      this.props.dataVolumes,
-      this.props.virtualMachines
+      getLoadedData(namespaces, []),
+      vm,
+      getLoadedData(persistentVolumeClaims, []),
+      getLoadedData(dataVolumes, []),
+      getLoadedData(virtualMachines, [])
     );
-    const { LoadingComponent } = this.props;
+
+    const dataVolumesValid = requestsDatavolumes ? dataVolumes && dataVolumes.loaded && !dataVolumes.loadError : true;
+    const pvcsValid = requestsPVCs
+      ? persistentVolumeClaims && persistentVolumeClaims.loaded && !persistentVolumeClaims.loadError
+      : true;
+
     const footer = this.state.cloning ? (
       <LoadingComponent />
     ) : (
       <React.Fragment>
-        <Button bsStyle="default" className="btn-cancel" onClick={this.props.onClose}>
+        <Button bsStyle="default" className="btn-cancel" onClick={this.props.cancel}>
           Cancel
         </Button>
-        <Button bsStyle="primary" onClick={this.cloneVm} disabled={!this.state.valid}>
+        <Button
+          bsStyle="primary"
+          onClick={this.cloneVm}
+          disabled={!(this.state.valid && dataVolumesValid && pvcsValid)}
+        >
           Clone Virtual Machine
         </Button>
       </React.Fragment>
@@ -152,7 +181,7 @@ export class CloneDialog extends React.Component {
     return (
       <Modal show dialogClassName="kubevirt-clone-dialog">
         <Modal.Header>
-          <Button className="close" onClick={this.props.onClose}>
+          <Button className="close" onClick={this.props.close}>
             <Icon type="pf" name="close" />
           </Button>
           <Modal.Title>Clone Virtual Machine</Modal.Title>
@@ -182,16 +211,81 @@ export class CloneDialog extends React.Component {
 
 CloneDialog.propTypes = {
   vm: PropTypes.object.isRequired,
-  namespaces: PropTypes.array.isRequired,
-  persistentVolumeClaims: PropTypes.array.isRequired,
-  LoadingComponent: PropTypes.func,
-  virtualMachines: PropTypes.array.isRequired,
   k8sCreate: PropTypes.func.isRequired,
   k8sPatch: PropTypes.func.isRequired,
-  dataVolumes: PropTypes.array.isRequired,
-  onClose: PropTypes.func.isRequired,
+  namespaces: PropTypes.object,
+  persistentVolumeClaims: PropTypes.object,
+  virtualMachines: PropTypes.object,
+  dataVolumes: PropTypes.object,
+  requestsDatavolumes: PropTypes.bool,
+  requestsPVCs: PropTypes.bool,
+  LoadingComponent: PropTypes.func,
+  close: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
 };
 
 CloneDialog.defaultProps = {
+  LoadingComponent: Loading,
+  namespaces: null,
+  persistentVolumeClaims: null,
+  virtualMachines: null,
+  dataVolumes: null,
+  requestsDatavolumes: false,
+  requestsPVCs: false,
+};
+
+// eslint-disable-next-line react/no-multi-comp
+export class CloneVMModalFirehose extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      namespace: getNamespace(props.vm),
+    };
+  }
+
+  render() {
+    const { vm, Firehose } = this.props;
+    const { namespace } = this.state;
+
+    const requestsDatavolumes = !!getVolumes(vm).find(v => v.dataVolume && v.dataVolume.name);
+    const requestsPVCs = !!getVolumes(vm).find(v => v.persistentVolumeClaim && v.persistentVolumeClaim.claimName);
+
+    const resources = [
+      getResource(NamespaceModel, { prop: 'namespaces' }),
+      getResource(VirtualMachineModel, { namespace, prop: 'virtualMachines' }),
+    ];
+
+    if (requestsPVCs) {
+      resources.push(getResource(PersistentVolumeClaimModel, { namespace, prop: 'persistentVolumeClaims' }));
+    }
+
+    if (requestsDatavolumes) {
+      resources.push(getResource(DataVolumeModel, { namespace, prop: 'dataVolumes' }));
+    }
+
+    return (
+      <Firehose resources={resources}>
+        <CloneDialog
+          {...this.props}
+          onNamespaceChanged={n => this.setState({ namespace: n })}
+          requestsDatavolumes={requestsDatavolumes}
+          requestsPVCs={requestsPVCs}
+        />
+      </Firehose>
+    );
+  }
+}
+
+CloneVMModalFirehose.propTypes = {
+  vm: PropTypes.object.isRequired,
+  Firehose: PropTypes.object.isRequired,
+  LoadingComponent: PropTypes.func,
+  k8sCreate: PropTypes.func.isRequired,
+  k8sPatch: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
+};
+
+CloneVMModalFirehose.defaultProps = {
   LoadingComponent: Loading,
 };

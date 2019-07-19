@@ -39,7 +39,6 @@ exports[`<CloneDialog /> renders correctly 1`] = `
       bsStyle="default"
       className="close"
       disabled={false}
-      onClick={[Function]}
     >
       <Icon
         name="close"
@@ -138,7 +137,6 @@ exports[`<CloneDialog /> renders correctly 1`] = `
       bsStyle="default"
       className="btn-cancel"
       disabled={false}
-      onClick={[Function]}
     >
       Cancel
     </Button>

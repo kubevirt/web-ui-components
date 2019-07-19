@@ -10,13 +10,13 @@ export default {
   component: CloneDialog,
   props: {
     vm: cloudInitTestVm,
-    namespaces,
-    persistentVolumeClaims: [],
-    dataVolumes: [],
+    namespaces: { data: namespaces, loaded: true },
+    persistentVolumeClaims: { data: [], loaded: true },
+    dataVolumes: { data: [], loaded: true },
     k8sCreate,
     k8sPatch,
     units,
     onClose: noop,
-    virtualMachines: [],
+    virtualMachines: { data: [], loaded: true },
   },
 };
