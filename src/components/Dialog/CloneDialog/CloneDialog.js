@@ -147,6 +147,7 @@ export class CloneDialog extends React.Component {
       dataVolumes,
       requestsDatavolumes,
       requestsPVCs,
+      loadError,
     } = this.props;
 
     const formFields = getFormFields(
@@ -188,6 +189,7 @@ export class CloneDialog extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <div className="kubevirt-clone-dialog__content">
+            {loadError && <Alert type="error">{loadError.message}</Alert>}
             {isVmRunning(this.props.vm) && (
               <Alert type="warning">
                 The VM {getName(this.props.vm)} is still running. It will be powered off while cloning.
@@ -219,6 +221,7 @@ CloneDialog.propTypes = {
   dataVolumes: PropTypes.object,
   requestsDatavolumes: PropTypes.bool,
   requestsPVCs: PropTypes.bool,
+  loadError: PropTypes.object,
   LoadingComponent: PropTypes.func,
   close: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired,
@@ -232,6 +235,7 @@ CloneDialog.defaultProps = {
   dataVolumes: null,
   requestsDatavolumes: false,
   requestsPVCs: false,
+  loadError: null,
 };
 
 // eslint-disable-next-line react/no-multi-comp
