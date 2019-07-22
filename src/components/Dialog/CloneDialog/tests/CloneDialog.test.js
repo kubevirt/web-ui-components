@@ -19,7 +19,13 @@ import { flushPromises, setCheckbox, setInput, clickButton, selectDropdownItem }
 jest.mock('../../../../k8s/clone');
 
 const testCloneDialog = (vms = [], onClose = noop, vm = cloudInitTestVm) => (
-  <CloneDialog {...CloneDialogFixture.props} virtualMachines={vms} onClose={onClose} vm={vm} k8sCreate={k8sCreate} />
+  <CloneDialog
+    {...CloneDialogFixture.props}
+    virtualMachines={{ data: vms, loaded: true }}
+    onClose={onClose}
+    vm={vm}
+    k8sCreate={k8sCreate}
+  />
 );
 
 const setVmName = (component, value) => setInput(component.find('#vm-name').find(Text), value);
