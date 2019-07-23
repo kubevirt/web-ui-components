@@ -6,7 +6,7 @@ import {
   getValidationObject,
   validateVmwareURL,
   validateBmcURL,
-  validateVmName,
+  validateVmLikeEntityName,
 } from '../validations';
 import {
   DNS1123_START_ERROR,
@@ -165,10 +165,10 @@ describe('validation.js - validateVmName', () => {
   vmSettings[NAMESPACE_KEY].value = 'test-namespace';
 
   it('handles unique name', () => {
-    expect(validateVmName('vm3', vmSettings, props)).toBeNull();
+    expect(validateVmLikeEntityName('vm3', vmSettings, props)).toBeNull();
   });
 
   it('handles duplicate name', () => {
-    expect(validateVmName('vm1', vmSettings, props)).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
+    expect(validateVmLikeEntityName('vm1', vmSettings, props)).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
   });
 });

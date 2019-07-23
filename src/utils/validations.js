@@ -14,13 +14,19 @@ import {
   BMC_PROTOCOL_ERROR,
   BMC_PORT_ERROR,
   VIRTUAL_MACHINE_EXISTS,
+  VIRTUAL_MACHINE_TEMPLATE_EXISTS,
 } from './strings';
 
 import { parseUrl } from './utils';
 
 import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS } from '../constants';
 import { getName, getNamespace } from '../selectors';
-import { NAMESPACE_KEY, VIRTUAL_MACHINES_KEY } from '../components/Wizard/CreateVmWizard/constants';
+import {
+  CREATE_TEMPLATE_KEY,
+  NAMESPACE_KEY,
+  TEMPLATES_KEY,
+  VIRTUAL_MACHINES_KEY,
+} from '../components/Wizard/CreateVmWizard/constants';
 
 export const isPositiveNumber = value => value && value.toString().match(/^[1-9]\d*$/);
 
@@ -59,16 +65,23 @@ export const validateDNS1123SubdomainValue = value => {
   return null;
 };
 
-export const vmAlreadyExists = (name, namespace, vms) => {
-  const exists = vms && vms.some(vm => getName(vm) === name && getNamespace(vm) === namespace);
-  return exists ? getValidationObject(VIRTUAL_MACHINE_EXISTS) : null;
+export const entityAlreadyExists = (name, namespace, entities, errorMessage = VIRTUAL_MACHINE_EXISTS) => {
+  const exists = entities && entities.some(entity => getName(entity) === name && getNamespace(entity) === namespace);
+  return exists ? getValidationObject(errorMessage) : null;
 };
 
-export const validateVmName = (value, vmSettings, props) => {
+export const validateVmLikeEntityName = (value, vmSettings, props) => {
   const dnsValidation = validateDNS1123SubdomainValue(value);
+  const isCreateTemplate = props[CREATE_TEMPLATE_KEY];
+
   return dnsValidation && dnsValidation.type === VALIDATION_ERROR_TYPE
     ? dnsValidation
-    : vmAlreadyExists(value, get(vmSettings, `${NAMESPACE_KEY}.value`), props[VIRTUAL_MACHINES_KEY]);
+    : entityAlreadyExists(
+        value,
+        get(vmSettings, `${NAMESPACE_KEY}.value`),
+        props[isCreateTemplate ? TEMPLATES_KEY : VIRTUAL_MACHINES_KEY],
+        isCreateTemplate ? VIRTUAL_MACHINE_TEMPLATE_EXISTS : VIRTUAL_MACHINE_EXISTS
+      );
 };
 
 export const validateMemory = value => {
