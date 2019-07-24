@@ -13,6 +13,7 @@ export const DNS1123_UPPERCASE_ERROR = 'cannot contain uppercase letters';
 export const URL_INVALID_ERROR = 'has to be a valid URL';
 
 export const VIRTUAL_MACHINE_EXISTS = `is already used by another virtual machine`;
+export const VIRTUAL_MACHINE_TEMPLATE_EXISTS = `is already used in another template`;
 
 // export const VMWARE_URL_ERROR = 'vCenter URL is incorrectly formatted. Example: https://host:port/';
 export const ERROR = 'Error';

@@ -46,3 +46,5 @@ export const DATA_VOLUME_SOURCE_PVC = 'datavolume-pvc';
 
 // Additional resource keys
 export const VIRTUAL_MACHINES_KEY = 'virtualMachines';
+export const CREATE_TEMPLATE_KEY = 'createTemplate';
+export const TEMPLATES_KEY = 'templates';

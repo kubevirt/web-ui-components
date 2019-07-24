@@ -4,7 +4,7 @@ import { isFieldRequired } from '../utils/vmSettingsTabUtils';
 import {
   getValidationObject,
   validateContainer,
-  validateVmName,
+  validateVmLikeEntityName,
   validateURL,
   validateMemory,
 } from '../../../../utils/validations';
@@ -43,7 +43,7 @@ const validateProviderDropdown = (key, vmSettings) => {
 const asVmSettingsValidator = validator => asGenericFieldValidator(asUpdateValidator(validator), getFieldTitle);
 
 const validateResolver = {
-  [NAME_KEY]: asVmSettingsValidator(validateVmName),
+  [NAME_KEY]: asVmSettingsValidator(validateVmLikeEntityName),
   [CONTAINER_IMAGE_KEY]: asVmSettingsValidator(validateContainer),
   [IMAGE_URL_KEY]: asVmSettingsValidator(validateURL),
   [PROVIDER_KEY]: validateProviderDropdown,

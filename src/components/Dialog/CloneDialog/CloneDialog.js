@@ -12,7 +12,7 @@ import {
   VIRTUAL_MACHINES_KEY,
 } from '../../Wizard/CreateVmWizard/constants';
 import { getDescription, getNamespace, getName, isVmRunning } from '../../../selectors';
-import { validateVmName, vmAlreadyExists } from '../../../utils/validations';
+import { validateVmLikeEntityName, entityAlreadyExists } from '../../../utils/validations';
 import { settingsValue } from '../../../k8s/selectors';
 import { clone } from '../../../k8s/clone';
 import { Loading } from '../../Loading';
@@ -23,7 +23,9 @@ const getFormFields = (namespaces, vm, persistentVolumeClaims, dataVolumes, virt
     title: 'Name',
     required: true,
     validate: settings =>
-      validateVmName(settingsValue(settings, NAME_KEY), settings, { [VIRTUAL_MACHINES_KEY]: virtualMachines }),
+      validateVmLikeEntityName(settingsValue(settings, NAME_KEY), settings, {
+        [VIRTUAL_MACHINES_KEY]: virtualMachines,
+      }),
   },
   [DESCRIPTION_KEY]: {
     id: 'vm-description',
@@ -58,7 +60,7 @@ export class CloneDialog extends React.Component {
   constructor(props) {
     super(props);
     const initVmName = `${getName(props.vm)}-clone`;
-    const initVmNameValidation = vmAlreadyExists(initVmName, getNamespace(props.vm), props.virtualMachines);
+    const initVmNameValidation = entityAlreadyExists(initVmName, getNamespace(props.vm), props.virtualMachines);
     if (initVmNameValidation && initVmNameValidation.message) {
       initVmNameValidation.message = `Name ${initVmNameValidation.message}`;
     }
