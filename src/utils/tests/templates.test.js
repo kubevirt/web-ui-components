@@ -162,22 +162,6 @@ describe('templates.js', () => {
       return result;
     });
   });
-  it('retrieveVmTemplate vm has template from mocked templates', () => {
-    const vm = {
-      metadata: {
-        labels: {
-          [LABEL_USED_TEMPLATE_NAME]: 'fedora-generic',
-          [LABEL_USED_TEMPLATE_NAMESPACE]: 'openshift',
-        },
-      },
-    };
-    // eslint-disable-next-line prefer-promise-reject-errors
-    const k8sGet = () => new Promise((resolve, reject) => reject({ json: { code: 404 } }));
-    return retrieveVmTemplate(k8sGet, vm).then(result => {
-      expect(result).toEqual(fedora28);
-      return result;
-    });
-  });
   it('retrieveVmTemplate template does not exist', () => {
     // eslint-disable-next-line prefer-promise-reject-errors
     const k8sGet = () => new Promise((resolve, reject) => reject({ json: { code: 404 } }));

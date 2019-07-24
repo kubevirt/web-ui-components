@@ -125,7 +125,7 @@ export const flavorUpdateCreator = (prevProps, prevState, props, state) => {
     },
   };
 
-  if (flavors.length === 1) {
+  if (props.templatesLoaded && flavors.length === 1) {
     const [firstFlavor] = flavors;
     update[FLAVOR_KEY].value = firstFlavor;
   }
@@ -264,9 +264,18 @@ export const templatesDataUpdateCreator = (prevProps, prevState, props, state) =
   };
 
   const update = {
-    [FLAVOR_KEY]: { flavors: getFlavors(params, templates) },
-    [OPERATING_SYSTEM_KEY]: { operatingSystems: getOperatingSystems(params, templates) },
-    [WORKLOAD_PROFILE_KEY]: { workloadProfiles: getWorkloadProfiles(params, templates) },
+    [FLAVOR_KEY]: {
+      flavors: getFlavors(params, templates),
+      isDisabled: asDisabled(!props.templatesLoaded, 'templatesLoaded'),
+    },
+    [OPERATING_SYSTEM_KEY]: {
+      operatingSystems: getOperatingSystems(params, templates),
+      isDisabled: asDisabled(!props.templatesLoaded, 'templatesLoaded'),
+    },
+    [WORKLOAD_PROFILE_KEY]: {
+      workloadProfiles: getWorkloadProfiles(params, templates),
+      isDisabled: asDisabled(!props.templatesLoaded, 'templatesLoaded'),
+    },
   };
 
   const oldUpdate = {

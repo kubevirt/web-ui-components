@@ -61,6 +61,7 @@ Object {
     "isDisabled": Object {
       "VMWARE_PROVIDER_METADATA_ID": false,
       "VM_SETTINGS_METADATA_ID": false,
+      "templatesLoaded": false,
     },
     "validation": undefined,
     "value": "small",
@@ -112,6 +113,7 @@ Object {
   "operatingSystem": Object {
     "isDisabled": Object {
       "VMWARE_PROVIDER_METADATA_ID": false,
+      "templatesLoaded": false,
       "userTemplate": false,
     },
     "operatingSystems": Array [
@@ -286,6 +288,7 @@ Object {
   "workloadProfile": Object {
     "isDisabled": Object {
       "VMWARE_PROVIDER_METADATA_ID": false,
+      "templatesLoaded": false,
       "userTemplate": false,
     },
     "validation": undefined,
