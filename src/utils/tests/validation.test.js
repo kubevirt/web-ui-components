@@ -11,10 +11,8 @@ import {
 import {
   DNS1123_START_ERROR,
   DNS1123_END_ERROR,
-  DNS1123_CONTAINS_ERROR,
   EMPTY_ERROR,
   DNS1123_TOO_LONG_ERROR,
-  DNS1123_UPPERCASE_ERROR,
   URL_INVALID_ERROR,
   END_WHITESPACE_ERROR,
   START_WHITESPACE_ERROR,
@@ -26,10 +24,10 @@ import { vm1, vm2 } from '../../tests/mocks/vm/vm_validation.mock';
 import { validVmSettings } from '../../components/Wizard/CreateVmWizard/fixtures/VmSettingsTab.fixture';
 import { NAMESPACE_KEY } from '../../components/Wizard/CreateVmWizard/constants';
 
-const validatesEmpty = validateFunction => {
-  expect(validateFunction('')).toEqual(getValidationObject(EMPTY_ERROR));
-  expect(validateFunction(null)).toEqual(getValidationObject(EMPTY_ERROR));
-  expect(validateFunction(undefined)).toEqual(getValidationObject(EMPTY_ERROR));
+const validatesEmpty = (validateFunction, message = EMPTY_ERROR) => {
+  expect(validateFunction('')).toEqual(getValidationObject(message));
+  expect(validateFunction(null)).toEqual(getValidationObject(message));
+  expect(validateFunction(undefined)).toEqual(getValidationObject(message));
 };
 
 describe('validation.js - isPositiveNumber tests', () => {
@@ -63,29 +61,39 @@ describe('validation.js - validateDNS1123SubdomainValue tests', () => {
     expect(validateDNS1123SubdomainValue('a'.repeat(253))).toBeNull();
   });
   it('returns warning for uppercase value', () => {
-    expect(validateDNS1123SubdomainValue('Aabc')).toEqual(getValidationObject(DNS1123_UPPERCASE_ERROR));
+    expect(validateDNS1123SubdomainValue('Aabc')).toEqual(getValidationObject('Uppercase characters are not allowed.'));
   });
   it('returns message for too long value', () => {
-    expect(validateDNS1123SubdomainValue('a'.repeat(254))).toEqual(getValidationObject(DNS1123_TOO_LONG_ERROR));
+    expect(validateDNS1123SubdomainValue('a'.repeat(254))).toEqual(getValidationObject(`${DNS1123_TOO_LONG_ERROR}.`));
   });
   it('returns message for empty value', () => {
-    validatesEmpty(validateDNS1123SubdomainValue);
+    validatesEmpty(validateDNS1123SubdomainValue, `${EMPTY_ERROR}.`);
   });
   it('returns message for value which starts with invalid char', () => {
-    expect(validateDNS1123SubdomainValue('_abc')).toEqual(getValidationObject(DNS1123_START_ERROR));
-    expect(validateDNS1123SubdomainValue('.abc')).toEqual(getValidationObject(DNS1123_START_ERROR));
-    expect(validateDNS1123SubdomainValue('-abc')).toEqual(getValidationObject(DNS1123_START_ERROR));
+    expect(validateDNS1123SubdomainValue('_abc')).toEqual(
+      getValidationObject('has to start with alphanumeric character. Underscore characters are not allowed.')
+    );
+    expect(validateDNS1123SubdomainValue('.abc')).toEqual(
+      getValidationObject("has to start with alphanumeric character. '.' characters are not allowed.")
+    );
+    expect(validateDNS1123SubdomainValue('-abc')).toEqual(getValidationObject(`${DNS1123_START_ERROR}.`));
   });
   it('returns message for value which ends with invalid char', () => {
-    expect(validateDNS1123SubdomainValue('abc_')).toEqual(getValidationObject(DNS1123_END_ERROR));
-    expect(validateDNS1123SubdomainValue('abc.')).toEqual(getValidationObject(DNS1123_END_ERROR));
-    expect(validateDNS1123SubdomainValue('abc-')).toEqual(getValidationObject(DNS1123_END_ERROR));
+    expect(validateDNS1123SubdomainValue('abc_')).toEqual(
+      getValidationObject('has to end with alphanumeric character. Underscore characters are not allowed.')
+    );
+    expect(validateDNS1123SubdomainValue('abc.')).toEqual(
+      getValidationObject("has to end with alphanumeric character. '.' characters are not allowed.")
+    );
+    expect(validateDNS1123SubdomainValue('abc-')).toEqual(getValidationObject(`${DNS1123_END_ERROR}.`));
   });
   it('returns message for value which contains invalid char', () => {
-    expect(validateDNS1123SubdomainValue('ab_c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} _`));
-    expect(validateDNS1123SubdomainValue('ab/c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} /`));
-    expect(validateDNS1123SubdomainValue('ab*c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} *`));
-    expect(validateDNS1123SubdomainValue('ab.c')).toEqual(getValidationObject(`${DNS1123_CONTAINS_ERROR} .`));
+    expect(validateDNS1123SubdomainValue('ab_c')).toEqual(
+      getValidationObject('Underscore characters are not allowed.')
+    );
+    expect(validateDNS1123SubdomainValue('ab/c')).toEqual(getValidationObject("'/' characters are not allowed."));
+    expect(validateDNS1123SubdomainValue('ab*c')).toEqual(getValidationObject("'*' characters are not allowed."));
+    expect(validateDNS1123SubdomainValue('ab.c')).toEqual(getValidationObject("'.' characters are not allowed."));
   });
 });
 

@@ -49,6 +49,7 @@ import {
 import { canBeBootable, needsBootableDisk } from './utils/storageTabUtils';
 
 import { getValidK8SSize } from '../../../utils';
+import { addMissingSubject } from '../../../utils/grammar';
 
 const initalStorageErrorsArray = () => Array(4).fill(null);
 
@@ -64,7 +65,7 @@ const genericValidator = (storage, validationResolvers) =>
 const nameValidation = storage => {
   const validation = validateDNS1123SubdomainValue(storage && storage.name);
   if (get(validation, 'type') === VALIDATION_ERROR_TYPE) {
-    return `Name ${validation.message}`;
+    return addMissingSubject(validation.message, 'Name');
   }
   return null;
 };
