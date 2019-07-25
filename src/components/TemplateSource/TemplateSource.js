@@ -7,20 +7,22 @@ import { PROVISION_SOURCE_URL } from '../../constants';
 import { getId } from '../../selectors';
 import { prefixedId } from '../../utils/utils';
 
-const Type = ({ type, source, id, isInline }) => (
-  <div id={id} title={source} className={isInline ? 'kubevirt-template-source__overlay' : ''}>
+const Type = ({ type, source, error, id, isInline }) => (
+  <div id={id} title={source || error} className={isInline ? 'kubevirt-template-source__overlay' : ''}>
     {type}
   </div>
 );
 
 Type.propTypes = {
   type: PropTypes.string.isRequired,
+  error: PropTypes.string,
   source: PropTypes.string,
   id: PropTypes.string,
   isInline: PropTypes.bool,
 };
 
 Type.defaultProps = {
+  error: undefined,
   source: undefined,
   id: undefined,
   isInline: false,
@@ -54,22 +56,22 @@ Source.defaultProps = {
 export const TemplateSource = ({ template, dataVolumes, detailed }) => {
   const provisionSource = getTemplateProvisionSource(template, dataVolumes);
 
-  if (!provisionSource) {
+  if (!provisionSource || !provisionSource.type) {
     return '---';
   }
 
-  const { type, source } = provisionSource;
+  const { type, source, error } = provisionSource;
   const id = getId(template);
   const typeId = prefixedId(id, 'type');
   const sourceId = prefixedId(id, 'source');
 
   if (!detailed) {
-    return <Type id={typeId} type={type} source={source} isInline />;
+    return <Type id={typeId} type={type} source={source} error={error} isInline />;
   }
 
   return (
     <React.Fragment>
-      <Type id={typeId} type={type} source={source} />
+      <Type id={typeId} type={type} source={source} error={error} />
       <Source id={sourceId} type={type} source={source} />
     </React.Fragment>
   );

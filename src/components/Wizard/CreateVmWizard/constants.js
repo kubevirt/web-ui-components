@@ -48,3 +48,4 @@ export const DATA_VOLUME_SOURCE_PVC = 'datavolume-pvc';
 export const VIRTUAL_MACHINES_KEY = 'virtualMachines';
 export const CREATE_TEMPLATE_KEY = 'createTemplate';
 export const TEMPLATES_KEY = 'templates';
+export const DATAVOLUMES_KEY = 'dataVolumes';

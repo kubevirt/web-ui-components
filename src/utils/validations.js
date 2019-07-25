@@ -19,14 +19,16 @@ import {
 
 import { parseUrl } from './utils';
 
-import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS } from '../constants';
+import { VALIDATION_ERROR_TYPE, METALKUBE_CONTROLLER_PROTOCOLS, TEMPLATE_TYPE_VM } from '../constants';
 import { getName, getNamespace } from '../selectors';
 import {
   CREATE_TEMPLATE_KEY,
+  DATAVOLUMES_KEY,
   NAMESPACE_KEY,
   TEMPLATES_KEY,
   VIRTUAL_MACHINES_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
+import { getTemplate, getTemplateProvisionSource } from './templates';
 
 export const isPositiveNumber = value => value && value.toString().match(/^[1-9]\d*$/);
 
@@ -82,6 +84,22 @@ export const validateVmLikeEntityName = (value, vmSettings, props) => {
         props[isCreateTemplate ? TEMPLATES_KEY : VIRTUAL_MACHINES_KEY],
         isCreateTemplate ? VIRTUAL_MACHINE_TEMPLATE_EXISTS : VIRTUAL_MACHINE_EXISTS
       );
+};
+
+export const validateUserTemplate = (userTemplateKey, vmSettings, props) => {
+  const userTemplateName = get(vmSettings, [userTemplateKey, 'value']);
+  const userTemplate =
+    userTemplateName &&
+    getTemplate(props[TEMPLATES_KEY], TEMPLATE_TYPE_VM).find(template => getName(template) === userTemplateName);
+
+  const provisionSource = userTemplate && getTemplateProvisionSource(userTemplate, props[DATAVOLUMES_KEY]);
+
+  return {
+    validation:
+      provisionSource && provisionSource.error
+        ? getValidationObject(`Could not select Provision Source. ${provisionSource.error}`)
+        : null,
+  };
 };
 
 export const validateMemory = value => {
