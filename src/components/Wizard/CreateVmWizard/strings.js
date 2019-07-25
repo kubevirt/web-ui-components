@@ -55,6 +55,7 @@ export const ERROR_NETWORK_NOT_FOUND = 'Network config not found';
 export const ERROR_NETWORK_NOT_SELECTED = 'Network config must be selected';
 export const HEADER_BINDING_METHOD = 'Binding method';
 export const NETWORK_ERROR_EMPTY_NAME = 'Network name cannot be empty';
+export const MAC_ADDRESS_INVALID_ERROR = 'Invalid MAC address format';
 
 // StorageTab
 export const ERROR_NO_BOOTABLE_DISK = 'A bootable disk could not be found';

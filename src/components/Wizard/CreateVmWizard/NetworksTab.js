@@ -26,10 +26,12 @@ import {
   HEADER_NETWORK,
   HEADER_BINDING_METHOD,
   SELECT_BINDING,
+  MAC_ADDRESS_INVALID_ERROR,
 } from './strings';
 import { getInterfaceBinding } from '../../../selectors';
+import { isValidMAC } from '../../../utils';
 
-const validateNetwork = network => {
+export const validateNetwork = network => {
   const errors = Array(4).fill(null);
 
   if (!network || network.id == null) {
@@ -38,6 +40,10 @@ const validateNetwork = network => {
 
   if (!network.name) {
     errors[1] = NETWORK_ERROR_EMPTY_NAME;
+  }
+
+  if (network.mac && !isValidMAC(network.mac)) {
+    errors[2] = MAC_ADDRESS_INVALID_ERROR;
   }
 
   if (network.id !== 1 && !network.network) {

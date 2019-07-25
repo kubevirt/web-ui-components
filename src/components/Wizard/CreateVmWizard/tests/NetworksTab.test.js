@@ -3,10 +3,10 @@ import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { MenuItem, HelpBlock } from 'patternfly-react';
 
-import { NetworksTab, validateNetworksNamespace, isBootableNetwork } from '../NetworksTab';
+import { NetworksTab, validateNetworksNamespace, isBootableNetwork, validateNetwork } from '../NetworksTab';
 import NetworksTabFixture from '../fixtures/NetworksTab.fixture';
 import { Dropdown } from '../../../Form';
-import { SELECT_NETWORK, SELECT_PXE_NIC, PXE_NIC_NOT_FOUND_ERROR } from '../strings';
+import { SELECT_NETWORK, SELECT_PXE_NIC, PXE_NIC_NOT_FOUND_ERROR, MAC_ADDRESS_INVALID_ERROR } from '../strings';
 import { pxeTemplate } from '../../../../tests/mocks/user_template';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../constants';
 import { getTemplateInterfaces } from '../../../../utils/templates';
@@ -297,19 +297,19 @@ describe('<NetworksTab />', () => {
     expect(component.state().rows[1].isBootable).toBeFalsy();
     expect(component.state().rows[1].networkType).toEqual(NETWORK_TYPE_POD);
 
-    const udpatedRows = cloneDeep(rows);
-    udpatedRows[0].network = POD_NETWORK;
+    const updatedRows = cloneDeep(rows);
+    updatedRows[0].network = POD_NETWORK;
 
-    component.instance().onRowUpdate(udpatedRows, 0, true, 'network', POD_NETWORK);
+    component.instance().onRowUpdate(updatedRows, 0, true, 'network', POD_NETWORK);
 
     expect(component.state().rows[0].isBootable).toBeFalsy();
     expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
     expect(component.state().rows[1].isBootable).toBeFalsy();
     expect(component.state().rows[1].networkType).toEqual(NETWORK_TYPE_POD);
 
-    udpatedRows[1].network = NetworksTabFixture.props.networkConfigs[0].metadata.name;
+    updatedRows[1].network = NetworksTabFixture.props.networkConfigs[0].metadata.name;
 
-    component.instance().onRowUpdate(udpatedRows, 1, true, 'network', udpatedRows[1].network);
+    component.instance().onRowUpdate(updatedRows, 1, true, 'network', updatedRows[1].network);
 
     expect(component.state().rows[0].isBootable).toBeFalsy();
     expect(component.state().rows[0].networkType).toEqual(NETWORK_TYPE_POD);
@@ -359,5 +359,26 @@ describe('<NetworksTab />', () => {
     expect(component.state().rows[0].isBootable).toBeFalsy();
     expect(component.state().rows[1].isBootable).toBeFalsy();
     expect(component.state().rows[2].isBootable).toBeTruthy();
+  });
+});
+
+describe('validateNetwork()', () => {
+  it('returns null for an empty MAC address', () => {
+    const errors = validateNetwork(pxeRow);
+    expect(errors[2]).toBeNull();
+  });
+
+  it('returns null for a valid MAC address', () => {
+    const network = cloneDeep(pxeRow);
+    network.mac = '0a:1b:2c:3d:4e:5f';
+    const errors = validateNetwork(network);
+    expect(errors[2]).toBeNull();
+  });
+
+  it('returns correct error message for invalid MAC address', () => {
+    const network = cloneDeep(pxeRow);
+    network.mac = '0a:1b';
+    const errors = validateNetwork(network);
+    expect(errors[2]).toEqual(MAC_ADDRESS_INVALID_ERROR);
   });
 });
