@@ -145,6 +145,7 @@ export class CreateVmWizard extends React.Component {
       this.state.stepData[NETWORKS_TAB_KEY].value,
       this.state.stepData[STORAGE_TAB_KEY].value,
       this.props.persistentVolumeClaims,
+      this.props.storageClassConfigMap,
       this.props.units
     )
       .then(() => getResults(enhancedK8sMethods))
@@ -316,6 +317,7 @@ CreateVmWizard.defaultProps = {
   selectedNamespace: null,
   networkConfigs: null,
   persistentVolumeClaims: null,
+  storageClassConfigMap: null,
   storageClasses: null,
   createTemplate: false,
   dataVolumes: null,
@@ -335,6 +337,7 @@ CreateVmWizard.propTypes = {
   selectedNamespace: PropTypes.object,
   networkConfigs: PropTypes.array,
   persistentVolumeClaims: PropTypes.array,
+  storageClassConfigMap: PropTypes.object,
   storageClasses: PropTypes.array,
   units: PropTypes.object.isRequired,
   createTemplate: PropTypes.bool,

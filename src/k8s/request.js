@@ -11,6 +11,10 @@ import {
   getPvcAccessModes,
   getPvcStorageClassName,
   getPvcStorageSize,
+  getDefaultSCVolumeMode,
+  getDefaultSCAccessMode,
+  getPvcVolumeMode,
+  getDataVolumeMode,
 } from '../selectors';
 
 import { DataVolumeModel, PodModel, ProcessedTemplatesModel, TemplateModel, VirtualMachineModel } from '../models';
@@ -118,7 +122,8 @@ export const createVmTemplate = async (
   vmSettings,
   networks,
   storage,
-  persistentVolumeClaims
+  persistentVolumeClaims,
+  storageClassConfigMap
 ) => {
   const getSetting = param => {
     switch (param) {
@@ -130,7 +135,15 @@ export const createVmTemplate = async (
         return settingsValue(vmSettings, param);
     }
   };
-  const template = getModifiedVmTemplate(templates, vmSettings, getSetting, networks, storage, persistentVolumeClaims);
+  const template = getModifiedVmTemplate(
+    templates,
+    vmSettings,
+    getSetting,
+    networks,
+    storage,
+    persistentVolumeClaims,
+    storageClassConfigMap
+  );
   const vmTemplate = createTemplateObject(
     settingsValue.bind(undefined, vmSettings),
     selectVm(template.objects),
@@ -186,6 +199,7 @@ export const createVm = async (
   networks,
   storages,
   persistentVolumeClaims,
+  storageClassConfigMap,
   units
 ) => {
   const getSetting = settingsValue.bind(undefined, vmSettings);
@@ -211,7 +225,15 @@ export const createVm = async (
     storages = importResult.mappedStorages;
   }
 
-  const template = getModifiedVmTemplate(templates, vmSettings, getSetting, networks, storages, persistentVolumeClaims);
+  const template = getModifiedVmTemplate(
+    templates,
+    vmSettings,
+    getSetting,
+    networks,
+    storages,
+    persistentVolumeClaims,
+    storageClassConfigMap
+  );
 
   // ProcessedTemplates endpoint will reject the request if user cannot post to the namespace
   // common-templates are stored in openshift namespace, default user can read but cannot post
@@ -241,11 +263,19 @@ export const createVm = async (
   return getActualState && getActualState();
 };
 
-const getModifiedVmTemplate = (templates, vmSettings, getSetting, networks, storage, persistentVolumeClaims) => {
+const getModifiedVmTemplate = (
+  templates,
+  vmSettings,
+  getSetting,
+  networks,
+  storage,
+  persistentVolumeClaims,
+  storageClassConfigMap
+) => {
   const template = resolveTemplate(templates, vmSettings, getSetting);
 
   const vm = selectVm(template.objects);
-  modifyVmObject(vm, template, getSetting, networks, storage, persistentVolumeClaims);
+  modifyVmObject(vm, template, getSetting, networks, storage, persistentVolumeClaims, storageClassConfigMap);
 
   return template;
 };
@@ -328,7 +358,15 @@ const addMetadata = (vm, template, getSetting) => {
   addAnnotation(vm, `${TEMPLATE_OS_NAME_ANNOTATION}/${os.id}`, os.name);
 };
 
-const modifyVmObject = (vm, template, getSetting, networks, storages, persistentVolumeClaims) => {
+const modifyVmObject = (
+  vm,
+  template,
+  getSetting,
+  networks,
+  storages,
+  persistentVolumeClaims,
+  storageClassConfigMap
+) => {
   setFlavor(vm, getSetting);
   addNetworks(vm, template, getSetting, networks);
 
@@ -338,7 +376,7 @@ const modifyVmObject = (vm, template, getSetting, networks, storages, persistent
   if (description) {
     addAnnotation(vm, 'description', description);
   }
-  addStorages(vm, template, storages, getSetting, persistentVolumeClaims);
+  addStorages(vm, template, storages, getSetting, persistentVolumeClaims, storageClassConfigMap);
 };
 
 const setFlavor = (vm, getSetting) => {
@@ -402,7 +440,7 @@ const addCloudInit = (vm, defaultDisk, getSetting) => {
   }
 };
 
-const addStorages = (vm, template, storages, getSetting, persistentVolumeClaims) => {
+const addStorages = (vm, template, storages, getSetting, persistentVolumeClaims, storageClassConfigMap) => {
   const defaultDisk = getDefaultDisk(vm, template);
   removeDisksAndVolumes(vm);
 
@@ -417,7 +455,7 @@ const addStorages = (vm, template, storages, getSetting, persistentVolumeClaims)
             addPvcVolume(vm, storage, getSetting, persistentVolumeClaims);
             break;
           case STORAGE_TYPE_DATAVOLUME:
-            addDataVolumeVolume(vm, storage, getSetting);
+            addDataVolumeVolume(vm, storage, getSetting, storageClassConfigMap);
             break;
           case STORAGE_TYPE_CONTAINER:
             addContainerVolume(vm, storage, getSetting);
@@ -445,8 +483,9 @@ const addPvcVolume = (vm, storage, getSetting, persistentVolumeClaims) => {
     storage.name,
     getSetting(NAMESPACE_KEY),
     getPvcAccessModes(pvc),
+    getPvcVolumeMode(pvc),
     getPvcStorageSize(pvc),
-    getPvcStorageClassName(pvc),
+    getPvcStorageClassName(pvc), // storageClass, accessMode and volumeMode stay the same
     getSetting(NAME_KEY)
   );
   addDataVolume(vm, {
@@ -455,7 +494,7 @@ const addPvcVolume = (vm, storage, getSetting, persistentVolumeClaims) => {
   });
 };
 
-const addDataVolumeVolume = (vm, storage, getSetting) => {
+const addDataVolumeVolume = (vm, storage, getSetting, storageClassConfigMap) => {
   const dvStorage = {
     ...storage,
   };
@@ -467,8 +506,9 @@ const addDataVolumeVolume = (vm, storage, getSetting) => {
         getName(dataVolume),
         getNamespace(dataVolume),
         getDataVolumeAccessModes(dataVolume),
+        getDataVolumeMode(dataVolume),
         getDataVolumeStorageSize(dataVolume), // TODO should take storage specified by user on storage page
-        getDataVolumeStorageClassName(dataVolume),
+        getDataVolumeStorageClassName(dataVolume), // storageClass stays the same as for the template
         getSetting(NAME_KEY)
       );
       dvStorage.dvName = getName(dataVolumeTemplate);
@@ -490,6 +530,8 @@ const addDataVolumeVolume = (vm, storage, getSetting) => {
           };
 
     dvStorage.dvName = generateDiskName(getSetting(NAME_KEY), storage.name);
+    dvStorage.accessModes = [getDefaultSCAccessMode(storageClassConfigMap, dvStorage.storageClass)];
+    dvStorage.volumeMode = getDefaultSCVolumeMode(storageClassConfigMap, dvStorage.storageClass);
     const dataVolumeSpec = getDataVolumeTemplateSpec(dvStorage, source);
     addDataVolumeTemplate(vm, dataVolumeSpec);
   }

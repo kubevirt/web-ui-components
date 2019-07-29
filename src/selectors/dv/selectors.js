@@ -11,6 +11,7 @@ import { getStorageSize } from '../common';
 export const getDataVolumeStorageSize = dataVolume => getStorageSize(getDataVolumeResources(dataVolume));
 export const getDataVolumeResources = dataVolume => get(dataVolume, 'spec.pvc.resources');
 export const getDataVolumeAccessModes = dataVolume => get(dataVolume, 'spec.pvc.accessModes');
+export const getDataVolumeMode = dataVolume => get(dataVolume, 'spec.pvc.volumeMode');
 export const getDataVolumeStorageClassName = dataVolume => get(dataVolume, 'spec.pvc.storageClassName');
 
 export const getDataVolumeSourceType = dataVolume => {

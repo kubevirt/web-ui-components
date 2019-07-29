@@ -1,4 +1,4 @@
-import { get, last } from 'lodash';
+import { get, last, isEmpty } from 'lodash';
 
 import {
   PROVISION_SOURCE_PXE,
@@ -6,7 +6,8 @@ import {
   BOOT_ORDER_SECOND,
   DEVICE_TYPE_DISK,
   DEVICE_TYPE_INTERFACE,
-  PVC_ACCESSMODE_RWM,
+  PVC_ACCESSMODE_DEFAULT,
+  PVC_VOLUMEMODE_DEFAULT,
 } from '../constants';
 
 import {
@@ -320,7 +321,8 @@ export const getDataVolumeTemplateSpec = (storage, dvSource) => {
     },
     spec: {
       pvc: {
-        accessModes: [PVC_ACCESSMODE_RWM],
+        accessModes: isEmpty(storage.accessModes) ? [PVC_ACCESSMODE_DEFAULT] : storage.accessModes,
+        volumeMode: storage.volumeMode || PVC_VOLUMEMODE_DEFAULT,
         resources: {
           requests: {
             storage: `${storage.size}Gi`,

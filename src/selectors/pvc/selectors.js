@@ -11,4 +11,5 @@ export const getPvcStorageSize = pvc => getStorageSize(getPvcResources(pvc));
 
 export const getPvcResources = pvc => get(pvc, 'spec.resources');
 export const getPvcAccessModes = pvc => get(pvc, 'spec.accessModes');
+export const getPvcVolumeMode = pvc => get(pvc, 'spec.volumeMode');
 export const getPvcStorageClassName = pvc => get(pvc, 'spec.storageClassName');
