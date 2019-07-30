@@ -1170,7 +1170,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
     key="vmwareVm"
     labelSize={3}
     textPosition="text-right"
-    title="VM to Import"
+    title="VM or Template to Import"
     validation={Object {}}
   >
     <ValidationFormRow
@@ -1182,7 +1182,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
       isRequired={false}
       labelSize={3}
       textPosition="text-right"
-      title="VM to Import"
+      title="VM or Template to Import"
       validation={Object {}}
     >
       <FormGroup
@@ -1206,7 +1206,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
               <FormControlLabel
                 help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
                 isRequired={false}
-                title="VM to Import"
+                title="VM or Template to Import"
               >
                 <ControlLabel
                   bsClass="control-label"
@@ -1216,7 +1216,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                   <label
                     className="control-label"
                   >
-                    VM to Import
+                    VM or Template to Import
                   </label>
                 </ControlLabel>
                 <FieldLevelHelp
@@ -1294,7 +1294,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 disabled={false}
                 id="vcenter-vm-dropdown"
                 onChange={[Function]}
-                value="--- Select VM ---"
+                value="--- Select VM or Template ---"
                 withTooltips={false}
               >
                 <ButtonGroup
@@ -1313,7 +1313,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                       disabled={false}
                       id="vcenter-vm-dropdown"
                       onSelect={[Function]}
-                      title="--- Select VM ---"
+                      title="--- Select VM or Template ---"
                     >
                       <DropdownButton
                         bsStyle="default"
@@ -1321,7 +1321,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                         disabled={false}
                         id="vcenter-vm-dropdown"
                         onSelect={[Function]}
-                        title="--- Select VM ---"
+                        title="--- Select VM or Template ---"
                       >
                         <Uncontrolled(Dropdown)
                           bsStyle="default"
@@ -1387,7 +1387,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                                       role="button"
                                       type="button"
                                     >
-                                      --- Select VM ---
+                                      --- Select VM or Template ---
                                        
                                       <span
                                         className="caret"
@@ -2615,7 +2615,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
     key="vmwareVm"
     labelSize={3}
     textPosition="text-right"
-    title="VM to Import"
+    title="VM or Template to Import"
     validation={Object {}}
   >
     <ValidationFormRow
@@ -2627,7 +2627,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
       isRequired={false}
       labelSize={3}
       textPosition="text-right"
-      title="VM to Import"
+      title="VM or Template to Import"
       validation={Object {}}
     >
       <FormGroup
@@ -2651,7 +2651,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
               <FormControlLabel
                 help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
                 isRequired={false}
-                title="VM to Import"
+                title="VM or Template to Import"
               >
                 <ControlLabel
                   bsClass="control-label"
@@ -2661,7 +2661,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                   <label
                     className="control-label"
                   >
-                    VM to Import
+                    VM or Template to Import
                   </label>
                 </ControlLabel>
                 <FieldLevelHelp
@@ -2739,7 +2739,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                 disabled={false}
                 id="vcenter-vm-dropdown"
                 onChange={[Function]}
-                value="--- Select VM ---"
+                value="--- Select VM or Template ---"
                 withTooltips={false}
               >
                 <ButtonGroup
@@ -2758,7 +2758,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                       disabled={false}
                       id="vcenter-vm-dropdown"
                       onSelect={[Function]}
-                      title="--- Select VM ---"
+                      title="--- Select VM or Template ---"
                     >
                       <DropdownButton
                         bsStyle="default"
@@ -2766,7 +2766,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                         disabled={false}
                         id="vcenter-vm-dropdown"
                         onSelect={[Function]}
-                        title="--- Select VM ---"
+                        title="--- Select VM or Template ---"
                       >
                         <Uncontrolled(Dropdown)
                           bsStyle="default"
@@ -2832,7 +2832,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                                       role="button"
                                       type="button"
                                     >
-                                      --- Select VM ---
+                                      --- Select VM or Template ---
                                        
                                       <span
                                         className="caret"
@@ -4063,7 +4063,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
     key="vmwareVm"
     labelSize={3}
     textPosition="text-right"
-    title="VM to Import"
+    title="VM or Template to Import"
     validation={Object {}}
   >
     <ValidationFormRow
@@ -4075,7 +4075,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
       isRequired={false}
       labelSize={3}
       textPosition="text-right"
-      title="VM to Import"
+      title="VM or Template to Import"
       validation={Object {}}
     >
       <FormGroup
@@ -4099,7 +4099,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
               <FormControlLabel
                 help="Select a vCenter virtual machine to import. Loading of their list might take some time. The list will be enabled for selection once data are loaded."
                 isRequired={false}
-                title="VM to Import"
+                title="VM or Template to Import"
               >
                 <ControlLabel
                   bsClass="control-label"
@@ -4109,7 +4109,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                   <label
                     className="control-label"
                   >
-                    VM to Import
+                    VM or Template to Import
                   </label>
                 </ControlLabel>
                 <FieldLevelHelp
@@ -4187,7 +4187,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                 disabled={false}
                 id="vcenter-vm-dropdown"
                 onChange={[Function]}
-                value="--- Select VM ---"
+                value="--- Select VM or Template ---"
                 withTooltips={false}
               >
                 <ButtonGroup
@@ -4206,7 +4206,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                       disabled={false}
                       id="vcenter-vm-dropdown"
                       onSelect={[Function]}
-                      title="--- Select VM ---"
+                      title="--- Select VM or Template ---"
                     >
                       <DropdownButton
                         bsStyle="default"
@@ -4214,7 +4214,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                         disabled={false}
                         id="vcenter-vm-dropdown"
                         onSelect={[Function]}
-                        title="--- Select VM ---"
+                        title="--- Select VM or Template ---"
                       >
                         <Uncontrolled(Dropdown)
                           bsStyle="default"
@@ -4280,7 +4280,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                                       role="button"
                                       type="button"
                                     >
-                                      --- Select VM ---
+                                      --- Select VM or Template ---
                                        
                                       <span
                                         className="caret"

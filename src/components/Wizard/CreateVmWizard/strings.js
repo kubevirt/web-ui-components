@@ -36,7 +36,7 @@ export const HEADER_NAME = 'Name';
 export const HELP_PROVIDER_VMWARE =
   'The virtual machine will be imported from a vCenter instance. Please provide connection details and select the virtual machine.';
 export const CONNECT_TO_NEW_INSTANCE = 'Connect to New Instance';
-export const PROVIDER_SELECT_VM = '--- Select VM ---';
+export const PROVIDER_SELECT_VM = '--- Select VM or Template ---';
 
 export const getVmwareOsString = osName => `Select matching for: ${osName}`;
 
