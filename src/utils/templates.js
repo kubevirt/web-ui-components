@@ -21,6 +21,8 @@ import {
   PROVISION_SOURCE_CONTAINER,
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_CLONED_DISK,
+  PROVISION_SOURCE_UNKNOWN_DATAVOLUME,
+  PROVISION_SOURCE_UNKNOWN_DATAVOLUME_SOURCE,
 } from '../constants';
 import { TemplateModel } from '../models';
 import { DATA_VOLUME_SOURCE_URL, DATA_VOLUME_SOURCE_PVC } from '../components/Wizard/CreateVmWizard/constants';
@@ -142,12 +144,22 @@ export const getTemplateProvisionSource = (template, dataVolumes) => {
               source: `${source.namespace}/${source.name}`,
             };
           default:
-            return null;
+            return {
+              type: PROVISION_SOURCE_UNKNOWN_DATAVOLUME_SOURCE,
+              error: `Datavolume ${bootVolume.dataVolume.name} does not have a supported source.`,
+            };
         }
+      } else {
+        return {
+          type: PROVISION_SOURCE_UNKNOWN_DATAVOLUME,
+          error: `Datavolume ${bootVolume.dataVolume.name} does not exist.`,
+        };
       }
     }
   }
-  return null;
+  return {
+    error: `No bootable device found.`,
+  };
 };
 
 export const retrieveVmTemplate = (k8sGet, vm) =>

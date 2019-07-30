@@ -349,8 +349,10 @@ export const selectedUserTemplateUpdateCreator = (prevProps, prevState, props, s
 
   // update provision source
   const provisionSource = getTemplateProvisionSource(userTemplate, dataVolumes);
-  if (provisionSource) {
-    update[PROVISION_SOURCE_TYPE_KEY] = asValueObject(provisionSource.type);
+  update[PROVISION_SOURCE_TYPE_KEY] = asValueObject(
+    provisionSource && !provisionSource.error ? provisionSource.type : null
+  );
+  if (provisionSource && !provisionSource.error) {
     const dataFieldName = provisionSourceDataFieldResolver[provisionSource.type];
     if (dataFieldName) {
       update[dataFieldName] = asValueObject(provisionSource.source);

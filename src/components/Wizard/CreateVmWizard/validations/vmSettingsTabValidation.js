@@ -7,6 +7,7 @@ import {
   validateVmLikeEntityName,
   validateURL,
   validateMemory,
+  validateUserTemplate,
 } from '../../../../utils/validations';
 import { objectMerge } from '../../../../utils/utils';
 import { settingsValue } from '../../../../k8s/selectors';
@@ -20,6 +21,7 @@ import {
   PROVIDERS_DATA_KEY,
   PROVISION_SOURCE_TYPE_KEY,
   MEMORY_KEY,
+  USER_TEMPLATE_KEY,
 } from '../constants';
 import { NAMESPACE_MUST_BE_SELECTED } from '../../../../utils/strings';
 import { isProviderValid, validateProvider } from '../providers';
@@ -44,6 +46,7 @@ const asVmSettingsValidator = validator => asGenericFieldValidator(asUpdateValid
 
 const validateResolver = {
   [NAME_KEY]: asVmSettingsValidator(validateVmLikeEntityName),
+  [USER_TEMPLATE_KEY]: validateUserTemplate,
   [CONTAINER_IMAGE_KEY]: asVmSettingsValidator(validateContainer),
   [IMAGE_URL_KEY]: asVmSettingsValidator(validateURL),
   [PROVIDER_KEY]: validateProviderDropdown,
