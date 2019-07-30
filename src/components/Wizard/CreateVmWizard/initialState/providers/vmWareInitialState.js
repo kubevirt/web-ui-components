@@ -50,7 +50,7 @@ const titleResolver = {
   [PROVIDER_VMWARE_USER_NAME_KEY]: 'vCenter User Name',
   [PROVIDER_VMWARE_USER_PASSWORD_KEY]: 'vCenter Password',
   [PROVIDER_VMWARE_REMEMBER_PASSWORD_KEY]: 'Save as New vCenter Instance',
-  [PROVIDER_VMWARE_VM_KEY]: 'VM to Import',
+  [PROVIDER_VMWARE_VM_KEY]: 'VM or Template to Import',
 };
 
 const idResolver = {
