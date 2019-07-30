@@ -13,10 +13,8 @@ import {
   getLabels,
 } from '../selectors';
 import { selectVm } from '../k8s/selectors';
-import { baseTemplates } from '../k8s/objects/template';
 
 import {
-  TEMPLATE_TYPE_BASE,
   TEMPLATE_TYPE_LABEL,
   TEMPLATE_TYPE_VM,
   PROVISION_SOURCE_PXE,
@@ -57,13 +55,11 @@ export const getTemplatesLabelValues = (templates, label) => {
   return labelValues;
 };
 
-export const getTemplate = (templates, type) => {
-  const filteredTemplates = (templates || []).filter(template => {
+export const getTemplate = (templates, type) =>
+  (templates || []).filter(template => {
     const labels = get(template, 'metadata.labels', {});
     return labels[TEMPLATE_TYPE_LABEL] === type;
   });
-  return type === TEMPLATE_TYPE_BASE && filteredTemplates.length === 0 ? baseTemplates : filteredTemplates;
-};
 
 export const getUserTemplate = (templates, userTemplateName) => {
   const userTemplates = getTemplate(templates, TEMPLATE_TYPE_VM);
@@ -164,15 +160,8 @@ export const retrieveVmTemplate = (k8sGet, vm) =>
     getTemplatePromise
       .then(result => resolve(result))
       .catch(error => {
-        let mockedTemplate;
         if (get(error, 'json.code') === 404) {
-          // maybe common-templates are not installed, fallback on mocked templates
-          mockedTemplate = baseTemplates.find(
-            bTemplate => getNamespace(bTemplate) === template.namespace && getName(bTemplate) === template.name
-          );
-        }
-        if (mockedTemplate) {
-          resolve(mockedTemplate);
+          console.warn('Could not retrieve template, are common-templates installed?'); // eslint-disable-line no-console
         }
         reject(error);
       });

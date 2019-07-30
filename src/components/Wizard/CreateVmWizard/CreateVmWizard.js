@@ -310,6 +310,7 @@ export class CreateVmWizard extends React.Component {
 }
 
 CreateVmWizard.defaultProps = {
+  templatesLoaded: false,
   templates: null,
   namespaces: null,
   virtualMachines: null,
@@ -329,6 +330,7 @@ CreateVmWizard.propTypes = {
   k8sPatch: PropTypes.func.isRequired,
   k8sKill: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
+  templatesLoaded: PropTypes.bool,
   templates: PropTypes.array,
   namespaces: PropTypes.array,
   virtualMachines: PropTypes.array,
