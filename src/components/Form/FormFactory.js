@@ -10,6 +10,7 @@ import { getValidationObject } from '../../utils/validations';
 import { ERROR_IS_REQUIRED } from '../Wizard/CreateVmWizard/strings';
 import { settingsValue } from '../../k8s/selectors';
 import { TEXT_AREA, DROPDOWN, CHECKBOX, POSITIVE_NUMBER, LABEL, CUSTOM, PASSWORD } from './constants';
+import { addMissingSubject } from '../../utils/grammar';
 
 export const getFormElement = props => {
   /* eslint-disable react/prop-types */
@@ -158,7 +159,7 @@ export const getFieldValidation = (changedField, value, newFormValues) => {
   }
 
   if (changedField && validation) {
-    validation.message = `${changedField.title} ${validation.message}`;
+    validation.message = addMissingSubject(validation.message, changedField.title);
   }
 
   return validation;

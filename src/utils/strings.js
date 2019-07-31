@@ -4,11 +4,10 @@ export const END_WHITESPACE_ERROR = 'cannot end with whitespace characters';
 
 export const NAMESPACE_MUST_BE_SELECTED = 'Namespace must be selected.';
 
+export const DNS1123_START_END_ERROR = 'has to start/end with alphanumeric characters';
 export const DNS1123_START_ERROR = 'has to start with alphanumeric character';
 export const DNS1123_END_ERROR = 'has to end with alphanumeric character';
-export const DNS1123_CONTAINS_ERROR = 'cannot contain';
 export const DNS1123_TOO_LONG_ERROR = 'cannot have more than 253 characters';
-export const DNS1123_UPPERCASE_ERROR = 'cannot contain uppercase letters';
 
 export const URL_INVALID_ERROR = 'has to be a valid URL';
 

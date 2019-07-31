@@ -4,10 +4,9 @@ import { get, startsWith, trimStart, trimEnd } from 'lodash';
 import {
   DNS1123_START_ERROR,
   DNS1123_END_ERROR,
-  DNS1123_CONTAINS_ERROR,
   EMPTY_ERROR,
+  DNS1123_START_END_ERROR,
   DNS1123_TOO_LONG_ERROR,
-  DNS1123_UPPERCASE_ERROR,
   URL_INVALID_ERROR,
   START_WHITESPACE_ERROR,
   END_WHITESPACE_ERROR,
@@ -29,42 +28,80 @@ import {
   VIRTUAL_MACHINES_KEY,
 } from '../components/Wizard/CreateVmWizard/constants';
 import { getTemplate, getTemplateProvisionSource } from './templates';
+import { joinGrammaticallyListOfItems, makeSentence } from './grammar';
 
 export const isPositiveNumber = value => value && value.toString().match(/^[1-9]\d*$/);
 
-const alphanumberincRegex = '[a-zA-Z0-9]';
+const alphanumericRegex = '[a-zA-Z0-9]';
+
+const DNS_1123_OFFENDING_CHARACTERS = {
+  ',': 'comma',
+  "'": 'apostrophe', // eslint-disable-line quotes
+  _: 'underscore',
+};
 
 export const getValidationObject = (message, type = VALIDATION_ERROR_TYPE) => ({
   message,
   type,
-  isEmptyError: message === EMPTY_ERROR,
+  isEmptyError: message.includes(EMPTY_ERROR),
 });
 
 // DNS-1123 subdomain
 export const validateDNS1123SubdomainValue = value => {
   if (!value) {
-    return getValidationObject(EMPTY_ERROR);
+    return getValidationObject(makeSentence(EMPTY_ERROR, false)); // handled by UI
   }
-  if (value.toLowerCase() !== value) {
-    return getValidationObject(DNS1123_UPPERCASE_ERROR);
-  }
+
+  const forbiddenCharacters = new Set();
+  const validationSentences = [];
+
   if (value.length > 253) {
-    return getValidationObject(DNS1123_TOO_LONG_ERROR);
+    validationSentences.push(DNS1123_TOO_LONG_ERROR);
   }
-  if (!value.charAt(0).match(alphanumberincRegex)) {
-    return getValidationObject(DNS1123_START_ERROR);
+
+  const startsWithAlphaNumeric = value.charAt(0).match(alphanumericRegex);
+  const endsWithAlphaNumeric = value.charAt(value.length - 1).match(alphanumericRegex);
+
+  if (!startsWithAlphaNumeric && !endsWithAlphaNumeric) {
+    validationSentences.push(DNS1123_START_END_ERROR);
+  } else if (!startsWithAlphaNumeric) {
+    validationSentences.push(DNS1123_START_ERROR);
+  } else if (!endsWithAlphaNumeric) {
+    validationSentences.push(DNS1123_END_ERROR);
   }
-  if (!value.charAt(value.length - 1).match(alphanumberincRegex)) {
-    return getValidationObject(DNS1123_END_ERROR);
-  }
-  for (let i = 1; i < value.length - 1; i++) {
-    const char = value.charAt(i);
-    if (!char.match('[-a-zA-Z0-9]')) {
-      const offender = char.match('\\s') ? 'whitespace characters' : char;
-      return getValidationObject(`${DNS1123_CONTAINS_ERROR} ${offender}`);
+
+  for (const c of value) {
+    if (c.toLowerCase() !== c) {
+      forbiddenCharacters.add('uppercase');
+    }
+
+    if (!c.match('[-a-zA-Z0-9]')) {
+      let offender;
+      if (c.match('\\s')) {
+        offender = 'whitespace';
+      } else {
+        offender = DNS_1123_OFFENDING_CHARACTERS[c] || `'${c}'`;
+      }
+
+      forbiddenCharacters.add(offender);
     }
   }
-  return null;
+
+  let result = null;
+
+  if (validationSentences.length > 0) {
+    result = makeSentence(joinGrammaticallyListOfItems(validationSentences), false);
+  }
+
+  if (forbiddenCharacters.size > 0) {
+    const forbiddenChars = joinGrammaticallyListOfItems(
+      Array.from(forbiddenCharacters).sort((a, b) => b.length - a.length)
+    );
+    const forbiddenCharsSentence = makeSentence(`${forbiddenChars} characters are not allowed`);
+    result = result ? `${result} ${forbiddenCharsSentence}` : forbiddenCharsSentence;
+  }
+
+  return result && getValidationObject(result);
 };
 
 export const entityAlreadyExists = (name, namespace, entities, errorMessage = VIRTUAL_MACHINE_EXISTS) => {
