@@ -11,5 +11,5 @@ export * from './pvc';
 export * from './vm';
 export * from './vmi';
 export * from './service';
-
+export * from './configmap';
 export * from './prometheus';

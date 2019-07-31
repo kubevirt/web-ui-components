@@ -14,6 +14,8 @@ import {
   getDataVolumeStorageClassName,
   getOperatingSystemName,
   getOperatingSystem,
+  getPvcVolumeMode,
+  getDataVolumeMode,
 } from '../selectors';
 import { getStartStopPatch, generateDiskName } from '../utils';
 import { addDataVolumeTemplate, addTemplateLabel } from './vmBuilder';
@@ -102,6 +104,7 @@ const addDataVolumeClones = (vm, newName, dataVolumes) => {
           dvName,
           getNamespace(dataVolume),
           getDataVolumeAccessModes(dataVolume),
+          getDataVolumeMode(dataVolume),
           getDataVolumeStorageSize(dataVolume),
           getDataVolumeStorageClassName(dataVolume),
           newName
@@ -125,6 +128,7 @@ const addPvcClones = (vm, newName, persistentVolumeClaims) => {
         pvcName,
         getNamespace(pvc),
         getPvcAccessModes(pvc),
+        getPvcVolumeMode(pvc),
         getPvcStorageSize(pvc),
         getPvcStorageClassName(pvc),
         newName
@@ -136,12 +140,21 @@ const addPvcClones = (vm, newName, persistentVolumeClaims) => {
     });
 };
 
-export const addTemplateClone = (vm, pvcName, pvcNamespace, accessModes, size, storageClassName, vmName) => {
-  const template = getPvcCloneTemplate(pvcName, pvcNamespace, accessModes, size, storageClassName, vmName);
+export const addTemplateClone = (
+  vm,
+  pvcName,
+  pvcNamespace,
+  accessModes,
+  volumeMode,
+  size,
+  storageClassName,
+  vmName
+) => {
+  const template = getPvcCloneTemplate(pvcName, pvcNamespace, accessModes, volumeMode, size, storageClassName, vmName);
   return addDataVolumeTemplate(vm, template);
 };
 
-const getPvcCloneTemplate = (pvcName, pvcNamespace, accessModes, size, storageClassName, vmName) => ({
+const getPvcCloneTemplate = (pvcName, pvcNamespace, accessModes, volumeMode, size, storageClassName, vmName) => ({
   metadata: {
     name: generateDiskName(vmName, pvcName, true),
   },
@@ -154,6 +167,7 @@ const getPvcCloneTemplate = (pvcName, pvcNamespace, accessModes, size, storageCl
     },
     pvc: {
       accessModes,
+      volumeMode,
       resources: {
         requests: {
           storage: size,
