@@ -320,7 +320,7 @@ export const vmChangedUpdateCreator = (prevProps, prevState, props, state, extra
   return null;
 };
 
-export const vmLoadedUpdateCreator = (prevProps, prevState, props, state, extra) => {
+const vmLoadedUpdateCreator = (prevProps, prevState, props, state, extra) => {
   const vmName = getVmwareValue(state, PROVIDER_VMWARE_VM_KEY);
   const vm = getVmwareAttribute(state, PROVIDER_VMWARE_VM_KEY, 'vm');
   const prevVm = getVmwareAttribute(prevState, PROVIDER_VMWARE_VM_KEY, 'vm');
