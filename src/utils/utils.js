@@ -178,3 +178,5 @@ export const getValidK8SSize = (size, units, sizeUnit = 'Gi') => {
   const baseSize = units.dehumanize(`${size}${sizeUnit}`, 'binaryBytesWithoutB');
   return units.humanize(baseSize.value, 'binaryBytesWithoutB');
 };
+
+export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));

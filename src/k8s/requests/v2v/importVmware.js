@@ -16,13 +16,14 @@ import {
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
   STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../../../components/Wizard/CreateVmWizard/constants';
-import { getName } from '../../../selectors';
+import { getName, getNamespace } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import {
   CONVERSION_GENERATE_NAME,
   VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
   VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE,
+  CONVERSION_SERVICEACCOUNT_DELAY,
 } from './constants';
 import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
 import {
@@ -38,8 +39,9 @@ import {
   getVmwareValue,
   getVmwareField,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
-import { getValidK8SSize } from '../../../utils';
+import { getValidK8SSize, delay } from '../../../utils';
 import { getV2vImagePullPolicy, getKubevirtV2vConversionContainerImage } from '../../../selectors/v2v';
+import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 
 const asVolumenMount = ({ name, storageType, data }) => ({
   name,
@@ -159,7 +161,36 @@ const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCr
   };
 };
 
-// // Start of the Conversion pod is blocked until the PVCs are bound
+/**
+ * Workaround for a race condition.
+ *
+ * A ServiceAccount is provided automatically (but asynchronously) for API tokens (as Secrets).
+ * A ServiceAccount can be attached to a pod only if the tokens are ready, otherwise API-level
+ * validation throws a permanent error.
+ *
+ * As a workaround, let's wait till the tokens are ready before proceeding.
+ *
+ * Note regarding implementation:
+ * polling is the simplest method how to wait for changes.
+ * There is similar k8sWatchObject function which should be used instead for consistency, but
+ * it is implemented using polling as well but with much more complex general contract than this
+ * simple flow here.
+ */
+const waitForServiceAccountSecrets = async (serviceAccount, { k8sGet }, counter = 15) => {
+  if (counter <= 0) {
+    return false;
+  }
+
+  if (getServiceAccountSecrets(serviceAccount).length > 0) {
+    return true;
+  }
+
+  await delay(CONVERSION_SERVICEACCOUNT_DELAY);
+  const sa = await k8sGet(ServiceAccountModel, getName(serviceAccount), getNamespace(serviceAccount));
+  return waitForServiceAccountSecrets(sa, { k8sGet }, counter - 1);
+};
+
+// Start of the Conversion pod is blocked until the PVCs are bound
 const startConversionPod = async (
   vmSettings,
   networks,
@@ -187,6 +218,8 @@ const startConversionPod = async (
     VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
     VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE
   );
+
+  await waitForServiceAccountSecrets(serviceAccount, { k8sGet });
 
   const conversionPod = await k8sCreate(
     PodModel,
