@@ -2,8 +2,9 @@ import { PodModel } from '../../../../models';
 import {
   CONVERSION_BASE_NAME,
   CONVERSION_GENERATE_NAME,
-  VMWARE_VDDK_INIT,
-  VMWARE_VOLUME_VDDK,
+  CONVERSION_VDDK_INIT_POD_NAME,
+  CONVERSION_VOLUME_VDDK_NAME,
+  CONVERSION_VDDK_MOUNT_PATH,
 } from '../../../requests/v2v';
 
 export const buildConversionPod = ({
@@ -27,12 +28,12 @@ export const buildConversionPod = ({
 
     initContainers: [
       {
-        name: VMWARE_VDDK_INIT,
+        name: CONVERSION_VDDK_INIT_POD_NAME,
         image: vddkInitImage,
         volumeMounts: [
           {
-            name: VMWARE_VOLUME_VDDK,
-            mountPath: '/opt/vmware-vix-disklib-distrib',
+            name: CONVERSION_VOLUME_VDDK_NAME,
+            mountPath: CONVERSION_VDDK_MOUNT_PATH,
           },
         ],
       },
@@ -56,8 +57,8 @@ export const buildConversionPod = ({
             mountPath: '/dev/kvm',
           },
           {
-            name: VMWARE_VOLUME_VDDK,
-            mountPath: '/opt/vmware-vix-disklib-distrib',
+            name: CONVERSION_VOLUME_VDDK_NAME,
+            mountPath: CONVERSION_VDDK_MOUNT_PATH,
           },
           ...volumeMounts,
         ],
@@ -77,7 +78,7 @@ export const buildConversionPod = ({
         },
       },
       {
-        name: VMWARE_VOLUME_VDDK,
+        name: CONVERSION_VOLUME_VDDK_NAME,
         emptyDir: {},
       },
       ...volumes,

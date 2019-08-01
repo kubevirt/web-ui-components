@@ -38,7 +38,6 @@ export const STORAGE_TYPE_PVC = 'pvc';
 export const STORAGE_TYPE_DATAVOLUME = 'datavolume';
 export const STORAGE_TYPE_EXTERNAL_IMPORT = 'external-import';
 export const STORAGE_TYPE_EXTERNAL_V2V_TEMP = 'external-v2v-temp';
-export const STORAGE_TYPE_EXTERNAL_V2V_VDDK = 'external-v2v-vddk';
 export const STORAGE_TYPE_CONTAINER = 'container';
 export const DATA_VOLUME_SOURCE_BLANK = 'datavolume-blank';
 export const DATA_VOLUME_SOURCE_URL = 'datavolume-url';

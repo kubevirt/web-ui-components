@@ -14,7 +14,6 @@ import {
   NAMESPACE_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
-  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../../../components/Wizard/CreateVmWizard/constants';
 import { getName, getNamespace } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
@@ -207,11 +206,7 @@ const startConversionPod = async (
   const volumeMounts = [];
 
   mappedStorages
-    .filter(({ storageType }) =>
-      [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(
-        storageType
-      )
-    )
+    .filter(({ storageType }) => [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storageType))
     .forEach(storage => {
       volumeMounts.push(asVolumenMount(storage));
       volumes.push(asVolume(storage));
