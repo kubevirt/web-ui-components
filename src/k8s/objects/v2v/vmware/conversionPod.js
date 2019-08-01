@@ -1,5 +1,10 @@
 import { PodModel } from '../../../../models';
-import { CONVERSION_BASE_NAME, CONVERSION_GENERATE_NAME } from '../../../requests/v2v';
+import {
+  CONVERSION_BASE_NAME,
+  CONVERSION_GENERATE_NAME,
+  VMWARE_VDDK_INIT,
+  VMWARE_VOLUME_VDDK,
+} from '../../../requests/v2v';
 
 export const buildConversionPod = ({
   volumes,
@@ -9,6 +14,7 @@ export const buildConversionPod = ({
   secretName,
   imagePullPolicy,
   image,
+  vddkInitImage,
 }) => ({
   apiVersion: PodModel.apiVersion,
   kind: PodModel.kind,
@@ -18,6 +24,20 @@ export const buildConversionPod = ({
   },
   spec: {
     serviceAccountName,
+
+    initContainers: [
+      {
+        name: VMWARE_VDDK_INIT,
+        image: vddkInitImage,
+        volumeMounts: [
+          {
+            name: VMWARE_VOLUME_VDDK,
+            mountPath: '/opt/vmware-vix-disklib-distrib',
+          },
+        ],
+      },
+    ],
+
     containers: [
       {
         name: CONVERSION_BASE_NAME,
@@ -35,6 +55,10 @@ export const buildConversionPod = ({
             name: 'kvm',
             mountPath: '/dev/kvm',
           },
+          {
+            name: VMWARE_VOLUME_VDDK,
+            mountPath: '/opt/vmware-vix-disklib-distrib',
+          },
           ...volumeMounts,
         ],
       },
@@ -51,6 +75,10 @@ export const buildConversionPod = ({
         hostPath: {
           path: '/dev/kvm',
         },
+      },
+      {
+        name: VMWARE_VOLUME_VDDK,
+        emptyDir: {},
       },
       ...volumes,
     ],

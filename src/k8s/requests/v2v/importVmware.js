@@ -40,7 +40,11 @@ import {
   getVmwareField,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize, delay } from '../../../utils';
-import { getV2vImagePullPolicy, getKubevirtV2vConversionContainerImage } from '../../../selectors/v2v';
+import {
+  getV2vImagePullPolicy,
+  getKubevirtV2vConversionContainerImage,
+  getVddkInitContainerImage,
+} from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 
 const asVolumenMount = ({ name, storageType, data }) => ({
@@ -231,6 +235,7 @@ const startConversionPod = async (
       secretName: getName(conversionPodSecret),
       imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
       image: getKubevirtV2vConversionContainerImage(kubevirtVmwareConfigMap),
+      vddkInitImage: getVddkInitContainerImage(kubevirtVmwareConfigMap),
     })
   );
 

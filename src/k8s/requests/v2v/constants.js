@@ -16,3 +16,6 @@ export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single configMap per cluster, contains mapping of vmware guestId to common-templates OS ID
 
 export const CONVERSION_SERVICEACCOUNT_DELAY = 2 * 1000; // in ms
+
+export const VMWARE_VDDK_INIT = 'vddk-init';
+export const VMWARE_VOLUME_VDDK = 'volume-vddk';
