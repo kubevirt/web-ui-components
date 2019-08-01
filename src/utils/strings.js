@@ -23,4 +23,4 @@ export const FAILED_TO_CREATE = 'failed to create';
 export const FAILED_TO_PATCH = 'failed to patch';
 
 export const BMC_PROTOCOL_ERROR = 'has to start with "ipmi" or "idrac"';
-export const BMC_PORT_ERROR = 'has to have a numberical port';
+export const BMC_PORT_ERROR = 'has to have a numerical port';

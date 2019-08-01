@@ -1,5 +1,6 @@
 import {
   isPositiveNumber,
+  isValidMAC,
   validateDNS1123SubdomainValue,
   validateURL,
   validateContainer,
@@ -178,5 +179,116 @@ describe('validation.js - validateVmName', () => {
 
   it('handles duplicate name', () => {
     expect(validateVmLikeEntityName('vm1', vmSettings, props)).toEqual(getValidationObject(VIRTUAL_MACHINE_EXISTS));
+  });
+});
+
+describe('validation.js - isValidMAC', () => {
+  const testConfig = [
+    {
+      title: 'returns true for a valid 6 octet MAC address with colon separator',
+      mac: '01:23:45:67:89:ab',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 8 octet MAC address with colon separator',
+      mac: '01:23:45:67:89:ab:cd:ef',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 20 octet MAC address with colon separator',
+      mac: '01:23:45:67:89:ab:cd:ef:00:00:01:23:45:67:89:ab:cd:ef:00:00',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 6 octet MAC address with dash separator',
+      mac: '01-23-45-67-89-ab',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 8 octet MAC address with dash separator',
+      mac: '01-23-45-67-89-ab-cd-ef',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 20 octet MAC address with dash separator',
+      mac: '01-23-45-67-89-ab-cd-ef-00-00-01-23-45-67-89-ab-cd-ef-00-00',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 3 quartet MAC address with period separator',
+      mac: '0123.4567.89ab',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 4 quartet MAC address with period separator',
+      mac: '0123.4567.89ab.cdef',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 10 quartet MAC address with period separator',
+      mac: '0123.4567.89ab.cdef.0000.0123.4567.89ab.cdef.0000',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 8 octet MAC address with colon separator with uppercase characters',
+      mac: '01:23:45:67:89:AB:CD:EF',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 8 octet MAC address with dash separator with uppercase characters',
+      mac: '01-23-45-67-89-AB-CD-EF',
+      result: true,
+    },
+    {
+      title: 'returns true for a valid 4 quartet MAC address with period separator with uppercase characters',
+      mac: '0123.4567.89AB.CDEF',
+      result: true,
+    },
+    {
+      title: 'returns false for an empty MAC address',
+      mac: '',
+      result: false,
+    },
+    {
+      title: 'returns false for an invalid 2 octet MAC address with colon separator',
+      mac: '01:23',
+      result: false,
+    },
+    {
+      title: 'returns false for an invalid 7 octet MAC address with colon separator',
+      mac: '01:23:45:67:89:ab:cd',
+      result: false,
+    },
+    {
+      title: 'returns false for an invalid 9 octet MAC address with colon separator',
+      mac: '01:23:45:67:89:ab:cd:ef:00',
+      result: false,
+    },
+    {
+      title: 'returns false for a MAC address with a non-hexidecimal character',
+      mac: '01:23:45:67:89:ax',
+      result: false,
+    },
+    {
+      title: 'returns false for an invalid 5 quartet MAC address with period separator',
+      mac: '0123.4567.89ab.cdef.0000',
+      result: false,
+    },
+    {
+      title: 'returns false for an invalid 11 quartet MAC address with period separator',
+      mac: '0123.4567.89ab.cdef.0000.0123.4567.89ab.cdef.0000.0123',
+      result: false,
+    },
+    {
+      title: 'returns false for an invalid 6 octet MAC address with mixed separators',
+      mac: '01:23-45-67:89:ab',
+      result: false,
+    },
+  ];
+
+  testConfig.forEach(c => {
+    it(c.title, () => {
+      expect(isValidMAC(c.mac)).toBe(c.result);
+    });
   });
 });
