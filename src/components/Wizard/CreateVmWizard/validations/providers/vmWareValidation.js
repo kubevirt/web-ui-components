@@ -50,7 +50,7 @@ export const validateVmwareProvider = vmSettings => {
   });
 
   update[PROVIDERS_DATA_KEY][PROVIDER_VMWARE] = validateVmwareDataProvider(
-    get(vmSettings, PROVIDERS_DATA_KEY, PROVIDER_VMWARE)
+    get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE])
   );
 
   return update; // do not merge send as update with vmSettings validation

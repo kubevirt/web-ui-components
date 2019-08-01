@@ -48,10 +48,6 @@ import { correctVCenterSecretLabels } from '../../../../../k8s/requests/v2v/corr
 import { flatten } from '../../../../../k8s/util/k8sMethodsUtils';
 
 export class VMWareImportProvider extends React.Component {
-  state = {
-    prevLoadedVmName: null,
-  };
-
   onDataChange = data => {
     this.props.onChange(
       objectMerge({}, this.props.vmSettings, {
@@ -112,10 +108,8 @@ export class VMWareImportProvider extends React.Component {
 
   componentDidUpdate() {
     const v2vvmware = flatten(this.props, 'v2vvmware', {});
-    const vmwareToKubevirtOsConfigMap = flatten(this.props, 'vmwareToKubevirtOsConfigMap');
 
-    const { prevLoadedVmName } = this.state;
-
+    const savedVM = this.getFieldAttribute(PROVIDER_VMWARE_VM_KEY, 'vm');
     const selectedVmName = this.getValue(PROVIDER_VMWARE_VM_KEY);
     const status = this.getValue(PROVIDER_VMWARE_STATUS_KEY);
 
@@ -125,15 +119,13 @@ export class VMWareImportProvider extends React.Component {
 
     let update;
 
-    if (selectedVmName && prevLoadedVmName !== selectedVmName) {
+    if (selectedVmName && get(savedVM, 'name') !== selectedVmName) {
       const vm = getLoadedVm(v2vvmware, selectedVmName);
       if (vm) {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ prevLoadedVmName: selectedVmName });
         update = {
           [PROVIDER_VMWARE_VM_KEY]: {
             vm,
-            vmwareToKubevirtOsConfigMap,
+            vmwareToKubevirtOsConfigMap: flatten(this.props, 'vmwareToKubevirtOsConfigMap'),
             thumbprint: getThumbprint(v2vvmware),
           },
           [PROVIDER_VMWARE_STATUS_KEY]: {
