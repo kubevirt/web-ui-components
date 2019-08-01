@@ -35,15 +35,15 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
     throw new Error('V2V VMWare: namespace must be selected');
   }
 
+  const name = V2VVMWARE_DEPLOYMENT_NAME;
+  let activeDeployment;
+  let kubevirtVmwareConfigMap;
+
   if (semaphors[namespace]) {
     info(`startV2VVMWareController for "${namespace}" namespace already in progress. Skipping...`);
     return;
   }
   semaphors[namespace] = true;
-
-  const name = V2VVMWARE_DEPLOYMENT_NAME;
-  let activeDeployment;
-  let kubevirtVmwareConfigMap;
 
   try {
     kubevirtVmwareConfigMap = await k8sGet(
@@ -51,6 +51,20 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
       VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
       VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE
     );
+  } catch (e) {
+    // This ConfigMap is expected to be created by a v2v operator which is currecntly under development, otherwise
+    // See https://github.com/kubevirt/web-ui-components/pull/507 for example
+    info(
+      `The ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} can not be found in the ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE} namespace. `,
+      'The v2v pods can not be created. Error: ',
+      e
+    );
+  }
+
+  try {
+    if (!kubevirtVmwareConfigMap) {
+      return; // pass through finally()
+    }
 
     activeDeployment = await k8sGet(DeploymentModel, name, namespace);
 
