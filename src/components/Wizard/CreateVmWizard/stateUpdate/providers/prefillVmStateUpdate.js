@@ -11,13 +11,12 @@ import {
   STORAGE_TAB_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
-  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
   VM_SETTINGS_TAB_KEY,
 } from '../../constants';
 import { getVmwareAttribute } from '../../providers/VMwareImportProvider/selectors';
 import { getVmSettingAttribute } from '../../utils/vmSettingsTabUtils';
 import { PROVIDER_VMWARE_VM_KEY } from '../../providers/VMwareImportProvider/constants';
-import { CONVERSION_POD_TEMP_MOUNT_PATH, CONVERSION_POD_VDDK_MOUNT_PATH } from '../../../../../k8s/requests/v2v';
+import { CONVERSION_POD_TEMP_MOUNT_PATH } from '../../../../../k8s/requests/v2v';
 import { CUSTOM_FLAVOR } from '../../../../../constants';
 
 /**
@@ -133,19 +132,6 @@ export const getDisks = parsedVm => {
     storageClass: undefined,
     data: {
       mountPath: CONVERSION_POD_TEMP_MOUNT_PATH,
-    },
-  });
-
-  // TODO: make vddk configurable or move setup to somewhere else
-  // vddk pvc must be present in the same namespace as the VM
-  diskRows.push({
-    editable: false,
-    id: diskRows.length,
-    storageType: STORAGE_TYPE_EXTERNAL_V2V_VDDK,
-    name: 'vddk-pvc',
-    storageClass: undefined,
-    data: {
-      mountPath: CONVERSION_POD_VDDK_MOUNT_PATH,
     },
   });
 

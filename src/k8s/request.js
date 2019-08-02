@@ -64,7 +64,6 @@ import {
   STORAGE_TYPE_DATAVOLUME,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
-  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
   STORAGE_TYPE_PVC,
   USE_CLOUD_INIT_CUSTOM_SCRIPT_KEY,
   USER_TEMPLATE_KEY,
@@ -446,9 +445,7 @@ const addStorages = (vm, template, storages, getSetting, persistentVolumeClaims,
 
   if (storages) {
     storages
-      .filter(
-        storage => ![STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(storage.storageType)
-      )
+      .filter(storage => STORAGE_TYPE_EXTERNAL_V2V_TEMP !== storage.storageType)
       .forEach(storage => {
         switch (storage.storageType) {
           case STORAGE_TYPE_PVC:

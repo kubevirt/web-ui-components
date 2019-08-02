@@ -1,5 +1,4 @@
 export const CONVERSION_POD_TEMP_MOUNT_PATH = '/var/tmp';
-export const CONVERSION_POD_VDDK_MOUNT_PATH = '/data/vddklib'; // will be /data/vddklib/vmware-vix-disklib-distrib
 
 export const CONVERSION_BASE_NAME = 'kubevirt-v2v-conversion';
 export const CONVERSION_GENERATE_NAME = `${CONVERSION_BASE_NAME}-`;
@@ -16,3 +15,7 @@ export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE = 'kube-public'; // note
 export const VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAME = 'vmware-to-kubevirt-os'; // single configMap per cluster, contains mapping of vmware guestId to common-templates OS ID
 
 export const CONVERSION_SERVICEACCOUNT_DELAY = 2 * 1000; // in ms
+
+export const CONVERSION_VDDK_INIT_POD_NAME = 'vddk-init';
+export const CONVERSION_VOLUME_VDDK_NAME = 'volume-vddk';
+export const CONVERSION_VDDK_MOUNT_PATH = '/opt/vmware-vix-disklib-distrib';

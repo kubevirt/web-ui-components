@@ -32,6 +32,13 @@ export const getKubevirtV2vVmwareContainerImage = kubevirtVmwareConfigMap =>
     `kubevirt-vmware-image is missing in the ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} ConfigMap`
   );
 
+export const getVddkInitContainerImage = kubevirtVmwareConfigMap =>
+  get(
+    kubevirtVmwareConfigMap,
+    ['data', 'vddk-init-image'],
+    `vddk-init-image is missing in the ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} ConfigMap`
+  );
+
 // optional param in the ConfigMap
 export const getV2vImagePullPolicy = kubevirtVmwareConfigMap =>
   get(kubevirtVmwareConfigMap, ['data', 'kubevirt-vmware-image-pull-policy'], 'IfNotPresent');

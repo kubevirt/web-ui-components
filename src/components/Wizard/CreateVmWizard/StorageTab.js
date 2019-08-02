@@ -18,7 +18,6 @@ import {
   STORAGE_TYPE_CONTAINER,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
-  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from './constants';
 
 import {
@@ -83,7 +82,6 @@ const validateContainerStorage = storage => genericValidator(storage, [nameValid
 const validateExternalImportStorage = storage => genericValidator(storage, [nameValidation, positiveSizeValidation]);
 const validateExternalTempImportStorage = storage =>
   genericValidator(storage, [nameValidation, positiveSizeValidation]);
-const validateExternalVddkImportStorage = storage => genericValidator(storage, [nameValidation]);
 
 const validateResolver = {
   [STORAGE_TYPE_PVC]: validatePvcStorage,
@@ -91,7 +89,6 @@ const validateResolver = {
   [STORAGE_TYPE_CONTAINER]: validateContainerStorage,
   [STORAGE_TYPE_EXTERNAL_IMPORT]: validateExternalImportStorage,
   [STORAGE_TYPE_EXTERNAL_V2V_TEMP]: validateExternalTempImportStorage,
-  [STORAGE_TYPE_EXTERNAL_V2V_VDDK]: validateExternalVddkImportStorage,
 };
 
 const validateStorage = row => {
@@ -238,7 +235,6 @@ const resolveInitialStorages = (
         case STORAGE_TYPE_DATAVOLUME:
         case STORAGE_TYPE_EXTERNAL_IMPORT:
         case STORAGE_TYPE_EXTERNAL_V2V_TEMP:
-        case STORAGE_TYPE_EXTERNAL_V2V_VDDK:
           result = {
             ...result,
             ...storage,
@@ -405,7 +401,7 @@ export class StorageTab extends React.Component {
             initialValue: '--- Select Storage ---',
           };
         }
-        if ([STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(storage.storageType)) {
+        if (STORAGE_TYPE_EXTERNAL_V2V_TEMP === storage.storageType) {
           return null;
         }
         return {
@@ -480,9 +476,7 @@ export class StorageTab extends React.Component {
       type: ACTIONS_TYPE,
       renderEditConfig: storage =>
         storage.rootStorage ||
-        [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(
-          storage.storageType
-        )
+        [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType)
           ? null
           : {
               id: 'actions',

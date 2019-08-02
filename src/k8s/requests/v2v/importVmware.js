@@ -14,7 +14,6 @@ import {
   NAMESPACE_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
-  STORAGE_TYPE_EXTERNAL_V2V_VDDK,
 } from '../../../components/Wizard/CreateVmWizard/constants';
 import { getName, getNamespace } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
@@ -40,7 +39,11 @@ import {
   getVmwareField,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize, delay } from '../../../utils';
-import { getV2vImagePullPolicy, getKubevirtV2vConversionContainerImage } from '../../../selectors/v2v';
+import {
+  getV2vImagePullPolicy,
+  getKubevirtV2vConversionContainerImage,
+  getVddkInitContainerImage,
+} from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 
 const asVolumenMount = ({ name, storageType, data }) => ({
@@ -203,11 +206,7 @@ const startConversionPod = async (
   const volumeMounts = [];
 
   mappedStorages
-    .filter(({ storageType }) =>
-      [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP, STORAGE_TYPE_EXTERNAL_V2V_VDDK].includes(
-        storageType
-      )
-    )
+    .filter(({ storageType }) => [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storageType))
     .forEach(storage => {
       volumeMounts.push(asVolumenMount(storage));
       volumes.push(asVolume(storage));
@@ -231,6 +230,7 @@ const startConversionPod = async (
       secretName: getName(conversionPodSecret),
       imagePullPolicy: getV2vImagePullPolicy(kubevirtVmwareConfigMap),
       image: getKubevirtV2vConversionContainerImage(kubevirtVmwareConfigMap),
+      vddkInitImage: getVddkInitContainerImage(kubevirtVmwareConfigMap),
     })
   );
 
