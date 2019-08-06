@@ -3,8 +3,6 @@ import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
 import { MenuItem } from 'patternfly-react';
 
-import { CreateNicRow } from '..';
-
 import { Dropdown } from '../../Form/Dropdown';
 import CreateNicRowFixture from '../fixtures/CreateNicRow.fixture';
 import { networkConfigs } from '../../../tests/mocks/networkAttachmentDefinition';
@@ -12,6 +10,8 @@ import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { getName } from '../../../selectors';
 import { Loading } from '../../Loading';
 import { POD_NETWORK } from '../../../constants';
+
+import { CreateNicRow } from '..';
 
 const testCreateNicRow = (networks, nic = {}) => (
   <CreateNicRow {...CreateNicRowFixture.props} networks={networks} nic={nic} />

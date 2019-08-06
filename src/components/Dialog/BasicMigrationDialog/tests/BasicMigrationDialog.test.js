@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import { BasicMigrationDialog } from '..';
-
 import { k8sCreate } from '../../../../tests/k8s';
 import { blueVmi } from '../../../../tests/mocks/vmi/blue.mock';
 import { migrate } from '../../../../k8s/migrate';
 import { getButton } from '../../../../tests/enzyme';
+
+import { BasicMigrationDialog } from '..';
 
 jest.mock('../../../../k8s/migrate');
 

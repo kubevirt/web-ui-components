@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { BaremetalHostRole } from '..';
-
 import BaremetalHostRoleFixture from '../fixtures/BaremetalHostRole.fixture';
+
+import { BaremetalHostRole } from '..';
 
 const testBaremetalHostRole = () => <BaremetalHostRole {...BaremetalHostRoleFixture[0].props} />;
 

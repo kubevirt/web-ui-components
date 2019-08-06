@@ -2,13 +2,6 @@
 
 module.exports = {
   presets: ['@babel/react'],
-  ignore: [
-    'src/jest',
-    'src/cosmos',
-    '**/tests/**',
-    '**/fixtures/**'
-  ],
-  plugins: [
-    '@babel/plugin-proposal-class-properties'
-  ]
+  ignore: ['src/jest', 'src/cosmos', '**/tests/**', '**/fixtures/**'],
+  plugins: ['@babel/plugin-proposal-class-properties'],
 };

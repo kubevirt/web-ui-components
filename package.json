@@ -22,6 +22,7 @@
     "pretest": "yarn validate && shx rm -rf coverage",
     "test": "yarn jest",
     "test:watch": "yarn test --watch",
+    "prebuild": "yarn test --ci && shx rm -rf dist",
     "build": "yarn build:babel && yarn build:sass",
     "build:babel": "concurrently \"yarn build:babel:esm && yarn build:babel:umd\" \"yarn build:babel:cjs\"",
     "build:babel:cjs": "babel --config-file ./config/babel.config.js --source-maps --extensions \".js,.ts,.tsx\" src --out-dir dist/js --presets=@babel/env",

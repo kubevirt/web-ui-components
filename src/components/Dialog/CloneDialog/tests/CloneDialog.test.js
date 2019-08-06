@@ -3,8 +3,6 @@ import { shallow, mount } from 'enzyme';
 import { HelpBlock, noop, Alert } from 'patternfly-react';
 import { cloneDeep } from 'lodash';
 
-import { CloneDialog } from '..';
-
 import { clone } from '../../../../k8s/clone';
 import { default as CloneDialogFixture } from '../fixtures/CloneDialog.fixture';
 import { cloudInitTestVm } from '../../../../tests/mocks/vm/cloudInitTestVm.mock';
@@ -15,6 +13,8 @@ import { settingsValue } from '../../../../k8s/selectors';
 import { DESCRIPTION_KEY, NAME_KEY, NAMESPACE_KEY } from '../../../Wizard/CreateVmWizard/constants';
 import { k8sCreate } from '../../../../tests/k8s';
 import { flushPromises, setCheckbox, setInput, clickButton, selectDropdownItem } from '../../../../tests/enzyme';
+
+import { CloneDialog } from '..';
 
 jest.mock('../../../../k8s/clone');
 
