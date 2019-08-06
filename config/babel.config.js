@@ -1,6 +1,14 @@
 // https://babeljs.io/docs/en/next/options
 
 module.exports = {
-  presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: ['@babel/plugin-proposal-class-properties'],
+  presets: ['@babel/react'],
+  ignore: [
+    'src/jest',
+    'src/cosmos',
+    '**/tests/**',
+    '**/fixtures/**'
+  ],
+  plugins: [
+    '@babel/plugin-proposal-class-properties'
+  ]
 };
