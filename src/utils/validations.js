@@ -123,6 +123,11 @@ export const validateVmLikeEntityName = (value, vmSettings, props) => {
       );
 };
 
+export const validateCloudInitHostName = value => {
+  const dnsValidation = validateDNS1123SubdomainValue(value);
+  return dnsValidation && dnsValidation.isEmptyError ? null : dnsValidation;
+};
+
 export const validateUserTemplate = (userTemplateKey, vmSettings, props) => {
   const userTemplateName = get(vmSettings, [userTemplateKey, 'value']);
   const userTemplate =

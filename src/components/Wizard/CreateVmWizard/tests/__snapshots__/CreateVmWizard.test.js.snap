@@ -71,6 +71,7 @@ Object {
       "cloudInit": true,
       "useCloudInitCustomScript": false,
     },
+    "validation": null,
     "value": null,
   },
   "imageURL": Object {
