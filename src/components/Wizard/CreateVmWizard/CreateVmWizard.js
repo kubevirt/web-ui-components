@@ -301,7 +301,7 @@ export class CreateVmWizard extends React.Component {
         previousStepDisabled={currentStepData.lockStep ? true : lastStepReached}
         cancelButtonDisabled={lastStepReached}
         stepButtonsDisabled={lastStepReached}
-        nextStepDisabled={currentStepData.lockStep ? true : !currentStepData.valid}
+        nextStepDisabled={currentStepData.lockStep ? true : !currentStepData.valid && !lastStepReached}
         nextText={beforeLastStepReached ? createVmText : NEXT}
         title={createVmText}
         dialogClassName="modal-lg wizard-pf kubevirt-wizard kubevirt-create-vm-wizard"
