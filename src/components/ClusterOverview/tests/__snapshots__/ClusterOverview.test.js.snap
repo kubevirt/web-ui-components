@@ -17,7 +17,7 @@ exports[`<ClusterOverview /> renders correctly 1`] = `
       <MediaQuery
         key="main-medium"
         maxWidth={991.9}
-        values={null}
+        values={Object {}}
       >
         <MainCards />
       </MediaQuery>
@@ -25,7 +25,7 @@ exports[`<ClusterOverview /> renders correctly 1`] = `
       <MediaQuery
         key="main-large"
         minWidth={992}
-        values={null}
+        values={Object {}}
       >
         <MainCards />
       </MediaQuery>
