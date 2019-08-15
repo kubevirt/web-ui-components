@@ -1,8 +1,8 @@
 import { noop } from 'patternfly-react';
 
-import { CreateDeviceRow } from '..';
-
 import { Loading } from '../../Loading';
+
+import { CreateDeviceRow } from '..';
 
 const deviceFields = {
   name: {

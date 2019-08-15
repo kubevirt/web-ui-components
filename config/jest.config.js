@@ -23,7 +23,7 @@ module.exports = {
       transform: {
         '\\.js$': `${paths.config}/jest.transform.babel.js`,
       },
-      transformIgnorePatterns: ['node_modules/(?!(@novnc))'],
+      transformIgnorePatterns: ['node_modules/(?!(@novnc|@spice-project))'],
       setupFiles: [`${paths.src}/jest/setupTest.js`],
       snapshotSerializers: ['enzyme-to-json/serializer'],
       moduleNameMapper: {

@@ -8,8 +8,6 @@ import { capacityStats } from '../Capacity/fixtures/Capacity.fixture';
 import { utilizationStats } from '../Utilization/fixtures/Utilization.fixture';
 import { clusterDetailsData } from '../Details/fixtures/Details.fixture';
 
-import { complianceData } from '..';
-
 import { ClusterOverviewContext } from '../ClusterOverviewContext';
 
 import { localhostNode } from '../../../tests/mocks/node';
@@ -19,6 +17,8 @@ import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
 import { fullVm } from '../../../tests/mocks/vm/vm.mock';
 import { cloudInitTestVmi } from '../../../tests/mocks/vmi/cloudInitTestVmi.mock';
 import { warningAlert, unknownTypeAlert, criticalAlert } from '../../Dashboard/Alert/fixtures/AlertItem.fixture';
+
+import { complianceData } from '..';
 
 export const nodes = [localhostNode];
 export const pvcs = persistentVolumeClaims;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { InlineEdit } from '..';
-
 import { default as InlineEditFixture } from '../fixtures/InlineEdit.fixture';
+
+import { InlineEdit } from '..';
 
 const testInlineEdit = () => <InlineEdit {...InlineEditFixture.props} />;
 

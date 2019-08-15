@@ -39,10 +39,10 @@ import {
   POD_PHASE_PENDING,
 } from '../pod';
 
-import { NOT_HANDLED } from '..';
-
 import { parseNumber } from '../../utils';
 import { CONVERSION_PROGRESS_ANNOTATION } from '../../../k8s/requests/v2v/constants';
+
+import { NOT_HANDLED } from '..';
 
 export const isVmOff = vmStatus => vmStatus.status === VM_STATUS_OFF;
 

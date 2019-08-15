@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { CreateDeviceRow } from '..';
-
 import { default as CreateDeviceRowFixture } from '../fixtures/CreateDeviceRow.fixture';
+
+import { CreateDeviceRow } from '..';
 
 const testCreateDeviceRow = () => <CreateDeviceRow {...CreateDeviceRowFixture.props} />;
 

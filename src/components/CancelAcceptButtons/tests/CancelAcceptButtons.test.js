@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { CancelAcceptButtons } from '..';
-
 import CancelAcceptButtonsFixture from '../fixtures/CancelAcceptButtons.fixture';
+
+import { CancelAcceptButtons } from '..';
 
 const testCancelAcceptButtons = (disabled = false) => (
   <CancelAcceptButtons {...CancelAcceptButtonsFixture[0].props} disabled={disabled} />

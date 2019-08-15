@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Description } from '..';
-
 import { default as DescriptionFixture } from '../fixtures/Description.fixture';
+
+import { Description } from '..';
 
 const testDescription = () => <Description {...DescriptionFixture[0].props} id="description" />;
 
