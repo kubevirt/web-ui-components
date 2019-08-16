@@ -9,6 +9,7 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/kubevirt/web-ui-components",
   "main": "dist/js/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "/dist"
   ],
