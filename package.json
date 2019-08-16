@@ -30,7 +30,7 @@
     "build:babel:esm": "babel --config-file ./config/babel.config.js --ignore \"**/tests,./src/cosmos,./src/jest,**/fixtures\" --out-dir dist/esm src",
     "build:babel:umd": "babel --config-file ./config/babel.config.js --ignore \"**/tests,./src/cosmos,./src/jest,**/fixtures\" --out-dir dist/umd dist/esm --plugins=transform-es2015-modules-umd",
     "build:sass": "shx cp -r sass dist",
-    "dev": "shx rm -rf dist && NODE_ENV=development yarn build:js && yarn build:sass",
+    "dev": "shx rm -rf dist && NODE_ENV=development yarn build:babel:cjs && yarn build:sass",
     "jest": "jest --config config/jest.config.js",
     "cosmos": "cosmos --config config/cosmos.config.js",
     "cosmos:export": "shx rm -rf cosmos && NODE_ENV=production cosmos-export --config config/cosmos.config.js",
