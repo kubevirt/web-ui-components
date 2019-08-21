@@ -8,6 +8,7 @@ import {
   validateURL,
   validateMemory,
   validateUserTemplate,
+  validateCloudInitHostName,
 } from '../../../../utils/validations';
 import { objectMerge } from '../../../../utils/utils';
 import { settingsValue } from '../../../../k8s/selectors';
@@ -22,6 +23,7 @@ import {
   PROVISION_SOURCE_TYPE_KEY,
   MEMORY_KEY,
   USER_TEMPLATE_KEY,
+  HOST_NAME_KEY,
 } from '../constants';
 import { NAMESPACE_MUST_BE_SELECTED } from '../../../../utils/strings';
 import { isProviderValid, validateProvider } from '../providers';
@@ -51,6 +53,7 @@ const validateResolver = {
   [IMAGE_URL_KEY]: asVmSettingsValidator(validateURL),
   [PROVIDER_KEY]: validateProviderDropdown,
   [MEMORY_KEY]: asVmSettingsValidator(validateMemory),
+  [HOST_NAME_KEY]: asVmSettingsValidator(validateCloudInitHostName),
 };
 
 export const validateVmSettings = (vmSettings, additionalResources) => {
