@@ -16,5 +16,7 @@ export const makeSentence = (sentence, capitalize = true) => {
 
 export const addMissingSubject = (sentence, subject) => {
   const c = sentence ? sentence.charAt(0) : '';
-  return c.toLowerCase() !== c ? sentence : `${_.capitalize(subject)} ${sentence}`;
+  return c.toLowerCase() === c.toUpperCase() || c.toLowerCase() !== c
+    ? sentence
+    : `${_.capitalize(subject)} ${sentence}`;
 };
