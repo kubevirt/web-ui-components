@@ -1,23 +1,13 @@
-import {
-  DeploymentModel,
-  RoleModel,
-  ServiceAccountModel,
-  RoleBindingModel,
-  findModel,
-  ConfigMapModel,
-} from '../../../models';
+import { DeploymentModel, RoleModel, ServiceAccountModel, RoleBindingModel, findModel } from '../../../models';
 import { buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { buildVmWareRole, buildVmWareDeployment } from '../../objects/v2v/vmware';
-import {
-  V2VVMWARE_DEPLOYMENT_NAME,
-  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
-  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE,
-} from './constants';
+import { V2VVMWARE_DEPLOYMENT_NAME } from './constants';
 import { getDeploymentContainer } from '../../../selectors/deployment';
 import { getContainerImage } from '../../../selectors/pod';
 import { buildAddOwnerReferencesPatch, buildOwnerReference } from '../../util';
 import { getName } from '../../../selectors';
 import { getKubevirtV2vVmwareContainerImage, getV2vImagePullPolicy } from '../../../selectors/v2v';
+import { getVmwareConfigMap } from './vmwareConfigMap';
 
 const { info } = console;
 
@@ -37,7 +27,6 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
 
   const name = V2VVMWARE_DEPLOYMENT_NAME;
   let activeDeployment;
-  let kubevirtVmwareConfigMap;
 
   if (semaphors[namespace]) {
     info(`startV2VVMWareController for "${namespace}" namespace already in progress. Skipping...`);
@@ -45,21 +34,7 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
   }
   semaphors[namespace] = true;
 
-  try {
-    kubevirtVmwareConfigMap = await k8sGet(
-      ConfigMapModel,
-      VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
-      VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE
-    );
-  } catch (e) {
-    // This ConfigMap is expected to be created by a v2v operator which is currecntly under development, otherwise
-    // See https://github.com/kubevirt/web-ui-components/pull/507 for example
-    info(
-      `The ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} can not be found in the ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE} namespace. `,
-      'The v2v pods can not be created. Error: ',
-      e
-    );
-  }
+  const kubevirtVmwareConfigMap = getVmwareConfigMap({ k8sGet });
 
   try {
     if (!kubevirtVmwareConfigMap) {
