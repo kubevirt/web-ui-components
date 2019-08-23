@@ -9,8 +9,6 @@ const getVmwareConfigMapInNamespace = async ({ k8sGet, namespace }) => {
       disableHistory: true,
     });
   } catch (e) {
-    // This ConfigMap is expected to be created by a v2v operator which is currecntly under development.
-    // In the meantime, see https://github.com/kubevirt/web-ui-components/pull/507 for example.
     info(
       `The ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} can not be found in the ${namespace} namespace. Trying another in one ... Error: `,
       e
@@ -19,6 +17,8 @@ const getVmwareConfigMapInNamespace = async ({ k8sGet, namespace }) => {
   return null;
 };
 
+// The "v2v-vmware" ConfigMap is expected to be created by a v2v operator which is currecntly under development.
+// In the meantime, see https://github.com/kubevirt/web-ui-components/pull/507 for example.
 export const getVmwareConfigMap = async props => {
   // query namespaces sequentially to respect order
   for (let index = 0; index < VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACES.length; index++) {
