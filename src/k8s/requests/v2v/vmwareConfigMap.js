@@ -10,7 +10,7 @@ const getVmwareConfigMapInNamespace = async ({ k8sGet, namespace }) => {
     });
   } catch (e) {
     info(
-      `The ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} can not be found in the ${namespace} namespace. Trying another in one ... Error: `,
+      `The ${VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME} can not be found in the ${namespace} namespace.  Another namespace will be queried, if any left. Error: `,
       e
     );
   }

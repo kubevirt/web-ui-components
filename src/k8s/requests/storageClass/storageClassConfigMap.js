@@ -8,7 +8,7 @@ const getStorageClassConfigMapInNamespace = async ({ k8sGet, namespace }) => {
     return await k8sGet(ConfigMapModel, STORAGE_CLASS_CONFIG_MAP_NAME, namespace, null, { disableHistory: true });
   } catch (e) {
     info(
-      `The ${STORAGE_CLASS_CONFIG_MAP_NAME} can not be found in the ${namespace} namespace. Trying another in one ... Error: `,
+      `The ${STORAGE_CLASS_CONFIG_MAP_NAME} can not be found in the ${namespace} namespace. Another namespace will be queried, if any left. Error: `,
       e
     );
   }
