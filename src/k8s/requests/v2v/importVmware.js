@@ -8,7 +8,6 @@ import {
   RoleModel,
   SecretModel,
   ServiceAccountModel,
-  ConfigMapModel,
 } from '../../../models';
 import {
   NAMESPACE_KEY,
@@ -18,12 +17,7 @@ import {
 import { getName, getNamespace } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
-import {
-  CONVERSION_GENERATE_NAME,
-  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
-  VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE,
-  CONVERSION_SERVICEACCOUNT_DELAY,
-} from './constants';
+import { CONVERSION_GENERATE_NAME, CONVERSION_SERVICEACCOUNT_DELAY } from './constants';
 import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
 import {
   PROVIDER_VMWARE_HOSTNAME_KEY,
@@ -45,6 +39,7 @@ import {
   getVddkInitContainerImage,
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
+import { getVmwareConfigMap } from './vmwareConfigMap';
 
 const asVolumenMount = ({ name, storageType, data }) => ({
   name,
@@ -212,11 +207,7 @@ const startConversionPod = async (
       volumes.push(asVolume(storage));
     });
 
-  const kubevirtVmwareConfigMap = await k8sGet(
-    ConfigMapModel,
-    VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAME,
-    VMWARE_KUBEVIRT_VMWARE_CONFIG_MAP_NAMESPACE
-  );
+  const kubevirtVmwareConfigMap = getVmwareConfigMap({ k8sGet });
 
   await waitForServiceAccountSecrets(serviceAccount, { k8sGet });
 
