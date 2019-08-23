@@ -106,6 +106,7 @@ import {
 import { importVmwareVm } from './requests/v2v';
 import { buildAddOwnerReferencesPatch, buildOwnerReference } from './util/utils';
 import { isVmwareProvider } from '../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
+import { getStorageClassConfigMap } from './requests';
 
 export * from './requests/hosts';
 
@@ -116,13 +117,12 @@ const FALLBACK_DISK = {
 };
 
 export const createVmTemplate = async (
-  { k8sCreate, getActualState },
+  { k8sGet, k8sCreate, getActualState },
   templates,
   vmSettings,
   networks,
   storage,
-  persistentVolumeClaims,
-  storageClassConfigMap
+  persistentVolumeClaims
 ) => {
   const getSetting = param => {
     switch (param) {
@@ -134,6 +134,9 @@ export const createVmTemplate = async (
         return settingsValue(vmSettings, param);
     }
   };
+
+  const storageClassConfigMap = await getStorageClassConfigMap({ k8sGet });
+
   const template = getModifiedVmTemplate(
     templates,
     vmSettings,
@@ -198,7 +201,6 @@ export const createVm = async (
   networks,
   storages,
   persistentVolumeClaims,
-  storageClassConfigMap,
   units
 ) => {
   const getSetting = settingsValue.bind(undefined, vmSettings);
@@ -223,6 +225,8 @@ export const createVm = async (
     conversionPod = importResult.conversionPod;
     storages = importResult.mappedStorages;
   }
+
+  const storageClassConfigMap = await getStorageClassConfigMap({ k8sGet });
 
   const template = getModifiedVmTemplate(
     templates,
