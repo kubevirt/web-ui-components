@@ -36,6 +36,7 @@ export const getVmWareProviderRequestedResources = state => {
       namespace: VMWARE_TO_KUBEVIRT_OS_CONFIG_MAP_NAMESPACE,
       isList: false,
       prop: 'vmwareToKubevirtOsConfigMap',
+      optional: true,
     }),
   ];
 

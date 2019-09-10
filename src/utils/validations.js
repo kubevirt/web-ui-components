@@ -32,7 +32,7 @@ import { joinGrammaticallyListOfItems, makeSentence } from './grammar';
 
 export const isPositiveNumber = value => value && value.toString().match(/^[1-9]\d*$/);
 
-const alphanumericRegex = '[a-zA-Z0-9]';
+export const alphanumericRegex = '[a-zA-Z0-9]';
 
 const DNS_1123_OFFENDING_CHARACTERS = {
   ',': 'comma',

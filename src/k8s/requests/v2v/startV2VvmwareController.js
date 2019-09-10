@@ -34,7 +34,7 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
   }
   semaphors[namespace] = true;
 
-  const kubevirtVmwareConfigMap = getVmwareConfigMap({ k8sGet });
+  const kubevirtVmwareConfigMap = await getVmwareConfigMap({ k8sGet });
 
   try {
     if (!kubevirtVmwareConfigMap) {
