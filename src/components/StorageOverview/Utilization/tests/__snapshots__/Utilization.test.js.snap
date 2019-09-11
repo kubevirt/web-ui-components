@@ -583,17 +583,17 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
         aria-labelledby="victory-container-10-title victory-container-10-desc"
         height="30"
         role="img"
-        style="pointer-events:all;width:100%;height:100%"
-        viewBox="0 0 451 30"
-        width="451"
+        style="pointer-events:all;width:100%;height:auto"
+        viewBox="0 0 450 30"
+        width="450"
       >
         <line
           role="presentation"
           shape-rendering="auto"
-          style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+          style="stroke:#d2d2d2;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
           vector-effect="non-scaling-stroke"
           x1="43"
-          x2="431"
+          x2="430"
           y1="25"
           y2="25"
         />
@@ -603,7 +603,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:none;fill:none;pointer-events:painted"
+            style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
@@ -613,23 +613,23 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:transparent;fill:transparent;size:1px"
+            style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
             y1="25"
-            y2="24"
+            y2="20"
           />
           <text
             direction="inherit"
             dx="0"
             dy="-2.0300000000000002"
             x="43"
-            y="14"
+            y="10"
           >
             <tspan
               dx="0"
-              style="font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;font-size:14px;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+              style="font-family:var(--pf-chart-global--FontFamily);font-size:14px;letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
               text-anchor="middle"
               x="43"
             >
@@ -643,7 +643,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:none;fill:none;pointer-events:painted"
+            style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
@@ -653,23 +653,23 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:transparent;fill:transparent;size:1px"
+            style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
             y1="25"
-            y2="24"
+            y2="20"
           />
           <text
             direction="inherit"
             dx="0"
             dy="-2.0300000000000002"
             x="43"
-            y="14"
+            y="10"
           >
             <tspan
               dx="0"
-              style="font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;font-size:14px;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+              style="font-family:var(--pf-chart-global--FontFamily);font-size:14px;letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
               text-anchor="middle"
               x="43"
             >
@@ -683,7 +683,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:none;fill:none;pointer-events:painted"
+            style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
@@ -693,23 +693,23 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:transparent;fill:transparent;size:1px"
+            style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
             y1="25"
-            y2="24"
+            y2="20"
           />
           <text
             direction="inherit"
             dx="0"
             dy="-2.0300000000000002"
             x="43"
-            y="14"
+            y="10"
           >
             <tspan
               dx="0"
-              style="font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;font-size:14px;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+              style="font-family:var(--pf-chart-global--FontFamily);font-size:14px;letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
               text-anchor="middle"
               x="43"
             >
@@ -723,7 +723,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:none;fill:none;pointer-events:painted"
+            style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
@@ -733,23 +733,23 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:transparent;fill:transparent;size:1px"
+            style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
             y1="25"
-            y2="24"
+            y2="20"
           />
           <text
             direction="inherit"
             dx="0"
             dy="-2.0300000000000002"
             x="43"
-            y="14"
+            y="10"
           >
             <tspan
               dx="0"
-              style="font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;font-size:14px;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+              style="font-family:var(--pf-chart-global--FontFamily);font-size:14px;letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
               text-anchor="middle"
               x="43"
             >
@@ -763,7 +763,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:none;fill:none;pointer-events:painted"
+            style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
@@ -773,23 +773,23 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
           <line
             role="presentation"
             shape-rendering="auto"
-            style="stroke:transparent;fill:transparent;size:1px"
+            style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
             vector-effect="non-scaling-stroke"
             x1="43"
             x2="43"
             y1="25"
-            y2="24"
+            y2="20"
           />
           <text
             direction="inherit"
             dx="0"
             dy="-2.0300000000000002"
             x="43"
-            y="14"
+            y="10"
           >
             <tspan
               dx="0"
-              style="font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;font-size:14px;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+              style="font-family:var(--pf-chart-global--FontFamily);font-size:14px;letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
               text-anchor="middle"
               x="43"
             >
@@ -799,13 +799,13 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
         </g>
       </svg>
       <div
-        style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+        style="z-index:99;position:absolute;top:0;left:0;width:100%;height:auto"
       >
         <svg
           height="30"
-          style="overflow:visible;width:100%;height:100%"
-          viewBox="0 0 451 30"
-          width="451"
+          style="overflow:visible;width:100%;height:auto"
+          viewBox="0 0 450 30"
+          width="450"
         />
       </div>
     </div>
@@ -843,7 +843,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 aria-labelledby="victory-container-11-title victory-container-11-desc"
                 height="60"
                 role="img"
-                style="pointer-events:all;width:100%;height:100%"
+                style="pointer-events:all;width:100%;height:auto"
                 viewBox="0 0 300 60"
                 width="300"
               >
@@ -866,20 +866,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       />
                     </clipPath>
                   </defs>
-                  <g>
-                    <path
-                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689L300,55L235,55L170,55L105,55L40,55Z"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
-                    />
-                    <path
-                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
-                    />
-                  </g>
+                  <path
+                    d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689L300,55L235,55L170,55L105,55L40,55Z"
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="fill:#06c;fill-opacity:0.4;stroke:none;stroke-width:2"
+                  />
                 </g>
                 <g
                   role="presentation"
@@ -887,7 +879,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                   <line
                     role="presentation"
                     shape-rendering="auto"
-                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    style="stroke:#d2d2d2;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
                     vector-effect="non-scaling-stroke"
                     x1="40"
                     x2="40"
@@ -900,7 +892,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -910,10 +902,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="55"
                       y2="55"
                     />
@@ -921,14 +913,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="55"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         0
                       </tspan>
@@ -940,7 +932,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -950,10 +942,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="37.30582524271844"
                       y2="37.30582524271844"
                     />
@@ -961,14 +953,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="37.30582524271844"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         15
                       </tspan>
@@ -980,7 +972,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -990,10 +982,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="19.61165048543689"
                       y2="19.61165048543689"
                     />
@@ -1001,14 +993,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="19.61165048543689"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         30
                       </tspan>
@@ -1017,11 +1009,11 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 </g>
               </svg>
               <div
-                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:auto"
               >
                 <svg
                   height="60"
-                  style="overflow:visible;width:100%;height:100%"
+                  style="overflow:visible;width:100%;height:auto"
                   viewBox="0 0 300 60"
                   width="300"
                 />
@@ -1061,7 +1053,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 aria-labelledby="victory-container-13-title victory-container-13-desc"
                 height="60"
                 role="img"
-                style="pointer-events:all;width:100%;height:100%"
+                style="pointer-events:all;width:100%;height:auto"
                 viewBox="0 0 300 60"
                 width="300"
               >
@@ -1084,20 +1076,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       />
                     </clipPath>
                   </defs>
-                  <g>
-                    <path
-                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845L300,55L235,55L170,55L105,55L40,55Z"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
-                    />
-                    <path
-                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
-                    />
-                  </g>
+                  <path
+                    d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845L300,55L235,55L170,55L105,55L40,55Z"
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="fill:#06c;fill-opacity:0.4;stroke:none;stroke-width:2"
+                  />
                 </g>
                 <g
                   role="presentation"
@@ -1105,7 +1089,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                   <line
                     role="presentation"
                     shape-rendering="auto"
-                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    style="stroke:#d2d2d2;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
                     vector-effect="non-scaling-stroke"
                     x1="40"
                     x2="40"
@@ -1118,7 +1102,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1128,10 +1112,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="55"
                       y2="55"
                     />
@@ -1139,14 +1123,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="55"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         0
                       </tspan>
@@ -1158,7 +1142,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1168,10 +1152,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="37.30582524271845"
                       y2="37.30582524271845"
                     />
@@ -1179,14 +1163,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="37.30582524271845"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         50
                       </tspan>
@@ -1198,7 +1182,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1208,10 +1192,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="19.611650485436897"
                       y2="19.611650485436897"
                     />
@@ -1219,14 +1203,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="19.611650485436897"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         100
                       </tspan>
@@ -1235,11 +1219,11 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 </g>
               </svg>
               <div
-                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:auto"
               >
                 <svg
                   height="60"
-                  style="overflow:visible;width:100%;height:100%"
+                  style="overflow:visible;width:100%;height:auto"
                   viewBox="0 0 300 60"
                   width="300"
                 />
@@ -1279,7 +1263,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 aria-labelledby="victory-container-15-title victory-container-15-desc"
                 height="60"
                 role="img"
-                style="pointer-events:all;width:100%;height:100%"
+                style="pointer-events:all;width:100%;height:auto"
                 viewBox="0 0 300 60"
                 width="300"
               >
@@ -1302,20 +1286,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       />
                     </clipPath>
                   </defs>
-                  <g>
-                    <path
-                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845L300,55L235,55L170,55L105,55L40,55Z"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
-                    />
-                    <path
-                      d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
-                    />
-                  </g>
+                  <path
+                    d="M40,55L105,51.46116504854369L170,49.69174757281554L235,19.611650485436897L300,37.30582524271845L300,55L235,55L170,55L105,55L40,55Z"
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="fill:#06c;fill-opacity:0.4;stroke:none;stroke-width:2"
+                  />
                 </g>
                 <g
                   role="presentation"
@@ -1323,7 +1299,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                   <line
                     role="presentation"
                     shape-rendering="auto"
-                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    style="stroke:#d2d2d2;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
                     vector-effect="non-scaling-stroke"
                     x1="40"
                     x2="40"
@@ -1336,7 +1312,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1346,10 +1322,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="55"
                       y2="55"
                     />
@@ -1357,14 +1333,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="55"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         0
                       </tspan>
@@ -1376,7 +1352,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1386,10 +1362,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="37.30582524271845"
                       y2="37.30582524271845"
                     />
@@ -1397,14 +1373,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="37.30582524271845"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         50
                       </tspan>
@@ -1416,7 +1392,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1426,10 +1402,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="19.611650485436897"
                       y2="19.611650485436897"
                     />
@@ -1437,14 +1413,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="19.611650485436897"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         100
                       </tspan>
@@ -1453,11 +1429,11 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 </g>
               </svg>
               <div
-                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:auto"
               >
                 <svg
                   height="60"
-                  style="overflow:visible;width:100%;height:100%"
+                  style="overflow:visible;width:100%;height:auto"
                   viewBox="0 0 300 60"
                   width="300"
                 />
@@ -1497,7 +1473,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 aria-labelledby="victory-container-17-title victory-container-17-desc"
                 height="60"
                 role="img"
-                style="pointer-events:all;width:100%;height:100%"
+                style="pointer-events:all;width:100%;height:auto"
                 viewBox="0 0 300 60"
                 width="300"
               >
@@ -1520,20 +1496,12 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       />
                     </clipPath>
                   </defs>
-                  <g>
-                    <path
-                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689L300,55L235,55L170,55L105,55L40,55Z"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
-                    />
-                    <path
-                      d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689"
-                      role="presentation"
-                      shape-rendering="auto"
-                      style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
-                    />
-                  </g>
+                  <path
+                    d="M40,52.640776699029125L105,49.101941747572816L170,37.30582524271844L235,43.20388349514563L300,19.61165048543689L300,55L235,55L170,55L105,55L40,55Z"
+                    role="presentation"
+                    shape-rendering="auto"
+                    style="fill:#06c;fill-opacity:0.4;stroke:none;stroke-width:2"
+                  />
                 </g>
                 <g
                   role="presentation"
@@ -1541,7 +1509,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                   <line
                     role="presentation"
                     shape-rendering="auto"
-                    style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                    style="stroke:#d2d2d2;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
                     vector-effect="non-scaling-stroke"
                     x1="40"
                     x2="40"
@@ -1554,7 +1522,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1564,10 +1532,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="55"
                       y2="55"
                     />
@@ -1575,14 +1543,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="55"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         0
                       </tspan>
@@ -1594,7 +1562,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1604,10 +1572,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="37.30582524271844"
                       y2="37.30582524271844"
                     />
@@ -1615,14 +1583,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="37.30582524271844"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         15
                       </tspan>
@@ -1634,7 +1602,7 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:none;fill:none;pointer-events:painted"
+                      style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                       vector-effect="non-scaling-stroke"
                       x1="40"
                       x2="300"
@@ -1644,10 +1612,10 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                     <line
                       role="presentation"
                       shape-rendering="auto"
-                      style="stroke:transparent;fill:transparent;size:1px"
+                      style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                       vector-effect="non-scaling-stroke"
                       x1="40"
-                      x2="39"
+                      x2="35"
                       y1="19.61165048543689"
                       y2="19.61165048543689"
                     />
@@ -1655,14 +1623,14 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                       direction="inherit"
                       dx="0"
                       dy="3.55"
-                      x="29"
+                      x="25"
                       y="19.61165048543689"
                     >
                       <tspan
                         dx="0"
-                        style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                        style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                         text-anchor="end"
-                        x="29"
+                        x="25"
                       >
                         30
                       </tspan>
@@ -1671,11 +1639,11 @@ exports[`<Utilization /> renders correctly with Provider 1`] = `
                 </g>
               </svg>
               <div
-                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+                style="z-index:99;position:absolute;top:0;left:0;width:100%;height:auto"
               >
                 <svg
                   height="60"
-                  style="overflow:visible;width:100%;height:100%"
+                  style="overflow:visible;width:100%;height:auto"
                   viewBox="0 0 300 60"
                   width="300"
                 />

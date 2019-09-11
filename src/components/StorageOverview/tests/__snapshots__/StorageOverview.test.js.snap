@@ -5,15 +5,7 @@ exports[`<StorageOverview /> shallow-renders correctly 1`] = `
   <DashboardBody
     className={null}
   >
-    <Grid
-      className=""
-      gutter={null}
-      lg={null}
-      md={null}
-      sm={null}
-      span={null}
-      xl={null}
-    >
+    <Grid>
       <MediaQuery
         key="main-medium"
         maxWidth={991.9}

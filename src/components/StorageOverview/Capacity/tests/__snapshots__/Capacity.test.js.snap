@@ -256,17 +256,17 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
           >
             <g>
               <path
-                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,25.653005755549977,84.17792641604876L23.41115576348232,76.49782863466105A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                d="M1.0812807831283575,-91.99364560592235A92,92,0,0,1,26.815485394538648,88.00528247244755L24.29340400777449,79.36517196929044A83,83,0,0,0,1.0812807831283446,-82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#06c;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path
-                d="M23.66049113813229,84.75954907325996A88,88,0,1,1,-1.0378342131579104,-87.99387990164998L-1.0378342131578906,-79.99326784265035A80,80,0,1,0,21.41864114606461,77.07945129187226Z"
+                d="M24.739558682351685,88.61125343996933A92,92,0,1,1,-1.0812807831282463,-91.99364560592235L-1.081280783128318,-82.99295651962302A83,83,0,1,0,22.217477295587553,79.97114293681221Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                style="fill:#8bc1f7;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
             </g>
@@ -279,7 +279,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:25px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -295,7 +295,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:15px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >

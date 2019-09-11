@@ -12,9 +12,11 @@ exports[`<Status /> renders correctly 1`] = `
 `;
 
 exports[`<StatusField> renders correctly 1`] = `
-<Tippy
+<PopoverBase
   animateFill={false}
   appendTo={[Function]}
+  arrow={true}
+  boundary="window"
   content={
     <GenerateId
       prefix="pf-random-id-"
@@ -24,12 +26,23 @@ exports[`<StatusField> renders correctly 1`] = `
   }
   distance={25}
   flip={true}
+  flipBehavior={
+    Array [
+      "top",
+      "right",
+      "bottom",
+      "left",
+      "top",
+      "right",
+      "bottom",
+    ]
+  }
   hideOnClick={true}
   interactive={true}
   interactiveBorder={0}
   isVisible={null}
   lazy={true}
-  maxWidth="calc(1.5rem + 18.75rem)"
+  maxWidth="calc(2rem + 18.75rem)"
   onCreate={[Function]}
   onHidden={[Function]}
   onHide={[Function]}
@@ -50,7 +63,7 @@ exports[`<StatusField> renders correctly 1`] = `
       },
     }
   }
-  theme="pf-tippy"
+  theme="pf-popover"
   trigger="click"
   zIndex={9999}
 >
@@ -73,7 +86,7 @@ exports[`<StatusField> renders correctly 1`] = `
       </Button>
     </Status>
   </span>
-</Tippy>
+</PopoverBase>
 `;
 
 exports[`<StatusField> renders correctly 2`] = `
@@ -151,6 +164,7 @@ exports[`<StatusField> renders correctly 6`] = `
   <Progress
     className="kubevirt-status__field-progress"
     id=""
+    label={null}
     max={100}
     measureLocation="top"
     min={0}
