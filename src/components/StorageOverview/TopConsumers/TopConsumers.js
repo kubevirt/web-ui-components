@@ -6,7 +6,8 @@ import { Row, Col } from 'patternfly-react';
 import {
   ChartGroup,
   ChartLine,
-  ChartTheme,
+  ChartThemeColor,
+  ChartThemeVariant,
   ChartTooltip,
   Chart,
   ChartAxis,
@@ -62,7 +63,8 @@ export const TopConsumersBody = ({ topConsumerStats, metricType, sortByOption })
           <div>
             <Chart
               domain={{ y: [0, 1.5 * maxCapacity] }}
-              theme={ChartTheme.light.multi}
+              themeColor={ChartThemeColor.multi}
+              themeVariant={ChartThemeVariant.light}
               height={175}
               padding={{ top: 20, bottom: 20, left: 40, right: 17 }}
               containerComponent={
@@ -89,7 +91,8 @@ export const TopConsumersBody = ({ topConsumerStats, metricType, sortByOption })
             gutter={10}
             height={30}
             padding={{ top: 5, bottom: 5, left: 20 }}
-            theme={ChartTheme.light.multi}
+            themeColor={ChartThemeColor.multi}
+            themeVariant={ChartThemeVariant.light}
             x={50}
             y={8}
           />

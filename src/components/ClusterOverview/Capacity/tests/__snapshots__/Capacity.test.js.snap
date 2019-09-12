@@ -159,17 +159,17 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
           >
             <g>
               <path
-                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,1.0378342131579386,87.99387990164998L1.0378342131579519,79.99326784265035A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                d="M1.0812807831283575,-91.99364560592235A92,92,0,0,1,1.0812807831283575,91.99364560592235L1.0812807831283446,82.99295651962302A83,83,0,0,0,1.0812807831283446,-82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#06c;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path
-                d="M-1.037834213157928,87.99387990164998A88,88,0,0,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,0,0,-1.0378342131579419,79.99326784265035Z"
+                d="M-1.0812807831283462,91.99364560592235A92,92,0,0,1,-1.081280783128328,-91.99364560592235L-1.0812807831283917,-82.99295651962302A83,83,0,0,0,-1.0812807831283344,82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                style="fill:#8bc1f7;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
             </g>
@@ -182,7 +182,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:25px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -198,7 +198,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:15px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -230,17 +230,17 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
           >
             <g>
               <path
-                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,16.888067747731125,-86.36430493987689L15.260176232599017,-78.53105768643397A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                d="M1.0812807831283575,-91.99364560592235A92,92,0,0,1,17.659365853688865,-90.28923965592782L15.827987793375726,-81.47683598675607A83,83,0,0,0,1.0812807831283446,-82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#06c;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path
-                d="M18.920315265745387,-85.94196687442522A88,88,0,1,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,1,0,17.292423750613303,-78.1087196209823Z"
+                d="M19.776688794028967,-89.84922136748948A92,92,0,1,1,-1.081280783128328,-91.99364560592235L-1.0812807831283917,-82.99295651962302A83,83,0,1,0,17.945310733715804,-81.03681769831775Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                style="fill:#8bc1f7;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
             </g>
@@ -253,7 +253,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:25px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -269,7 +269,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:15px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -301,17 +301,17 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
           >
             <g>
               <path
-                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,1.0378342131579386,87.99387990164998L1.0378342131579519,79.99326784265035A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                d="M1.0812807831283575,-91.99364560592235A92,92,0,0,1,1.0812807831283575,91.99364560592235L1.0812807831283446,82.99295651962302A83,83,0,0,0,1.0812807831283446,-82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#06c;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path
-                d="M-1.037834213157928,87.99387990164998A88,88,0,0,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,0,0,-1.0378342131579419,79.99326784265035Z"
+                d="M-1.0812807831283462,91.99364560592235A92,92,0,0,1,-1.081280783128328,-91.99364560592235L-1.0812807831283917,-82.99295651962302A83,83,0,0,0,-1.0812807831283344,82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                style="fill:#8bc1f7;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
             </g>
@@ -324,7 +324,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:25px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -340,7 +340,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:15px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -372,17 +372,17 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
           >
             <g>
               <path
-                d="M1.0378342131579386,-87.99387990164998A88,88,0,0,1,1.0378342131579386,87.99387990164998L1.0378342131579519,79.99326784265035A80,80,0,0,0,1.0378342131579519,-79.99326784265035Z"
+                d="M1.0812807831283575,-91.99364560592235A92,92,0,0,1,1.0812807831283575,91.99364560592235L1.0812807831283446,82.99295651962302A83,83,0,0,0,1.0812807831283446,-82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
                 style="fill:#06c;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
               <path
-                d="M-1.037834213157928,87.99387990164998A88,88,0,0,1,-1.0378342131579885,-87.99387990164998L-1.0378342131579616,-79.99326784265035A80,80,0,0,0,-1.0378342131579419,79.99326784265035Z"
+                d="M-1.0812807831283462,91.99364560592235A92,92,0,0,1,-1.081280783128328,-91.99364560592235L-1.0812807831283917,-82.99295651962302A83,83,0,0,0,-1.0812807831283344,82.99295651962302Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill:#bee1f4;padding:8px;stroke:transparent;stroke-width:1"
+                style="fill:#8bc1f7;padding:8px;stroke:transparent;stroke-width:1"
                 transform="translate(100, 100)"
               />
             </g>
@@ -395,7 +395,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:25px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:25px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >
@@ -411,7 +411,7 @@ exports[`<Capacity /> renders correctly with Provider 1`] = `
             >
               <tspan
                 dx="0"
-                style="font-size:15px;fill:#252525;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;stroke:transparent"
+                style="font-size:15px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);fill:#252525;stroke:transparent"
                 text-anchor="middle"
                 x="100"
               >

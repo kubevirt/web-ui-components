@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChartDonut, ChartTheme, ChartLabel, ChartTooltip } from '@patternfly/react-charts';
+import { ChartDonut, ChartThemeColor, ChartLabel, ChartThemeVariant, ChartTooltip } from '@patternfly/react-charts';
 import PropTypes from 'prop-types';
 
 import { InlineLoading } from '../../Loading';
@@ -64,7 +64,8 @@ export class CapacityItem extends React.PureComponent {
             <ChartDonut
               data={data}
               labels={datum => datum.label}
-              theme={ChartTheme.light.blue}
+              themeColor={ChartThemeColor.blue}
+              themeVariant={ChartThemeVariant.light}
               height={CHART_HEIGHT}
               width={CHART_WIDTH}
               standalone={false}

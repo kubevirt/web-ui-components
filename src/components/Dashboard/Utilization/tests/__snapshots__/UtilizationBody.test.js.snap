@@ -35,7 +35,7 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
             aria-labelledby="victory-container-1-title victory-container-1-desc"
             height="60"
             role="img"
-            style="pointer-events:all;width:100%;height:100%"
+            style="pointer-events:all;width:100%;height:auto"
             viewBox="0 0 300 60"
             width="300"
           >
@@ -58,20 +58,12 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
                   />
                 </clipPath>
               </defs>
-              <g>
-                <path
-                  d="M40,51.46116504854369L105,55L170,49.69174757281554L235,19.611650485436897L300,53.230582524271846L300,55L235,55L170,55L105,55L40,55Z"
-                  role="presentation"
-                  shape-rendering="auto"
-                  style="fill:#bee1f4;fill-opacity:0.4;stroke:none;stroke-width:2"
-                />
-                <path
-                  d="M40,51.46116504854369L105,55L170,49.69174757281554L235,19.611650485436897L300,53.230582524271846"
-                  role="presentation"
-                  shape-rendering="auto"
-                  style="fill:none;fill-opacity:0.4;stroke:#73bcf7;stroke-width:2"
-                />
-              </g>
+              <path
+                d="M40,51.46116504854369L105,55L170,49.69174757281554L235,19.611650485436897L300,53.230582524271846L300,55L235,55L170,55L105,55L40,55Z"
+                role="presentation"
+                shape-rendering="auto"
+                style="fill:#06c;fill-opacity:0.4;stroke:none;stroke-width:2"
+              />
             </g>
             <g
               role="presentation"
@@ -79,7 +71,7 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
               <line
                 role="presentation"
                 shape-rendering="auto"
-                style="stroke:#72767b;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
+                style="stroke:#d2d2d2;fill:transparent;stroke-width:1;stroke-linecap:round;stroke-linejoin:round"
                 vector-effect="non-scaling-stroke"
                 x1="40"
                 x2="40"
@@ -92,7 +84,7 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
                 <line
                   role="presentation"
                   shape-rendering="auto"
-                  style="stroke:none;fill:none;pointer-events:painted"
+                  style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                   vector-effect="non-scaling-stroke"
                   x1="40"
                   x2="300"
@@ -102,10 +94,10 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
                 <line
                   role="presentation"
                   shape-rendering="auto"
-                  style="stroke:transparent;fill:transparent;size:1px"
+                  style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                   vector-effect="non-scaling-stroke"
                   x1="40"
-                  x2="39"
+                  x2="35"
                   y1="55"
                   y2="55"
                 />
@@ -113,14 +105,14 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
                   direction="inherit"
                   dx="0"
                   dy="3.55"
-                  x="29"
+                  x="25"
                   y="55"
                 >
                   <tspan
                     dx="0"
-                    style="font-size:10px;font-family:'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif;letter-spacing:normal;padding:10px;fill:#151515;stroke:transparent"
+                    style="font-size:10px;font-family:var(--pf-chart-global--FontFamily);letter-spacing:var(--pf-chart-global--letter-spacing);padding:10px;stroke:transparent;fill:#4d5258"
                     text-anchor="end"
-                    x="29"
+                    x="25"
                   >
                     0
                   </tspan>
@@ -132,7 +124,7 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
                 <line
                   role="presentation"
                   shape-rendering="auto"
-                  style="stroke:none;fill:none;pointer-events:painted"
+                  style="stroke:none;fill:none;pointer-events:painted;stroke-linecap:round;stroke-linejoin:round"
                   vector-effect="non-scaling-stroke"
                   x1="40"
                   x2="300"
@@ -142,10 +134,10 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
                 <line
                   role="presentation"
                   shape-rendering="auto"
-                  style="stroke:transparent;fill:transparent;size:1px"
+                  style="stroke:none;fill:transparent;size:5px;stroke-linecap:round;stroke-linejoin:round;stroke-width:1"
                   vector-effect="non-scaling-stroke"
                   x1="40"
-                  x2="39"
+                  x2="35"
                   y1="55"
                   y2="55"
                 />
@@ -153,11 +145,11 @@ exports[`<UtilizationBody /> renders correctly 1`] = `
             </g>
           </svg>
           <div
-            style="z-index:99;position:absolute;top:0;left:0;width:100%;height:100%"
+            style="z-index:99;position:absolute;top:0;left:0;width:100%;height:auto"
           >
             <svg
               height="60"
-              style="overflow:visible;width:100%;height:100%"
+              style="overflow:visible;width:100%;height:auto"
               viewBox="0 0 300 60"
               width="300"
             />
