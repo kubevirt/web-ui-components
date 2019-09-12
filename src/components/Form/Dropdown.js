@@ -3,26 +3,46 @@ import { isObject } from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ButtonGroup, noop } from 'patternfly-react';
-import { Dropdown as PFDropdown, DropdownToggle, DropdownItem } from '@patternfly/react-core';
+import { Dropdown as PFDropdown, DropdownToggle, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { CaretDownIcon } from '@patternfly/react-icons';
 
-export const Dropdown = ({ id, value, disabled, onChange, choices, className, withTooltips, groupClassName }) => {
-  const title = isObject(value) ? value.name || value.id : value;
-
+export const Dropdown = ({
+  id,
+  value,
+  disabled,
+  onChange,
+  choices,
+  className,
+  withTooltips,
+  groupClassName,
+  isKebab,
+}) => {
   const [isOpen, setOpen] = React.useState(false);
-  const toggle = (
-    <DropdownToggle onToggle={() => setOpen(!isOpen)} iconComponent={CaretDownIcon} isDisabled={disabled}>
-      {title}
-    </DropdownToggle>
-  );
+
+  const onToggle = () => setOpen(!isOpen);
+  let toggle;
+  if (isKebab) {
+    toggle = <KebabToggle onToggle={onToggle} isDisabled={disabled} />;
+  } else {
+    const title = isObject(value) ? value.name || value.id : value;
+    toggle = (
+      <DropdownToggle onToggle={onToggle} iconComponent={CaretDownIcon} isDisabled={disabled}>
+        {title}
+      </DropdownToggle>
+    );
+  }
+
   const dropdownItems = choices.map(choice => {
     const key = isObject(choice) ? choice.id || choice.name : choice;
     const val = isObject(choice) ? choice.name : choice;
 
     const tooltip = withTooltips ? val : undefined;
-    const onClick = () => {
+    const onClick = event => {
       setOpen(false);
-      onChange(choice);
+      if (isObject(choice) && choice.onSelect) {
+        choice.onSelect(event);
+      }
+      onChange(choice); // single per dropdown, default noop
     };
 
     const content = (
@@ -34,14 +54,20 @@ export const Dropdown = ({ id, value, disabled, onChange, choices, className, wi
     return content;
   });
 
-  return (
+  const dropdown = (
+    <PFDropdown
+      toggle={toggle}
+      isOpen={isOpen}
+      dropdownItems={dropdownItems}
+      className={classNames('kubevirt-dropdown', className)}
+    />
+  );
+
+  return isKebab ? (
+    dropdown
+  ) : (
     <ButtonGroup justified key={id} className={groupClassName}>
-      <PFDropdown
-        toggle={toggle}
-        isOpen={isOpen}
-        dropdownItems={dropdownItems}
-        className={classNames('kubevirt-dropdown', className)}
-      />
+      {dropdown}
     </ButtonGroup>
   );
 };
@@ -53,6 +79,7 @@ Dropdown.defaultProps = {
   className: undefined,
   withTooltips: false,
   groupClassName: undefined,
+  isKebab: false,
 };
 
 Dropdown.propTypes = {
@@ -64,4 +91,5 @@ Dropdown.propTypes = {
   className: PropTypes.string,
   withTooltips: PropTypes.bool,
   groupClassName: PropTypes.string,
+  isKebab: PropTypes.bool,
 };

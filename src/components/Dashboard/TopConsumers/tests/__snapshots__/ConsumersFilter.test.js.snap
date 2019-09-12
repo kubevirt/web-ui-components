@@ -13,6 +13,7 @@ exports[`<ConsumersFilter /> renders correctly 1`] = `
     }
     disabled={false}
     id="id"
+    isKebab={false}
     onChange={[Function]}
     value="fooValue"
     withTooltips={false}

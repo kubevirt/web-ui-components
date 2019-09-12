@@ -1,5 +1,14 @@
+/* stylelint-disable */
 .kubevirt-editable-table__row-actions {
   padding: 3px;
+
+  .pf-c-dropdown__menu {
+    right: 0px; // ensure kebab items visibility as the kebab is rendered on the right-side of the outer box
+  }
+
+  .pf-c-dropdown__toggle::before {
+    border: 0px !important;
+  }
 }
 
 .kubevirt-editable-table__cell {

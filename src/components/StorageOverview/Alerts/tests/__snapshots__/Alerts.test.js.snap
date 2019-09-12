@@ -44,6 +44,7 @@ exports[`<Alerts /> renders Alerts correctly 1`] = `
             }
             disabled={false}
             id="alert-type"
+            isKebab={false}
             onChange={[Function]}
             value="All"
             withTooltips={false}
@@ -138,6 +139,7 @@ exports[`<Alerts /> renders Data Recovery correctly 1`] = `
             }
             disabled={false}
             id="alert-type"
+            isKebab={false}
             onChange={[Function]}
             value="All"
             withTooltips={false}
@@ -216,6 +218,7 @@ exports[`<Alerts /> renders Disk Inaccessible correctly 1`] = `
             }
             disabled={false}
             id="alert-type"
+            isKebab={false}
             onChange={[Function]}
             value="All"
             withTooltips={false}

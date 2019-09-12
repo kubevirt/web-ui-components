@@ -415,6 +415,7 @@ exports[`<FormFactory /> renders correctly 1`] = `
                 className=""
                 disabled={false}
                 id="dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="dropdownField"
                 withTooltips={false}

@@ -45,6 +45,7 @@ exports[`<TopConsumers /> renders Loading top consumers correctly 1`] = `
           }
           disabled={false}
           id="type-dropdown"
+          isKebab={false}
           onChange={[Function]}
           value={
             Object {
@@ -87,6 +88,7 @@ exports[`<TopConsumers /> renders Loading top consumers correctly 1`] = `
           }
           disabled={false}
           id="sort-by-dropdown"
+          isKebab={false}
           onChange={[Function]}
           value={
             Object {
@@ -153,6 +155,7 @@ exports[`<TopConsumers /> renders Not available top consumers correctly 1`] = `
           }
           disabled={false}
           id="type-dropdown"
+          isKebab={false}
           onChange={[Function]}
           value={
             Object {
@@ -195,6 +198,7 @@ exports[`<TopConsumers /> renders Not available top consumers correctly 1`] = `
           }
           disabled={false}
           id="sort-by-dropdown"
+          isKebab={false}
           onChange={[Function]}
           value={
             Object {
@@ -261,6 +265,7 @@ exports[`<TopConsumers /> renders Top Consumers correctly 1`] = `
           }
           disabled={false}
           id="type-dropdown"
+          isKebab={false}
           onChange={[Function]}
           value={
             Object {
@@ -303,6 +308,7 @@ exports[`<TopConsumers /> renders Top Consumers correctly 1`] = `
           }
           disabled={false}
           id="sort-by-dropdown"
+          isKebab={false}
           onChange={[Function]}
           value={
             Object {

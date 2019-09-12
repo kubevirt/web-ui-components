@@ -144,6 +144,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 }
                 disabled={false}
                 id="vcenter-instance-dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="--- Select vCenter Instance Secret ---"
                 withTooltips={false}
@@ -1342,6 +1343,7 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                 choices={Array []}
                 disabled={false}
                 id="vcenter-vm-dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="--- Select VM or Template ---"
                 withTooltips={false}
@@ -1705,6 +1707,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                 }
                 disabled={false}
                 id="vcenter-instance-dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="--- Select vCenter Instance Secret ---"
                 withTooltips={false}
@@ -2903,6 +2906,7 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                 choices={Array []}
                 disabled={false}
                 id="vcenter-vm-dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="--- Select VM or Template ---"
                 withTooltips={false}
@@ -3269,6 +3273,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                 }
                 disabled={false}
                 id="vcenter-instance-dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="--- Select vCenter Instance Secret ---"
                 withTooltips={false}
@@ -4467,6 +4472,7 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                 choices={Array []}
                 disabled={false}
                 id="vcenter-vm-dropdown"
+                isKebab={false}
                 onChange={[Function]}
                 value="--- Select VM or Template ---"
                 withTooltips={false}

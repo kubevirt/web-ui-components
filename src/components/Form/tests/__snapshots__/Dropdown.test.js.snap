@@ -17,6 +17,7 @@ exports[`<DropdownControl /> renders correctly with tooltips 1`] = `
   }
   disabled={false}
   id="1"
+  isKebab={false}
   onChange={[Function]}
   value="This is dropdown button with tooltips"
   withTooltips={true}
@@ -274,6 +275,7 @@ exports[`<DropdownControl /> renders correctly without tooltips 1`] = `
   }
   disabled={false}
   id="1"
+  isKebab={false}
   onChange={[Function]}
   value="This is dropdown button"
   withTooltips={false}

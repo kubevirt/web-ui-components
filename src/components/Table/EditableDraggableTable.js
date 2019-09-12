@@ -6,14 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import * as dnd from 'reactabular-dnd';
 import { get, findIndex, cloneDeep } from 'lodash';
 
-import {
-  TablePfProvider,
-  inlineEditFormatterFactory,
-  Table,
-  MenuItem,
-  DropdownKebab,
-  HelpBlock,
-} from 'patternfly-react';
+import { TablePfProvider, inlineEditFormatterFactory, Table, HelpBlock } from 'patternfly-react';
 
 import { getFormElement } from '../Form/FormFactory';
 import { prefixedId } from '../../utils/utils';
@@ -29,7 +22,7 @@ import {
   ACTIONS_TYPE,
   DELETE_ACTION,
 } from './constants';
-import { DROPDOWN } from '../Form';
+import { DROPDOWN, Dropdown } from '../Form';
 
 class EditableDraggableTable extends React.Component {
   state = {
@@ -157,11 +150,11 @@ class EditableDraggableTable extends React.Component {
   getActionButton = (action, additionalData, id) => {
     switch (action.actionType) {
       case DELETE_ACTION:
-        return (
-          <MenuItem id={id} key={id} onSelect={() => this.crudController.onDelete(additionalData)}>
-            {action.text}
-          </MenuItem>
-        );
+        return {
+          id,
+          name: action.text,
+          onSelect: () => this.crudController.onDelete(additionalData),
+        };
       default:
         return null;
     }
@@ -169,18 +162,18 @@ class EditableDraggableTable extends React.Component {
 
   getActionButtons = (additionalData, isEditing) => {
     const renderEditConfig = this.getRenderEditConfig(additionalData);
-    let result;
+    let result = null;
     if (renderEditConfig) {
       const id = prefixedId(renderEditConfig.id, additionalData.rowKey);
 
-      result =
-        isEditing && !renderEditConfig.visibleOnEdit ? null : (
-          <DropdownKebab className="kubevirt-editable-table__row-actions" id={id} key={id} pullRight>
-            {renderEditConfig.actions.map((action, idx) =>
-              this.getActionButton(action, additionalData, prefixedId(idx, id))
-            )}
-          </DropdownKebab>
+      if (!isEditing || renderEditConfig.visibleOnEdit) {
+        const choices = renderEditConfig.actions.map((action, idx) =>
+          this.getActionButton(action, additionalData, prefixedId(idx, id))
         );
+        result = (
+          <Dropdown isKebab className="kubevirt-editable-table__row-actions" id={id} key={id} choices={choices} />
+        );
+      }
     }
 
     return <td className="editable">{result}</td>;
