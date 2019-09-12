@@ -1,7 +1,6 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
-import { MenuItem } from 'patternfly-react';
 
 import { StorageTab } from '../StorageTab';
 import { units, storageClasses } from '../fixtures/CreateVmWizard.fixture';
@@ -15,6 +14,7 @@ import { STORAGE_TYPE_DATAVOLUME, STORAGE_TYPE_PVC, STORAGE_TYPE_CONTAINER } fro
 import { ERROR_POSITIVE_SIZE } from '../strings';
 import { EMPTY_ERROR } from '../../../../utils/strings';
 import { persistentVolumeClaims } from '../../../../tests/mocks/persistentVolumeClaim';
+import { openDropdown } from '../../../../tests/enzyme';
 
 const testStorageTab = (onChange, initialDisks, sourceType = PROVISION_SOURCE_URL) => (
   <StorageTab
@@ -288,16 +288,28 @@ describe('<StorageTab />', () => {
 
     const dropdown = component.find('#bootable-disk-dropdown');
 
-    expect(dropdown.find(MenuItem).find('a')).toHaveLength(2);
+    const dropdownItems = openDropdown(dropdown).find('.pf-c-dropdown__menu-item');
+    expect(dropdownItems).toHaveLength(2);
     expect(component.state().rows[0].isBootable).toBeTruthy();
     expect(component.state().rows[1].isBootable).toBeFalsy();
 
+    // dropdown stays open
+    component
+      .find('#bootable-disk-dropdown')
+      .find('.pf-c-dropdown__menu-item')
+      .findWhere(item => item.text() === rows[1].templateStorage.disk.name)
+      .find('a')
+      .simulate('click');
+    component.update();
+
+    /*
     dropdown
       .find(MenuItem)
       .findWhere(item => item.text() === rows[1].templateStorage.disk.name)
       .find('a')
       .simulate('click');
     component.update();
+    */
     expect(component.state().rows[0].isBootable).toBeFalsy();
     expect(component.state().rows[1].isBootable).toBeTruthy();
   });

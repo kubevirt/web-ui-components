@@ -158,155 +158,204 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                   <div
                     className="btn-group btn-group-justified"
                   >
-                    <DropdownButton
-                      bsStyle="default"
+                    <Dropdown
                       className="kubevirt-dropdown"
-                      disabled={false}
-                      id="vcenter-instance-dropdown"
-                      onSelect={[Function]}
-                      title="--- Select vCenter Instance Secret ---"
-                    >
-                      <DropdownButton
-                        bsStyle="default"
-                        className="kubevirt-dropdown"
-                        disabled={false}
-                        id="vcenter-instance-dropdown"
-                        onSelect={[Function]}
-                        title="--- Select vCenter Instance Secret ---"
-                      >
-                        <Uncontrolled(Dropdown)
-                          bsStyle="default"
-                          disabled={false}
-                          id="vcenter-instance-dropdown"
-                          onSelect={[Function]}
+                      dropdownItems={
+                        Array [
+                          <DropdownItem
+                            onClick={[Function]}
+                          >
+                            Connect to New Instance
+                          </DropdownItem>,
+                        ]
+                      }
+                      isOpen={false}
+                      toggle={
+                        <DropdownToggle
+                          iconComponent={[Function]}
+                          isDisabled={false}
+                          onToggle={[Function]}
                         >
-                          <Dropdown
-                            bsClass="dropdown"
-                            bsStyle="default"
-                            componentClass={[Function]}
-                            disabled={false}
-                            id="vcenter-instance-dropdown"
-                            onSelect={[Function]}
+                          --- Select vCenter Instance Secret ---
+                        </DropdownToggle>
+                      }
+                    >
+                      <DropdownWithContext
+                        className="kubevirt-dropdown"
+                        direction="down"
+                        dropdownItems={
+                          Array [
+                            <DropdownItem
+                              onClick={[Function]}
+                            >
+                              Connect to New Instance
+                            </DropdownItem>,
+                          ]
+                        }
+                        isGrouped={false}
+                        isOpen={false}
+                        isPlain={false}
+                        onSelect={[Function]}
+                        position="left"
+                        toggle={
+                          <DropdownToggle
+                            iconComponent={[Function]}
+                            isDisabled={false}
                             onToggle={[Function]}
                           >
-                            <ButtonGroup
-                              block={false}
-                              bsClass="btn-group"
-                              bsStyle="default"
-                              className="dropdown"
-                              justified={false}
-                              vertical={false}
-                            >
-                              <div
-                                className="dropdown btn-group btn-group-default"
-                              >
-                                <DropdownToggle
-                                  bsClass="dropdown-toggle"
-                                  bsRole="toggle"
-                                  bsStyle="default"
-                                  className="kubevirt-dropdown"
-                                  disabled={false}
-                                  id="vcenter-instance-dropdown"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  open={false}
-                                  useAnchor={false}
+                            --- Select vCenter Instance Secret ---
+                          </DropdownToggle>
+                        }
+                      >
+                        <div
+                          className="pf-c-dropdown kubevirt-dropdown"
+                        >
+                          <DropdownToggle
+                            ariaHasPopup={true}
+                            iconComponent={[Function]}
+                            id="pf-toggle-id-0"
+                            isDisabled={false}
+                            isOpen={false}
+                            isPlain={false}
+                            key=".0"
+                            onEnter={[Function]}
+                            onToggle={[Function]}
+                            parentRef={
+                              Object {
+                                "current": <div
+                                  class="pf-c-dropdown kubevirt-dropdown"
                                 >
-                                  <Button
-                                    active={false}
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    block={false}
-                                    bsClass="btn"
-                                    bsStyle="default"
-                                    className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
-                                    id="vcenter-instance-dropdown"
-                                    onClick={[Function]}
-                                    onKeyDown={[Function]}
-                                    role="button"
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
+                                    class="pf-c-dropdown__toggle"
+                                    id="pf-toggle-id-0"
+                                    type="button"
                                   >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
-                                      id="vcenter-instance-dropdown"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      role="button"
-                                      type="button"
+                                    <span
+                                      class="pf-c-dropdown__toggle-text"
                                     >
                                       --- Select vCenter Instance Secret ---
-                                       
-                                      <span
-                                        className="caret"
-                                      />
-                                    </button>
-                                  </Button>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  bsClass="dropdown-menu"
-                                  bsRole="menu"
-                                  key=".1"
-                                  labelledBy="vcenter-instance-dropdown"
-                                  onClose={[Function]}
-                                  onSelect={[Function]}
-                                  pullRight={false}
-                                >
-                                  <RootCloseWrapper
-                                    disabled={true}
-                                    event="click"
-                                    onRootClose={[Function]}
-                                  >
-                                    <ul
-                                      aria-labelledby="vcenter-instance-dropdown"
-                                      className="dropdown-menu"
-                                      role="menu"
+                                    </span>
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-c-dropdown__toggle-icon"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 320 512"
+                                      width="1em"
                                     >
-                                      <MenuItem
-                                        bsClass="dropdown"
-                                        disabled={false}
-                                        divider={false}
-                                        eventKey="Connect to New Instance"
-                                        header={false}
-                                        key=".$Connect to New Instance"
-                                        onKeyDown={[Function]}
-                                        onSelect={[Function]}
+                                      <path
+                                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                        transform=""
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>,
+                              }
+                            }
+                          >
+                            <Toggle
+                              ariaHasPopup={true}
+                              className=""
+                              id="pf-toggle-id-0"
+                              isActive={false}
+                              isDisabled={false}
+                              isFocused={false}
+                              isHovered={false}
+                              isOpen={false}
+                              isPlain={false}
+                              isSplitButton={false}
+                              onEnter={[Function]}
+                              onToggle={[Function]}
+                              parentRef={
+                                Object {
+                                  "current": <div
+                                    class="pf-c-dropdown kubevirt-dropdown"
+                                  >
+                                    <button
+                                      aria-expanded="false"
+                                      aria-haspopup="true"
+                                      class="pf-c-dropdown__toggle"
+                                      id="pf-toggle-id-0"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="pf-c-dropdown__toggle-text"
                                       >
-                                        <li
-                                          className=""
-                                          role="presentation"
-                                        >
-                                          <SafeAnchor
-                                            componentClass="a"
-                                            onClick={[Function]}
-                                            onKeyDown={[Function]}
-                                            role="menuitem"
-                                            tabIndex="-1"
-                                          >
-                                            <a
-                                              href="#"
-                                              onClick={[Function]}
-                                              onKeyDown={[Function]}
-                                              role="menuitem"
-                                              tabIndex="-1"
-                                            >
-                                              Connect to New Instance
-                                            </a>
-                                          </SafeAnchor>
-                                        </li>
-                                      </MenuItem>
-                                    </ul>
-                                  </RootCloseWrapper>
-                                </DropdownMenu>
-                              </div>
-                            </ButtonGroup>
-                          </Dropdown>
-                        </Uncontrolled(Dropdown)>
-                      </DropdownButton>
-                    </DropdownButton>
+                                        --- Select vCenter Instance Secret ---
+                                      </span>
+                                      <svg
+                                        aria-hidden="true"
+                                        class="pf-c-dropdown__toggle-icon"
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style="vertical-align: -0.125em;"
+                                        viewBox="0 0 320 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                          transform=""
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>,
+                                }
+                              }
+                            >
+                              <button
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                className="pf-c-dropdown__toggle"
+                                disabled={false}
+                                id="pf-toggle-id-0"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="pf-c-dropdown__toggle-text"
+                                >
+                                  --- Select vCenter Instance Secret ---
+                                </span>
+                                <CaretDownIcon
+                                  className="pf-c-dropdown__toggle-icon"
+                                  color="currentColor"
+                                  noVerticalAlign={false}
+                                  size="sm"
+                                  title={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-labelledby={null}
+                                    className="pf-c-dropdown__toggle-icon"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style={
+                                      Object {
+                                        "verticalAlign": "-0.125em",
+                                      }
+                                    }
+                                    viewBox="0 0 320 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                      transform=""
+                                    />
+                                  </svg>
+                                </CaretDownIcon>
+                              </button>
+                            </Toggle>
+                          </DropdownToggle>
+                        </div>
+                      </DropdownWithContext>
+                    </Dropdown>
                   </div>
                 </ButtonGroup>
               </Dropdown>
@@ -1307,121 +1356,188 @@ exports[`<VMWareImportProvider /> renders correctly 1`] = `
                   <div
                     className="btn-group btn-group-justified"
                   >
-                    <DropdownButton
-                      bsStyle="default"
+                    <Dropdown
                       className="kubevirt-dropdown"
-                      disabled={false}
-                      id="vcenter-vm-dropdown"
-                      onSelect={[Function]}
-                      title="--- Select VM or Template ---"
-                    >
-                      <DropdownButton
-                        bsStyle="default"
-                        className="kubevirt-dropdown"
-                        disabled={false}
-                        id="vcenter-vm-dropdown"
-                        onSelect={[Function]}
-                        title="--- Select VM or Template ---"
-                      >
-                        <Uncontrolled(Dropdown)
-                          bsStyle="default"
-                          disabled={false}
-                          id="vcenter-vm-dropdown"
-                          onSelect={[Function]}
+                      dropdownItems={Array []}
+                      isOpen={false}
+                      toggle={
+                        <DropdownToggle
+                          iconComponent={[Function]}
+                          isDisabled={false}
+                          onToggle={[Function]}
                         >
-                          <Dropdown
-                            bsClass="dropdown"
-                            bsStyle="default"
-                            componentClass={[Function]}
-                            disabled={false}
-                            id="vcenter-vm-dropdown"
-                            onSelect={[Function]}
+                          --- Select VM or Template ---
+                        </DropdownToggle>
+                      }
+                    >
+                      <DropdownWithContext
+                        className="kubevirt-dropdown"
+                        direction="down"
+                        dropdownItems={Array []}
+                        isGrouped={false}
+                        isOpen={false}
+                        isPlain={false}
+                        onSelect={[Function]}
+                        position="left"
+                        toggle={
+                          <DropdownToggle
+                            iconComponent={[Function]}
+                            isDisabled={false}
                             onToggle={[Function]}
                           >
-                            <ButtonGroup
-                              block={false}
-                              bsClass="btn-group"
-                              bsStyle="default"
-                              className="dropdown"
-                              justified={false}
-                              vertical={false}
-                            >
-                              <div
-                                className="dropdown btn-group btn-group-default"
-                              >
-                                <DropdownToggle
-                                  bsClass="dropdown-toggle"
-                                  bsRole="toggle"
-                                  bsStyle="default"
-                                  className="kubevirt-dropdown"
-                                  disabled={false}
-                                  id="vcenter-vm-dropdown"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  open={false}
-                                  useAnchor={false}
+                            --- Select VM or Template ---
+                          </DropdownToggle>
+                        }
+                      >
+                        <div
+                          className="pf-c-dropdown kubevirt-dropdown"
+                        >
+                          <DropdownToggle
+                            ariaHasPopup={false}
+                            iconComponent={[Function]}
+                            id="pf-toggle-id-1"
+                            isDisabled={false}
+                            isOpen={false}
+                            isPlain={false}
+                            key=".0"
+                            onEnter={[Function]}
+                            onToggle={[Function]}
+                            parentRef={
+                              Object {
+                                "current": <div
+                                  class="pf-c-dropdown kubevirt-dropdown"
                                 >
-                                  <Button
-                                    active={false}
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    block={false}
-                                    bsClass="btn"
-                                    bsStyle="default"
-                                    className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
-                                    id="vcenter-vm-dropdown"
-                                    onClick={[Function]}
-                                    onKeyDown={[Function]}
-                                    role="button"
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="false"
+                                    class="pf-c-dropdown__toggle"
+                                    id="pf-toggle-id-1"
+                                    type="button"
                                   >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
-                                      id="vcenter-vm-dropdown"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      role="button"
-                                      type="button"
+                                    <span
+                                      class="pf-c-dropdown__toggle-text"
                                     >
                                       --- Select VM or Template ---
-                                       
-                                      <span
-                                        className="caret"
+                                    </span>
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-c-dropdown__toggle-icon"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 320 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                        transform=""
                                       />
-                                    </button>
-                                  </Button>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  bsClass="dropdown-menu"
-                                  bsRole="menu"
-                                  key=".1"
-                                  labelledBy="vcenter-vm-dropdown"
-                                  onClose={[Function]}
-                                  onSelect={[Function]}
-                                  pullRight={false}
-                                >
-                                  <RootCloseWrapper
-                                    disabled={true}
-                                    event="click"
-                                    onRootClose={[Function]}
+                                    </svg>
+                                  </button>
+                                </div>,
+                              }
+                            }
+                          >
+                            <Toggle
+                              ariaHasPopup={false}
+                              className=""
+                              id="pf-toggle-id-1"
+                              isActive={false}
+                              isDisabled={false}
+                              isFocused={false}
+                              isHovered={false}
+                              isOpen={false}
+                              isPlain={false}
+                              isSplitButton={false}
+                              onEnter={[Function]}
+                              onToggle={[Function]}
+                              parentRef={
+                                Object {
+                                  "current": <div
+                                    class="pf-c-dropdown kubevirt-dropdown"
                                   >
-                                    <ul
-                                      aria-labelledby="vcenter-vm-dropdown"
-                                      className="dropdown-menu"
-                                      role="menu"
+                                    <button
+                                      aria-expanded="false"
+                                      aria-haspopup="false"
+                                      class="pf-c-dropdown__toggle"
+                                      id="pf-toggle-id-1"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="pf-c-dropdown__toggle-text"
+                                      >
+                                        --- Select VM or Template ---
+                                      </span>
+                                      <svg
+                                        aria-hidden="true"
+                                        class="pf-c-dropdown__toggle-icon"
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style="vertical-align: -0.125em;"
+                                        viewBox="0 0 320 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                          transform=""
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>,
+                                }
+                              }
+                            >
+                              <button
+                                aria-expanded={false}
+                                aria-haspopup={false}
+                                className="pf-c-dropdown__toggle"
+                                disabled={false}
+                                id="pf-toggle-id-1"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="pf-c-dropdown__toggle-text"
+                                >
+                                  --- Select VM or Template ---
+                                </span>
+                                <CaretDownIcon
+                                  className="pf-c-dropdown__toggle-icon"
+                                  color="currentColor"
+                                  noVerticalAlign={false}
+                                  size="sm"
+                                  title={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-labelledby={null}
+                                    className="pf-c-dropdown__toggle-icon"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style={
+                                      Object {
+                                        "verticalAlign": "-0.125em",
+                                      }
+                                    }
+                                    viewBox="0 0 320 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                      transform=""
                                     />
-                                  </RootCloseWrapper>
-                                </DropdownMenu>
-                              </div>
-                            </ButtonGroup>
-                          </Dropdown>
-                        </Uncontrolled(Dropdown)>
-                      </DropdownButton>
-                    </DropdownButton>
+                                  </svg>
+                                </CaretDownIcon>
+                              </button>
+                            </Toggle>
+                          </DropdownToggle>
+                        </div>
+                      </DropdownWithContext>
+                    </Dropdown>
                   </div>
                 </ButtonGroup>
               </Dropdown>
@@ -1603,155 +1719,204 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                   <div
                     className="btn-group btn-group-justified"
                   >
-                    <DropdownButton
-                      bsStyle="default"
+                    <Dropdown
                       className="kubevirt-dropdown"
-                      disabled={false}
-                      id="vcenter-instance-dropdown"
-                      onSelect={[Function]}
-                      title="--- Select vCenter Instance Secret ---"
-                    >
-                      <DropdownButton
-                        bsStyle="default"
-                        className="kubevirt-dropdown"
-                        disabled={false}
-                        id="vcenter-instance-dropdown"
-                        onSelect={[Function]}
-                        title="--- Select vCenter Instance Secret ---"
-                      >
-                        <Uncontrolled(Dropdown)
-                          bsStyle="default"
-                          disabled={false}
-                          id="vcenter-instance-dropdown"
-                          onSelect={[Function]}
+                      dropdownItems={
+                        Array [
+                          <DropdownItem
+                            onClick={[Function]}
+                          >
+                            Connect to New Instance
+                          </DropdownItem>,
+                        ]
+                      }
+                      isOpen={false}
+                      toggle={
+                        <DropdownToggle
+                          iconComponent={[Function]}
+                          isDisabled={false}
+                          onToggle={[Function]}
                         >
-                          <Dropdown
-                            bsClass="dropdown"
-                            bsStyle="default"
-                            componentClass={[Function]}
-                            disabled={false}
-                            id="vcenter-instance-dropdown"
-                            onSelect={[Function]}
+                          --- Select vCenter Instance Secret ---
+                        </DropdownToggle>
+                      }
+                    >
+                      <DropdownWithContext
+                        className="kubevirt-dropdown"
+                        direction="down"
+                        dropdownItems={
+                          Array [
+                            <DropdownItem
+                              onClick={[Function]}
+                            >
+                              Connect to New Instance
+                            </DropdownItem>,
+                          ]
+                        }
+                        isGrouped={false}
+                        isOpen={false}
+                        isPlain={false}
+                        onSelect={[Function]}
+                        position="left"
+                        toggle={
+                          <DropdownToggle
+                            iconComponent={[Function]}
+                            isDisabled={false}
                             onToggle={[Function]}
                           >
-                            <ButtonGroup
-                              block={false}
-                              bsClass="btn-group"
-                              bsStyle="default"
-                              className="dropdown"
-                              justified={false}
-                              vertical={false}
-                            >
-                              <div
-                                className="dropdown btn-group btn-group-default"
-                              >
-                                <DropdownToggle
-                                  bsClass="dropdown-toggle"
-                                  bsRole="toggle"
-                                  bsStyle="default"
-                                  className="kubevirt-dropdown"
-                                  disabled={false}
-                                  id="vcenter-instance-dropdown"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  open={false}
-                                  useAnchor={false}
+                            --- Select vCenter Instance Secret ---
+                          </DropdownToggle>
+                        }
+                      >
+                        <div
+                          className="pf-c-dropdown kubevirt-dropdown"
+                        >
+                          <DropdownToggle
+                            ariaHasPopup={true}
+                            iconComponent={[Function]}
+                            id="pf-toggle-id-2"
+                            isDisabled={false}
+                            isOpen={false}
+                            isPlain={false}
+                            key=".0"
+                            onEnter={[Function]}
+                            onToggle={[Function]}
+                            parentRef={
+                              Object {
+                                "current": <div
+                                  class="pf-c-dropdown kubevirt-dropdown"
                                 >
-                                  <Button
-                                    active={false}
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    block={false}
-                                    bsClass="btn"
-                                    bsStyle="default"
-                                    className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
-                                    id="vcenter-instance-dropdown"
-                                    onClick={[Function]}
-                                    onKeyDown={[Function]}
-                                    role="button"
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
+                                    class="pf-c-dropdown__toggle"
+                                    id="pf-toggle-id-2"
+                                    type="button"
                                   >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
-                                      id="vcenter-instance-dropdown"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      role="button"
-                                      type="button"
+                                    <span
+                                      class="pf-c-dropdown__toggle-text"
                                     >
                                       --- Select vCenter Instance Secret ---
-                                       
-                                      <span
-                                        className="caret"
-                                      />
-                                    </button>
-                                  </Button>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  bsClass="dropdown-menu"
-                                  bsRole="menu"
-                                  key=".1"
-                                  labelledBy="vcenter-instance-dropdown"
-                                  onClose={[Function]}
-                                  onSelect={[Function]}
-                                  pullRight={false}
-                                >
-                                  <RootCloseWrapper
-                                    disabled={true}
-                                    event="click"
-                                    onRootClose={[Function]}
-                                  >
-                                    <ul
-                                      aria-labelledby="vcenter-instance-dropdown"
-                                      className="dropdown-menu"
-                                      role="menu"
+                                    </span>
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-c-dropdown__toggle-icon"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 320 512"
+                                      width="1em"
                                     >
-                                      <MenuItem
-                                        bsClass="dropdown"
-                                        disabled={false}
-                                        divider={false}
-                                        eventKey="Connect to New Instance"
-                                        header={false}
-                                        key=".$Connect to New Instance"
-                                        onKeyDown={[Function]}
-                                        onSelect={[Function]}
+                                      <path
+                                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                        transform=""
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>,
+                              }
+                            }
+                          >
+                            <Toggle
+                              ariaHasPopup={true}
+                              className=""
+                              id="pf-toggle-id-2"
+                              isActive={false}
+                              isDisabled={false}
+                              isFocused={false}
+                              isHovered={false}
+                              isOpen={false}
+                              isPlain={false}
+                              isSplitButton={false}
+                              onEnter={[Function]}
+                              onToggle={[Function]}
+                              parentRef={
+                                Object {
+                                  "current": <div
+                                    class="pf-c-dropdown kubevirt-dropdown"
+                                  >
+                                    <button
+                                      aria-expanded="false"
+                                      aria-haspopup="true"
+                                      class="pf-c-dropdown__toggle"
+                                      id="pf-toggle-id-2"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="pf-c-dropdown__toggle-text"
                                       >
-                                        <li
-                                          className=""
-                                          role="presentation"
-                                        >
-                                          <SafeAnchor
-                                            componentClass="a"
-                                            onClick={[Function]}
-                                            onKeyDown={[Function]}
-                                            role="menuitem"
-                                            tabIndex="-1"
-                                          >
-                                            <a
-                                              href="#"
-                                              onClick={[Function]}
-                                              onKeyDown={[Function]}
-                                              role="menuitem"
-                                              tabIndex="-1"
-                                            >
-                                              Connect to New Instance
-                                            </a>
-                                          </SafeAnchor>
-                                        </li>
-                                      </MenuItem>
-                                    </ul>
-                                  </RootCloseWrapper>
-                                </DropdownMenu>
-                              </div>
-                            </ButtonGroup>
-                          </Dropdown>
-                        </Uncontrolled(Dropdown)>
-                      </DropdownButton>
-                    </DropdownButton>
+                                        --- Select vCenter Instance Secret ---
+                                      </span>
+                                      <svg
+                                        aria-hidden="true"
+                                        class="pf-c-dropdown__toggle-icon"
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style="vertical-align: -0.125em;"
+                                        viewBox="0 0 320 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                          transform=""
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>,
+                                }
+                              }
+                            >
+                              <button
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                className="pf-c-dropdown__toggle"
+                                disabled={false}
+                                id="pf-toggle-id-2"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="pf-c-dropdown__toggle-text"
+                                >
+                                  --- Select vCenter Instance Secret ---
+                                </span>
+                                <CaretDownIcon
+                                  className="pf-c-dropdown__toggle-icon"
+                                  color="currentColor"
+                                  noVerticalAlign={false}
+                                  size="sm"
+                                  title={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-labelledby={null}
+                                    className="pf-c-dropdown__toggle-icon"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style={
+                                      Object {
+                                        "verticalAlign": "-0.125em",
+                                      }
+                                    }
+                                    viewBox="0 0 320 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                      transform=""
+                                    />
+                                  </svg>
+                                </CaretDownIcon>
+                              </button>
+                            </Toggle>
+                          </DropdownToggle>
+                        </div>
+                      </DropdownWithContext>
+                    </Dropdown>
                   </div>
                 </ButtonGroup>
               </Dropdown>
@@ -2752,121 +2917,188 @@ exports[`<VMWareImportProvider /> renders correctly when connection is successfu
                   <div
                     className="btn-group btn-group-justified"
                   >
-                    <DropdownButton
-                      bsStyle="default"
+                    <Dropdown
                       className="kubevirt-dropdown"
-                      disabled={false}
-                      id="vcenter-vm-dropdown"
-                      onSelect={[Function]}
-                      title="--- Select VM or Template ---"
-                    >
-                      <DropdownButton
-                        bsStyle="default"
-                        className="kubevirt-dropdown"
-                        disabled={false}
-                        id="vcenter-vm-dropdown"
-                        onSelect={[Function]}
-                        title="--- Select VM or Template ---"
-                      >
-                        <Uncontrolled(Dropdown)
-                          bsStyle="default"
-                          disabled={false}
-                          id="vcenter-vm-dropdown"
-                          onSelect={[Function]}
+                      dropdownItems={Array []}
+                      isOpen={false}
+                      toggle={
+                        <DropdownToggle
+                          iconComponent={[Function]}
+                          isDisabled={false}
+                          onToggle={[Function]}
                         >
-                          <Dropdown
-                            bsClass="dropdown"
-                            bsStyle="default"
-                            componentClass={[Function]}
-                            disabled={false}
-                            id="vcenter-vm-dropdown"
-                            onSelect={[Function]}
+                          --- Select VM or Template ---
+                        </DropdownToggle>
+                      }
+                    >
+                      <DropdownWithContext
+                        className="kubevirt-dropdown"
+                        direction="down"
+                        dropdownItems={Array []}
+                        isGrouped={false}
+                        isOpen={false}
+                        isPlain={false}
+                        onSelect={[Function]}
+                        position="left"
+                        toggle={
+                          <DropdownToggle
+                            iconComponent={[Function]}
+                            isDisabled={false}
                             onToggle={[Function]}
                           >
-                            <ButtonGroup
-                              block={false}
-                              bsClass="btn-group"
-                              bsStyle="default"
-                              className="dropdown"
-                              justified={false}
-                              vertical={false}
-                            >
-                              <div
-                                className="dropdown btn-group btn-group-default"
-                              >
-                                <DropdownToggle
-                                  bsClass="dropdown-toggle"
-                                  bsRole="toggle"
-                                  bsStyle="default"
-                                  className="kubevirt-dropdown"
-                                  disabled={false}
-                                  id="vcenter-vm-dropdown"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  open={false}
-                                  useAnchor={false}
+                            --- Select VM or Template ---
+                          </DropdownToggle>
+                        }
+                      >
+                        <div
+                          className="pf-c-dropdown kubevirt-dropdown"
+                        >
+                          <DropdownToggle
+                            ariaHasPopup={false}
+                            iconComponent={[Function]}
+                            id="pf-toggle-id-3"
+                            isDisabled={false}
+                            isOpen={false}
+                            isPlain={false}
+                            key=".0"
+                            onEnter={[Function]}
+                            onToggle={[Function]}
+                            parentRef={
+                              Object {
+                                "current": <div
+                                  class="pf-c-dropdown kubevirt-dropdown"
                                 >
-                                  <Button
-                                    active={false}
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    block={false}
-                                    bsClass="btn"
-                                    bsStyle="default"
-                                    className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
-                                    id="vcenter-vm-dropdown"
-                                    onClick={[Function]}
-                                    onKeyDown={[Function]}
-                                    role="button"
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="false"
+                                    class="pf-c-dropdown__toggle"
+                                    id="pf-toggle-id-3"
+                                    type="button"
                                   >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
-                                      id="vcenter-vm-dropdown"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      role="button"
-                                      type="button"
+                                    <span
+                                      class="pf-c-dropdown__toggle-text"
                                     >
                                       --- Select VM or Template ---
-                                       
-                                      <span
-                                        className="caret"
+                                    </span>
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-c-dropdown__toggle-icon"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 320 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                        transform=""
                                       />
-                                    </button>
-                                  </Button>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  bsClass="dropdown-menu"
-                                  bsRole="menu"
-                                  key=".1"
-                                  labelledBy="vcenter-vm-dropdown"
-                                  onClose={[Function]}
-                                  onSelect={[Function]}
-                                  pullRight={false}
-                                >
-                                  <RootCloseWrapper
-                                    disabled={true}
-                                    event="click"
-                                    onRootClose={[Function]}
+                                    </svg>
+                                  </button>
+                                </div>,
+                              }
+                            }
+                          >
+                            <Toggle
+                              ariaHasPopup={false}
+                              className=""
+                              id="pf-toggle-id-3"
+                              isActive={false}
+                              isDisabled={false}
+                              isFocused={false}
+                              isHovered={false}
+                              isOpen={false}
+                              isPlain={false}
+                              isSplitButton={false}
+                              onEnter={[Function]}
+                              onToggle={[Function]}
+                              parentRef={
+                                Object {
+                                  "current": <div
+                                    class="pf-c-dropdown kubevirt-dropdown"
                                   >
-                                    <ul
-                                      aria-labelledby="vcenter-vm-dropdown"
-                                      className="dropdown-menu"
-                                      role="menu"
+                                    <button
+                                      aria-expanded="false"
+                                      aria-haspopup="false"
+                                      class="pf-c-dropdown__toggle"
+                                      id="pf-toggle-id-3"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="pf-c-dropdown__toggle-text"
+                                      >
+                                        --- Select VM or Template ---
+                                      </span>
+                                      <svg
+                                        aria-hidden="true"
+                                        class="pf-c-dropdown__toggle-icon"
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style="vertical-align: -0.125em;"
+                                        viewBox="0 0 320 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                          transform=""
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>,
+                                }
+                              }
+                            >
+                              <button
+                                aria-expanded={false}
+                                aria-haspopup={false}
+                                className="pf-c-dropdown__toggle"
+                                disabled={false}
+                                id="pf-toggle-id-3"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="pf-c-dropdown__toggle-text"
+                                >
+                                  --- Select VM or Template ---
+                                </span>
+                                <CaretDownIcon
+                                  className="pf-c-dropdown__toggle-icon"
+                                  color="currentColor"
+                                  noVerticalAlign={false}
+                                  size="sm"
+                                  title={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-labelledby={null}
+                                    className="pf-c-dropdown__toggle-icon"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style={
+                                      Object {
+                                        "verticalAlign": "-0.125em",
+                                      }
+                                    }
+                                    viewBox="0 0 320 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                      transform=""
                                     />
-                                  </RootCloseWrapper>
-                                </DropdownMenu>
-                              </div>
-                            </ButtonGroup>
-                          </Dropdown>
-                        </Uncontrolled(Dropdown)>
-                      </DropdownButton>
-                    </DropdownButton>
+                                  </svg>
+                                </CaretDownIcon>
+                              </button>
+                            </Toggle>
+                          </DropdownToggle>
+                        </div>
+                      </DropdownWithContext>
+                    </Dropdown>
                   </div>
                 </ButtonGroup>
               </Dropdown>
@@ -3051,155 +3283,204 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                   <div
                     className="btn-group btn-group-justified"
                   >
-                    <DropdownButton
-                      bsStyle="default"
+                    <Dropdown
                       className="kubevirt-dropdown"
-                      disabled={false}
-                      id="vcenter-instance-dropdown"
-                      onSelect={[Function]}
-                      title="--- Select vCenter Instance Secret ---"
-                    >
-                      <DropdownButton
-                        bsStyle="default"
-                        className="kubevirt-dropdown"
-                        disabled={false}
-                        id="vcenter-instance-dropdown"
-                        onSelect={[Function]}
-                        title="--- Select vCenter Instance Secret ---"
-                      >
-                        <Uncontrolled(Dropdown)
-                          bsStyle="default"
-                          disabled={false}
-                          id="vcenter-instance-dropdown"
-                          onSelect={[Function]}
+                      dropdownItems={
+                        Array [
+                          <DropdownItem
+                            onClick={[Function]}
+                          >
+                            Connect to New Instance
+                          </DropdownItem>,
+                        ]
+                      }
+                      isOpen={false}
+                      toggle={
+                        <DropdownToggle
+                          iconComponent={[Function]}
+                          isDisabled={false}
+                          onToggle={[Function]}
                         >
-                          <Dropdown
-                            bsClass="dropdown"
-                            bsStyle="default"
-                            componentClass={[Function]}
-                            disabled={false}
-                            id="vcenter-instance-dropdown"
-                            onSelect={[Function]}
+                          --- Select vCenter Instance Secret ---
+                        </DropdownToggle>
+                      }
+                    >
+                      <DropdownWithContext
+                        className="kubevirt-dropdown"
+                        direction="down"
+                        dropdownItems={
+                          Array [
+                            <DropdownItem
+                              onClick={[Function]}
+                            >
+                              Connect to New Instance
+                            </DropdownItem>,
+                          ]
+                        }
+                        isGrouped={false}
+                        isOpen={false}
+                        isPlain={false}
+                        onSelect={[Function]}
+                        position="left"
+                        toggle={
+                          <DropdownToggle
+                            iconComponent={[Function]}
+                            isDisabled={false}
                             onToggle={[Function]}
                           >
-                            <ButtonGroup
-                              block={false}
-                              bsClass="btn-group"
-                              bsStyle="default"
-                              className="dropdown"
-                              justified={false}
-                              vertical={false}
-                            >
-                              <div
-                                className="dropdown btn-group btn-group-default"
-                              >
-                                <DropdownToggle
-                                  bsClass="dropdown-toggle"
-                                  bsRole="toggle"
-                                  bsStyle="default"
-                                  className="kubevirt-dropdown"
-                                  disabled={false}
-                                  id="vcenter-instance-dropdown"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  open={false}
-                                  useAnchor={false}
+                            --- Select vCenter Instance Secret ---
+                          </DropdownToggle>
+                        }
+                      >
+                        <div
+                          className="pf-c-dropdown kubevirt-dropdown"
+                        >
+                          <DropdownToggle
+                            ariaHasPopup={true}
+                            iconComponent={[Function]}
+                            id="pf-toggle-id-4"
+                            isDisabled={false}
+                            isOpen={false}
+                            isPlain={false}
+                            key=".0"
+                            onEnter={[Function]}
+                            onToggle={[Function]}
+                            parentRef={
+                              Object {
+                                "current": <div
+                                  class="pf-c-dropdown kubevirt-dropdown"
                                 >
-                                  <Button
-                                    active={false}
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    block={false}
-                                    bsClass="btn"
-                                    bsStyle="default"
-                                    className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
-                                    id="vcenter-instance-dropdown"
-                                    onClick={[Function]}
-                                    onKeyDown={[Function]}
-                                    role="button"
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="true"
+                                    class="pf-c-dropdown__toggle"
+                                    id="pf-toggle-id-4"
+                                    type="button"
                                   >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
-                                      id="vcenter-instance-dropdown"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      role="button"
-                                      type="button"
+                                    <span
+                                      class="pf-c-dropdown__toggle-text"
                                     >
                                       --- Select vCenter Instance Secret ---
-                                       
-                                      <span
-                                        className="caret"
-                                      />
-                                    </button>
-                                  </Button>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  bsClass="dropdown-menu"
-                                  bsRole="menu"
-                                  key=".1"
-                                  labelledBy="vcenter-instance-dropdown"
-                                  onClose={[Function]}
-                                  onSelect={[Function]}
-                                  pullRight={false}
-                                >
-                                  <RootCloseWrapper
-                                    disabled={true}
-                                    event="click"
-                                    onRootClose={[Function]}
-                                  >
-                                    <ul
-                                      aria-labelledby="vcenter-instance-dropdown"
-                                      className="dropdown-menu"
-                                      role="menu"
+                                    </span>
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-c-dropdown__toggle-icon"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 320 512"
+                                      width="1em"
                                     >
-                                      <MenuItem
-                                        bsClass="dropdown"
-                                        disabled={false}
-                                        divider={false}
-                                        eventKey="Connect to New Instance"
-                                        header={false}
-                                        key=".$Connect to New Instance"
-                                        onKeyDown={[Function]}
-                                        onSelect={[Function]}
+                                      <path
+                                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                        transform=""
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>,
+                              }
+                            }
+                          >
+                            <Toggle
+                              ariaHasPopup={true}
+                              className=""
+                              id="pf-toggle-id-4"
+                              isActive={false}
+                              isDisabled={false}
+                              isFocused={false}
+                              isHovered={false}
+                              isOpen={false}
+                              isPlain={false}
+                              isSplitButton={false}
+                              onEnter={[Function]}
+                              onToggle={[Function]}
+                              parentRef={
+                                Object {
+                                  "current": <div
+                                    class="pf-c-dropdown kubevirt-dropdown"
+                                  >
+                                    <button
+                                      aria-expanded="false"
+                                      aria-haspopup="true"
+                                      class="pf-c-dropdown__toggle"
+                                      id="pf-toggle-id-4"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="pf-c-dropdown__toggle-text"
                                       >
-                                        <li
-                                          className=""
-                                          role="presentation"
-                                        >
-                                          <SafeAnchor
-                                            componentClass="a"
-                                            onClick={[Function]}
-                                            onKeyDown={[Function]}
-                                            role="menuitem"
-                                            tabIndex="-1"
-                                          >
-                                            <a
-                                              href="#"
-                                              onClick={[Function]}
-                                              onKeyDown={[Function]}
-                                              role="menuitem"
-                                              tabIndex="-1"
-                                            >
-                                              Connect to New Instance
-                                            </a>
-                                          </SafeAnchor>
-                                        </li>
-                                      </MenuItem>
-                                    </ul>
-                                  </RootCloseWrapper>
-                                </DropdownMenu>
-                              </div>
-                            </ButtonGroup>
-                          </Dropdown>
-                        </Uncontrolled(Dropdown)>
-                      </DropdownButton>
-                    </DropdownButton>
+                                        --- Select vCenter Instance Secret ---
+                                      </span>
+                                      <svg
+                                        aria-hidden="true"
+                                        class="pf-c-dropdown__toggle-icon"
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style="vertical-align: -0.125em;"
+                                        viewBox="0 0 320 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                          transform=""
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>,
+                                }
+                              }
+                            >
+                              <button
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                className="pf-c-dropdown__toggle"
+                                disabled={false}
+                                id="pf-toggle-id-4"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="pf-c-dropdown__toggle-text"
+                                >
+                                  --- Select vCenter Instance Secret ---
+                                </span>
+                                <CaretDownIcon
+                                  className="pf-c-dropdown__toggle-icon"
+                                  color="currentColor"
+                                  noVerticalAlign={false}
+                                  size="sm"
+                                  title={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-labelledby={null}
+                                    className="pf-c-dropdown__toggle-icon"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style={
+                                      Object {
+                                        "verticalAlign": "-0.125em",
+                                      }
+                                    }
+                                    viewBox="0 0 320 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                      transform=""
+                                    />
+                                  </svg>
+                                </CaretDownIcon>
+                              </button>
+                            </Toggle>
+                          </DropdownToggle>
+                        </div>
+                      </DropdownWithContext>
+                    </Dropdown>
                   </div>
                 </ButtonGroup>
               </Dropdown>
@@ -4200,121 +4481,188 @@ exports[`<VMWareImportProvider /> renders correctly when password is not saved 1
                   <div
                     className="btn-group btn-group-justified"
                   >
-                    <DropdownButton
-                      bsStyle="default"
+                    <Dropdown
                       className="kubevirt-dropdown"
-                      disabled={false}
-                      id="vcenter-vm-dropdown"
-                      onSelect={[Function]}
-                      title="--- Select VM or Template ---"
-                    >
-                      <DropdownButton
-                        bsStyle="default"
-                        className="kubevirt-dropdown"
-                        disabled={false}
-                        id="vcenter-vm-dropdown"
-                        onSelect={[Function]}
-                        title="--- Select VM or Template ---"
-                      >
-                        <Uncontrolled(Dropdown)
-                          bsStyle="default"
-                          disabled={false}
-                          id="vcenter-vm-dropdown"
-                          onSelect={[Function]}
+                      dropdownItems={Array []}
+                      isOpen={false}
+                      toggle={
+                        <DropdownToggle
+                          iconComponent={[Function]}
+                          isDisabled={false}
+                          onToggle={[Function]}
                         >
-                          <Dropdown
-                            bsClass="dropdown"
-                            bsStyle="default"
-                            componentClass={[Function]}
-                            disabled={false}
-                            id="vcenter-vm-dropdown"
-                            onSelect={[Function]}
+                          --- Select VM or Template ---
+                        </DropdownToggle>
+                      }
+                    >
+                      <DropdownWithContext
+                        className="kubevirt-dropdown"
+                        direction="down"
+                        dropdownItems={Array []}
+                        isGrouped={false}
+                        isOpen={false}
+                        isPlain={false}
+                        onSelect={[Function]}
+                        position="left"
+                        toggle={
+                          <DropdownToggle
+                            iconComponent={[Function]}
+                            isDisabled={false}
                             onToggle={[Function]}
                           >
-                            <ButtonGroup
-                              block={false}
-                              bsClass="btn-group"
-                              bsStyle="default"
-                              className="dropdown"
-                              justified={false}
-                              vertical={false}
-                            >
-                              <div
-                                className="dropdown btn-group btn-group-default"
-                              >
-                                <DropdownToggle
-                                  bsClass="dropdown-toggle"
-                                  bsRole="toggle"
-                                  bsStyle="default"
-                                  className="kubevirt-dropdown"
-                                  disabled={false}
-                                  id="vcenter-vm-dropdown"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  open={false}
-                                  useAnchor={false}
+                            --- Select VM or Template ---
+                          </DropdownToggle>
+                        }
+                      >
+                        <div
+                          className="pf-c-dropdown kubevirt-dropdown"
+                        >
+                          <DropdownToggle
+                            ariaHasPopup={false}
+                            iconComponent={[Function]}
+                            id="pf-toggle-id-5"
+                            isDisabled={false}
+                            isOpen={false}
+                            isPlain={false}
+                            key=".0"
+                            onEnter={[Function]}
+                            onToggle={[Function]}
+                            parentRef={
+                              Object {
+                                "current": <div
+                                  class="pf-c-dropdown kubevirt-dropdown"
                                 >
-                                  <Button
-                                    active={false}
-                                    aria-expanded={false}
-                                    aria-haspopup={true}
-                                    block={false}
-                                    bsClass="btn"
-                                    bsStyle="default"
-                                    className="kubevirt-dropdown dropdown-toggle"
-                                    disabled={false}
-                                    id="vcenter-vm-dropdown"
-                                    onClick={[Function]}
-                                    onKeyDown={[Function]}
-                                    role="button"
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="false"
+                                    class="pf-c-dropdown__toggle"
+                                    id="pf-toggle-id-5"
+                                    type="button"
                                   >
-                                    <button
-                                      aria-expanded={false}
-                                      aria-haspopup={true}
-                                      className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                                      disabled={false}
-                                      id="vcenter-vm-dropdown"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      role="button"
-                                      type="button"
+                                    <span
+                                      class="pf-c-dropdown__toggle-text"
                                     >
                                       --- Select VM or Template ---
-                                       
-                                      <span
-                                        className="caret"
+                                    </span>
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-c-dropdown__toggle-icon"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      style="vertical-align: -0.125em;"
+                                      viewBox="0 0 320 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                        transform=""
                                       />
-                                    </button>
-                                  </Button>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  bsClass="dropdown-menu"
-                                  bsRole="menu"
-                                  key=".1"
-                                  labelledBy="vcenter-vm-dropdown"
-                                  onClose={[Function]}
-                                  onSelect={[Function]}
-                                  pullRight={false}
-                                >
-                                  <RootCloseWrapper
-                                    disabled={true}
-                                    event="click"
-                                    onRootClose={[Function]}
+                                    </svg>
+                                  </button>
+                                </div>,
+                              }
+                            }
+                          >
+                            <Toggle
+                              ariaHasPopup={false}
+                              className=""
+                              id="pf-toggle-id-5"
+                              isActive={false}
+                              isDisabled={false}
+                              isFocused={false}
+                              isHovered={false}
+                              isOpen={false}
+                              isPlain={false}
+                              isSplitButton={false}
+                              onEnter={[Function]}
+                              onToggle={[Function]}
+                              parentRef={
+                                Object {
+                                  "current": <div
+                                    class="pf-c-dropdown kubevirt-dropdown"
                                   >
-                                    <ul
-                                      aria-labelledby="vcenter-vm-dropdown"
-                                      className="dropdown-menu"
-                                      role="menu"
+                                    <button
+                                      aria-expanded="false"
+                                      aria-haspopup="false"
+                                      class="pf-c-dropdown__toggle"
+                                      id="pf-toggle-id-5"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="pf-c-dropdown__toggle-text"
+                                      >
+                                        --- Select VM or Template ---
+                                      </span>
+                                      <svg
+                                        aria-hidden="true"
+                                        class="pf-c-dropdown__toggle-icon"
+                                        fill="currentColor"
+                                        height="1em"
+                                        role="img"
+                                        style="vertical-align: -0.125em;"
+                                        viewBox="0 0 320 512"
+                                        width="1em"
+                                      >
+                                        <path
+                                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                          transform=""
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>,
+                                }
+                              }
+                            >
+                              <button
+                                aria-expanded={false}
+                                aria-haspopup={false}
+                                className="pf-c-dropdown__toggle"
+                                disabled={false}
+                                id="pf-toggle-id-5"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                type="button"
+                              >
+                                <span
+                                  className="pf-c-dropdown__toggle-text"
+                                >
+                                  --- Select VM or Template ---
+                                </span>
+                                <CaretDownIcon
+                                  className="pf-c-dropdown__toggle-icon"
+                                  color="currentColor"
+                                  noVerticalAlign={false}
+                                  size="sm"
+                                  title={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    aria-labelledby={null}
+                                    className="pf-c-dropdown__toggle-icon"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style={
+                                      Object {
+                                        "verticalAlign": "-0.125em",
+                                      }
+                                    }
+                                    viewBox="0 0 320 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                      transform=""
                                     />
-                                  </RootCloseWrapper>
-                                </DropdownMenu>
-                              </div>
-                            </ButtonGroup>
-                          </Dropdown>
-                        </Uncontrolled(Dropdown)>
-                      </DropdownButton>
-                    </DropdownButton>
+                                  </svg>
+                                </CaretDownIcon>
+                              </button>
+                            </Toggle>
+                          </DropdownToggle>
+                        </div>
+                      </DropdownWithContext>
+                    </Dropdown>
                   </div>
                 </ButtonGroup>
               </Dropdown>

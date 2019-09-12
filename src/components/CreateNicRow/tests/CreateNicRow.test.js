@@ -1,9 +1,7 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
-import { MenuItem } from 'patternfly-react';
 
-import { Dropdown } from '../../Form/Dropdown';
 import CreateNicRowFixture from '../fixtures/CreateNicRow.fixture';
 import { networkConfigs } from '../../../tests/mocks/networkAttachmentDefinition';
 import { cloudInitTestVm } from '../../../tests/mocks/vm/cloudInitTestVm.mock';
@@ -11,17 +9,20 @@ import { getName } from '../../../selectors';
 import { Loading } from '../../Loading';
 import { POD_NETWORK } from '../../../constants';
 
+import { openDropdown } from '../../../tests/enzyme';
+
 import { CreateNicRow } from '..';
 
 const testCreateNicRow = (networks, nic = {}) => (
   <CreateNicRow {...CreateNicRowFixture.props} networks={networks} nic={nic} />
 );
 
-const getNetworkConfigs = component =>
-  component
-    .find('#network-type')
-    .find(Dropdown)
-    .find(MenuItem);
+const getNetworkConfigs = (component, initiallyOpened = false) => {
+  if (initiallyOpened) {
+    return component.find('#network-type').find('a');
+  }
+  return openDropdown(component.find('#network-type')).find('a');
+};
 
 describe('<CreateNicRow />', () => {
   it('renders correctly', () => {
@@ -35,12 +36,9 @@ describe('<CreateNicRow />', () => {
     };
 
     const component = mount(testCreateNicRow([networkConfigs[0]], nic));
-    expect(getNetworkConfigs(component)).toHaveLength(1);
-    expect(
-      getNetworkConfigs(component)
-        .find('a')
-        .text()
-    ).toEqual(getName(networkConfigs[0]));
+    let netConfigs = getNetworkConfigs(component);
+    expect(netConfigs).toHaveLength(1);
+    expect(netConfigs.text()).toEqual(getName(networkConfigs[0]));
 
     const vmWithoutPodNetwork = cloneDeep(cloudInitTestVm);
 
@@ -55,15 +53,16 @@ describe('<CreateNicRow />', () => {
     component.setProps({
       nic: nicNoPod,
     });
-    expect(getNetworkConfigs(component)).toHaveLength(2);
+    netConfigs = getNetworkConfigs(component, true);
+    expect(netConfigs).toHaveLength(2);
     expect(
-      getNetworkConfigs(component)
+      netConfigs
         .at(0)
         .find('a')
         .text()
     ).toEqual(getName(networkConfigs[0]));
     expect(
-      getNetworkConfigs(component)
+      netConfigs
         .at(1)
         .find('a')
         .text()
@@ -93,12 +92,9 @@ describe('<CreateNicRow />', () => {
     component.setProps({
       nic: nicWithMultus,
     });
-    expect(getNetworkConfigs(component)).toHaveLength(1);
-    expect(
-      getNetworkConfigs(component)
-        .find('a')
-        .text()
-    ).toEqual(POD_NETWORK);
+    netConfigs = getNetworkConfigs(component, true);
+    expect(netConfigs).toHaveLength(1);
+    expect(netConfigs.find('a').text()).toEqual(POD_NETWORK);
   });
 
   it('shows loading while getting network configs', () => {

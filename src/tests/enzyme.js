@@ -1,10 +1,25 @@
-import { MenuItem, Button } from 'patternfly-react';
+import { Button } from 'patternfly-react';
 
 export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
-export const selectDropdownItem = (dropdown, itemText) => {
-  dropdown
-    .find(MenuItem)
+export const openDropdown = (dropdown, dropdownSelector) => {
+  const opened = dropdown
+    .find('.pf-c-dropdown__toggle')
+    .simulate('click')
+    .update(); // triggers render() on mounted component (can be a parent of the Dropdown)
+
+  if (dropdownSelector) {
+    // update returns parent component, not the Dropdown
+    return opened.find(dropdownSelector);
+  }
+  return opened;
+};
+
+export const selectDropdownItem = (dropdown, itemText, dropdownSelector) => {
+  const opened = openDropdown(dropdown, dropdownSelector);
+
+  opened
+    .find('.pf-c-dropdown__menu-item')
     .findWhere(item => item.text() === itemText)
     .find('a')
     .simulate('click');

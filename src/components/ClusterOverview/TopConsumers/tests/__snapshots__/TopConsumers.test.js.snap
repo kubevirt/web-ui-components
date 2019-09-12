@@ -390,51 +390,36 @@ exports[`<TopConsumers /> renders correctly with Provider 1`] = `
           class="btn-group btn-group-justified"
         >
           <div
-            class="dropdown btn-group btn-group-default"
+            class="pf-c-dropdown kubevirt-dropdown"
           >
             <button
               aria-expanded="false"
               aria-haspopup="true"
-              class="kubevirt-dropdown dropdown-toggle btn btn-default"
-              id="type-dropdown"
-              role="button"
+              class="pf-c-dropdown__toggle"
+              id="pf-toggle-id-38"
               type="button"
             >
-              Pods & VMs 
               <span
-                class="caret"
-              />
+                class="pf-c-dropdown__toggle-text"
+              >
+                Pods & VMs
+              </span>
+              <svg
+                aria-hidden="true"
+                class="pf-c-dropdown__toggle-icon"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                style="vertical-align:-0.125em"
+                viewBox="0 0 320 512"
+                width="1em"
+              >
+                <path
+                  d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                  transform=""
+                />
+              </svg>
             </button>
-            <ul
-              aria-labelledby="type-dropdown"
-              class="dropdown-menu"
-              role="menu"
-            >
-              <li
-                class=""
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Pods & VMs
-                </a>
-              </li>
-              <li
-                class=""
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Nodes
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -445,75 +430,36 @@ exports[`<TopConsumers /> renders correctly with Provider 1`] = `
           class="btn-group btn-group-justified"
         >
           <div
-            class="dropdown btn-group btn-group-default"
+            class="pf-c-dropdown kubevirt-dropdown"
           >
             <button
               aria-expanded="false"
               aria-haspopup="true"
-              class="kubevirt-dropdown dropdown-toggle btn btn-default"
-              id="sort-by-dropdown"
-              role="button"
+              class="pf-c-dropdown__toggle"
+              id="pf-toggle-id-39"
               type="button"
             >
-              By CPU 
               <span
-                class="caret"
-              />
+                class="pf-c-dropdown__toggle-text"
+              >
+                By CPU
+              </span>
+              <svg
+                aria-hidden="true"
+                class="pf-c-dropdown__toggle-icon"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                style="vertical-align:-0.125em"
+                viewBox="0 0 320 512"
+                width="1em"
+              >
+                <path
+                  d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                  transform=""
+                />
+              </svg>
             </button>
-            <ul
-              aria-labelledby="sort-by-dropdown"
-              class="dropdown-menu"
-              role="menu"
-            >
-              <li
-                class=""
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  By CPU
-                </a>
-              </li>
-              <li
-                class=""
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  By Memory
-                </a>
-              </li>
-              <li
-                class=""
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  By Storage
-                </a>
-              </li>
-              <li
-                class=""
-                role="presentation"
-              >
-                <a
-                  href="#"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  By Network
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>

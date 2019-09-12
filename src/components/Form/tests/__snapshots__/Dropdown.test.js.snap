@@ -31,332 +31,230 @@ exports[`<DropdownControl /> renders correctly with tooltips 1`] = `
     <div
       className="btn-group btn-group-justified"
     >
-      <DropdownButton
-        bsStyle="default"
+      <Dropdown
         className="kubevirt-dropdown"
-        disabled={false}
-        id="1"
-        onSelect={[Function]}
-        title="This is dropdown button with tooltips"
-      >
-        <DropdownButton
-          bsStyle="default"
-          className="kubevirt-dropdown"
-          disabled={false}
-          id="1"
-          onSelect={[Function]}
-          title="This is dropdown button with tooltips"
-        >
-          <Uncontrolled(Dropdown)
-            bsStyle="default"
-            disabled={false}
-            id="1"
-            onSelect={[Function]}
+        dropdownItems={
+          Array [
+            <DropdownItem
+              onClick={[Function]}
+              tooltip="choice1"
+            >
+              choice1
+            </DropdownItem>,
+            <DropdownItem
+              onClick={[Function]}
+              tooltip="choice2"
+            >
+              choice2
+            </DropdownItem>,
+            <DropdownItem
+              onClick={[Function]}
+              tooltip="very long choice which needs to be shortened"
+            >
+              very long choice which needs to be shortened
+            </DropdownItem>,
+          ]
+        }
+        isOpen={false}
+        toggle={
+          <DropdownToggle
+            iconComponent={[Function]}
+            isDisabled={false}
+            onToggle={[Function]}
           >
-            <Dropdown
-              bsClass="dropdown"
-              bsStyle="default"
-              componentClass={[Function]}
-              disabled={false}
-              id="1"
-              onSelect={[Function]}
+            This is dropdown button with tooltips
+          </DropdownToggle>
+        }
+      >
+        <DropdownWithContext
+          className="kubevirt-dropdown"
+          direction="down"
+          dropdownItems={
+            Array [
+              <DropdownItem
+                onClick={[Function]}
+                tooltip="choice1"
+              >
+                choice1
+              </DropdownItem>,
+              <DropdownItem
+                onClick={[Function]}
+                tooltip="choice2"
+              >
+                choice2
+              </DropdownItem>,
+              <DropdownItem
+                onClick={[Function]}
+                tooltip="very long choice which needs to be shortened"
+              >
+                very long choice which needs to be shortened
+              </DropdownItem>,
+            ]
+          }
+          isGrouped={false}
+          isOpen={false}
+          isPlain={false}
+          onSelect={[Function]}
+          position="left"
+          toggle={
+            <DropdownToggle
+              iconComponent={[Function]}
+              isDisabled={false}
               onToggle={[Function]}
             >
-              <ButtonGroup
-                block={false}
-                bsClass="btn-group"
-                bsStyle="default"
-                className="dropdown"
-                justified={false}
-                vertical={false}
-              >
-                <div
-                  className="dropdown btn-group btn-group-default"
-                >
-                  <DropdownToggle
-                    bsClass="dropdown-toggle"
-                    bsRole="toggle"
-                    bsStyle="default"
-                    className="kubevirt-dropdown"
-                    disabled={false}
-                    id="1"
-                    key=".0"
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    open={false}
-                    useAnchor={false}
+              This is dropdown button with tooltips
+            </DropdownToggle>
+          }
+        >
+          <div
+            className="pf-c-dropdown kubevirt-dropdown"
+          >
+            <DropdownToggle
+              ariaHasPopup={true}
+              iconComponent={[Function]}
+              id="pf-toggle-id-1"
+              isDisabled={false}
+              isOpen={false}
+              isPlain={false}
+              key=".0"
+              onEnter={[Function]}
+              onToggle={[Function]}
+              parentRef={
+                Object {
+                  "current": <div
+                    class="pf-c-dropdown kubevirt-dropdown"
                   >
-                    <Button
-                      active={false}
-                      aria-expanded={false}
-                      aria-haspopup={true}
-                      block={false}
-                      bsClass="btn"
-                      bsStyle="default"
-                      className="kubevirt-dropdown dropdown-toggle"
-                      disabled={false}
-                      id="1"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      role="button"
+                    <button
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="pf-c-dropdown__toggle"
+                      id="pf-toggle-id-1"
+                      type="button"
                     >
-                      <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
-                        className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                        disabled={false}
-                        id="1"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="button"
-                        type="button"
+                      <span
+                        class="pf-c-dropdown__toggle-text"
                       >
                         This is dropdown button with tooltips
-                         
-                        <span
-                          className="caret"
-                        />
-                      </button>
-                    </Button>
-                  </DropdownToggle>
-                  <DropdownMenu
-                    bsClass="dropdown-menu"
-                    bsRole="menu"
-                    key=".1"
-                    labelledBy="1"
-                    onClose={[Function]}
-                    onSelect={[Function]}
-                    pullRight={false}
-                  >
-                    <RootCloseWrapper
-                      disabled={true}
-                      event="click"
-                      onRootClose={[Function]}
-                    >
-                      <ul
-                        aria-labelledby="1"
-                        className="dropdown-menu"
-                        role="menu"
+                      </span>
+                      <svg
+                        aria-hidden="true"
+                        class="pf-c-dropdown__toggle-icon"
+                        fill="currentColor"
+                        height="1em"
+                        role="img"
+                        style="vertical-align: -0.125em;"
+                        viewBox="0 0 320 512"
+                        width="1em"
                       >
-                        <OverlayTrigger
-                          defaultOverlayShown={false}
-                          key=".$choice1"
-                          onKeyDown={[Function]}
-                          onSelect={[Function]}
-                          overlay={
-                            <Tooltip
-                              bsClass="tooltip"
-                              id="tooltip-choice1"
-                              placement="right"
-                            >
-                              choice1
-                            </Tooltip>
-                          }
-                          placement="top"
-                          trigger={
-                            Array [
-                              "hover",
-                              "focus",
-                            ]
-                          }
+                        <path
+                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                          transform=""
+                        />
+                      </svg>
+                    </button>
+                  </div>,
+                }
+              }
+            >
+              <Toggle
+                ariaHasPopup={true}
+                className=""
+                id="pf-toggle-id-1"
+                isActive={false}
+                isDisabled={false}
+                isFocused={false}
+                isHovered={false}
+                isOpen={false}
+                isPlain={false}
+                isSplitButton={false}
+                onEnter={[Function]}
+                onToggle={[Function]}
+                parentRef={
+                  Object {
+                    "current": <div
+                      class="pf-c-dropdown kubevirt-dropdown"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="pf-c-dropdown__toggle"
+                        id="pf-toggle-id-1"
+                        type="button"
+                      >
+                        <span
+                          class="pf-c-dropdown__toggle-text"
                         >
-                          <MenuItem
-                            bsClass="dropdown"
-                            disabled={false}
-                            divider={false}
-                            eventKey={
-                              Object {
-                                "name": "choice1",
-                              }
-                            }
-                            header={false}
-                            key="choice1"
-                            onBlur={[Function]}
-                            onClick={null}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                          >
-                            <li
-                              className=""
-                              role="presentation"
-                            >
-                              <SafeAnchor
-                                componentClass="a"
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onFocus={[Function]}
-                                onMouseOut={[Function]}
-                                onMouseOver={[Function]}
-                                role="menuitem"
-                                tabIndex="-1"
-                              >
-                                <a
-                                  href="#"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onKeyDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  role="menuitem"
-                                  tabIndex="-1"
-                                >
-                                  choice1
-                                </a>
-                              </SafeAnchor>
-                            </li>
-                          </MenuItem>
-                        </OverlayTrigger>
-                        <OverlayTrigger
-                          defaultOverlayShown={false}
-                          key=".$choice2"
-                          onKeyDown={[Function]}
-                          onSelect={[Function]}
-                          overlay={
-                            <Tooltip
-                              bsClass="tooltip"
-                              id="tooltip-choice2"
-                              placement="right"
-                            >
-                              choice2
-                            </Tooltip>
-                          }
-                          placement="top"
-                          trigger={
-                            Array [
-                              "hover",
-                              "focus",
-                            ]
-                          }
+                          This is dropdown button with tooltips
+                        </span>
+                        <svg
+                          aria-hidden="true"
+                          class="pf-c-dropdown__toggle-icon"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 320 512"
+                          width="1em"
                         >
-                          <MenuItem
-                            bsClass="dropdown"
-                            disabled={false}
-                            divider={false}
-                            eventKey={
-                              Object {
-                                "name": "choice2",
-                              }
-                            }
-                            header={false}
-                            key="choice2"
-                            onBlur={[Function]}
-                            onClick={null}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                          >
-                            <li
-                              className=""
-                              role="presentation"
-                            >
-                              <SafeAnchor
-                                componentClass="a"
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onFocus={[Function]}
-                                onMouseOut={[Function]}
-                                onMouseOver={[Function]}
-                                role="menuitem"
-                                tabIndex="-1"
-                              >
-                                <a
-                                  href="#"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onKeyDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  role="menuitem"
-                                  tabIndex="-1"
-                                >
-                                  choice2
-                                </a>
-                              </SafeAnchor>
-                            </li>
-                          </MenuItem>
-                        </OverlayTrigger>
-                        <OverlayTrigger
-                          defaultOverlayShown={false}
-                          key=".$very long choice which needs to be shortened"
-                          onKeyDown={[Function]}
-                          onSelect={[Function]}
-                          overlay={
-                            <Tooltip
-                              bsClass="tooltip"
-                              id="tooltip-very long choice which needs to be shortened"
-                              placement="right"
-                            >
-                              very long choice which needs to be shortened
-                            </Tooltip>
-                          }
-                          placement="top"
-                          trigger={
-                            Array [
-                              "hover",
-                              "focus",
-                            ]
-                          }
-                        >
-                          <MenuItem
-                            bsClass="dropdown"
-                            disabled={false}
-                            divider={false}
-                            eventKey={
-                              Object {
-                                "name": "very long choice which needs to be shortened",
-                              }
-                            }
-                            header={false}
-                            key="very long choice which needs to be shortened"
-                            onBlur={[Function]}
-                            onClick={null}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                          >
-                            <li
-                              className=""
-                              role="presentation"
-                            >
-                              <SafeAnchor
-                                componentClass="a"
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onFocus={[Function]}
-                                onMouseOut={[Function]}
-                                onMouseOver={[Function]}
-                                role="menuitem"
-                                tabIndex="-1"
-                              >
-                                <a
-                                  href="#"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onKeyDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  role="menuitem"
-                                  tabIndex="-1"
-                                >
-                                  very long choice which needs to be shortened
-                                </a>
-                              </SafeAnchor>
-                            </li>
-                          </MenuItem>
-                        </OverlayTrigger>
-                      </ul>
-                    </RootCloseWrapper>
-                  </DropdownMenu>
-                </div>
-              </ButtonGroup>
-            </Dropdown>
-          </Uncontrolled(Dropdown)>
-        </DropdownButton>
-      </DropdownButton>
+                          <path
+                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                            transform=""
+                          />
+                        </svg>
+                      </button>
+                    </div>,
+                  }
+                }
+              >
+                <button
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  className="pf-c-dropdown__toggle"
+                  disabled={false}
+                  id="pf-toggle-id-1"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="pf-c-dropdown__toggle-text"
+                  >
+                    This is dropdown button with tooltips
+                  </span>
+                  <CaretDownIcon
+                    className="pf-c-dropdown__toggle-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                    title={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      aria-labelledby={null}
+                      className="pf-c-dropdown__toggle-icon"
+                      fill="currentColor"
+                      height="1em"
+                      role="img"
+                      style={
+                        Object {
+                          "verticalAlign": "-0.125em",
+                        }
+                      }
+                      viewBox="0 0 320 512"
+                      width="1em"
+                    >
+                      <path
+                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                        transform=""
+                      />
+                    </svg>
+                  </CaretDownIcon>
+                </button>
+              </Toggle>
+            </DropdownToggle>
+          </div>
+        </DropdownWithContext>
+      </Dropdown>
     </div>
   </ButtonGroup>
 </Dropdown>
@@ -390,196 +288,214 @@ exports[`<DropdownControl /> renders correctly without tooltips 1`] = `
     <div
       className="btn-group btn-group-justified"
     >
-      <DropdownButton
-        bsStyle="default"
+      <Dropdown
         className="kubevirt-dropdown"
-        disabled={false}
-        id="1"
-        onSelect={[Function]}
-        title="This is dropdown button"
-      >
-        <DropdownButton
-          bsStyle="default"
-          className="kubevirt-dropdown"
-          disabled={false}
-          id="1"
-          onSelect={[Function]}
-          title="This is dropdown button"
-        >
-          <Uncontrolled(Dropdown)
-            bsStyle="default"
-            disabled={false}
-            id="1"
-            onSelect={[Function]}
+        dropdownItems={
+          Array [
+            <DropdownItem
+              onClick={[Function]}
+            >
+              choice1
+            </DropdownItem>,
+            <DropdownItem
+              onClick={[Function]}
+            >
+              choice2
+            </DropdownItem>,
+          ]
+        }
+        isOpen={false}
+        toggle={
+          <DropdownToggle
+            iconComponent={[Function]}
+            isDisabled={false}
+            onToggle={[Function]}
           >
-            <Dropdown
-              bsClass="dropdown"
-              bsStyle="default"
-              componentClass={[Function]}
-              disabled={false}
-              id="1"
-              onSelect={[Function]}
+            This is dropdown button
+          </DropdownToggle>
+        }
+      >
+        <DropdownWithContext
+          className="kubevirt-dropdown"
+          direction="down"
+          dropdownItems={
+            Array [
+              <DropdownItem
+                onClick={[Function]}
+              >
+                choice1
+              </DropdownItem>,
+              <DropdownItem
+                onClick={[Function]}
+              >
+                choice2
+              </DropdownItem>,
+            ]
+          }
+          isGrouped={false}
+          isOpen={false}
+          isPlain={false}
+          onSelect={[Function]}
+          position="left"
+          toggle={
+            <DropdownToggle
+              iconComponent={[Function]}
+              isDisabled={false}
               onToggle={[Function]}
             >
-              <ButtonGroup
-                block={false}
-                bsClass="btn-group"
-                bsStyle="default"
-                className="dropdown"
-                justified={false}
-                vertical={false}
-              >
-                <div
-                  className="dropdown btn-group btn-group-default"
-                >
-                  <DropdownToggle
-                    bsClass="dropdown-toggle"
-                    bsRole="toggle"
-                    bsStyle="default"
-                    className="kubevirt-dropdown"
-                    disabled={false}
-                    id="1"
-                    key=".0"
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    open={false}
-                    useAnchor={false}
+              This is dropdown button
+            </DropdownToggle>
+          }
+        >
+          <div
+            className="pf-c-dropdown kubevirt-dropdown"
+          >
+            <DropdownToggle
+              ariaHasPopup={true}
+              iconComponent={[Function]}
+              id="pf-toggle-id-0"
+              isDisabled={false}
+              isOpen={false}
+              isPlain={false}
+              key=".0"
+              onEnter={[Function]}
+              onToggle={[Function]}
+              parentRef={
+                Object {
+                  "current": <div
+                    class="pf-c-dropdown kubevirt-dropdown"
                   >
-                    <Button
-                      active={false}
-                      aria-expanded={false}
-                      aria-haspopup={true}
-                      block={false}
-                      bsClass="btn"
-                      bsStyle="default"
-                      className="kubevirt-dropdown dropdown-toggle"
-                      disabled={false}
-                      id="1"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      role="button"
+                    <button
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="pf-c-dropdown__toggle"
+                      id="pf-toggle-id-0"
+                      type="button"
                     >
-                      <button
-                        aria-expanded={false}
-                        aria-haspopup={true}
-                        className="kubevirt-dropdown dropdown-toggle btn btn-default"
-                        disabled={false}
-                        id="1"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="button"
-                        type="button"
+                      <span
+                        class="pf-c-dropdown__toggle-text"
                       >
                         This is dropdown button
-                         
-                        <span
-                          className="caret"
-                        />
-                      </button>
-                    </Button>
-                  </DropdownToggle>
-                  <DropdownMenu
-                    bsClass="dropdown-menu"
-                    bsRole="menu"
-                    key=".1"
-                    labelledBy="1"
-                    onClose={[Function]}
-                    onSelect={[Function]}
-                    pullRight={false}
-                  >
-                    <RootCloseWrapper
-                      disabled={true}
-                      event="click"
-                      onRootClose={[Function]}
-                    >
-                      <ul
-                        aria-labelledby="1"
-                        className="dropdown-menu"
-                        role="menu"
+                      </span>
+                      <svg
+                        aria-hidden="true"
+                        class="pf-c-dropdown__toggle-icon"
+                        fill="currentColor"
+                        height="1em"
+                        role="img"
+                        style="vertical-align: -0.125em;"
+                        viewBox="0 0 320 512"
+                        width="1em"
                       >
-                        <MenuItem
-                          bsClass="dropdown"
-                          disabled={false}
-                          divider={false}
-                          eventKey={
-                            Object {
-                              "name": "choice1",
-                            }
-                          }
-                          header={false}
-                          key=".$choice1"
-                          onKeyDown={[Function]}
-                          onSelect={[Function]}
+                        <path
+                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                          transform=""
+                        />
+                      </svg>
+                    </button>
+                  </div>,
+                }
+              }
+            >
+              <Toggle
+                ariaHasPopup={true}
+                className=""
+                id="pf-toggle-id-0"
+                isActive={false}
+                isDisabled={false}
+                isFocused={false}
+                isHovered={false}
+                isOpen={false}
+                isPlain={false}
+                isSplitButton={false}
+                onEnter={[Function]}
+                onToggle={[Function]}
+                parentRef={
+                  Object {
+                    "current": <div
+                      class="pf-c-dropdown kubevirt-dropdown"
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="pf-c-dropdown__toggle"
+                        id="pf-toggle-id-0"
+                        type="button"
+                      >
+                        <span
+                          class="pf-c-dropdown__toggle-text"
                         >
-                          <li
-                            className=""
-                            role="presentation"
-                          >
-                            <SafeAnchor
-                              componentClass="a"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              role="menuitem"
-                              tabIndex="-1"
-                            >
-                              <a
-                                href="#"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="menuitem"
-                                tabIndex="-1"
-                              >
-                                choice1
-                              </a>
-                            </SafeAnchor>
-                          </li>
-                        </MenuItem>
-                        <MenuItem
-                          bsClass="dropdown"
-                          disabled={false}
-                          divider={false}
-                          eventKey={
-                            Object {
-                              "name": "choice2",
-                            }
-                          }
-                          header={false}
-                          key=".$choice2"
-                          onKeyDown={[Function]}
-                          onSelect={[Function]}
+                          This is dropdown button
+                        </span>
+                        <svg
+                          aria-hidden="true"
+                          class="pf-c-dropdown__toggle-icon"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 320 512"
+                          width="1em"
                         >
-                          <li
-                            className=""
-                            role="presentation"
-                          >
-                            <SafeAnchor
-                              componentClass="a"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              role="menuitem"
-                              tabIndex="-1"
-                            >
-                              <a
-                                href="#"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="menuitem"
-                                tabIndex="-1"
-                              >
-                                choice2
-                              </a>
-                            </SafeAnchor>
-                          </li>
-                        </MenuItem>
-                      </ul>
-                    </RootCloseWrapper>
-                  </DropdownMenu>
-                </div>
-              </ButtonGroup>
-            </Dropdown>
-          </Uncontrolled(Dropdown)>
-        </DropdownButton>
-      </DropdownButton>
+                          <path
+                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                            transform=""
+                          />
+                        </svg>
+                      </button>
+                    </div>,
+                  }
+                }
+              >
+                <button
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  className="pf-c-dropdown__toggle"
+                  disabled={false}
+                  id="pf-toggle-id-0"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="pf-c-dropdown__toggle-text"
+                  >
+                    This is dropdown button
+                  </span>
+                  <CaretDownIcon
+                    className="pf-c-dropdown__toggle-icon"
+                    color="currentColor"
+                    noVerticalAlign={false}
+                    size="sm"
+                    title={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      aria-labelledby={null}
+                      className="pf-c-dropdown__toggle-icon"
+                      fill="currentColor"
+                      height="1em"
+                      role="img"
+                      style={
+                        Object {
+                          "verticalAlign": "-0.125em",
+                        }
+                      }
+                      viewBox="0 0 320 512"
+                      width="1em"
+                    >
+                      <path
+                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                        transform=""
+                      />
+                    </svg>
+                  </CaretDownIcon>
+                </button>
+              </Toggle>
+            </DropdownToggle>
+          </div>
+        </DropdownWithContext>
+      </Dropdown>
     </div>
   </ButtonGroup>
 </Dropdown>

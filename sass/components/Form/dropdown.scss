@@ -1,3 +1,13 @@
+/* stylelint-disable */
 .kubevirt-dropdown {
-  text-align: left;
+  width: 100% !important;
+
+  button {
+    width: 100% !important;
+  }
+
+  .pf-c-dropdown__toggle-text {
+    text-align: center;
+    width: 100%;
+  }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { cloneDeep } from 'lodash';
 import { shallow, mount } from 'enzyme';
-import { MenuItem, HelpBlock } from 'patternfly-react';
+import { HelpBlock } from 'patternfly-react';
 
 import { NetworksTab, validateNetworksNamespace, isBootableNetwork, validateNetwork } from '../NetworksTab';
 import NetworksTabFixture from '../fixtures/NetworksTab.fixture';
@@ -17,6 +17,7 @@ import {
   PROVISION_SOURCE_URL,
   PROVISION_SOURCE_PXE,
 } from '../../../../constants';
+import { openDropdown } from '../../../../tests/enzyme';
 
 const testNetworksTab = (onChange = () => {}) => <NetworksTab {...NetworksTabFixture.props} onChange={onChange} />;
 
@@ -138,10 +139,7 @@ describe('<NetworksTab />', () => {
         .props().value
     ).toBeUndefined();
 
-    const dropdownItems = columns
-      .at(2)
-      .find(Dropdown)
-      .find(MenuItem);
+    const dropdownItems = openDropdown(columns.at(2).find(Dropdown)).find('.pf-c-dropdown__menu-item');
     expect(dropdownItems).toHaveLength(2);
     expect(dropdownItems.at(0).text()).toEqual(NetworksTabFixture.props.networkConfigs[0].metadata.name);
     expect(dropdownItems.at(1).text()).toEqual(POD_NETWORK);
@@ -344,14 +342,15 @@ describe('<NetworksTab />', () => {
     );
 
     const pxeDropdown = component.find('#pxe-nic-dropdown');
-
-    expect(pxeDropdown.find(MenuItem).find('a')).toHaveLength(2);
+    expect(openDropdown(pxeDropdown, '#pxe-nic-dropdown').find('a')).toHaveLength(2);
     expect(component.state().rows[0].isBootable).toBeTruthy();
     expect(component.state().rows[1].isBootable).toBeFalsy();
     expect(component.state().rows[2].isBootable).toBeFalsy();
 
-    pxeDropdown
-      .find(MenuItem)
+    // pxeDropdown stays open
+    component
+      .find('#pxe-nic-dropdown')
+      .find('.pf-c-dropdown__menu-item')
       .findWhere(item => item.text() === pxeRow2.name)
       .find('a')
       .simulate('click');
