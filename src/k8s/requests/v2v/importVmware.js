@@ -14,7 +14,7 @@ import {
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
 } from '../../../components/Wizard/CreateVmWizard/constants';
-import { getName, getNamespace } from '../../../selectors';
+import { getName, getNamespace, getDefaultSCAccessMode, getDefaultSCVolumeMode } from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { CONVERSION_GENERATE_NAME, CONVERSION_SERVICEACCOUNT_DELAY } from './constants';
@@ -53,13 +53,21 @@ const asVolume = ({ name, data }) => ({
   },
 });
 
-const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, lastResults, { units }) => {
+const resolveStorages = async (
+  vmSettings,
+  networks,
+  storages,
+  { k8sCreate },
+  lastResults,
+  { units, storageClassConfigMap }
+) => {
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
   const extImportPvcsPromises = storages.filter(isImportStorage).map(storage => {
     const validSize = getValidK8SSize(storage.size, units, 'Gi');
+    const storageClassName = storage.storageClass;
     return k8sCreate(
       PersistentVolumeClaimModel,
       buildPvc({
@@ -69,6 +77,9 @@ const resolveStorages = async (vmSettings, networks, storages, { k8sCreate }, la
         namespace,
         size: validSize.value,
         unit: validSize.unit.trim(),
+        storageClassName,
+        accessMode: getDefaultSCAccessMode(storageClassConfigMap, storageClassName),
+        volumeMode: getDefaultSCVolumeMode(storageClassConfigMap, storageClassName),
       })
     );
   });
@@ -207,7 +218,7 @@ const startConversionPod = async (
       volumes.push(asVolume(storage));
     });
 
-  const kubevirtVmwareConfigMap = getVmwareConfigMap({ k8sGet });
+  const kubevirtVmwareConfigMap = await getVmwareConfigMap({ k8sGet });
 
   await waitForServiceAccountSecrets(serviceAccount, { k8sGet });
 

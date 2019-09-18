@@ -207,6 +207,8 @@ export const createVm = async (
 
   let conversionPod;
 
+  const storageClassConfigMap = await getStorageClassConfigMap({ k8sGet });
+
   if (isVmwareProvider(vmSettings)) {
     const importResult = await importVmwareVm(
       vmSettings,
@@ -219,14 +221,13 @@ export const createVm = async (
       },
       {
         units,
+        storageClassConfigMap,
       }
     );
     // eslint-disable-next-line prefer-destructuring
     conversionPod = importResult.conversionPod;
     storages = importResult.mappedStorages;
   }
-
-  const storageClassConfigMap = await getStorageClassConfigMap({ k8sGet });
 
   const template = getModifiedVmTemplate(
     templates,
