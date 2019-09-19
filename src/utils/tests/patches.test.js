@@ -4,7 +4,6 @@ import {
   ANNOTATION_FIRST_BOOT,
   BOOT_ORDER_SECOND,
   BOOT_ORDER_FIRST,
-  PVC_ACCESSMODE_RWM,
   TEMPLATE_FLAVOR_LABEL,
   POD_NETWORK,
   DISK_PATH_KEY,
@@ -24,6 +23,7 @@ import {
 } from '../patches';
 import { cloudInitTestVm } from '../../tests/mocks/vm/cloudInitTestVm.mock';
 import { NETWORK_TYPE_POD, NETWORK_TYPE_MULTUS } from '../../components/Wizard/CreateVmWizard/constants';
+import { getDefaultSCAccessMode, getDefaultSCVolumeMode } from '../../selectors/configmap';
 
 const getVM = firstBoot => ({
   metadata: {
@@ -86,7 +86,8 @@ const dataVolumeTemplate = {
   },
   spec: {
     pvc: {
-      accessModes: [PVC_ACCESSMODE_RWM],
+      accessModes: [getDefaultSCAccessMode()],
+      volumeMode: getDefaultSCVolumeMode(),
       resources: {
         requests: {
           storage: `${storageNoClass.size}Gi`,
