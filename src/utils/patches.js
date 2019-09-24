@@ -1,6 +1,16 @@
 import { get, has, findIndex } from 'lodash';
 
-import { getDisks, getInterfaces, getName, getDescription, getFlavor, getCpu, getMemory } from '../selectors';
+import {
+  getDisks,
+  getInterfaces,
+  getName,
+  getDescription,
+  getFlavor,
+  getCpu,
+  getMemory,
+  getDefaultSCAccessMode,
+  getDefaultSCVolumeMode,
+} from '../selectors';
 import { getBootDeviceIndex } from './utils';
 import {
   ANNOTATION_FIRST_BOOT,
@@ -9,7 +19,6 @@ import {
   TEMPLATE_FLAVOR_LABEL,
   deviceTypeToPathKey,
   DEVICE_TYPE_INTERFACE,
-  PVC_ACCESSMODE_RWM,
 } from '../constants';
 import { NETWORK_TYPE_POD } from '../components/Wizard/CreateVmWizard/constants';
 import { assignBootOrderIndex, getBootableDevicesInOrder, getDevices, addBindingToInterface } from '../k8s/vmBuilder';
@@ -47,7 +56,7 @@ export const getPxeBootPatch = vm => {
   return patches;
 };
 
-export const getAddDiskPatch = (vm, storage) => {
+export const getAddDiskPatch = (vm, storage, storageClassConfigMap) => {
   const disk = {
     name: storage.name,
     bootOrder: assignBootOrderIndex(vm),
@@ -69,7 +78,8 @@ export const getAddDiskPatch = (vm, storage) => {
     },
     spec: {
       pvc: {
-        accessModes: [PVC_ACCESSMODE_RWM],
+        accessModes: [getDefaultSCAccessMode(storageClassConfigMap, storage.storageClass)],
+        volumeMode: getDefaultSCVolumeMode(storageClassConfigMap, storage.storageClass),
         resources: {
           requests: {
             storage: `${storage.size}Gi`,
