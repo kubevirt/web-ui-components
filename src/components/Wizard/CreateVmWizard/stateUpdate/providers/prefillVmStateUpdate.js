@@ -16,7 +16,7 @@ import {
 import { getVmwareAttribute } from '../../providers/VMwareImportProvider/selectors';
 import { getVmSettingAttribute } from '../../utils/vmSettingsTabUtils';
 import { PROVIDER_VMWARE_VM_KEY } from '../../providers/VMwareImportProvider/constants';
-import { CONVERSION_POD_TEMP_MOUNT_PATH } from '../../../../../k8s/requests/v2v';
+import { CONVERSION_POD_TEMP_MOUNT_PATH, CONVERSION_POD_TEMP_DEVICE_PATH } from '../../../../../k8s/requests/v2v';
 import { CUSTOM_FLAVOR } from '../../../../../constants';
 
 /**
@@ -119,6 +119,7 @@ export const getDisks = parsedVm => {
       data: {
         fileName: get(device, ['Backing', 'FileName']),
         mountPath: `/data/vm/disk${idx + 1}`, // hardcoded
+        devicePath: `/dev/v2v-disk${idx + 1}`, // hardcoded
       },
     };
   });
@@ -132,6 +133,7 @@ export const getDisks = parsedVm => {
     storageClass: undefined,
     data: {
       mountPath: CONVERSION_POD_TEMP_MOUNT_PATH,
+      devicePath: CONVERSION_POD_TEMP_DEVICE_PATH, // for the case the volumeMode is resolved to "Block"
     },
   });
 

@@ -1,4 +1,5 @@
 export const CONVERSION_POD_TEMP_MOUNT_PATH = '/var/tmp';
+export const CONVERSION_POD_TEMP_DEVICE_PATH = '/var/tmp'; // TODO: use /dev/something instead!!
 
 export const CONVERSION_BASE_NAME = 'kubevirt-v2v-conversion';
 export const CONVERSION_GENERATE_NAME = `${CONVERSION_BASE_NAME}-`;
