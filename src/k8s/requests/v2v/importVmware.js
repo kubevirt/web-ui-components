@@ -15,7 +15,13 @@ import {
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
 } from '../../../components/Wizard/CreateVmWizard/constants';
-import { getName, getNamespace, getDefaultSCAccessMode, getDefaultSCVolumeMode } from '../../../selectors';
+import {
+  getName,
+  getNamespace,
+  getDefaultSCAccessMode,
+  getDefaultSCVolumeMode,
+  getPvcVolumeMode,
+} from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { CONVERSION_GENERATE_NAME, CONVERSION_SERVICEACCOUNT_DELAY } from './constants';
@@ -37,6 +43,7 @@ import {
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 import { getVmwareConfigMap } from './vmwareConfigMap';
+import { PVC_VOLUMEMODE_BLOCK } from '../../../constants';
 
 const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
 const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
@@ -45,6 +52,11 @@ const getVmwareAttribute = (vmSettings, key, attribute) => get(getVmwareField(vm
 const asVolumenMount = ({ name, storageType, data }) => ({
   name,
   mountPath: data && data.mountPath,
+});
+
+const asVolumeDevice = ({ name, data }) => ({
+  name,
+  devicePath: data && data.devicePath,
 });
 
 const asVolume = ({ name, data }) => ({
@@ -216,11 +228,17 @@ const startConversionPod = async (
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
   const volumes = [];
   const volumeMounts = [];
+  const volumeDevices = [];
 
   mappedStorages
     .filter(({ storageType }) => [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storageType))
     .forEach(storage => {
-      volumeMounts.push(asVolumenMount(storage));
+      const volumeMode = storage.data && getPvcVolumeMode(storage.data.pvc, '');
+      if (volumeMode === PVC_VOLUMEMODE_BLOCK) {
+        volumeDevices.push(asVolumeDevice(storage));
+      } else {
+        volumeMounts.push(asVolumenMount(storage));
+      }
       volumes.push(asVolume(storage));
     });
 
@@ -233,6 +251,7 @@ const startConversionPod = async (
     buildConversionPod({
       volumes,
       volumeMounts,
+      volumeDevices,
       namespace,
       serviceAccountName: getName(serviceAccount),
       secretName: getName(conversionPodSecret),
