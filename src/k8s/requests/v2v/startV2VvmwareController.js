@@ -51,16 +51,13 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
     }
   } catch (e) {
     // Deployment does not exist or does not have permissions to see Deployments in this namespace
-    // TODO: notify the user in other way not just the console.log
     info(
       e && e.message === OLD_VERSION
         ? 'updating V2V VMWare controller'
         : 'V2V VMWare controller deployment not found, so creating one ...'
     );
 
-    // TODO: do not fail if i.e. ServiceAccount already exists
-    // TODO: notify user if deployment fails
-    [cleanupOldDeployment, resolveRolesAndServiceAccount, startVmWare].reduce(
+    await [cleanupOldDeployment, resolveRolesAndServiceAccount, startVmWare].reduce(
       async (lastResultPromise, stepFunction) => {
         const lastResult = await lastResultPromise;
         const nextResult = await stepFunction(lastResult, {

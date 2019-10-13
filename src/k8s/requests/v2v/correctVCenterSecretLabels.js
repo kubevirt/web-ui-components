@@ -11,7 +11,13 @@ export const correctVCenterSecretLabels = async ({ secret, saveCredentialsReques
 
     if (saveCredentialsRequested && hasTempLabel) {
       const patch = removeLabelFromVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
-      return k8sPatch(SecretModel, secret, patch).catch(err => {
+      return k8sPatch(SecretModel, secret, [
+        patch,
+        {
+          op: 'remove',
+          path: `/metadata/ownerReferences`,
+        },
+      ]).catch(err => {
         if (!get(err, 'message').includes('Unable to remove nonexistent key')) {
           console.error(err); // eslint-disable-line no-console
         }
