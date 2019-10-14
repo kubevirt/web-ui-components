@@ -11,6 +11,7 @@ import {
 } from '../../../models';
 import {
   NAMESPACE_KEY,
+  PROVIDERS_DATA_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
 } from '../../../components/Wizard/CreateVmWizard/constants';
@@ -20,6 +21,7 @@ import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '.
 import { CONVERSION_GENERATE_NAME, CONVERSION_SERVICEACCOUNT_DELAY } from './constants';
 import { buildOwnerReference, buildAddOwnerReferencesPatch } from '../../util/utils';
 import {
+  PROVIDER_VMWARE,
   PROVIDER_VMWARE_HOSTNAME_KEY,
   PROVIDER_VMWARE_USER_NAME_KEY,
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
@@ -27,11 +29,6 @@ import {
   PROVIDER_VMWARE_VM_KEY,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/constants';
 import { settingsValue } from '../../selectors';
-import {
-  getVmwareAttribute,
-  getVmwareValue,
-  getVmwareField,
-} from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize, delay } from '../../../utils';
 import {
   getV2vImagePullPolicy,
@@ -40,6 +37,10 @@ import {
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 import { getVmwareConfigMap } from './vmwareConfigMap';
+
+const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
+const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
+const getVmwareAttribute = (vmSettings, key, attribute) => get(getVmwareField(vmSettings, key), attribute);
 
 const asVolumenMount = ({ name, storageType, data }) => ({
   name,
@@ -61,12 +62,17 @@ const resolveStorages = async (
   lastResults,
   { units, storageClassConfigMap }
 ) => {
+  if (!storages) {
+    return { mappedStorages: [] };
+  }
   const isImportStorage = storage =>
     [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storage.storageType);
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
 
   const extImportPvcsPromises = storages.filter(isImportStorage).map(storage => {
-    const validSize = getValidK8SSize(storage.size, units, 'Gi');
+    const validSize = storage.unit
+      ? { value: storage.size, unit: storage.unit }
+      : getValidK8SSize(storage.size, units, 'Gi');
     const storageClassName = storage.storageClass;
     return k8sCreate(
       PersistentVolumeClaimModel,
@@ -143,7 +149,7 @@ const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCr
 
   const hostname = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY) || extractFromSecret('url');
 
-  const sourceDisks = storages
+  const sourceDisks = (storages || [])
     .filter(storage => storage.storageType === STORAGE_TYPE_EXTERNAL_IMPORT)
     .map(({ data }) => data.fileName);
 
