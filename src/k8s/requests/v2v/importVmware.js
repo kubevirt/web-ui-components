@@ -43,13 +43,13 @@ import {
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 import { getVmwareConfigMap } from './vmwareConfigMap';
-import { PVC_VOLUMEMODE_BLOCK } from '../../../constants';
+import { PVC_VOLUMEMODE_BLOCK, PVC_VOLUMEMODE_FS } from '../../../constants';
 
 const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
 const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
 const getVmwareAttribute = (vmSettings, key, attribute) => get(getVmwareField(vmSettings, key), attribute);
 
-const asVolumenMount = ({ name, storageType, data }) => ({
+const asVolumenMount = ({ name, data }) => ({
   name,
   mountPath: data && data.mountPath,
 });
@@ -86,6 +86,12 @@ const resolveStorages = async (
       ? { value: storage.size, unit: storage.unit }
       : getValidK8SSize(storage.size, units, 'Gi');
     const storageClassName = storage.storageClass;
+
+    let volumeMode = PVC_VOLUMEMODE_FS; // temp disk is always of Filesystem mode
+    if (storage.storageType !== STORAGE_TYPE_EXTERNAL_V2V_TEMP) {
+      volumeMode = getDefaultSCVolumeMode(storageClassConfigMap, storageClassName);
+    }
+
     return k8sCreate(
       PersistentVolumeClaimModel,
       buildPvc({
@@ -97,7 +103,7 @@ const resolveStorages = async (
         unit: validSize.unit.trim(),
         storageClassName,
         accessMode: getDefaultSCAccessMode(storageClassConfigMap, storageClassName),
-        volumeMode: getDefaultSCVolumeMode(storageClassConfigMap, storageClassName),
+        volumeMode,
       })
     );
   });
