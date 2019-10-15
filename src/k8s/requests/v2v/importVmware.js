@@ -13,6 +13,7 @@ import {
   NAMESPACE_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+  PROVIDERS_DATA_KEY,
 } from '../../../components/Wizard/CreateVmWizard/constants';
 import {
   getName,
@@ -31,13 +32,9 @@ import {
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  PROVIDER_VMWARE,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/constants';
 import { settingsValue } from '../../selectors';
-import {
-  getVmwareAttribute,
-  getVmwareValue,
-  getVmwareField,
-} from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize, delay } from '../../../utils';
 import {
   getV2vImagePullPolicy,
@@ -46,9 +43,13 @@ import {
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 import { getVmwareConfigMap } from './vmwareConfigMap';
-import { PVC_VOLUMEMODE_BLOCK } from '../../../constants';
+import { PVC_VOLUMEMODE_BLOCK, PVC_VOLUMEMODE_FS } from '../../../constants';
 
-const asVolumenMount = ({ name, storageType, data }) => ({
+const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
+const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
+const getVmwareAttribute = (vmSettings, key, attribute) => get(getVmwareField(vmSettings, key), attribute);
+
+const asVolumenMount = ({ name, data }) => ({
   name,
   mountPath: data && data.mountPath,
 });
@@ -80,6 +81,12 @@ const resolveStorages = async (
   const extImportPvcsPromises = storages.filter(isImportStorage).map(storage => {
     const validSize = getValidK8SSize(storage.size, units, 'Gi');
     const storageClassName = storage.storageClass;
+
+    let volumeMode = PVC_VOLUMEMODE_FS; // temp disk is always of Filesystem mode
+    if (storage.storageType !== STORAGE_TYPE_EXTERNAL_V2V_TEMP) {
+      volumeMode = getDefaultSCVolumeMode(storageClassConfigMap, storageClassName);
+    }
+
     return k8sCreate(
       PersistentVolumeClaimModel,
       buildPvc({
@@ -91,7 +98,7 @@ const resolveStorages = async (
         unit: validSize.unit.trim(),
         storageClassName,
         accessMode: getDefaultSCAccessMode(storageClassConfigMap, storageClassName),
-        volumeMode: getDefaultSCVolumeMode(storageClassConfigMap, storageClassName),
+        volumeMode,
       })
     );
   });
@@ -155,7 +162,7 @@ const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCr
 
   const hostname = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY) || extractFromSecret('url');
 
-  const sourceDisks = storages
+  const sourceDisks = (storages || [])
     .filter(storage => storage.storageType === STORAGE_TYPE_EXTERNAL_IMPORT)
     .map(({ data }) => data.fileName);
 
