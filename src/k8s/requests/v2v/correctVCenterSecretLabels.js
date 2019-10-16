@@ -10,14 +10,12 @@ export const correctVCenterSecretLabels = async ({ secret, saveCredentialsReques
     const hasTempLabel = has(getVmwareSecretLabels(secret), VCENTER_TEMPORARY_LABEL);
 
     if (saveCredentialsRequested && hasTempLabel) {
-      const patch = removeLabelFromVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
-      return k8sPatch(SecretModel, secret, [
-        patch,
-        {
-          op: 'remove',
-          path: `/metadata/ownerReferences`,
-        },
-      ]).catch(err => {
+      const patches = removeLabelFromVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
+      patches.push({
+        op: 'remove',
+        path: '/metadata/ownerReferences',
+      });
+      return k8sPatch(SecretModel, secret, patches).catch(err => {
         if (!get(err, 'message').includes('Unable to remove nonexistent key')) {
           console.error(err); // eslint-disable-line no-console
         }
@@ -25,8 +23,8 @@ export const correctVCenterSecretLabels = async ({ secret, saveCredentialsReques
     }
 
     if (!saveCredentialsRequested && !hasTempLabel) {
-      const patch = addLabelToVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
-      return k8sPatch(SecretModel, secret, patch).catch(err => console.log(err)); // eslint-disable-line no-console
+      const patches = addLabelToVmwareSecretPatch(VCENTER_TEMPORARY_LABEL);
+      return k8sPatch(SecretModel, secret, patches).catch(err => console.log(err)); // eslint-disable-line no-console
     }
   }
   return null;

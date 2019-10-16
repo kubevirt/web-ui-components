@@ -146,7 +146,7 @@ export class VMWareImportProvider extends React.Component {
       this.onDataChange(update);
     }
 
-    if (newStatus === V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL) {
+    if (hasStatusChanged && newStatus === V2V_WMWARE_STATUS_CONNECTION_SUCCESSFUL) {
       correctVCenterSecretLabels(
         {
           secret: flatten(this.props, 'activeVcenterSecret'),
