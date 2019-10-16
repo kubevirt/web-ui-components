@@ -43,7 +43,7 @@ import {
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 import { getVmwareConfigMap } from './vmwareConfigMap';
-import { PVC_VOLUMEMODE_BLOCK, PVC_VOLUMEMODE_FS } from '../../../constants';
+import { PVC_VOLUMEMODE_BLOCK, PVC_VOLUMEMODE_FS, PVC_ACCESSMODE_RWO } from '../../../constants';
 
 const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
 const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
@@ -87,9 +87,11 @@ const resolveStorages = async (
       : getValidK8SSize(storage.size, units, 'Gi');
     const storageClassName = storage.storageClass;
 
-    let volumeMode = PVC_VOLUMEMODE_FS; // temp disk is always of Filesystem mode
+    let volumeMode = PVC_VOLUMEMODE_FS; // temp disk is always of Filesystem/RWO mode
+    let accessMode = PVC_ACCESSMODE_RWO;
     if (storage.storageType !== STORAGE_TYPE_EXTERNAL_V2V_TEMP) {
       volumeMode = getDefaultSCVolumeMode(storageClassConfigMap, storageClassName);
+      accessMode = getDefaultSCAccessMode(storageClassConfigMap, storageClassName);
     }
 
     return k8sCreate(
@@ -102,7 +104,7 @@ const resolveStorages = async (
         size: validSize.value,
         unit: validSize.unit.trim(),
         storageClassName,
-        accessMode: getDefaultSCAccessMode(storageClassConfigMap, storageClassName),
+        accessMode,
         volumeMode,
       })
     );
