@@ -10,6 +10,7 @@ import {
 export const buildConversionPod = ({
   volumes,
   volumeMounts,
+  volumeDevices = [],
   namespace,
   serviceAccountName,
   secretName,
@@ -62,6 +63,7 @@ export const buildConversionPod = ({
           },
           ...volumeMounts,
         ],
+        volumeDevices: [...volumeDevices],
       },
     ],
     volumes: [
