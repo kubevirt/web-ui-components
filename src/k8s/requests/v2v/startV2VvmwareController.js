@@ -60,7 +60,7 @@ export const startV2VVMWareController = async ({ namespace }, { k8sGet, k8sCreat
 
     // TODO: do not fail if i.e. ServiceAccount already exists
     // TODO: notify user if deployment fails
-    [cleanupOldDeployment, resolveRolesAndServiceAccount, startVmWare].reduce(
+    await [cleanupOldDeployment, resolveRolesAndServiceAccount, startVmWare].reduce(
       async (lastResultPromise, stepFunction) => {
         const lastResult = await lastResultPromise;
         const nextResult = await stepFunction(lastResult, {

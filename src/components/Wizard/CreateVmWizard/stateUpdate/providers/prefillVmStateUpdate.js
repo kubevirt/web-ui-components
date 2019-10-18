@@ -119,19 +119,21 @@ export const getDisks = parsedVm => {
       data: {
         fileName: get(device, ['Backing', 'FileName']),
         mountPath: `/data/vm/disk${idx + 1}`, // hardcoded
+        devicePath: `/dev/v2v-disk${idx + 1}`, // hardcoded
       },
     };
   });
 
   // temp disk needed for conversion pod
+  // note: no matter what volumeMode is prefered for the "default" storage class, it's always "Filesystem" for the temp disk
   diskRows.push({
     id: diskRows.length,
     storageType: STORAGE_TYPE_EXTERNAL_V2V_TEMP,
     name: 'v2v-conversion-temp',
     size: 2,
-    storageClass: undefined,
+    storageClass: undefined, // default SC
     data: {
-      mountPath: CONVERSION_POD_TEMP_MOUNT_PATH,
+      mountPath: CONVERSION_POD_TEMP_MOUNT_PATH, // always Filesystem mode
     },
   });
 

@@ -13,8 +13,15 @@ import {
   NAMESPACE_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+  PROVIDERS_DATA_KEY,
 } from '../../../components/Wizard/CreateVmWizard/constants';
-import { getName, getNamespace, getDefaultSCAccessMode, getDefaultSCVolumeMode } from '../../../selectors';
+import {
+  getName,
+  getNamespace,
+  getDefaultSCAccessMode,
+  getDefaultSCVolumeMode,
+  getPvcVolumeMode,
+} from '../../../selectors';
 import { buildConversionPod, buildConversionPodSecret, buildV2VRole } from '../../objects/v2v';
 import { buildPvc, buildServiceAccount, buildServiceAccountRoleBinding } from '../../objects';
 import { CONVERSION_GENERATE_NAME, CONVERSION_SERVICEACCOUNT_DELAY } from './constants';
@@ -25,13 +32,9 @@ import {
   PROVIDER_VMWARE_USER_PASSWORD_KEY,
   PROVIDER_VMWARE_VCENTER_KEY,
   PROVIDER_VMWARE_VM_KEY,
+  PROVIDER_VMWARE,
 } from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/constants';
 import { settingsValue } from '../../selectors';
-import {
-  getVmwareAttribute,
-  getVmwareValue,
-  getVmwareField,
-} from '../../../components/Wizard/CreateVmWizard/providers/VMwareImportProvider/selectors';
 import { getValidK8SSize, delay } from '../../../utils';
 import {
   getV2vImagePullPolicy,
@@ -40,10 +43,20 @@ import {
 } from '../../../selectors/v2v';
 import { getServiceAccountSecrets } from '../../../selectors/serviceaccount/serviceaccount';
 import { getVmwareConfigMap } from './vmwareConfigMap';
+import { PVC_VOLUMEMODE_BLOCK, PVC_VOLUMEMODE_FS } from '../../../constants';
 
-const asVolumenMount = ({ name, storageType, data }) => ({
+const getVmwareField = (vmSettings, key) => get(vmSettings, [PROVIDERS_DATA_KEY, PROVIDER_VMWARE, key]);
+const getVmwareValue = (vmSettings, key) => get(getVmwareField(vmSettings, key), 'value');
+const getVmwareAttribute = (vmSettings, key, attribute) => get(getVmwareField(vmSettings, key), attribute);
+
+const asVolumenMount = ({ name, data }) => ({
   name,
   mountPath: data && data.mountPath,
+});
+
+const asVolumeDevice = ({ name, data }) => ({
+  name,
+  devicePath: data && data.devicePath,
 });
 
 const asVolume = ({ name, data }) => ({
@@ -68,6 +81,12 @@ const resolveStorages = async (
   const extImportPvcsPromises = storages.filter(isImportStorage).map(storage => {
     const validSize = getValidK8SSize(storage.size, units, 'Gi');
     const storageClassName = storage.storageClass;
+
+    let volumeMode = PVC_VOLUMEMODE_FS; // temp disk is always of Filesystem mode
+    if (storage.storageType !== STORAGE_TYPE_EXTERNAL_V2V_TEMP) {
+      volumeMode = getDefaultSCVolumeMode(storageClassConfigMap, storageClassName);
+    }
+
     return k8sCreate(
       PersistentVolumeClaimModel,
       buildPvc({
@@ -79,7 +98,7 @@ const resolveStorages = async (
         unit: validSize.unit.trim(),
         storageClassName,
         accessMode: getDefaultSCAccessMode(storageClassConfigMap, storageClassName),
-        volumeMode: getDefaultSCVolumeMode(storageClassConfigMap, storageClassName),
+        volumeMode,
       })
     );
   });
@@ -143,7 +162,7 @@ const createConversionPodSecret = async (vmSettings, networks, storages, { k8sCr
 
   const hostname = getVmwareValue(vmSettings, PROVIDER_VMWARE_HOSTNAME_KEY) || extractFromSecret('url');
 
-  const sourceDisks = storages
+  const sourceDisks = (storages || [])
     .filter(storage => storage.storageType === STORAGE_TYPE_EXTERNAL_IMPORT)
     .map(({ data }) => data.fileName);
 
@@ -210,11 +229,17 @@ const startConversionPod = async (
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
   const volumes = [];
   const volumeMounts = [];
+  const volumeDevices = [];
 
   mappedStorages
     .filter(({ storageType }) => [STORAGE_TYPE_EXTERNAL_IMPORT, STORAGE_TYPE_EXTERNAL_V2V_TEMP].includes(storageType))
     .forEach(storage => {
-      volumeMounts.push(asVolumenMount(storage));
+      const volumeMode = storage.data && getPvcVolumeMode(storage.data.pvc, '');
+      if (volumeMode === PVC_VOLUMEMODE_BLOCK) {
+        volumeDevices.push(asVolumeDevice(storage));
+      } else {
+        volumeMounts.push(asVolumenMount(storage));
+      }
       volumes.push(asVolume(storage));
     });
 
@@ -227,6 +252,7 @@ const startConversionPod = async (
     buildConversionPod({
       volumes,
       volumeMounts,
+      volumeDevices,
       namespace,
       serviceAccountName: getName(serviceAccount),
       secretName: getName(conversionPodSecret),
