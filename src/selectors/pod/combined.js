@@ -3,7 +3,7 @@ import { CDI_KUBEVIRT_IO, STORAGE_IMPORT_PVC_NAME } from '../../constants';
 import { getDataVolumeTemplates } from '../vm';
 import { getName, getNamespace, getLabelValue, getOwnerReferences } from '../common';
 import { buildOwnerReference, compareOwnerReference } from '../../k8s/util';
-import { CONVERSION_BASE_NAME } from '../../k8s/requests/v2v/constants';
+import { CONVERSION_GENERATE_NAME } from '../../k8s/requests/v2v/constants';
 
 export const findVmPod = (pods, vm, podNamePrefix) => {
   if (!pods) {
@@ -29,7 +29,7 @@ export const findConversionPod = (pods, vm) => {
     const podOwnerReferences = getOwnerReferences(pod);
     return (
       getNamespace(pod) === getNamespace(vm) &&
-      getName(pod).startsWith(CONVERSION_BASE_NAME) &&
+      getName(pod).startsWith(CONVERSION_GENERATE_NAME) &&
       podOwnerReferences &&
       podOwnerReferences.find(podOwnerReference => compareOwnerReference(podOwnerReference, vmOwnerReference))
     );

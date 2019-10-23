@@ -14,6 +14,7 @@ import {
   PROVIDERS_DATA_KEY,
   STORAGE_TYPE_EXTERNAL_IMPORT,
   STORAGE_TYPE_EXTERNAL_V2V_TEMP,
+  NAME_KEY,
 } from '../../../components/Wizard/CreateVmWizard/constants';
 import {
   getName,
@@ -233,6 +234,7 @@ const startConversionPod = async (
   { k8sGet, k8sCreate, k8sPatch },
   { serviceAccount, role, roleBinding, mappedStorages, conversionPodSecret }
 ) => {
+  const vmName = settingsValue(vmSettings, NAME_KEY);
   const namespace = settingsValue(vmSettings, NAMESPACE_KEY);
   const volumes = [];
   const volumeMounts = [];
@@ -260,6 +262,7 @@ const startConversionPod = async (
       volumes,
       volumeMounts,
       volumeDevices,
+      vmName,
       namespace,
       serviceAccountName: getName(serviceAccount),
       secretName: getName(conversionPodSecret),

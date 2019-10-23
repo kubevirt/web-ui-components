@@ -11,6 +11,7 @@ export const buildConversionPod = ({
   volumes,
   volumeMounts,
   volumeDevices = [],
+  vmName,
   namespace,
   serviceAccountName,
   secretName,
@@ -21,7 +22,7 @@ export const buildConversionPod = ({
   apiVersion: PodModel.apiVersion,
   kind: PodModel.kind,
   metadata: {
-    generateName: CONVERSION_GENERATE_NAME,
+    generateName: `${CONVERSION_GENERATE_NAME}${vmName}-`,
     namespace,
   },
   spec: {
