@@ -3,5 +3,5 @@
 
 module.exports = {
   presets: ['@babel/react'],
-  plugins: ['@babel/plugin-proposal-class-properties'],
+  plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-object-rest-spread'],
 };
