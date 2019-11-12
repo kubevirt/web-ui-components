@@ -124,14 +124,14 @@ export const createVmTemplate = async (
   storage,
   persistentVolumeClaims
 ) => {
-  const getSetting = param => {
+  const getSetting = (param, defaultValue) => {
     switch (param) {
       case NAME_KEY:
         return `\${${TEMPLATE_PARAM_VM_NAME}}`;
       case DESCRIPTION_KEY:
         return undefined;
       default:
-        return settingsValue(vmSettings, param);
+        return settingsValue(vmSettings, param, defaultValue);
     }
   };
 
